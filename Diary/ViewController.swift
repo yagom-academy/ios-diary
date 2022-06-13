@@ -12,6 +12,22 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
+        setUpNavigationController()
+    }
+    
+    private func setUpNavigationController() {
+        func setUpRightItem() {
+            let weight = UIFont.systemFont(ofSize: 35, weight: .light)
+            let attributes = [NSAttributedString.Key.font: weight]
+            let registerButton = UIBarButtonItem()
+            
+            registerButton.title = "+"
+            registerButton.setTitleTextAttributes(attributes, for: .normal)
+            
+            navigationItem.rightBarButtonItem = registerButton
+        }
+        
         navigationItem.title = "일기장"
+        setUpRightItem()
     }
 }
