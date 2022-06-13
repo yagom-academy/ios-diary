@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		0ECA095A28575A9E00A91611 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA095928575A9E00A91611 /* .swiftlint.yml */; };
+		0ECA095C285765CC00A91611 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA095B285765CC00A91611 /* SampleData.swift */; };
+		0ECA095E2857675700A91611 /* Decodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA095D2857675700A91611 /* Decodable+.swift */; };
+		0ECA096328576A4100A91611 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA096228576A4100A91611 /* AssetManager.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* ViewController.swift */; };
@@ -19,6 +22,9 @@
 
 /* Begin PBXFileReference section */
 		0ECA095928575A9E00A91611 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		0ECA095B285765CC00A91611 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		0ECA095D2857675700A91611 /* Decodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+.swift"; sourceTree = "<group>"; };
+		0ECA096228576A4100A91611 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		60138AEFA0313A022F07C1BA /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		76C41EECF0858ACC8D503766 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		97D1E111F2E3ED5E2F44FA46 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -44,6 +50,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0ECA095F2857676E00A91611 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				0ECA095D2857675700A91611 /* Decodable+.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		0ECA096128576A0600A91611 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0ECA096228576A4100A91611 /* AssetManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		C50D7BCC6EB2E35AD7A413E7 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -57,6 +79,8 @@
 			isa = PBXGroup;
 			children = (
 				0ECA095928575A9E00A91611 /* .swiftlint.yml */,
+				0ECA096128576A0600A91611 /* Model */,
+				0ECA095F2857676E00A91611 /* Utils */,
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
 				C50D7BCC6EB2E35AD7A413E7 /* Pods */,
@@ -82,6 +106,7 @@
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				0ECA095B285765CC00A91611 /* SampleData.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -212,7 +237,10 @@
 				C739AE29284DF28600741E8F /* ViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				0ECA095C285765CC00A91611 /* SampleData.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				0ECA095E2857675700A91611 /* Decodable+.swift in Sources */,
+				0ECA096328576A4100A91611 /* AssetManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
