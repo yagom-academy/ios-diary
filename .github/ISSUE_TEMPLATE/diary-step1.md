@@ -1,5 +1,5 @@
 ---
-name: Diary-STEP1
+name: Diary
 about: " add step"
 title: ''
 labels: ''
