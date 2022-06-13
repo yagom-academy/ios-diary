@@ -12,6 +12,6 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
+        navigationItem.title = "일기장"
     }
-
 }
