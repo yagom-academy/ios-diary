@@ -1,12 +1,12 @@
 //
-//  Diary - ViewController.swift
+//  Diary - DiaryViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-class ViewController: UIViewController {
+final class DiaryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
