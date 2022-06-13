@@ -1,6 +1,6 @@
 ---
 name: Diary
-about: " add step"
+about: "project"
 title: ''
 labels: ''
 assignees: ''
