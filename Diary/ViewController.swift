@@ -6,10 +6,8 @@
 
 import UIKit
 
-class ViewController: UIViewController {
-
+class DiaryListViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
     }
 }
