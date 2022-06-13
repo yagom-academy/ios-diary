@@ -11,4 +11,3 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
     }
 }
-
