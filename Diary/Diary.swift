@@ -10,6 +10,7 @@ import Foundation
 struct Diary: Codable, Hashable {
     let title, body: String?
     let createdAt: Int?
+    let uuid = UUID()
 
     enum CodingKeys: String, CodingKey {
         case title, body
