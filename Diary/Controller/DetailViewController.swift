@@ -29,6 +29,8 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         setUpNavigationBar()
         detailView.setUpContents(data: diary)
+        detailView.scrollToTop()
+    }
     }
     
     private func setUpNavigationBar() {
