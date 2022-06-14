@@ -80,3 +80,14 @@ final class DiaryTableViewController: UITableViewController {
         }
     }
 }
+
+// MARK: TableViewDelegate
+
+extension DiaryTableViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diary = diarys[indexPath.row]
+        let diaryViewController = DiaryViewController(diary: diary)
+        
+        navigationController?.pushViewController(diaryViewController, animated: true)
+    }
+}
