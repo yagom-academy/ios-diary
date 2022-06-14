@@ -15,6 +15,7 @@ class MainViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.accessoryType = .disclosureIndicator
         setConsantrait()
     }
     
@@ -56,7 +57,7 @@ class MainViewCell: UITableViewCell {
         return stackView
     }()
     
-    func setConsantrait() {
+    private func setConsantrait() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constant.lineInset),
             titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Constant.sideInset),

@@ -7,23 +7,23 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    private lazy var mainView = MainView()
+    private enum Constnat {
+        static let navigationTitle = "일기장"
+    }
+    
+    private let mainView = MainView()
     private let viewModel = MainViewModel()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadData()
         view.backgroundColor = .white
-        mainView.dataSource = viewModel
-        mainView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(mainView)
-        mainView.register(MainViewCell.self, forCellReuseIdentifier: MainViewCell.identifier)
+        setMainViewSetting()
         setConsantrait()
-        mainView.reloadData()
-
+        setNavigationSetting()
     }
     
-    func loadData() {
+    private func loadData() {
         guard let sample = NSDataAsset.init(name: "sample") else {
             return
         }
@@ -37,12 +37,36 @@ class MainViewController: UIViewController {
         }
     }
     
-    func setConsantrait() {
+    private func setConsantrait() {
         NSLayoutConstraint.activate([
             mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             mainView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             mainView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             mainView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func setMainViewSetting() {
+        loadData()
+        mainView.dataSource = viewModel
+        mainView.translatesAutoresizingMaskIntoConstraints = false
+        mainView.register(MainViewCell.self, forCellReuseIdentifier: MainViewCell.identifier)
+    }
+}
+
+//MARK: Navigation Method
+extension MainViewController {
+    private func setNavigationSetting() {
+        navigationItem.title = Constnat.navigationTitle
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(rightBarbuttonClicked(_:))
+        )
+    }
+    
+    @objc
+    private func rightBarbuttonClicked(_ sender: Any) {
+        // 추가 화면 이동
     }
 }
