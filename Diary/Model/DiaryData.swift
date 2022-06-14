@@ -7,21 +7,6 @@
 
 import Foundation
 
-private struct Formatter {
-    static let dateFormatter = DateFormatter()
-    
-    private init() { }
-    
-    static func setUpDate(from timeInterval: Int) -> String {
-        dateFormatter.dateStyle = .long
-        dateFormatter.locale = .autoupdatingCurrent
-        
-        let date = Date(timeIntervalSinceReferenceDate: Double(timeInterval))
-        let result = dateFormatter.string(from: date)
-        return result
-    }
-}
-
 struct DiaryData: Hashable {
     let identifier = UUID()
     

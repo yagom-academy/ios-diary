@@ -90,9 +90,8 @@ final class DiaryViewController: UIViewController {
         func setUpRightItem() {
             let weight = UIFont.systemFont(ofSize: 35, weight: .light)
             let attributes = [NSAttributedString.Key.font: weight]
-            let registerButton = UIBarButtonItem()
-            
-            registerButton.title = Constant.registerButton
+            let registerButton = UIBarButtonItem(title: Constant.registerButton, style: .plain, target: self, action: #selector(moveRegisterViewController))
+
             registerButton.setTitleTextAttributes(attributes, for: .normal)
             
             navigationItem.rightBarButtonItem = registerButton
@@ -100,5 +99,14 @@ final class DiaryViewController: UIViewController {
         
         navigationItem.title = Constant.navigationTitle
         setUpRightItem()
+    }
+    
+    @objc func moveRegisterViewController() {
+        let viewContoller = RegisterViewController()
+        let navigationController = UINavigationController(rootViewController: viewContoller)
+        
+        navigationController.modalPresentationStyle = .fullScreen
+        
+        present(navigationController, animated: true)
     }
 }
