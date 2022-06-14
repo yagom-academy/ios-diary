@@ -57,6 +57,12 @@ final class DiaryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(item: Diary) {
+        self.titleLabel.text = item.title
+        self.createdAtLabel.text = item.createdAt?.time()
+        self.bodyLabel.text = item.body
+    }
+    
     private func configureLayout() {
         self.addSubview(baseStackView)
         
@@ -72,5 +78,11 @@ final class DiaryTableViewCell: UITableViewCell {
 extension UITableViewCell {
     static var identifier: String {
         return String(describing: self)
+    }
+}
+
+private extension Int {
+    func time() -> String {
+        return DateFormatter().changeDateFormat(time: self)
     }
 }

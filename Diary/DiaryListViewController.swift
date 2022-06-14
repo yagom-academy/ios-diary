@@ -36,15 +36,12 @@ final class DiaryListViewController: UITableViewController {
 
 extension DiaryListViewController {
     private func makeDataSource() -> DataSource {
-        let dataSource = DataSource(tableView: self.tableView) {
-            (tableView, indexPath, itemIdentifier) -> UITableViewCell? in
+        let dataSource = DataSource(tableView: self.tableView) { (tableView, indexPath, itemIdentifier) in
             guard let cell = tableView.dequeueReusableCell(
                 withIdentifier: DiaryTableViewCell.identifier,
                 for: indexPath) as? DiaryTableViewCell else { return UITableViewCell() }
             
-            cell.titleLabel.text = itemIdentifier.title
-            cell.createdAtLabel.text = String(itemIdentifier.createdAt ?? 0)
-            cell.bodyLabel.text = itemIdentifier.body
+            cell.configure(item: itemIdentifier)
             
             return cell
         }
