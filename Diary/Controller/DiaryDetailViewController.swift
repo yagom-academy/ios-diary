@@ -7,7 +7,7 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController {
   private let titleLabel = UILabel()
-  private let bodyText = UITextView()
+  private let bodyTextView = UITextView()
   private let diary: Diary
 
   init(diary: Diary) {
@@ -38,11 +38,11 @@ final class DiaryDetailViewController: UIViewController {
     self.titleLabel.adjustsFontForContentSizeCategory = true
     self.titleLabel.text = diary.title
 
-    self.bodyText.font = .preferredFont(forTextStyle: .body)
-    self.bodyText.adjustsFontForContentSizeCategory = true
-    self.bodyText.text = diary.body
+    self.bodyTextView.font = .preferredFont(forTextStyle: .body)
+    self.bodyTextView.adjustsFontForContentSizeCategory = true
+    self.bodyTextView.text = diary.body
 
-    let container = UIStackView(arrangedSubviews: [titleLabel, bodyText])
+    let container = UIStackView(arrangedSubviews: [titleLabel, bodyTextView])
     container.axis = .vertical
     container.spacing = 20.0
 
@@ -104,13 +104,13 @@ final class DiaryDetailViewController: UIViewController {
       bottom: keyboardFrame.height,
       right: 0.0
     )
-    self.bodyText.contentInset = contentInset
-    self.bodyText.verticalScrollIndicatorInsets = contentInset
+    self.bodyTextView.contentInset = contentInset
+    self.bodyTextView.verticalScrollIndicatorInsets = contentInset
   }
 
   @objc private func keyboardWillHide(_ notification: Notification) {
     let contentInset = UIEdgeInsets.zero
-    self.bodyText.contentInset = contentInset
-    self.bodyText.scrollIndicatorInsets = contentInset
+    self.bodyTextView.contentInset = contentInset
+    self.bodyTextView.scrollIndicatorInsets = contentInset
   }
 }
