@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryDetailView: UIView {
-    private var bottom: NSLayoutConstraint?
+    private var bottomConstraint: NSLayoutConstraint?
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -43,12 +43,12 @@ final class DiaryDetailView: UIView {
             diaryTextView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             diaryTextView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
         ])
-        bottom = diaryTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
-        bottom?.isActive = true
+        bottomConstraint = diaryTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+        bottomConstraint?.isActive = true
     }
     
     func changeBottomConstraint(value: CGFloat) {
-        bottom?.constant = -value
+        bottomConstraint?.constant = -value
         self.layoutIfNeeded()
     }
 }
