@@ -9,7 +9,16 @@ import UIKit
 class MainViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
-      view.backgroundColor = .systemBackground
-    
+    self.configureUI()
+  }
+  
+  private func configureUI() {
+    self.view.backgroundColor = .systemBackground
+    self.navigationItem.title = "일기장"
+    self.navigationItem.rightBarButtonItem = createAddBarButtonItem()
+  }
+  
+  private func createAddBarButtonItem() -> UIBarButtonItem {
+    return UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
   }
 }
