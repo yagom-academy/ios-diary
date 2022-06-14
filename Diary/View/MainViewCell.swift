@@ -8,43 +8,61 @@
 import UIKit
 
 class MainViewCell: UITableViewCell {
-    
     private enum Constant {
-        static let inset: CGFloat = 3
+        static let lineInset: CGFloat = 8
+        static let sideInset: CGFloat = 20
     }
     
-    private var titleLabel: UILabel = {
-        let lable = UILabel()
-        lable.font = UIFont.preferredFont(forTextStyle: .title1)
-        return lable
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setConsantrait()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        print("셀 생성 중 에러 생김")
+    }
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        contentView.addSubview(label)
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
-    private var dateLabel: UILabel = {
-        let lable = UILabel()
-        lable.font = UIFont.preferredFont(forTextStyle: .title1)
-        return lable
+    private lazy var dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
-    private var descriptionLabel: UILabel = {
-        let lable = UILabel()
-        lable.font = UIFont.preferredFont(forTextStyle: .title1)
-        return lable
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        return label
     }()
     
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [dateLabel, descriptionLabel])
+        contentView.addSubview(stackView)
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
+        stackView.spacing = Constant.lineInset
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
     
     func setConsantrait() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: Constant.inset),
-            titleLabel.leftAnchor.constraint(equalTo: self.leftAnchor, constant: Constant.inset),
-            titleLabel.rightAnchor.constraint(equalTo: self.rightAnchor, constant: Constant.inset),
-            titleLabel.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: Constant.inset),
-            stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: Constant.inset),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: Constant.lineInset),
+            titleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: Constant.sideInset),
+            titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -Constant.lineInset),
+            titleLabel.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -Constant.lineInset),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constant.lineInset),
             stackView.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
             stackView.rightAnchor.constraint(equalTo: titleLabel.rightAnchor)
         ])

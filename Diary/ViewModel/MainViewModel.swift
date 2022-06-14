@@ -9,10 +9,13 @@ import UIKit
 
 class MainViewModel: NSObject {
     private var data: [DiaryData] = []
+    
+    func setData(data: [DiaryData]) {
+        self.data = data
+    }
 }
 
 extension MainViewModel: UITableViewDataSource {
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: MainViewCell.identifier, for: indexPath
