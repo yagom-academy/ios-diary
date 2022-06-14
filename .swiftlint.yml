@@ -2,5 +2,6 @@ excluded:
  - Pods
  - Diary/AppDelegate.swift
  - Diary/SceneDelegate.swift
-disabled_ruls:
+disabled_rules:
  - leading_whitespace
+ - trailing_whitespace
