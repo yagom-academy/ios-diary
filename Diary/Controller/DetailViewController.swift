@@ -24,6 +24,13 @@ final class DetailViewController: UIViewController {
         super.loadView()
         view = detailView
     }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setUpNavigationBar()
+        detailView.setUpContents(data: diary)
+    }
+    
     private func setUpNavigationBar() {
         title = diary.createdAt.formattedString
     }
