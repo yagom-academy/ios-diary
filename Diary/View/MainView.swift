@@ -15,4 +15,10 @@ final class MainView: UIView {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+    
+    private let baseTableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
 }
