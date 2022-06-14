@@ -25,4 +25,13 @@ final class MainView: UIView {
     private func addSubviews() {
         addSubview(baseTableView)
     }
+    
+    private func makeConstraints() {
+        NSLayoutConstraint.activate([
+            baseTableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            baseTableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            baseTableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            baseTableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
 }
