@@ -49,5 +49,27 @@ final class DiaryCell: UITableViewCell {
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
+    
+    private func setUpCell() {
+        addSubviews()
+        makeConstraints()
+        backgroundColor = .systemBackground
+    }
+    
+    private func addSubviews() {
+        addSubview(verticalStackView)
+        verticalStackView.addArrangedSubview(titleLabel)
+        verticalStackView.addArrangedSubview(horizontalStackView)
+        horizontalStackView.addArrangedSubview(dateLabel)
+        horizontalStackView.addArrangedSubview(descriptionLabel)
+    }
+    
+    private func makeConstraints() {
+        NSLayoutConstraint.activate([
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+        ])
     }
 }
