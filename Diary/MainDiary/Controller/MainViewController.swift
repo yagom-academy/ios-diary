@@ -7,6 +7,8 @@
 import UIKit
 
 class MainViewController: UIViewController {
+  private lazy var baseView = MainView(frame: view.bounds)
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
@@ -16,6 +18,7 @@ class MainViewController: UIViewController {
     self.view.backgroundColor = .systemBackground
     self.navigationItem.title = "일기장"
     self.navigationItem.rightBarButtonItem = createAddBarButtonItem()
+    self.view = baseView
   }
   
   private func createAddBarButtonItem() -> UIBarButtonItem {
