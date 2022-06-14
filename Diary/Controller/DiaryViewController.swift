@@ -13,12 +13,16 @@ final class DiaryViewController: UIViewController {
     super.viewDidLoad()
     self.title = "일기장"
     self.configureTableView()
+    self.configureNavigationBar()
     self.diaries = Diary.decodedData
   }
 
   private func configureTableView() {
     self.diaryTableView.dataSource = self
-    self.diaryTableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: "DiaryTableViewCell")
+    self.diaryTableView.register(
+      DiaryTableViewCell.self,
+      forCellReuseIdentifier: "DiaryTableViewCell"
+    )
 
     self.view.addSubview(diaryTableView)
     self.diaryTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +32,16 @@ final class DiaryViewController: UIViewController {
       diaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       diaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
     ])
+  }
+
+  private func configureNavigationBar() {
+    let addButton = UIBarButtonItem(
+      image: UIImage(systemName: "plus"),
+      style: .plain,
+      target: self,
+      action: nil
+    )
+    self.navigationItem.setRightBarButton(addButton, animated: false)
   }
 }
 

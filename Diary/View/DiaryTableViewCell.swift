@@ -31,7 +31,7 @@ final class DiaryTableViewCell: UITableViewCell {
     let date = Date(timeIntervalSince1970: Double(dateNumber))
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-    
+
     return dateFormatter.string(from: date)
   }
 
