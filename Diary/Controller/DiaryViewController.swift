@@ -11,7 +11,6 @@ final class DiaryViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.title = "일기장"
     self.configureTableView()
     self.configureNavigationBar()
     self.diaries = Diary.decodedData
@@ -37,6 +36,7 @@ final class DiaryViewController: UIViewController {
   }
 
   private func configureNavigationBar() {
+    self.title = "일기장"
     let addButton = UIBarButtonItem(
       image: UIImage(systemName: "plus"),
       style: .plain,
