@@ -81,7 +81,7 @@ extension UITableViewCell {
     }
 }
 
-private extension Int {
+extension Int {
     func time() -> String {
         return DateFormatter().changeDateFormat(time: self)
     }
