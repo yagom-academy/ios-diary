@@ -36,7 +36,11 @@ class ListViewController: UIViewController {
     }
     
     @objc func touchPlusButton() {
+        let diaryViewController = DiaryViewController()
         
+        diaryViewController.view.backgroundColor = .white
+        
+        self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
     private func parse() -> [DiaryData]? {
