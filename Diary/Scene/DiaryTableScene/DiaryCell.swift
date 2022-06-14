@@ -76,13 +76,8 @@ final class DiaryCell: UITableViewCell {
     }
     
     func setUpItem(with diary: Diary) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = .current
-        dateFormatter.dateStyle = .long
-        let dateString = dateFormatter.string(from: diary.createdDate)
-        
         titleLabel.text = diary.title
-        dateLabel.text = dateString
+        dateLabel.text = diary.createdDate.formattedString
         contentLabel.text = diary.body
     }
 }
