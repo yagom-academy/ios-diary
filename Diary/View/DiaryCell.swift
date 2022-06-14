@@ -71,10 +71,10 @@ final class DiaryCell: UITableViewCell {
     
     private func makeConstraints() {
         NSLayoutConstraint.activate([
-            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
