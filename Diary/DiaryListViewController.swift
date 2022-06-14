@@ -56,3 +56,10 @@ extension DiaryListViewController {
         dataSource?.apply(snapShot)
     }
 }
+
+extension DiaryListViewController {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let diary = dataSource?.snapshot().itemIdentifiers[indexPath.row] else { return }
+        navigationController?.pushViewController(DiaryDetailViewController(diary: diary), animated: true)
+    }
+}
