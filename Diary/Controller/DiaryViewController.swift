@@ -24,11 +24,12 @@ final class DiaryViewController: UIViewController {
       forCellReuseIdentifier: "DiaryTableViewCell"
     )
 
+    self.view.backgroundColor = .systemBackground
     self.view.addSubview(diaryTableView)
     self.diaryTableView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      diaryTableView.topAnchor.constraint(equalTo: view.topAnchor),
-      diaryTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+      diaryTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+      diaryTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
       diaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       diaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
     ])
