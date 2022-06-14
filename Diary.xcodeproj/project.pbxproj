@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E4F85012858345C00E3D309 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F85002858345C00E3D309 /* Formatter.swift */; };
+		0E4F85032858349500E3D309 /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F85022858349500E3D309 /* DiaryData.swift */; };
 		0ECA095A28575A9E00A91611 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA095928575A9E00A91611 /* .swiftlint.yml */; };
 		0ECA095C285765CC00A91611 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA095B285765CC00A91611 /* SampleData.swift */; };
 		0ECA095E2857675700A91611 /* Decodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA095D2857675700A91611 /* Decodable+.swift */; };
@@ -23,6 +25,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E4F85002858345C00E3D309 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
+		0E4F85022858349500E3D309 /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
 		0ECA095928575A9E00A91611 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		0ECA095B285765CC00A91611 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 		0ECA095D2857675700A91611 /* Decodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+.swift"; sourceTree = "<group>"; };
@@ -67,6 +71,9 @@
 			isa = PBXGroup;
 			children = (
 				0ECA096228576A4100A91611 /* AssetManager.swift */,
+				0ECA095B285765CC00A91611 /* SampleData.swift */,
+				0E4F85002858345C00E3D309 /* Formatter.swift */,
+				0E4F85022858349500E3D309 /* DiaryData.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -111,7 +118,6 @@
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-				0ECA095B285765CC00A91611 /* SampleData.swift */,
 				30BF2AE228576D57009C1525 /* DiaryCell.swift */,
 			);
 			path = Diary;
@@ -242,6 +248,8 @@
 			files = (
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				30BF2AE528577135009C1525 /* UIStackView+.swift in Sources */,
+				0E4F85032858349500E3D309 /* DiaryData.swift in Sources */,
+				0E4F85012858345C00E3D309 /* Formatter.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				30BF2AE328576D57009C1525 /* DiaryCell.swift in Sources */,

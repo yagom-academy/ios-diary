@@ -1,6 +1,7 @@
 disabled_rules:
 - trailing_whitespace
 - line_length
+- closure_parameter_position
 
 excluded:
 - Pods
