@@ -13,10 +13,13 @@ final class RegisterViewController: UIViewController {
     }
     
     private let textView = UITextView()
+    private var bottonContraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         view.backgroundColor = .systemBackground
         setUpNavigationController()
+        setUpTextViewLayout()
+        setUpKeyboardNotification()
     }
     
     private func setUpNavigationController() {
@@ -46,11 +49,28 @@ final class RegisterViewController: UIViewController {
         
         textView.translatesAutoresizingMaskIntoConstraints = false
         
+        bottonContraint = textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            textView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
+            textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            bottonContraint
+        ].compactMap { $0 })
+    }
+    
+    private func setUpKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillAppear(_ notification: Notification) {
+        guard let keyboardBounds = notification.userInfo?["UIKeyboardBoundsUserInfoKey"] as? NSValue else { return }
+
+        bottonContraint?.constant = -keyboardBounds.cgRectValue.height
+    }
+    
+    @objc private func keyboardWillHide() {
+        bottonContraint?.constant = .zero
     }
 }
