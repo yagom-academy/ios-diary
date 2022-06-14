@@ -9,8 +9,7 @@ import UIKit
 final class MainViewController: UIViewController {
     private lazy var mainView = MainView(frame: view.bounds)
 
-    private let parser = JSONDecoder()
-    private var diary: [Diary]?
+    private var diary = [Diary]()
     
     override func loadView() {
         super.loadView()
@@ -32,7 +31,7 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diary!.count
+        return diary.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -40,7 +39,7 @@ extension MainViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.setUpCellContents(data: diary![indexPath.row])
+        cell.setUpCellContents(data: diary[indexPath.row])
         
         return cell
     }
