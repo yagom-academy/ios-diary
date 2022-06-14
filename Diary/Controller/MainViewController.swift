@@ -7,6 +7,7 @@
 import UIKit
 
 final class MainViewController: UIViewController {
+    private lazy var mainView = MainView(frame: view.bounds)
 
     override func viewDidLoad() {
         super.viewDidLoad()
