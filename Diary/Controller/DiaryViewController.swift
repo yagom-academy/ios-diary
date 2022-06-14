@@ -11,6 +11,11 @@ final class DiaryViewController: UIViewController {
         case main
     }
     
+    enum Constant {
+        static let navigationTitle = "일기장"
+        static let registerButton = "+"
+    }
+    
     let tableView = UITableView()
     var dataSource: UITableViewDiffableDataSource<Section, DiaryData>?
     
@@ -30,7 +35,6 @@ final class DiaryViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         setUpNavigationController()
-        
         setUpTableViewLayout()
         
         guard let diaryData = AssetManager().getData() else {
@@ -43,6 +47,7 @@ final class DiaryViewController: UIViewController {
     private func setUpTableView() {
         tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.identifier)
+        
         tableView.dataSource = dataSource
     }
     
@@ -87,13 +92,13 @@ final class DiaryViewController: UIViewController {
             let attributes = [NSAttributedString.Key.font: weight]
             let registerButton = UIBarButtonItem()
             
-            registerButton.title = "+"
+            registerButton.title = Constant.registerButton
             registerButton.setTitleTextAttributes(attributes, for: .normal)
             
             navigationItem.rightBarButtonItem = registerButton
         }
         
-        navigationItem.title = "일기장"
+        navigationItem.title = Constant.navigationTitle
         setUpRightItem()
     }
 }

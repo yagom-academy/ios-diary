@@ -7,12 +7,6 @@
 
 import UIKit
 
-extension UITableViewCell {
-    static var identifier: String {
-        return String(describing: Self.self)
-    }
-}
-
 final class DiaryCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -68,20 +62,23 @@ final class DiaryCell: UITableViewCell {
     }
     
     private func setUpLayout() {
+        let verticalInset: CGFloat = 10
+        let horizontalInset: CGFloat = 20
+        
         func setUpTitleLayout() {
             NSLayoutConstraint.activate([
-                titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-                titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-                titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+                titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: verticalInset),
+                titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalInset),
+                titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalInset)
             ])
         }
         
         func setupInfoLayout() {
             NSLayoutConstraint.activate([
-                informationStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-                informationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-                informationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-                informationStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 10)
+                informationStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: verticalInset),
+                informationStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -verticalInset),
+                informationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalInset),
+                informationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalInset)
             ])
         }
         
