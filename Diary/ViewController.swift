@@ -45,11 +45,11 @@ class ViewController: UIViewController {
         var array: [Diary] = []
         
         for diaryData in diaryData {
-            guard let intDate = diaryData.createdAt else {
+            guard let doubleDate = diaryData.createdAt else {
                 return
             }
             
-            let stringDate = "\(intDate)"
+            let stringDate = DateConverter.changeDateFormat(doubleDate)
             
             array.append(Diary(title: diaryData.title ?? "", body: diaryData.body ?? "", createdAt: stringDate))
         }
