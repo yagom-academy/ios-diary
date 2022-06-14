@@ -36,6 +36,7 @@ final class DiaryViewController: UIViewController {
     private func setUp() {
         setUpItem()
         setUpNavigationBar()
+        setUpTextView()
     }
     
     private func setUpItem() {
@@ -50,6 +51,10 @@ final class DiaryViewController: UIViewController {
         } else {
             title = diary?.createdDate.formattedString
         }
+    }
+    
+    private func setUpTextView() {        
+        diaryTextView.contentOffset = .zero
     }
     
     private func attribute() {
