@@ -23,5 +23,19 @@ final class MainViewController: UIViewController {
         diary = try? parser.decode([Diary].self, from: NSDataAsset(name: "sample")!.data)
     }
 }
+
+extension MainViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return diary!.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier) as? DiaryCell else {
+            return UITableViewCell()
+        }
+        
+        cell.setUpCellContents(data: diary![indexPath.row])
+        
+        return cell
     }
 }
