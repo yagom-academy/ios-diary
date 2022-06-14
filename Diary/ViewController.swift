@@ -92,6 +92,10 @@ extension ViewController: UITableViewDataSource {
 
 extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UIScreen.main.bounds.width * 0.17
+        if UIDevice.current.orientation.isLandscape {
+            return UIScreen.main.bounds.width * 0.08
+        } else {
+            return UIScreen.main.bounds.width * 0.17
+        }
     } 
 }
