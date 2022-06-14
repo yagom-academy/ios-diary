@@ -76,4 +76,10 @@ final class DiaryCell: UITableViewCell {
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
+    
+    func setUpCellContents(data: Diary) {
+        titleLabel.text = data.title
+        dateLabel.text = "2020년 7월 13일"
+        descriptionLabel.text = data.body
+    }
 }
