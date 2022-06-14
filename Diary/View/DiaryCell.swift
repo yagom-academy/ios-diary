@@ -24,6 +24,7 @@ final class DiaryCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 10
+        stackView.axis = .vertical
         return stackView
     }()
     
