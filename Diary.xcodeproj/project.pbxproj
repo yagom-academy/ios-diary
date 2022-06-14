@@ -13,6 +13,9 @@
 		9480591F285817EF006993F8 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480591E285817EF006993F8 /* Diary.swift */; };
 		9480592728581B10006993F8 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480592628581B10006993F8 /* DiaryTests.swift */; };
 		9480592E2858274C006993F8 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480592D2858274C006993F8 /* DiaryCell.swift */; };
+		9480593128582F14006993F8 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480593028582F14006993F8 /* UIView+.swift */; };
+		9480593328582F1D006993F8 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480593228582F1D006993F8 /* UIStackView+.swift */; };
+		9480593528582F24006993F8 /* UITableViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480593428582F24006993F8 /* UITableViewCell+.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* DiaryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryTableViewController.swift */; };
@@ -39,6 +42,9 @@
 		9480592428581B10006993F8 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9480592628581B10006993F8 /* DiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTests.swift; sourceTree = "<group>"; };
 		9480592D2858274C006993F8 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
+		9480593028582F14006993F8 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
+		9480593228582F1D006993F8 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
+		9480593428582F24006993F8 /* UITableViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+.swift"; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -120,6 +126,16 @@
 			path = DiaryTests;
 			sourceTree = "<group>";
 		};
+		9480592F28582EF7006993F8 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				9480593028582F14006993F8 /* UIView+.swift */,
+				9480593228582F1D006993F8 /* UIStackView+.swift */,
+				9480593428582F24006993F8 /* UITableViewCell+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		C2F9753540AA9EAF78BA325D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,6 +168,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				9480592F28582EF7006993F8 /* Extension */,
 				9480591928581647006993F8 /* Resource */,
 				9480591A2858166A006993F8 /* Scene */,
 				9480591C285816B3006993F8 /* Model */,
@@ -327,12 +344,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9480593528582F24006993F8 /* UITableViewCell+.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryTableViewController.swift in Sources */,
 				9480591F285817EF006993F8 /* Diary.swift in Sources */,
+				9480593128582F14006993F8 /* UIView+.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				9480592E2858274C006993F8 /* DiaryCell.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				9480593328582F1D006993F8 /* UIStackView+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

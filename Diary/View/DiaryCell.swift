@@ -7,26 +7,6 @@
 
 import UIKit
 
-extension UITableViewCell {
-    static let reuseIdentifier = String(describing: UITableViewCell.self)
-}
-
-extension UIView {
-    func addSubviews(_ views: UIView...) {
-        views.forEach { view in
-            addSubview(view)
-        }
-    }
-}
-
-extension UIStackView {
-    func addArrangedSubviews(_ views: UIView...) {
-        views.forEach { view in
-            addArrangedSubview(view)
-        }
-    }
-}
-
 final class DiaryCell: UITableViewCell {
     private let baseStackView: UIStackView = {
         let stackView = UIStackView()
