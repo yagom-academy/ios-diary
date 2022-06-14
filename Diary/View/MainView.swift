@@ -27,6 +27,7 @@ final class MainView: UIView {
     private func setUpView() {
         addSubviews()
         makeConstraints()
+        registerCellIdentifier()
         backgroundColor = .systemBackground
     }
     
@@ -41,5 +42,9 @@ final class MainView: UIView {
             baseTableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
             baseTableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func registerCellIdentifier() {
+        baseTableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
     }
 }
