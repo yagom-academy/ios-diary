@@ -12,10 +12,13 @@ final class DiaryCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setUpCell()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setUpCell()
+    }
     
     private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
