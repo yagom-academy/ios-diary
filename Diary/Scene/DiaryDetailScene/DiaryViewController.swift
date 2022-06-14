@@ -11,7 +11,6 @@ final class DiaryViewController: UIViewController {
     private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
-        
         return textView
     }()
     
@@ -28,23 +27,20 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUp()
+        attribute()
         addSubViews()
         layout()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        diaryTextView.setContentOffset(.zero, animated: false)
+    }
+    
+    private func setUp() {
         setUpItem()
         setUpNavigationBar()
-    }
-    
-    private func addSubViews() {
-        view.addSubview(diaryTextView)
-    }
-    
-    private func layout() {
-        NSLayoutConstraint.activate([
-            diaryTextView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10),
-            diaryTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10),
-            diaryTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            diaryTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-        ])
     }
     
     private func setUpItem() {
@@ -53,5 +49,22 @@ final class DiaryViewController: UIViewController {
     
     private func setUpNavigationBar() {
         title = diary.createdDate.formattedString
+    }
+    
+    private func attribute() {
+        view.backgroundColor = .systemBackground
+    }
+    
+    private func addSubViews() {
+        view.addSubview(diaryTextView)
+    }
+    
+    private func layout() {
+        NSLayoutConstraint.activate([
+            diaryTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            diaryTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
     }
 }
