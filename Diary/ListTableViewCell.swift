@@ -41,7 +41,6 @@ class ListTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title2)
-        label.text = "타이틀 입니다"
         
         return label
     }()
@@ -49,7 +48,6 @@ class ListTableViewCell: UITableViewCell {
     lazy private var dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.text = "2020년 12월 23일"
         
         return label
     }()
@@ -57,7 +55,6 @@ class ListTableViewCell: UITableViewCell {
     lazy private var previewLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
-        label.text = "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of e"
         
         return label
     }()
