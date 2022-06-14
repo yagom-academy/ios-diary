@@ -21,7 +21,7 @@ final class DiaryViewController: UIViewController {
     self.diaryTableView.delegate = self
     self.diaryTableView.register(
       DiaryTableViewCell.self,
-      forCellReuseIdentifier: "DiaryTableViewCell"
+      forCellReuseIdentifier: DiaryTableViewCell.identifier
     )
 
     self.view.backgroundColor = .systemBackground
@@ -62,7 +62,7 @@ extension DiaryViewController: UITableViewDataSource {
     cellForRowAt indexPath: IndexPath
   ) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(
-      withIdentifier: "DiaryTableViewCell",
+      withIdentifier: DiaryTableViewCell.identifier,
       for: indexPath) as? DiaryTableViewCell
     else { return UITableViewCell() }
 

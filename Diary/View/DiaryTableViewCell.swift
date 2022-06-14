@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiaryTableViewCell: UITableViewCell {
+final class DiaryTableViewCell: UITableViewCell, Identifierable {
   private let titleLabel = UILabel()
   private let bodyLabel = UILabel()
   private let dateLabel = UILabel()
