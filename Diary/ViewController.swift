@@ -15,6 +15,19 @@ class ViewController: UIViewController {
         self.view = mainView
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
+    private func parse() -> [DiaryData]? {
+        guard let asset = NSDataAsset(name: "sample") else {
+            return nil
+        }
+        
+        let jsonDecoder = JSONDecoder()
+        
+        guard let sample = try? jsonDecoder.decode([DiaryData].self, from: asset.data) else {
+            return nil
+        }
+        
+        return sample
+    }
     }
 }
 
