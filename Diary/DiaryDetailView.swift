@@ -8,6 +8,8 @@
 import UIKit
 
 final class DiaryDetailView: UIView {
+    private var bottom: NSLayoutConstraint?
+    
     private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,6 +29,7 @@ final class DiaryDetailView: UIView {
     
     func configure(diary: Diary) {
         diaryTextView.text = "\(diary.title ?? "제목 없음") \n\n \(diary.body ?? "내용 없음")"
+        diaryTextView.contentOffset = .zero
     }
     
     private func configureView() {
@@ -36,10 +39,16 @@ final class DiaryDetailView: UIView {
     private func configureLayout() {
         self.addSubview(diaryTextView)
         NSLayoutConstraint.activate([
-            diaryTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            diaryTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             diaryTextView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            diaryTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            diaryTextView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            diaryTextView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
         ])
+        bottom = diaryTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+        bottom?.isActive = true
+    }
+    
+    func changeBottomConstraint(value: CGFloat) {
+        bottom?.constant = -value
+        self.layoutIfNeeded()
     }
 }
