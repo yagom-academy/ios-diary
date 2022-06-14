@@ -44,6 +44,14 @@ final class DetailViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            detailView.baseTextView.contentInset.bottom = keyboardSize.height
+        }
+    }
+    
+    @objc func keyboardHideShow(notification: NSNotification) {
+        detailView.baseTextView.contentInset = .zero
     }
     
     private func setUpNavigationBar() {
