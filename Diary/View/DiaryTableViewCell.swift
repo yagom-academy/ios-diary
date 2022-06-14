@@ -18,7 +18,7 @@ final class DiaryTableViewCell: UITableViewCell {
   }
 
   required init?(coder: NSCoder) {
-    super.init(coder: coder)
+    fatalError("init(coder:) has not been implemented")
   }
 
   func setUp(diary: Diary) {
