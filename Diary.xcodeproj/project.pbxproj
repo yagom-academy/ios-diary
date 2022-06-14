@@ -17,6 +17,9 @@
 		DAD7F6A028585E1500F53652 /* DiaryDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F69F28585E1500F53652 /* DiaryDateFormatter.swift */; };
 		DAD7F6A22858675500F53652 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6A12858675400F53652 /* MainView.swift */; };
 		DAD7F6A42858678900F53652 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6A32858678900F53652 /* MainViewModel.swift */; };
+		DAD7F6A82858C58400F53652 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6A72858C58400F53652 /* DetailView.swift */; };
+		DAD7F6AA2858C78E00F53652 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6A92858C78E00F53652 /* DetailViewController.swift */; };
+		DAD7F6AC2858D4CE00F53652 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6AB2858D4CE00F53652 /* Date+Extension.swift */; };
 		E1699D4465D99ED143EDAB01 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB35D5672E541D41E421E5 /* Pods_Diary.framework */; };
 		E1EBE0272858695D00DA3EF7 /* MainViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EBE0262858695D00DA3EF7 /* MainViewCell.swift */; };
 		E1EBE02C28586F2400DA3EF7 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EBE02B28586F2400DA3EF7 /* UIView+Extension.swift */; };
@@ -38,6 +41,9 @@
 		DAD7F69F28585E1500F53652 /* DiaryDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDateFormatter.swift; sourceTree = "<group>"; };
 		DAD7F6A12858675400F53652 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		DAD7F6A32858678900F53652 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		DAD7F6A72858C58400F53652 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		DAD7F6A92858C78E00F53652 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		DAD7F6AB2858D4CE00F53652 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		E1EBE0262858695D00DA3EF7 /* MainViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCell.swift; sourceTree = "<group>"; };
 		E1EBE02B28586F2400DA3EF7 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -119,8 +125,8 @@
 		DAD7F69A28585AD100F53652 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DAD7F6A12858675400F53652 /* MainView.swift */,
-				E1EBE0262858695D00DA3EF7 /* MainViewCell.swift */,
+				DAD7F6A52858C51600F53652 /* MainView */,
+				DAD7F6A62858C52800F53652 /* DetailView */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -129,6 +135,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* MainViewController.swift */,
+				DAD7F6A92858C78E00F53652 /* DetailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -141,10 +148,28 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		DAD7F6A52858C51600F53652 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				DAD7F6A12858675400F53652 /* MainView.swift */,
+				E1EBE0262858695D00DA3EF7 /* MainViewCell.swift */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
+		DAD7F6A62858C52800F53652 /* DetailView */ = {
+			isa = PBXGroup;
+			children = (
+				DAD7F6A72858C58400F53652 /* DetailView.swift */,
+			);
+			path = DetailView;
+			sourceTree = "<group>";
+		};
 		E1EBE02828586EFF00DA3EF7 /* extension */ = {
 			isa = PBXGroup;
 			children = (
 				E1EBE02B28586F2400DA3EF7 /* UIView+Extension.swift */,
+				DAD7F6AB2858D4CE00F53652 /* Date+Extension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -265,9 +290,12 @@
 			files = (
 				E1EBE0272858695D00DA3EF7 /* MainViewCell.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
+				DAD7F6AC2858D4CE00F53652 /* Date+Extension.swift in Sources */,
 				DAD7F6A22858675500F53652 /* MainView.swift in Sources */,
+				DAD7F6AA2858C78E00F53652 /* DetailViewController.swift in Sources */,
 				DAD7F6A028585E1500F53652 /* DiaryDateFormatter.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				DAD7F6A82858C58400F53652 /* DetailView.swift in Sources */,
 				DAD7F69E28585D3B00F53652 /* DiaryData.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,

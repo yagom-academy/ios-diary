@@ -13,13 +13,15 @@ class MainViewController: UIViewController {
     
     private let mainView = MainView()
     private let viewModel = MainViewModel()
+    
+    override func loadView() {
+        super.loadView()
+        view = mainView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        view.addSubview(mainView)
         setMainViewSetting()
-        setConsantrait()
         setNavigationSetting()
     }
     
@@ -37,24 +39,16 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func setConsantrait() {
-        NSLayoutConstraint.activate([
-            mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mainView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
-            mainView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            mainView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
-    }
-    
     private func setMainViewSetting() {
         loadData()
         mainView.dataSource = viewModel
+        mainView.delegate = self
         mainView.translatesAutoresizingMaskIntoConstraints = false
         mainView.register(MainViewCell.self, forCellReuseIdentifier: MainViewCell.identifier)
     }
 }
 
-//MARK: Navigation Method
+// MARK: Navigation Method
 extension MainViewController {
     private func setNavigationSetting() {
         navigationItem.title = Constnat.navigationTitle
@@ -68,5 +62,13 @@ extension MainViewController {
     @objc
     private func rightBarbuttonClicked(_ sender: Any) {
         // 추가 화면 이동
+    }
+}
+
+// MARK: tableView Delegate
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailViewController = DetailViewController(diary: viewModel.data[indexPath.row])
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

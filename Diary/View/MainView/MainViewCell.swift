@@ -71,7 +71,7 @@ final class MainViewCell: UITableViewCell {
     
     func setDiaryData(_ data: DiaryData) {
         titleLabel.text = data.title
-        dateLabel.text = DiaryDateFormatter.shared.string(from: data.date)
+        dateLabel.text = data.date.toString
         descriptionLabel.text = data.body
     }
 }
