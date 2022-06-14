@@ -65,7 +65,11 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailVC = DetailViewController(diary: diaryList[indexPath.row])
+        guard let diary = diaryList[safe: indexPath.row] else {
+            return
+        }
+        
+        let detailVC = DetailViewController(diary: diary)
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }
