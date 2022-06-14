@@ -7,6 +7,24 @@
 
 import UIKit
 
-class MainViewModel {
+class MainViewModel: NSObject {
+    private var data: [DiaryData] = []
+}
+
+extension MainViewModel: UITableViewDataSource {
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: MainViewCell.identifier, for: indexPath
+        ) as? MainViewCell else {
+            return MainViewCell()
+        }
+        cell.setDiaryData(data[indexPath.row])
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return data.count
+    }
 }
