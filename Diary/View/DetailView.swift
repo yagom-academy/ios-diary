@@ -21,6 +21,7 @@ final class DetailView: UIView {
     let baseTextView: UITextView = {
         let textView = BaseTextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.font = .preferredFont(forTextStyle: .body)
         return textView
     }()
     
