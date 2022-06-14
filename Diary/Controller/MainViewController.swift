@@ -58,3 +58,10 @@ extension MainViewController: UITableViewDataSource {
         return cell
     }
 }
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailVC = DetailViewController(diary: diary[indexPath.row])
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+}
