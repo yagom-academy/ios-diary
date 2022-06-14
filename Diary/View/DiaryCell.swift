@@ -30,5 +30,24 @@ final class DiaryCell: UITableViewCell {
         stackView.axis = .horizontal
         return stackView
     }()
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .title2)
+        return label
+    }()
+    
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.font = .preferredFont(forTextStyle: .title3)
+        return label
+    }()
+    
+    private let descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        return label
+    }()
     }
 }
