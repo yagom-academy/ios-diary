@@ -8,8 +8,7 @@ import UIKit
 
 final class MainViewController: UIViewController {
     private lazy var mainView = MainView(frame: view.bounds)
-
-    private var diary = [Diary]()
+    private var diaryList = [Diary]()
     
     override func loadView() {
         super.loadView()
@@ -20,7 +19,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         setUpNavigationBar()
         setUpTableView()
-        setUpData()
+        setUpDiaryList()
     }
         
     private func setUpNavigationBar() {
@@ -28,7 +27,7 @@ final class MainViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
-            action: #selector(addButtonDidTap)
+            action: #selector(didTapAddButton)
         )
     }
     
@@ -37,20 +36,20 @@ final class MainViewController: UIViewController {
         mainView.baseTableView.delegate = self
     }
     
-    private func setUpData() {
+    private func setUpDiaryList() {
         if let data: [Diary] = JSONParser().decode(from: "sample") {
-            diary = data
+            diaryList = data
         }
     }
     
-    @objc private func addButtonDidTap() {
+    @objc private func didTapAddButton() {
         
     }
 }
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diary.count
+        return diaryList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,7 +57,7 @@ extension MainViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.setUpCellContents(data: diary[indexPath.row])
+        cell.setUpContents(data: diaryList[indexPath.row])
         
         return cell
     }
@@ -66,7 +65,7 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailVC = DetailViewController(diary: diary[indexPath.row])
+        let detailVC = DetailViewController(diary: diaryList[indexPath.row])
         navigationController?.pushViewController(detailVC, animated: true)
     }
 }

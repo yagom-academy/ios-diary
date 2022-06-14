@@ -20,7 +20,7 @@ final class DiaryCell: UITableViewCell {
         setUpCell()
     }
     
-    private let verticalStackView: UIStackView = {
+    private let baseStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 10
@@ -28,7 +28,7 @@ final class DiaryCell: UITableViewCell {
         return stackView
     }()
     
-    private let horizontalStackView: UIStackView = {
+    private let bottomStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 10
         stackView.axis = .horizontal
@@ -37,20 +37,20 @@ final class DiaryCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title2)
+        label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .preferredFont(forTextStyle: .footnote)
         return label
     }()
     
@@ -62,23 +62,23 @@ final class DiaryCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        contentView.addSubview(verticalStackView)
-        verticalStackView.addArrangedSubview(titleLabel)
-        verticalStackView.addArrangedSubview(horizontalStackView)
-        horizontalStackView.addArrangedSubview(dateLabel)
-        horizontalStackView.addArrangedSubview(descriptionLabel)
+        contentView.addSubview(baseStackView)
+        baseStackView.addArrangedSubview(titleLabel)
+        baseStackView.addArrangedSubview(bottomStackView)
+        bottomStackView.addArrangedSubview(dateLabel)
+        bottomStackView.addArrangedSubview(descriptionLabel)
     }
     
     private func makeConstraints() {
         NSLayoutConstraint.activate([
-            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
+            baseStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            baseStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
-    func setUpCellContents(data: Diary) {
+    func setUpContents(data: Diary) {
         titleLabel.text = data.title
         dateLabel.text = data.createdAt.formattedString
         descriptionLabel.text = data.body

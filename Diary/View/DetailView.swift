@@ -47,7 +47,7 @@ final class DetailView: UIView {
         baseTextView.text = data.title + "\n\n" + data.body
     }
     
-    func scrollToTop() {
+    func scrollTextViewToTop() {
         baseTextView.contentOffset = .zero
     }
 }

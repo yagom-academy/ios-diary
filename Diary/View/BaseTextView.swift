@@ -21,7 +21,7 @@ final class BaseTextView: UITextView {
     private func setUpTextView() {
         inputAccessoryView = makeToolBar()
         autocorrectionType = .no
-        keyboardType = .alphabet
+        spellCheckingType = .no
     }
     
     private func makeToolBar() -> UIToolbar {
@@ -40,12 +40,11 @@ final class BaseTextView: UITextView {
         )
         
         toolBar.items = [flexible, barButton]
-        toolBar.barTintColor = .white
         toolBar.clipsToBounds = true
         return toolBar
     }
     
-    @objc func didTapHideButton() {
+    @objc private func didTapHideButton() {
         self.resignFirstResponder()
     }
 }

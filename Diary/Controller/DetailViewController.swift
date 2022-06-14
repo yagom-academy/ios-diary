@@ -29,7 +29,7 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         setUpNavigationBar()
         detailView.setUpContents(data: diary)
-        detailView.scrollToTop()
+        detailView.scrollTextViewToTop()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,7 +42,7 @@ final class DetailViewController: UIViewController {
         )
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(keyboardHideShow),
+            selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
@@ -58,7 +58,7 @@ final class DetailViewController: UIViewController {
         title = diary.createdAt.formattedString
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
+    @objc private func keyboardWillShow(notification: NSNotification) {
         guard let userInfo = notification.userInfo else {
             return
         }
@@ -68,7 +68,7 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    @objc func keyboardHideShow(notification: NSNotification) {
+    @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.baseTextView.contentInset = .zero
     }
 }
