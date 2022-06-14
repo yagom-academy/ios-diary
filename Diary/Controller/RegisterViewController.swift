@@ -21,7 +21,16 @@ final class RegisterViewController: UIViewController {
     
     private func setUpNavigationController() {
         func setUpLeftItem() {
+            let button = UIButton()
+            let barButton = UIBarButtonItem(customView: button)
             
+            button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+            button.setTitle("일기장", for: .normal)
+            button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
+            button.setTitleColor(.systemBlue, for: .normal)
+            button.addTarget(self, action: #selector(registerDiary), for: .touchUpInside)
+            
+            navigationItem.leftBarButtonItem = barButton
         }
         
         navigationItem.title = Formatter.getCurrentDate()
