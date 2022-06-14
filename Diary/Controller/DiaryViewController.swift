@@ -7,11 +7,13 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
   private let diaryTableView = UITableView()
+  private var diaries = [Diary]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     self.title = "일기장"
     self.configureTableView()
+    self.diaries = Diary.decodedData
   }
 
   private func configureTableView() {
@@ -36,7 +38,7 @@ extension DiaryViewController: UITableViewDataSource {
     _ tableView: UITableView,
     numberOfRowsInSection section: Int
   ) -> Int {
-    return 10
+    return diaries.count
   }
 
   func tableView(
@@ -47,6 +49,8 @@ extension DiaryViewController: UITableViewDataSource {
       withIdentifier: "DiaryTableViewCell",
       for: indexPath) as? DiaryTableViewCell
     else { return UITableViewCell() }
+
+    cell.setUp(diary: diaries[indexPath.row])
 
     return cell
   }

@@ -21,20 +21,31 @@ final class DiaryTableViewCell: UITableViewCell {
     super.init(coder: coder)
   }
 
+  func setUp(diary: Diary) {
+    self.titleLabel.text = diary.title
+    self.bodyLabel.text = diary.body
+    self.dateLabel.text = formatNumberToDateString(from: diary.createdAt)
+  }
+
+  private func formatNumberToDateString(from dateNumber: Int) -> String {
+    let date = Date(timeIntervalSince1970: Double(dateNumber))
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+    
+    return dateFormatter.string(from: date)
+  }
+
   private func configure() {
     self.accessoryType = .disclosureIndicator
 
-    self.titleLabel.text = "타이틀"
     self.titleLabel.font = .preferredFont(forTextStyle: .title3)
     self.titleLabel.adjustsFontForContentSizeCategory = true
 
-    self.dateLabel.text = "20XX년 XX월 XX일"
     self.dateLabel.font = .preferredFont(forTextStyle: .subheadline)
     self.dateLabel.adjustsFontForContentSizeCategory = true
     self.dateLabel.setContentHuggingPriority(.required, for: .horizontal)
     self.dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
 
-    self.bodyLabel.text = "본문입니다."
     self.bodyLabel.font = .preferredFont(forTextStyle: .caption2)
     self.bodyLabel.adjustsFontForContentSizeCategory = true
 
