@@ -80,9 +80,3 @@ extension UITableViewCell {
         return String(describing: self)
     }
 }
-
-extension Int {
-    func time() -> String {
-        return DateFormatter().changeDateFormat(time: self)
-    }
-}

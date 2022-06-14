@@ -35,6 +35,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private func configureLayout() {
         self.view.addSubview(mainView)
+        
         NSLayoutConstraint.activate([
             mainView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             mainView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -45,7 +46,7 @@ final class DiaryDetailViewController: UIViewController {
 }
 
 extension DiaryDetailViewController {
-    func registerNotification() {
+    private func registerNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification,

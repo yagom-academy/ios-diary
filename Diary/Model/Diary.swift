@@ -12,7 +12,7 @@ struct Diary: Codable, Hashable {
     let createdAt: Int?
     private let uuid = UUID()
 
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case title, body
         case createdAt = "created_at"
     }
