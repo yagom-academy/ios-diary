@@ -1,12 +1,12 @@
 //
-//  Diary - ViewController.swift
+//  Diary - ListViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-class ViewController: UIViewController {
+class ListViewController: UIViewController {
     private lazy var mainView = MainView.init(frame: view.bounds)
     private var diaryArray: [Diary] = [] {
         didSet {
@@ -74,7 +74,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return diaryArray.count
     }
@@ -90,7 +90,7 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-extension ViewController: UITableViewDelegate {
+extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if UIDevice.current.orientation.isLandscape {
             return UIScreen.main.bounds.width * 0.08
