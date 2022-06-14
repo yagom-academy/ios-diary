@@ -17,10 +17,20 @@ final class DiaryListViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
+        configureTableView()
         dataSource = makeDataSource()
-        applySnapshot(items: Diary.createData()!)
+        applySnapshot(items: makeData())
         configureNavigationItem()
+    }
+    
+    private func makeData() -> [Diary] {
+        let items = Diary.createData() ?? []
+        
+        return items
+    }
+    
+    private func configureTableView() {
+        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
     }
     
     private func configureNavigationItem() {

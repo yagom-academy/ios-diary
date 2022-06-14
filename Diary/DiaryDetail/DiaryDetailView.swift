@@ -38,6 +38,7 @@ final class DiaryDetailView: UIView {
     
     private func configureLayout() {
         self.addSubview(diaryTextView)
+        
         NSLayoutConstraint.activate([
             diaryTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             diaryTextView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
