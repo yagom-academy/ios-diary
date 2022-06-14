@@ -58,6 +58,7 @@ final class DiaryCell: UITableViewCell {
         addSubviews()
         makeConstraints()
         backgroundColor = .systemBackground
+        accessoryType = .disclosureIndicator
     }
     
     private func addSubviews() {
