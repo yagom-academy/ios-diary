@@ -19,7 +19,7 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
-        mainView.baseTableView.dataSource = self
+        setUpTableView()
         setUpData()
     }
         
@@ -30,6 +30,11 @@ final class MainViewController: UIViewController {
             target: self,
             action: #selector(addButtonDidTap)
         )
+    }
+    
+    private func setUpTableView() {
+        mainView.baseTableView.dataSource = self
+        mainView.baseTableView.delegate = self
     }
     
     private func setUpData() {
