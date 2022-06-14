@@ -5,4 +5,12 @@
 //  Created by Minseong, Lingo on 2022/06/14.
 //
 
-import Foundation
+protocol Identifierable {
+  static var identifier: String { get }
+}
+
+extension Identifierable {
+  static var identifier: String {
+    return String(describing: self)
+  }
+}
