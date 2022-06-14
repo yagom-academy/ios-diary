@@ -10,10 +10,12 @@ import UIKit
 final class MainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setUpView()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+        setUpView()
     }
     
     private let baseTableView: UITableView = {
