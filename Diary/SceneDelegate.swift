@@ -2,7 +2,7 @@
 //  Diary - SceneDelegate.swift
 //  Created by Quokka Taeangel. 
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
@@ -13,6 +13,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     willConnectTo session: UISceneSession,
     options connectionOptions: UIScene.ConnectionOptions
   ) {
-    guard let _ = (scene as? UIWindowScene) else { return }
+    guard let windowScene = (scene as? UIWindowScene) else { return }
+      window = UIWindow(windowScene: windowScene)
+      window?.rootViewController = UINavigationController(rootViewController: ViewController())
+      window?.makeKeyAndVisible()
   }
 }
