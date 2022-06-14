@@ -18,14 +18,28 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpNavigationBar()
         mainView.baseTableView.dataSource = self
         setUpData()
+    }
+        
+    private func setUpNavigationBar() {
+        title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addButtonDidTap)
+        )
     }
     
     private func setUpData() {
         if let data: [Diary] = JSONParser().decode(from: "sample") {
             diary = data
         }
+    }
+    
+    @objc private func addButtonDidTap() {
+        
     }
 }
 
