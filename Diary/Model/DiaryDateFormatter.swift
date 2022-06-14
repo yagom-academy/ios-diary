@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DiaryDateFormatter {
+final class DiaryDateFormatter {
     private var dateFormatter: DateFormatter
     static let shared = DiaryDateFormatter()
     

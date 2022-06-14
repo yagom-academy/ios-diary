@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewModel: NSObject {
+final class MainViewModel: NSObject {
     private var data: [DiaryData] = []
     
     func setData(data: [DiaryData]) {

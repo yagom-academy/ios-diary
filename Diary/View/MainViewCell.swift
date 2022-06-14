@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewCell: UITableViewCell {
+final class MainViewCell: UITableViewCell {
     private enum Constant {
         static let lineInset: CGFloat = 8
         static let sideInset: CGFloat = 20

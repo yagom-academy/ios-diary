@@ -7,5 +7,5 @@
 
 import UIKit
 
-class MainView: UITableView {
+final class MainView: UITableView {
 }
