@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
-    lazy var baseStackView: UIStackView = {
+    private lazy var baseStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, subTextStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -17,14 +17,14 @@ final class DiaryTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         
         return label
     }()
     
-    lazy var subTextStackView: UIStackView = {
+    private lazy var subTextStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [createdAtLabel, bodyLabel])
         stackView.axis = .horizontal
         stackView.spacing = 8
@@ -32,7 +32,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    let createdAtLabel: UILabel = {
+    private let createdAtLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -40,7 +40,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
-    let bodyLabel: UILabel = {
+    private let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         
@@ -57,14 +57,20 @@ final class DiaryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configure(item: Diary) {
+        self.titleLabel.text = item.title
+        self.createdAtLabel.text = item.createdAt?.time()
+        self.bodyLabel.text = item.body
+    }
+    
     private func configureLayout() {
         self.addSubview(baseStackView)
         
         NSLayoutConstraint.activate([
             baseStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 8),
             baseStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
-            baseStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.85),
-            baseStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 8)
+            baseStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
+            baseStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 16)
         ])
     }
 }
@@ -72,5 +78,11 @@ final class DiaryTableViewCell: UITableViewCell {
 extension UITableViewCell {
     static var identifier: String {
         return String(describing: self)
+    }
+}
+
+private extension Int {
+    func time() -> String {
+        return DateFormatter().changeDateFormat(time: self)
     }
 }
