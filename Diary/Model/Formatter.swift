@@ -8,7 +8,7 @@
 import Foundation
 
 struct Formatter {
-    static let dateFormatter = DateFormatter()
+    static private let dateFormatter = DateFormatter()
     
     private init() { }
     
