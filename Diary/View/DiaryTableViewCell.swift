@@ -24,15 +24,7 @@ final class DiaryTableViewCell: UITableViewCell {
   func setUp(diary: Diary) {
     self.titleLabel.text = diary.title
     self.bodyLabel.text = diary.body
-    self.dateLabel.text = formatNumberToDateString(from: diary.createdAt)
-  }
-
-  private func formatNumberToDateString(from dateNumber: Int) -> String {
-    let date = Date(timeIntervalSince1970: Double(dateNumber))
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-
-    return dateFormatter.string(from: date)
+    self.dateLabel.text = diary.createdAtString
   }
 
   private func configure() {

@@ -10,7 +10,15 @@ import UIKit
 struct Diary: Decodable {
   let title: String
   let body: String
-  let createdAt: Int
+  let createdAt: Double
+
+  var createdAtString: String {
+    let date = Date(timeIntervalSince1970: createdAt)
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+
+    return dateFormatter.string(from: date)
+  }
 }
 
 extension Diary {

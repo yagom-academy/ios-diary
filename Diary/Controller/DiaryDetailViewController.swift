@@ -31,7 +31,7 @@ final class DiaryDetailViewController: UIViewController {
   }
 
   private func configure() {
-    self.title = formatNumberToDateString(from: diary.createdAt)
+    self.title = diary.createdAtString
     self.view.backgroundColor = .systemBackground
 
     self.titleLabel.font = .preferredFont(forTextStyle: .headline)
@@ -54,14 +54,6 @@ final class DiaryDetailViewController: UIViewController {
       container.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0),
       container.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8.0)
     ])
-  }
-
-  private func formatNumberToDateString(from dateNumber: Int) -> String {
-    let date = Date(timeIntervalSince1970: Double(dateNumber))
-    let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-
-    return dateFormatter.string(from: date)
   }
 
   private func setNotificationCenter() {
