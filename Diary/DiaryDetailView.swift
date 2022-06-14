@@ -18,10 +18,19 @@ final class DiaryDetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
+        configureView()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configure(diary: Diary) {
+        diaryTextView.text = "\(diary.title ?? "제목 없음") \n\n \(diary.body ?? "내용 없음")"
+    }
+    
+    private func configureView() {
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configureLayout() {
