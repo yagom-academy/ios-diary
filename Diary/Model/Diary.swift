@@ -11,6 +11,7 @@ struct Diary: Decodable, Hashable {
     let title: String
     let body: String
     let createdDate: Date
+    let id = UUID().uuidString
     
     enum CodingKeys: String, CodingKey {
         case title

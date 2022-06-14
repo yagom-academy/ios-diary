@@ -19,24 +19,26 @@ final class DiaryCell: UITableViewCell {
     private let bottomStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 10
         return stackView
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title2)
+        label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .body)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
     }()
     
     private let contentLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .preferredFont(forTextStyle: .footnote)
         return label
     }()
     
@@ -58,18 +60,18 @@ final class DiaryCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        contentView.addSubview(baseStackView)
-        
         bottomStackView.addArrangedSubviews(dateLabel, contentLabel)
         baseStackView.addArrangedSubviews(titleLabel, bottomStackView)
+        
+        contentView.addSubview(baseStackView)
     }
     
     private func layout() {
         NSLayoutConstraint.activate([
             baseStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             baseStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-            baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     
