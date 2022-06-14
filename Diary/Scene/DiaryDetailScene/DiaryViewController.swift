@@ -14,13 +14,13 @@ final class DiaryViewController: UIViewController {
         return textView
     }()
     
-    private let diary: Diary
+    private let diary: Diary?
     
-    init(diary: Diary) {
+    init(diary: Diary? = nil) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -33,22 +33,23 @@ final class DiaryViewController: UIViewController {
         layout()
     }
     
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        diaryTextView.setContentOffset(.zero, animated: false)
-    }
-    
     private func setUp() {
         setUpItem()
         setUpNavigationBar()
     }
     
     private func setUpItem() {
+        guard let diary = diary else { return }
+
         diaryTextView.text = diary.title + "\n\n" + diary.body
     }
     
     private func setUpNavigationBar() {
-        title = diary.createdDate.formattedString
+        if diary == nil {
+            title = Date().formattedString
+        } else {
+            title = diary?.createdDate.formattedString
+        }
     }
     
     private func attribute() {
@@ -62,7 +63,7 @@ final class DiaryViewController: UIViewController {
     private func layout() {
         NSLayoutConstraint.activate([
             diaryTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            diaryTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            diaryTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
             diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])

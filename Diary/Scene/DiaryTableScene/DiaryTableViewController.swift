@@ -40,7 +40,8 @@ final class DiaryTableViewController: UITableViewController {
     
     @objc
     private func addButtondidTap() {
-        // empty
+        let diaryViewController = DiaryViewController()
+        navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
     private func setUpTableView() {
