@@ -16,5 +16,19 @@ final class DiaryCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
+    
+    private let verticalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 10
+        return stackView
+    }()
+    
+    private let horizontalStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.spacing = 10
+        stackView.axis = .horizontal
+        return stackView
+    }()
     }
 }
