@@ -2,7 +2,7 @@
 //  Diary.swift
 //  Diary
 //
-//  Created by 박세웅 on 2022/06/14.
+//  Created by mmim, grumpy, mino on 2022/06/14.
 //
 
 import Foundation
