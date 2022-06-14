@@ -25,7 +25,22 @@ final class DiaryTableViewController: UITableViewController {
     }
     
     private func setUp() {
+        setUpNavigationBar()
         setUpTableView()
+    }
+    
+    private func setUpNavigationBar() {
+        title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addButtondidTap)
+        )
+    }
+    
+    @objc
+    private func addButtondidTap() {
+        // empty
     }
     
     private func setUpTableView() {
