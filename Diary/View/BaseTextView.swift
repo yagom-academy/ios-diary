@@ -21,6 +21,7 @@ final class BaseTextView: UITextView {
     private func setUpTextView() {
         inputAccessoryView = makeToolBar()
         autocorrectionType = .no
+        keyboardType = .alphabet
     }
     
     private func makeToolBar() -> UIToolbar {
