@@ -22,6 +22,12 @@ final class MainView: UIView {
         return tableView
     }()
     
+    private func setUpView() {
+        addSubviews()
+        makeConstraints()
+        backgroundColor = .systemBackground
+    }
+    
     private func addSubviews() {
         addSubview(baseTableView)
     }
