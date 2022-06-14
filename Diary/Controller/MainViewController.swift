@@ -20,7 +20,13 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         mainView.baseTableView.dataSource = self
-        diary = try? parser.decode([Diary].self, from: NSDataAsset(name: "sample")!.data)
+        setUpData()
+    }
+    
+    private func setUpData() {
+        if let data: [Diary] = JSONParser().decode(from: "sample") {
+            diary = data
+        }
     }
 }
 
