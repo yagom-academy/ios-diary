@@ -19,6 +19,11 @@ final class DetailViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    override func loadView() {
+        super.loadView()
+        view = detailView
+    }
     private func setUpNavigationBar() {
         title = diary.createdAt.formattedString
     }
