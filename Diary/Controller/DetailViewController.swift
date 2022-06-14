@@ -34,8 +34,18 @@ final class DetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHideShow), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardHideShow),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -45,7 +55,11 @@ final class DetailViewController: UIViewController {
     }
     
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+        guard let userInfo = notification.userInfo else {
+            return
+        }
+        let keyboardInfo = userInfo[UIResponder.keyboardFrameEndUserInfoKey]
+        if let keyboardSize = (keyboardInfo as? NSValue)?.cgRectValue {
             detailView.baseTextView.contentInset.bottom = keyboardSize.height
         }
     }
