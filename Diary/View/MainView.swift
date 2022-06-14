@@ -18,7 +18,7 @@ final class MainView: UIView {
         setUpView()
     }
     
-    private let baseTableView: UITableView = {
+    let baseTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
