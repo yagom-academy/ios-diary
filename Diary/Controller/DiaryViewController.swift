@@ -16,8 +16,8 @@ final class DiaryViewController: UIViewController {
         static let registerButton = "+"
     }
     
-    let tableView = UITableView()
-    var dataSource: UITableViewDiffableDataSource<Section, DiaryData>?
+    private let tableView = UITableView()
+    private var dataSource: UITableViewDiffableDataSource<Section, DiaryData>?
     
     init() {
         super.init(nibName: nil, bundle: nil)
