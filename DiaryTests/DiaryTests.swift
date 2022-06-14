@@ -9,11 +9,13 @@ import XCTest
 @testable import Diary
 
 final class DiaryTests: XCTestCase {
-  override func setUpWithError() throws {
-    try super.setUpWithError()
-  }
-
-  override func tearDownWithError() throws {
-    try super.tearDownWithError()
+  func testDiary_decodedData를호출했을때_title이주어진값이어야한다() {
+    // given
+    let diaries = Diary.decodedData
+    let expectedValue = "똘기떵이호치새초미자축인묘"
+    // when
+    let title = diaries[0].title
+    // then
+    XCTAssertEqual(title, expectedValue)
   }
 }
