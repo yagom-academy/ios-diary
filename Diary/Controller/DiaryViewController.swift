@@ -19,6 +19,7 @@ final class DiaryViewController: UIViewController {
 
   private func configureTableView() {
     self.diaryTableView.dataSource = self
+    self.diaryTableView.delegate = self
     self.diaryTableView.register(
       DiaryTableViewCell.self,
       forCellReuseIdentifier: "DiaryTableViewCell"
@@ -68,5 +69,18 @@ extension DiaryViewController: UITableViewDataSource {
     cell.setUp(diary: diaries[indexPath.row])
 
     return cell
+  }
+}
+
+// MARK: - Delegate
+
+extension DiaryViewController: UITableViewDelegate {
+  func tableView(
+    _ tableView: UITableView,
+    didSelectRowAt indexPath: IndexPath
+  ) {
+    tableView.deselectRow(at: indexPath, animated: true)
+    let detailViewController = DiaryDetailViewController(diary: diaries[indexPath.row])
+    self.navigationController?.pushViewController(detailViewController, animated: true)
   }
 }
