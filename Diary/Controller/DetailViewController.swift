@@ -8,4 +8,5 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
+    private lazy var detailView = DetailView(frame: view.bounds)
 }
