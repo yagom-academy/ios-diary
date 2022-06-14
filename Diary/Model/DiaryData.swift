@@ -7,8 +7,14 @@
 
 import Foundation
 
-struct DiaryData {
+struct DiaryData: Decodable {
     private(set) var title: String
     private(set) var date: Date
     private(set) var body: String
+    
+    enum CodingKeys: String, CodingKey {
+        case title
+        case body
+        case date = "created_at"
+    }
 }
