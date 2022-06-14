@@ -21,4 +21,8 @@ final class MainView: UIView {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    private func addSubviews() {
+        addSubview(baseTableView)
+    }
 }
