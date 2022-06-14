@@ -79,7 +79,7 @@ final class DiaryCell: UITableViewCell {
     
     func setUpCellContents(data: Diary) {
         titleLabel.text = data.title
-        dateLabel.text = "2020년 7월 13일"
+        dateLabel.text = data.createdAt.formattedString
         descriptionLabel.text = data.body
     }
 }
