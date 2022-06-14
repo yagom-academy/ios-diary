@@ -22,6 +22,12 @@ final class DiaryDetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configure()
+    self.setNotificationCenter()
+  }
+
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    self.removeNotificationCenter()
   }
 
   private func configure() {
@@ -56,5 +62,55 @@ final class DiaryDetailViewController: UIViewController {
     dateFormatter.dateFormat = "yyyy년 MM월 dd일"
 
     return dateFormatter.string(from: date)
+  }
+
+  private func setNotificationCenter() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillShow(_:)),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
+
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillHide(_:)),
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+  }
+
+  private func removeNotificationCenter() {
+    NotificationCenter.default.removeObserver(
+      self,
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
+
+    NotificationCenter.default.removeObserver(
+      self,
+      name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+  }
+
+  @objc private func keyboardWillShow(_ notification: Notification) {
+    guard let userInfo = notification.userInfo,
+          let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+    else { return }
+    let contentInset = UIEdgeInsets(
+      top: 0.0,
+      left: 0.0,
+      bottom: keyboardFrame.height,
+      right: 0.0
+    )
+    self.bodyText.contentInset = contentInset
+    self.bodyText.verticalScrollIndicatorInsets = contentInset
+  }
+
+  @objc private func keyboardWillHide(_ notification: Notification) {
+    let contentInset = UIEdgeInsets.zero
+    self.bodyText.contentInset = contentInset
+    self.bodyText.scrollIndicatorInsets = contentInset
   }
 }
