@@ -42,4 +42,8 @@ final class DetailView: UIView {
             baseTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    func setUpContents(data: Diary) {
+        baseTextView.text = data.title + "\n\n" + data.body
+    }
 }
