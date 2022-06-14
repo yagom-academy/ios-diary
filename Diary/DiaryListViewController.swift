@@ -20,6 +20,17 @@ final class DiaryListViewController: UITableViewController {
         tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
         dataSource = makeDataSource()
         applySnapshot(items: Diary.createData()!)
+        configureNavigationItem()
+    }
+    
+    private func configureNavigationItem() {
+        self.title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: #selector(addButtonDidTapped))
+    }
+    
+    @objc func addButtonDidTapped() {
     }
 }
 
