@@ -61,7 +61,7 @@ final class DiaryCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        addSubview(verticalStackView)
+        contentView.addSubview(verticalStackView)
         verticalStackView.addArrangedSubview(titleLabel)
         verticalStackView.addArrangedSubview(horizontalStackView)
         horizontalStackView.addArrangedSubview(dateLabel)
