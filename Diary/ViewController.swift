@@ -60,11 +60,17 @@ class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        return diaryArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return ListTableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "\(ListTableViewCell.self)", for: indexPath) as? ListTableViewCell else {
+            return UITableViewCell()
+        }
+        
+        cell.configureContents(diaryArray[indexPath.row])
+        
+        return cell
     }
 }
 

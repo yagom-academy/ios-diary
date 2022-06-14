@@ -10,7 +10,7 @@ import UIKit
 class ListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureView()
+        configureLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -62,10 +62,11 @@ class ListTableViewCell: UITableViewCell {
         return label
     }()
     
-    private func configureView() {
+    private func configureLayout() {
         self.contentView.addSubview(mainStackView)
         self.mainStackView.addArrangedSubview([titleLabel, subStackView])
         self.subStackView.addArrangedSubview([dateLabel, previewLabel])
+        
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
@@ -74,5 +75,11 @@ class ListTableViewCell: UITableViewCell {
             dateLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.35)
         ])
         self.accessoryType = .disclosureIndicator
+    }
+    
+    func configureContents(_ diaryArray: Diary) {
+        titleLabel.text = diaryArray.title
+        dateLabel.text = diaryArray.createdAt
+        previewLabel.text = diaryArray.body
     }
 }
