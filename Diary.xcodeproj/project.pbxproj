@@ -11,6 +11,7 @@
 		AC50348928582BDE0068C2A0 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC50348828582BDE0068C2A0 /* ListTableViewCell.swift */; };
 		AC50348C28582C450068C2A0 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC50348B28582C450068C2A0 /* UIStackView+.swift */; };
 		B3FE9B39285820680006A7AB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FE9B38285820680006A7AB /* MainView.swift */; };
+		B3FE9B3B285853F60006A7AB /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FE9B3A285853F60006A7AB /* DiaryData.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* ViewController.swift */; };
@@ -25,6 +26,7 @@
 		AC50348828582BDE0068C2A0 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		AC50348B28582C450068C2A0 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		B3FE9B38285820680006A7AB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		B3FE9B3A285853F60006A7AB /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				C739AE28284DF28600741E8F /* ViewController.swift */,
 				B3FE9B38285820680006A7AB /* MainView.swift */,
 				AC50348828582BDE0068C2A0 /* ListTableViewCell.swift */,
+				B3FE9B3A285853F60006A7AB /* DiaryData.swift */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
@@ -229,6 +232,7 @@
 				B3FE9B39285820680006A7AB /* MainView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				AC50348928582BDE0068C2A0 /* ListTableViewCell.swift in Sources */,
+				B3FE9B3B285853F60006A7AB /* DiaryData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
