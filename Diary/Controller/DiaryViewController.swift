@@ -101,7 +101,7 @@ final class DiaryViewController: UIViewController {
         setUpRightItem()
     }
     
-    @objc func moveRegisterViewController() {
+    @objc private func moveRegisterViewController() {
         let viewContoller = RegisterViewController(backButtonTitle: navigationItem.title)
         let navigationController = UINavigationController(rootViewController: viewContoller)
         
