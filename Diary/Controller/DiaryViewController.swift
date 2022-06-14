@@ -102,7 +102,7 @@ final class DiaryViewController: UIViewController {
     }
     
     @objc func moveRegisterViewController() {
-        let viewContoller = RegisterViewController()
+        let viewContoller = RegisterViewController(backButtonTitle: navigationItem.title)
         let navigationController = UINavigationController(rootViewController: viewContoller)
         
         navigationController.modalPresentationStyle = .fullScreen
