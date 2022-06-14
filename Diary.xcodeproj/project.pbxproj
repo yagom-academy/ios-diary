@@ -11,6 +11,7 @@
 		B0B8459E28585AD7000775F3 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8459D28585AD7000775F3 /* Diary.swift */; };
 		B0B845A628585E07000775F3 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B845A528585E07000775F3 /* DiaryTests.swift */; };
 		B0B845AD28586B7F000775F3 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B845AC28586B7F000775F3 /* DiaryTableViewCell.swift */; };
+		B0B845B12858C711000775F3 /* Identifierable.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B845B02858C710000775F3 /* Identifierable.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryViewController.swift */; };
@@ -37,6 +38,7 @@
 		B0B845A328585E07000775F3 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0B845A528585E07000775F3 /* DiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTests.swift; sourceTree = "<group>"; };
 		B0B845AC28586B7F000775F3 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
+		B0B845B02858C710000775F3 /* Identifierable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifierable.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -138,6 +140,14 @@
 			path = View;
 			sourceTree = "<group>";
 		};
+		B0B845AF2858C6F5000775F3 /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				B0B845B02858C710000775F3 /* Identifierable.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
@@ -165,6 +175,7 @@
 				B0B8459C28585AA0000775F3 /* Model */,
 				B0B845AE28586B91000775F3 /* View */,
 				B0512EDB2858526400722D3B /* Controller */,
+				B0B845AF2858C6F5000775F3 /* Util */,
 				B0512EDA2858525200722D3B /* Resource */,
 			);
 			path = Diary;
@@ -328,6 +339,7 @@
 				E5453F9A2858A4BF0073D7BA /* DiaryDetailViewController.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				B0B845B12858C711000775F3 /* Identifierable.swift in Sources */,
 				B0B845AD28586B7F000775F3 /* DiaryTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
