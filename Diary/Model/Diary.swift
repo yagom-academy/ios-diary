@@ -15,8 +15,8 @@ struct Diary: Decodable {
   var createdAtString: String {
     let date = Date(timeIntervalSince1970: createdAt)
     let dateFormatter = DateFormatter()
-    dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-
+    dateFormatter.dateStyle = .long
+    dateFormatter.locale = Locale.current
     return dateFormatter.string(from: date)
   }
 }
