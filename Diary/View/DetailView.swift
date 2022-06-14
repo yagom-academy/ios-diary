@@ -19,7 +19,7 @@ final class DetailView: UIView {
     }
     
     let baseTextView: UITextView = {
-        let textView = UITextView(frame: .zero)
+        let textView = BaseTextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
