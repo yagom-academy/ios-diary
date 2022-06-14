@@ -23,4 +23,23 @@ final class DetailView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
+    
+    private func setUpView() {
+        addSubviews()
+        makeConstraints()
+        backgroundColor = .systemBackground
+    }
+    
+    private func addSubviews() {
+        addSubview(baseTextView)
+    }
+    
+    private func makeConstraints() {
+        NSLayoutConstraint.activate([
+            baseTextView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            baseTextView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            baseTextView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            baseTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
 }
