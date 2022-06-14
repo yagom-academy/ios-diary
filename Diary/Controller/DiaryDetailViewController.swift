@@ -49,10 +49,21 @@ final class DiaryDetailViewController: UIViewController {
     self.view.addSubview(container)
     container.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      container.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8.0),
-      container.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      container.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8.0),
-      container.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8.0)
+      container.topAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.topAnchor,
+        constant: 8.0
+      ),
+      container.bottomAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.bottomAnchor
+      ),
+      container.leadingAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+        constant: 8.0
+      ),
+      container.trailingAnchor.constraint(
+        equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+        constant: -8.0
+      )
     ])
   }
 
@@ -91,10 +102,10 @@ final class DiaryDetailViewController: UIViewController {
           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
     else { return }
     let contentInset = UIEdgeInsets(
-      top: 0.0,
-      left: 0.0,
+      top: .zero,
+      left: .zero,
       bottom: keyboardFrame.height,
-      right: 0.0
+      right: .zero
     )
     self.bodyTextView.contentInset = contentInset
     self.bodyTextView.verticalScrollIndicatorInsets = contentInset
