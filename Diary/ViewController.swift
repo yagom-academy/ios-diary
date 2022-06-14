@@ -14,13 +14,29 @@ class ViewController: UIViewController {
         }
     }
     
+    lazy var plusButton: UIBarButtonItem = {
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchPlusButton))
+        
+        return plusButton
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = mainView
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
         mainView.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "\(ListTableViewCell.self)")
+        configureNavigationBar()
         convert(parse())
+    }
+    
+    private func configureNavigationBar() {
+        self.title = "일기장"
+        self.navigationItem.rightBarButtonItem = plusButton
+    }
+    
+    @objc func touchPlusButton() {
+        
     }
     
     private func parse() -> [DiaryData]? {
