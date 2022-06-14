@@ -30,7 +30,7 @@ final class DiaryListViewController: UITableViewController {
                                                             action: #selector(addButtonDidTapped))
     }
     
-    @objc func addButtonDidTapped() {
+    @objc private func addButtonDidTapped() {
     }
 }
 
