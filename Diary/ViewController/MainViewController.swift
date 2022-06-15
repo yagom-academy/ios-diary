@@ -61,7 +61,8 @@ extension MainViewController {
     
     @objc
     private func rightBarbuttonClicked(_ sender: Any) {
-        let detailViewController = DetailViewController(diary: DiaryData())
+        let detailViewController = DetailViewController()
+        detailViewController.updateData(diary: DiaryData())
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
@@ -69,7 +70,8 @@ extension MainViewController {
 // MARK: tableView Delegate
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailViewController = DetailViewController(diary: viewModel.data[indexPath.row])
+        let detailViewController = DetailViewController()
+        detailViewController.updateData(diary: viewModel.data[indexPath.row])
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

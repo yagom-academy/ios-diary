@@ -8,6 +8,11 @@
 import UIKit
 
 final class DetailView: UIView {
+    
+    private lazy var textViewBottomConstraint = textView.bottomAnchor.constraint(
+        equalTo: safeAreaLayoutGuide.bottomAnchor
+    )
+    
     private lazy var textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -19,7 +24,7 @@ final class DetailView: UIView {
         super.init(frame: frame)
         backgroundColor = .white
         addSubview(textView)
-        setConsantrait()
+        setConstraint()
     }
     
     required init?(coder: NSCoder) {
@@ -27,16 +32,34 @@ final class DetailView: UIView {
         print("디테일뷰 초기화 안됨")
     }
     
-    private func setConsantrait() {
-        NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            textView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
-            textView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
-            textView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
-        ])
+    private func setConstraint() {
+        if #available(iOS 15.0, *) {
+            NSLayoutConstraint.activate([
+                textView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                textView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
+                textView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+                textView.bottomAnchor.constraint(equalTo: keyboardLayoutGuide.topAnchor)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                textView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+                textView.leftAnchor.constraint(equalTo: safeAreaLayoutGuide.leftAnchor),
+                textView.rightAnchor.constraint(equalTo: safeAreaLayoutGuide.rightAnchor),
+                textViewBottomConstraint
+            ])
+        }
     }
     
     func setData(with diary: DiaryData) {
         textView.text = diary.body
+    }
+    
+    func changeTextViewHeight(_ height: CGFloat = 0) {
+        textViewBottomConstraint.isActive = false
+        textViewBottomConstraint = textView.bottomAnchor.constraint(
+            equalTo: safeAreaLayoutGuide.bottomAnchor,
+            constant: -height
+        )
+        textViewBottomConstraint.isActive = true
     }
 }
