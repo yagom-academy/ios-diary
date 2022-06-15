@@ -42,7 +42,7 @@ final class ListCell: UICollectionViewCell, CellMakeable {
         super.init(coder: coder)
     }
     
-    func setSubviews() {
+    private func setSubviews() {
         horizontalStackView.addArrangedSubview(dateLabel)
         horizontalStackView.addArrangedSubview(descriptionLabel)
         verticalStackView.addArrangedSubview(titleLabel)
@@ -50,7 +50,7 @@ final class ListCell: UICollectionViewCell, CellMakeable {
         contentView.addSubview(verticalStackView)
     }
     
-    func setConstraints() {
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),

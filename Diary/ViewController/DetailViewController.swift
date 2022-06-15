@@ -8,12 +8,10 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    lazy var detailView = DetailView(frame: view.frame)
-    
+    private lazy var detailView = DetailView(frame: view.frame)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view = detailView
     }
-    
 }
