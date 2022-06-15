@@ -16,6 +16,7 @@ final class WriteDiaryView: UIView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
+    self.configureLayout()
   }
   
   required init?(coder: NSCoder) {
