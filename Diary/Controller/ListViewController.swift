@@ -67,7 +67,9 @@ final class ListViewController: UIViewController {
                 return
             }
             
-            let stringDate = DateConverter.changeDateFormat(doubleDate)
+            let date = Date(timeIntervalSince1970: doubleDate)
+            
+            let stringDate = DateConverter.changeDateFormat(date)
             
             array.append(Diary(title: diaryData.title ?? "", body: diaryData.body ?? "", createdAt: stringDate))
         }

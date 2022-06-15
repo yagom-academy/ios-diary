@@ -9,9 +9,7 @@ import Foundation
 
 struct DateConverter {
     static let dateFormatter = DateFormatter()
-    static func changeDateFormat(_ doubleDate: Double) -> String {
-        let date = Date(timeIntervalSince1970: doubleDate)
-        
+    static func changeDateFormat(_ date: Date) -> String {
         dateFormatter.locale = .autoupdatingCurrent
         dateFormatter.timeZone = .autoupdatingCurrent
         dateFormatter.dateFormat = "yyyy년 MM월 dd일"
