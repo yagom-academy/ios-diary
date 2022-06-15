@@ -61,7 +61,8 @@ extension MainViewController {
     
     @objc
     private func rightBarbuttonClicked(_ sender: Any) {
-        // 추가 화면 이동
+        let detailViewController = DetailViewController(diary: DiaryData())
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
