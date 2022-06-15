@@ -10,16 +10,7 @@ import UIKit
 final class MainView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.addSubview(tableView)
-        
-        NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
-        ])
-        
-        self.backgroundColor = .white
+        configureView()
     }
     
     required init?(coder: NSCoder) {
@@ -32,4 +23,16 @@ final class MainView: UIView {
         
         return tableView
     }()
+    
+    private func configureView() {
+        self.addSubview(tableView)
+        self.backgroundColor = .white
+
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
 }

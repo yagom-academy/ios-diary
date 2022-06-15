@@ -31,6 +31,7 @@ final class DiaryView: UIView {
     private func configureView() {
         self.addSubview(diaryTextView)
         self.backgroundColor = .white
+        
         NSLayoutConstraint.activate([
             diaryTextView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             diaryTextView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),

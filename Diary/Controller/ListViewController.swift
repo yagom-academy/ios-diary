@@ -22,12 +22,16 @@ final class ListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setInitialView()
+    }
+    
+    private func setInitialView() {
         self.view = mainView
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
         mainView.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "\(ListTableViewCell.self)")
         configureNavigationBar()
-        convert(parse())
+        convert(parsedData())
     }
     
     private func configureNavigationBar() {
@@ -41,7 +45,7 @@ final class ListViewController: UIViewController {
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
-    private func parse() -> [DiaryData]? {
+    private func parsedData() -> [DiaryData]? {
         guard let asset = NSDataAsset(name: "sample") else {
             return nil
         }
@@ -56,19 +60,18 @@ final class ListViewController: UIViewController {
     }
     
     private func convert(_ data: [DiaryData]?) {
-        guard let diaryData = data else {
+        guard let diaryDatas = data else {
             return
         }
         
         var array: [Diary] = []
         
-        for diaryData in diaryData {
+        for diaryData in diaryDatas {
             guard let doubleDate = diaryData.createdAt else {
                 return
             }
             
             let date = Date(timeIntervalSince1970: doubleDate)
-            
             let stringDate = DateConverter.changeDateFormat(date)
             
             array.append(Diary(title: diaryData.title ?? "", body: diaryData.body ?? "", createdAt: stringDate))
@@ -77,6 +80,8 @@ final class ListViewController: UIViewController {
         self.diaryArray = array
     }
 }
+
+// MARK: - UITableViewDataSource
 
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,6 +98,7 @@ extension ListViewController: UITableViewDataSource {
         return cell
     }
 }
+// MARK: - UITableViewDelegate
 
 extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

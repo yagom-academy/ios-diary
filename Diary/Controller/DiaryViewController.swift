@@ -30,6 +30,10 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setInitialView()
+    }
+    
+    private func setInitialView() {
         self.view = diaryView
 
         if diaryViewType == .add {
