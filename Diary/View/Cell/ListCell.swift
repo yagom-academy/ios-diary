@@ -8,6 +8,12 @@
 import UIKit
 
 final class ListCell: UICollectionViewCell, CellMakeable {
+    
+    private enum Constants {
+        static let verticalStackViewSpacing: CGFloat = 5
+        static let horizontalStackViewSpacing: CGFloat = 5
+    }
+    
     var titleLabel: UILabel = UILabel()
     var dateLabel: UILabel = UILabel()
     var descriptionLabel: UILabel = UILabel()
@@ -39,11 +45,11 @@ final class ListCell: UICollectionViewCell, CellMakeable {
         verticalStackView = createStackView(axis: .vertical,
                                             alignment: .leading,
                                             distribution: .fillEqually,
-                                            spacing: 5)
+                                            spacing: Constants.verticalStackViewSpacing)
         horizontalStackView = createStackView(axis: .horizontal,
                                               alignment: .leading,
                                               distribution: .fillEqually,
-                                              spacing: 5)
+                                              spacing: Constants.horizontalStackViewSpacing)
     }
     
     private func setSubviews() {

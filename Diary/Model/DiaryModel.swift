@@ -12,7 +12,7 @@ struct DiaryModel {
     let body: String?
     let createdAt: TimeInterval?
     
-    private enum CodinKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
         case title, body
     }
