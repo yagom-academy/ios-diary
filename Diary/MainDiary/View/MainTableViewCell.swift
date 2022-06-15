@@ -18,6 +18,7 @@ final class MainTableViewCell: UITableViewCell {
 
   private let titleLabel: UILabel = {
     let label = UILabel()
+    label.font = UIFont.preferredFont(forTextStyle: .title3)
     return label
   }()
 
@@ -30,16 +31,14 @@ final class MainTableViewCell: UITableViewCell {
   
   private let dateLabel: UILabel = {
     let label = UILabel()
-    let dateformatter = DateFormatter()
-    dateformatter.dateFormat = "yyyy년 MM월 dd일"
-    let currentDate = dateformatter.string(from: Date())
-    label.text = currentDate
+    label.font = UIFont.preferredFont(forTextStyle: .body)
     return label
   }()
   
   private let descriptionLabel: UILabel = {
     let label = UILabel()
-    label.text = "두두 정말정말정말정말나빳다"
+    label.font = UIFont.preferredFont(forTextStyle: .footnote)
+
     return label
   }()
   
@@ -53,6 +52,19 @@ final class MainTableViewCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
   
+  private func setupDateForrmat(date: TimeInterval) -> String {
+    let dateformatter = DateFormatter()
+    dateformatter.dateFormat = "yyyy년 MM월 dd일"
+    let currentDate = dateformatter.string(from: Date(timeIntervalSince1970: date))
+    return currentDate
+  }
+  
+  func updata(diary: Diary) {
+    self.titleLabel.text = diary.title
+    self.dateLabel.text = setupDateForrmat(date: diary.createdAt)
+    self.descriptionLabel.text = diary.body
+  }
+  
   private func configureUI() {
     self.addSubview(mainStackView)
     self.mainStackView.addArrangedSubview(titleLabel)
@@ -64,7 +76,7 @@ final class MainTableViewCell: UITableViewCell {
       self.mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
       self.mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
       self.mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-      self.mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+      self.mainStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8)
     ])
   }
 }
