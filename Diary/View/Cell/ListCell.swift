@@ -9,6 +9,10 @@ import UIKit
 
 final class ListCell: UICollectionViewCell, CellMakeable {
     
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
     private enum Constants {
         static let verticalStackViewSpacing: CGFloat = 5
         static let horizontalStackViewSpacing: CGFloat = 5
