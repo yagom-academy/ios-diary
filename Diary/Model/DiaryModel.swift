@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DiaryModel {
+struct DiaryModel: Decodable {
     let title: String?
     let body: String?
     let createdAt: TimeInterval?
