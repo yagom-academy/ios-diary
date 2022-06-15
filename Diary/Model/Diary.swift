@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct Diary: Decodable {
+  let title: String?
+  let body: String?
+  let createdAt: TimeInterval?
+}
