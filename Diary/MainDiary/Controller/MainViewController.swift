@@ -8,10 +8,16 @@ import UIKit
 
 class MainViewController: UIViewController {
   private lazy var baseView = MainView(frame: view.bounds)
+  private var diary: [Diary]?
   
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
+    self.saveJsonData()
+  }
+  
+  private func saveJsonData() {
+    self.diary = DiaryData.saveJsonData()
   }
   
   private func configureUI() {
@@ -30,14 +36,20 @@ class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    3
+    return self.diary?.count ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainTableViewCell", for: indexPath) as? MainTableViewCell  else {
       return UITableViewCell()
     }
-  
+    
+    guard let diary = self.diary else {
+      return UITableViewCell()
+    }
+    
+    cell.updata(diary: diary[indexPath.row])
+    
     return cell
   }
 }
