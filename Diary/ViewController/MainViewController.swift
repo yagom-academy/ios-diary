@@ -28,6 +28,12 @@ final class MainViewController: UIViewController {
         view = mainView
         setNavigationBarTitle()
         setNavigationBarRightPlusButton()
+        updateDiaryData()
+    private func updateDiaryData() {
+        guard let content = NSDataAsset(name: "sample"),
+                let decodedData: [DiaryModel] = try? JSONDecoder().decode([DiaryModel].self, from: content.data) else { return
+        }
+        diaryData = decodedData
     }
 }
 
