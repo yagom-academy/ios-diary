@@ -7,15 +7,12 @@
 
 import Foundation
 
-extension Decodable {
-  static func parse(data: Data) -> Self? {
+struct Json {
+  static let decoder: JSONDecoder = {
     let decoder = JSONDecoder()
     decoder.keyDecodingStrategy = .convertFromSnakeCase
-    
-    guard let diary = try? decoder.decode(Self.self, from: data) else {
-      return nil
-    }
-    
-    return diary
-  }
+    return decoder
+  }()
+  
+  private init() {}
 }
