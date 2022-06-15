@@ -33,4 +33,12 @@ final class DiaryView: UIView {
             diaryTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    func configureContents(diary: Diary) {
+        diaryTextView.text = """
+        \(diary.title)
+
+        \(diary.body)
+        """
+    }
 }
