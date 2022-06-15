@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		239FC1E248AC305B681B2D7A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0D737916E9FC85357EA8D2 /* Pods_Diary.framework */; };
+		86C1323428597C9B0069CFD2 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 86C1323328597C9B0069CFD2 /* sample.json */; };
 		ABF991A82858B2F9000A44A1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A72858B2F9000A44A1 /* MainView.swift */; };
 		ABF991AA2858B730000A44A1 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A92858B730000A44A1 /* MainTableViewCell.swift */; };
 		ABF991B228596D2F000A44A1 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991B128596D2F000A44A1 /* Diary.swift */; };
-		ABF991B72859778E000A44A1 /* Decoable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991B62859778E000A44A1 /* Decoable.swift */; };
+		ABF991B72859778E000A44A1 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991B62859778E000A44A1 /* Json.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* MainViewController.swift */; };
@@ -21,12 +22,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		86C1323328597C9B0069CFD2 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = sample.json; path = "../../../../../Downloads/sample.dataset 7/sample.json"; sourceTree = "<group>"; };
 		90BC7C1B1D0558C345CE0253 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		ABBBCF00285774F300589B86 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		ABF991A72858B2F9000A44A1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		ABF991A92858B730000A44A1 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		ABF991B128596D2F000A44A1 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
-		ABF991B62859778E000A44A1 /* Decoable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoable.swift; sourceTree = "<group>"; };
+		ABF991B62859778E000A44A1 /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		AF34973433EA21680A7FB816 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +70,27 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
+		86C13230285979170069CFD2 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				86C1323328597C9B0069CFD2 /* sample.json */,
+				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				C739AE30284DF28600741E8F /* Assets.xcassets */,
+				C739AE35284DF28600741E8F /* Info.plist */,
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		86C132322859794B0069CFD2 /* Secen */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE24284DF28600741E8F /* AppDelegate.swift */,
+				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+			);
+			path = Secen;
+			sourceTree = "<group>";
+		};
 		A370ED2066CD6E1AE458FAA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,17 +128,17 @@
 		ABF991B428597710000A44A1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				ABF991B52859772F000A44A1 /* Extension */,
+				ABF991B52859772F000A44A1 /* Singleton */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		ABF991B52859772F000A44A1 /* Extension */ = {
+		ABF991B52859772F000A44A1 /* Singleton */ = {
 			isa = PBXGroup;
 			children = (
-				ABF991B62859778E000A44A1 /* Decoable.swift */,
+				ABF991B62859778E000A44A1 /* Json.swift */,
 			);
-			path = Extension;
+			path = Singleton;
 			sourceTree = "<group>";
 		};
 		C739AE18284DF28600741E8F = {
@@ -140,15 +163,11 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				86C132322859794B0069CFD2 /* Secen */,
+				86C13230285979170069CFD2 /* Resource */,
 				ABF991B428597710000A44A1 /* Utils */,
 				ABF991B028596D0E000A44A1 /* Model */,
 				86C1322C2858A9920069CFD2 /* MainDiary */,
-				C739AE24284DF28600741E8F /* AppDelegate.swift */,
-				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
-				C739AE35284DF28600741E8F /* Info.plist */,
-				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -215,6 +234,7 @@
 			files = (
 				C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */,
 				C739AE31284DF28600741E8F /* Assets.xcassets in Resources */,
+				86C1323428597C9B0069CFD2 /* sample.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +287,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABF991B72859778E000A44A1 /* Decoable.swift in Sources */,
+				ABF991B72859778E000A44A1 /* Json.swift in Sources */,
 				ABF991B228596D2F000A44A1 /* Diary.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
@@ -417,7 +437,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = Diary/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -445,7 +465,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = Diary/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
