@@ -11,6 +11,7 @@ final class DiaryView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
+        addHideButtonOnKeyboard()
     }
     
     required init?(coder: NSCoder) {
@@ -76,5 +77,25 @@ extension DiaryView {
     private func removeKeyboardObserver() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    private func addHideButtonOnKeyboard() {
+        let barButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(hideKeyboard))
+        
+        barButton.tintColor = .darkGray
+        
+        let emptySpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        
+        let toolBar = UIToolbar()
+        
+        toolBar.sizeToFit()
+        toolBar.barStyle = .default
+        toolBar.setItems([emptySpace, barButton], animated: false)
+        
+        diaryTextView.inputAccessoryView = toolBar
+    }
+    
+    @objc private func hideKeyboard() {
+        self.diaryTextView.endEditing(true)
     }
 }
