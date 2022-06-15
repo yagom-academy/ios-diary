@@ -10,7 +10,7 @@ import UIKit
 final class DiaryView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureLayout()
+        configureView()
         addHideButtonOnKeyboard()
     }
     
@@ -28,7 +28,7 @@ final class DiaryView: UIView {
         return textView
     }()
     
-    private func configureLayout() {
+    private func configureView() {
         self.addSubview(diaryTextView)
         self.backgroundColor = .white
         NSLayoutConstraint.activate([
@@ -37,6 +37,7 @@ final class DiaryView: UIView {
             diaryTextView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             diaryTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
+        addKeyboardObserver()
     }
     
     func configureContents(diary: Diary) {
@@ -46,7 +47,6 @@ final class DiaryView: UIView {
         \(diary.body)
         """
         diaryTextView.contentOffset = CGPoint(x: 0, y: 0)
-        addKeyboardObserver()
     }
 }
 
