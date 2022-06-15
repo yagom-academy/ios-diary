@@ -18,7 +18,6 @@ final class MainTableViewCell: UITableViewCell {
 
   private let titleLabel: UILabel = {
     let label = UILabel()
-    label.text = "두두 나빳다"
     return label
   }()
 
@@ -31,7 +30,10 @@ final class MainTableViewCell: UITableViewCell {
   
   private let dateLabel: UILabel = {
     let label = UILabel()
-    label.text = "두두 정말나빳다"
+    let dateformatter = DateFormatter()
+    dateformatter.dateFormat = "yyyy년 MM월 dd일"
+    let currentDate = dateformatter.string(from: Date())
+    label.text = currentDate
     return label
   }()
   
