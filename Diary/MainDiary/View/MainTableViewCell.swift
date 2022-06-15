@@ -32,13 +32,13 @@ final class MainTableViewCell: UITableViewCell {
   private let dateLabel: UILabel = {
     let label = UILabel()
     label.font = UIFont.preferredFont(forTextStyle: .body)
+    label.setContentCompressionResistancePriority(.required, for: .horizontal)
     return label
   }()
   
   private let descriptionLabel: UILabel = {
     let label = UILabel()
     label.font = UIFont.preferredFont(forTextStyle: .footnote)
-
     return label
   }()
   
@@ -66,17 +66,17 @@ final class MainTableViewCell: UITableViewCell {
   }
   
   private func configureUI() {
-    self.addSubview(mainStackView)
+    contentView.addSubview(mainStackView)
     self.mainStackView.addArrangedSubview(titleLabel)
     self.mainStackView.addArrangedSubview(bottomStackView)
     self.bottomStackView.addArrangedSubview(dateLabel)
     self.bottomStackView.addArrangedSubview(descriptionLabel)
     
     NSLayoutConstraint.activate([
-      self.mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-      self.mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+      self.mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+      self.mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
       self.mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-      self.mainStackView.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.8)
+      self.mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
     ])
   }
 }
