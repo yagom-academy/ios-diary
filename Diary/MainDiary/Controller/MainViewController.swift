@@ -30,7 +30,13 @@ class MainViewController: UIViewController {
   }
   
   private func createAddBarButtonItem() -> UIBarButtonItem {
-    return UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+    return UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTap))
+  }
+  
+  @objc private func addButtonDidTap() {
+    let detailVC = DetailDiaryViewController()
+    navigationController?.pushViewController(detailVC, animated: true)
+    // date, description
   }
 }
 
