@@ -14,6 +14,13 @@ final class MainViewController: UIViewController {
     }
     
     private lazy var mainView = MainView(frame: view.frame)
+    private var listLayout: UICollectionViewCompositionalLayout {
+        var configure = UICollectionLayoutListConfiguration(appearance: .plain)
+        configure.showsSeparators = true
+        configure.backgroundColor = .clear
+        return UICollectionViewCompositionalLayout.list(using: configure)
+    }
+    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
     
     override func viewDidLoad() {
         super.viewDidLoad()
