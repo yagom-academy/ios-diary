@@ -11,8 +11,16 @@ final class DiaryViewController: UIViewController {
     private lazy var diaryView = DiaryView.init(frame: view.bounds)
     private var diary: Diary?
 
-    init(diary: Diary?) {
+    enum DiaryViewType {
+        case add
+        case edit
+    }
+    
+    private var diaryViewType: DiaryViewType = .add
+    
+    init(diary: Diary?, type: DiaryViewType) {
         self.diary = diary
+        self.diaryViewType = type
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -23,8 +31,13 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = diaryView
-        configureDiaryView()
-        self.title = "\(diary?.createdAt ?? "")"
+
+        if diaryViewType == .add {
+            self.title = DateConverter.changeDateFormat(Date())
+        } else {
+            self.title = diary?.createdAt ?? ""
+            configureDiaryView()
+        }
     }
     
     private func configureDiaryView() {

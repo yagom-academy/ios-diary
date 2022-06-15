@@ -36,7 +36,7 @@ final class ListViewController: UIViewController {
     }
     
     @objc private func touchPlusButton() {
-        let diaryViewController = DiaryViewController(diary: nil)
+        let diaryViewController = DiaryViewController(diary: nil, type: .add)
         
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
@@ -98,7 +98,7 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let diaryViewController = DiaryViewController(diary: diaryArray[indexPath.row])
+        let diaryViewController = DiaryViewController(diary: diaryArray[indexPath.row], type: .edit)
         
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
