@@ -13,6 +13,7 @@ final class MainViewController: UIViewController {
         static let navigationBarRightPlusButton = "plus"
     }
     
+    private var diaryData: [DiaryModel] = []
     private lazy var mainView = MainView(frame: view.frame)
     private var listLayout: UICollectionViewCompositionalLayout {
         var configure = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -55,5 +56,29 @@ extension MainViewController {
 
     @objc private func navigationBarRightPlusButtonTapped() {
         
+    }
+}
+
+// MARK: - CollectionView Method
+
+extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        return diaryData.count
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: ListCell.identifier,
+            for: indexPath) as? ListCell else {
+            return UICollectionViewCell()
+        }
+        return cell
     }
 }
