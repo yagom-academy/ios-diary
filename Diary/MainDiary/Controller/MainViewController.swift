@@ -34,9 +34,8 @@ class MainViewController: UIViewController {
   }
   
   @objc private func addButtonDidTap() {
-    let detailVC = DetailDiaryViewController()
+    let detailVC = WriteDiaryViewController()
     navigationController?.pushViewController(detailVC, animated: true)
-    // date, description
   }
 }
 

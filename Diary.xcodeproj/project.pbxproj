@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		239FC1E248AC305B681B2D7A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0D737916E9FC85357EA8D2 /* Pods_Diary.framework */; };
 		AB0D9A032859AB8C00235064 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = AB0D9A022859AB8C00235064 /* sample.json */; };
-		AB0D9A052859ABB200235064 /* DetailDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A042859ABB200235064 /* DetailDiaryViewController.swift */; };
+		AB0D9A052859ABB200235064 /* WriteDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A042859ABB200235064 /* WriteDiaryViewController.swift */; };
 		AB0D9A072859B0FB00235064 /* WriteDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A062859B0FB00235064 /* WriteDiaryView.swift */; };
 		ABF991A82858B2F9000A44A1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A72858B2F9000A44A1 /* MainView.swift */; };
 		ABF991AA2858B730000A44A1 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A92858B730000A44A1 /* MainTableViewCell.swift */; };
@@ -26,7 +26,7 @@
 /* Begin PBXFileReference section */
 		90BC7C1B1D0558C345CE0253 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		AB0D9A022859AB8C00235064 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
-		AB0D9A042859ABB200235064 /* DetailDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDiaryViewController.swift; sourceTree = "<group>"; };
+		AB0D9A042859ABB200235064 /* WriteDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteDiaryViewController.swift; sourceTree = "<group>"; };
 		AB0D9A062859B0FB00235064 /* WriteDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteDiaryView.swift; sourceTree = "<group>"; };
 		ABBBCF00285774F300589B86 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		ABF991A72858B2F9000A44A1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -145,13 +145,13 @@
 			path = Singleton;
 			sourceTree = "<group>";
 		};
-		ABF991BA2859AAA5000A44A1 /* DetailDriary */ = {
+		ABF991BA2859AAA5000A44A1 /* WriteDriary */ = {
 			isa = PBXGroup;
 			children = (
 				ABF991BB2859AAB0000A44A1 /* View */,
 				ABF991BC2859AAB5000A44A1 /* Controller */,
 			);
-			path = DetailDriary;
+			path = WriteDriary;
 			sourceTree = "<group>";
 		};
 		ABF991BB2859AAB0000A44A1 /* View */ = {
@@ -165,7 +165,7 @@
 		ABF991BC2859AAB5000A44A1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				AB0D9A042859ABB200235064 /* DetailDiaryViewController.swift */,
+				AB0D9A042859ABB200235064 /* WriteDiaryViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -175,7 +175,7 @@
 			children = (
 				ABBBCF00285774F300589B86 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
-				ABF991BA2859AAA5000A44A1 /* DetailDriary */,
+				ABF991BA2859AAA5000A44A1 /* WriteDriary */,
 				C739AE22284DF28600741E8F /* Products */,
 				A4ED2E1C6158963E9FC7C83C /* Pods */,
 				A370ED2066CD6E1AE458FAA3 /* Frameworks */,
@@ -323,7 +323,7 @@
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
-				AB0D9A052859ABB200235064 /* DetailDiaryViewController.swift in Sources */,
+				AB0D9A052859ABB200235064 /* WriteDiaryViewController.swift in Sources */,
 				ABF991A82858B2F9000A44A1 /* MainView.swift in Sources */,
 				ABF991AA2858B730000A44A1 /* MainTableViewCell.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,

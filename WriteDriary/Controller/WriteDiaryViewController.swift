@@ -1,5 +1,5 @@
 //
-//  DetailDiaryViewController.swift
+//  WriteDiaryViewController.swift
 //  Diary
 //
 //  Created by Taeangel, Quokka on 2022/06/15.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailDiaryViewController: UIViewController {
+final class WriteDiaryViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
