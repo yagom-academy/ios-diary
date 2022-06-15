@@ -11,6 +11,7 @@
 		6751A7A02856DB94002FFC10 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 6751A79F2856DB94002FFC10 /* .swiftlint.yml */; };
 		678A6EAC28584F5500447B53 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678A6EAB28584F5500447B53 /* DiaryDetailViewController.swift */; };
 		678A6EAE285853D300447B53 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678A6EAD285853D300447B53 /* Date+.swift */; };
+		678DE3E8285A061600D0E6FC /* DiaryTableViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678DE3E7285A061600D0E6FC /* DiaryTableViewDataSource.swift */; };
 		948059182858161F006993F8 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 948059172858161F006993F8 /* sample.json */; };
 		9480591F285817EF006993F8 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480591E285817EF006993F8 /* Diary.swift */; };
 		9480592728581B10006993F8 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480592628581B10006993F8 /* DiaryTests.swift */; };
@@ -40,6 +41,7 @@
 		6751A79F2856DB94002FFC10 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		678A6EAB28584F5500447B53 /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		678A6EAD285853D300447B53 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		678DE3E7285A061600D0E6FC /* DiaryTableViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewDataSource.swift; sourceTree = "<group>"; };
 		7AA0A2BA144C938B1AFD2AA9 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		948059172858161F006993F8 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
 		9480591E285817EF006993F8 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
@@ -80,15 +82,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		678DE3E12859F70F00D0E6FC /* Presentation */ = {
+		678DE3E12859F70F00D0E6FC /* Scene */ = {
 			isa = PBXGroup;
 			children = (
 				678DE3E62859FA2C00D0E6FC /* Extension */,
 				C739AE28284DF28600741E8F /* DiaryTableViewController.swift */,
 				9480592D2858274C006993F8 /* DiaryCell.swift */,
+				678DE3E7285A061600D0E6FC /* DiaryTableViewDataSource.swift */,
 				678DE3E22859F72000D0E6FC /* Detail */,
 			);
-			path = Presentation;
+			path = Scene;
 			sourceTree = "<group>";
 		};
 		678DE3E22859F72000D0E6FC /* Detail */ = {
@@ -99,12 +102,12 @@
 			path = Detail;
 			sourceTree = "<group>";
 		};
-		678DE3E32859F81A00D0E6FC /* Entity */ = {
+		678DE3E32859F81A00D0E6FC /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				9480591C285816B3006993F8 /* Diary */,
 			);
-			path = Entity;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		678DE3E42859F9B600D0E6FC /* Utils */ = {
@@ -196,8 +199,8 @@
 			isa = PBXGroup;
 			children = (
 				678DE3E42859F9B600D0E6FC /* Utils */,
-				678DE3E32859F81A00D0E6FC /* Entity */,
-				678DE3E12859F70F00D0E6FC /* Presentation */,
+				678DE3E32859F81A00D0E6FC /* Model */,
+				678DE3E12859F70F00D0E6FC /* Scene */,
 				9480591928581647006993F8 /* SupportFile */,
 			);
 			path = Diary;
@@ -374,6 +377,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				9480592E2858274C006993F8 /* DiaryCell.swift in Sources */,
 				678A6EAC28584F5500447B53 /* DiaryDetailViewController.swift in Sources */,
+				678DE3E8285A061600D0E6FC /* DiaryTableViewDataSource.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				9480593328582F1D006993F8 /* UIStackView+.swift in Sources */,
