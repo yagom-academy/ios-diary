@@ -8,6 +8,13 @@
 import UIKit
 
 final class WriteDiaryViewController: UIViewController {
+  lazy var baseView = WriteDiaryView(frame: view.bounds)
+  
+  override func loadView() {
+    super.loadView()
+    self.view = baseView
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
