@@ -40,7 +40,7 @@ final class DiaryTableViewController: UITableViewController {
     
     @objc
     private func addButtondidTap() {
-        let diaryViewController = DiaryViewController()
+        let diaryViewController = DiaryDetailViewController()
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
@@ -87,7 +87,7 @@ final class DiaryTableViewController: UITableViewController {
 extension DiaryTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diary = diarys[indexPath.row]
-        let diaryViewController = DiaryViewController(diary: diary)
+        let diaryViewController = DiaryDetailViewController(diary: diary)
         
         navigationController?.pushViewController(diaryViewController, animated: true)
     }

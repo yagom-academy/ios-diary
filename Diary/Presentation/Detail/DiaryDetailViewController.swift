@@ -1,5 +1,5 @@
 //
-//  DiaryViewController.swift
+//  DiaryDetailViewController.swift
 //  Diary
 //
 //  Created by dudu, papri on 2022/06/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiaryViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController {
     private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false

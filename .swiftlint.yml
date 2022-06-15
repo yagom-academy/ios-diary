@@ -81,8 +81,8 @@ included:
 excluded: # 린트 과정에서 무시할 파일 경로. `included`보다 우선순위 높음
   - Pods
   - DiaryTests/DiaryTests.swift
-  - Diary/Scene/AppDelegate.swift
-  - Diary/Scene/SceneDelegate.swift
+  - Diary/SupportFile/AppDelegate.swift
+  - Diary/SupportFile/SceneDelegate.swift
 
 #
 #### warning으로 처리할 지 error로 처리할 지 그 레벨을 설정할 수 있습니다.
