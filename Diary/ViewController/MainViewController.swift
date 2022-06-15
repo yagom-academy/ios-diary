@@ -106,6 +106,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             for: indexPath) as? ListCell else {
             return UICollectionViewCell()
         }
+        cell.accessories = [.disclosureIndicator()]
         cell.titleLabel.text = diaryData[indexPath.row].title
         cell.dateLabel.text = diaryData[indexPath.row].createdAt?.formattedDate
         cell.descriptionLabel.text = diaryData[indexPath.row].body

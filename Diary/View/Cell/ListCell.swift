@@ -7,15 +7,19 @@
 
 import UIKit
 
-final class ListCell: UICollectionViewCell, CellMakeable {
+final class ListCell: UICollectionViewListCell, CellMakeable {
     
     static var identifier: String {
         return String(describing: self)
     }
     
     private enum Constants {
-        static let verticalStackViewSpacing: CGFloat = 5
-        static let horizontalStackViewSpacing: CGFloat = 5
+        static let verticalStackViewSpacing: CGFloat = 10
+        static let horizontalStackViewSpacing: CGFloat = 10
+        static let verticalStackViewSpacingFromCellTop: CGFloat = 10
+        static let verticalStackViewSpacingFromCellBottom: CGFloat = -10
+        static let verticalStackViewSpacingFromCellLeading: CGFloat = 20
+        static let verticalStackViewSpacingFromCellTrailing: CGFloat = -15
     }
     
     var titleLabel: UILabel = UILabel()
@@ -26,7 +30,6 @@ final class ListCell: UICollectionViewCell, CellMakeable {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         initializeProperties()
         setSubviews()
         setConstraints()
@@ -37,22 +40,22 @@ final class ListCell: UICollectionViewCell, CellMakeable {
     }
     
     private func initializeProperties() {
-        titleLabel = createLabel(font: .preferredFont(forTextStyle: .body),
+        titleLabel = createLabel(font: .preferredFont(forTextStyle: .title2),
                                  textColor: .black,
                                  alignment: .left)
         dateLabel = createLabel(font: .preferredFont(forTextStyle: .body),
                                 textColor: .black,
                                 alignment: .left)
-        descriptionLabel = createLabel(font: .preferredFont(forTextStyle: .body),
+        descriptionLabel = createLabel(font: .preferredFont(forTextStyle: .caption1),
                                        textColor: .black,
                                        alignment: .left)
         verticalStackView = createStackView(axis: .vertical,
                                             alignment: .leading,
-                                            distribution: .fillEqually,
+                                            distribution: .fill,
                                             spacing: Constants.verticalStackViewSpacing)
         horizontalStackView = createStackView(axis: .horizontal,
-                                              alignment: .leading,
-                                              distribution: .fillEqually,
+                                              alignment: .center,
+                                              distribution: .fill,
                                               spacing: Constants.horizontalStackViewSpacing)
     }
     
@@ -66,10 +69,18 @@ final class ListCell: UICollectionViewCell, CellMakeable {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                       constant: Constants.verticalStackViewSpacingFromCellLeading),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                        constant: Constants.verticalStackViewSpacingFromCellTrailing),
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                   constant: Constants.verticalStackViewSpacingFromCellTop),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                      constant: Constants.verticalStackViewSpacingFromCellBottom)
         ])
+        dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        descriptionLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 }
