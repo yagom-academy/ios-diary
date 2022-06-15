@@ -11,6 +11,7 @@
 		ABF991A82858B2F9000A44A1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A72858B2F9000A44A1 /* MainView.swift */; };
 		ABF991AA2858B730000A44A1 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A92858B730000A44A1 /* MainTableViewCell.swift */; };
 		ABF991B228596D2F000A44A1 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991B128596D2F000A44A1 /* Diary.swift */; };
+		ABF991B72859778E000A44A1 /* Decoable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991B62859778E000A44A1 /* Decoable.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* MainViewController.swift */; };
@@ -25,6 +26,7 @@
 		ABF991A72858B2F9000A44A1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		ABF991A92858B730000A44A1 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		ABF991B128596D2F000A44A1 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
+		ABF991B62859778E000A44A1 /* Decoable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoable.swift; sourceTree = "<group>"; };
 		AF34973433EA21680A7FB816 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -100,6 +102,22 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		ABF991B428597710000A44A1 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				ABF991B52859772F000A44A1 /* Extension */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		ABF991B52859772F000A44A1 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				ABF991B62859778E000A44A1 /* Decoable.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
@@ -122,6 +140,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				ABF991B428597710000A44A1 /* Utils */,
 				ABF991B028596D0E000A44A1 /* Model */,
 				86C1322C2858A9920069CFD2 /* MainDiary */,
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
@@ -248,6 +267,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ABF991B72859778E000A44A1 /* Decoable.swift in Sources */,
 				ABF991B228596D2F000A44A1 /* Diary.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
