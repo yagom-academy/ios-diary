@@ -40,23 +40,33 @@ final class ListCell: UICollectionViewListCell, CellMakeable {
     }
     
     private func initializeProperties() {
-        titleLabel = createLabel(font: .preferredFont(forTextStyle: .title2),
-                                 textColor: .black,
-                                 alignment: .left)
-        dateLabel = createLabel(font: .preferredFont(forTextStyle: .body),
-                                textColor: .black,
-                                alignment: .left)
-        descriptionLabel = createLabel(font: .preferredFont(forTextStyle: .caption1),
-                                       textColor: .black,
-                                       alignment: .left)
-        verticalStackView = createStackView(axis: .vertical,
-                                            alignment: .leading,
-                                            distribution: .fill,
-                                            spacing: Constants.verticalStackViewSpacing)
-        horizontalStackView = createStackView(axis: .horizontal,
-                                              alignment: .center,
-                                              distribution: .fill,
-                                              spacing: Constants.horizontalStackViewSpacing)
+        titleLabel = createLabel(
+            font: .preferredFont(forTextStyle: .title2),
+            textColor: .black,
+            alignment: .left
+        )
+        dateLabel = createLabel(
+            font: .preferredFont(forTextStyle: .body),
+            textColor: .black,
+            alignment: .left
+        )
+        descriptionLabel = createLabel(
+            font: .preferredFont(forTextStyle: .caption1),
+            textColor: .black,
+            alignment: .left
+        )
+        verticalStackView = createStackView(
+            axis: .vertical,
+            alignment: .leading,
+            distribution: .fill,
+            spacing: Constants.verticalStackViewSpacing
+        )
+        horizontalStackView = createStackView(
+            axis: .horizontal,
+            alignment: .center,
+            distribution: .fill,
+            spacing: Constants.horizontalStackViewSpacing
+        )
     }
     
     private func setSubviews() {
@@ -69,14 +79,22 @@ final class ListCell: UICollectionViewListCell, CellMakeable {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                       constant: Constants.verticalStackViewSpacingFromCellLeading),
-            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                        constant: Constants.verticalStackViewSpacingFromCellTrailing),
-            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                                   constant: Constants.verticalStackViewSpacingFromCellTop),
-            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                      constant: Constants.verticalStackViewSpacingFromCellBottom)
+            verticalStackView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: Constants.verticalStackViewSpacingFromCellLeading
+            ),
+            verticalStackView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: Constants.verticalStackViewSpacingFromCellTrailing
+            ),
+            verticalStackView.topAnchor.constraint(
+                equalTo: contentView.topAnchor,
+                constant: Constants.verticalStackViewSpacingFromCellTop
+            ),
+            verticalStackView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: Constants.verticalStackViewSpacingFromCellBottom
+            )
         ])
         dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
         dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
