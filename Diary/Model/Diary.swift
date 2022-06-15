@@ -17,6 +17,8 @@ struct Diary: Decodable {
     let dateFormatter = DateFormatter()
     dateFormatter.dateStyle = .long
     dateFormatter.locale = Locale.current
+    dateFormatter.timeZone = TimeZone.current
+
     return dateFormatter.string(from: date)
   }
 }
