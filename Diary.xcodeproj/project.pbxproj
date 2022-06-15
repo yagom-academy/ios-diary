@@ -11,6 +11,7 @@
 		AC50348928582BDE0068C2A0 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC50348828582BDE0068C2A0 /* ListTableViewCell.swift */; };
 		AC50348C28582C450068C2A0 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC50348B28582C450068C2A0 /* UIStackView+.swift */; };
 		AC926A2E2858716300B8BA22 /* DateConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC926A2D2858716300B8BA22 /* DateConverter.swift */; };
+		ACFA965628596909009DFD8F /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFA965528596909009DFD8F /* DiaryView.swift */; };
 		B3FE9B39285820680006A7AB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FE9B38285820680006A7AB /* MainView.swift */; };
 		B3FE9B3B285853F60006A7AB /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FE9B3A285853F60006A7AB /* DiaryData.swift */; };
 		B3FE9B3D2858890D0006A7AB /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FE9B3C2858890D0006A7AB /* DiaryViewController.swift */; };
@@ -28,6 +29,7 @@
 		AC50348828582BDE0068C2A0 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		AC50348B28582C450068C2A0 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		AC926A2D2858716300B8BA22 /* DateConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateConverter.swift; sourceTree = "<group>"; };
+		ACFA965528596909009DFD8F /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		B3FE9B38285820680006A7AB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		B3FE9B3A285853F60006A7AB /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
 		B3FE9B3C2858890D0006A7AB /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 			children = (
 				B3FE9B38285820680006A7AB /* MainView.swift */,
 				AC50348828582BDE0068C2A0 /* ListTableViewCell.swift */,
+				ACFA965528596909009DFD8F /* DiaryView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 				C739AE29284DF28600741E8F /* ListViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				ACFA965628596909009DFD8F /* DiaryView.swift in Sources */,
 				B3FE9B39285820680006A7AB /* MainView.swift in Sources */,
 				B3FE9B3D2858890D0006A7AB /* DiaryViewController.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,

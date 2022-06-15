@@ -8,8 +8,10 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
+    private lazy var diaryView = DiaryView.init(frame: view.bounds)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view = diaryView
     }
 }
