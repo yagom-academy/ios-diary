@@ -29,6 +29,10 @@ final class MainViewController: UIViewController {
         setNavigationBarTitle()
         setNavigationBarRightPlusButton()
         updateDiaryData()
+        registerCollectionViewCell()
+        setCollectionViewLayout()
+    }
+    
     private func updateDiaryData() {
         guard let content = NSDataAsset(name: "sample"),
                 let decodedData: [DiaryModel] = try? JSONDecoder().decode([DiaryModel].self, from: content.data) else { return
@@ -53,6 +57,23 @@ extension MainViewController {
             action: #selector(navigationBarRightPlusButtonTapped)
         )
         navigationItem.rightBarButtonItem = plusButton
+    }
+    
+    private func setCollectionViewLayout() {
+        mainView.addSubview(collectionView)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    private func registerCollectionViewCell() {
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
     }
 }
 
