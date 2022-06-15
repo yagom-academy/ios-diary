@@ -22,12 +22,12 @@ final class DiaryDetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configure()
-    self.setNotificationCenter()
+    self.setNotification()
   }
 
   override func viewDidDisappear(_ animated: Bool) {
     super.viewDidDisappear(animated)
-    self.removeNotificationCenter()
+    self.removeNotification()
   }
 
   private func configure() {
@@ -67,7 +67,7 @@ final class DiaryDetailViewController: UIViewController {
     ])
   }
 
-  private func setNotificationCenter() {
+  private func setNotification() {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(keyboardWillShow(_:)),
@@ -83,7 +83,7 @@ final class DiaryDetailViewController: UIViewController {
     )
   }
 
-  private func removeNotificationCenter() {
+  private func removeNotification() {
     NotificationCenter.default.removeObserver(
       self,
       name: UIResponder.keyboardWillShowNotification,
@@ -101,6 +101,7 @@ final class DiaryDetailViewController: UIViewController {
     guard let userInfo = notification.userInfo,
           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
     else { return }
+
     let contentInset = UIEdgeInsets(
       top: .zero,
       left: .zero,
