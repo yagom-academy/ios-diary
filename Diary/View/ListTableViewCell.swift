@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListTableViewCell: UITableViewCell {
+final class ListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureLayout()
@@ -17,7 +17,7 @@ class ListTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    lazy private var mainStackView: UIStackView = {
+    private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -28,7 +28,7 @@ class ListTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    lazy private var subStackView: UIStackView = {
+    private lazy var subStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -38,7 +38,7 @@ class ListTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    lazy private var titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title2)
@@ -46,7 +46,7 @@ class ListTableViewCell: UITableViewCell {
         return label
     }()
     
-    lazy private var dateLabel: UILabel = {
+    private lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -54,7 +54,7 @@ class ListTableViewCell: UITableViewCell {
         return label
     }()
     
-    lazy private var previewLabel: UILabel = {
+    private lazy var previewLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         

@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ListViewController: UIViewController {
+final class ListViewController: UIViewController {
     private lazy var mainView = MainView.init(frame: view.bounds)
     private var diaryArray: [Diary] = [] {
         didSet {
@@ -14,7 +14,7 @@ class ListViewController: UIViewController {
         }
     }
     
-    lazy var plusButton: UIBarButtonItem = {
+    private lazy var plusButton: UIBarButtonItem = {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchPlusButton))
         
         return plusButton
@@ -35,7 +35,7 @@ class ListViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = plusButton
     }
     
-    @objc func touchPlusButton() {
+    @objc private func touchPlusButton() {
         let diaryViewController = DiaryViewController()
         
         diaryViewController.view.backgroundColor = .white
