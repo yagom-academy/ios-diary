@@ -40,5 +40,6 @@ final class DiaryView: UIView {
 
         \(diary.body)
         """
+        diaryTextView.contentOffset = CGPoint(x: 0, y: 0)
     }
 }
