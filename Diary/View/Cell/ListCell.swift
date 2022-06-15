@@ -17,6 +17,16 @@ final class ListCell: UICollectionViewCell, CellMakeable {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        initializeProperties()
+        setSubviews()
+        setConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+    
+    private func initializeProperties() {
         titleLabel = createLabel(font: .preferredFont(forTextStyle: .body),
                                  textColor: .black,
                                  alignment: .left)
@@ -34,12 +44,6 @@ final class ListCell: UICollectionViewCell, CellMakeable {
                                               alignment: .leading,
                                               distribution: .fillEqually,
                                               spacing: 5)
-        setConstraints()
-        setSubviews()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
     }
     
     private func setSubviews() {
