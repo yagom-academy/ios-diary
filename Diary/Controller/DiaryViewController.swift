@@ -23,6 +23,10 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = diaryView
+        configureDiaryView()
+        self.title = "\(diary?.createdAt ?? "")"
+    }
+    
     private func configureDiaryView() {
         guard let diary = diary else {
             return
