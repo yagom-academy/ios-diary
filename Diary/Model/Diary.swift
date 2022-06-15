@@ -8,7 +8,8 @@
 import Foundation
 
 struct Diary: Codable, Hashable {
-    let title, body: String?
+    let title: String?
+    let body: String?
     let createdAt: Int?
     private let uuid = UUID()
 
