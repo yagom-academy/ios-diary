@@ -15,15 +15,10 @@ final class DiaryViewController: UIViewController {
     private let tableView = UITableView()
     private var dataSource: UITableViewDiffableDataSource<Int, DiaryData>?
     
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        
+    override func loadView() {
+        super.loadView()
         setUpDataSource()
         setUpTableView()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override func viewDidLoad() {
