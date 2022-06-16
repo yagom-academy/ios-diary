@@ -67,11 +67,9 @@ final class MainTableViewCell: UITableViewCell {
   
   private func configureUI() {
     contentView.addSubview(mainStackView)
-    self.mainStackView.addArrangedSubview(titleLabel)
-    self.mainStackView.addArrangedSubview(bottomStackView)
-    self.bottomStackView.addArrangedSubview(dateLabel)
-    self.bottomStackView.addArrangedSubview(descriptionLabel)
-    
+    self.mainStackView.addArrangedSubviews(titleLabel, bottomStackView)
+    self.bottomStackView.addArrangedSubviews(dateLabel, descriptionLabel)
+  
     NSLayoutConstraint.activate([
       self.mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
       self.mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
