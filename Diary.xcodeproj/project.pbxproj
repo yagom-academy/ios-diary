@@ -13,6 +13,7 @@
 		AB0D9A032859AB8C00235064 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = AB0D9A022859AB8C00235064 /* sample.json */; };
 		AB0D9A052859ABB200235064 /* WriteDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A042859ABB200235064 /* WriteDiaryViewController.swift */; };
 		AB0D9A072859B0FB00235064 /* WriteDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A062859B0FB00235064 /* WriteDiaryView.swift */; };
+		AB4D73C2285B197700BE5190 /* Identifierable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D73C1285B197700BE5190 /* Identifierable.swift */; };
 		ABF991A82858B2F9000A44A1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A72858B2F9000A44A1 /* MainView.swift */; };
 		ABF991AA2858B730000A44A1 /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A92858B730000A44A1 /* MainTableViewCell.swift */; };
 		ABF991B228596D2F000A44A1 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991B128596D2F000A44A1 /* Diary.swift */; };
@@ -32,6 +33,7 @@
 		AB0D9A022859AB8C00235064 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
 		AB0D9A042859ABB200235064 /* WriteDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteDiaryViewController.swift; sourceTree = "<group>"; };
 		AB0D9A062859B0FB00235064 /* WriteDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteDiaryView.swift; sourceTree = "<group>"; };
+		AB4D73C1285B197700BE5190 /* Identifierable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifierable.swift; sourceTree = "<group>"; };
 		ABBBCF00285774F300589B86 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		ABF991A72858B2F9000A44A1 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		ABF991A92858B730000A44A1 /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				867CAD00285B14FA00A04F1F /* UIStackView+.swift */,
+				AB4D73C1285B197700BE5190 /* Identifierable.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -341,6 +344,7 @@
 				ABF991A82858B2F9000A44A1 /* MainView.swift in Sources */,
 				867CAD01285B14FA00A04F1F /* UIStackView+.swift in Sources */,
 				867CAD03285B15A000A04F1F /* DiaryData.swift in Sources */,
+				AB4D73C2285B197700BE5190 /* Identifierable.swift in Sources */,
 				ABF991AA2858B730000A44A1 /* MainTableViewCell.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);

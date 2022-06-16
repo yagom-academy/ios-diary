@@ -31,7 +31,7 @@ final class MainViewController: UIViewController {
     self.navigationItem.rightBarButtonItem = createAddBarButtonItem()
     self.baseView.tableView.register(
       MainTableViewCell.self,
-      forCellReuseIdentifier: "MainTableViewCell"
+      forCellReuseIdentifier: MainTableViewCell.identifier
     )
     self.baseView.tableView.dataSource = self
   }
@@ -57,7 +57,7 @@ extension MainViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(
-      withIdentifier: "MainTableViewCell",
+      withIdentifier: MainTableViewCell.identifier,
       for: indexPath
     )
             as? MainTableViewCell else {
