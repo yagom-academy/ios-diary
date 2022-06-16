@@ -57,12 +57,14 @@ final class DiaryViewController: UIViewController {
         dataSource = UITableViewDiffableDataSource<Int, DiaryData>(tableView: tableView) {
             tableView, indexPath, itemIdentifier in
             
-            if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier,
+                                                        for: indexPath) as? DiaryCell {
                 cell.configure(data: itemIdentifier)
                 return cell
             }
             
-            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
+            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier,
+                                                 for: indexPath)
         }
     }
     
@@ -79,7 +81,10 @@ final class DiaryViewController: UIViewController {
         func setUpRightItem() {
             let weight = UIFont.systemFont(ofSize: 35, weight: .light)
             let attributes = [NSAttributedString.Key.font: weight]
-            let registerButton = UIBarButtonItem(title: Const.registerButton, style: .plain, target: self, action: #selector(moveRegisterViewController))
+            let registerButton = UIBarButtonItem(title: Const.registerButton,
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: #selector(moveRegisterViewController))
 
             registerButton.setTitleTextAttributes(attributes, for: .normal)
             
