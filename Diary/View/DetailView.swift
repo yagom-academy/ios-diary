@@ -8,6 +8,8 @@
 import UIKit
 
 final class DetailView: UIView {
+    private var bottomConstraint: NSLayoutConstraint?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setUpView()
@@ -35,12 +37,16 @@ final class DetailView: UIView {
     }
     
     private func makeConstraints() {
+        let bottomConstraint = contentTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+        
         NSLayoutConstraint.activate([
             contentTextView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
             contentTextView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             contentTextView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            contentTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            bottomConstraint
         ])
+        
+        self.bottomConstraint = bottomConstraint
     }
     
     func setUpContents(data: Diary) {
@@ -49,5 +55,12 @@ final class DetailView: UIView {
     
     func scrollTextViewToTop() {
         contentTextView.contentOffset = .zero
+    }
+    
+    func adjustConstraint(by keyboardHeight: CGFloat) {
+        bottomConstraint?.constant = -keyboardHeight
+        UIView.animate(withDuration: 0.25, delay: .zero) {
+            self.layoutIfNeeded()
+        }
     }
 }

@@ -58,21 +58,11 @@ final class DetailViewController: UIViewController {
         }
         let keyboardInfo = userInfo[UIResponder.keyboardFrameEndUserInfoKey]
         if let keyboardSize = (keyboardInfo as? NSValue)?.cgRectValue {
-            NSLayoutConstraint.activate([
-                detailView.contentTextView.bottomAnchor.constraint(
-                    equalTo: detailView.bottomAnchor,
-                    constant: -keyboardSize.height
-                )
-            ])
+            detailView.adjustConstraint(by: keyboardSize.height)
         }
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
-        NSLayoutConstraint.activate([
-            detailView.contentTextView.bottomAnchor.constraint(
-                equalTo: detailView.bottomAnchor
-            ),
-            detailView.bottomAnchor.constraint(equalTo: detailView.contentTextView.bottomAnchor)
-        ])
+        detailView.adjustConstraint(by: .zero)
     }
 }
