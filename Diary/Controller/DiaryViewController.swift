@@ -36,10 +36,8 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setUpTableView() {
-        tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: UITableViewCell.identifier)
-        
-        tableView.dataSource = dataSource
+        tableView.register(DiaryCell.self)
+        tableView.register(UITableViewCell.self)
     }
     
     private func setUpTableViewLayout() {

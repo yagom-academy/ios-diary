@@ -2,7 +2,7 @@
 //  UITableViewCell+.swift
 //  Diary
 //
-//  Created by 김동욱 on 2022/06/14.
+//  Created by 김태현 on 2022/06/16.
 //
 
 import UIKit
