@@ -58,11 +58,11 @@ final class DetailViewController: UIViewController {
         }
         let keyboardInfo = userInfo[UIResponder.keyboardFrameEndUserInfoKey]
         if let keyboardSize = (keyboardInfo as? NSValue)?.cgRectValue {
-            detailView.baseTextView.contentInset.bottom = keyboardSize.height
+            detailView.contentTextView.contentInset.bottom = keyboardSize.height
         }
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
-        detailView.baseTextView.contentInset = .zero
+        detailView.contentTextView.contentInset = .zero
     }
 }

@@ -17,8 +17,8 @@ final class DetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let baseTextView: UITextView = {
-        let textView = BaseTextView()
+    let contentTextView: UITextView = {
+        let textView = ContentTextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .preferredFont(forTextStyle: .body)
         return textView
@@ -31,23 +31,23 @@ final class DetailView: UIView {
     }
     
     private func addSubviews() {
-        addSubview(baseTextView)
+        addSubview(contentTextView)
     }
     
     private func makeConstraints() {
         NSLayoutConstraint.activate([
-            baseTextView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            baseTextView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            baseTextView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            baseTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            contentTextView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            contentTextView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+            contentTextView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            contentTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
     func setUpContents(data: Diary) {
-        baseTextView.text = data.title + "\n\n" + data.body
+        contentTextView.text = data.title + "\n\n" + data.body
     }
     
     func scrollTextViewToTop() {
-        baseTextView.contentOffset = .zero
+        contentTextView.contentOffset = .zero
     }
 }

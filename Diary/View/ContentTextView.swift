@@ -7,15 +7,14 @@
 
 import UIKit
 
-final class BaseTextView: UITextView {
+final class ContentTextView: UITextView {
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         setUpTextView()
     }
     
     required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setUpTextView()
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setUpTextView() {
