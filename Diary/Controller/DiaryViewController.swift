@@ -7,17 +7,13 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    enum Section {
-        case main
-    }
-    
     enum Constant {
         static let navigationTitle = "일기장"
         static let registerButton = "+"
     }
     
     private let tableView = UITableView()
-    private var dataSource: UITableViewDiffableDataSource<Section, DiaryData>?
+    private var dataSource: UITableViewDiffableDataSource<Int, DiaryData>?
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -65,7 +61,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setUpDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, DiaryData>(tableView: tableView) {
+        dataSource = UITableViewDiffableDataSource<Int, DiaryData>(tableView: tableView) {
             tableView, indexPath, itemIdentifier in
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell {
@@ -78,9 +74,9 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setUpSanpshot(data: [DiaryData]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryData>()
+        var snapshot = NSDiffableDataSourceSnapshot<Int, DiaryData>()
         
-        snapshot.appendSections([.main])
+        snapshot.appendSections([.zero])
         snapshot.appendItems(data)
         
         dataSource?.apply(snapshot)
