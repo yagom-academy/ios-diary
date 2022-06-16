@@ -112,4 +112,10 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         cell.descriptionLabel.text = diaryData[indexPath.row].body
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailViewController = DetailViewController(diaryData: diaryData[indexPath.row])
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
 }
