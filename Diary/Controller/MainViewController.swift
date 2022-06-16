@@ -8,7 +8,7 @@ import UIKit
 
 final class MainViewController: UIViewController {
     private lazy var mainView = MainView(frame: view.bounds)
-    private var diaryList = [Diary]()
+    private var diaries = [Diary]()
     
     override func loadView() {
         super.loadView()
@@ -38,7 +38,7 @@ final class MainViewController: UIViewController {
     
     private func setUpDiaryList() {
         if let data: [Diary] = JSONParser().decode(from: "sample") {
-            diaryList = data
+            diaries = data
         }
     }
     
@@ -49,7 +49,7 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryList.count
+        return diaries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -57,7 +57,7 @@ extension MainViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.setUpContents(data: diaryList[indexPath.row])
+        cell.setUpContents(data: diaries[indexPath.row])
         
         return cell
     }
@@ -65,7 +65,7 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diary = diaryList[safe: indexPath.row] else {
+        guard let diary = diaries[safe: indexPath.row] else {
             return
         }
         
