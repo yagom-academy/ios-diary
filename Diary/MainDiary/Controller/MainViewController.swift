@@ -17,19 +17,18 @@ final class MainViewController: UIViewController {
   }
   
   private func saveJsonData() {
-    self.diary = DiaryData.saveJsonData()
+    self.diary = DiaryData.fetchJsonData()
   }
   
   private func configureUI() {
     self.view.backgroundColor = .systemBackground
     self.navigationItem.title = "일기장"
     self.navigationItem.rightBarButtonItem = createAddBarButtonItem()
-    self.view = baseView
     self.baseView.tableView.register(
       MainTableViewCell.self,
       forCellReuseIdentifier: "MainTableViewCell"
     )
-    baseView.tableView.dataSource = self
+    self.baseView.tableView.dataSource = self
   }
   
   private func createAddBarButtonItem() -> UIBarButtonItem {

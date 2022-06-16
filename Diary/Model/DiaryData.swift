@@ -8,7 +8,7 @@
 import Foundation
 
 struct DiaryData {
-  static func saveJsonData() -> [Diary]? {
+  static func fetchJsonData() -> [Diary]? {
     guard let path = Bundle.main.path(forResource: "sample", ofType: "json") else {
       return nil
     }
