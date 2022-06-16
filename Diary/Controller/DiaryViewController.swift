@@ -27,12 +27,15 @@ final class DiaryViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setUpNavigationController()
         setUpTableViewLayout()
-        
-        guard let diaryData = AssetManager().getData() else {
+        setUpSampleData()
+    }
+    
+    private func setUpSampleData() {
+        guard let sampleData = SampleData.get() else {
             return
         }
         
-        setUpSanpshot(data: diaryData)
+        setUpSanpshot(data: sampleData)
     }
     
     private func setUpTableView() {

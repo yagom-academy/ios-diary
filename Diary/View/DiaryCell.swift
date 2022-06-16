@@ -50,7 +50,7 @@ final class DiaryCell: UITableViewCell {
     
     func configure(data: DiaryData) {
         titleLabel.text = data.title
-        dateLabel.text = data.date
+        dateLabel.text = data.dateString
         bodyLabel.text = data.body
     }
     

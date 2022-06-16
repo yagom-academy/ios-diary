@@ -7,16 +7,20 @@
 
 import Foundation
 
-struct DiaryData: Hashable {
+struct DiaryData: Decodable, Hashable {
     let identifier = UUID()
     
     let title: String
-    let date: String
     let body: String
+    let date: Int
     
-    init(data: SampleData) {
-        title = data.title
-        date = Formatter.setUpDate(from: data.date)
-        body = data.body
+    var dateString: String {
+        return Formatter.setUpDate(from: date)
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case title
+        case body
+        case date = "created_at"
     }
 }
