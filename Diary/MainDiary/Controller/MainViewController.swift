@@ -25,12 +25,19 @@ final class MainViewController: UIViewController {
     self.navigationItem.title = "일기장"
     self.navigationItem.rightBarButtonItem = createAddBarButtonItem()
     self.view = baseView
-    self.baseView.tableView.register(MainTableViewCell.self, forCellReuseIdentifier: "MainTableViewCell")
+    self.baseView.tableView.register(
+      MainTableViewCell.self,
+      forCellReuseIdentifier: "MainTableViewCell"
+    )
     baseView.tableView.dataSource = self
   }
   
   private func createAddBarButtonItem() -> UIBarButtonItem {
-    return UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTap))
+    return UIBarButtonItem(
+      barButtonSystemItem: .add,
+      target: self,
+      action: #selector(addButtonDidTap)
+    )
   }
   
   @objc private func addButtonDidTap() {
@@ -45,7 +52,11 @@ extension MainViewController: UITableViewDataSource {
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    guard let cell = tableView.dequeueReusableCell(withIdentifier: "MainTableViewCell", for: indexPath) as? MainTableViewCell  else {
+    guard let cell = tableView.dequeueReusableCell(
+      withIdentifier: "MainTableViewCell",
+      for: indexPath
+    )
+            as? MainTableViewCell else {
       return UITableViewCell()
     }
     
