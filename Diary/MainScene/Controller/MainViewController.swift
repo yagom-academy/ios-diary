@@ -22,7 +22,7 @@ final class MainViewController: UIViewController {
   }
   
   private func saveJsonData() {
-    self.diary = DiaryData.fetchJsonData()
+    self.diary = PassorManager.fetchDiary()
   }
   
   private func configureUI() {
@@ -45,7 +45,7 @@ final class MainViewController: UIViewController {
   }
   
   @objc private func addButtonDidTap() {
-    let detailVC = WriteDiaryViewController()
+    let detailVC = WriteViewController()
     navigationController?.pushViewController(detailVC, animated: true)
   }
 }
