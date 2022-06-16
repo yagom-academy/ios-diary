@@ -6,7 +6,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
   private lazy var baseView = MainView(frame: view.bounds)
   private var diary: [Diary]?
   
