@@ -32,8 +32,8 @@ class MainViewController: UIViewController {
         let jsonDecoder = JSONDecoder()
 
         do {
-            let data = try jsonDecoder.decode([DiaryData].self, from: sample.data)
-            viewModel.setData(data: data)
+//            let data = try jsonDecoder.decode([DiaryData].self, from: sample.data)
+//            viewModel.setData(data: data)
         } catch {
             print(error.localizedDescription)
         }

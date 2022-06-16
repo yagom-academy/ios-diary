@@ -30,7 +30,7 @@ final class DetailViewController: UIViewController {
     func updateData(diary: DiaryData) {
         diaryData = diary
         detailView.setData(with: diary)
-        navigationItem.title = diary.date.toString
+//        navigationItem.title = diary.date.toString
     }
 }
 
