@@ -14,8 +14,7 @@ final class DetailView: UIView {
     }
     
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setUpView()
+        fatalError("init(coder:) has not been implemented")
     }
     
     let baseTextView: UITextView = {
