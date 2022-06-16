@@ -52,16 +52,9 @@ final class MainTableViewCell: UITableViewCell, Identifiable {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func setupDateForrmat(date: TimeInterval) -> String {
-    let dateformatter = DateFormatter()
-    dateformatter.dateFormat = "yyyy년 MM월 dd일"
-    let currentDate = dateformatter.string(from: Date(timeIntervalSince1970: date))
-    return currentDate
-  }
-  
   func updata(diary: Diary) {
     self.titleLabel.text = diary.title
-    self.dateLabel.text = setupDateForrmat(date: diary.createdAt)
+    self.dateLabel.text = diary.createdAt.setKoreaDateFormat()
     self.descriptionLabel.text = diary.body
   }
   
