@@ -1,5 +1,5 @@
 //
-//  KeyboardViewController.swift
+//  TextView.swift
 //  Diary
 //
 //  Created by 김동욱 on 2022/06/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class KeyboardViewController: UIViewController {
+class TextView: UITextView {
     var bottomContraint: NSLayoutConstraint?
     
     func setUpKeyboardNotification() {
@@ -21,7 +21,7 @@ class KeyboardViewController: UIViewController {
                                                object: nil)
     }
     
-    @objc private func keyboardWillAppear(_ notification: Notification) {
+    @objc private func keyboardWillAppear(notification: Notification) {
         guard let keyboardBounds = notification.userInfo?["UIKeyboardBoundsUserInfoKey"] as? NSValue else { return }
         
         bottomContraint?.constant = -keyboardBounds.cgRectValue.height
