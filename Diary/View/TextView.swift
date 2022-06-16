@@ -7,7 +7,11 @@
 
 import UIKit
 
-class TextView: UITextView {
+final class TextView: UITextView {
+    enum Const {
+        static let keyboardBounds = "UIKeyboardBoundsUserInfoKey"
+    }
+    
     var bottomContraint: NSLayoutConstraint?
     
     func setUpKeyboardNotification() {
@@ -22,7 +26,9 @@ class TextView: UITextView {
     }
     
     @objc private func keyboardWillAppear(notification: Notification) {
-        guard let keyboardBounds = notification.userInfo?["UIKeyboardBoundsUserInfoKey"] as? NSValue else { return }
+        guard let keyboardBounds = notification.userInfo?[Const.keyboardBounds] as? NSValue else {
+            return
+        }
         
         bottomContraint?.constant = -keyboardBounds.cgRectValue.height
     }

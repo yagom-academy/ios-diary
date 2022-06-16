@@ -30,32 +30,6 @@ final class DiaryViewController: UIViewController {
         setUpSampleData()
     }
     
-    private func setUpSampleData() {
-        guard let sampleData = SampleData.get() else {
-            return
-        }
-        
-        setUpSanpshot(data: sampleData)
-    }
-    
-    private func setUpTableView() {
-        tableView.register(DiaryCell.self)
-        tableView.register(UITableViewCell.self)
-    }
-    
-    private func setUpTableViewLayout() {
-        view.addSubview(tableView)
-        
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-    }
-    
     private func setUpDataSource() {
         dataSource = UITableViewDiffableDataSource<Int, DiaryData>(tableView: tableView) {
             tableView, indexPath, itemIdentifier in
@@ -71,13 +45,9 @@ final class DiaryViewController: UIViewController {
         }
     }
     
-    private func setUpSanpshot(data: [DiaryData]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, DiaryData>()
-        
-        snapshot.appendSections([.zero])
-        snapshot.appendItems(data)
-        
-        dataSource?.apply(snapshot)
+    private func setUpTableView() {
+        tableView.register(DiaryCell.self)
+        tableView.register(UITableViewCell.self)
     }
     
     private func setUpNavigationController() {
@@ -105,5 +75,35 @@ final class DiaryViewController: UIViewController {
         navigationController.modalPresentationStyle = .fullScreen
         
         present(navigationController, animated: true)
+    }
+    
+    private func setUpTableViewLayout() {
+        view.addSubview(tableView)
+        
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    private func setUpSampleData() {
+        guard let sampleData = SampleData.get() else {
+            return
+        }
+        
+        setUpSanpshot(data: sampleData)
+    }
+    
+    private func setUpSanpshot(data: [DiaryData]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, DiaryData>()
+        
+        snapshot.appendSections([.zero])
+        snapshot.appendItems(data)
+        
+        dataSource?.apply(snapshot)
     }
 }
