@@ -7,7 +7,7 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    enum Constant {
+    enum Const {
         static let navigationTitle = "일기장"
         static let registerButton = "+"
     }
@@ -79,14 +79,14 @@ final class DiaryViewController: UIViewController {
         func setUpRightItem() {
             let weight = UIFont.systemFont(ofSize: 35, weight: .light)
             let attributes = [NSAttributedString.Key.font: weight]
-            let registerButton = UIBarButtonItem(title: Constant.registerButton, style: .plain, target: self, action: #selector(moveRegisterViewController))
+            let registerButton = UIBarButtonItem(title: Const.registerButton, style: .plain, target: self, action: #selector(moveRegisterViewController))
 
             registerButton.setTitleTextAttributes(attributes, for: .normal)
             
             navigationItem.rightBarButtonItem = registerButton
         }
         
-        navigationItem.title = Constant.navigationTitle
+        navigationItem.title = Const.navigationTitle
         setUpRightItem()
     }
     
