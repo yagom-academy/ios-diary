@@ -18,10 +18,6 @@ final class DiaryView: UIView {
         super.init(coder: coder)
     }
     
-    deinit {
-        removeKeyboardObserver()
-    }
-    
     private lazy var diaryTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,11 +69,6 @@ extension DiaryView {
     private func addKeyboardObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    private func removeKeyboardObserver() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func addHideButtonOnKeyboard() {
