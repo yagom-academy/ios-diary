@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class WriteDiaryView: UIView {
+final class WriteView: UIView {
   let textView: UITextView = {
     let textView = UITextView()
     textView.translatesAutoresizingMaskIntoConstraints = false

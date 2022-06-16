@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class WriteDiaryViewController: UIViewController {
-  lazy var baseView = WriteDiaryView(frame: view.bounds)
+final class WriteViewController: UIViewController {
+  lazy var baseView = WriteView(frame: view.bounds)
   private var keyboardSize: CGRect?
   
   override func loadView() {
@@ -34,7 +34,7 @@ final class WriteDiaryViewController: UIViewController {
   }
 }
 
-extension WriteDiaryViewController {
+extension WriteViewController {
   private func configureNotification() {
     NotificationCenter.default.addObserver(
       self,

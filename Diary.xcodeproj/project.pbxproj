@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		239FC1E248AC305B681B2D7A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0D737916E9FC85357EA8D2 /* Pods_Diary.framework */; };
 		867CAD01285B14FA00A04F1F /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD00285B14FA00A04F1F /* UIStackView+.swift */; };
-		867CAD03285B15A000A04F1F /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD02285B15A000A04F1F /* DiaryData.swift */; };
+		867CAD03285B15A000A04F1F /* PassorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD02285B15A000A04F1F /* PassorManager.swift */; };
 		AB0D9A032859AB8C00235064 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = AB0D9A022859AB8C00235064 /* sample.json */; };
-		AB0D9A052859ABB200235064 /* WriteDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A042859ABB200235064 /* WriteDiaryViewController.swift */; };
-		AB0D9A072859B0FB00235064 /* WriteDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A062859B0FB00235064 /* WriteDiaryView.swift */; };
+		AB0D9A052859ABB200235064 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A042859ABB200235064 /* WriteViewController.swift */; };
+		AB0D9A072859B0FB00235064 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A062859B0FB00235064 /* WriteView.swift */; };
 		AB4D73C2285B197700BE5190 /* Identifierable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D73C1285B197700BE5190 /* Identifierable.swift */; };
 		AB4D73C4285B1CDD00BE5190 /* TimeInterval+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D73C3285B1CDD00BE5190 /* TimeInterval+.swift */; };
 		ABF991A82858B2F9000A44A1 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A72858B2F9000A44A1 /* MainView.swift */; };
@@ -29,11 +29,11 @@
 
 /* Begin PBXFileReference section */
 		867CAD00285B14FA00A04F1F /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
-		867CAD02285B15A000A04F1F /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
+		867CAD02285B15A000A04F1F /* PassorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassorManager.swift; sourceTree = "<group>"; };
 		90BC7C1B1D0558C345CE0253 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		AB0D9A022859AB8C00235064 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
-		AB0D9A042859ABB200235064 /* WriteDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteDiaryViewController.swift; sourceTree = "<group>"; };
-		AB0D9A062859B0FB00235064 /* WriteDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteDiaryView.swift; sourceTree = "<group>"; };
+		AB0D9A042859ABB200235064 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
+		AB0D9A062859B0FB00235064 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
 		AB4D73C1285B197700BE5190 /* Identifierable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifierable.swift; sourceTree = "<group>"; };
 		AB4D73C3285B1CDD00BE5190 /* TimeInterval+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+.swift"; sourceTree = "<group>"; };
 		ABBBCF00285774F300589B86 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -74,13 +74,13 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		86C1322C2858A9920069CFD2 /* MainDiary */ = {
+		86C1322C2858A9920069CFD2 /* MainScene */ = {
 			isa = PBXGroup;
 			children = (
 				ABF991A62858B2F3000A44A1 /* View */,
 				86C1322D2858AA9A0069CFD2 /* Controller */,
 			);
-			path = MainDiary;
+			path = MainScene;
 			sourceTree = "<group>";
 		};
 		86C1322D2858AA9A0069CFD2 /* Controller */ = {
@@ -150,7 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				ABF991B128596D2F000A44A1 /* Diary.swift */,
-				867CAD02285B15A000A04F1F /* DiaryData.swift */,
+				867CAD02285B15A000A04F1F /* PassorManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -173,19 +173,19 @@
 			path = Singleton;
 			sourceTree = "<group>";
 		};
-		ABF991BA2859AAA5000A44A1 /* WriteDriary */ = {
+		ABF991BA2859AAA5000A44A1 /* WriteScene */ = {
 			isa = PBXGroup;
 			children = (
 				ABF991BB2859AAB0000A44A1 /* View */,
 				ABF991BC2859AAB5000A44A1 /* Controller */,
 			);
-			path = WriteDriary;
+			path = WriteScene;
 			sourceTree = "<group>";
 		};
 		ABF991BB2859AAB0000A44A1 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				AB0D9A062859B0FB00235064 /* WriteDiaryView.swift */,
+				AB0D9A062859B0FB00235064 /* WriteView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -193,7 +193,7 @@
 		ABF991BC2859AAB5000A44A1 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				AB0D9A042859ABB200235064 /* WriteDiaryViewController.swift */,
+				AB0D9A042859ABB200235064 /* WriteViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -203,7 +203,7 @@
 			children = (
 				ABBBCF00285774F300589B86 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
-				ABF991BA2859AAA5000A44A1 /* WriteDriary */,
+				ABF991BA2859AAA5000A44A1 /* WriteScene */,
 				C739AE22284DF28600741E8F /* Products */,
 				A4ED2E1C6158963E9FC7C83C /* Pods */,
 				A370ED2066CD6E1AE458FAA3 /* Frameworks */,
@@ -225,7 +225,7 @@
 				86C13230285979170069CFD2 /* Resource */,
 				ABF991B428597710000A44A1 /* Utils */,
 				ABF991B028596D0E000A44A1 /* Model */,
-				86C1322C2858A9920069CFD2 /* MainDiary */,
+				86C1322C2858A9920069CFD2 /* MainScene */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -347,15 +347,15 @@
 			files = (
 				ABF991B72859778E000A44A1 /* Json.swift in Sources */,
 				ABF991B228596D2F000A44A1 /* Diary.swift in Sources */,
-				AB0D9A072859B0FB00235064 /* WriteDiaryView.swift in Sources */,
+				AB0D9A072859B0FB00235064 /* WriteView.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
-				AB0D9A052859ABB200235064 /* WriteDiaryViewController.swift in Sources */,
+				AB0D9A052859ABB200235064 /* WriteViewController.swift in Sources */,
 				ABF991A82858B2F9000A44A1 /* MainView.swift in Sources */,
 				867CAD01285B14FA00A04F1F /* UIStackView+.swift in Sources */,
 				AB4D73C4285B1CDD00BE5190 /* TimeInterval+.swift in Sources */,
-				867CAD03285B15A000A04F1F /* DiaryData.swift in Sources */,
+				867CAD03285B15A000A04F1F /* PassorManager.swift in Sources */,
 				AB4D73C2285B197700BE5190 /* Identifierable.swift in Sources */,
 				ABF991AA2858B730000A44A1 /* MainTableViewCell.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
