@@ -10,6 +10,11 @@ final class MainViewController: UIViewController {
   private lazy var baseView = MainView(frame: view.bounds)
   private var diary: [Diary]?
   
+  override func loadView() {
+    super.loadView()
+    self.view = baseView
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
