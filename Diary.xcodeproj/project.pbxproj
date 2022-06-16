@@ -69,7 +69,6 @@
 			isa = PBXGroup;
 			children = (
 				867CAD00285B14FA00A04F1F /* UIStackView+.swift */,
-				AB4D73C1285B197700BE5190 /* Identifierable.swift */,
 				AB4D73C3285B1CDD00BE5190 /* TimeInterval+.swift */,
 			);
 			path = Extension;
@@ -130,6 +129,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		AB4D73C5285B1D9600BE5190 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				AB4D73C1285B197700BE5190 /* Identifierable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		ABF991A62858B2F3000A44A1 /* View */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +158,7 @@
 		ABF991B428597710000A44A1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				AB4D73C5285B1D9600BE5190 /* Protocol */,
 				867CACFF285B14C900A04F1F /* Extension */,
 				ABF991B52859772F000A44A1 /* Singleton */,
 			);
