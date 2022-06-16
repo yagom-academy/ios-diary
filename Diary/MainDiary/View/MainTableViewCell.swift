@@ -31,7 +31,7 @@ final class MainTableViewCell: UITableViewCell {
   
   private let dateLabel: UILabel = {
     let label = UILabel()
-    label.font = UIFont.preferredFont(forTextStyle: .body)
+    label.font = UIFont.preferredFont(forTextStyle: .footnote)
     label.setContentCompressionResistancePriority(.required, for: .horizontal)
     return label
   }()
