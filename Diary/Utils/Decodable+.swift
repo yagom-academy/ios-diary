@@ -16,7 +16,7 @@ extension Decodable {
     }
 }
 
-class Json {
+final class Json {
     static let shared = JSONDecoder()
     
     private init() { }
