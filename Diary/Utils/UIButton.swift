@@ -12,7 +12,7 @@ extension UIButton {
         static let indicator = "chevron.left"
     }
     
-    convenience init(title: String?) {
+    convenience init(title: String?, imageName: String? = SystemImage.indicator) {
         self.init()
         self.setImage(UIImage(systemName: SystemImage.indicator), for: .normal)
         self.setTitle(title, for: .normal)
