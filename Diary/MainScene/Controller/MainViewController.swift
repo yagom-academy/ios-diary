@@ -33,6 +33,10 @@ final class MainViewController: UIViewController {
       MainTableViewCell.self,
       forCellReuseIdentifier: MainTableViewCell.identifier
     )
+    self.baseView.tableView.register(
+      MainTableViewCell.self,
+      forCellReuseIdentifier: EmptyTableViewCell.identifier
+    )
     self.baseView.tableView.dataSource = self
   }
   
@@ -60,12 +64,9 @@ extension MainViewController: UITableViewDataSource {
       withIdentifier: MainTableViewCell.identifier,
       for: indexPath
     )
-            as? MainTableViewCell else {
-      return UITableViewCell()
-    }
-    
-    guard let diary = self.diary else {
-      return UITableViewCell()
+            as? MainTableViewCell,
+          let diary = self.diary else {
+      return EmptyTableViewCell()
     }
     
     cell.updata(diary: diary[indexPath.row])
