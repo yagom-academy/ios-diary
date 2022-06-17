@@ -12,32 +12,39 @@ struct ContextualAction {
     let backgroundColor: UIColor?
     let image: UIImage?
     let style: UIContextualAction.Style
-    let action: (() -> Void)?
+    let completionHandler: (() -> Void)?
 }
 
 final class ContextualActionBuilder {
-    private var contextualActions = [ContextualAction]()
+    private var actions = [ContextualAction]()
     
-    func addContextualAction(
+    func addAction(
         title: String? = nil,
         backgroundColor: UIColor? = nil,
         image: UIImage? = nil,
         style: UIContextualAction.Style,
         action: (() -> Void)?
     ) -> Self {
-        contextualActions.append(
-            ContextualAction(title: title, backgroundColor: backgroundColor, image: image, style: style, action: action)
+        actions.append(
+            ContextualAction(
+                title: title,
+                backgroundColor: backgroundColor,
+                image: image,
+                style: style,
+                completionHandler: action
+            )
         )
         
         return self
     }
     
     func make() -> UISwipeActionsConfiguration {
-        let actions = contextualActions.map { action -> UIContextualAction in
+        let actions = actions.map { action -> UIContextualAction in
             let contextualAction = UIContextualAction(style: action.style, title: action.title) { _, _, completion in
-                action.action?()
+                action.completionHandler?()
                 completion(true)
             }
+            
             contextualAction.image = action.image
             contextualAction.backgroundColor = action.backgroundColor
             

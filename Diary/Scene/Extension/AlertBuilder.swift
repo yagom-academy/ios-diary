@@ -10,30 +10,32 @@ import UIKit
 struct AlertAction {
     let title: String
     let style: UIAlertAction.Style
-    let action: (() -> Void)?
+    let completionHandler: (() -> Void)?
 }
 
 final class AlertBuilder {
-    var alertActions: [AlertAction] = []
+    private var actions: [AlertAction] = []
     weak var viewController: UIViewController?
     
     init(viewController: UIViewController) {
         self.viewController = viewController
     }
     
-    func addAlertAction(title: String, style: UIAlertAction.Style, action: (() -> Void)? = nil) -> Self {
-        alertActions.append(AlertAction(title: title, style: style, action: action))
+    func addAction(title: String, style: UIAlertAction.Style, action: (() -> Void)? = nil) -> Self {
+        actions.append(AlertAction(title: title, style: style, completionHandler: action))
         return self
     }
     
     func show(title: String? = nil, message: String? = nil, style: UIAlertController.Style) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: style)
-        alertActions.forEach { alertAction in
-            let alertAction = UIAlertAction(title: alertAction.title, style: alertAction.style) { _ in
-                alertAction.action?()
+        
+        actions.forEach { action in
+            let alertAction = UIAlertAction(title: action.title, style: action.style) { _ in
+                action.completionHandler?()
             }
             alertController.addAction(alertAction)
         }
+        
         viewController?.present(alertController, animated: true)
     }
 }

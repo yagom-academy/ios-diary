@@ -76,7 +76,7 @@ extension DiaryTableViewController {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         return ContextualActionBuilder()
-            .addContextualAction(
+            .addAction(
                 title: "삭제",
                 image: UIImage(systemName: "trash.circle"),
                 style: .destructive,
@@ -84,7 +84,7 @@ extension DiaryTableViewController {
                     guard let diary = self?.dataSource?.diarys[indexPath.row] else { return }
                     self?.dataSource?.delete(diary: diary)
                 })
-            .addContextualAction(
+            .addAction(
                 title: "공유",
                 backgroundColor: .systemBlue,
                 image: UIImage(systemName: "square.and.arrow.up.circle"),
