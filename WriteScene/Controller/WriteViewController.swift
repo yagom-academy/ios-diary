@@ -22,6 +22,11 @@ final class WriteViewController: UIViewController {
     self.configureNotification()
   }
   
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    self.removeNotification()
+  }
+  
   private func configureUI() {
     self.view.backgroundColor = .systemBackground
     self.navigationItem.title = createTodayDate()
@@ -34,8 +39,10 @@ final class WriteViewController: UIViewController {
   }
 }
 
-extension WriteViewController {
-  private func configureNotification() {
+// MARK: Keyboard
+
+private extension WriteViewController {
+  func configureNotification() {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(keyboardWillShow),
@@ -48,7 +55,7 @@ extension WriteViewController {
       object: nil)
   }
   
-  private func removeNotification() {
+  func removeNotification() {
     NotificationCenter.default.removeObserver(
       self,
       name: UIResponder.keyboardWillShowNotification,
@@ -59,7 +66,7 @@ extension WriteViewController {
       object: nil)
   }
   
-  @objc private func keyboardWillShow(_ notification: Notification) {
+  @objc func keyboardWillShow(_ notification: Notification) {
     guard let userInfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
           let keyboardFrame = userInfo as? CGRect else { return }
     
@@ -74,14 +81,9 @@ extension WriteViewController {
     self.baseView.textView.verticalScrollIndicatorInsets = contentInset
   }
   
-  @objc private func keyboardWillHide(_ notification: Notification) {
+  @objc func keyboardWillHide(_ notification: Notification) {
     let contentInset = UIEdgeInsets.zero
     self.baseView.textView.contentInset = contentInset
     self.baseView.textView.scrollIndicatorInsets = contentInset
-  }
-  
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    self.removeNotification()
   }
 }

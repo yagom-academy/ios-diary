@@ -51,6 +51,8 @@ final class MainViewController: UIViewController {
   }
 }
 
+// MARK: TableViewDataSource
+
 extension MainViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
     return self.diary?.count ?? 0
