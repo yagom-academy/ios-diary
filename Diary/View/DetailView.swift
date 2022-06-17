@@ -19,7 +19,7 @@ final class DetailView: UIView {
         super.init(coder: coder)
     }
     
-    lazy var mainStackView: UIStackView = {
+    private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.distribution = .fill
@@ -37,6 +37,7 @@ final class DetailView: UIView {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = true
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
+        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
@@ -69,13 +70,16 @@ final class DetailView: UIView {
             mainScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
             mainScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             mainScrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            mainScrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor),
+            mainScrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
             mainStackView.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor),
             mainStackView.centerYAnchor.constraint(equalTo: mainScrollView.centerYAnchor)
-            ])
+        ])
     }
 }
