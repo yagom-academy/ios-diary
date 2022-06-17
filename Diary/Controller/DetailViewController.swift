@@ -9,9 +9,9 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     private lazy var detailView = DetailView(frame: view.bounds)
-    private let diary: Diary
+    private let diary: DiaryEntity
     
-    init(diary: Diary) {
+    init(diary: DiaryEntity) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
