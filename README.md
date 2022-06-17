@@ -23,17 +23,14 @@
 
 # 🎥 기능 구현
 
-## 세로화면
-![Diary_세로화면](https://user-images.githubusercontent.com/91132536/174265726-815a4148-049b-45a3-9a05-7ea53f3f55ed.gif)
+|세로화면|에러화면|
+|:---:|:---:|
+|![](https://user-images.githubusercontent.com/91132536/174265726-815a4148-049b-45a3-9a05-7ea53f3f55ed.gif)|![](https://user-images.githubusercontent.com/91132536/174265714-28bc11b4-e890-47ce-9efa-7c18d2405eae.gif)|
 
 
-## 가로화면
-![Diary_가로화면](https://user-images.githubusercontent.com/91132536/174265724-877d64e6-3b6e-4172-b7ff-e5c6ed28f5a1.gif)
-
-
-## 에러화면(EmptyTableViewCell)
-![Diary_emptyCell화면](https://user-images.githubusercontent.com/91132536/174265714-28bc11b4-e890-47ce-9efa-7c18d2405eae.gif)
-
+|가로화면|
+|:---:|
+|![](https://user-images.githubusercontent.com/91132536/174265724-877d64e6-3b6e-4172-b7ff-e5c6ed28f5a1.gif)|
 
 # 🗓 타임라인
 - 월 - 그라운드룰 정하기 및 issue 설정 / swift lint 적용해보기(optional)
