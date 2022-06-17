@@ -36,4 +36,8 @@ struct Diary: Decodable, Hashable {
         self.createdDate = createdDate
         self.id = id
     }
+    
+    var isEmpty: Bool {
+        return title == "" && body == ""
+    }
 }

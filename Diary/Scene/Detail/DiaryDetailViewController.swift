@@ -14,9 +14,9 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    private let diary: Diary?
+    private let diary: Diary
     
-    init(diary: Diary? = nil) {
+    init(diary: Diary) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
@@ -40,17 +40,13 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func setUpItem() {
-        guard let diary = diary else { return }
-
-        diaryTextView.text = diary.title + "\n\n" + diary.body
+        if diary.isEmpty == false {
+            diaryTextView.text = diary.title + "\n\n" + diary.body
+        }
     }
     
     private func setUpNavigationBar() {
-        if diary == nil {
-            title = Date().formattedString
-        } else {
-            title = diary?.createdDate.formattedString
-        }
+        title = diary.createdDate.formattedString
     }
     
     private func setUpTextView() {        
