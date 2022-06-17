@@ -22,7 +22,7 @@ final class MainViewController: UIViewController {
   }
   
   private func saveJsonData() {
-    self.diary = PassorManager.fetchDiary()
+    self.diary = ParserManager.fetchDiary()
   }
   
   private func configureUI() {

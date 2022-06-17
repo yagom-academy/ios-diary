@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		239FC1E248AC305B681B2D7A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0D737916E9FC85357EA8D2 /* Pods_Diary.framework */; };
 		867CAD01285B14FA00A04F1F /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD00285B14FA00A04F1F /* UIStackView+.swift */; };
-		867CAD03285B15A000A04F1F /* PassorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD02285B15A000A04F1F /* PassorManager.swift */; };
+		867CAD03285B15A000A04F1F /* ParserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD02285B15A000A04F1F /* ParserManager.swift */; };
 		AB0D9A032859AB8C00235064 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = AB0D9A022859AB8C00235064 /* sample.json */; };
 		AB0D9A052859ABB200235064 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A042859ABB200235064 /* WriteViewController.swift */; };
 		AB0D9A072859B0FB00235064 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A062859B0FB00235064 /* WriteView.swift */; };
@@ -30,7 +30,7 @@
 
 /* Begin PBXFileReference section */
 		867CAD00285B14FA00A04F1F /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
-		867CAD02285B15A000A04F1F /* PassorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassorManager.swift; sourceTree = "<group>"; };
+		867CAD02285B15A000A04F1F /* ParserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserManager.swift; sourceTree = "<group>"; };
 		90BC7C1B1D0558C345CE0253 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		AB0D9A022859AB8C00235064 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
 		AB0D9A042859ABB200235064 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +74,14 @@
 				AB4D73C3285B1CDD00BE5190 /* TimeInterval+.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		86B36174285C50BE00EEBDF4 /* ParserManager */ = {
+			isa = PBXGroup;
+			children = (
+				867CAD02285B15A000A04F1F /* ParserManager.swift */,
+			);
+			path = ParserManager;
 			sourceTree = "<group>";
 		};
 		86C1322C2858A9920069CFD2 /* MainScene */ = {
@@ -153,7 +161,6 @@
 			isa = PBXGroup;
 			children = (
 				ABF991B128596D2F000A44A1 /* Diary.swift */,
-				867CAD02285B15A000A04F1F /* PassorManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -161,6 +168,7 @@
 		ABF991B428597710000A44A1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				86B36174285C50BE00EEBDF4 /* ParserManager */,
 				AB4D73C5285B1D9600BE5190 /* Protocol */,
 				867CACFF285B14C900A04F1F /* Extension */,
 				ABF991B52859772F000A44A1 /* Singleton */,
@@ -359,7 +367,7 @@
 				AB4D73C7285B1FD000BE5190 /* EmptyTableViewCell.swift in Sources */,
 				867CAD01285B14FA00A04F1F /* UIStackView+.swift in Sources */,
 				AB4D73C4285B1CDD00BE5190 /* TimeInterval+.swift in Sources */,
-				867CAD03285B15A000A04F1F /* PassorManager.swift in Sources */,
+				867CAD03285B15A000A04F1F /* ParserManager.swift in Sources */,
 				AB4D73C2285B197700BE5190 /* Identifierable.swift in Sources */,
 				ABF991AA2858B730000A44A1 /* MainTableViewCell.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,

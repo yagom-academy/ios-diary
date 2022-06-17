@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PassorManager {
+struct ParserManager {
   static func fetchDiary() -> [Diary]? {
     guard let path = Bundle.main.path(forResource: "sample", ofType: "json") else {
       return nil
