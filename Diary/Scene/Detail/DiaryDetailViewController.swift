@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol DiaryDetailViewDelegate: AnyObject {
+    func update(diary: Diary)
+    func delete(diary: Diary)
+}
+
 final class DiaryDetailViewController: UIViewController {
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -15,6 +20,7 @@ final class DiaryDetailViewController: UIViewController {
     }()
     
     private let diary: Diary
+    weak var delegate: DiaryDetailViewDelegate?
     
     init(diary: Diary) {
         self.diary = diary
@@ -91,5 +97,22 @@ extension DiaryDetailViewController: UITextViewDelegate {
     private func doneButtonDidTap() {
         diaryTextView.resignFirstResponder()
         navigationItem.rightBarButtonItem = nil
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        guard let texts = textView.text else { return }
+        
+        let newDiary: Diary
+        
+        if let index = texts.firstIndex(of: "\n") {
+            let title = String(texts[..<index])
+            let body = texts[index...].trimmingCharacters(in: .newlines)
+            
+            newDiary = Diary(title: title, body: body, createdDate: diary.createdDate, id: diary.id)
+        } else {
+            newDiary = Diary(title: texts, body: "", createdDate: diary.createdDate, id: diary.id)
+        }
+        
+        delegate?.update(diary: newDiary)
     }
 }

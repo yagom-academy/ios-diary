@@ -34,6 +34,8 @@ final class DiaryTableViewController: UITableViewController {
         guard let diary = dataSource?.diarys.first else { return }
         
         let diaryViewController = DiaryDetailViewController(diary: diary)
+        diaryViewController.delegate = self
+        
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
@@ -64,6 +66,20 @@ extension DiaryTableViewController {
         guard let diary = dataSource?.diarys[indexPath.row] else { return }
         
         let diaryViewController = DiaryDetailViewController(diary: diary)
+        diaryViewController.delegate = self
+        
         navigationController?.pushViewController(diaryViewController, animated: true)
+    }
+}
+
+// MARK: DiaryDetailViewDelegate
+
+extension DiaryTableViewController: DiaryDetailViewDelegate {
+    func update(diary: Diary) {
+        dataSource?.update(diary: diary)
+    }
+    
+    func delete(diary: Diary) {
+        dataSource?.delete(diary: diary)
     }
 }
