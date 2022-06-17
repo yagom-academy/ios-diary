@@ -1,4 +1,4 @@
-# 일기장 프로젝트 저장소
+# ✍️ 일기장 프로젝트 저장소
 
 > 프로젝트 기간 2022.06.13 ~ 2022.07.01 </br>
 팀원 : [@Quokkaaa](https://github.com/Quokkaaa) [@Taeangel](https://github.com/Taeangel) / 리뷰어 : [@라자냐]
@@ -8,6 +8,8 @@
 - [프로젝트 소개](#프로젝트-소개)
 
 - [STEP 1](#step-1)
+    + [기능구현](#기능구현)
+    + [타임라인](#)
     + [고민한점](#고민한점)
     + [궁금한점](#궁금한점)
 
@@ -18,7 +20,29 @@
 
 ---
 ## [STEP 1]
-### 고민한점
+
+# 🎥 기능 구현
+
+## 세로화면
+![Diary_세로화면](https://user-images.githubusercontent.com/91132536/174265726-815a4148-049b-45a3-9a05-7ea53f3f55ed.gif)
+
+
+## 가로화면
+![Diary_가로화면](https://user-images.githubusercontent.com/91132536/174265724-877d64e6-3b6e-4172-b7ff-e5c6ed28f5a1.gif)
+
+
+## 에러화면(EmptyTableViewCell)
+![Diary_emptyCell화면](https://user-images.githubusercontent.com/91132536/174265714-28bc11b4-e890-47ce-9efa-7c18d2405eae.gif)
+
+
+# 🗓 타임라인
+- 월 - 그라운드룰 정하기 및 issue 설정 / swift lint 적용해보기(optional)
+- 화 - UIKit: Apps for Every Size and Shape 시청
+- 수 - Making Apps Adaptive, Part 1 / Script, Making Apps Adaptive, Part 2 / Script / 학습활동예습(Core Graphics)
+- 목 - 오전 학습 활동 예습 / 학습활동 정리 및 프로젝트 PR보내기
+- 금 - README작성 및 리펙토링
+
+# 🤔 고민한점
 **가로 길이가 모호하다는 말**
 
 가로 길이가 모호하다는 에러에 대해서 공식문서를 확인해보니 뷰의 위치와 크기를 정해주지않았을때, 동일한 우선순위를 가진 뷰가 존재할때 발생하는것으로 확인하였습니다. 저의 에러같은경우 후자 문제였고 horizontal stackView내에 두개의 UILabel이 존재하는데 이 두 레이블의 길이의 우선도를 정해줌으로써 해결할 수 있었습니다.
@@ -51,16 +75,13 @@ Utils라는 폴더로 extension, sington, protocol, 등을 관리하고있다. �
 type.method() 이런식으로 접근하듯 같은 맥락이라고 생각하면 없애도 무방할것같아 지워주는 방향으로 네이밍을 작성하였다. 같은 맥락으로 프로젝트 이름이 Diary인데 내부파일 이름에 Diary를 붙여주는 것도 더 햇갈릴 수 있을것 같아 최대한 중복되는 네이밍은 생략하려고 했습니다.
 
 
-
-### 해결한점
-
+# 🔥 Trouble Shooting
 <img width="400px" src="https://i.imgur.com/JQ8LhpV.png"/>
 
 위 사진과 같이 cell이 계단형식으로 나오는 문제가 발생하여 계속 찾아보았는데요 문제가 cell이 겹치는 것이 문제라 생각했습니다 그래서 문제를 해결 하려고 cell안에 폰트를 변경하여 cell이 겹치지 않도록 해결하였습니다.
 
-조언부탁드립니다
 
-## 그라운드 룰
+## ✅ 그라운드 룰
 
 ### 활동시간
 변동사항이 있으면 DM을 보내줄 것
