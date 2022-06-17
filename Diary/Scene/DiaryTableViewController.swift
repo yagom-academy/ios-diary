@@ -70,6 +70,38 @@ extension DiaryTableViewController {
         
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
+    
+    override func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        return ContextualActionBuilder()
+            .addContextualAction(
+                title: "삭제",
+                image: UIImage(systemName: "trash.circle"),
+                style: .destructive,
+                action: { [weak self] in
+                    guard let diary = self?.dataSource?.diarys[indexPath.row] else { return }
+                    self?.dataSource?.delete(diary: diary)
+                })
+            .addContextualAction(
+                title: "공유",
+                backgroundColor: .systemBlue,
+                image: UIImage(systemName: "square.and.arrow.up.circle"),
+                style: .normal,
+                action: { [weak self] in
+                    guard let diary = self?.dataSource?.diarys[indexPath.row] else { return }
+                    
+                    let text = diary.title + "\n\n" + diary.body
+                    let activityViewController = UIActivityViewController(
+                        activityItems: [text],
+                        applicationActivities: nil
+                    )
+                    
+                    self?.present(activityViewController, animated: true)
+                })
+            .make()
+    }
 }
 
 // MARK: DiaryDetailViewDelegate
