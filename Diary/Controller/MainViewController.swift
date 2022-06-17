@@ -84,10 +84,10 @@ extension MainViewController: UITableViewDelegate {
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let removeAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] _, _, completionHandler in
-            self?.showRemoveAlert(index: indexPath)
-            
+            self?.showRemoveAlert(indexPath: indexPath)
             completionHandler(true)
         }
+        
         removeAction.image = UIImage.init(systemName: "trash")
         
         let shareAction = UIContextualAction(style: .normal, title: "공유") { [weak self] _, _, completionHandler in
@@ -100,20 +100,25 @@ extension MainViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [removeAction, shareAction])
     }
     
-    func showRemoveAlert(index: IndexPath) {
+    private func showRemoveAlert(indexPath: IndexPath) {
         let UIAlertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let removeAction = UIAlertAction(title: "삭제", style: .destructive) { [self] _ in
-            PersistenceManager.shared.deleteData(index: index.row)
-            mainView.baseTableView.deleteRows(at: [index], with: .fade)
+            PersistenceManager.shared.deleteData(object: PersistenceManager.shared.diaries()[indexPath.row])
+            PersistenceManager.shared.deleteData(index: indexPath.row)
+            mainView.baseTableView.deleteRows(at: [indexPath], with: .fade)
         }
         UIAlertController.addAction(cancelAction)
         UIAlertController.addAction(removeAction)
         present(UIAlertController, animated: true)
     }
     
-    func showActivityView(data: DiaryEntity) {
-        let textToShare: [Any] = [ShareActivityItemSource(title: data.title ?? "제목 없음", text: data.createdAt.formattedString)]
+    private func showActivityView(data: DiaryEntity) {
+        let textToShare: [Any] = [
+            ShareActivityItemSource(
+                title: data.title ?? "제목 없음",
+                text: data.createdAt.formattedString)
+        ]
         let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
         present(activityViewController, animated: true)
     }
