@@ -80,8 +80,9 @@ extension PersistenceManager {
         }
     }
     
-    func deleteData(object: NSManagedObject) {
-        self.context.delete(object)
+    func deleteData(index: Int) {
+        let removedObject = diaryEntities.remove(at: index)
+        self.context.delete(removedObject)
         saveContext()
     }
     
