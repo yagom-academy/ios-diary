@@ -19,30 +19,34 @@
 ---
 ## [STEP 1]
 ### 고민한점
-**가로 길이가 모호하다는 말**가로 길이가 모호하다는 에러에 대해서
-공식문서를 확인해보니 뷰의 위치와 크기를 정해주지않았을때, 동일한 우선순위를 가진 뷰가 존재할때 발생하는것으로 확인하였습니다. 저의 에러같은경우 후자 문제였고
-horizontal stackView내에 두개의 UILabel이 존재하는데 이 두 레이블의 길이의 우선도를 정해줌으로써 해결할 수 있었습니다.
+**가로 길이가 모호하다는 말**
+
+가로 길이가 모호하다는 에러에 대해서 공식문서를 확인해보니 뷰의 위치와 크기를 정해주지않았을때, 동일한 우선순위를 가진 뷰가 존재할때 발생하는것으로 확인하였습니다. 저의 에러같은경우 후자 문제였고 horizontal stackView내에 두개의 UILabel이 존재하는데 이 두 레이블의 길이의 우선도를 정해줌으로써 해결할 수 있었습니다.
 `label.setContentCompressionResistancePriority(.required, for: .horizontal)`
 
 **키보드의 동적인 스크롤 설정**
+
 키보드의 높이만큼 contentInset을 올려주도록 설정하는 방식으로 구현이되는데 이에 필요한 contentInset과 contentOffset의 차이점에대해서 간단하게 알아보았습니다.
 
 **tableView를 구현하는 방법에대해서**
-UITableViewController를 상속받아서 구현하는 방법 vs UIViewController를 상속받아서 tableView프로퍼티를 만들어 구현하는 방법이 있었습니다.
 
+UITableViewController를 상속받아서 구현하는 방법 vs UIViewController를 상속받아서 tableView프로퍼티를 만들어 구현하는 방법이 있었습니다.
 STEP1 내용으로만 보면 UITableViewController을 상속받아서 구현해도 전혀 무리가 없어보였습니다. 그런데 다음 STEP과 다른 기능들을 추가하는 확장성을 고려해보니 tableView 프로퍼티를 따로 만들어서 사용하는게 유연할것같아 후자로 구현하였습니다
 
 **JsonSingleton**
+
 만약 제이슨Deoder을 사용할 경우 아래와 같이 사용하게 되는데 
 `let diaryData = try? JSONDecoder().decode([Diary].self, from: jsonData)`
 이와 같이 사용하게 되면 decode할 때마다 JSONDecoder()계속 생성을 하기 때문에 singleton을 사용하였는데 어떤 방향이 더 효율적인지 고민하였습니다.
 
 **파일분리**
+
 기존에 MVC패턴으로 view와 controller와 model폴더를 각각 만들어서 파일을 관리했었습니다. 그런데 코드를 수정하게될때 특정 화면을 찾아가서 수정하기에는 번거로움이있었습니다. 그래서 Scene별로 폴더를 구분하여 관리를 해주었습니다.
 
 Utils라는 폴더로 extension, sington, protocol, 등을 관리하고있다. 이는 유용한 편리한이라는 뜻을 가지고 있으며 기본적으로 Model에서 사용한 구조에서 더 편리하게 개조를 하거나 데이터를 가져와줄 수 있는 부가적인 구조를 넣어주는것으로 이해하였다.
 
 **폴더네이밍에 대해서**
+
 보편적으로 Extension폴더내에 Extension파일을 생성할때 타입+extension이라는 네이밍을 자주써주는데 Extension폴더내에 있는 파일인데 +extension이라는 네이밍을 붙여줄필요가 있을까?
 type.method() 이런식으로 접근하듯 같은 맥락이라고 생각하면 없애도 무방할것같아 지워주는 방향으로 네이밍을 작성하였다. 같은 맥락으로 프로젝트 이름이 Diary인데 내부파일 이름에 Diary를 붙여주는 것도 더 햇갈릴 수 있을것 같아 최대한 중복되는 네이밍은 생략하려고 했습니다.
 
