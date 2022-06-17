@@ -9,7 +9,6 @@ import UIKit
 
 final class UpdateViewController: UIViewController {
     private let textView = UITextView()
-    private var backButtonTitle: String?
     private let keyboard = Keyboard()
     
     init(diaryData: DiaryData? = nil) {

@@ -15,40 +15,19 @@ final class DiaryViewController: UIViewController {
     private let tableView = UITableView()
     private var dataSource: UITableViewDiffableDataSource<Int, DiaryData>?
     
-    override func loadView() {
-        super.loadView()
-        setUpDataSource()
-        setUpTableView()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        setUpView()
         setUpNavigationController()
+        setUpTableView()
         setUpTableViewLayout()
+        setUpDataSource()
         setUpSampleData()
     }
     
-    private func setUpDataSource() {
-        dataSource = UITableViewDiffableDataSource<Int, DiaryData>(tableView: tableView) {
-            tableView, indexPath, itemIdentifier in
-            
-            if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier,
-                                                        for: indexPath) as? DiaryCell {
-                cell.configure(data: itemIdentifier)
-                return cell
-            }
-            
-            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier,
-                                                 for: indexPath)
-        }
-    }
-    
-    private func setUpTableView() {
-        tableView.register(DiaryCell.self)
-        tableView.register(UITableViewCell.self)
-        tableView.delegate = self
+    private func setUpView() {
+        view.backgroundColor = .systemBackground
     }
     
     private func setUpNavigationController() {
@@ -75,6 +54,12 @@ final class DiaryViewController: UIViewController {
         navigationController?.pushViewController(viewContoller, animated: true)
     }
     
+    private func setUpTableView() {
+        tableView.register(DiaryCell.self)
+        tableView.register(UITableViewCell.self)
+        tableView.delegate = self
+    }
+    
     private func setUpTableViewLayout() {
         view.addSubview(tableView)
         
@@ -86,6 +71,21 @@ final class DiaryViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
+    }
+    
+    private func setUpDataSource() {
+        dataSource = UITableViewDiffableDataSource<Int, DiaryData>(tableView: tableView) {
+            tableView, indexPath, itemIdentifier in
+            
+            if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier,
+                                                        for: indexPath) as? DiaryCell {
+                cell.configure(data: itemIdentifier)
+                return cell
+            }
+            
+            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier,
+                                                 for: indexPath)
+        }
     }
     
     private func setUpSampleData() {
