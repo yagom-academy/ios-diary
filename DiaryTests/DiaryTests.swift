@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import Diary
 
 class DiaryCoreDataTest: XCTestCase {
 

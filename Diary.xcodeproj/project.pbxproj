@@ -25,11 +25,6 @@
 		DAD7F710285B5F5200F53652 /* DiaryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F70F285B5F5200F53652 /* DiaryUseCase.swift */; };
 		DAD7F712285B970200F53652 /* DiaryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F711285B970200F53652 /* DiaryInfo.swift */; };
 		DAD7F71A285B973600F53652 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F719285B973600F53652 /* DiaryTests.swift */; };
-		DAD7F720285B977B00F53652 /* DiaryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F711285B970200F53652 /* DiaryInfo.swift */; };
-		DAD7F721285B978400F53652 /* DiaryData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F70A285B5D2900F53652 /* DiaryData+CoreDataClass.swift */; };
-		DAD7F722285B978600F53652 /* DiaryData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F709285B5D2900F53652 /* DiaryData+CoreDataProperties.swift */; };
-		DAD7F723285B978900F53652 /* ContainerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F70D285B5DF300F53652 /* ContainerManager.swift */; };
-		DAD7F724285B978B00F53652 /* DiaryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F70F285B5F5200F53652 /* DiaryUseCase.swift */; };
 		E1699D4465D99ED143EDAB01 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB35D5672E541D41E421E5 /* Pods_Diary.framework */; };
 		E1EBE0272858695D00DA3EF7 /* MainViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EBE0262858695D00DA3EF7 /* MainViewCell.swift */; };
 		E1EBE02C28586F2400DA3EF7 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EBE02B28586F2400DA3EF7 /* UIView+Extension.swift */; };
@@ -240,7 +235,6 @@
 				C739AE1D284DF28600741E8F /* Sources */,
 				C739AE1E284DF28600741E8F /* Frameworks */,
 				C739AE1F284DF28600741E8F /* Resources */,
-				E1C4824628585620002D7DCA /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -327,23 +321,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		E1C4824628585620002D7DCA /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
-		};
 		EA5CF8224BBB0AF280A65B52 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -397,12 +374,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAD7F723285B978900F53652 /* ContainerManager.swift in Sources */,
-				DAD7F721285B978400F53652 /* DiaryData+CoreDataClass.swift in Sources */,
 				DAD7F71A285B973600F53652 /* DiaryTests.swift in Sources */,
-				DAD7F724285B978B00F53652 /* DiaryUseCase.swift in Sources */,
-				DAD7F720285B977B00F53652 /* DiaryInfo.swift in Sources */,
-				DAD7F722285B978600F53652 /* DiaryData+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

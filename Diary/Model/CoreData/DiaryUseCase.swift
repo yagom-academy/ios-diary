@@ -35,14 +35,12 @@ final class DiaryUseCase {
     
     func create(diary: DiaryInfo) throws {
         let key = try loadMaxKey() + 1
+        let diaryData = NSEntityDescription.insertNewObject(forEntityName: "DiaryData", into: context) as! DiaryData
         
-        if let diaryEntity = diaryEntity {
-            let newDiary = NSManagedObject(entity: diaryEntity, insertInto: context)
-            newDiary.setValue(diary.title, forKey: "title")
-            newDiary.setValue(diary.body, forKey: "body")
-            newDiary.setValue(diary.date, forKey: "date")
-            newDiary.setValue(key, forKey: "key")
-        }
+        diaryData.title = diary.title
+        diaryData.body = diary.body
+        diaryData.date = diary.date
+        diaryData.key = Int64(key)
         
         guard let _ = try? context.save() else {
             throw fatalError()
@@ -55,8 +53,7 @@ final class DiaryUseCase {
             throw fatalError()
         }
         var diaryInfoArray: [DiaryInfo] = []
-        let array = diarys //as [AnyObject]
-        for diary in array {
+        for diary in diarys {
             let diaryInfo = DiaryInfo(title: diary.title, body: diary.body, date: diary.date, key: diary.key)
             diaryInfoArray.append(diaryInfo)
         }
