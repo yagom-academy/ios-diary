@@ -21,6 +21,7 @@
 		DACAF1442859AD6D0080CB0F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACAF1432859AD6D0080CB0F /* DetailViewController.swift */; };
 		DACAF1462859AD990080CB0F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACAF1452859AD990080CB0F /* MainView.swift */; };
 		DACAF1482859AD9F0080CB0F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACAF1472859AD9F0080CB0F /* DetailView.swift */; };
+		DAF0ADAC285C1301000909C9 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		DACAF1432859AD6D0080CB0F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		DACAF1452859AD990080CB0F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		DACAF1472859AD9F0080CB0F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 			children = (
 				C739AE28284DF28600741E8F /* MainViewController.swift */,
 				DACAF1432859AD6D0080CB0F /* DetailViewController.swift */,
+				DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				DACAF1462859AD990080CB0F /* MainView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				DAF0ADAC285C1301000909C9 /* RegisterViewController.swift in Sources */,
 				DACAF1482859AD9F0080CB0F /* DetailView.swift in Sources */,
 				DACAF1442859AD6D0080CB0F /* DetailViewController.swift in Sources */,
 				DAC41D992859B0EE00D3CD22 /* DiaryModel.swift in Sources */,

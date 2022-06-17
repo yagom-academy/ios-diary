@@ -82,7 +82,8 @@ extension MainViewController {
 extension MainViewController {
 
     @objc private func navigationBarRightPlusButtonTapped() {
-        
+        let registerViewController = RegisterViewController()
+        navigationController?.pushViewController(registerViewController, animated: true)
     }
 }
 
