@@ -49,8 +49,14 @@ final class DetailView: UIView {
         self.bottomConstraint = bottomConstraint
     }
     
-    func setUpContents(data: Diary) {
-        contentTextView.text = data.title + "\n\n" + data.body
+    func setUpContents(data: DiaryEntity) {
+        guard let title = data.title,
+              let body = data.body
+        else {
+            return
+        }
+        
+        contentTextView.text = title + "\n\n" + body
     }
     
     func scrollTextViewToTop() {

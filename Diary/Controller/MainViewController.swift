@@ -8,7 +8,6 @@ import UIKit
 
 final class MainViewController: UIViewController {
     private lazy var mainView = MainView(frame: view.bounds)
-    private var diaries = [Diary]()
     
     override func loadView() {
         super.loadView()
@@ -19,7 +18,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         setUpNavigationBar()
         setUpTableView()
-        setUpDiaryList()
+        setUpDiaries()
     }
         
     private func setUpNavigationBar() {
@@ -36,10 +35,8 @@ final class MainViewController: UIViewController {
         mainView.baseTableView.delegate = self
     }
     
-    private func setUpDiaryList() {
-        if let data: [Diary] = JSONParser().decode(from: "sample") {
-            diaries = data
-        }
+    private func setUpDiaries() {
+        PersistenceManager.shared.fetchData()
     }
     
     @objc private func didTapAddButton() {
@@ -50,7 +47,7 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaries.count
+        return PersistenceManager.shared.diaries().count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -58,7 +55,7 @@ extension MainViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.setUpContents(data: diaries[indexPath.row])
+        cell.setUpContents(data: PersistenceManager.shared.diaries()[indexPath.row])
         
         return cell
     }
@@ -66,7 +63,7 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diary = diaries[safe: indexPath.row] else {
+        guard let diary = PersistenceManager.shared.diaries()[safe: indexPath.row] else {
             return
         }
         

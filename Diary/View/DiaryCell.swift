@@ -77,7 +77,7 @@ final class DiaryCell: UITableViewCell {
         ])
     }
     
-    func setUpContents(data: Diary) {
+    func setUpContents(data: DiaryEntity) {
         titleLabel.text = data.title
         dateLabel.text = data.createdAt.formattedString
         descriptionLabel.text = data.body
