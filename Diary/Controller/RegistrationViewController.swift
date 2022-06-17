@@ -11,6 +11,7 @@ final class RegistrationViewController: UIViewController {
     private lazy var detailView = DetailView(frame: view.bounds)
     private var diary: DiaryEntity?
     private let createdAt = Date().timeIntervalSince1970
+    private let diaryId = UUID().uuidString
     
     override func loadView() {
         super.loadView()
@@ -86,7 +87,7 @@ final class RegistrationViewController: UIViewController {
             return
         }
 
-        let diary = Diary(title: title, createdAt: createdAt, body: body)
+        let diary = Diary(title: title, createdAt: createdAt, body: body, id: diaryId)
         
         PersistenceManager.shared.updateData(data: diary)
     }
