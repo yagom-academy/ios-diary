@@ -1,6 +1,6 @@
 //
 //  DiaryEntity+CoreDataProperties.swift
-//  
+//  Diary
 //
 //  Created by mmim, grumpy, mino on 2022/06/17.
 //
@@ -19,5 +19,9 @@ extension DiaryEntity {
     @NSManaged public var title: String?
     @NSManaged public var body: String?
     @NSManaged public var createdAt: Double
+
+}
+
+extension DiaryEntity : Identifiable {
 
 }
