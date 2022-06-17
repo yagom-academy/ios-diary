@@ -29,13 +29,7 @@ final class WriteViewController: UIViewController {
   
   private func configureUI() {
     self.view.backgroundColor = .systemBackground
-    self.navigationItem.title = createTodayDate()
-  }
-  
-  private func createTodayDate() -> String {
-    let dateformatter = DateFormatter()
-    dateformatter.dateFormat = "yyyy년 MM월 dd일"
-    return dateformatter.string(from: Date())
+    self.navigationItem.title = Date().setKoreaDateFormat(dateFormat: "yyyy년 MM월 dd일")
   }
 }
 
