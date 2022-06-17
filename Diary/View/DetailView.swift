@@ -10,7 +10,7 @@ import UIKit
 final class DetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
+        backgroundColor = .systemBackground
         setSubviews()
         setConstraints()
     }
@@ -41,7 +41,7 @@ final class DetailView: UIView {
         return scrollView
     }()
     
-    let titleField: UITextField = {
+    private let titleField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.textAlignment = .left
@@ -81,5 +81,12 @@ final class DetailView: UIView {
             mainStackView.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor),
             mainStackView.centerYAnchor.constraint(equalTo: mainScrollView.centerYAnchor)
         ])
+    }
+}
+
+extension DetailView {
+    func setUpView(diaryData: DiaryModel) {
+        titleField.text = diaryData.title
+        descriptionView.text = diaryData.body
     }
 }

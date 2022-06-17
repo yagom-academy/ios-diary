@@ -24,8 +24,7 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         view = detailView
         setNavigationBarTitle()
-        detailView.titleField.text = diaryData.title
-        detailView.descriptionView.text = diaryData.body
+        detailView.setUpView(diaryData: diaryData)
     }
     
     private func setNavigationBarTitle() {
