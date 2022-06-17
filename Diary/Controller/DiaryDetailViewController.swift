@@ -14,7 +14,7 @@ final class DiaryDetailViewController: UIViewController {
     $0.font = .preferredFont(forTextStyle: .body)
     $0.adjustsFontForContentSizeCategory = true
   }
-  
+
   private let diary: Diary
 
   init(diary: Diary) {
