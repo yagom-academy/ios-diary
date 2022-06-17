@@ -30,7 +30,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private func configureView() {
         view.backgroundColor = .systemBackground
-        title = diary.createdAt?.time()
+        title = diary.createdAt
     }
     
     private func configureLayout() {
