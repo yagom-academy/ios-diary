@@ -8,9 +8,20 @@
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell, Identifierable {
-  private let titleLabel = UILabel()
-  private let bodyLabel = UILabel()
-  private let dateLabel = UILabel()
+  private let titleLabel = UILabel().then {
+    $0.font = .preferredFont(forTextStyle: .title3)
+    $0.adjustsFontForContentSizeCategory = true
+  }
+  private let bodyLabel = UILabel().then {
+    $0.font = .preferredFont(forTextStyle: .caption2)
+    $0.adjustsFontForContentSizeCategory = true
+  }
+  private let dateLabel = UILabel().then {
+    $0.font = .preferredFont(forTextStyle: .subheadline)
+    $0.adjustsFontForContentSizeCategory = true
+    $0.setContentHuggingPriority(.required, for: .horizontal)
+    $0.setContentCompressionResistancePriority(.required, for: .horizontal)
+  }
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,17 +40,6 @@ final class DiaryTableViewCell: UITableViewCell, Identifierable {
 
   private func configure() {
     self.accessoryType = .disclosureIndicator
-
-    self.titleLabel.font = .preferredFont(forTextStyle: .title3)
-    self.titleLabel.adjustsFontForContentSizeCategory = true
-
-    self.dateLabel.font = .preferredFont(forTextStyle: .subheadline)
-    self.dateLabel.adjustsFontForContentSizeCategory = true
-    self.dateLabel.setContentHuggingPriority(.required, for: .horizontal)
-    self.dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-
-    self.bodyLabel.font = .preferredFont(forTextStyle: .caption2)
-    self.bodyLabel.adjustsFontForContentSizeCategory = true
 
     let subContainer = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
     subContainer.axis = .horizontal
