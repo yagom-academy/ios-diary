@@ -1,22 +1,27 @@
-## 일기장
+## 📝 일기장
 Core Data를 활용하여 로컬에 데이터를 저장하는 일기장 앱
 
-## 팀원(마리솔 & 두기)
+## 🥳 팀원(마리솔 & 두기)
 
 ![](https://i.imgur.com/D1eMxU3.png) <img src="https://i.imgur.com/b9JhIqK.jpg" width="250" height="350"/>
 
 [마리솔](https://github.com/marisol-develop),[두기](https://github.com/doogie97)
 
-## 프로젝트 기간
+## 📅 프로젝트 기간
 >2022-06-13 ~ 2022-07-01
-## 타임라인
->6/13(월): SwiftLint 설치, SwiftLint rule 설정
-6/14(화): 코드로 리스트뷰와 다이어리 뷰 구성, JSON 데이터 파싱
-6/14(수): 다이어리 뷰에 데이터 할당 기능 구현, 키보드 자동스크롤 기능 구현, STEP1 PR
-6/15(목): Core Data 학습
->6/16(금): STEP1 리팩터링
 
-## 실행 화면(기능 설명)
+## ⏰ 타임라인
+6/13(월): SwiftLint 설치, SwiftLint rule 설정
+
+6/14(화): 코드로 리스트뷰와 다이어리 뷰 구성, JSON 데이터 파싱
+
+6/14(수): 다이어리 뷰에 데이터 할당 기능 구현, 키보드 자동스크롤 기능 구현, STEP1 PR
+
+6/15(목): Core Data 학습
+
+6/16(금): STEP1 리팩터링
+
+## 📱 실행 화면(기능 설명)
 ### 1. List View와 Diary View
 ![](https://i.imgur.com/Rcangs4.gif)
 
@@ -26,7 +31,7 @@ Core Data를 활용하여 로컬에 데이터를 저장하는 일기장 앱
 ### 3. 가로모드 지원
 ![](https://i.imgur.com/uU1r5WO.gif)
 
-## 트러블 슈팅
+## 💡 트러블 슈팅
 
 ### 📌 tableview cell hierarchy 확인시 요소들이 점점 앞으로 나오는 현상
 
