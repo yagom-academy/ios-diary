@@ -42,13 +42,14 @@ final class DiaryCell: UITableViewCell {
     
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .left
         label.font = .preferredFont(forTextStyle: .footnote)
         return label
     }()
