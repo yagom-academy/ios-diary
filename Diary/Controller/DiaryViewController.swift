@@ -21,7 +21,7 @@ final class DiaryViewController: UIViewController {
     super.viewDidLoad()
     self.configureUI()
     self.configureNavigationBar()
-    self.diaries = Diary.decodedData
+    self.fetchDiaries()
   }
 
   private func configureUI() {
@@ -45,6 +45,11 @@ final class DiaryViewController: UIViewController {
       action: nil
     )
     self.navigationItem.setRightBarButton(addButton, animated: false)
+  }
+
+  private func fetchDiaries() {
+    guard let result = Parser.decode(type: [Diary].self, assetName: "sample") else { return }
+    self.diaries = result
   }
 }
 

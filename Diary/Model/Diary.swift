@@ -22,16 +22,3 @@ struct Diary: Decodable {
     return dateFormatter.string(from: date)
   }
 }
-
-extension Diary {
-  static let decodedData: [Diary] = {
-    let jsonDecoder = JSONDecoder()
-    jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-
-    guard let dataAsset = NSDataAsset(name: "sample"),
-          let diaries = try? jsonDecoder.decode([Diary].self, from: dataAsset.data)
-    else { return [] }
-
-    return diaries
-  }()
-}
