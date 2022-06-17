@@ -37,7 +37,7 @@ final class DiaryViewController: UIViewController {
         self.view = diaryView
 
         if diaryViewType == .add {
-            self.title = DateConverter.changeDateFormat(Date())
+            self.title = Date().dateToKoreanString
         } else {
             self.title = diary?.createdAt ?? ""
             configureDiaryView()
