@@ -48,6 +48,7 @@ final class DiaryViewController: UIViewController {
     private func setUpTableView() {
         tableView.register(DiaryCell.self)
         tableView.register(UITableViewCell.self)
+        tableView.delegate = self
     }
     
     private func setUpNavigationController() {
@@ -69,7 +70,7 @@ final class DiaryViewController: UIViewController {
     }
     
     @objc private func moveRegisterViewController() {
-        let viewContoller = RegisterViewController(backButtonTitle: navigationItem.title)
+        let viewContoller = UpdateViewController()
         
         navigationController?.pushViewController(viewContoller, animated: true)
     }
@@ -102,5 +103,17 @@ final class DiaryViewController: UIViewController {
         snapshot.appendItems(data)
         
         dataSource?.apply(snapshot)
+    }
+}
+
+extension DiaryViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let diaryData = dataSource?.itemIdentifier(for: indexPath) else {
+            return
+        }
+        
+        let viewContoller = UpdateViewController(diaryData: diaryData)
+        
+        navigationController?.pushViewController(viewContoller, animated: true)
     }
 }

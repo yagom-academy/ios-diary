@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0E4F85032858349500E3D309 /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F85022858349500E3D309 /* DiaryData.swift */; };
-		0E4F8507285863AF00E3D309 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F8506285863AF00E3D309 /* RegisterViewController.swift */; };
+		0E4F8507285863AF00E3D309 /* UpdateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F8506285863AF00E3D309 /* UpdateViewController.swift */; };
 		0E4F85092858690300E3D309 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E4F85082858690300E3D309 /* Formatter.swift */; };
 		0E6DB1CE285B1B2C00B9B5D5 /* UITableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6DB1CD285B1B2C00B9B5D5 /* UITableView+.swift */; };
 		0E6DB1D0285B1F4F00B9B5D5 /* UITableViewCell+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E6DB1CF285B1F4F00B9B5D5 /* UITableViewCell+.swift */; };
@@ -31,7 +31,7 @@
 
 /* Begin PBXFileReference section */
 		0E4F85022858349500E3D309 /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
-		0E4F8506285863AF00E3D309 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		0E4F8506285863AF00E3D309 /* UpdateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateViewController.swift; sourceTree = "<group>"; };
 		0E4F85082858690300E3D309 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		0E6DB1CD285B1B2C00B9B5D5 /* UITableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+.swift"; sourceTree = "<group>"; };
 		0E6DB1CF285B1F4F00B9B5D5 /* UITableViewCell+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+.swift"; sourceTree = "<group>"; };
@@ -96,7 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* DiaryViewController.swift */,
-				0E4F8506285863AF00E3D309 /* RegisterViewController.swift */,
+				0E4F8506285863AF00E3D309 /* UpdateViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -284,7 +284,7 @@
 				0E4F85092858690300E3D309 /* Formatter.swift in Sources */,
 				30BF2AE528577135009C1525 /* UIStackView+.swift in Sources */,
 				0E4F85032858349500E3D309 /* DiaryData.swift in Sources */,
-				0E4F8507285863AF00E3D309 /* RegisterViewController.swift in Sources */,
+				0E4F8507285863AF00E3D309 /* UpdateViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				30BB7CD4285B6C3100CF0448 /* SampleData.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,

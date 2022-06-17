@@ -1,5 +1,5 @@
 //
-//  RegisterViewController.swift
+//  UpdateViewController.swift
 //  Diary
 //
 //  Created by 김태현 on 2022/06/14.
@@ -7,14 +7,15 @@
 
 import UIKit
 
-final class RegisterViewController: UIViewController {
+final class UpdateViewController: UIViewController {
     private let textView = UITextView()
     private var backButtonTitle: String?
     private let keyboard = Keyboard()
     
-    init(backButtonTitle: String?) {
+    init(diaryData: DiaryData? = nil) {
         super.init(nibName: nil, bundle: nil)
-        self.backButtonTitle = backButtonTitle
+        
+        setUpEditPage(diaryData: diaryData)
     }
     
     required init?(coder: NSCoder) {
@@ -22,19 +23,28 @@ final class RegisterViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        view.backgroundColor = .systemBackground
-        setUpNavigationController()
+        setUpView()
+        setUpNavigationController(title: Formatter.getCurrentDate())
         setUpTextViewLayout()
         
         keyboard.setUpKeyboardNotification()
     }
     
-    private func setUpNavigationController() {
-        navigationItem.title = Formatter.getCurrentDate()
+    private func setUpEditPage(diaryData: DiaryData? = nil) {
+        guard let diaryData = diaryData else {
+            return
+        }
+        
+        setUpNavigationController(title: diaryData.dateString)
+        textView.text = "\(diaryData.title)\n\n\(diaryData.body)"
     }
     
-    @objc private func registerDiary() {
-        dismiss(animated: true)
+    private func setUpNavigationController(title: String) {
+        navigationItem.title = title
+    }
+    
+    private func setUpView() {
+        view.backgroundColor = .systemBackground
     }
     
     private func setUpTextViewLayout() {
