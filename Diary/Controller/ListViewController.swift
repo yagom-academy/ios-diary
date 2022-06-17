@@ -59,17 +59,15 @@ final class ListViewController: UIViewController {
             return
         }
         
-        var array: [Diary] = []
-        
-        for diaryData in diaryDatas {
+        let array: [Diary] = diaryDatas.compactMap { diaryData in
             guard let doubleDate = diaryData.createdAt else {
-                return
+                return nil
             }
             
             let date = Date(timeIntervalSince1970: doubleDate)
             let stringDate = date.dateToKoreanString
             
-            array.append(Diary(title: diaryData.title ?? "", body: diaryData.body ?? "", createdAt: stringDate))
+            return Diary(title: diaryData.title ?? "", body: diaryData.body ?? "", createdAt: stringDate)
         }
         
         self.diaryArray = array
