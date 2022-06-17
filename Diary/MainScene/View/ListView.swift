@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainView: UIView {
+final class ListView: UIView {
   let tableView: UITableView = {
     let tableView = UITableView()
     tableView.translatesAutoresizingMaskIntoConstraints = false

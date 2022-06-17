@@ -7,7 +7,7 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-  private lazy var baseView = MainView(frame: view.bounds)
+  private lazy var baseView = ListView(frame: view.bounds)
   private var diary: [Diary]?
   
   override func loadView() {
@@ -29,10 +29,10 @@ final class MainViewController: UIViewController {
     self.navigationItem.title = "일기장"
     self.navigationItem.rightBarButtonItem = createAddBarButtonItem()
     self.baseView.tableView.register(
-      MainTableViewCell.self,
-      forCellReuseIdentifier: MainTableViewCell.identifier)
+      ListTableViewCell.self,
+      forCellReuseIdentifier: ListTableViewCell.identifier)
     self.baseView.tableView.register(
-      MainTableViewCell.self,
+      ListTableViewCell.self,
       forCellReuseIdentifier: EmptyTableViewCell.identifier)
     self.baseView.tableView.dataSource = self
   }
@@ -58,8 +58,8 @@ extension MainViewController: UITableViewDataSource {
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(
-      withIdentifier: MainTableViewCell.identifier,
-      for: indexPath) as? MainTableViewCell,
+      withIdentifier: ListTableViewCell.identifier,
+      for: indexPath) as? ListTableViewCell,
           let diary = self.diary else {
       return EmptyTableViewCell()
     }

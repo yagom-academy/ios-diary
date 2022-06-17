@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainTableViewCell: UITableViewCell, Identifiable {
+final class ListTableViewCell: UITableViewCell, Identifiable {
   private let mainStackView: UIStackView = {
     let stackView = UIStackView()
     stackView.axis = .vertical
