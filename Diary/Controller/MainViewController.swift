@@ -69,5 +69,7 @@ extension MainViewController: UITableViewDelegate {
         
         let detailVC = DetailViewController(diary: diary)
         navigationController?.pushViewController(detailVC, animated: true)
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }

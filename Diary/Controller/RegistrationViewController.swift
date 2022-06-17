@@ -9,7 +9,8 @@ import UIKit
 
 final class RegistrationViewController: UIViewController {
     private lazy var detailView = DetailView(frame: view.bounds)
-    private var diary: Diary?
+    private var diary: DiaryEntity?
+    private let createdAt = Date().timeIntervalSince1970
     
     override func loadView() {
         super.loadView()
@@ -23,23 +24,42 @@ final class RegistrationViewController: UIViewController {
         detailView.scrollTextViewToTop()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        saveDiary()
+    }
+    
     private func registerNotification() {
-        NotificationCenter.default.addObserver(
+        let notificationCenter = NotificationCenter.default
+        
+        notificationCenter.addObserver(
             self,
             selector: #selector(keyboardWillShow),
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
-        NotificationCenter.default.addObserver(
+        
+        notificationCenter.addObserver(
             self,
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+        
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(didEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
     }
     
     private func setUpNavigationBar() {
-        title = Date().formattedString
+        title = createdAt.formattedString
+    }
+    
+    @objc private func didEnterBackground() {
+        saveDiary()
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -54,6 +74,21 @@ final class RegistrationViewController: UIViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
+        saveDiary()
+    }
+    
+    private func saveDiary() {
+        let content = detailView.contentTextView.text
+        var test = content?.components(separatedBy: "\n\n")
+        guard let title = test?.removeFirst(),
+              let body = test?.joined()
+        else {
+            return
+        }
+
+        let diary = Diary(title: title, createdAt: createdAt, body: body)
+        
+        PersistenceManager.shared.updateData(data: diary)
     }
 }
 

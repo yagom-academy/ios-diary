@@ -10,12 +10,13 @@ import CoreData
 
 final class PersistenceManager {
     static let shared = PersistenceManager()
-    
     private init() { }
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    private var diaryEntities = [DiaryEntity]()
+    
+    private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DiaryEntity")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
                 fatalError( )
             }
@@ -23,52 +24,72 @@ final class PersistenceManager {
         return container
     }()
     
-    var context: NSManagedObjectContext {
+    private var context: NSManagedObjectContext {
         return self.persistentContainer.viewContext
     }
     
-    func fetchData(request: NSFetchRequest<DiaryEntity>) -> [DiaryEntity] {
+    func fetchData() {
         do {
+            let request = DiaryEntity.fetchRequest()
             let fetchResult = try self.context.fetch(request)
-            return fetchResult
+            diaryEntities = fetchResult
         } catch {
             print(error.localizedDescription)
-            return []
         }
     }
     
-    func createData(data: Diary) {
-        let entity = NSEntityDescription.entity(forEntityName: "Joke", in: self.context)
+    func diaries() -> [DiaryEntity] {
+        diaryEntities
+    }
+}
+
+extension PersistenceManager {
+    private func createData(data: Diary) {
+        let entity = NSEntityDescription.entity(forEntityName: "DiaryEntity", in: self.context)
         if let entity = entity {
             let diary = NSManagedObject(entity: entity, insertInto: self.context)
             diary.setValue(data.title, forKey: "title")
             diary.setValue(data.body, forKey: "body")
             diary.setValue(data.createdAt, forKey: "createdAt")
+            diary.setValue(data.id, forKey: "id")
             
-            do {
-                try context.save()
-            } catch {
-                print(error.localizedDescription)
-            }
+            saveContext()
         }
     }
     
-    func deleteData(object: NSManagedObject) {
-        self.context.delete(object)
+    func updateData(data: Diary) {
+        let request: NSFetchRequest<DiaryEntity> = DiaryEntity.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", data.id)
+        request.predicate = predicate
+        
         do {
-            try context.save()
+            let fetchedResults = try context.fetch(request)
+            if fetchedResults.first == nil {
+                createData(data: data)
+            } else {
+                patchData()
+            }
         } catch {
             print(error.localizedDescription)
         }
     }
     
-    func modifyData() {
+    private func patchData() {
         if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                print(error.localizedDescription)
-            }
+            saveContext()
+        }
+    }
+    
+    func deleteData(object: NSManagedObject) {
+        self.context.delete(object)
+        saveContext()
+    }
+    
+    private func saveContext() {
+        do {
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }
