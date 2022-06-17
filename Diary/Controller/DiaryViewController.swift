@@ -36,9 +36,10 @@ final class DiaryViewController: UIViewController {
     private func setInitialView() {
         self.view = diaryView
 
-        if diaryViewType == .add {
+        switch diaryViewType {
+        case .add:
             self.title = Date().dateToKoreanString
-        } else {
+        case .edit:
             self.title = diary?.createdAt ?? ""
             configureDiaryView()
         }
