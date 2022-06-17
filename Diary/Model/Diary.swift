@@ -11,7 +11,7 @@ struct Diary: Codable, Hashable {
     let title: String?
     let body: String?
     let createdAt: String?
-    let uuid: UUID?
+    let uuid: UUID
 
     private enum CodingKeys: String, CodingKey {
         case title, body
