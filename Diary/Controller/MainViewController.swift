@@ -83,13 +83,21 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let remove = UIContextualAction(style: .destructive, title: "삭제") { _, _, completionHandler in
+        let removeAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, completionHandler in
             PersistenceManager.shared.deleteData(index: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
             completionHandler(true)
         }
-        remove.image = .remove
-
-        return UISwipeActionsConfiguration(actions: [remove])
+        removeAction.image = UIImage.init(systemName: "trash")
+        
+        let shareAction = UIContextualAction(style: .normal, title: "공유") { [weak self] _, _, completionHandler in
+            self?.showActivityView(data: PersistenceManager.shared.diaries()[indexPath.row])
+            completionHandler(true)
+        }
+        shareAction.image = UIImage.init(systemName: "person.crop.circle.badge.plus")
+        shareAction.backgroundColor = .systemIndigo
+        
+        return UISwipeActionsConfiguration(actions: [removeAction, shareAction])
+    }
     }
 }
