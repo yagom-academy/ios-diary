@@ -37,7 +37,7 @@ final class DiaryTableViewCell: UITableViewCell {
   func setUp(diary: Diary) {
     self.titleLabel.text = diary.title
     self.bodyLabel.text = diary.body
-    self.dateLabel.text = diary.createdAtString
+    self.dateLabel.text = Formatter.changeToString(from: diary.createdAt)
   }
 
   private func configure() {

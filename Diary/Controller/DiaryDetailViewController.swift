@@ -38,7 +38,7 @@ final class DiaryDetailViewController: UIViewController {
   }
 
   private func configure() {
-    self.title = diary.createdAtString
+    self.title = Formatter.changeToString(from: diary.createdAt)
     self.view.backgroundColor = .systemBackground
 
     self.titleLabel.text = diary.title
