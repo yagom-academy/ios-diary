@@ -1,5 +1,5 @@
 //
-//  TimeInterval.swift
+//  Double.swift
 //  Diary
 //
 //  Created by mmim, grumpy, mino on 2022/06/14.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension TimeInterval {
+extension Double {
     var formattedString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
