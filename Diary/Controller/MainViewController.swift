@@ -99,5 +99,10 @@ extension MainViewController: UITableViewDelegate {
         
         return UISwipeActionsConfiguration(actions: [removeAction, shareAction])
     }
+    
+    func showActivityView(data: DiaryEntity) {
+        let textToShare: [Any] = [ShareActivityItemSource(title: data.title ?? "제목 없음", text: data.createdAt.formattedString)]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        present(activityViewController, animated: true)
     }
 }
