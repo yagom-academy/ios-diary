@@ -26,7 +26,6 @@ final class MainViewController: UIViewController {
   }
   
   private func configureUI() {
-    self.view.backgroundColor = .systemBackground
     self.navigationItem.title = "일기장"
     self.navigationItem.rightBarButtonItem = createAddBarButtonItem()
     self.baseView.tableView.register(
