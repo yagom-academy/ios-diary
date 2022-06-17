@@ -27,13 +27,13 @@ final class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        registerNotification()
         setUpNavigationBar()
         detailView.setUpContents(data: diary)
         detailView.scrollTextViewToTop()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    private func registerNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
