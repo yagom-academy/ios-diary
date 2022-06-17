@@ -9,9 +9,9 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController {
     private let mainView = DiaryDetailView()
-    private let diary: Diary
+    private let diary: Diary?
     
-    init(diary: Diary) {
+    init(diary: Diary? = nil) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
@@ -23,14 +23,23 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        mainView.configure(diary: diary)
         configureLayout()
         registerNotification()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setViewFirstResponder()
+    }
+    
+    private func setViewFirstResponder() {
+        mainView.setFirstResponder()
+    }
+    
     private func configureView() {
+        mainView.configure(diary: diary)
         view.backgroundColor = .systemBackground
-        title = diary.createdAt
+        title = diary?.createdAt
     }
     
     private func configureLayout() {

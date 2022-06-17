@@ -6,27 +6,30 @@
 
 import UIKit
 
-private enum Section {
+enum Section {
     case main
 }
 
 final class DiaryListViewController: UITableViewController {
-    private typealias DataSource = UITableViewDiffableDataSource<Section, Diary>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Diary>
+    private typealias DataSource = DiaryListDataSource
+    
     private var dataSource: DataSource?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        dataSource = makeDataSource()
-        applySnapshot(items: makeData())
+        configureDataSource()
         configureNavigationItem()
     }
     
-    private func makeData() -> [Diary] {
-        let items = Diary.createData() ?? []
+    private func configureDataSource() {
+        dataSource = makeDataSource()
         
-        return items
+        do {
+            try dataSource?.makeData()
+        } catch {
+            // 얼럿
+        }
     }
     
     private func configureTableView() {
@@ -41,8 +44,11 @@ final class DiaryListViewController: UITableViewController {
     }
     
     @objc private func addButtonDidTapped() {
+        navigationController?.pushViewController(DiaryDetailViewController(), animated: true)
     }
 }
+
+// MARK: - DataSource
 
 extension DiaryListViewController {
     private func makeDataSource() -> DataSource {
@@ -58,14 +64,9 @@ extension DiaryListViewController {
         
         return dataSource
     }
-    
-    private func applySnapshot(items: [Diary]) {
-        var snapShot = Snapshot()
-        snapShot.appendSections([.main])
-        snapShot.appendItems(items)
-        dataSource?.apply(snapShot)
-    }
 }
+
+// MARK: - TableView Delegate
 
 extension DiaryListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
