@@ -108,12 +108,4 @@ extension ListViewController: UITableViewDelegate {
         
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if UIDevice.current.orientation.isLandscape {
-            return UIScreen.main.bounds.width * 0.08
-        } else {
-            return UIScreen.main.bounds.width * 0.17
-        }
-    } 
 }
