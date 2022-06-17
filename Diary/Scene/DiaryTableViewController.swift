@@ -38,7 +38,7 @@ final class DiaryTableViewController: UITableViewController {
         tableView.separatorInset.left = 20
         tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.reuseIdentifier)
         makeDataSource()
-        dataSource?.makeSampleDiarys()
+        dataSource?.read()
     }
     
     private func makeDataSource() {
