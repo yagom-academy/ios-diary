@@ -20,7 +20,7 @@ final class DiaryDetailViewController: UIViewController {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -52,6 +52,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private func setUpTextView() {
         diaryTextView.contentOffset = .zero
+        diaryTextView.delegate = self
         
         if diary.isEmpty == false {
             diaryTextView.text = diary.title + "\n\n" + diary.body
@@ -73,5 +74,22 @@ final class DiaryDetailViewController: UIViewController {
             diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+}
+
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            title: "완료",
+            style: .plain,
+            target: self,
+            action: #selector(doneButtonDidTap)
+        )
+    }
+    
+    @objc
+    private func doneButtonDidTap() {
+        diaryTextView.resignFirstResponder()
+        navigationItem.rightBarButtonItem = nil
     }
 }
