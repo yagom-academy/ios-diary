@@ -43,7 +43,8 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func didTapAddButton() {
-        
+        let registrationVC = RegistrationViewController()
+        navigationController?.pushViewController(registrationVC, animated: true)
     }
 }
 
