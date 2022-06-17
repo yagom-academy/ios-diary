@@ -30,17 +30,7 @@ final class RegisterViewController: UIViewController {
     }
     
     private func setUpNavigationController() {
-        func setUpLeftItem() {
-            let button = UIButton(title: backButtonTitle)
-            let barButton = UIBarButtonItem(customView: button)
-            
-            button.addTarget(self, action: #selector(registerDiary), for: .touchUpInside)
-            
-            navigationItem.leftBarButtonItem = barButton
-        }
-        
         navigationItem.title = Formatter.getCurrentDate()
-        setUpLeftItem()
     }
     
     @objc private func registerDiary() {

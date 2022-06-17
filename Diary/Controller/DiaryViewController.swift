@@ -70,11 +70,8 @@ final class DiaryViewController: UIViewController {
     
     @objc private func moveRegisterViewController() {
         let viewContoller = RegisterViewController(backButtonTitle: navigationItem.title)
-        let navigationController = UINavigationController(rootViewController: viewContoller)
         
-        navigationController.modalPresentationStyle = .fullScreen
-        
-        present(navigationController, animated: true)
+        navigationController?.pushViewController(viewContoller, animated: true)
     }
     
     private func setUpTableViewLayout() {
