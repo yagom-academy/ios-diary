@@ -14,12 +14,6 @@ final class ListViewController: UIViewController {
         }
     }
     
-    private lazy var plusButton: UIBarButtonItem = {
-        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchPlusButton))
-        
-        return plusButton
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitialView()
@@ -36,6 +30,7 @@ final class ListViewController: UIViewController {
     
     private func configureNavigationBar() {
         self.title = "일기장"
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(touchPlusButton))
         self.navigationItem.rightBarButtonItem = plusButton
     }
     
