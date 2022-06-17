@@ -117,5 +117,4 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let detailViewController = DetailViewController(diaryData: diaryData[indexPath.row])
         navigationController?.pushViewController(detailViewController, animated: true)
     }
-    
 }

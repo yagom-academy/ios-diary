@@ -37,7 +37,6 @@ final class DetailView: UIView {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = true
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
-        
         return scrollView
     }()
     
