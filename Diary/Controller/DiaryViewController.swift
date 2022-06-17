@@ -6,24 +6,25 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-  private let diaryTableView = UITableView()
+  private lazy var diaryTableView = UITableView().then {
+    $0.dataSource = self
+    $0.delegate = self
+    $0.register(
+      DiaryTableViewCell.self,
+      forCellReuseIdentifier: DiaryTableViewCell.identifier
+    )
+  }
+
   private var diaries = [Diary]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.configureTableView()
+    self.configureUI()
     self.configureNavigationBar()
     self.diaries = Diary.decodedData
   }
 
-  private func configureTableView() {
-    self.diaryTableView.dataSource = self
-    self.diaryTableView.delegate = self
-    self.diaryTableView.register(
-      DiaryTableViewCell.self,
-      forCellReuseIdentifier: DiaryTableViewCell.identifier
-    )
-
+  private func configureUI() {
     self.view.backgroundColor = .systemBackground
     self.view.addSubview(diaryTableView)
     self.diaryTableView.translatesAutoresizingMaskIntoConstraints = false
