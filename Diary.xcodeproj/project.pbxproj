@@ -25,7 +25,7 @@
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* MainViewController.swift */; };
-		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
+		C739AE2F284DF28600741E8F /* DiaryEntity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* DiaryEntity.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -166,7 +166,7 @@
 				A1DCA7D628585F780022DB2A /* Utility */,
 				A1DCA7D92858637E0022DB2A /* Extension */,
 				C739AE35284DF28600741E8F /* Info.plist */,
-				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				C739AE2D284DF28600741E8F /* DiaryEntity.xcdatamodeld */,
 				A1DCA7CB2858218A0022DB2A /* .swiftlint.yml */,
 			);
 			path = Diary;
@@ -312,7 +312,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				03EB0426285869AE008A68FC /* DetailViewController.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
-				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				C739AE2F284DF28600741E8F /* DiaryEntity.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -526,13 +526,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */ = {
+		C739AE2D284DF28600741E8F /* DiaryEntity.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				C739AE2E284DF28600741E8F /* Diary.xcdatamodel */,
 			);
 			currentVersion = C739AE2E284DF28600741E8F /* Diary.xcdatamodel */;
-			path = Diary.xcdatamodeld;
+			path = DiaryEntity.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
