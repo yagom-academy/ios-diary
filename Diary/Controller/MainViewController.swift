@@ -83,9 +83,9 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let removeAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, completionHandler in
-            PersistenceManager.shared.deleteData(index: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .fade)
+        let removeAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] _, _, completionHandler in
+            self?.showRemoveAlert(index: indexPath)
+            
             completionHandler(true)
         }
         removeAction.image = UIImage.init(systemName: "trash")
@@ -98,6 +98,18 @@ extension MainViewController: UITableViewDelegate {
         shareAction.backgroundColor = .systemIndigo
         
         return UISwipeActionsConfiguration(actions: [removeAction, shareAction])
+    }
+    
+    func showRemoveAlert(index: IndexPath) {
+        let UIAlertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let removeAction = UIAlertAction(title: "삭제", style: .destructive) { [self] _ in
+            PersistenceManager.shared.deleteData(index: index.row)
+            mainView.baseTableView.deleteRows(at: [index], with: .fade)
+        }
+        UIAlertController.addAction(cancelAction)
+        UIAlertController.addAction(removeAction)
+        present(UIAlertController, animated: true)
     }
     
     func showActivityView(data: DiaryEntity) {
