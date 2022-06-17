@@ -79,13 +79,16 @@ final class RegistrationViewController: UIViewController {
     }
     
     private func saveDiary() {
-        let content = detailView.contentTextView.text
-        var test = content?.components(separatedBy: "\n\n")
-        guard let title = test?.removeFirst(),
-              let body = test?.joined()
+        guard let content = detailView.contentTextView.text,
+                content.isEmpty == false
         else {
             return
         }
+        
+        var splitedContent = content.components(separatedBy: "\n\n")
+        
+        let title = splitedContent.removeFirst()
+        let body = splitedContent.joined()
 
         let diary = Diary(title: title, createdAt: createdAt, body: body, id: diaryId)
         
