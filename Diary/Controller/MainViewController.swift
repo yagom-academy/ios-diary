@@ -18,9 +18,13 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         setUpNavigationBar()
         setUpTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         setUpDiaries()
     }
-        
+    
     private func setUpNavigationBar() {
         title = "일기장"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -36,7 +40,10 @@ final class MainViewController: UIViewController {
     }
     
     private func setUpDiaries() {
-        PersistenceManager.shared.fetchData()
+        DispatchQueue.main.async { [self] in
+            PersistenceManager.shared.fetchData()
+            mainView.baseTableView.reloadData()
+        }
     }
     
     @objc private func didTapAddButton() {
