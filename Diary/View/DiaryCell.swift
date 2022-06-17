@@ -78,7 +78,11 @@ final class DiaryCell: UITableViewCell {
     }
     
     func setUpContents(data: DiaryEntity) {
-        titleLabel.text = data.title
+        if data.title == "" {
+            titleLabel.text = "[제목없음]"
+        } else {
+            titleLabel.text = data.title
+        }
         dateLabel.text = data.createdAt.formattedString
         descriptionLabel.text = data.body
     }
