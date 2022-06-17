@@ -22,6 +22,6 @@ extension DiaryEntity {
 
 }
 
-extension DiaryEntity : Identifiable {
+extension DiaryEntity: Identifiable {
 
 }
