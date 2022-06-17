@@ -8,8 +8,9 @@
 import UIKit
 
 final class RegisterViewController: UIViewController {
-    private let textView = TextView()
+    private let textView = UITextView()
     private var backButtonTitle: String?
+    private let keyboard = Keyboard()
     
     init(backButtonTitle: String?) {
         super.init(nibName: nil, bundle: nil)
@@ -25,7 +26,7 @@ final class RegisterViewController: UIViewController {
         setUpNavigationController()
         setUpTextViewLayout()
         
-        textView.setUpKeyboardNotification()
+        keyboard.setUpKeyboardNotification()
     }
     
     private func setUpNavigationController() {
@@ -51,13 +52,13 @@ final class RegisterViewController: UIViewController {
         
         textView.translatesAutoresizingMaskIntoConstraints = false
        
-        textView.bottomContraint = textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        keyboard.bottomContraint = textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.topAnchor),
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            textView.bottomContraint
+            keyboard.bottomContraint
         ].compactMap { $0 })
     }
 }

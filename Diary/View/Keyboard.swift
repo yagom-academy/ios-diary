@@ -1,5 +1,5 @@
 //
-//  TextView.swift
+//  Keyboard.swift
 //  Diary
 //
 //  Created by 김동욱 on 2022/06/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TextView: UITextView {
+final class Keyboard {
     enum Const {
         static let keyboardBounds = "UIKeyboardBoundsUserInfoKey"
     }
