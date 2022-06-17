@@ -79,4 +79,17 @@ extension MainViewController: UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let remove = UIContextualAction(style: .destructive, title: "삭제") { _, _, completionHandler in
+            PersistenceManager.shared.deleteData(index: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            completionHandler(true)
+        }
+        remove.image = .remove
+
+        return UISwipeActionsConfiguration(actions: [remove])
+    }
 }
