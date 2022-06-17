@@ -25,7 +25,7 @@ final class ListViewController: UIViewController {
         mainView.tableView.delegate = self
         mainView.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "\(ListTableViewCell.self)")
         configureNavigationBar()
-        convert(parsedData())
+        appendDiary(parsedData())
     }
     
     private func configureNavigationBar() {
@@ -54,7 +54,7 @@ final class ListViewController: UIViewController {
         return sample
     }
     
-    private func convert(_ data: [DiaryData]?) {
+    private func appendDiary(_ data: [DiaryData]?) {
         guard let diaryDatas = data else {
             return
         }
