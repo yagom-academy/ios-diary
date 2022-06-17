@@ -9,8 +9,9 @@ import Foundation
 
 struct Diary: Decodable {
     let title: String
-    let createdAt: TimeInterval
+    let createdAt: Double
     let body: String
+    let id = UUID().uuidString
     
     private enum CodingKeys: String, CodingKey {
         case title, body
