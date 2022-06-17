@@ -50,7 +50,7 @@ type.method() 이런식으로 접근하듯 같은 맥락이라고 생각하면 �
 
 ### 해결한점
 
-![](https://i.imgur.com/JQ8LhpV.png)
+<img width="400px" src="https://i.imgur.com/JQ8LhpV.png"/>
 
 위 사진과 같이 cell이 계단형식으로 나오는 문제가 발생하여 계속 찾아보았는데요 문제가 cell이 겹치는 것이 문제라 생각했습니다 그래서 문제를 해결 하려고 cell안에 폰트를 변경하여 cell이 겹치지 않도록 해결하였습니다.
 
