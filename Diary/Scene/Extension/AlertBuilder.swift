@@ -17,7 +17,7 @@ final class AlertBuilder {
     private var actions: [AlertAction] = []
     weak var viewController: UIViewController?
     
-    init(viewController: UIViewController) {
+    init(viewController: UIViewController?) {
         self.viewController = viewController
     }
     

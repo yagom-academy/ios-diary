@@ -54,6 +54,40 @@ final class DiaryDetailViewController: UIViewController {
     
     private func setUpNavigationBar() {
         title = diary.createdDate.formattedString
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(moreButtonDidTap)
+        )
+    }
+    
+    @objc
+    private func moreButtonDidTap() {
+        AlertBuilder(viewController: self)
+            .addAction(title: "Share...", style: .default) { [weak self] in
+                guard let text = self?.diaryTextView.text else { return }
+                
+                let activityViewController = UIActivityViewController(
+                    activityItems: [text],
+                    applicationActivities: nil
+                )
+                
+                self?.present(activityViewController, animated: true)
+            }
+            .addAction(title: "Delete", style: .destructive) { [weak self] in
+                AlertBuilder(viewController: self)
+                    .addAction(title: "취소", style: .cancel)
+                    .addAction(title: "삭제", style: .destructive) { [weak self] in
+                        guard let diary = self?.diary else { return }
+                        
+                        self?.delegate?.delete(diary: diary)
+                        self?.navigationController?.popViewController(animated: true)
+                    }
+                    .show(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert)
+            }
+            .addAction(title: "Cancel", style: .cancel)
+            .show(style: .actionSheet)
     }
     
     private func setUpTextView() {
