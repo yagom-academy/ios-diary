@@ -33,24 +33,29 @@ final class DiaryDetailViewController: UIViewController {
         layout()
     }
     
-    private func setUp() {
-        setUpItem()
-        setUpNavigationBar()
-        setUpTextView()
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if diary.isEmpty {
+            diaryTextView.becomeFirstResponder()
+        }
     }
     
-    private func setUpItem() {
-        if diary.isEmpty == false {
-            diaryTextView.text = diary.title + "\n\n" + diary.body
-        }
+    private func setUp() {
+        setUpNavigationBar()
+        setUpTextView()
     }
     
     private func setUpNavigationBar() {
         title = diary.createdDate.formattedString
     }
     
-    private func setUpTextView() {        
+    private func setUpTextView() {
         diaryTextView.contentOffset = .zero
+        
+        if diary.isEmpty == false {
+            diaryTextView.text = diary.title + "\n\n" + diary.body
+        }
     }
     
     private func attribute() {
