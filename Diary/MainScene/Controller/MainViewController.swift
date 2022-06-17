@@ -62,7 +62,7 @@ extension MainViewController: UITableViewDataSource {
     guard let cell = tableView.dequeueReusableCell(
       withIdentifier: ListTableViewCell.identifier,
       for: indexPath) as? ListTableViewCell,
-          let diary = self.diary else {
+         let diary = self.diary else {
       return EmptyTableViewCell()
     }
     

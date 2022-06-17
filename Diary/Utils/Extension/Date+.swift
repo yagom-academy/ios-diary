@@ -8,9 +8,9 @@
 import Foundation
 
 extension Date {
-  func setKoreaDateFormat(dateFormat: String) -> String {
+  func setKoreaDateFormat(dateFormat: DateFormat) -> String {
     let dateformatter = DateFormatter()
-    dateformatter.dateFormat = dateFormat
+    dateformatter.dateFormat = dateFormat.form
     dateformatter.locale = Locale(identifier: "ko_KR")
     let date = dateformatter.string(from: self)
     return date

@@ -24,12 +24,15 @@ final class WriteViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    self.removeNotification()
   }
   
   private func configureUI() {
     self.view.backgroundColor = .systemBackground
-    self.navigationItem.title = Date().setKoreaDateFormat(dateFormat: "yyyy년 MM월 dd일")
+    self.navigationItem.title = Date().setKoreaDateFormat(dateFormat: .yearMonthDay)
+  }
+  
+  deinit {
+    self.removeNotification()
   }
 }
 
