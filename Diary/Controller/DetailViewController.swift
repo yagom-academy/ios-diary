@@ -33,23 +33,98 @@ final class DetailViewController: UIViewController {
         detailView.scrollTextViewToTop()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        saveDiary()
+    }
+    
     private func registerNotification() {
-        NotificationCenter.default.addObserver(
+        let notificationCenter = NotificationCenter.default
+        
+        notificationCenter.addObserver(
             self,
             selector: #selector(keyboardWillShow),
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
-        NotificationCenter.default.addObserver(
+        
+        notificationCenter.addObserver(
             self,
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+        
+        notificationCenter.addObserver(
+            self,
+            selector: #selector(didEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
             object: nil
         )
     }
     
     private func setUpNavigationBar() {
         title = diary.createdAt.formattedString
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(didTapActionButton)
+        )
+    }
+    
+    @objc private func didEnterBackground() {
+        saveDiary()
+    }
+    
+    @objc private func didTapActionButton() {
+        showActionSheet()
+    }
+    
+    private func saveDiary() {
+        let content = detailView.contentTextView.text
+        var splitedContent = content?.components(separatedBy: "\n\n")
+        guard let title = splitedContent?.removeFirst(),
+              let body = splitedContent?.joined()
+        else {
+            return
+        }
+
+        let diary = Diary(title: title, createdAt: diary.createdAt, body: body, id: diary.id)
+                
+        PersistenceManager.shared.updateData(data: diary)
+    }
+    
+    private func showActionSheet() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            PersistenceManager.shared.deleteData(object: self.diary)
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            self.showActivityView(data: self.diary)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
+        }
+        
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(cancelAction)
+        
+        present(actionSheet, animated: true)
+    }
+    
+    private func showActivityView(data: DiaryEntity) {
+        let textToShare: [Any] = [
+            ShareActivityItemSource(
+                title: data.title ?? "제목 없음",
+                text: data.createdAt.formattedString)
+        ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        present(activityViewController, animated: true)
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -64,5 +139,6 @@ final class DetailViewController: UIViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
+        saveDiary()
     }
 }
