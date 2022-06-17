@@ -6,8 +6,15 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-  private let titleLabel = UILabel()
-  private let bodyTextView = UITextView()
+  private let titleLabel = UILabel().then {
+    $0.font = .preferredFont(forTextStyle: .headline)
+    $0.adjustsFontForContentSizeCategory = true
+  }
+  private let bodyTextView = UITextView().then {
+    $0.font = .preferredFont(forTextStyle: .body)
+    $0.adjustsFontForContentSizeCategory = true
+  }
+  
   private let diary: Diary
 
   init(diary: Diary) {
@@ -34,12 +41,7 @@ final class DiaryDetailViewController: UIViewController {
     self.title = diary.createdAtString
     self.view.backgroundColor = .systemBackground
 
-    self.titleLabel.font = .preferredFont(forTextStyle: .headline)
-    self.titleLabel.adjustsFontForContentSizeCategory = true
     self.titleLabel.text = diary.title
-
-    self.bodyTextView.font = .preferredFont(forTextStyle: .body)
-    self.bodyTextView.adjustsFontForContentSizeCategory = true
     self.bodyTextView.text = diary.body
 
     let container = UIStackView(arrangedSubviews: [titleLabel, bodyTextView])
