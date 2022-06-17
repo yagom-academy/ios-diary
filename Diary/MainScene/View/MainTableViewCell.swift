@@ -55,7 +55,7 @@ final class MainTableViewCell: UITableViewCell, Identifiable {
   func updata(diary: Diary) {
     self.titleLabel.text = diary.title
     self.dateLabel.text = diary.createdAt.setKoreaDateFormat()
-    self.descriptionLabel.text = diary.body
+    self.descriptionLabel.text = diary.description
   }
   
   private func configureUI() {
