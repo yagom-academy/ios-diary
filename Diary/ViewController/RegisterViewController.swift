@@ -5,12 +5,11 @@
 //  Created by Donnie, OneTool on 2022/06/17.
 //
 
-import Foundation
 import UIKit
 
 final class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         self.view = view
-        self.view.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
     }
 }
