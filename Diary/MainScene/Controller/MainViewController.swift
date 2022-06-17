@@ -48,8 +48,8 @@ final class MainViewController: UIViewController {
   }
   
   @objc private func addButtonDidTap() {
-    let detailVC = WriteViewController()
-    navigationController?.pushViewController(detailVC, animated: true)
+    let detailViewController = WriteViewController()
+    navigationController?.pushViewController(detailViewController, animated: true)
   }
 }
 
