@@ -95,12 +95,7 @@ final class DiaryDetailViewController: UIViewController {
       return
     }
 
-    let contentInset = UIEdgeInsets(
-      top: .zero,
-      left: .zero,
-      bottom: keyboardFrame.height,
-      right: .zero
-    )
+    let contentInset = UIEdgeInsets(bottom: keyboardFrame.height)
     self.bodyTextView.contentInset = contentInset
     self.bodyTextView.verticalScrollIndicatorInsets = contentInset
   }
