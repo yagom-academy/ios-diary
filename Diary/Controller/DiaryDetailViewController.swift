@@ -74,17 +74,21 @@ final class DiaryDetailViewController: UIViewController {
   }
 
   private func observeKeyboardNotifications() {
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillShow(_:)),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil
-    )
+    self.observeKeyboardWillShowNotification()
 
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(keyboardWillHide(_:)),
       name: UIResponder.keyboardWillHideNotification,
+      object: nil
+    )
+  }
+
+  private func observeKeyboardWillShowNotification() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillShow(_:)),
+      name: UIResponder.keyboardWillShowNotification,
       object: nil
     )
   }
@@ -98,11 +102,18 @@ final class DiaryDetailViewController: UIViewController {
     let contentInset = UIEdgeInsets(bottom: keyboardFrame.height)
     self.bodyTextView.contentInset = contentInset
     self.bodyTextView.verticalScrollIndicatorInsets = contentInset
+
+    NotificationCenter.default.removeObserver(
+      self,
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
   }
 
   @objc private func keyboardWillHide(_ notification: Notification) {
     let contentInset = UIEdgeInsets.zero
     self.bodyTextView.contentInset = contentInset
     self.bodyTextView.scrollIndicatorInsets = contentInset
+    self.observeKeyboardWillShowNotification()
   }
 }
