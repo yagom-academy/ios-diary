@@ -34,6 +34,13 @@ final class DiaryTableViewCell: UITableViewCell {
     fatalError("init(coder:) has not been implemented")
   }
 
+  override func prepareForReuse() {
+    super.prepareForReuse()
+    self.titleLabel.text = nil
+    self.bodyLabel.text = nil
+    self.dateLabel.text = nil
+  }
+
   func configureItem(_ diary: Diary) {
     self.titleLabel.text = diary.title
     self.bodyLabel.text = diary.body
