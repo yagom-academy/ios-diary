@@ -6,10 +6,6 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-  private let titleLabel = UILabel().then {
-    $0.font = .preferredFont(forTextStyle: .headline)
-    $0.adjustsFontForContentSizeCategory = true
-  }
   private let bodyTextView = UITextView().then {
     $0.font = .preferredFont(forTextStyle: .body)
     $0.adjustsFontForContentSizeCategory = true
@@ -41,15 +37,15 @@ final class DiaryDetailViewController: UIViewController {
     self.title = Formatter.changeToString(from: diary.createdAt)
     self.view.backgroundColor = .systemBackground
 
-    self.titleLabel.text = diary.title
-    self.bodyTextView.text = diary.body
+    self.bodyTextView.text = diary.title + "\n\n" + diary.body
 
-    let container = UIStackView(arrangedSubviews: [titleLabel, bodyTextView])
-    container.axis = .vertical
-    container.spacing = 20.0
+    let container = UIScrollView()
+    container.addSubview(bodyTextView)
 
     self.view.addSubview(container)
     container.translatesAutoresizingMaskIntoConstraints = false
+    bodyTextView.translatesAutoresizingMaskIntoConstraints = false
+
     NSLayoutConstraint.activate([
       container.topAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.topAnchor,
@@ -65,7 +61,14 @@ final class DiaryDetailViewController: UIViewController {
       container.trailingAnchor.constraint(
         equalTo: view.safeAreaLayoutGuide.trailingAnchor,
         constant: -8.0
-      )
+      ),
+
+      bodyTextView.topAnchor.constraint(equalTo: container.contentLayoutGuide.topAnchor),
+      bodyTextView.bottomAnchor.constraint(equalTo: container.contentLayoutGuide.bottomAnchor),
+      bodyTextView.leadingAnchor.constraint(equalTo: container.contentLayoutGuide.leadingAnchor),
+      bodyTextView.trailingAnchor.constraint(equalTo: container.contentLayoutGuide.trailingAnchor),
+      bodyTextView.widthAnchor.constraint(equalTo: container.widthAnchor),
+      bodyTextView.heightAnchor.constraint(equalTo: container.heightAnchor, constant: 1)
     ])
   }
 
