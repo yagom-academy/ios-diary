@@ -27,7 +27,7 @@ final class DiaryDetailViewController: UIViewController {
     self.initializeUI()
     self.initializeNavigationBar()
     self.setNotification()
-    self.initializeDiaryData()
+    self.initializeItem()
   }
 
   override func viewDidDisappear(_ animated: Bool) {
@@ -74,7 +74,7 @@ final class DiaryDetailViewController: UIViewController {
     self.title = Formatter.changeToString(from: diary.createdAt)
   }
 
-  private func initializeDiaryData() {
+  private func initializeItem() {
     self.bodyTextView.text = diary.title + "\n\n" + diary.body
   }
 
