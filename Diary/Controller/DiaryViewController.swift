@@ -67,6 +67,7 @@ extension DiaryViewController: UITableViewDataSource {
     _ tableView: UITableView,
     cellForRowAt indexPath: IndexPath
   ) -> UITableViewCell {
+    guard diaries.indices.contains(indexPath.row) else { return UITableViewCell() }
     guard let cell = tableView.dequeueReusableCell(
       withIdentifier: DiaryTableViewCell.identifier,
       for: indexPath) as? DiaryTableViewCell
@@ -85,6 +86,8 @@ extension DiaryViewController: UITableViewDelegate {
     _ tableView: UITableView,
     didSelectRowAt indexPath: IndexPath
   ) {
+    guard diaries.indices.contains(indexPath.row) else { return }
+
     tableView.deselectRow(at: indexPath, animated: true)
     let detailViewController = DiaryDetailViewController(diary: diaries[indexPath.row])
     self.navigationController?.pushViewController(detailViewController, animated: true)
