@@ -19,12 +19,12 @@ final class DiaryViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.configureUI()
-    self.configureNavigationBar()
+    self.initializeUI()
+    self.initializeNavigationBar()
     self.fetchDiaries()
   }
 
-  private func configureUI() {
+  private func initializeUI() {
     self.view.backgroundColor = .systemBackground
     self.view.addSubview(diaryTableView)
     self.diaryTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,7 @@ final class DiaryViewController: UIViewController {
     ])
   }
 
-  private func configureNavigationBar() {
+  private func initializeNavigationBar() {
     self.title = "일기장"
     let addButton = UIBarButtonItem(
       image: UIImage(systemName: "plus"),
