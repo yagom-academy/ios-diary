@@ -72,7 +72,7 @@ extension DiaryViewController: UITableViewDataSource {
       for: indexPath) as? DiaryTableViewCell
     else { return UITableViewCell() }
 
-    cell.setUp(diary: diaries[indexPath.row])
+    cell.configureItem(diaries[indexPath.row])
 
     return cell
   }

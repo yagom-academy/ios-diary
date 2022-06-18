@@ -27,20 +27,20 @@ final class DiaryTableViewCell: UITableViewCell {
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    self.configure()
+    self.initializeUI()
   }
 
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
 
-  func setUp(diary: Diary) {
+  func configureItem(_ diary: Diary) {
     self.titleLabel.text = diary.title
     self.bodyLabel.text = diary.body
     self.dateLabel.text = Formatter.changeToString(from: diary.createdAt)
   }
 
-  private func configure() {
+  private func initializeUI() {
     self.accessoryType = .disclosureIndicator
 
     let subContainer = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
