@@ -24,8 +24,10 @@ final class DiaryDetailViewController: UIViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.configure()
+    self.initializeUI()
+    self.initializeNavigationBar()
     self.setNotification()
+    self.initializeDiaryData()
   }
 
   override func viewDidDisappear(_ animated: Bool) {
@@ -33,16 +35,12 @@ final class DiaryDetailViewController: UIViewController {
     self.removeNotification()
   }
 
-  private func configure() {
-    self.title = Formatter.changeToString(from: diary.createdAt)
+  private func initializeUI() {
     self.view.backgroundColor = .systemBackground
 
-    self.bodyTextView.text = diary.title + "\n\n" + diary.body
-
     let container = UIScrollView()
-    container.addSubview(bodyTextView)
-
     self.view.addSubview(container)
+    container.addSubview(bodyTextView)
     container.translatesAutoresizingMaskIntoConstraints = false
     bodyTextView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -70,6 +68,14 @@ final class DiaryDetailViewController: UIViewController {
       bodyTextView.widthAnchor.constraint(equalTo: container.widthAnchor),
       bodyTextView.heightAnchor.constraint(equalTo: container.heightAnchor, constant: 1)
     ])
+  }
+
+  private func initializeNavigationBar() {
+    self.title = Formatter.changeToString(from: diary.createdAt)
+  }
+
+  private func initializeDiaryData() {
+    self.bodyTextView.text = diary.title + "\n\n" + diary.body
   }
 
   private func setNotification() {
