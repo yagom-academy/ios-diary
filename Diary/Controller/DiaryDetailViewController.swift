@@ -26,8 +26,8 @@ final class DiaryDetailViewController: UIViewController {
     super.viewDidLoad()
     self.initializeUI()
     self.initializeNavigationBar()
-    self.setNotification()
     self.initializeItem()
+    self.observeKeyboardNotifications()
   }
 
   override func viewDidDisappear(_ animated: Bool) {
@@ -78,7 +78,7 @@ final class DiaryDetailViewController: UIViewController {
     self.bodyTextView.text = diary.title + "\n\n" + diary.body
   }
 
-  private func setNotification() {
+  private func observeKeyboardNotifications() {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(keyboardWillShow(_:)),
