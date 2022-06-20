@@ -19,7 +19,6 @@
 		A152B1A3285C543300BA06A9 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A152B1A2285C543300BA06A9 /* Diary.swift */; };
 		A1DCA7CC2858218A0022DB2A /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = A1DCA7CB2858218A0022DB2A /* .swiftlint.yml */; };
 		A1DCA7D328582CFE0022DB2A /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DCA7D228582CFE0022DB2A /* MainView.swift */; };
-		A1DCA7D828585F920022DB2A /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DCA7D728585F920022DB2A /* JSONParser.swift */; };
 		A1DCA7DB285863B80022DB2A /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DCA7DA285863B80022DB2A /* Double.swift */; };
 		A1DCA7DF28587FCA0022DB2A /* ContentTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DCA7DE28587FCA0022DB2A /* ContentTextView.swift */; };
 		A1DCA7E12858AC7F0022DB2A /* Collection.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1DCA7E02858AC7F0022DB2A /* Collection.swift */; };
@@ -44,7 +43,6 @@
 		A152B1A2285C543300BA06A9 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		A1DCA7CB2858218A0022DB2A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		A1DCA7D228582CFE0022DB2A /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		A1DCA7D728585F920022DB2A /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
 		A1DCA7DA285863B80022DB2A /* Double.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
 		A1DCA7DE28587FCA0022DB2A /* ContentTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentTextView.swift; sourceTree = "<group>"; };
 		A1DCA7E02858AC7F0022DB2A /* Collection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Collection.swift; sourceTree = "<group>"; };
@@ -124,14 +122,6 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		A1DCA7D628585F780022DB2A /* Utility */ = {
-			isa = PBXGroup;
-			children = (
-				A1DCA7D728585F920022DB2A /* JSONParser.swift */,
-			);
-			path = Utility;
-			sourceTree = "<group>";
-		};
 		A1DCA7D92858637E0022DB2A /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,7 +156,6 @@
 				A1DCA7CE28582BD80022DB2A /* Model */,
 				A1DCA7CF28582BDB0022DB2A /* View */,
 				A1DCA7D028582BDF0022DB2A /* Controller */,
-				A1DCA7D628585F780022DB2A /* Utility */,
 				A1DCA7D92858637E0022DB2A /* Extension */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* DiaryEntity.xcdatamodeld */,
@@ -307,7 +296,6 @@
 				A1DCA7DB285863B80022DB2A /* Double.swift in Sources */,
 				4EACCCDB285C9B65008046A5 /* ShareActivityItemSource.swift in Sources */,
 				03EB042428584F73008A68FC /* DiaryCell.swift in Sources */,
-				A1DCA7D828585F920022DB2A /* JSONParser.swift in Sources */,
 				4EACCCD9285C1BB1008046A5 /* RegistrationViewController.swift in Sources */,
 				A1DCA7D328582CFE0022DB2A /* MainView.swift in Sources */,
 				A152B1A3285C543300BA06A9 /* Diary.swift in Sources */,
