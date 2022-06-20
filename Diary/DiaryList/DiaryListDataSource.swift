@@ -27,4 +27,9 @@ final class DiaryListDataSource: UITableViewDiffableDataSource<Section, Diary> {
     func makeData() throws {
         items = try persistentManager.fetch()
     }
+    
+    func saveData(_ diary: Diary) throws {
+        try persistentManager.register(diary)
+        items.append(diary)
+    }
 }

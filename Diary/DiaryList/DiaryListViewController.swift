@@ -10,7 +10,7 @@ enum Section {
     case main
 }
 
-final class DiaryListViewController: UITableViewController {
+final class DiaryListViewController: UITableViewController, diaryDetailViewDelegate {
     private typealias DataSource = DiaryListDataSource
     
     private var dataSource: DataSource?
@@ -44,7 +44,17 @@ final class DiaryListViewController: UITableViewController {
     }
     
     @objc private func addButtonDidTapped() {
-        navigationController?.pushViewController(DiaryDetailViewController(), animated: true)
+        let presentView = DiaryDetailViewController()
+        presentView.delegate = self
+        navigationController?.pushViewController(presentView, animated: true)
+    }
+    
+    func save(_ diary: Diary) {
+        do {
+            try dataSource?.saveData(diary)
+        } catch {
+            
+        }
     }
 }
 
@@ -71,6 +81,8 @@ extension DiaryListViewController {
 extension DiaryListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let diary = dataSource?.snapshot().itemIdentifiers[indexPath.row] else { return }
-        navigationController?.pushViewController(DiaryDetailViewController(diary: diary), animated: true)
+        let presentView = DiaryDetailViewController(diary: diary)
+        presentView.delegate = self
+        navigationController?.pushViewController(presentView, animated: true)
     }
 }

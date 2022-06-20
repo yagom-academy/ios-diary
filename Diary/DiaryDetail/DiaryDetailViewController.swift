@@ -7,9 +7,14 @@
 
 import UIKit
 
+protocol diaryDetailViewDelegate: AnyObject {
+    func save(_ diary: Diary)
+}
+
 final class DiaryDetailViewController: UIViewController {
     private let mainView = DiaryDetailView()
     private let diary: Diary?
+    weak var delegate: diaryDetailViewDelegate?
     
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -30,6 +35,15 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         setViewFirstResponder()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let _ = diary {
+            
+        } else {
+            delegate?.save(makeDiary())
+        }
     }
     
     private func setViewFirstResponder() {
