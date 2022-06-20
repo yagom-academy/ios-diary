@@ -13,7 +13,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private let tableView = UITableView()
-    private var dataSource: UITableViewDiffableDataSource<Int, DiaryData>?
+    private var dataSource: UITableViewDiffableDataSource<Int, DiaryDTO>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,10 @@ final class DiaryViewController: UIViewController {
         setUpTableView()
         setUpTableViewLayout()
         setUpDataSource()
-        setUpSampleData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setUpCoreData()
     }
     
     private func setUpView() {
@@ -74,7 +77,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setUpDataSource() {
-        dataSource = UITableViewDiffableDataSource<Int, DiaryData>(tableView: tableView) {
+        dataSource = UITableViewDiffableDataSource<Int, DiaryDTO>(tableView: tableView) {
             tableView, indexPath, itemIdentifier in
             
             if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier,
@@ -92,12 +95,20 @@ final class DiaryViewController: UIViewController {
         guard let sampleData = SampleData.get() else {
             return
         }
+
+        setUpSanpshot(data: sampleData)
+    }
+    
+    private func setUpCoreData() {
+        guard let sampleData = DiaryDAO.shared.readAll() else {
+            return
+        }
         
         setUpSanpshot(data: sampleData)
     }
     
-    private func setUpSanpshot(data: [DiaryData]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, DiaryData>()
+    private func setUpSanpshot(data: [DiaryDTO]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Int, DiaryDTO>()
         
         snapshot.appendSections([.zero])
         snapshot.appendItems(data)
