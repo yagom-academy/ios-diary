@@ -8,14 +8,14 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    private enum SaveDiaryState {
-        case edit
+    private enum ExecutionStatus {
+        case update
         case delete
     }
     
     private lazy var detailView = DetailView(frame: view.bounds)
     private let diary: DiaryEntity
-    private var state: SaveDiaryState = .edit
+    private var status: ExecutionStatus = .update
     
     init(diary: DiaryEntity) {
         self.diary = diary
@@ -45,7 +45,7 @@ final class DetailViewController: UIViewController {
     }
     
     private func saveDiary() {
-        if state == .delete {
+        if status == .delete {
             return
         }
         let content = detailView.contentTextView.text
@@ -136,7 +136,7 @@ extension DetailViewController {
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             PersistenceManager.shared.execute(by: .delete(self.diary))
-            self.state = .delete
+            self.status = .delete
             self.navigationController?.popViewController(animated: true)
         }
         
