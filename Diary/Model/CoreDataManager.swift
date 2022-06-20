@@ -87,4 +87,22 @@ class CoreDataManager {
         
         saveContext()
     }
+    
+    func delete(_ diaryData: TestData) throws {
+        let predicate = NSPredicate(format: "id == %@", diaryData.id.uuidString)
+        let request = DiaryModel.fetchRequest()
+        request.predicate = predicate
+        
+        do {
+            let fetchResult = try context.fetch(request)
+            guard let diaryToDelete = fetchResult.first else {
+                return
+            }
+            context.delete(diaryToDelete)
+        } catch {
+            throw error
+        }
+        
+        saveContext()
+    }
 }
