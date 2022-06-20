@@ -12,9 +12,15 @@ final class Keyboard {
         static let keyboardBounds = "UIKeyboardBoundsUserInfoKey"
     }
     
-    var bottomContraint: NSLayoutConstraint?
+    private let bottomContraint: NSLayoutConstraint?
+    private let textView: UITextView?
     
-    func setUpKeyboardNotification() {
+    init(bottomContraint: NSLayoutConstraint, textView: UITextView) {
+        self.textView = textView
+        self.bottomContraint = bottomContraint
+    }
+    
+    func setUpKeyboard() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillAppear),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -23,6 +29,10 @@ final class Keyboard {
                                                selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
+        
+        let swipeDown =  UISwipeGestureRecognizer(target: self, action: #selector(swipeDownGesture))
+        swipeDown.direction = .down
+        textView?.addGestureRecognizer(swipeDown)
     }
     
     @objc private func keyboardWillAppear(notification: Notification) {
@@ -35,5 +45,9 @@ final class Keyboard {
     
     @objc private func keyboardWillHide() {
         bottomContraint?.constant = .zero
+    }
+    
+    @objc private func swipeDownGesture(gesture: UISwipeGestureRecognizer) {
+        textView?.endEditing(true)
     }
 }

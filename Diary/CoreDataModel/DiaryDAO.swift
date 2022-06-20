@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class DiaryDAO {
+final class DiaryDAO {
     static let shared = DiaryDAO()
     private init() { }
         
