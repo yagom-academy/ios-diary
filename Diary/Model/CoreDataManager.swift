@@ -67,4 +67,24 @@ class CoreDataManager {
         
         return diaryModels
     }
+    
+    func update(_ diaryData: TestData) throws {
+        let predicate = NSPredicate(format: "id == %@", diaryData.id.uuidString)
+        let request = DiaryModel.fetchRequest()
+        request.predicate = predicate
+        
+        do {
+            let fetchResult = try context.fetch(request)
+            guard let diaryToUpdate = fetchResult.first else {
+                return
+            }
+            diaryToUpdate.setValue(diaryData.title, forKey: "title")
+            diaryToUpdate.setValue(diaryData.body, forKey: "body")
+            diaryToUpdate.setValue(diaryData.createdAt, forKey: "createdAt")
+        } catch {
+            throw error
+        }
+        
+        saveContext()
+    }
 }
