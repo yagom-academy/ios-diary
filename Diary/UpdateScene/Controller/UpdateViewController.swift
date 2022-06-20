@@ -7,9 +7,19 @@
 
 import UIKit
 
+protocol BackGroundDelegate: AnyObject {
+    func updateCoredata()
+}
+
+extension UpdateViewController: BackGroundDelegate {
+    func updateCoredata() {
+        saveData()
+    }
+}
+
 final class UpdateViewController: UIViewController {
     private let textView = UITextView()
-    private let keyboard = Keyboard()
+    private var keyboard: Keyboard?
     private let identifier: UUID?
     
     init(diaryData: DiaryDTO? = nil) {
@@ -31,11 +41,18 @@ final class UpdateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        textView.delegate = self
+        guard let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
+            return
+        }
+        
+        scene.delegate = self
+        
         setUpView()
         setUpNavigationController(title: Formatter.getCurrentDate())
         setUpTextViewLayout()
         
-        keyboard.setUpKeyboardNotification()
+        keyboard?.setUpKeyboard()
         showKeyboard()
     }
     
@@ -58,7 +75,11 @@ final class UpdateViewController: UIViewController {
         navigationItem.title = title
     }
     
-    private func saveData() {  
+    private func saveData() {
+        guard textView.text.isEmpty != true else {
+            return
+        }
+        
         let splitedText = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
             .map {
                 String($0)
@@ -86,18 +107,25 @@ final class UpdateViewController: UIViewController {
         
         textView.translatesAutoresizingMaskIntoConstraints = false
        
-        keyboard.bottomContraint = textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        let bottomContraint = textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.topAnchor),
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            keyboard.bottomContraint
+            bottomContraint
         ].compactMap { $0 })
         
+        keyboard = Keyboard(bottomContraint: bottomContraint, textView: textView)
     }
     
     private func showKeyboard() {
         textView.becomeFirstResponder()
+    }
+}
+
+extension UpdateViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        saveData()
     }
 }
