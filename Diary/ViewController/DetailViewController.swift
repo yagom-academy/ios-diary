@@ -39,19 +39,22 @@ final class DetailViewController: UIViewController {
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.detailView.mainScrollView.contentSize = .init(width: self.detailView.mainScrollView.frame.width, height: self.detailView.mainScrollView.frame.height + keyboardSize.height - 140)
-            
-            if self.detailView.descriptionView.isFirstResponder {
-                detailView.mainScrollView.scrollRectToVisible(detailView.descriptionView.frame, animated: true)
-            }
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        self.detailView.mainScrollView.contentSize = .init(width: self.detailView.mainScrollView.frame.width, height: self.detailView.mainScrollView.frame.height + keyboardSize.height - 140)
+        
+        if self.detailView.descriptionView.isFirstResponder {
+            detailView.mainScrollView.scrollRectToVisible(detailView.descriptionView.frame, animated: true)
         }
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            self.detailView.mainScrollView.contentSize = .init(width: self.detailView.mainScrollView.frame.width, height: self.detailView.mainScrollView.frame.height - keyboardSize.height + 140)
+        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
         }
+            self.detailView.mainScrollView.contentSize = .init(width: self.detailView.mainScrollView.frame.width, height: self.detailView.mainScrollView.frame.height - keyboardSize.height + 140)
+        
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
