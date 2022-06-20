@@ -1,5 +1,5 @@
 //
-//  SampleData.swift
+//  Sample.swift
 //  Diary
 //
 //  Created by 김동욱 on 2022/06/16.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SampleData {
+struct Sample {
     enum Const {
         static let sample = "sample"
     }

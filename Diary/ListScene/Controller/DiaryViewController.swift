@@ -92,7 +92,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setUpSampleData() {
-        guard let sampleData = SampleData.get() else {
+        guard let sampleData = Sample.get() else {
             return
         }
 
