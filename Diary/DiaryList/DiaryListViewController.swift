@@ -56,6 +56,14 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
             
         }
     }
+    
+    func update(_ diary: Diary) {
+        do {
+            try dataSource?.updateData(diary)
+        } catch {
+            
+        }
+    }
 }
 
 // MARK: - DataSource

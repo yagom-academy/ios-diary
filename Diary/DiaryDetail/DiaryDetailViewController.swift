@@ -9,6 +9,7 @@ import UIKit
 
 protocol diaryDetailViewDelegate: AnyObject {
     func save(_ diary: Diary)
+    func update(_ diary: Diary)
 }
 
 final class DiaryDetailViewController: UIViewController {
@@ -39,8 +40,8 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if let _ = diary {
-            
+        if let diary = diary {
+            delegate?.update(updateDiary(diary))
         } else {
             delegate?.save(makeDiary())
         }
@@ -67,16 +68,26 @@ final class DiaryDetailViewController: UIViewController {
         ])
     }
     
-    private func makeDiary() -> Diary {
+    private func configureContent() -> (String, String) {
         let component = mainView.readText()
             .split(separator: "\n", maxSplits: 1)
             .map(String.init)
+        let title = component[safe: 0] ?? ""
+        let body = component[safe: 1] ?? ""
         
-        let title = component.first ?? ""
-        let body = component.last ?? ""
-        let createdAt = Date()
+        return (title, body)
+    }
+    
+    private func makeDiary() -> Diary {
+        let (title, body) = configureContent()
         
-        return Diary(title: title, body: body, createdAt: createdAt)
+        return Diary(title: title, body: body, createdAt: Date())
+    }
+    
+    private func updateDiary(_ diary: Diary) -> Diary {
+        let (title, body) = configureContent()
+        
+        return Diary(title: title, body: body, createdAt: diary.createdAt, uuid: diary.uuid)
     }
 }
 
@@ -102,5 +113,11 @@ extension DiaryDetailViewController {
     
     @objc private func keyboardWillHide(_ sender: Notification) {
         mainView.changeBottomConstraint(value: .zero)
+    }
+}
+
+extension Array {
+    subscript (safe index: Int) -> Element? {
+        return self.indices ~= index ? self[index] : nil
     }
 }
