@@ -50,7 +50,7 @@ final class DetailView: UIView {
         }
     }
     
-    func setData(with diary: DiaryData) {
+    func setData(with diary: DiaryInfo) {
         textView.text = diary.body
     }
     

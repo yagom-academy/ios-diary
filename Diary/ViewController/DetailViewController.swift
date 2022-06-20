@@ -9,7 +9,7 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     private var detailView = DetailView()
-    private var diaryData: DiaryData?
+    private var diaryData: DiaryInfo?
     
     override func loadView() {
         view = detailView
@@ -27,7 +27,7 @@ final class DetailViewController: UIViewController {
         removeRegisterForKeyboardNotification()
     }
     
-    func updateData(diary: DiaryData) {
+    func updateData(diary: DiaryInfo) {
         diaryData = diary
         detailView.setData(with: diary)
 //        navigationItem.title = diary.date.toString

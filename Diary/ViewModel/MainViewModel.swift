@@ -7,27 +7,21 @@
 
 import UIKit
 
+
 final class MainViewModel: NSObject {
-    private(set) var data: [DiaryData] = []
+    private(set) var data: [DiaryInfo] = []
     
-    func setData(data: [DiaryData]) {
-        self.data = data
-    }
-}
-
-extension MainViewModel: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(
-            withIdentifier: MainViewCell.identifier, for: indexPath
-        ) as? MainViewCell else {
-            return MainViewCell()
+    func loadData() {
+        guard let sample = NSDataAsset.init(name: "sample") else {
+            return
         }
-        cell.setDiaryData(data[indexPath.row])
+        let jsonDecoder = JSONDecoder()
 
-        return cell
-    }
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.count
+        do {
+            let data = try jsonDecoder.decode([DiaryInfo].self, from: sample.data)
+            self.data = data
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }

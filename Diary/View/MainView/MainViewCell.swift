@@ -69,7 +69,7 @@ final class MainViewCell: UITableViewCell {
         ])
     }
     
-    func setDiaryData(_ data: DiaryData) {
+    func setDiaryData(_ data: DiaryInfo) {
         titleLabel.text = data.title
 //        dateLabel.text = data.date.toString
         descriptionLabel.text = data.body

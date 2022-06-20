@@ -11,8 +11,18 @@ class MainViewController: UIViewController {
         static let navigationTitle = "일기장"
     }
     
-    private let mainView = MainView()
-    private let viewModel = MainViewModel()
+    private var mainView: UITableView
+    private var viewModel: MainViewModel
+    
+    init(view: UITableView, viewModel: MainViewModel) {
+        self.mainView = view
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         super.loadView()
@@ -25,23 +35,9 @@ class MainViewController: UIViewController {
         setNavigationSetting()
     }
     
-    private func loadData() {
-        guard let sample = NSDataAsset.init(name: "sample") else {
-            return
-        }
-        let jsonDecoder = JSONDecoder()
-
-        do {
-//            let data = try jsonDecoder.decode([DiaryData].self, from: sample.data)
-//            viewModel.setData(data: data)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
     private func setMainViewSetting() {
-        loadData()
-        mainView.dataSource = viewModel
+        viewModel.loadData()
+        mainView.dataSource = self
         mainView.delegate = self
         mainView.translatesAutoresizingMaskIntoConstraints = false
         mainView.register(MainViewCell.self, forCellReuseIdentifier: MainViewCell.identifier)
@@ -62,7 +58,8 @@ extension MainViewController {
     @objc
     private func rightBarbuttonClicked(_ sender: Any) {
         let detailViewController = DetailViewController()
-        detailViewController.updateData(diary: DiaryData())
+        //추후 수정
+        detailViewController.updateData(diary: DiaryInfo(title: "", body: "", date: nil, key: nil))
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
@@ -75,3 +72,21 @@ extension MainViewController: UITableViewDelegate {
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
+
+extension MainViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: MainViewCell.identifier, for: indexPath
+        ) as? MainViewCell else {
+            return MainViewCell()
+        }
+        cell.setDiaryData(viewModel.data[indexPath.row])
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.data.count
+    }
+}
+
