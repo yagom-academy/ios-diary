@@ -14,7 +14,6 @@ final class MainViewController: UIViewController {
     }
     
     private var diaryData: [DiaryModel] = []
-    private lazy var mainView = MainView(frame: view.frame)
     private var listLayout: UICollectionViewCompositionalLayout {
         var configure = UICollectionLayoutListConfiguration(appearance: .plain)
         configure.showsSeparators = true
@@ -24,8 +23,8 @@ final class MainViewController: UIViewController {
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
     
     override func viewDidLoad() {
+        self.view = view
         super.viewDidLoad()
-        view = mainView
         setNavigationBarTitle()
         setNavigationBarRightPlusButton()
         updateDiaryData()
@@ -61,7 +60,7 @@ extension MainViewController {
     }
     
     private func setCollectionViewLayout() {
-        mainView.addSubview(collectionView)
+        view.addSubview(collectionView)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
