@@ -12,16 +12,20 @@ struct Formatter {
     
     private init() { }
     
-    static func setUpDate(from timeInterval: Int) -> String {
+    static func setUpDate(from timeInterval: Double) -> String {
         dateFormatter.dateStyle = .long
         dateFormatter.locale = .autoupdatingCurrent
         
-        let date = Date(timeIntervalSinceReferenceDate: Double(timeInterval))
+        let date = Date(timeIntervalSinceReferenceDate: timeInterval)
         let result = dateFormatter.string(from: date)
         return result
     }
     
+    static func getDate(from dateString: String) -> Date? {
+        dateFormatter.date(from: dateString)
+    }
+    
     static func getCurrentDate() -> String {
-        setUpDate(from: Int(Date().timeIntervalSinceReferenceDate))
+        setUpDate(from: Date().timeIntervalSinceReferenceDate)
     }
 }

@@ -12,12 +12,12 @@ struct SampleData {
         static let sample = "sample"
     }
     
-    static func get() -> [DiaryData]? {
+    static func get() -> [DiaryDTO]? {
         guard let assetData = AssetManager.convert(fileName: Const.sample) else {
             return nil
         }
         
-        guard let diaryData = DiaryData.parse(data: assetData) else {
+        guard let diaryData = DiaryDTO.parse(data: assetData) else {
             return nil
         }
         
