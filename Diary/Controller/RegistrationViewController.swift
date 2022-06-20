@@ -92,7 +92,7 @@ final class RegistrationViewController: UIViewController {
 
         let diary = Diary(title: title, createdAt: createdAt, body: body, id: diaryId)
         
-        PersistenceManager.shared.updateData(data: diary)
+        PersistenceManager.shared.execute(by: .create(diary: diary))
     }
 }
 
