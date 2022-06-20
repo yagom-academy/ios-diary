@@ -11,9 +11,9 @@ extension TimeInterval {
     var formattedDate: String {
         let dateFormatter = DateFormatter()
         let localID = Locale.preferredLanguages.first
-        let deviceLocale = Locale(identifier: localID ?? "ko-kr").languageCode
+        let deviceLocale = Locale(identifier: localID ?? "ko-kr")
         dateFormatter.dateStyle = .long
-        dateFormatter.locale = Locale(identifier: deviceLocale ?? "ko-kr")
+        dateFormatter.locale = deviceLocale
         dateFormatter.timeZone = TimeZone.current
         return dateFormatter.string(from: Date(timeIntervalSince1970: self))
     }
