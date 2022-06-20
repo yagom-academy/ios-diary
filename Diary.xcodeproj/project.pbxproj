@@ -20,6 +20,7 @@
 		DACAF1442859AD6D0080CB0F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACAF1432859AD6D0080CB0F /* DetailViewController.swift */; };
 		DACAF1482859AD9F0080CB0F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACAF1472859AD9F0080CB0F /* DetailView.swift */; };
 		DAF0ADAC285C1301000909C9 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */; };
+		DAF0ADAE2860BCAD000909C9 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0ADAD2860BCAD000909C9 /* Parser.swift */; };
 		DAF0ADB12860BF07000909C9 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0ADB02860BF07000909C9 /* DiaryError.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		DACAF1432859AD6D0080CB0F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		DACAF1472859AD9F0080CB0F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		DAF0ADAD2860BCAD000909C9 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		DAF0ADB02860BF07000909C9 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				DAC41D982859B0EE00D3CD22 /* DiaryModel.swift */,
+				DAF0ADAD2860BCAD000909C9 /* Parser.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
+				DAF0ADAE2860BCAD000909C9 /* Parser.swift in Sources */,
 				DAF0ADB12860BF07000909C9 /* DiaryError.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				DAF0ADAC285C1301000909C9 /* RegisterViewController.swift in Sources */,
