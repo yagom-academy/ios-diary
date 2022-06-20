@@ -95,9 +95,7 @@ final class DiaryDetailViewController: UIViewController {
 
   @objc private func keyboardWillShow(_ notification: Notification) {
     guard let userInfo = notification.userInfo else { return }
-    guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
-      return
-    }
+    guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
 
     let contentInset = UIEdgeInsets(bottom: keyboardFrame.height)
     self.bodyTextView.contentInset = contentInset
