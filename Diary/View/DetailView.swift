@@ -11,7 +11,6 @@ final class DetailView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .systemBackground
-        setSubviews()
         setConstraints()
     }
     
@@ -20,7 +19,7 @@ final class DetailView: UIView {
     }
     
     private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView()
+        let stackView = UIStackView(arrangedSubviews: [titleField, descriptionView])
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +42,6 @@ final class DetailView: UIView {
     
     private let titleField: UITextField = {
         let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
         textField.textAlignment = .left
         return textField
     }()
@@ -52,27 +50,19 @@ final class DetailView: UIView {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.textAlignment = .left
-        textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
-    private func setSubviews() {
-        mainStackView.addArrangedSubview(titleField)
-        mainStackView.addArrangedSubview(descriptionView)
-        mainScrollView.addSubview(mainStackView)
-        self.addSubview(mainScrollView)
-    }
-    
     private func setConstraints() {
+        self.addSubview(mainScrollView)
         NSLayoutConstraint.activate([
             mainScrollView.topAnchor.constraint(equalTo: self.topAnchor),
             mainScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
             mainScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
-            mainScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            mainScrollView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            mainScrollView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+            mainScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
         
+        mainScrollView.addSubview(mainStackView)
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: mainScrollView.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
@@ -84,7 +74,10 @@ final class DetailView: UIView {
     }
 }
 
+// MARK: - Method
+
 extension DetailView {
+    
     func setUpView(diaryData: DiaryModel) {
         titleField.text = diaryData.title
         descriptionView.text = diaryData.body
