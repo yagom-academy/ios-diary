@@ -48,15 +48,14 @@ final class DetailViewController: UIViewController {
         if status == .delete {
             return
         }
-        let content = detailView.contentTextView.text
-        var splitedContent = content?.components(separatedBy: "\n\n")
-        guard let title = splitedContent?.removeFirst(),
-              let body = splitedContent?.joined()
-        else {
-            return
-        }
+        
+        guard let content = detailView.contentTextView.text else { return }
 
-        let diary = Diary(title: title, createdAt: diary.createdAt, body: body, id: diary.id)
+        let splitedIndex = content.firstIndex(of: "\n") ?? content.endIndex
+        let title = content[..<splitedIndex]
+        let body = content[splitedIndex...]
+
+        let diary = Diary(title: String(title), createdAt: diary.createdAt, body: String(body), id: diary.id)
                 
         PersistenceManager.shared.execute(by: .update(diary: diary))
     }

@@ -56,7 +56,7 @@ final class DetailView: UIView {
             return
         }
         
-        contentTextView.text = title + "\n\n" + body
+        contentTextView.text = title + body
     }
     
     func scrollTextViewToTop() {

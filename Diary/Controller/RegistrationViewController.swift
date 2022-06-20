@@ -37,13 +37,12 @@ final class RegistrationViewController: UIViewController {
         else {
             return
         }
-        
-        var splitedContent = content.components(separatedBy: "\n\n")
-        
-        let title = splitedContent.removeFirst()
-        let body = splitedContent.joined()
+                
+        let splitedIndex = content.firstIndex(of: "\n") ?? content.endIndex
+        let title = content[..<splitedIndex]
+        let body = content[splitedIndex...]
 
-        let diary = Diary(title: title, createdAt: createdAt, body: body, id: diaryId)
+        let diary = Diary(title: String(title), createdAt: createdAt, body: String(body), id: diaryId)
         
         PersistenceManager.shared.execute(by: .create(diary: diary))
     }
