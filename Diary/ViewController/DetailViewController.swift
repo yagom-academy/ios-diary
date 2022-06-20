@@ -9,7 +9,7 @@ import UIKit
 
 final class DetailViewController: UIViewController {
     private lazy var detailView = DetailView(frame: view.frame)
-    private var diaryData: DiaryModel
+    private let diaryData: DiaryModel
     
     init(diaryData: DiaryModel) {
         self.diaryData = diaryData
