@@ -8,16 +8,16 @@
 import Foundation
 import CoreData
 
-enum Method {
-    case create(diary: Diary)
-    case read
-    case update(diary: Diary)
-    case delete(_ objectToDelete: DiaryEntity, index: Int? = nil)
-}
-
 final class PersistenceManager {
     static let shared = PersistenceManager()
-    private init() { }
+    private init() {}
+    
+    enum Method {
+        case create(diary: Diary)
+        case read
+        case update(diary: Diary)
+        case delete(_ objectToDelete: DiaryEntity, index: Int? = nil)
+    }
     
     private var diaryEntities = [DiaryEntity]()
     
@@ -32,11 +32,15 @@ final class PersistenceManager {
     }()
     
     private var context: NSManagedObjectContext {
-        return self.persistentContainer.viewContext
+        return persistentContainer.viewContext
     }
     
     private var entity: NSEntityDescription? {
-        return  NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context)
+        return NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context)
+    }
+    
+    func diaries() -> [DiaryEntity] {
+        return diaryEntities
     }
 }
 
@@ -54,15 +58,13 @@ extension PersistenceManager {
         }
     }
 
-    private func createData(by data: Diary) {
-        
+    private func createData(by diary: Diary) {
         if let entity = entity {
             let managedObject = NSManagedObject(entity: entity, insertInto: context)
-            managedObject.setValue(data.title, forKey: "title")
-            managedObject.setValue(data.body, forKey: "body")
-            managedObject.setValue(data.createdAt, forKey: "createdAt")
-            managedObject.setValue(data.id, forKey: "id")
-            
+            managedObject.setValue(diary.title, forKey: "title")
+            managedObject.setValue(diary.body, forKey: "body")
+            managedObject.setValue(diary.createdAt, forKey: "createdAt")
+            managedObject.setValue(diary.id, forKey: "id")
             saveToContext()
         }
     }
@@ -71,20 +73,16 @@ extension PersistenceManager {
         do {
             let request = DiaryEntity.fetchRequest()
             request.returnsObjectsAsFaults = false
-            let fetchResult = try self.context.fetch(request)
+            let fetchResult = try context.fetch(request)
             diaryEntities = fetchResult
         } catch {
             print(error.localizedDescription)
         }
     }
-    
-    func diaries() -> [DiaryEntity] {
-        diaryEntities
-    }
-    
-    private func updateData(by data: Diary) {
+        
+    private func updateData(by diary: Diary) {
         let request: NSFetchRequest<DiaryEntity> = DiaryEntity.fetchRequest()
-        let predicate = NSPredicate(format: "id == %@", data.id)
+        let predicate = NSPredicate(format: "id == %@", diary.id)
         request.returnsObjectsAsFaults = false
         request.predicate = predicate
         
@@ -93,10 +91,10 @@ extension PersistenceManager {
             return
         }
         
-        diaryToUpdate.setValue(data.title, forKey: "title")
-        diaryToUpdate.setValue(data.body, forKey: "body")
-        diaryToUpdate.setValue(data.createdAt, forKey: "createdAt")
-        diaryToUpdate.setValue(data.id, forKey: "id")
+        diaryToUpdate.setValue(diary.title, forKey: "title")
+        diaryToUpdate.setValue(diary.body, forKey: "body")
+        diaryToUpdate.setValue(diary.createdAt, forKey: "createdAt")
+        diaryToUpdate.setValue(diary.id, forKey: "id")
         saveToContext()
     }
     
@@ -105,7 +103,7 @@ extension PersistenceManager {
             diaryEntities.remove(at: index)
         }
         
-        self.context.delete(object)
+        context.delete(object)
         saveToContext()
     }
     
