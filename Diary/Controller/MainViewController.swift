@@ -24,7 +24,11 @@ final class MainViewController: UIViewController {
         super.viewWillAppear(animated)
         setUpDiaries()
     }
-    
+}
+
+// MARK: SetUp
+
+extension MainViewController {
     private func setUpNavigationBar() {
         title = "일기장"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -45,12 +49,18 @@ final class MainViewController: UIViewController {
             mainView.baseTableView.reloadData()
         }
     }
-    
+}
+
+// MARK: Objc Method
+
+extension MainViewController {
     @objc private func didTapAddButton() {
         let registrationVC = RegistrationViewController()
         navigationController?.pushViewController(registrationVC, animated: true)
     }
 }
+
+// MARK: UITableViewDataSource
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -67,6 +77,8 @@ extension MainViewController: UITableViewDataSource {
         return cell
     }
 }
+
+// MARK: UITableViewDelegate
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -99,7 +111,11 @@ extension MainViewController: UITableViewDelegate {
         
         return UISwipeActionsConfiguration(actions: [removeAction, shareAction])
     }
-    
+}
+
+// MARK: Show Alert
+
+extension MainViewController {
     private func showRemoveAlert(indexPath: IndexPath) {
         let UIAlertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
@@ -112,7 +128,11 @@ extension MainViewController: UITableViewDelegate {
         UIAlertController.addAction(removeAction)
         present(UIAlertController, animated: true)
     }
-    
+}
+
+// MARK: Show Activity
+
+extension MainViewController {
     private func showActivityView(data: DiaryEntity) {
         let textToShare: [Any] = [
             ShareActivityItemSource(
