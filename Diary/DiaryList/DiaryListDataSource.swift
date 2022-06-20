@@ -21,7 +21,7 @@ final class DiaryListDataSource: UITableViewDiffableDataSource<Section, Diary> {
         var snapShot = Snapshot()
         snapShot.appendSections([.main])
         snapShot.appendItems(items)
-        self.apply(snapShot)
+        self.apply(snapShot, animatingDifferences: false)
     }
     
     func makeData() throws {
@@ -31,5 +31,12 @@ final class DiaryListDataSource: UITableViewDiffableDataSource<Section, Diary> {
     func saveData(_ diary: Diary) throws {
         try persistentManager.register(diary)
         items.append(diary)
+    }
+    
+    func updateData(_ diary: Diary) throws {
+        try persistentManager.update(diary)
+        guard let itemIndex = items
+                .firstIndex(where: { $0.uuid == diary.uuid }) else { return }
+        items[itemIndex] = diary
     }
 }
