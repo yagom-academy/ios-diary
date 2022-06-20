@@ -67,6 +67,7 @@ final class DiaryCell: UITableViewCell {
         
         func setUpTitleLayout() {
             NSLayoutConstraint.activate([
+                titleLabel.heightAnchor.constraint(equalTo: informationStackView.heightAnchor),
                 titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: verticalInset),
                 titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalInset),
                 titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalInset)
