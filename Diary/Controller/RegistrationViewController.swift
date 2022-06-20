@@ -27,10 +27,31 @@ final class RegistrationViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        releaseKeyboardNotification()
+        removeKeyboardNotification()
         saveDiary()
     }
     
+    private func saveDiary() {
+        guard let content = detailView.contentTextView.text,
+                content.isEmpty == false
+        else {
+            return
+        }
+        
+        var splitedContent = content.components(separatedBy: "\n\n")
+        
+        let title = splitedContent.removeFirst()
+        let body = splitedContent.joined()
+
+        let diary = Diary(title: title, createdAt: createdAt, body: body, id: diaryId)
+        
+        PersistenceManager.shared.execute(by: .create(diary: diary))
+    }
+}
+
+// MARK: SetUp
+
+extension RegistrationViewController {
     private func registerNotification() {
         let notificationCenter = NotificationCenter.default
         
@@ -56,7 +77,7 @@ final class RegistrationViewController: UIViewController {
         )
     }
     
-    private func releaseKeyboardNotification() {
+    private func removeKeyboardNotification() {
         let notificationCenter = NotificationCenter.default
         notificationCenter.removeObserver(
             self,
@@ -68,7 +89,11 @@ final class RegistrationViewController: UIViewController {
     private func setUpNavigationBar() {
         title = createdAt.formattedString
     }
-    
+}
+
+// MARK: Objc Method
+
+extension RegistrationViewController {
     @objc private func didEnterBackground() {
         saveDiary()
     }
@@ -86,23 +111,6 @@ final class RegistrationViewController: UIViewController {
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
         saveDiary()
-    }
-    
-    private func saveDiary() {
-        guard let content = detailView.contentTextView.text,
-                content.isEmpty == false
-        else {
-            return
-        }
-        
-        var splitedContent = content.components(separatedBy: "\n\n")
-        
-        let title = splitedContent.removeFirst()
-        let body = splitedContent.joined()
-
-        let diary = Diary(title: title, createdAt: createdAt, body: body, id: diaryId)
-        
-        PersistenceManager.shared.execute(by: .create(diary: diary))
     }
 }
 
