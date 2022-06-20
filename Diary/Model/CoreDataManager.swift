@@ -53,4 +53,16 @@ class CoreDataManager {
         
         saveContext()
     }
+    
+    func read() throws -> [DiaryModel] {
+        var diaryModels: [DiaryModel] = []
+        
+        do {
+            diaryModels = try context.fetch(DiaryModel.fetchRequest())
+        } catch {
+            throw error
+        }
+        
+        return diaryModels
+    }
 }
