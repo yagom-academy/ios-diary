@@ -39,7 +39,8 @@ final class PersistantManager {
     
     func fetchAll() -> [DiaryEntity]? {
         let request = DiaryEntity.fetchRequest()
-        
+        let sortByDate = NSSortDescriptor(key: "createdDate", ascending: false)
+        request.sortDescriptors = [sortByDate]
         return try? mainContext.fetch(request)
     }
     
