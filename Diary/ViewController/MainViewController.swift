@@ -12,9 +12,9 @@ class MainViewController: UIViewController {
     }
     
     private var mainView: UITableView
-    private var viewModel: MainViewModel
+    private var viewModel: MainViewModel<DiaryUseCase>
     
-    init(view: UITableView, viewModel: MainViewModel) {
+    init(view: UITableView, viewModel: MainViewModel<DiaryUseCase>) {
         self.mainView = view
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -59,7 +59,9 @@ extension MainViewController {
     private func rightBarbuttonClicked(_ sender: Any) {
         let detailViewController = DetailViewController()
         //추후 수정
-        detailViewController.updateData(diary: DiaryInfo(title: "", body: "", date: nil, key: nil))
+        detailViewController.delegate = self
+        let data = viewModel.create(data: DiaryInfo(title: "", body: "", date: Date(), key: nil))
+        detailViewController.updateData(diary: data)
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
@@ -69,6 +71,7 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailViewController = DetailViewController()
         detailViewController.updateData(diary: viewModel.data[indexPath.row])
+        detailViewController.delegate = self
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
@@ -90,3 +93,11 @@ extension MainViewController: UITableViewDataSource {
     }
 }
 
+extension MainViewController: UpdateDelegate {
+    func updatae(diaryInfo: DiaryInfo) {
+        viewModel.update(data: diaryInfo)
+        viewModel.loadData()
+        mainView.reloadData()
+        
+    }
+}

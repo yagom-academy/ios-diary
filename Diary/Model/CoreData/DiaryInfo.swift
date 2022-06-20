@@ -7,8 +7,7 @@
 
 import Foundation
 
-//추후 Decodable 제거
-struct DiaryInfo: Decodable {
+struct DiaryInfo {
     let title: String?
     let body: String?
     let date: Date?

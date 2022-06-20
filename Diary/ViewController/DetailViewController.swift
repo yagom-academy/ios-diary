@@ -6,10 +6,14 @@
 //
 
 import UIKit
+protocol UpdateDelegate {
+    func updatae(diaryInfo: DiaryInfo)
+}
 
 final class DetailViewController: UIViewController {
     private var detailView = DetailView()
     private var diaryData: DiaryInfo?
+    var delegate: UpdateDelegate?
     
     override func loadView() {
         view = detailView
@@ -22,8 +26,16 @@ final class DetailViewController: UIViewController {
             setViewGesture()
         }
     }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let editedDiary = detailView.exportDiaryText()
+        delegate?.updatae(diaryInfo: editedDiary)
+        
+        
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         removeRegisterForKeyboardNotification()
     }
     

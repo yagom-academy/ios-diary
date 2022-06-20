@@ -23,7 +23,7 @@ class DiaryCoreDataTest: XCTestCase {
     func test_read() {
         do {
             let diaryList = try diaryUseCase.read()
-            print(diaryList)
+            print("다이어리 리스트: \(diaryList)")
         } catch {
             XCTFail("실패")
         }
@@ -47,9 +47,17 @@ class DiaryCoreDataTest: XCTestCase {
     func test_delete_fail() {
         do {
             try diaryUseCase.delete(key: 0)
-            XCTFail()
         } catch {
-            
+            XCTFail()
+        }
+    }
+    
+    func test_update() {
+        do {
+            let editedDairy = DiaryInfo(title: "수정된 제목", body: "수정된 내용", date: nil, key: nil)
+            try diaryUseCase.update(key: 1, diaryInfo: editedDairy)
+        } catch {
+            XCTFail()
         }
     }
     

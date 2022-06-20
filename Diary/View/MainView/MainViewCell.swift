@@ -70,8 +70,12 @@ final class MainViewCell: UITableViewCell {
     }
     
     func setDiaryData(_ data: DiaryInfo) {
+        var bodies = data.body?.components(separatedBy: "\n")
+        bodies?.removeFirst()
+        let body = bodies?.reduce("") { $0 + " " + $1 }
+        
         titleLabel.text = data.title
 //        dateLabel.text = data.date.toString
-        descriptionLabel.text = data.body
+        descriptionLabel.text = body
     }
 }

@@ -7,21 +7,36 @@
 
 import UIKit
 
-
-final class MainViewModel: NSObject {
-    private(set) var data: [DiaryInfo] = []
+final class MainViewModel<U: UseCase>: NSObject {
+    private(set) var data: [U.Element] = []
+    private let useCase: U
+    
+    init(useCase: U) {
+        self.useCase = useCase
+    }
     
     func loadData() {
-        guard let sample = NSDataAsset.init(name: "sample") else {
-            return
-        }
-        let jsonDecoder = JSONDecoder()
-
         do {
-            let data = try jsonDecoder.decode([DiaryInfo].self, from: sample.data)
-            self.data = data
+            let diaryDatas = try useCase.read()
+            data = diaryDatas
         } catch {
-            print(error.localizedDescription)
+            fatalError()
+        }
+    }
+    
+    func update(data: U.Element) {
+        do {
+             try useCase.update(diaryInfo: data)
+        } catch {
+            fatalError()
+        }
+    }
+    
+    func create(data: U.Element) -> U.Element {
+        do {
+            return try useCase.create(diary: data)
+        } catch {
+            fatalError()
         }
     }
 }

@@ -20,6 +20,8 @@ final class DetailView: UIView {
         return textView
     }()
     
+    private var diary: DiaryInfo?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -51,6 +53,7 @@ final class DetailView: UIView {
     }
     
     func setData(with diary: DiaryInfo) {
+        self.diary = diary
         textView.text = diary.body
     }
     
@@ -61,5 +64,18 @@ final class DetailView: UIView {
             constant: -height
         )
         textViewBottomConstraint.isActive = true
+    }
+    
+    func exportDiaryText() -> DiaryInfo {
+        return DiaryInfo(title: findTitle(), body: textView.text, date: diary?.date, key: diary?.key)
+    }
+    
+    private func findTitle() -> String {
+        let titleAndBody = textView.text.components(separatedBy: "\n")
+        if titleAndBody.count == 0 {
+            return "[제목없음]"
+        } else {
+            return titleAndBody[0]
+        }
     }
 }
