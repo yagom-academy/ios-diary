@@ -25,8 +25,9 @@ final class RegistrationViewController: UIViewController {
         detailView.scrollTextViewToTop()
     }
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        releaseKeyboardNotification()
         saveDiary()
     }
     
@@ -51,6 +52,15 @@ final class RegistrationViewController: UIViewController {
             self,
             selector: #selector(didEnterBackground),
             name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+    }
+    
+    private func releaseKeyboardNotification() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
     }
