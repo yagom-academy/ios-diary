@@ -74,7 +74,7 @@ extension PersistenceManager {
             let request = DiaryEntity.fetchRequest()
             request.returnsObjectsAsFaults = false
             let fetchResult = try context.fetch(request)
-            diaryEntities = fetchResult
+            diaryEntities = fetchResult.reversed()
         } catch {
             print(error.localizedDescription)
         }
