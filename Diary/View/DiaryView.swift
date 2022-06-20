@@ -18,7 +18,7 @@ final class DiaryView: UIView {
         super.init(coder: coder)
     }
     
-    private lazy var diaryTextView: UITextView = {
+    lazy var diaryTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
