@@ -14,7 +14,7 @@ class DiaryDAO {
         
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
-        container.loadPersistentStores { description, error in
+        container.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("Unable to load persistent stores: \(error)")
             }
@@ -51,28 +51,7 @@ class DiaryDAO {
         }
     }
     
-    func read(identifier: String) -> [DiaryDTO]? {
-        guard let diary = fetch(identifier: identifier) else {
-            return nil
-        }
-        
-        return convert(diary: diary)
-    }
-    
-    private func fetch(identifier: String) -> [Diary]? {
-        let request = Diary.fetchRequest()
-        let predicate = NSPredicate(format: "identifier == %@", identifier)
-        
-        request.predicate = predicate
-        
-        guard let diary = try? viewContext.fetch(request) else {
-            return nil
-        }
-        
-        return diary
-    }
-    
-    func readAll() -> [DiaryDTO]? {
+    func read() -> [DiaryDTO]? {
         let request = Diary.fetchRequest()
         guard let diary = try? viewContext.fetch(request) else {
             return nil
@@ -103,19 +82,32 @@ class DiaryDAO {
         save()
     }
     
+    private func getObject(identifier: String) -> NSManagedObject? {
+        guard let diary = fetch(identifier: identifier)?.first as? NSManagedObject else {
+            return nil
+        }
+        return diary
+    }
+    
+    private func fetch(identifier: String) -> [Diary]? {
+        let request = Diary.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        request.predicate = predicate
+        
+        guard let diary = try? viewContext.fetch(request) else {
+            return nil
+        }
+        
+        return diary
+    }
+    
     func delete(userData: DiaryDTO) {
         guard let diary = getObject(identifier: userData.identifier.uuidString) else {
             return
         }
         
         deleteContext(object: diary)
-    }
-    
-    private func getObject(identifier: String) -> NSManagedObject? {
-        guard let diary = fetch(identifier: identifier)?.first as? NSManagedObject else {
-            return nil
-        }
-        return diary
     }
     
     private func deleteContext(object: NSManagedObject) {

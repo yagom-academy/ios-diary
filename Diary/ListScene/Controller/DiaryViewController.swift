@@ -100,7 +100,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setUpCoreData() {
-        guard let sampleData = DiaryDAO.shared.readAll() else {
+        guard let sampleData = DiaryDAO.shared.read() else {
             return
         }
         
