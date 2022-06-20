@@ -157,7 +157,7 @@ extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         
         if navigationItem.rightBarButtonItems?.count == 1 {
-            navigationItem.rightBarButtonItems?.insert(doneButton, at: 1)
+            navigationItem.rightBarButtonItems?.append(doneButton)
         }
         
     }
