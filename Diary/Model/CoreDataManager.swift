@@ -41,7 +41,7 @@ class CoreDataManager {
         }
     }
     
-    func create(_ diaryData: DiaryData) {
+    func create(_ diaryData: TestData) {
         guard let entity = entity else {
             return
         }
@@ -50,6 +50,7 @@ class CoreDataManager {
         diary.setValue(diaryData.title, forKey: "title")
         diary.setValue(diaryData.body, forKey: "body")
         diary.setValue(diaryData.createdAt, forKey: "createdAt")
+        diary.setValue(diaryData.id, forKey: "id")
         
         saveContext()
     }

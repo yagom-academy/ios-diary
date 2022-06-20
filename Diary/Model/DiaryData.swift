@@ -18,6 +18,13 @@ struct DiaryData: Decodable {
     }
 }
 
+struct TestData {
+    let title: String
+    let body: String
+    let createdAt: Double
+    let id: UUID
+}
+
 struct Diary {
     let title: String
     let body: String
