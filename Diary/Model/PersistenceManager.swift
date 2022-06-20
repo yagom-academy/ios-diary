@@ -35,7 +35,39 @@ final class PersistenceManager {
         return self.persistentContainer.viewContext
     }
     
-    func fetchData() {
+    private var entity: NSEntityDescription? {
+        return  NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context)
+    }
+}
+
+extension PersistenceManager {
+    func execute(by method: Method) {
+        switch method {
+        case .create(let diary):
+            createData(by: diary)
+        case .read:
+            fetchData()
+        case .update(let diary):
+            updateData(by: diary)
+        case .delete(let objectToDelete, let index):
+            deleteData(by: objectToDelete, index: index)
+        }
+    }
+
+    private func createData(by data: Diary) {
+        
+        if let entity = entity {
+            let managedObject = NSManagedObject(entity: entity, insertInto: context)
+            managedObject.setValue(data.title, forKey: "title")
+            managedObject.setValue(data.body, forKey: "body")
+            managedObject.setValue(data.createdAt, forKey: "createdAt")
+            managedObject.setValue(data.id, forKey: "id")
+            
+            saveToContext()
+        }
+    }
+    
+    private func fetchData() {
         do {
             let request = DiaryEntity.fetchRequest()
             request.returnsObjectsAsFaults = false
@@ -49,72 +81,35 @@ final class PersistenceManager {
     func diaries() -> [DiaryEntity] {
         diaryEntities
     }
-}
-
-extension PersistenceManager {
-    func updateData(data: Diary) {
+    
+    private func updateData(by data: Diary) {
         let request: NSFetchRequest<DiaryEntity> = DiaryEntity.fetchRequest()
-        request.returnsObjectsAsFaults = false
         let predicate = NSPredicate(format: "id == %@", data.id)
+        request.returnsObjectsAsFaults = false
         request.predicate = predicate
         
-        do {
-            let fetchedResults = try context.fetch(request)
-            if fetchedResults.first == nil {
-                createData(data: data)
-            } else {
-                patchData(data: fetchedResults, data2: data)
-            }
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func createData(data: Diary) {
-        let entity = DiaryEntity(context: context)
-        
-        entity.title = data.title
-        entity.body = data.body
-        entity.createdAt = data.createdAt
-        entity.id = data.id
-        
-        saveContext()
-//        let entity = NSEntityDescription.entity(forEntityName: "DiaryEntity", in: self.context)
-//        if let entity = entity {
-//            let diary = NSManagedObject(entity: entity, insertInto: self.context)
-//            diary.setValue(data.title, forKey: "title")
-//            diary.setValue(data.body, forKey: "body")
-//            diary.setValue(data.createdAt, forKey: "createdAt")
-//            diary.setValue(data.id, forKey: "id")
-//
-//
-//        }
-    }
-    
-    private func patchData(data: [DiaryEntity], data2: Diary) {
-        let diary = data.first
-        
-        diary?.setValue(data2.title, forKey: "title")
-        diary?.setValue(data2.body, forKey: "body")
-        diary?.setValue(data2.createdAt, forKey: "createdAt")
-        diary?.setValue(data2.id, forKey: "id")
-        saveContext()
-    }
-    
-    func deleteData(index: Int) {
-        diaryEntities.remove(at: index)
-    }
-    
-    func deleteData(object: DiaryEntity) {
-        self.context.delete(object)
-        saveContext()
-    }
-        
-    private func saveContext() {
-        guard context.hasChanges == false else {
+        let fetchResult = try? context.fetch(request)
+        guard let diaryToUpdate = fetchResult?.first else {
             return
         }
         
+        diaryToUpdate.setValue(data.title, forKey: "title")
+        diaryToUpdate.setValue(data.body, forKey: "body")
+        diaryToUpdate.setValue(data.createdAt, forKey: "createdAt")
+        diaryToUpdate.setValue(data.id, forKey: "id")
+        saveToContext()
+    }
+    
+    private func deleteData(by object: DiaryEntity, index: Int? = nil) {
+        if let index = index {
+            diaryEntities.remove(at: index)
+        }
+        
+        self.context.delete(object)
+        saveToContext()
+    }
+    
+    private func saveToContext() {
         do {
             try context.save()
         } catch {
