@@ -8,6 +8,13 @@
 import Foundation
 import CoreData
 
+enum Method {
+    case create(diary: Diary)
+    case read
+    case update(diary: Diary)
+    case delete(_ objectToDelete: DiaryEntity, index: Int? = nil)
+}
+
 final class PersistenceManager {
     static let shared = PersistenceManager()
     private init() { }
