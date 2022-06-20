@@ -20,6 +20,7 @@
 		DACAF1442859AD6D0080CB0F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACAF1432859AD6D0080CB0F /* DetailViewController.swift */; };
 		DACAF1482859AD9F0080CB0F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACAF1472859AD9F0080CB0F /* DetailView.swift */; };
 		DAF0ADAC285C1301000909C9 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */; };
+		DAF0ADB12860BF07000909C9 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0ADB02860BF07000909C9 /* DiaryError.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		DACAF1432859AD6D0080CB0F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		DACAF1472859AD9F0080CB0F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		DAF0ADB02860BF07000909C9 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				DAC41D962859AFC000D3CD22 /* .swiftlint.md */,
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
+				DAF0ADAF2860BEF2000909C9 /* Error */,
 				D70C4B4AA00FE2B6484BC271 /* Pods */,
 				7BBCC1A08CAF140009030950 /* Frameworks */,
 			);
@@ -149,6 +152,14 @@
 				DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */,
 			);
 			path = ViewController;
+			sourceTree = "<group>";
+		};
+		DAF0ADAF2860BEF2000909C9 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				DAF0ADB02860BF07000909C9 /* DiaryError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -248,6 +259,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
+				DAF0ADB12860BF07000909C9 /* DiaryError.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				DAF0ADAC285C1301000909C9 /* RegisterViewController.swift in Sources */,
 				DACAF1482859AD9F0080CB0F /* DetailView.swift in Sources */,
