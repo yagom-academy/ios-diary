@@ -8,11 +8,11 @@
 import Foundation
 import CoreData
 
-class CoreDataManager {
+final class CoreDataManager {
     static let shared = CoreDataManager()
     private init() {}
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
@@ -22,15 +22,15 @@ class CoreDataManager {
         return container
     }()
     
-    var context: NSManagedObjectContext {
+    private var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
-    var entity: NSEntityDescription? {
+    private var entity: NSEntityDescription? {
         return NSEntityDescription.entity(forEntityName: "DiaryModel", in: context)
     }
     
-    func saveContext() {
+    private func saveContext() {
         if context.hasChanges {
             do {
                 try context.save()
@@ -41,7 +41,7 @@ class CoreDataManager {
         }
     }
     
-    func create(_ diaryData: TestData) {
+    private func create(_ diaryData: TestData) {
         guard let entity = entity else {
             return
         }
