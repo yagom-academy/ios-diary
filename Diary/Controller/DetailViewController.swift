@@ -38,6 +38,24 @@ final class DetailViewController: UIViewController {
         saveDiary()
     }
     
+    private func saveDiary() {
+        let content = detailView.contentTextView.text
+        var splitedContent = content?.components(separatedBy: "\n\n")
+        guard let title = splitedContent?.removeFirst(),
+              let body = splitedContent?.joined()
+        else {
+            return
+        }
+
+        let diary = Diary(title: title, createdAt: diary.createdAt, body: body, id: diary.id)
+                
+        PersistenceManager.shared.execute(by: .update(diary: diary))
+    }
+}
+
+// MARK: SetUp
+
+extension DetailViewController {
     private func registerNotification() {
         let notificationCenter = NotificationCenter.default
         
@@ -72,59 +90,17 @@ final class DetailViewController: UIViewController {
             action: #selector(didTapActionButton)
         )
     }
-    
+}
+
+// MARK: Objc Method
+
+extension DetailViewController {
     @objc private func didEnterBackground() {
         saveDiary()
     }
     
     @objc private func didTapActionButton() {
         showActionSheet()
-    }
-    
-    private func saveDiary() {
-        let content = detailView.contentTextView.text
-        var splitedContent = content?.components(separatedBy: "\n\n")
-        guard let title = splitedContent?.removeFirst(),
-              let body = splitedContent?.joined()
-        else {
-            return
-        }
-
-        let diary = Diary(title: title, createdAt: diary.createdAt, body: body, id: diary.id)
-                
-        PersistenceManager.shared.execute(by: .update(diary: diary))
-    }
-    
-    private func showActionSheet() {
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            PersistenceManager.shared.execute(by: .delete(self.diary))
-            self.navigationController?.popViewController(animated: true)
-        }
-        
-        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            self.showActivityView(data: self.diary)
-        }
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in
-        }
-        
-        actionSheet.addAction(deleteAction)
-        actionSheet.addAction(shareAction)
-        actionSheet.addAction(cancelAction)
-        
-        present(actionSheet, animated: true)
-    }
-    
-    private func showActivityView(data: DiaryEntity) {
-        let textToShare: [Any] = [
-            ShareActivityItemSource(
-                title: data.title ?? "제목 없음",
-                text: data.createdAt.formattedString)
-        ]
-        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
-        present(activityViewController, animated: true)
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -140,5 +116,44 @@ final class DetailViewController: UIViewController {
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
         saveDiary()
+    }
+}
+
+// MARK: Show ActionSheet
+
+extension DetailViewController {
+    private func showActionSheet() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            PersistenceManager.shared.execute(by: .delete(self.diary))
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
+            self.showActivityView(data: self.diary)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(cancelAction)
+        
+        present(actionSheet, animated: true)
+    }
+}
+
+// MARK: Show ActivityView
+
+extension DetailViewController {
+    private func showActivityView(data: DiaryEntity) {
+        let textToShare: [Any] = [
+            ShareActivityItemSource(
+                title: data.title ?? "제목 없음",
+                text: data.createdAt.formattedString)
+        ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        present(activityViewController, animated: true)
     }
 }
