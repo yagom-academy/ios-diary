@@ -19,6 +19,13 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
+    private lazy var doneButton = UIBarButtonItem(
+        title: "완료",
+        style: .plain,
+        target: self,
+        action: #selector(doneButtonDidTap)
+    )
+    
     private let diary: Diary
     weak var delegate: DiaryDetailViewDelegate?
     
@@ -60,6 +67,12 @@ final class DiaryDetailViewController: UIViewController {
             target: self,
             action: #selector(moreButtonDidTap)
         )
+    }
+    
+    @objc
+    private func doneButtonDidTap() {
+        diaryTextView.resignFirstResponder()
+        navigationItem.rightBarButtonItems?.remove(at: 1)
     }
     
     @objc
@@ -119,18 +132,11 @@ final class DiaryDetailViewController: UIViewController {
 
 extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            title: "완료",
-            style: .plain,
-            target: self,
-            action: #selector(doneButtonDidTap)
-        )
-    }
-    
-    @objc
-    private func doneButtonDidTap() {
-        diaryTextView.resignFirstResponder()
-        navigationItem.rightBarButtonItem = nil
+        
+        if navigationItem.rightBarButtonItems?.count == 1 {
+            navigationItem.rightBarButtonItems?.insert(doneButton, at: 1)
+        }
+        
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
