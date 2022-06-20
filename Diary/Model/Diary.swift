@@ -10,7 +10,7 @@ import Foundation
 struct Diary: Hashable {
     let title: String?
     let body: String?
-    let createdAt: Date?
+    let createdAt: Date
     let uuid: UUID
 
     private enum CodingKeys: String, CodingKey {
