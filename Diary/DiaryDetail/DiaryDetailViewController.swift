@@ -68,7 +68,9 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func makeDiary() -> Diary {
-        let component = mainView.readText().split(separator: "\n", maxSplits: 1).map(String.init)
+        let component = mainView.readText()
+            .split(separator: "\n", maxSplits: 1)
+            .map(String.init)
         
         let title = component.first ?? ""
         let body = component.last ?? ""

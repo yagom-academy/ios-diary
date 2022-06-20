@@ -60,7 +60,9 @@ final class DiaryTableViewCell: UITableViewCell {
     func configure(item: Diary) {
         self.titleLabel.text = item.title
         self.createdAtLabel.text = DateFormatter().changeDateFormat(time: item.createdAt)
-        self.bodyLabel.text = item.body
+        self.bodyLabel.text = item.body?.split(separator: "\n")
+            .map(String.init)
+            .first
     }
     
     private func configureLayout() {

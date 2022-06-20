@@ -28,7 +28,12 @@ final class DiaryDetailView: UIView {
     }
     
     func configure(diary: Diary?) {
-        diaryTextView.text = "\(diary?.title ?? "") \n\n \(diary?.body ?? "")"
+        if let diary = diary {
+            diaryTextView.text = "\(diary.title ?? "")\n\(diary.body ?? "")"
+        } else {
+            diaryTextView.text = ""
+        }
+        
         diaryTextView.contentOffset = .zero
     }
     
