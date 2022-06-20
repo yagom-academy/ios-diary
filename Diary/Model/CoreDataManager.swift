@@ -76,6 +76,7 @@ class CoreDataManager {
         do {
             let fetchResult = try context.fetch(request)
             guard let diaryToUpdate = fetchResult.first else {
+                create(diaryData)
                 return
             }
             diaryToUpdate.setValue(diaryData.title, forKey: "title")
