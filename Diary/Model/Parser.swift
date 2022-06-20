@@ -2,7 +2,7 @@
 //  Parser.swift
 //  Diary
 //
-//  Created by 김태훈 on 2022/06/20.
+//  Created by Donnie, OneTool on 2022/06/20.
 //
 
 import UIKit
