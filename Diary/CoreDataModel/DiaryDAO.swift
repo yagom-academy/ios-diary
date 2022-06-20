@@ -102,8 +102,8 @@ final class DiaryDAO {
         return diary
     }
     
-    func delete(userData: DiaryDTO) {
-        guard let diary = getObject(identifier: userData.identifier.uuidString) else {
+    func delete(identifier: String) {
+        guard let diary = getObject(identifier: identifier) else {
             return
         }
         
