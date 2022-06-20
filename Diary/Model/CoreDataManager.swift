@@ -59,7 +59,8 @@ class CoreDataManager {
         var diaryModels: [DiaryModel] = []
         
         do {
-            diaryModels = try context.fetch(DiaryModel.fetchRequest())
+            let request = DiaryModel.fetchRequest()
+            diaryModels = try context.fetch(request)
         } catch {
             throw error
         }
