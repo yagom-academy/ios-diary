@@ -23,6 +23,8 @@ final class RegistrationViewController: UIViewController {
         registerNotification()
         setUpNavigationBar()
         detailView.scrollTextViewToTop()
+        detailView.contentTextView.delegate = self
+        highlightFirstLineInTextView(textView: detailView.contentTextView)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -45,6 +47,47 @@ final class RegistrationViewController: UIViewController {
         let diary = Diary(title: String(title), createdAt: createdAt, body: String(body), id: diaryId)
         
         PersistenceManager.shared.execute(by: .create(diary: diary))
+    }
+    
+    private func highlightFirstLineInTextView(textView: UITextView) {
+        let textAsNSString = textView.text as NSString
+        let lineBreakRange = textAsNSString.range(of: "\n")
+        let newAttributedText = NSMutableAttributedString(attributedString: textView.attributedText)
+        let boldRange: NSRange
+        if lineBreakRange.location < textAsNSString.length {
+            boldRange = NSRange(location: 0, length: lineBreakRange.location)
+        } else {
+            boldRange = NSRange(location: 0, length: textAsNSString.length)
+        }
+        
+        newAttributedText.addAttribute(
+            NSAttributedString.Key.font,
+            value: UIFont.preferredFont(forTextStyle: UIFont.TextStyle.headline),
+            range: boldRange
+        )
+        textView.attributedText = newAttributedText
+    }
+}
+
+extension RegistrationViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let headerAttributes = [
+            NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
+        ]
+        let bodyAttributes = [
+            NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: UIFont.TextStyle.headline)
+        ]
+        
+        let textAsNSString = textView.text as NSString
+        let replaced = textAsNSString.replacingCharacters(in: range, with: text) as NSString
+        let boldRange = replaced.range(of: "\n")
+        if boldRange.location <= range.location {
+            textView.typingAttributes = headerAttributes
+        } else {
+            textView.typingAttributes = bodyAttributes
+        }
+        
+        return true
     }
 }
 
