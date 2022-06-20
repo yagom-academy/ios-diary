@@ -25,25 +25,20 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBarTitle()
         detailView.setUpView(diaryData: diaryData)
+        registerKeyboardNotifications()
+        
     }
     
     private func setNavigationBarTitle() {
         navigationItem.title = diaryData.createdAt?.formattedDate
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    private func registerKeyboardNotifications() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification , object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-    }
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
+    @objc private func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.detailView.mainScrollView.contentSize = .init(width: self.detailView.mainScrollView.frame.width, height: self.detailView.mainScrollView.frame.height + keyboardSize.height - 140)
             
@@ -53,9 +48,11 @@ final class DetailViewController: UIViewController {
         }
     }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
+    @objc private func keyboardWillHide(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.detailView.mainScrollView.contentSize = .init(width: self.detailView.mainScrollView.frame.width, height: self.detailView.mainScrollView.frame.height - keyboardSize.height + 140)
         }
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification , object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 }
