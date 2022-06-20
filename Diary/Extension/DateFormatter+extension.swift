@@ -8,15 +8,6 @@
 import Foundation
 
 extension DateFormatter {
-    static var currentDate: String = {
-        let dataFormatter = DateFormatter()
-        dataFormatter.dateStyle = .long
-        dataFormatter.timeStyle = .none
-        dataFormatter.locale = Locale.current
-        
-        return dataFormatter.string(from: Date())
-    }()
-    
     func changeDateFormat(time: Date?) -> String? {
         self.dateStyle = .long
         self.timeStyle = .none

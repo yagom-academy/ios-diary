@@ -62,4 +62,8 @@ final class DiaryDetailView: UIView {
     func setFirstResponder() {
         self.diaryTextView.becomeFirstResponder()
     }
+    
+    func readText() -> String {
+        return diaryTextView.text
+    }
 }

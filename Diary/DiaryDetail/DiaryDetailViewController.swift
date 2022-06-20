@@ -52,6 +52,16 @@ final class DiaryDetailViewController: UIViewController {
             mainView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
+    
+    private func makeDiary() -> Diary {
+        let component = mainView.readText().split(separator: "\n", maxSplits: 1).map(String.init)
+        
+        let title = component.first ?? ""
+        let body = component.last ?? ""
+        let createdAt = Date()
+        
+        return Diary(title: title, body: body, createdAt: createdAt)
+    }
 }
 
 extension DiaryDetailViewController {
