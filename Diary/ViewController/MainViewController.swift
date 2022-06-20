@@ -21,10 +21,12 @@ final class MainViewController: UIViewController {
         return UICollectionViewCompositionalLayout.list(using: configure)
     }
     private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
+    private let paser = Parser()
     
     override func viewDidLoad() {
         self.view = view
         super.viewDidLoad()
+        view.backgroundColor = .systemBackground
         setNavigationBarTitle()
         setNavigationBarRightPlusButton()
         updateDiaryData()
@@ -33,14 +35,18 @@ final class MainViewController: UIViewController {
     }
     
     private func updateDiaryData() {
-        guard let content = NSDataAsset(name: "sample"),
-                let decodedData: [DiaryModel] = try? JSONDecoder().decode(
-                    [DiaryModel].self, from: content.data
-                ) else { return }
-        diaryData = decodedData
+        do {
+            let decodedData = try paser.parse()
+            diaryData = decodedData
+        } catch DiaryError.invalidFileName{
+            print("invalid file name")
+        } catch DiaryError.decodeError {
+            print("decode error")
+        } catch {
+            print("invalid error : \(error)")
+        }
     }
 }
-
 // MARK: - Method
 
 extension MainViewController {
