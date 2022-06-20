@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ListCell: UICollectionViewListCell, CellMakeable {
+final class ListCell: UICollectionViewListCell {
     
     static var identifier: String {
         return String(describing: self)
@@ -22,15 +22,51 @@ final class ListCell: UICollectionViewListCell, CellMakeable {
         static let verticalStackViewSpacingFromCellTrailing: CGFloat = -15
     }
     
-    var titleLabel: UILabel = UILabel()
-    var dateLabel: UILabel = UILabel()
-    var descriptionLabel: UILabel = UILabel()
-    var verticalStackView: UIStackView = UIStackView()
-    var horizontalStackView: UIStackView = UIStackView()
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.textAlignment = .left
+        label.font = .preferredFont(forTextStyle: .title2)
+        return label
+    }()
     
+    private lazy var dateLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.textAlignment = .left
+        label.font = .preferredFont(forTextStyle: .body)
+        return label
+    }()
+    
+    private lazy var descriptionLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .black
+        label.textAlignment = .left
+        label.font = .preferredFont(forTextStyle: .caption1)
+        return label
+    }()
+        
+    private lazy var horizontalStackView: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [dateLabel, descriptionLabel])
+        view.axis = .horizontal
+        view.alignment = .center
+        view.distribution = .fill
+        view.spacing = Constants.horizontalStackViewSpacing
+        return view
+    }()
+    
+    private lazy var verticalStackView: UIStackView = {
+        let view = UIStackView(arrangedSubviews: [titleLabel, horizontalStackView])
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .vertical
+        view.alignment = .leading
+        view.distribution = .fill
+        view.spacing = Constants.verticalStackViewSpacing
+        return view
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        initializeProperties()
         setSubviews()
         setConstraints()
     }
@@ -39,41 +75,13 @@ final class ListCell: UICollectionViewListCell, CellMakeable {
         super.init(coder: coder)
     }
     
-    private func initializeProperties() {
-        titleLabel = createLabel(
-            font: .preferredFont(forTextStyle: .title2),
-            textColor: .black,
-            alignment: .left
-        )
-        dateLabel = createLabel(
-            font: .preferredFont(forTextStyle: .body),
-            textColor: .black,
-            alignment: .left
-        )
-        descriptionLabel = createLabel(
-            font: .preferredFont(forTextStyle: .caption1),
-            textColor: .black,
-            alignment: .left
-        )
-        verticalStackView = createStackView(
-            axis: .vertical,
-            alignment: .leading,
-            distribution: .fill,
-            spacing: Constants.verticalStackViewSpacing
-        )
-        horizontalStackView = createStackView(
-            axis: .horizontal,
-            alignment: .center,
-            distribution: .fill,
-            spacing: Constants.horizontalStackViewSpacing
-        )
+    func updateLabels(diaryModel: DiaryModel) {
+        titleLabel.text = diaryModel.title
+        descriptionLabel.text = diaryModel.body
+        dateLabel.text = diaryModel.createdAt?.formattedDate
     }
     
     private func setSubviews() {
-        horizontalStackView.addArrangedSubview(dateLabel)
-        horizontalStackView.addArrangedSubview(descriptionLabel)
-        verticalStackView.addArrangedSubview(titleLabel)
-        verticalStackView.addArrangedSubview(horizontalStackView)
         contentView.addSubview(verticalStackView)
     }
     

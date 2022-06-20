@@ -17,7 +17,6 @@
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		DAC41D992859B0EE00D3CD22 /* DiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC41D982859B0EE00D3CD22 /* DiaryModel.swift */; };
 		DAC41D9E2859B41B00D3CD22 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC41D9D2859B41B00D3CD22 /* ListCell.swift */; };
-		DAC41DA02859B7DD00D3CD22 /* CellMakeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC41D9F2859B7DD00D3CD22 /* CellMakeable.swift */; };
 		DACAF1442859AD6D0080CB0F /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACAF1432859AD6D0080CB0F /* DetailViewController.swift */; };
 		DACAF1462859AD990080CB0F /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACAF1452859AD990080CB0F /* MainView.swift */; };
 		DACAF1482859AD9F0080CB0F /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DACAF1472859AD9F0080CB0F /* DetailView.swift */; };
@@ -40,7 +39,6 @@
 		DAC41D962859AFC000D3CD22 /* .swiftlint.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = .swiftlint.md; sourceTree = "<group>"; };
 		DAC41D982859B0EE00D3CD22 /* DiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModel.swift; sourceTree = "<group>"; };
 		DAC41D9D2859B41B00D3CD22 /* ListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCell.swift; sourceTree = "<group>"; };
-		DAC41D9F2859B7DD00D3CD22 /* CellMakeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellMakeable.swift; sourceTree = "<group>"; };
 		DACAF1432859AD6D0080CB0F /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		DACAF1452859AD990080CB0F /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		DACAF1472859AD9F0080CB0F /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
@@ -132,7 +130,6 @@
 			isa = PBXGroup;
 			children = (
 				DAC41D9D2859B41B00D3CD22 /* ListCell.swift */,
-				DAC41D9F2859B7DD00D3CD22 /* CellMakeable.swift */,
 			);
 			path = Cell;
 			sourceTree = "<group>";
@@ -262,7 +259,6 @@
 				DAC41D992859B0EE00D3CD22 /* DiaryModel.swift in Sources */,
 				DAC41D9E2859B41B00D3CD22 /* ListCell.swift in Sources */,
 				9C8FA4F8285A2329005DD4AF /* TimeInterval+extension.swift in Sources */,
-				DAC41DA02859B7DD00D3CD22 /* CellMakeable.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);

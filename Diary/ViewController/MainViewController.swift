@@ -35,8 +35,9 @@ final class MainViewController: UIViewController {
     
     private func updateDiaryData() {
         guard let content = NSDataAsset(name: "sample"),
-                let decodedData: [DiaryModel] = try? JSONDecoder().decode([DiaryModel].self, from: content.data) else { return
-        }
+                let decodedData: [DiaryModel] = try? JSONDecoder().decode(
+                    [DiaryModel].self, from: content.data
+                ) else { return }
         diaryData = decodedData
     }
 }
@@ -108,9 +109,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return UICollectionViewCell()
         }
         cell.accessories = [.disclosureIndicator()]
-        cell.titleLabel.text = diaryData[indexPath.row].title
-        cell.dateLabel.text = diaryData[indexPath.row].createdAt?.formattedDate
-        cell.descriptionLabel.text = diaryData[indexPath.row].body
+        cell.updateLabels(diaryModel: diaryData[indexPath.row])
         return cell
     }
     
