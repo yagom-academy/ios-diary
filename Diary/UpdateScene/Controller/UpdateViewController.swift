@@ -30,6 +30,7 @@ final class UpdateViewController: UIViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         setUpView()
         setUpNavigationController(title: Formatter.getCurrentDate())
         setUpTextViewLayout()
@@ -38,21 +39,26 @@ final class UpdateViewController: UIViewController {
         showKeyboard()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        saveData()
+    }
+    
     private func setUpView() {
         view.backgroundColor = .systemBackground
     }
     
     private func setUpEditPage(diaryData: DiaryDTO) {
         setUpNavigationController(title: diaryData.dateString)
-        textView.text = "\(diaryData.title)\n\n\(diaryData.body ?? "")"
+        textView.text = "\(diaryData.title)\n\n\(diaryData.body)"
     }
     
     private func setUpNavigationController(title: String) {
         navigationItem.title = title
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "일기장", style: .plain, target: self, action: #selector(saveData))
     }
     
-    @objc private func saveData() {
+    private func saveData() {  
         let splitedText = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
             .map {
                 String($0)
@@ -73,8 +79,6 @@ final class UpdateViewController: UIViewController {
 
             DiaryDAO.shared.create(userData: newData)
         }
-        
-        navigationController?.popViewController(animated: true)
     }
     
     private func setUpTextViewLayout() {
@@ -97,4 +101,3 @@ final class UpdateViewController: UIViewController {
         textView.becomeFirstResponder()
     }
 }
-
