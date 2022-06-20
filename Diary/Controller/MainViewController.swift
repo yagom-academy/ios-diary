@@ -41,7 +41,7 @@ final class MainViewController: UIViewController {
     
     private func setUpDiaries() {
         DispatchQueue.main.async { [self] in
-            PersistenceManager.shared.fetchData()
+            PersistenceManager.shared.execute(by: .read)
             mainView.baseTableView.reloadData()
         }
     }
