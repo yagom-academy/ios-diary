@@ -104,8 +104,8 @@ extension MainViewController: UITableViewDelegate {
         let UIAlertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let removeAction = UIAlertAction(title: "삭제", style: .destructive) { [self] _ in
-            PersistenceManager.shared.deleteData(object: PersistenceManager.shared.diaries()[indexPath.row])
-            PersistenceManager.shared.deleteData(index: indexPath.row)
+            let objectToDelete = PersistenceManager.shared.diaries()[indexPath.row]
+            PersistenceManager.shared.execute(by: .delete(objectToDelete, index: indexPath.row))
             mainView.baseTableView.deleteRows(at: [indexPath], with: .fade)
         }
         UIAlertController.addAction(cancelAction)
