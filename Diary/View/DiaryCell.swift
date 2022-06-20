@@ -85,6 +85,6 @@ final class DiaryCell: UITableViewCell {
             titleLabel.text = data.title
         }
         dateLabel.text = data.createdAt.formattedString
-        descriptionLabel.text = data.body
+        descriptionLabel.text = data.body?.trimmingCharacters(in: .newlines)
     }
 }
