@@ -39,7 +39,7 @@ final class DiaryDetailViewController: UIViewController {
     private func configureView() {
         mainView.configure(diary: diary)
         view.backgroundColor = .systemBackground
-        title = diary?.createdAt
+        title = DateFormatter().changeDateFormat(time: diary?.createdAt)
     }
     
     private func configureLayout() {

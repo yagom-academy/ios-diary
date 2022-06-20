@@ -59,7 +59,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     func configure(item: Diary) {
         self.titleLabel.text = item.title
-        self.createdAtLabel.text = item.createdAt
+        self.createdAtLabel.text = DateFormatter().changeDateFormat(time: item.createdAt)
         self.bodyLabel.text = item.body
     }
     
