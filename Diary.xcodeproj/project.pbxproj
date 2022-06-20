@@ -18,7 +18,7 @@
 		0ECA095A28575A9E00A91611 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0ECA095928575A9E00A91611 /* .swiftlint.yml */; };
 		0ECA095E2857675700A91611 /* Decodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA095D2857675700A91611 /* Decodable+.swift */; };
 		0ECA096328576A4100A91611 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA096228576A4100A91611 /* AssetManager.swift */; };
-		30BB7CD4285B6C3100CF0448 /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BB7CD3285B6C3100CF0448 /* SampleData.swift */; };
+		30BB7CD4285B6C3100CF0448 /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BB7CD3285B6C3100CF0448 /* Sample.swift */; };
 		30BF2AE328576D57009C1525 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF2AE228576D57009C1525 /* DiaryCell.swift */; };
 		30BF2AE528577135009C1525 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF2AE428577135009C1525 /* UIStackView+.swift */; };
 		30BF2AEE2858BF4C009C1525 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF2AED2858BF4C009C1525 /* Keyboard.swift */; };
@@ -43,7 +43,7 @@
 		0ECA095928575A9E00A91611 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		0ECA095D2857675700A91611 /* Decodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+.swift"; sourceTree = "<group>"; };
 		0ECA096228576A4100A91611 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
-		30BB7CD3285B6C3100CF0448 /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
+		30BB7CD3285B6C3100CF0448 /* Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
 		30BF2AE228576D57009C1525 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		30BF2AE428577135009C1525 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		30BF2AEA28585F89009C1525 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -88,7 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				0ECA096228576A4100A91611 /* AssetManager.swift */,
-				30BB7CD3285B6C3100CF0448 /* SampleData.swift */,
+				30BB7CD3285B6C3100CF0448 /* Sample.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -147,13 +147,15 @@
 			path = Window;
 			sourceTree = "<group>";
 		};
-		0ECA096128576A0600A91611 /* Model */ = {
+		0ECA096128576A0600A91611 /* CoreDataModel */ = {
 			isa = PBXGroup;
 			children = (
+				0EAE1FF6286017A400AD7F08 /* Diary+CoreDataClass.swift */,
+				0EAE1FF7286017A400AD7F08 /* Diary+CoreDataProperties.swift */,
 				0E4F85022858349500E3D309 /* DiaryDTO.swift */,
 				0EAE1FF4286014BA00AD7F08 /* DiaryDAO.swift */,
 			);
-			path = Model;
+			path = CoreDataModel;
 			sourceTree = "<group>";
 		};
 		30BF2AE828584A53009C1525 /* Controller */ = {
@@ -184,8 +186,6 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
-				0EAE1FF6286017A400AD7F08 /* Diary+CoreDataClass.swift */,
-				0EAE1FF7286017A400AD7F08 /* Diary+CoreDataProperties.swift */,
 				0ECA095928575A9E00A91611 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
@@ -209,7 +209,7 @@
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
-				0ECA096128576A0600A91611 /* Model */,
+				0ECA096128576A0600A91611 /* CoreDataModel */,
 				0E6DB1D8285C65E700B9B5D5 /* Window */,
 				0E6DB1D1285C638700B9B5D5 /* ListScene */,
 				0E6DB1D6285C652600B9B5D5 /* UpdateScene */,
@@ -349,7 +349,7 @@
 				0E4F8507285863AF00E3D309 /* UpdateViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				0EAE1FF5286014BA00AD7F08 /* DiaryDAO.swift in Sources */,
-				30BB7CD4285B6C3100CF0448 /* SampleData.swift in Sources */,
+				30BB7CD4285B6C3100CF0448 /* Sample.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				30BF2AE328576D57009C1525 /* DiaryCell.swift in Sources */,
 				0E6DB1CE285B1B2C00B9B5D5 /* UITableView+.swift in Sources */,
