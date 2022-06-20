@@ -7,26 +7,8 @@
 
 import UIKit
 
-final class DiaryViewController: UIViewController {
-    private lazy var diaryView = DiaryView.init(frame: view.bounds)
-    private var diary: Diary?
-
-    enum DiaryViewType {
-        case add
-        case edit
-    }
-    
-    private var diaryViewType: DiaryViewType = .add
-    
-    init(diary: Diary?, type: DiaryViewType) {
-        self.diary = diary
-        self.diaryViewType = type
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
+class DiaryViewController: UIViewController {
+    lazy var diaryView = DiaryView.init(frame: view.bounds)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,21 +17,5 @@ final class DiaryViewController: UIViewController {
     
     private func setInitialView() {
         self.view = diaryView
-
-        switch diaryViewType {
-        case .add:
-            self.title = Date().dateToKoreanString
-        case .edit:
-            self.title = diary?.createdAt ?? ""
-            configureDiaryView()
-        }
-    }
-    
-    private func configureDiaryView() {
-        guard let diary = diary else {
-            return
-        }
-
-        diaryView.configureContents(diary: diary)
     }
 }
