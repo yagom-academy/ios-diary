@@ -56,6 +56,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private func setUp() {
         setUpNavigationBar()
+        setUpNotification()
         setUpTextView()
     }
     
@@ -103,6 +104,28 @@ final class DiaryDetailViewController: UIViewController {
             .show(style: .actionSheet)
     }
     
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDiary), name: .saveDiary, object: nil)
+    }
+    
+    @objc
+    private func updateDiary() {
+        guard let texts = diaryTextView.text else { return }
+        
+        let newDiary: Diary
+        
+        if let index = texts.firstIndex(of: "\n") {
+            let title = String(texts[..<index])
+            let body = texts[index...].trimmingCharacters(in: .newlines)
+            
+            newDiary = Diary(title: title, body: body, createdDate: diary.createdDate, id: diary.id)
+        } else {
+            newDiary = Diary(title: texts, body: "", createdDate: diary.createdDate, id: diary.id)
+        }
+        
+        delegate?.update(diary: newDiary)
+    }
+    
     private func setUpTextView() {
         diaryTextView.contentOffset = .zero
         diaryTextView.delegate = self
@@ -140,19 +163,6 @@ extension DiaryDetailViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        guard let texts = textView.text else { return }
-        
-        let newDiary: Diary
-        
-        if let index = texts.firstIndex(of: "\n") {
-            let title = String(texts[..<index])
-            let body = texts[index...].trimmingCharacters(in: .newlines)
-            
-            newDiary = Diary(title: title, body: body, createdDate: diary.createdDate, id: diary.id)
-        } else {
-            newDiary = Diary(title: texts, body: "", createdDate: diary.createdDate, id: diary.id)
-        }
-        
-        delegate?.update(diary: newDiary)
+        updateDiary()
     }
 }
