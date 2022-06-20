@@ -92,18 +92,18 @@ final class DetailViewController: UIViewController {
 
         let diary = Diary(title: title, createdAt: diary.createdAt, body: body, id: diary.id)
                 
-        PersistenceManager.shared.updateData(data: diary)
+        PersistenceManager.shared.execute(by: .update(diary: diary))
     }
     
     private func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            PersistenceManager.shared.deleteData(object: self.diary)
+            PersistenceManager.shared.execute(by: .delete(self.diary))
             self.navigationController?.popViewController(animated: true)
         }
         
-        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
             self.showActivityView(data: self.diary)
         }
         
