@@ -12,6 +12,12 @@ final class DetailViewController: UIViewController {
     private lazy var detailView = DetailView(frame: view.frame)
     private let diaryData: DiaryModel
     
+    override func loadView() {
+        super.loadView()
+        detailView.backgroundColor = .systemBackground
+        self.view = detailView
+    }
+    
     init(diaryData: DiaryModel) {
         self.diaryData = diaryData
         super.init(nibName: nil, bundle: nil)
@@ -22,7 +28,6 @@ final class DetailViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-        view = detailView
         super.viewDidLoad()
         setNavigationBarTitle()
         detailView.setUpView(diaryData: diaryData)
@@ -63,19 +68,19 @@ extension DetailViewController {
             notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         )?.cgRectValue else { return }
         detailView.mainScrollView.contentInset = .init(
-            top: 0,
-            left: 0,
+            top: .zero,
+            left: .zero,
             bottom: keyboardSize.height,
-            right: 0
+            right: .zero
         )
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.mainScrollView.contentInset = .init(
-            top: 0,
-            left: 0,
-            bottom: 0,
-            right: 0
+            top: .zero,
+            left: .zero,
+            bottom: .zero,
+            right: .zero
         )
     }
 }

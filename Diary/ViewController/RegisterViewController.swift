@@ -9,7 +9,6 @@ import UIKit
 
 final class RegisterViewController: UIViewController {
     override func viewDidLoad() {
-        self.view = view
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
     }
