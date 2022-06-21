@@ -22,10 +22,9 @@ extension ContainerManagerable {
     }
 }
 
-//레드가 네이밍 바꿔주기
-final class ContainerManager: ContainerManagerable {
+final class DiaryContainerManager: ContainerManagerable {
     
-    static let shared =  ContainerManager()
+    static let shared =  DiaryContainerManager()
     
     private init() {}
     

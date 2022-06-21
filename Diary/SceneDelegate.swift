@@ -14,7 +14,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let mainViewController = MainViewController(view: MainView(), viewModel: TableViewModel(useCase: DiaryUseCase(containerManager: ContainerManager.shared)))
+        let mainViewController = MainViewController(view: MainView(), viewModel: TableViewModel(useCase: DiaryUseCase(containerManager: DiaryContainerManager.shared)))
         let navigationController = UINavigationController(rootViewController: mainViewController)
         window.rootViewController = navigationController
         self.window = window

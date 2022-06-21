@@ -16,7 +16,6 @@ protocol UseCase {
 }
 
 final class DiaryUseCase: UseCase {
-    
     let containerManager: ContainerManagerable
     lazy var context = containerManager.persistentContainer.viewContext
     lazy var diaryEntity = NSEntityDescription.entity(forEntityName: DiaryInfo.entityName, in: context)
@@ -97,3 +96,17 @@ final class DiaryUseCase: UseCase {
         try context.save()
     }
 }
+
+#if DEBUG
+extension DiaryUseCase {
+    func readOne(key: UUID) -> DiaryInfo? {
+        guard let diarys = try? filterDiaryData(key: key) as? [DiaryData],
+                  diarys.count == 1 else {
+            return nil
+        }
+        let diary = diarys.first
+        
+        return DiaryInfo(title: diary?.title, body: diary?.body, date: diary?.date, key: diary?.key)
+    }
+}
+#endif

@@ -11,7 +11,7 @@ protocol DataModelable {
     static var entityName: String { get }
 }
 
-struct DiaryInfo: DataModelable {
+struct DiaryInfo: DataModelable, Equatable {
     static var entityName = "DiaryData"
     
     let title: String?

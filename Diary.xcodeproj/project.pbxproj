@@ -159,7 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				DAD7F700285B5B6100F53652 /* CoreData */,
-				DAD7F69F28585E1500F53652 /* DiaryDateFormatter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -231,6 +230,7 @@
 			isa = PBXGroup;
 			children = (
 				DAD7F7722861940000F53652 /* AlertMaker.swift */,
+				DAD7F69F28585E1500F53652 /* DiaryDateFormatter.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
