@@ -18,11 +18,6 @@ final class MainViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
-    self.saveJsonData()
-  }
-  
-  private func saveJsonData() {
-    self.diary = ParserManager.fetchDiary()
   }
   
   private func configureUI() {

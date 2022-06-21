@@ -23,7 +23,6 @@
 		ABF991A82858B2F9000A44A1 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A72858B2F9000A44A1 /* ListView.swift */; };
 		ABF991AA2858B730000A44A1 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A92858B730000A44A1 /* ListTableViewCell.swift */; };
 		ABF991B228596D2F000A44A1 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991B128596D2F000A44A1 /* Diary.swift */; };
-		ABF991B72859778E000A44A1 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991B62859778E000A44A1 /* Json.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* MainViewController.swift */; };
@@ -48,7 +47,6 @@
 		ABF991A72858B2F9000A44A1 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		ABF991A92858B730000A44A1 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		ABF991B128596D2F000A44A1 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
-		ABF991B62859778E000A44A1 /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		AF34973433EA21680A7FB816 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -193,17 +191,8 @@
 				86B36174285C50BE00EEBDF4 /* ParserManager */,
 				AB4D73C5285B1D9600BE5190 /* Protocol */,
 				867CACFF285B14C900A04F1F /* Extension */,
-				ABF991B52859772F000A44A1 /* Singleton */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		ABF991B52859772F000A44A1 /* Singleton */ = {
-			isa = PBXGroup;
-			children = (
-				ABF991B62859778E000A44A1 /* Json.swift */,
-			);
-			path = Singleton;
 			sourceTree = "<group>";
 		};
 		ABF991BA2859AAA5000A44A1 /* WriteScene */ = {
@@ -274,7 +263,7 @@
 				C739AE1D284DF28600741E8F /* Sources */,
 				C739AE1E284DF28600741E8F /* Frameworks */,
 				C739AE1F284DF28600741E8F /* Resources */,
-				ABBBCEFD285773C000589B86 /* ShellScript */,
+				ABBBCEFD285773C000589B86 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -331,20 +320,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		ABBBCEFD285773C000589B86 /* ShellScript */ = {
+		ABBBCEFD285773C000589B86 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
@@ -377,7 +367,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABF991B72859778E000A44A1 /* Json.swift in Sources */,
 				ABF991B228596D2F000A44A1 /* Diary.swift in Sources */,
 				AB0D9A072859B0FB00235064 /* WriteView.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,

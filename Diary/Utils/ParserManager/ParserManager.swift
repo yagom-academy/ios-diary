@@ -17,7 +17,7 @@ struct ParserManager {
       return nil
     }
 
-    let diaryData = try? Json.decoder.decode([Diary].self, from: jsonData)
+    let diaryData = try? JSONDecoder().decode([Diary].self, from: jsonData)
     
     return diaryData
   }
