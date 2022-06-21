@@ -89,5 +89,5 @@ extension DiaryView {
     
     @objc private func hideKeyboard() {
         self.diaryTextView.endEditing(true)
-    }
+    }    
 }

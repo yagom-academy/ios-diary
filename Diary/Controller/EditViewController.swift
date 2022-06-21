@@ -26,8 +26,7 @@ final class EditViewController: DiaryViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        update(setTestData())
-        delegate?.updateView()
+        saveDiary()
     }
     
     private func setInitialView() {
@@ -35,6 +34,11 @@ final class EditViewController: DiaryViewController {
             self.title = Date(timeIntervalSince1970: createdAt).dateToKoreanString
             configureDiaryView()
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: Notification.Name.sceneDidEnterBackgroundNotification, object: nil)
+    
+    @objc func saveDiary() {
+        update(setTestData())
+        delegate?.updateView()
     }
     
     private func setTestData() -> Diary? {

@@ -22,12 +22,16 @@ final class AddViewController: DiaryViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        update(setTestData())
-        delegate?.updateView()
+        saveDiary()
     }
     
     private func setInitialView() {
         self.title = Date().dateToKoreanString
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: Notification.Name.sceneDidEnterBackgroundNotification, object: nil)
+    
+    @objc func saveDiary() {
+        update(setTestData())
+        delegate?.updateView()
     }
     
     private func setTestData() -> Diary? {
