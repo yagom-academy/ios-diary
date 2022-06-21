@@ -8,9 +8,9 @@
 import UIKit
 
 final class EditViewController: DiaryViewController {
-    private var diary: Diary?
+    private var diary: DiaryModel?
     
-    init(diary: Diary?) {
+    init(diary: DiaryModel?) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }

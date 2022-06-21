@@ -75,9 +75,9 @@ final class ListTableViewCell: UITableViewCell {
         self.accessoryType = .disclosureIndicator
     }
     
-    func configureContents(_ diaryArray: Diary) {
+    func configureContents(_ diaryArray: DiaryModel) {
         titleLabel.text = diaryArray.title
-        dateLabel.text = diaryArray.createdAt
+        dateLabel.text = Date(timeIntervalSince1970: diaryArray.createdAt).dateToKoreanString
         previewLabel.text = diaryArray.body
     }
 }
