@@ -53,9 +53,9 @@ final class DetailViewController: UIViewController {
         
         guard let content = detailView.contentTextView.text else { return }
 
-        let splitedIndex = content.firstIndex(of: "\n") ?? content.endIndex
-        let title = String(content[..<splitedIndex])
-        let body = String(content[splitedIndex...])
+        var splitedText = content.components(separatedBy: "\n")
+        let title = splitedText.removeFirst()
+        let body = splitedText.joined(separator: "\n")
 
         let diary = Diary(title: title, createdAt: diary.createdAt, body: body, id: diary.id)
                 
