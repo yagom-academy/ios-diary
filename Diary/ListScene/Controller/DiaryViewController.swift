@@ -102,7 +102,8 @@ final class DiaryViewController: UIViewController {
             
             return tableView.dequeueReusableCell(
                 withIdentifier: UITableViewCell.identifier,
-                for: indexPath)
+                for: indexPath
+            )
         }
     }
     
@@ -115,11 +116,11 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setUpCoreData() {
-        guard let sampleData = DiaryDAO.shared.read() else {
+        guard let coreData = DiaryDAO.shared.read() else {
             return
         }
         
-        setUpSanpshot(data: sampleData)
+        setUpSanpshot(data: coreData)
     }
     
     private func setUpSanpshot(data: [DiaryDTO]) {

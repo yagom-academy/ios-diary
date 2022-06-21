@@ -18,6 +18,11 @@ extension UpdateViewController: BackGroundDelegate {
 }
 
 final class UpdateViewController: UIViewController {
+    enum Const {
+        static let moreButton = "더보기"
+        static let separator = "\n"
+    }
+    
     private let textView = UITextView()
     private var keyboard: Keyboard?
     private let diaryData: DiaryDTO?
@@ -70,13 +75,13 @@ final class UpdateViewController: UIViewController {
     
     private func setUpEditPage(diaryData: DiaryDTO) {
         setUpNavigationController(title: diaryData.dateString)
-        textView.text = "\(diaryData.title)\n\(diaryData.body)"
+        textView.text = "\(diaryData.title)\(Const.separator)\(diaryData.body)"
     }
     
     private func setUpNavigationController(title: String) {
         func setUpRightButton() {
             let button = UIBarButtonItem(
-                title: "더보기",
+                title: Const.moreButton,
                 style: .plain,
                 target: self,
                 action: #selector(touchUpMoreButton)
@@ -165,6 +170,11 @@ extension UpdateViewController: UITextViewDelegate {
 }
 
 private extension UITextView {
+    enum Const {
+        static let separator: Character = "\n"
+        static let defaultBody = ""
+    }
+    
     func extractData(date: String?) -> (
         title: String,
         body: String,
@@ -175,18 +185,17 @@ private extension UITextView {
         }
         
         let splitedText = text.split(
-            separator: "\n",
+            separator: Const.separator,
             maxSplits: 1
-        )
-            .map {
-                String($0)
-            }
+        ).map {
+            String($0)
+        }
         
         let body: String
         
         switch splitedText.count {
         case 1:
-            body = ""
+            body = Const.defaultBody
         case 2:
             guard let lastText = splitedText.last else {
                 return nil
