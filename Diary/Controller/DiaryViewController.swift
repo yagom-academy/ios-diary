@@ -77,6 +77,7 @@ class DiaryViewController: UIViewController {
     }
     
     @objc private func touchOptionButton() {
+        diaryView.diaryTextView.endEditing(true)
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
             self.touchShareButton()
