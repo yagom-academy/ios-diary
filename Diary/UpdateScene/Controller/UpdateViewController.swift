@@ -51,7 +51,8 @@ final class UpdateViewController: UIViewController {
     }
     
     private func setUpDelegate() {
-        guard let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
+        guard let scene = UIApplication.shared.connectedScenes.first?.delegate
+                as? SceneDelegate else {
             return
         }
         
@@ -74,7 +75,12 @@ final class UpdateViewController: UIViewController {
     
     private func setUpNavigationController(title: String) {
         func setUpRightButton() {
-            let button = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(touchUpMoreButton))
+            let button = UIBarButtonItem(
+                title: "더보기",
+                style: .plain,
+                target: self,
+                action: #selector(touchUpMoreButton)
+            )
             navigationItem.rightBarButtonItem = button
         }
         
@@ -91,26 +97,38 @@ final class UpdateViewController: UIViewController {
             return
         }
         
-        showActionSheet(shareTitle: title, identifer: identifier) {
+        showActionSheet(
+            shareTitle: title,
+            identifer: identifier
+        ) {
             self.navigationController?.popViewController(animated: true)
         }
     }
     
     private func saveData() {
         guard isSavingData == false,
-            let (title, body, date) = textView.extractData(date: navigationItem.title) else {
+              let (title, body, date) = textView.extractData(date: navigationItem.title) else {
             return
         }
         
         isSavingData = true
         
         if let identifier = diaryData?.identifier {
-            let edittedData = DiaryDTO(identifier: identifier, title: title, body: body, date: date)
+            let edittedData = DiaryDTO(
+                identifier: identifier,
+                title: title,
+                body: body,
+                date: date
+            )
             
             DiaryDAO.shared.update(userData: edittedData)
         } else {
-            let newData = DiaryDTO(title: title, body: body, date: date)
-
+            let newData = DiaryDTO(
+                title: title,
+                body: body,
+                date: date
+            )
+            
             DiaryDAO.shared.create(userData: newData)
         }
     }
@@ -119,7 +137,7 @@ final class UpdateViewController: UIViewController {
         view.addSubview(textView)
         
         textView.translatesAutoresizingMaskIntoConstraints = false
-       
+        
         let bottomContraint = textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         
         NSLayoutConstraint.activate([
@@ -129,7 +147,10 @@ final class UpdateViewController: UIViewController {
             bottomContraint
         ].compactMap { $0 })
         
-        keyboard = Keyboard(bottomContraint: bottomContraint, textView: textView)
+        keyboard = Keyboard(
+            bottomContraint: bottomContraint,
+            textView: textView
+        )
     }
     
     private func showKeyboard() {
@@ -144,12 +165,19 @@ extension UpdateViewController: UITextViewDelegate {
 }
 
 private extension UITextView {
-    func extractData(date: String?) -> (title: String, body: String, date: Date)? {
+    func extractData(date: String?) -> (
+        title: String,
+        body: String,
+        date: Date
+    )? {
         guard let date = date else {
             return nil
         }
         
-        let splitedText = text.split(separator: "\n", maxSplits: 1)
+        let splitedText = text.split(
+            separator: "\n",
+            maxSplits: 1
+        )
             .map {
                 String($0)
             }
@@ -163,6 +191,7 @@ private extension UITextView {
             guard let lastText = splitedText.last else {
                 return nil
             }
+            
             body = lastText
         default:
             return nil

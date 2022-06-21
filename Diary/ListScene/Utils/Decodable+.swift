@@ -12,6 +12,7 @@ extension Decodable {
         guard let data = try? Json.shared.decode([Self].self, from: data) else {
             return nil
         }
+        
         return data
     }
 }

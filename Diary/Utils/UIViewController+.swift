@@ -16,7 +16,10 @@ extension UIViewController {
             shareObject.append(shareText)
         }
         
-        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+        let activityViewController = UIActivityViewController(
+            activityItems: shareObject,
+            applicationActivities: nil
+        )
                 
         present(activityViewController, animated: true)
     }
@@ -28,12 +31,22 @@ extension UIViewController {
         DiaryDAO.shared.delete(identifier: identifier.uuidString)
     }
     
-    func showActionSheet(shareTitle: String? = nil, identifer: UUID, deleteHandler: @escaping () -> Void) {
-        let share = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
+    func showActionSheet(
+        shareTitle: String? = nil,
+        identifer: UUID,
+        deleteHandler: @escaping () -> Void
+    ) {
+        let share = UIAlertAction(
+            title: "Share",
+            style: .default
+        ) { [weak self] _ in
             self?.showActivity(title: shareTitle)
         }
         
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
+        let delete = UIAlertAction(
+            title: "Delete",
+            style: .destructive
+        ) { _ in
             self.showDeleteAlert(identifier: identifer, handler: deleteHandler)
         }
         
@@ -46,12 +59,18 @@ extension UIViewController {
         present(sheet, animated: true)
     }
     
-    func showDeleteAlert(identifier: UUID?, handler: @escaping () -> Void) {
+    func showDeleteAlert(
+        identifier: UUID?,
+        handler: @escaping () -> Void
+    ) {
         guard let identifier = identifier else {
             return
         }
 
-        let action = UIAlertAction(title: "Delete", style: .destructive) { _ in
+        let action = UIAlertAction(
+            title: "Delete",
+            style: .destructive
+        ) { _ in
             self.deleteHandler(identifier: identifier)
             handler()
         }
@@ -78,7 +97,10 @@ final class AlertBuilder {
     private var product = Product()
 
     init() {
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancel = UIAlertAction(
+            title: "Cancel",
+            style: .cancel
+        )
         
         self.setAction(cancel)
     }
@@ -109,9 +131,11 @@ final class AlertBuilder {
     }
     
     func build() -> UIAlertController {
-        let alert = UIAlertController(title: product.title,
-                                      message: product.message,
-                                      preferredStyle: product.type)
+        let alert = UIAlertController(
+            title: product.title,
+            message: product.message,
+            preferredStyle: product.type
+        )
         
         product.actions.forEach {
             alert.addAction($0)

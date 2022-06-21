@@ -21,16 +21,23 @@ final class Keyboard {
     }
     
     func setUpKeyboard() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillAppear),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillAppear),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
         
-        let swipeDown =  UISwipeGestureRecognizer(target: self, action: #selector(swipeDownGesture))
+        let swipeDown =  UISwipeGestureRecognizer(
+            target: self,
+            action: #selector(swipeDownGesture)
+        )
         
         swipeDown.direction = .down
         textView?.addGestureRecognizer(swipeDown)

@@ -14,11 +14,13 @@ final class DiaryDAO {
         
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
+        
         container.loadPersistentStores { _, error in
             if let error = error {
                 fatalError("Unable to load persistent stores: \(error)")
             }
         }
+        
         return container
     }()
     
@@ -42,12 +44,14 @@ final class DiaryDAO {
     }
     
     private func save() {
-        guard viewContext.hasChanges else { return }
+        guard viewContext.hasChanges else {
+            return
+        }
         
         do {
             try viewContext.save()
-        } catch let error as NSError {
-            print("Error: \(error), \(error.userInfo)")
+        } catch let error {
+            print("Error: \(error)")
         }
     }
     
@@ -68,7 +72,13 @@ final class DiaryDAO {
                   let date = $0.date else {
                 return nil
             }
-            return DiaryDTO(identifier: identifier, title: title, body: body, date: date)
+            
+            return DiaryDTO(
+                identifier: identifier,
+                title: title,
+                body: body,
+                date: date
+            )
         }
     }
     
@@ -76,8 +86,15 @@ final class DiaryDAO {
         guard let diary = getObject(identifier: userData.identifier.uuidString) else {
             return
         }
-        diary.setValue(userData.title, forKey: "title")
-        diary.setValue(userData.body, forKey: "body")
+        
+        diary.setValue(
+            userData.title,
+            forKey: "title"
+        )
+        diary.setValue(
+            userData.body,
+            forKey: "body"
+        )
         
         save()
     }
@@ -86,12 +103,16 @@ final class DiaryDAO {
         guard let diary = fetch(identifier: identifier)?.first as? NSManagedObject else {
             return nil
         }
+        
         return diary
     }
     
     private func fetch(identifier: String) -> [Diary]? {
         let request = Diary.fetchRequest()
-        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        let predicate = NSPredicate(
+            format: "identifier == %@",
+            identifier
+        )
         
         request.predicate = predicate
         
