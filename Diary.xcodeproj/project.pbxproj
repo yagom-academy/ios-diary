@@ -15,7 +15,7 @@
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		DAD7F6A028585E1500F53652 /* DiaryDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F69F28585E1500F53652 /* DiaryDateFormatter.swift */; };
 		DAD7F6A22858675500F53652 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6A12858675400F53652 /* MainView.swift */; };
-		DAD7F6A42858678900F53652 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6A32858678900F53652 /* MainViewModel.swift */; };
+		DAD7F6A42858678900F53652 /* TableViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6A32858678900F53652 /* TableViewModel.swift */; };
 		DAD7F6A82858C58400F53652 /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6A72858C58400F53652 /* DetailView.swift */; };
 		DAD7F6AA2858C78E00F53652 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6A92858C78E00F53652 /* DetailViewController.swift */; };
 		DAD7F6AC2858D4CE00F53652 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F6AB2858D4CE00F53652 /* Date+Extension.swift */; };
@@ -54,7 +54,7 @@
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAD7F69F28585E1500F53652 /* DiaryDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDateFormatter.swift; sourceTree = "<group>"; };
 		DAD7F6A12858675400F53652 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
-		DAD7F6A32858678900F53652 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		DAD7F6A32858678900F53652 /* TableViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewModel.swift; sourceTree = "<group>"; };
 		DAD7F6A72858C58400F53652 /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		DAD7F6A92858C78E00F53652 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		DAD7F6AB2858D4CE00F53652 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -173,7 +173,7 @@
 		DAD7F69C28585AEA00F53652 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				DAD7F6A32858678900F53652 /* MainViewModel.swift */,
+				DAD7F6A32858678900F53652 /* TableViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -235,6 +235,7 @@
 				C739AE1D284DF28600741E8F /* Sources */,
 				C739AE1E284DF28600741E8F /* Frameworks */,
 				C739AE1F284DF28600741E8F /* Resources */,
+				E1B7598D286182B00058A316 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -321,6 +322,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		E1B7598D286182B00058A316 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
+		};
 		EA5CF8224BBB0AF280A65B52 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -365,7 +383,7 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				E1EBE02C28586F2400DA3EF7 /* UIView+Extension.swift in Sources */,
-				DAD7F6A42858678900F53652 /* MainViewModel.swift in Sources */,
+				DAD7F6A42858678900F53652 /* TableViewModel.swift in Sources */,
 				DAD7F70E285B5DF300F53652 /* ContainerManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

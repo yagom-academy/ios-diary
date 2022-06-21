@@ -7,9 +7,15 @@
 
 import Foundation
 
-struct DiaryInfo {
+protocol DataModelable {
+    static var entityName: String { get }
+}
+
+struct DiaryInfo: DataModelable {
+    static var entityName = "DiaryData"
+    
     let title: String?
     let body: String?
     let date: Date?
-    let key: Int64?
+    let key: UUID?
 }

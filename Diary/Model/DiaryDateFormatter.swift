@@ -8,6 +8,10 @@
 import Foundation
 
 final class DiaryDateFormatter {
+    private enum Constant {
+        static let dateFormatString: String = "yyyy년 MM월 dd일"
+    }
+    
     private var dateFormatter: DateFormatter
     static let shared = DiaryDateFormatter()
     
@@ -15,7 +19,7 @@ final class DiaryDateFormatter {
         let formatter = DateFormatter()
         formatter.locale = Locale(identifier: Locale.current.identifier)
         formatter.timeZone = TimeZone(identifier: TimeZone.current.identifier)
-        formatter.dateFormat = "yyyy년 MM월 dd일"
+        formatter.dateFormat = Constant.dateFormatString
         dateFormatter = formatter
     }
 

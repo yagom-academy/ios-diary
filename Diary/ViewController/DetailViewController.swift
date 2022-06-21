@@ -6,14 +6,15 @@
 //
 
 import UIKit
-protocol UpdateDelegate {
+
+protocol UpdateDelegateable {
     func updatae(diaryInfo: DiaryInfo)
 }
 
 final class DetailViewController: UIViewController {
     private var detailView = DetailView()
     private var diaryData: DiaryInfo?
-    var delegate: UpdateDelegate?
+    var delegate: UpdateDelegateable?
     
     override func loadView() {
         view = detailView
@@ -29,9 +30,7 @@ final class DetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         let editedDiary = detailView.exportDiaryText()
-        delegate?.updatae(diaryInfo: editedDiary)
-        
-        
+        delegate?.updatae(diaryInfo: editedDiary)        
     }
     
     override func viewDidDisappear(_ animated: Bool) {

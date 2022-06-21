@@ -7,7 +7,24 @@
 
 import CoreData
 
-final class ContainerManager {
+protocol ContainerManagerable {
+    static var shared: Self { get }
+    var persistentContainer: NSPersistentContainer { get }
+    func saveContext() throws
+}
+
+extension ContainerManagerable {
+    func saveContext() throws {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            try context.save()
+        }
+    }
+}
+
+//레드가 네이밍 바꿔주기
+final class ContainerManager: ContainerManagerable {
+    
     static let shared =  ContainerManager()
     
     private init() {}
@@ -21,11 +38,4 @@ final class ContainerManager {
         })
         return container
     }()
-    
-    func saveContext () throws {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            try context.save()
-        }
-    }
 }

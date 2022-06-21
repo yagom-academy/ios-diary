@@ -1,5 +1,5 @@
 //
-//  MainViewModel.swift
+//  TableViewModel.swift
 //  Diary
 //
 //  Created by 우롱차, RED on 2022/06/14.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainViewModel<U: UseCase>: NSObject {
+final class TableViewModel<U: UseCase>: NSObject {
     private(set) var data: [U.Element] = []
     private let useCase: U
     
@@ -26,7 +26,7 @@ final class MainViewModel<U: UseCase>: NSObject {
     
     func update(data: U.Element) {
         do {
-             try useCase.update(diaryInfo: data)
+             try useCase.update(element: data)
         } catch {
             fatalError()
         }
@@ -34,7 +34,7 @@ final class MainViewModel<U: UseCase>: NSObject {
     
     func create(data: U.Element) -> U.Element {
         do {
-            return try useCase.create(diary: data)
+            return try useCase.create(element: data)
         } catch {
             fatalError()
         }
