@@ -17,11 +17,6 @@ class DiaryViewController: UIViewController {
         setInitialView()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        saveDiary()
-    }
-    
     private func setInitialView() {
         self.view = diaryView
         NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: Notification.Name.sceneDidEnterBackgroundNotification, object: nil)
@@ -62,7 +57,17 @@ class DiaryViewController: UIViewController {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .default)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            print("Delete")
+            guard let diary = self.diary else {
+                return
+            }
+            
+            do {
+                try CoreDataManager.shared.delete(diary)
+                self.delegate?.updateView()
+                self.navigationController?.popViewController(animated: true)
+            } catch {
+                print("삭제에 실패했습니다")
+            }
         }
         
         alert.addAction(cancelAction)
