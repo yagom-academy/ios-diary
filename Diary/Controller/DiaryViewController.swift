@@ -22,6 +22,19 @@ class DiaryViewController: UIViewController {
         saveDiary()
     }
     
+    private func setInitialView() {
+        self.view = diaryView
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: Notification.Name.sceneDidEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: UIResponder.keyboardWillHideNotification, object: nil)
+        configureOptionButton()
+    }
+    
+    private func configureOptionButton() {
+        let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchOptionButton))
+        
+        self.navigationItem.setRightBarButton(barButton, animated: true)
+    }
+    
     private func update(_ testData: Diary?) {
         do {
             guard let testData = testData else {
@@ -37,48 +50,6 @@ class DiaryViewController: UIViewController {
     private func diaryText() -> [String] {
         let textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
         return textArray
-    }
-    
-    private func setInitialView() {
-        self.view = diaryView
-        self.navigationItem.setRightBarButton(optionButton(), animated: true)
-        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: Notification.Name.sceneDidEnterBackgroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func saveDiary() {
-        var textArray = diaryText()
-        if diary == nil {
-            diary = Diary(title: textArray.removeFirst(), body: textArray.joined(separator: "\n"), createdAt: Date().timeIntervalSince1970, id: UUID())
-        } else {
-            diary?.title = textArray.removeFirst()
-            diary?.body = textArray.joined(separator: "\n")
-        }
-        update(diary)
-        delegate?.updateView()
-    }
-    
-    private func optionButton() -> UIBarButtonItem {
-        let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchOptionButton))
-        
-        return barButton
-    }
-    
-    @objc private func touchOptionButton() {
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
-            self.touchShareButton()
-        }
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.touchDeleteButton()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-
-        alert.addAction(shareAction)
-        alert.addAction(deleteAction)
-        alert.addAction(cancelAction)
-        
-        self.present(alert, animated: true)
     }
     
     private func touchShareButton() {
@@ -98,5 +69,34 @@ class DiaryViewController: UIViewController {
         alert.addAction(deleteAction)
         
         self.present(alert, animated: true)
+    }
+    
+    @objc private func touchOptionButton() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            self.touchShareButton()
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.touchDeleteButton()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true)
+    }
+    
+    @objc private func saveDiary() {
+        var textArray = diaryText()
+        if diary == nil {
+            diary = Diary(title: textArray.removeFirst(), body: textArray.joined(separator: "\n"), createdAt: Date().timeIntervalSince1970, id: UUID())
+        } else {
+            diary?.title = textArray.removeFirst()
+            diary?.body = textArray.joined(separator: "\n")
+        }
+        update(diary)
+        delegate?.updateView()
     }
 }

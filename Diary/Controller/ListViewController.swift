@@ -40,13 +40,6 @@ final class ListViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = plusButton
     }
     
-    @objc private func touchPlusButton() {
-        let addViewController = AddViewController()
-        
-        addViewController.delegate = self
-        self.navigationController?.pushViewController(addViewController, animated: true)
-    }
-    
     private func readDiaryDatas() {
         do {
             diaryArray = try CoreDataManager.shared.read().compactMap {
@@ -58,6 +51,13 @@ final class ListViewController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    @objc private func touchPlusButton() {
+        let addViewController = AddViewController()
+        
+        addViewController.delegate = self
+        self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
 
