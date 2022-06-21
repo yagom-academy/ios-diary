@@ -7,13 +7,34 @@
 
 import UIKit
 
+// MARK: - Activity
 extension UIViewController {
-    func showActionSheet(shareHandler: @escaping () -> Void, deleteHandler: @escaping () -> Void) {
-        let share = UIAlertAction(title: "Share", style: .default) { _ in
-            shareHandler()
+    func showActivity(title: String?) {
+        var shareObject = [Any]()
+        
+        if let shareText = title {
+            shareObject.append(shareText)
+        }
+        
+        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+                
+        present(activityViewController, animated: true)
+    }
+}
+
+// MARK: - Alert
+extension UIViewController {
+    private func deleteHandler(identifier: UUID) {
+        DiaryDAO.shared.delete(identifier: identifier.uuidString)
+        navigationController?.popViewController(animated: true)
+    }
+    
+    func showActionSheet(shareTitle: String? = nil, identifer: UUID) {
+        let share = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
+            self?.showActivity(title: shareTitle)
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.showDeleteAlert(handler: deleteHandler)
+            self.showDeleteAlert(identifier: identifer)
         }
         
         let sheet = AlertBuilder()
@@ -25,9 +46,9 @@ extension UIViewController {
         present(sheet, animated: true)
     }
     
-    func showDeleteAlert(handler: @escaping () -> Void) {
+    func showDeleteAlert(identifier: UUID) {
         let action = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            handler()
+            self.deleteHandler(identifier: identifier)
         }
         
         let alert = AlertBuilder()

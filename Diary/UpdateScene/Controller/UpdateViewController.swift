@@ -82,14 +82,14 @@ final class UpdateViewController: UIViewController {
     }
     
     @objc private func more() {
-        
-    }
-    
-    private func saveData() {
-        guard textView.text.isEmpty != true else {
+        guard let title = extractData()?.title,
+              let identifier = identifier else {
             return
         }
-        
+        showActionSheet(shareTitle: title, identifer: identifier)
+    }
+    
+    private func extractData() -> (title: String, body: String, date: Date)? {
         let splitedText = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
             .map {
                 String($0)
@@ -98,6 +98,18 @@ final class UpdateViewController: UIViewController {
         guard let title = splitedText.first,
               let body = splitedText.last,
               let date = Formatter.getDate(from: navigationItem.title ?? "") else {
+            return nil
+        }
+        
+        return (title, body, date)
+    }
+    
+    private func saveData() {
+        guard textView.text.isEmpty != true else {
+            return
+        }
+                
+        guard let (title, body, date) = extractData() else {
             return
         }
         
