@@ -60,40 +60,18 @@ extension DetailViewController {
     @objc private func keyboardWillShow(notification: NSNotification) {
         guard let keyboardSize = (
             notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        )?.cgRectValue else { return }
-        
-        self.detailView.mainScrollView.contentSize = .init(
-            width: self.detailView.mainScrollView.frame.width,
-            height: self.detailView.mainScrollView.frame.height + keyboardSize.height - 140
-        )
-        
-        if self.detailView.descriptionView.isFirstResponder {
-            detailView.mainScrollView.scrollRectToVisible(
-                detailView.descriptionView.frame,
-                animated: true
-            )
+        )?.cgRectValue else {
+            return
         }
+        
+        detailView.mainScrollView.contentInset = .init(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        
+
+        
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
-        guard let keyboardSize = (
-            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        )?.cgRectValue else { return }
         
-        self.detailView.mainScrollView.contentSize = .init(
-            width: self.detailView.mainScrollView.frame.width,
-            height: self.detailView.mainScrollView.frame.height - keyboardSize.height + 140
-        )
-        
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
+        detailView.mainScrollView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
     }
 }
