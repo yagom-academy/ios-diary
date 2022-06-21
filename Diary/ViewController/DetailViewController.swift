@@ -63,15 +63,10 @@ extension DetailViewController {
         )?.cgRectValue else {
             return
         }
-        
         detailView.mainScrollView.contentInset = .init(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
-        
-
-        
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
-        
         detailView.mainScrollView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
     }
 }
