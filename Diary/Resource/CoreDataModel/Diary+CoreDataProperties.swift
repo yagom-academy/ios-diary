@@ -1,6 +1,6 @@
 //
 //  Diary+CoreDataProperties.swift
-//  
+//  Diary
 //
 //  Created by LIMGAUI on 2022/06/21.
 //
@@ -20,5 +20,9 @@ extension Diary {
     @NSManaged public var createdDate: Date?
     @NSManaged public var identifier: String?
     @NSManaged public var title: String?
+
+}
+
+extension Diary : Identifiable {
 
 }
