@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		239FC1E248AC305B681B2D7A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0D737916E9FC85357EA8D2 /* Pods_Diary.framework */; };
+		86680F2F2861BE6C001B9352 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86680F2E2861BE6C001B9352 /* CoreDataManager.swift */; };
 		867CAD01285B14FA00A04F1F /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD00285B14FA00A04F1F /* UIStackView+.swift */; };
 		867CAD03285B15A000A04F1F /* ParserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD02285B15A000A04F1F /* ParserManager.swift */; };
 		AB0D9A032859AB8C00235064 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = AB0D9A022859AB8C00235064 /* sample.json */; };
@@ -30,6 +31,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		86680F2E2861BE6C001B9352 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		867CAD00285B14FA00A04F1F /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		867CAD02285B15A000A04F1F /* ParserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserManager.swift; sourceTree = "<group>"; };
 		90BC7C1B1D0558C345CE0253 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
@@ -69,6 +71,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		86680F2D2861BE49001B9352 /* Sington */ = {
+			isa = PBXGroup;
+			children = (
+				86680F2E2861BE6C001B9352 /* CoreDataManager.swift */,
+			);
+			path = Sington;
+			sourceTree = "<group>";
+		};
 		867CACFF285B14C900A04F1F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,6 +197,7 @@
 		ABF991B428597710000A44A1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				86680F2D2861BE49001B9352 /* Sington */,
 				AB91E910285C809C00D9E497 /* Enum */,
 				86B36174285C50BE00EEBDF4 /* ParserManager */,
 				AB4D73C5285B1D9600BE5190 /* Protocol */,
@@ -373,6 +384,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				AB6B32922861BB7700E777CE /* DiaryModel+CoreDataProperties.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				86680F2F2861BE6C001B9352 /* CoreDataManager.swift in Sources */,
 				AB6B32932861BB7700E777CE /* DiaryModel+CoreDataClass.swift in Sources */,
 				AB0D9A052859ABB200235064 /* WriteViewController.swift in Sources */,
 				ABF991A82858B2F9000A44A1 /* ListView.swift in Sources */,
