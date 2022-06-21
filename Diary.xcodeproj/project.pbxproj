@@ -16,6 +16,7 @@
 		B32FEFA228600F5600F3A6B5 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA028600F5600F3A6B5 /* Model.xcdatamodeld */; };
 		B32FEFA52860116500F3A6B5 /* DiaryModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */; };
 		B32FEFA62860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */; };
+		B3427841286192F3004488E4 /* Notification.Name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3427840286192F3004488E4 /* Notification.Name+.swift */; };
 		B3D761702860131C00C4AE94 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */; };
 		B3FB2B2B285C1EC6009A932C /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FB2B2A285C1EC6009A932C /* Date+.swift */; };
 		B3FE9B39285820680006A7AB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FE9B38285820680006A7AB /* MainView.swift */; };
@@ -39,6 +40,7 @@
 		B32FEFA128600F5600F3A6B5 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B3427840286192F3004488E4 /* Notification.Name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Notification.Name+.swift"; path = "Diary/Controller/Notification.Name+.swift"; sourceTree = SOURCE_ROOT; };
 		B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B3FB2B2A285C1EC6009A932C /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		B3FE9B38285820680006A7AB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 		AC50348A28582C050068C2A0 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
+				B3427840286192F3004488E4 /* Notification.Name+.swift */,
 				AC50348B28582C450068C2A0 /* UIStackView+.swift */,
 				B3FB2B2A285C1EC6009A932C /* Date+.swift */,
 			);
@@ -274,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC7E277C2860028500FB90D0 /* EditViewController.swift in Sources */,
+				B3427841286192F3004488E4 /* Notification.Name+.swift in Sources */,
 				B32FEFA52860116500F3A6B5 /* DiaryModel+CoreDataClass.swift in Sources */,
 				AC50348C28582C450068C2A0 /* UIStackView+.swift in Sources */,
 				C739AE29284DF28600741E8F /* ListViewController.swift in Sources */,
