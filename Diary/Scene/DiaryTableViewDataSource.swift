@@ -16,6 +16,8 @@ final class DiaryTableViewDataSource: UITableViewDiffableDataSource<Int, Diary> 
         }
     }
     
+    private let persistentManager = PersistentManager(modelName: "Diary")
+    
     private func makeSnapshot() {
         var snapshot = Snapshot()
         snapshot.appendSections([0])
@@ -27,11 +29,11 @@ final class DiaryTableViewDataSource: UITableViewDiffableDataSource<Int, Diary> 
     func create() {
         let newDiary = Diary(title: "", body: "", createdDate: Date.now)
         diarys.insert(newDiary, at: .zero)
-        PersistantManager.shared.create(data: newDiary)
+        persistentManager.create(data: newDiary)
     }
     
     func read() {
-        guard let results = PersistantManager.shared.fetchAll() else { return }
+        guard let results = persistentManager.fetchAll() else { return }
         
         diarys = results.map { entity in
             return Diary(title: entity.title, body: entity.body, createdDate: entity.createdDate, id: entity.id)
@@ -42,14 +44,14 @@ final class DiaryTableViewDataSource: UITableViewDiffableDataSource<Int, Diary> 
         guard let index = find(id: diary.id) else { return }
     
         diarys[index] = diary
-        PersistantManager.shared.update(data: diary)
+        persistentManager.update(data: diary)
     }
     
     func delete(diary: Diary) {
         guard let index = find(id: diary.id) else { return }
     
         diarys.remove(at: index)
-        PersistantManager.shared.delete(data: diary)
+        persistentManager.delete(data: diary)
     }
     
     private func find(id: String) -> Int? {

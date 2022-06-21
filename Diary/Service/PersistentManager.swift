@@ -1,5 +1,5 @@
 //
-//  PersistantManager.swift
+//  PersistentManager.swift
 //  Diary
 //
 //  Created by dudu, papri on 2022/06/17.
@@ -7,25 +7,37 @@
 
 import CoreData
 
-final class PersistantManager {
-    static let shared = PersistantManager()
-    private init() {}
-    
-    private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Diary")
-        container.loadPersistentStores { (_, error) in
+final class PersistentManager {
+    init(modelName: String) {
+        persistentContainer = NSPersistentContainer(name: modelName)
+        persistentContainer.loadPersistentStores { _, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         }
-        
-        return container
-    }()
+    }
+    
+    private let persistentContainer: NSPersistentContainer
     
     private var mainContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
+    func saveContext () {
+        guard mainContext.hasChanges else { return }
+        
+        do {
+            try mainContext.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+}
+
+// MARK: Diary CRUD
+
+extension PersistentManager {
     func create(data: Diary) {
         let entity = DiaryEntity(context: mainContext)
         
@@ -67,16 +79,5 @@ final class PersistantManager {
         
         mainContext.delete(entity)
         saveContext()
-    }
-    
-    func saveContext () {
-        guard mainContext.hasChanges else { return }
-        
-        do {
-            try mainContext.save()
-        } catch {
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
     }
 }
