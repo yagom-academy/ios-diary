@@ -12,7 +12,7 @@ protocol DataSendable: NSObject {
 
 final class ListViewController: UIViewController {
     private lazy var mainView = MainView.init(frame: view.bounds)
-    private var diaryArray: [DiaryModel] = [] {
+    private var diaryArray: [Diary] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.mainView.tableView.reloadData()
@@ -31,7 +31,7 @@ final class ListViewController: UIViewController {
         mainView.tableView.delegate = self
         mainView.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "\(ListTableViewCell.self)")
         configureNavigationBar()
-        appendDiary(diaryArray)
+        readDiaryDatas()
     }
     
     private func configureNavigationBar() {
@@ -47,10 +47,14 @@ final class ListViewController: UIViewController {
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
     
-    private func appendDiary(_ data: [DiaryModel]?) {
+    private func readDiaryDatas() {
         do {
-            let array: [DiaryModel] = try CoreDataManager.shared.read()
-            self.diaryArray = array
+            diaryArray = try CoreDataManager.shared.read().compactMap {
+                return Diary(title: $0.title ?? "",
+                             body: $0.body ?? "",
+                             createdAt: $0.createdAt,
+                             id: $0.id)
+            }
         } catch {
             print(error.localizedDescription)
         }
@@ -89,10 +93,6 @@ extension ListViewController: UITableViewDelegate {
 
 extension ListViewController: DataSendable {
     func updateView() {
-        do {
-            diaryArray = try CoreDataManager.shared.read()
-        } catch {
-            print(error.localizedDescription)
-        }
+        readDiaryDatas()
     }
 }

@@ -37,11 +37,11 @@ final class DiaryView: UIView {
         addKeyboardObserver()
     }
     
-    func configureContents(diary: DiaryModel) {
+    func configureContents(diary: Diary) {
         diaryTextView.text = """
-        \(diary.title ?? "")
+        \(diary.title)
 
-        \(diary.body ?? "")
+        \(diary.body)
         """
         diaryTextView.contentOffset = CGPoint(x: 0, y: 0)
     }
