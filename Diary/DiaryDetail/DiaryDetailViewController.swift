@@ -7,11 +7,18 @@
 
 import UIKit
 
+protocol DiaryDetailViewDelegate: AnyObject {
+    func save(_ diary: Diary)
+    func update(_ diary: Diary)
+    func delete(_ diary: Diary)
+}
+
 final class DiaryDetailViewController: UIViewController {
     private let mainView = DiaryDetailView()
-    private let diary: Diary
+    private var diary: Diary?
+    weak var delegate: DiaryDetailViewDelegate?
     
-    init(diary: Diary) {
+    init(diary: Diary? = nil) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
@@ -23,14 +30,40 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        mainView.configure(diary: diary)
         configureLayout()
         registerNotification()
+        configureNavigationItem()
+        makeKeyboardHiddenButton()
+        configureSceneDelegate()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setViewFirstResponder()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        finishTask()
+    }
+    
+    private func finishTask() {
+        if let diary = diary {
+            delegate?.update(updateDiary(diary))
+        } else {
+            diary = makeDiary()
+            delegate?.save(diary ?? makeDiary())
+        }
+    }
+    
+    private func setViewFirstResponder() {
+        mainView.setFirstResponder()
     }
     
     private func configureView() {
+        mainView.configure(diary: diary)
         view.backgroundColor = .systemBackground
-        title = diary.createdAt?.time()
+        title = DateFormatter().changeDateFormat(time: diary?.createdAt)
     }
     
     private func configureLayout() {
@@ -43,7 +76,36 @@ final class DiaryDetailViewController: UIViewController {
             mainView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
+    
+    private func configureContent() -> (String, String) {
+        let component = mainView.readText()
+            .split(separator: "\n", maxSplits: 1)
+            .map(String.init)
+        let title = component[safe: 0] ?? ""
+        let body = component[safe: 1] ?? ""
+        
+        return (title, body)
+    }
+    
+    private func configureSceneDelegate() {
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+        sceneDelegate?.delegate = self
+    }
+    
+    private func makeDiary() -> Diary {
+        let (title, body) = configureContent()
+        
+        return Diary(title: title, body: body, createdAt: Date())
+    }
+    
+    private func updateDiary(_ diary: Diary) -> Diary {
+        let (title, body) = configureContent()
+        
+        return Diary(title: title, body: body, createdAt: diary.createdAt, uuid: diary.uuid)
+    }
 }
+
+// MARK: - Keyboard Notification
 
 extension DiaryDetailViewController {
     private func registerNotification() {
@@ -67,5 +129,84 @@ extension DiaryDetailViewController {
     
     @objc private func keyboardWillHide(_ sender: Notification) {
         mainView.changeBottomConstraint(value: .zero)
+    }
+}
+
+// MARK: - Alert Action
+
+extension DiaryDetailViewController {
+    private func configureNavigationItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(viewMoreButtonDidTapped))
+    }
+    
+    private func showDeleteAlert() {
+        AlertBuilder(target: self).addAction("취소", style: .default)
+            .addAction("삭제", style: .destructive) { [weak self] in
+            guard let diary = self?.diary else { return }
+            self?.delegate?.delete(diary)
+            self?.navigationController?.popViewController(animated: true)
+        }.show("진짜요?", message: "정말로 삭제하시겠어요?", style: .alert)
+    }
+    
+    private func showShareController() {
+        let shareText = mainView.readText()
+        var shareObject = [String]()
+        shareObject.append(shareText)
+        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true)
+    }
+    
+    @objc func viewMoreButtonDidTapped() {
+        AlertBuilder(target: self).addAction("Share...", style: .default) { [weak self] in
+            self?.showShareController()
+        }.addAction("Delete", style: .destructive) { [weak self] in
+            self?.showDeleteAlert()
+        }.addAction("Cancel", style: .cancel)
+            .show(style: .actionSheet)
+    }
+}
+
+// MARK: - Keyboard BarButton
+
+private extension DiaryDetailViewController {
+    func makeKeyboardHiddenButton() {
+        let bar = UIToolbar()
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let hiddenButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"),
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(keyboardHidden))
+        bar.sizeToFit()
+        bar.items = [space, hiddenButton]
+        
+        mainView.setTextViewAccessory(button: bar)
+    }
+    
+    @objc private func keyboardHidden() {
+        if mainView.isTextViewFirstResponder {
+            mainView.relinquishFirstResponder()
+            finishTask()
+        }
+    }
+}
+
+// MARK: - CoreDataSceneDelegate
+
+extension DiaryDetailViewController: CoreDataSceneDelegate {
+    func saveCoreData() {
+        finishTask()
+    }
+}
+
+// MARK: - Array Extension
+
+private extension Array {
+    subscript (safe index: Int) -> Element? {
+        return self.indices ~= index ? self[index] : nil
     }
 }
