@@ -28,13 +28,18 @@ class DiaryViewController: UIViewController {
         }
     }
     
+    func diaryText() -> [String] {
+        let textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
+        return textArray
+    }
+    
     private func setInitialView() {
         self.view = diaryView
         self.navigationItem.setRightBarButton(optionButton(), animated: true)
     }
     
     private func optionButton() -> UIBarButtonItem {
-        let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showMenu))
+        let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchOptionButton))
         
         return barButton
     }
@@ -42,7 +47,7 @@ class DiaryViewController: UIViewController {
     @objc private func touchOptionButton() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
-            print("공유하기")
+            self.touchShareButton()
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             print("삭제하기")
@@ -54,5 +59,11 @@ class DiaryViewController: UIViewController {
         alert.addAction(cancelAction)
         
         self.present(alert, animated: true)
+    }
+    
+    private func touchShareButton() {
+        let text = [diaryText().joined(separator: "\n")]
+        let share = UIActivityViewController(activityItems: text, applicationActivities: nil)
+        self.present(share, animated: true)
     }
 }

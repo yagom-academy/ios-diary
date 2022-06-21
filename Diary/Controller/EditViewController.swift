@@ -45,7 +45,7 @@ final class EditViewController: DiaryViewController {
     }
     
     private func setTestData() -> Diary? {
-        var textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
+        var textArray = diaryText()
         guard let id = diary?.id else {
             return nil
         }

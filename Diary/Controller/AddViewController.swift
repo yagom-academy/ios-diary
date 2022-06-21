@@ -37,7 +37,7 @@ final class AddViewController: DiaryViewController {
     }
     
     private func setTestData() -> Diary? {
-        var textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
+        var textArray = diaryText()
         return Diary(title: textArray.removeFirst(), body: textArray.joined(separator: "\n"), createdAt: Date().timeIntervalSince1970, id: id)
     }
 }
