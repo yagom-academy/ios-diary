@@ -11,6 +11,7 @@ final class DiaryDetailViewController: UIViewController {
     $0.adjustsFontForContentSizeCategory = true
   }
 
+  private var isKeyboardVisible = false
   private let diary: Diary
 
   init(diary: Diary) {
@@ -74,7 +75,12 @@ final class DiaryDetailViewController: UIViewController {
   }
 
   private func observeKeyboardNotifications() {
-    self.observeKeyboardWillShowNotification()
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(keyboardWillShow(_:)),
+      name: UIResponder.keyboardWillShowNotification,
+      object: nil
+    )
 
     NotificationCenter.default.addObserver(
       self,
@@ -84,34 +90,24 @@ final class DiaryDetailViewController: UIViewController {
     )
   }
 
-  private func observeKeyboardWillShowNotification() {
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillShow(_:)),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil
-    )
-  }
-
   @objc private func keyboardWillShow(_ notification: Notification) {
-    guard let userInfo = notification.userInfo else { return }
-    guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+    if !isKeyboardVisible {
+      guard let userInfo = notification.userInfo else { return }
+      guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
 
-    let contentInset = UIEdgeInsets(bottom: keyboardFrame.height)
-    self.bodyTextView.contentInset = contentInset
-    self.bodyTextView.verticalScrollIndicatorInsets = contentInset
-
-    NotificationCenter.default.removeObserver(
-      self,
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil
-    )
+      let contentInset = UIEdgeInsets(bottom: keyboardFrame.height)
+      self.bodyTextView.contentInset = contentInset
+      self.bodyTextView.verticalScrollIndicatorInsets = contentInset
+      self.isKeyboardVisible = true
+    }
   }
 
   @objc private func keyboardWillHide(_ notification: Notification) {
-    let contentInset = UIEdgeInsets.zero
-    self.bodyTextView.contentInset = contentInset
-    self.bodyTextView.scrollIndicatorInsets = contentInset
-    self.observeKeyboardWillShowNotification()
+    if isKeyboardVisible {
+      let contentInset = UIEdgeInsets.zero
+      self.bodyTextView.contentInset = contentInset
+      self.bodyTextView.scrollIndicatorInsets = contentInset
+      self.isKeyboardVisible = false
+    }
   }
 }
