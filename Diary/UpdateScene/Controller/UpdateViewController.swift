@@ -21,6 +21,7 @@ final class UpdateViewController: UIViewController {
     private let textView = UITextView()
     private var keyboard: Keyboard?
     private let identifier: UUID?
+    private var isSavingData = false
     
     init(diaryData: DiaryDTO? = nil) {
         guard let diaryData = diaryData else {
@@ -100,9 +101,11 @@ final class UpdateViewController: UIViewController {
     }
     
     private func saveData() {
-        guard let (title, body, date) = textView.extractData(date: navigationItem.title) else {
+        guard isSavingData == false,
+            let (title, body, date) = textView.extractData(date: navigationItem.title) else {
             return
         }
+        isSavingData = true
         
         if let identifier = identifier {
             let edittedData = DiaryDTO(identifier: identifier, title: title, body: body, date: date)
