@@ -15,6 +15,11 @@ final class AddViewController: DiaryViewController {
         setInitialView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        diaryView.diaryTextView.becomeFirstResponder()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         update(setTestData())
