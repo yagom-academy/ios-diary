@@ -6,6 +6,13 @@
 
 import UIKit
 
+fileprivate extension AppConstants {
+    static let navigationTitle = "일기장"
+    static let deleteImage = "trash"
+    static let shareImage = "person.crop.circle.badge.plus"
+    
+}
+
 final class MainViewController: UIViewController {
     private lazy var mainView = MainView(frame: view.bounds)
     
@@ -30,7 +37,7 @@ final class MainViewController: UIViewController {
 
 extension MainViewController {
     private func setUpNavigationBar() {
-        title = "일기장"
+        title = AppConstants.navigationTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -95,31 +102,34 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let removeAction = UIContextualAction(style: .destructive, title: "삭제") { [weak self] _, _, completionHandler in
-            self?.showRemoveAlert(indexPath: indexPath)
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completionHandler in
+            self?.showDeleteAlert(indexPath: indexPath)
             completionHandler(true)
         }
+        deleteAction.image = UIImage(systemName: AppConstants.deleteImage)
         
-        removeAction.image = UIImage.init(systemName: "trash")
-        
-        let shareAction = UIContextualAction(style: .normal, title: "공유") { [weak self] _, _, completionHandler in
+        let shareAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completionHandler in
             self?.showActivityView(data: PersistenceManager.shared.diaries()[indexPath.row])
             completionHandler(true)
         }
-        shareAction.image = UIImage.init(systemName: "person.crop.circle.badge.plus")
+        shareAction.image = UIImage(systemName: AppConstants.shareImage)
         shareAction.backgroundColor = .systemIndigo
         
-        return UISwipeActionsConfiguration(actions: [removeAction, shareAction])
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
 
 // MARK: Show Alert
 
 extension MainViewController {
-    private func showRemoveAlert(indexPath: IndexPath) {
-        let UIAlertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let removeAction = UIAlertAction(title: "삭제", style: .destructive) { [self] _ in
+    private func showDeleteAlert(indexPath: IndexPath) {
+        let UIAlertController = UIAlertController(
+            title: AppConstants.deleteAlertTitle,
+            message: AppConstants.deleteAlertMessage,
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: AppConstants.cancelActionTitle, style: .cancel)
+        let removeAction = UIAlertAction(title: AppConstants.deleteActionTitle, style: .destructive) { [self] _ in
             let objectToDelete = PersistenceManager.shared.diaries()[indexPath.row]
             PersistenceManager.shared.execute(by: .delete(objectToDelete, index: indexPath.row))
             mainView.baseTableView.deleteRows(at: [indexPath], with: .fade)
@@ -136,7 +146,7 @@ extension MainViewController {
     private func showActivityView(data: DiaryEntity) {
         let textToShare: [Any] = [
             ShareActivityItemSource(
-                title: data.title ?? "제목 없음",
+                title: data.title ?? AppConstants.noTitle,
                 text: data.createdAt.formattedString)
         ]
         let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)

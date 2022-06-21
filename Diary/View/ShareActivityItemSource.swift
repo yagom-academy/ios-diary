@@ -7,6 +7,10 @@
 
 import LinkPresentation
 
+fileprivate extension AppConstants {
+    static let shareIconImage = "person.circle"
+}
+
 final class ShareActivityItemSource: NSObject, UIActivityItemSource {
     var title: String
     var text: String
@@ -35,7 +39,7 @@ final class ShareActivityItemSource: NSObject, UIActivityItemSource {
     }
     
     func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
-        guard let icon = UIImage(systemName: "person.circle") else {
+        guard let icon = UIImage(systemName: AppConstants.shareIconImage) else {
             return nil
         }
         let metadata = LPLinkMetadata()

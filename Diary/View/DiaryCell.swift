@@ -80,7 +80,7 @@ final class DiaryCell: UITableViewCell {
     
     func setUpContents(data: DiaryEntity) {
         if data.title == "" {
-            titleLabel.text = "[제목없음]"
+            titleLabel.text = AppConstants.noTitle
         } else {
             titleLabel.text = data.title
         }

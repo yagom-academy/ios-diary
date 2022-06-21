@@ -11,7 +11,7 @@ extension Double {
     var formattedString: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
-        dateFormatter.locale = Locale(identifier: Locale.preferredLanguages.first ?? "ko_KR")
+        dateFormatter.locale = Locale(identifier: Locale.preferredLanguages.first ?? AppConstants.systemDefaultLanguage)
         return dateFormatter.string(from: Date(timeIntervalSince1970: self))
     }
 }

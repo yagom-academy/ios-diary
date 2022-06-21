@@ -8,6 +8,13 @@
 import Foundation
 import CoreData
 
+fileprivate extension AppConstants {
+    static let titleKeyName = "title"
+    static let bodyKeyName = "body"
+    static let createdAtKeyName = "createdAt"
+    static let idKeyName = "id"
+}
+
 final class PersistenceManager {
     static let shared = PersistenceManager()
     private init() {}
@@ -22,7 +29,7 @@ final class PersistenceManager {
     private var diaryEntities = [DiaryEntity]()
     
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "DiaryEntity")
+        let container = NSPersistentContainer(name: AppConstants.entityName)
         container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
                 fatalError()
@@ -36,7 +43,7 @@ final class PersistenceManager {
     }
     
     private var entity: NSEntityDescription? {
-        return NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context)
+        return NSEntityDescription.entity(forEntityName: AppConstants.entityName, in: context)
     }
     
     func diaries() -> [DiaryEntity] {
@@ -61,10 +68,10 @@ extension PersistenceManager {
     private func createData(by diary: Diary) {
         if let entity = entity {
             let managedObject = NSManagedObject(entity: entity, insertInto: context)
-            managedObject.setValue(diary.title, forKey: "title")
-            managedObject.setValue(diary.body, forKey: "body")
-            managedObject.setValue(diary.createdAt, forKey: "createdAt")
-            managedObject.setValue(diary.id, forKey: "id")
+            managedObject.setValue(diary.title, forKey: AppConstants.titleKeyName)
+            managedObject.setValue(diary.body, forKey: AppConstants.bodyKeyName)
+            managedObject.setValue(diary.createdAt, forKey: AppConstants.createdAtKeyName)
+            managedObject.setValue(diary.id, forKey: AppConstants.idKeyName)
             saveToContext()
         }
     }
@@ -91,10 +98,10 @@ extension PersistenceManager {
             return
         }
         
-        diaryToUpdate.setValue(diary.title, forKey: "title")
-        diaryToUpdate.setValue(diary.body, forKey: "body")
-        diaryToUpdate.setValue(diary.createdAt, forKey: "createdAt")
-        diaryToUpdate.setValue(diary.id, forKey: "id")
+        diaryToUpdate.setValue(diary.title, forKey: AppConstants.titleKeyName)
+        diaryToUpdate.setValue(diary.body, forKey: AppConstants.bodyKeyName)
+        diaryToUpdate.setValue(diary.createdAt, forKey: AppConstants.createdAtKeyName)
+        diaryToUpdate.setValue(diary.id, forKey: AppConstants.idKeyName)
         saveToContext()
     }
     

@@ -7,6 +7,10 @@
 
 import UIKit
 
+fileprivate extension AppConstants {
+    static let rightBarButtonImage = "ellipsis.circle"
+}
+
 final class DetailViewController: UIViewController {
     private enum ExecutionStatus {
         case update
@@ -116,7 +120,7 @@ extension DetailViewController {
         title = diary.createdAt.formattedString
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
+            image: UIImage(systemName: AppConstants.rightBarButtonImage),
             style: .plain,
             target: self,
             action: #selector(didTapActionButton)
@@ -157,17 +161,17 @@ extension DetailViewController {
     private func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: AppConstants.deleteActionTitle, style: .destructive) { _ in
             PersistenceManager.shared.execute(by: .delete(self.diary))
             self.status = .delete
             self.navigationController?.popViewController(animated: true)
         }
         
-        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
+        let shareAction = UIAlertAction(title: AppConstants.shareActionTitle, style: .default) { _ in
             self.showActivityView(data: self.diary)
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: AppConstants.cancelActionTitle, style: .cancel)
         
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(shareAction)
@@ -183,7 +187,7 @@ extension DetailViewController {
     private func showActivityView(data: DiaryEntity) {
         let textToShare: [Any] = [
             ShareActivityItemSource(
-                title: data.title ?? "제목 없음",
+                title: data.title ?? AppConstants.noTitle,
                 text: data.createdAt.formattedString)
         ]
         let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
