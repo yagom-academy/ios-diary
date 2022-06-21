@@ -32,6 +32,7 @@ extension UIViewController {
         let share = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
             self?.showActivity(title: shareTitle)
         }
+        
         let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.showDeleteAlert(identifier: identifer, handler: deleteHandler)
         }
@@ -78,27 +79,32 @@ final class AlertBuilder {
 
     init() {
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        
         self.setAction(cancel)
     }
 
     func setTitle(_ title: String) -> Self {
         product.title = title
+        
         return self
     }
 
     func setMessage(_ message: String) -> Self {
         product.message = message
+        
         return self
     }
     
     func setType(_ type: UIAlertController.Style) -> Self {
         product.type = type
+        
         return self
     }
     
     @discardableResult
     func setAction(_ action: UIAlertAction) -> Self {
         product.actions.append(action)
+        
         return self
     }
     

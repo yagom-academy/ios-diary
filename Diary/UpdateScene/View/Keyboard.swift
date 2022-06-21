@@ -31,6 +31,7 @@ final class Keyboard {
                                                object: nil)
         
         let swipeDown =  UISwipeGestureRecognizer(target: self, action: #selector(swipeDownGesture))
+        
         swipeDown.direction = .down
         textView?.addGestureRecognizer(swipeDown)
     }

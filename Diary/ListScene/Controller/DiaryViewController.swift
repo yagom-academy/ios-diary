@@ -83,6 +83,7 @@ final class DiaryViewController: UIViewController {
             if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier,
                                                         for: indexPath) as? DiaryCell {
                 cell.configure(data: itemIdentifier)
+                
                 return cell
             }
             
@@ -152,6 +153,7 @@ extension DiaryViewController: UITableViewDelegate {
         }
         
         let config = UISwipeActionsConfiguration(actions: [delete, share])
+        
         config.performsFirstActionWithFullSwipe = false
         
         return config

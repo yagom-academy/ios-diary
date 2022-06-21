@@ -51,12 +51,12 @@ final class UpdateViewController: UIViewController {
     }
     
     private func setUpDelegate() {
-        textView.delegate = self
         guard let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
             return
         }
         
         scene.delegate = self
+        textView.delegate = self
     }
     
     private func setUpView() {
@@ -101,6 +101,7 @@ final class UpdateViewController: UIViewController {
             let (title, body, date) = textView.extractData(date: navigationItem.title) else {
             return
         }
+        
         isSavingData = true
         
         if let identifier = diaryData?.identifier {

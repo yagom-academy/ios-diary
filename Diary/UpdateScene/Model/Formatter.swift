@@ -18,6 +18,7 @@ struct Formatter {
         
         let date = Date(timeIntervalSinceReferenceDate: timeInterval)
         let result = dateFormatter.string(from: date)
+        
         return result
     }
     
