@@ -43,12 +43,12 @@ final class DiaryUseCase: UseCase {
         ) as? DiaryData else {
             throw CoreDataError.createError
         }
-        
+
         diaryData.title = element.title
         diaryData.body = element.body
         diaryData.date = element.date
         diaryData.key = key
-        
+
         try context.save()
         
         return DiaryInfo(title: element.title, body: element.body, date: element.date, key: key)
@@ -67,7 +67,9 @@ final class DiaryUseCase: UseCase {
     }
     
     func update(element: DiaryInfo) throws {
-        guard let key = element.key else { return }
+        guard let key = element.key else {
+            throw CoreDataError.updateError
+            }
         let diarys = try filterDiaryData(key: key)
         
         guard diarys.count > 0 else {

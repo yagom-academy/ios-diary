@@ -36,11 +36,15 @@ class MainViewController: UIViewController {
     }
     
     private func setMainViewSetting() {
-        viewModel.loadData()
-        mainView.dataSource = self
-        mainView.delegate = self
-        mainView.translatesAutoresizingMaskIntoConstraints = false
-        mainView.register(MainViewCell.self, forCellReuseIdentifier: MainViewCell.identifier)
+        do {
+            try viewModel.loadData()
+            mainView.dataSource = self
+            mainView.delegate = self
+            mainView.translatesAutoresizingMaskIntoConstraints = false
+            mainView.register(MainViewCell.self, forCellReuseIdentifier: MainViewCell.identifier)
+        } catch {
+            alertMaker.makeErrorAlert(error: error)
+        }
     }
 }
 
@@ -57,11 +61,15 @@ extension MainViewController {
     
     @objc
     private func rightBarbuttonClicked(_ sender: Any) {
-        let detailViewController = DetailViewController()
-        detailViewController.delegate = self
-        let data = viewModel.create(data: DiaryInfo(title: "", body: "", date: Date(), key: nil))
-        detailViewController.updateData(diary: data)
-        navigationController?.pushViewController(detailViewController, animated: true)
+        do {
+            let detailViewController = DetailViewController()
+            detailViewController.delegate = self
+            let data = try viewModel.create(data: DiaryInfo(title: "", body: "", date: Date(), key: nil))
+            detailViewController.updateData(diary: data)
+            navigationController?.pushViewController(detailViewController, animated: true)
+        } catch {
+            alertMaker.makeErrorAlert(error: error)
+        }
     }
 }
 
@@ -94,9 +102,12 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UpdateDelegateable {
     func updatae(diaryInfo: DiaryInfo) {
-        viewModel.update(data: diaryInfo)
-        viewModel.loadData()
-        mainView.reloadData()
-        
+        do {
+            try viewModel.update(data: diaryInfo)
+            try viewModel.loadData()
+            mainView.reloadData()
+        } catch {
+            alertMaker.makeErrorAlert(error: error)
+        }
     }
 }

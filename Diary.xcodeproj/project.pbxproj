@@ -25,6 +25,9 @@
 		DAD7F710285B5F5200F53652 /* DiaryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F70F285B5F5200F53652 /* DiaryUseCase.swift */; };
 		DAD7F712285B970200F53652 /* DiaryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F711285B970200F53652 /* DiaryInfo.swift */; };
 		DAD7F71A285B973600F53652 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F719285B973600F53652 /* DiaryTests.swift */; };
+		DAD7F7732861940000F53652 /* AlertMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F7722861940000F53652 /* AlertMaker.swift */; };
+		DAD7F77528619BCB00F53652 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F77428619BCB00F53652 /* UIViewController+Extension.swift */; };
+		DAD7F7772861A06300F53652 /* UnknownError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F7762861A06300F53652 /* UnknownError.swift */; };
 		E1699D4465D99ED143EDAB01 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB35D5672E541D41E421E5 /* Pods_Diary.framework */; };
 		E1B7599028618BBF0058A316 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B7598F28618BBF0058A316 /* CoreDataError.swift */; };
 		E1B7599228618C840058A316 /* ErrorAlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B7599128618C840058A316 /* ErrorAlertProtocol.swift */; };
@@ -67,6 +70,9 @@
 		DAD7F711285B970200F53652 /* DiaryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryInfo.swift; sourceTree = "<group>"; };
 		DAD7F717285B973600F53652 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAD7F719285B973600F53652 /* DiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTests.swift; sourceTree = "<group>"; };
+		DAD7F7722861940000F53652 /* AlertMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMaker.swift; sourceTree = "<group>"; };
+		DAD7F77428619BCB00F53652 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
+		DAD7F7762861A06300F53652 /* UnknownError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownError.swift; sourceTree = "<group>"; };
 		E1B7598F28618BBF0058A316 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		E1B7599128618C840058A316 /* ErrorAlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertProtocol.swift; sourceTree = "<group>"; };
 		E1EBE0262858695D00DA3EF7 /* MainViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCell.swift; sourceTree = "<group>"; };
@@ -132,6 +138,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				DAD7F771286193E700F53652 /* Utils */,
 				E1B7598E28618B180058A316 /* Error */,
 				E1EBE02828586EFF00DA3EF7 /* extension */,
 				DAD7F69A28585AD100F53652 /* View */,
@@ -220,11 +227,20 @@
 			path = DiaryTests;
 			sourceTree = "<group>";
 		};
+		DAD7F771286193E700F53652 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DAD7F7722861940000F53652 /* AlertMaker.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		E1B7598E28618B180058A316 /* Error */ = {
 			isa = PBXGroup;
 			children = (
 				E1B7598F28618BBF0058A316 /* CoreDataError.swift */,
 				E1B7599128618C840058A316 /* ErrorAlertProtocol.swift */,
+				DAD7F7762861A06300F53652 /* UnknownError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -232,6 +248,7 @@
 		E1EBE02828586EFF00DA3EF7 /* extension */ = {
 			isa = PBXGroup;
 			children = (
+				DAD7F77428619BCB00F53652 /* UIViewController+Extension.swift */,
 				E1EBE02B28586F2400DA3EF7 /* UIView+Extension.swift */,
 				DAD7F6AB2858D4CE00F53652 /* Date+Extension.swift */,
 			);
@@ -389,7 +406,9 @@
 				DAD7F6AC2858D4CE00F53652 /* Date+Extension.swift in Sources */,
 				E1B7599028618BBF0058A316 /* CoreDataError.swift in Sources */,
 				DAD7F6A22858675500F53652 /* MainView.swift in Sources */,
+				DAD7F7732861940000F53652 /* AlertMaker.swift in Sources */,
 				DAD7F6AA2858C78E00F53652 /* DetailViewController.swift in Sources */,
+				DAD7F7772861A06300F53652 /* UnknownError.swift in Sources */,
 				E1B7599228618C840058A316 /* ErrorAlertProtocol.swift in Sources */,
 				DAD7F6A028585E1500F53652 /* DiaryDateFormatter.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
@@ -399,6 +418,7 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				E1EBE02C28586F2400DA3EF7 /* UIView+Extension.swift in Sources */,
+				DAD7F77528619BCB00F53652 /* UIViewController+Extension.swift in Sources */,
 				DAD7F6A42858678900F53652 /* TableViewModel.swift in Sources */,
 				DAD7F70E285B5DF300F53652 /* ContainerManager.swift in Sources */,
 			);
