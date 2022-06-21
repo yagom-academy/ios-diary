@@ -42,9 +42,14 @@ final class DiaryViewController: UIViewController {
       image: UIImage(systemName: "plus"),
       style: .plain,
       target: self,
-      action: nil
+      action: #selector(addDiaryButtonDidTap)
     )
     self.navigationItem.setRightBarButton(addButton, animated: false)
+  }
+
+  @objc private func addDiaryButtonDidTap() {
+    let addViewController = DiaryAddViewController()
+    self.navigationController?.pushViewController(addViewController, animated: true)
   }
 
   private func fetchDiaries() {
