@@ -21,12 +21,7 @@ final class EditViewController: DiaryViewController {
         super.viewDidLoad()
         setInitialView()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        saveDiary()
-    }
-    
+
     private func setInitialView() {
         if let createdAt = diary?.createdAt {
             self.title = Date(timeIntervalSince1970: createdAt).dateToKoreanString

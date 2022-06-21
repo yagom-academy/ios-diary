@@ -17,7 +17,12 @@ class DiaryViewController: UIViewController {
         setInitialView()
     }
     
-    func update(_ testData: Diary?) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        saveDiary()
+    }
+    
+    private func update(_ testData: Diary?) {
         do {
             guard let testData = testData else {
                 return
@@ -29,7 +34,7 @@ class DiaryViewController: UIViewController {
         }
     }
     
-    func diaryText() -> [String] {
+    private func diaryText() -> [String] {
         let textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
         return textArray
     }
@@ -41,11 +46,11 @@ class DiaryViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    @objc func saveDiary() {
+    @objc private func saveDiary() {
+        var textArray = diaryText()
         if diary == nil {
-            
+            diary = Diary(title: textArray.removeFirst(), body: textArray.joined(separator: "\n"), createdAt: Date().timeIntervalSince1970, id: UUID())
         } else {
-            var textArray = diaryText()
             diary?.title = textArray.removeFirst()
             diary?.body = textArray.joined(separator: "\n")
         }
