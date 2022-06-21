@@ -10,7 +10,7 @@ enum Section {
     case main
 }
 
-final class DiaryListViewController: UITableViewController, diaryDetailViewDelegate {
+final class DiaryListViewController: UITableViewController {
     private typealias DataSource = DiaryListDataSource
     
     private var dataSource: DataSource?
@@ -49,7 +49,11 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         presentView.delegate = self
         navigationController?.pushViewController(presentView, animated: true)
     }
-    
+}
+
+// MARK: - DiaryDetailViewDelegate
+
+extension DiaryListViewController: DiaryDetailViewDelegate {
     func save(_ diary: Diary) {
         do {
             try dataSource?.saveData(diary)
@@ -140,9 +144,9 @@ extension DiaryListViewController {
     }
     
     private func showShareController(_ diary: Diary) {
-        let shareText = "\(diary.title ?? "")\n\(diary.body ?? "")"
+        let shareContent = "\(diary.title ?? "")\n\(diary.body ?? "")"
         var shareObject = [String]()
-        shareObject.append(shareText)
+        shareObject.append(shareContent)
         let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         self.present(activityViewController, animated: true)
