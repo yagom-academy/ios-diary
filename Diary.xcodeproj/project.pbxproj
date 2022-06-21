@@ -16,7 +16,9 @@
 		AB4D73C2285B197700BE5190 /* Identifierable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D73C1285B197700BE5190 /* Identifierable.swift */; };
 		AB4D73C4285B1CDD00BE5190 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D73C3285B1CDD00BE5190 /* Date+.swift */; };
 		AB4D73C7285B1FD000BE5190 /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D73C6285B1FD000BE5190 /* EmptyTableViewCell.swift */; };
-		AB6B32872861B76A00E777CE /* DiaryModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32852861B76A00E777CE /* DiaryModel.xcdatamodeld */; };
+		AB6B32872861B76A00E777CE /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32852861B76A00E777CE /* CoreDataModel.xcdatamodeld */; };
+		AB6B32922861BB7700E777CE /* DiaryModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32902861BB7700E777CE /* DiaryModel+CoreDataProperties.swift */; };
+		AB6B32932861BB7700E777CE /* DiaryModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32912861BB7700E777CE /* DiaryModel+CoreDataClass.swift */; };
 		AB91E912285C80BB00D9E497 /* DateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB91E911285C80BB00D9E497 /* DateFormat.swift */; };
 		ABF991A82858B2F9000A44A1 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A72858B2F9000A44A1 /* ListView.swift */; };
 		ABF991AA2858B730000A44A1 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A92858B730000A44A1 /* ListTableViewCell.swift */; };
@@ -39,6 +41,8 @@
 		AB4D73C3285B1CDD00BE5190 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		AB4D73C6285B1FD000BE5190 /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
 		AB6B32862861B76A00E777CE /* DiaryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaryModel.xcdatamodel; sourceTree = "<group>"; };
+		AB6B32902861BB7700E777CE /* DiaryModel+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		AB6B32912861BB7700E777CE /* DiaryModel+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB91E911285C80BB00D9E497 /* DateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormat.swift; sourceTree = "<group>"; };
 		ABBBCF00285774F300589B86 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		ABF991A72858B2F9000A44A1 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
@@ -106,7 +110,7 @@
 			children = (
 				AB0D9A022859AB8C00235064 /* sample.json */,
 				C739AE35284DF28600741E8F /* Info.plist */,
-				AB6B32852861B76A00E777CE /* DiaryModel.xcdatamodeld */,
+				AB6B32942861BB9400E777CE /* CoreDataModel */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -144,6 +148,16 @@
 				AB4D73C1285B197700BE5190 /* Identifierable.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		AB6B32942861BB9400E777CE /* CoreDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				AB6B32852861B76A00E777CE /* CoreDataModel.xcdatamodeld */,
+				AB6B32912861BB7700E777CE /* DiaryModel+CoreDataClass.swift */,
+				AB6B32902861BB7700E777CE /* DiaryModel+CoreDataProperties.swift */,
+			);
+			path = CoreDataModel;
 			sourceTree = "<group>";
 		};
 		AB91E910285C809C00D9E497 /* Enum */ = {
@@ -368,11 +382,13 @@
 				AB0D9A072859B0FB00235064 /* WriteView.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				AB6B32922861BB7700E777CE /* DiaryModel+CoreDataProperties.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				AB6B32932861BB7700E777CE /* DiaryModel+CoreDataClass.swift in Sources */,
 				AB0D9A052859ABB200235064 /* WriteViewController.swift in Sources */,
 				ABF991A82858B2F9000A44A1 /* ListView.swift in Sources */,
 				AB91E912285C80BB00D9E497 /* DateFormat.swift in Sources */,
-				AB6B32872861B76A00E777CE /* DiaryModel.xcdatamodeld in Sources */,
+				AB6B32872861B76A00E777CE /* CoreDataModel.xcdatamodeld in Sources */,
 				AB4D73C7285B1FD000BE5190 /* EmptyTableViewCell.swift in Sources */,
 				867CAD01285B14FA00A04F1F /* UIStackView+.swift in Sources */,
 				AB4D73C4285B1CDD00BE5190 /* Date+.swift in Sources */,
@@ -592,13 +608,13 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		AB6B32852861B76A00E777CE /* DiaryModel.xcdatamodeld */ = {
+		AB6B32852861B76A00E777CE /* CoreDataModel.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
 				AB6B32862861B76A00E777CE /* DiaryModel.xcdatamodel */,
 			);
 			currentVersion = AB6B32862861B76A00E777CE /* DiaryModel.xcdatamodel */;
-			path = DiaryModel.xcdatamodeld;
+			path = CoreDataModel.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
