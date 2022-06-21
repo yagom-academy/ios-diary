@@ -8,9 +8,11 @@ import UIKit
 
 final class ListViewController: UIViewController {
     private lazy var mainView = MainView.init(frame: view.bounds)
-    private var diaryArray: [Diary] = [] {
+    private var diaryArray: [DiaryModel] = [] {
         didSet {
-            mainView.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.mainView.tableView.reloadData()
+            }
         }
     }
     
