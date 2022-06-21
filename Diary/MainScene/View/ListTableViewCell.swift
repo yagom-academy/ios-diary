@@ -52,11 +52,11 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
     fatalError("init(coder:) has not been implemented")
   }
   
-  func updata(diary: Diary) {
+  func update(diary: DiaryModel) {
+    guard let date = diary.createdDate else { return }
+    self.dateLabel.text = date.setKoreaDateFormat(dateFormat: .yearMonthDay)
     self.titleLabel.text = diary.title
-    self.dateLabel.text = Date()
-      .setKoreaDateFormat(dateFormat: .yearMonthDay)
-    self.descriptionLabel.text = diary.description
+    self.descriptionLabel.text = diary.content
   }
   
   private func configureUI() {

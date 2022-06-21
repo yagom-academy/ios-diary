@@ -8,7 +8,11 @@ import UIKit
 
 final class MainViewController: UIViewController {
   private lazy var baseView = ListView(frame: view.bounds)
-  private var diary: [Diary]?
+  private var diarys: [DiaryModel]? {
+    didSet {
+      self.baseView.tableView.reloadData()
+    }
+  }
   
   override func loadView() {
     super.loadView()
@@ -18,6 +22,11 @@ final class MainViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
+  }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.diarys = CoredataManager.sherd.readContext()
   }
   
   private func configureUI() {
@@ -50,18 +59,18 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return self.diary?.count ?? 0
+    return self.diarys?.count ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(
       withIdentifier: ListTableViewCell.identifier,
       for: indexPath) as? ListTableViewCell,
-         let diary = self.diary else {
+         let diary = self.diarys else {
       return EmptyTableViewCell()
     }
     
-    cell.updata(diary: diary[indexPath.row])
+    cell.update(diary: diary[indexPath.row])
     
     return cell
   }

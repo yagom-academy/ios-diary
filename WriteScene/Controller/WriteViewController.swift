@@ -24,14 +24,7 @@ final class WriteViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    self.saveDiaryData()
-  }
-  
-  private func saveDiaryData() {
-    guard let diary = makeDiaryForm() else {
-      return
-    }
-    CoredataManager.sherd.createContext(diary: diary)
+    self.makeDiaryForm()
   }
   
   private func configureUI() {
@@ -39,14 +32,12 @@ final class WriteViewController: UIViewController {
     self.navigationItem.title = Date().setKoreaDateFormat(dateFormat: .yearMonthDay)
   }
   
-  private func makeDiaryForm() -> Diary? {
-    let date = Date()
-    let identifier = UUID().uuidString
+  private func makeDiaryForm() {
     guard let title = baseView.textView.text else {
-      return nil
+      return
     }
-  
-    return Diary(title: title, description: title, createdAt: date, identifier: identifier)
+    
+    CoredataManager.sherd.createContext(title: title, contnet: title, identifier: UUID().uuidString, date: Date())
   }
   
   deinit {

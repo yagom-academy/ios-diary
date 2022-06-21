@@ -8,7 +8,6 @@
 import CoreData
 
 final class CoredataManager {
-
   static let sherd = CoredataManager()
   
   private init() {}
@@ -27,21 +26,23 @@ final class CoredataManager {
     return persistantContainer.viewContext
   }
   
-  func createContext(diary: Diary) {
+  func createContext(title: String, contnet: String, identifier: String, date: Date) {
     guard let diaryEntity = NSEntityDescription.entity(forEntityName: "DiaryModel", in: viewContext) else {
       return
     }
     
-    let userModel = NSManagedObject(entity: diaryEntity, insertInto: viewContext)
+    guard let userModel = NSManagedObject(entity: diaryEntity, insertInto: viewContext) as? DiaryModel else {
+      return
+    }
+    userModel.title = title
+    userModel.content = contnet
+    userModel.createdDate = date
+    userModel.identifier = identifier
     
-    userModel.setValue(diary.identifier, forKey: "identifier")
-    userModel.setValue(diary.title, forKey: "title")
-    userModel.setValue(diary.description, forKey: "description")
-    userModel.setValue(diary.createdAt, forKey: "createdAt")
-
     guard viewContext.hasChanges else {
       return
     }
+    
     do {
       try viewContext.save()
     } catch {

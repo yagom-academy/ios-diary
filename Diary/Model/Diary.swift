@@ -9,14 +9,14 @@ import Foundation
 
 struct Diary: Decodable {
   let title: String
-  let description: String
+  let content: String
   let createdAt: Date
   let identifier: String
 
   
   enum CodingKeys: String, CodingKey {
     case title, identifier
-    case description = "body"
+    case content = "body"
     case createdAt = "created_at"
   }
 }
