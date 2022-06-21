@@ -6,6 +6,10 @@
 
 import UIKit
 
+protocol DataSendable: NSObject {
+    func updateView()
+}
+
 final class ListViewController: UIViewController {
     private lazy var mainView = MainView.init(frame: view.bounds)
     private var diaryArray: [DiaryModel] = [] {
@@ -39,6 +43,7 @@ final class ListViewController: UIViewController {
     @objc private func touchPlusButton() {
         let addViewController = AddViewController()
         
+        addViewController.delegate = self
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
     
@@ -78,6 +83,17 @@ extension ListViewController: UITableViewDelegate {
         
         let editViewController = EditViewController(diary: diaryArray[indexPath.row])
         
+        editViewController.delegate = self
         self.navigationController?.pushViewController(editViewController, animated: true)
+    }
+}
+
+extension ListViewController: DataSendable {
+    func updateView() {
+        do {
+            diaryArray = try CoreDataManager.shared.read()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }

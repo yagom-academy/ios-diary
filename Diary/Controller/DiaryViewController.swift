@@ -9,6 +9,7 @@ import UIKit
 
 class DiaryViewController: UIViewController {
     lazy var diaryView = DiaryView.init(frame: view.bounds)
+    weak var delegate: DataSendable?
     
     override func viewDidLoad() {
         super.viewDidLoad()
