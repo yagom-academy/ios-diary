@@ -108,10 +108,9 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setUpSampleData() {
-        guard let sampleData = Sample.get() else {
+        guard let sampleData: [DiaryDTO] = AssetManager.get() else {
             return
         }
-        
         setUpSanpshot(data: sampleData)
     }
     
@@ -180,8 +179,8 @@ extension DiaryViewController: UITableViewDelegate {
             self?.showDeleteAlert(
                 identifier: cellData.identifier,
                 handler: {
-                self?.setUpCoreData()
-            })
+                    self?.setUpCoreData()
+                })
         }
         
         let config = UISwipeActionsConfiguration(actions: [delete, share])
