@@ -66,6 +66,16 @@ extension PersistenceManager {
     }
 
     private func createData(by diary: Diary) {
+        let request: NSFetchRequest<DiaryEntity> = DiaryEntity.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", diary.id)
+        request.returnsObjectsAsFaults = false
+        request.predicate = predicate
+        
+        let fetchResult = try? context.fetch(request)
+        guard fetchResult?.first == nil else {
+            return
+        }
+        
         if let entity = entity {
             let managedObject = NSManagedObject(entity: entity, insertInto: context)
             managedObject.setValue(diary.title, forKey: AppConstants.titleKeyName)
