@@ -8,7 +8,7 @@ import UIKit
 
 final class MainViewController: UIViewController {
   private lazy var baseView = ListView(frame: view.bounds)
-  private var diarys: [DiaryModel]? {
+  private var diarys: [Diary]? {
     didSet {
       self.baseView.tableView.reloadData()
     }

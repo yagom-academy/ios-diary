@@ -27,11 +27,11 @@ final class CoredataManager {
   }
   
   func createContext(title: String, contnet: String, identifier: String, date: Date) {
-    guard let diaryEntity = NSEntityDescription.entity(forEntityName: "DiaryModel", in: viewContext) else {
+    guard let diaryEntity = NSEntityDescription.entity(forEntityName: "Diary", in: viewContext) else {
       return
     }
     
-    guard let userModel = NSManagedObject(entity: diaryEntity, insertInto: viewContext) as? DiaryModel else {
+    guard let userModel = NSManagedObject(entity: diaryEntity, insertInto: viewContext) as? Diary else {
       return
     }
     userModel.title = title
@@ -50,9 +50,9 @@ final class CoredataManager {
     }
   }
   
-  func readContext() -> [DiaryModel] {
+  func readContext() -> [Diary] {
     do {
-      let diary = try viewContext.fetch(DiaryModel.fetchRequest())
+      let diary = try viewContext.fetch(Diary.fetchRequest())
       return diary
     } catch {
       fatalError("\(error)")

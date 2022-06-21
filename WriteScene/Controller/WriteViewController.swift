@@ -24,7 +24,7 @@ final class WriteViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    self.makeDiaryForm()
+    self.saveDiaryData()
   }
   
   private func configureUI() {
@@ -32,7 +32,7 @@ final class WriteViewController: UIViewController {
     self.navigationItem.title = Date().setKoreaDateFormat(dateFormat: .yearMonthDay)
   }
   
-  private func makeDiaryForm() {
+  private func saveDiaryData() {
     guard let title = baseView.textView.text else {
       return
     }
