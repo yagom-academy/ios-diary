@@ -27,6 +27,12 @@ final class EditViewController: DiaryViewController {
     private func setInitialView() {
         self.title = diary?.createdAt ?? ""
         configureDiaryView()
+    private func setTestData() -> TestData? {
+        var textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
+        guard let id = diary?.id else {
+            return nil
+        }
+        return TestData(title: textArray.removeFirst(), body: textArray.joined(separator: "\n"), createdAt: Date().timeIntervalSince1970, id: id)
     }
     
     private func configureDiaryView() {

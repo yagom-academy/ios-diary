@@ -29,11 +29,6 @@ class DiaryViewController: UIViewController {
         }
     }
     
-    private func setTestData() -> TestData {
-        var textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
-        return TestData(title: textArray.removeFirst(), body: textArray.joined(separator: "\n"), createdAt: Date().timeIntervalSince1970, id: UUID())
-    }
-    
     private func setInitialView() {
         self.view = diaryView
     }

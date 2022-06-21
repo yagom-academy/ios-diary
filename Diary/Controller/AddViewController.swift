@@ -8,7 +8,8 @@
 import UIKit
 
 final class AddViewController: DiaryViewController {
-
+    let id = UUID()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitialView()
@@ -16,5 +17,10 @@ final class AddViewController: DiaryViewController {
     
     private func setInitialView() {
         self.title = Date().dateToKoreanString
+    }
+    
+    private func setTestData() -> TestData? {
+        var textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
+        return TestData(title: textArray.removeFirst(), body: textArray.joined(separator: "\n"), createdAt: Date().timeIntervalSince1970, id: id)
     }
 }
