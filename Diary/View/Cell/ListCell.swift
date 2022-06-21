@@ -74,6 +74,11 @@ final class ListCell: UICollectionViewListCell {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
+}
+
+// MARK: - Method
+
+extension ListCell {
     
     func updateLabels(diaryModel: DiaryModel) {
         titleLabel.text = diaryModel.title

@@ -36,19 +36,6 @@ final class MainViewController: UIViewController {
         registerCollectionViewCell()
         setCollectionViewLayout()
     }
-    
-    private func updateDiaryData() {
-        do {
-            let decodedData = try paser.parse()
-            diaryData = decodedData
-        } catch DiaryError.invalidFileName{
-            print("invalid file name")
-        } catch DiaryError.decodeError {
-            print("decode error")
-        } catch {
-            print("invalid error : \(error)")
-        }
-    }
 }
 // MARK: - Method
 
@@ -86,6 +73,19 @@ extension MainViewController {
             ListCell.self,
             forCellWithReuseIdentifier: ListCell.identifier
         )
+    }
+    
+    private func updateDiaryData() {
+        do {
+            let decodedData = try paser.parse()
+            diaryData = decodedData
+        } catch DiaryError.invalidFileName{
+            print("invalid file name")
+        } catch DiaryError.decodeError {
+            print("decode error")
+        } catch {
+            print("invalid error : \(error)")
+        }
     }
 }
 

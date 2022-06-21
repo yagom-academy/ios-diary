@@ -26,12 +26,21 @@ final class DetailViewController: UIViewController {
         setNavigationBarTitle()
         detailView.setUpView(diaryData: diaryData)
         registerKeyboardNotifications()
-        
     }
+}
+
+// MARK: - Method
+
+extension DetailViewController {
     
     private func setNavigationBarTitle() {
         navigationItem.title = diaryData.createdAt?.formattedDate
     }
+}
+
+// MARK: - Keyboard Method
+
+extension DetailViewController {
     
     private func registerKeyboardNotifications() {
         NotificationCenter.default.addObserver(

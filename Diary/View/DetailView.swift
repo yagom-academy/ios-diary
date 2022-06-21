@@ -8,15 +8,6 @@
 import UIKit
 
 final class DetailView: UIView {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        backgroundColor = .systemBackground
-        setConstraints()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
     
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [titleField, descriptionView])
@@ -53,6 +44,21 @@ final class DetailView: UIView {
         return textView
     }()
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = .systemBackground
+        setConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
+}
+
+// MARK: - Method
+
+extension DetailView {
+    
     private func setConstraints() {
         self.addSubview(mainScrollView)
         NSLayoutConstraint.activate([
@@ -72,11 +78,6 @@ final class DetailView: UIView {
             mainStackView.centerYAnchor.constraint(equalTo: mainScrollView.centerYAnchor)
         ])
     }
-}
-
-// MARK: - Method
-
-extension DetailView {
     
     func setUpView(diaryData: DiaryModel) {
         titleField.text = diaryData.title
