@@ -22,6 +22,8 @@
 		E526BE05285D80CB00BD2D94 /* UIEdgeInsets+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E526BE04285D80CB00BD2D94 /* UIEdgeInsets+Extension.swift */; };
 		E5453F9A2858A4BF0073D7BA /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5453F992858A4BF0073D7BA /* DiaryDetailViewController.swift */; };
 		E5AE00EF285C5C980046E430 /* Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5AE00EE285C5C980046E430 /* Then.swift */; };
+		E5FF9D59286191BA0049F9E6 /* DiaryAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FF9D58286191BA0049F9E6 /* DiaryAddViewController.swift */; };
+		E5FF9D5B286194270049F9E6 /* DiaryBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FF9D5A286194270049F9E6 /* DiaryBaseViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -56,6 +58,8 @@
 		E526BE04285D80CB00BD2D94 /* UIEdgeInsets+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Extension.swift"; sourceTree = "<group>"; };
 		E5453F992858A4BF0073D7BA /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		E5AE00EE285C5C980046E430 /* Then.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Then.swift; sourceTree = "<group>"; };
+		E5FF9D58286191BA0049F9E6 /* DiaryAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryAddViewController.swift; sourceTree = "<group>"; };
+		E5FF9D5A286194270049F9E6 /* DiaryBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryBaseViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +123,8 @@
 			children = (
 				C739AE28284DF28600741E8F /* DiaryViewController.swift */,
 				E5453F992858A4BF0073D7BA /* DiaryDetailViewController.swift */,
+				E5FF9D58286191BA0049F9E6 /* DiaryAddViewController.swift */,
+				E5FF9D5A286194270049F9E6 /* DiaryBaseViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -356,10 +362,12 @@
 				B0B8459E28585AD7000775F3 /* Diary.swift in Sources */,
 				E5AE00EF285C5C980046E430 /* Then.swift in Sources */,
 				B0B8BE36285C75B30086190C /* Formatter.swift in Sources */,
+				E5FF9D5B286194270049F9E6 /* DiaryBaseViewController.swift in Sources */,
 				B0B8BE34285C69580086190C /* Parser.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				E5453F9A2858A4BF0073D7BA /* DiaryDetailViewController.swift in Sources */,
+				E5FF9D59286191BA0049F9E6 /* DiaryAddViewController.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				B0B845AD28586B7F000775F3 /* DiaryTableViewCell.swift in Sources */,
