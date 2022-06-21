@@ -14,7 +14,6 @@ final class MainViewController: UIViewController {
     }
     
     private var diaryData: [DiaryModel] = []
-    private let paser = Parser()
     private var listLayout: UICollectionViewCompositionalLayout {
         var configure = UICollectionLayoutListConfiguration(appearance: .plain)
         configure.showsSeparators = true
@@ -77,12 +76,20 @@ extension MainViewController {
     
     private func updateDiaryData() {
         do {
-            let decodedData = try paser.parse()
+            guard let decodedData: [DiaryModel] = try Parser<DiaryModel>().parse(name: "sample") else {
+                return
+            }
             diaryData = decodedData
-        } catch DiaryError.invalidFileName{
-            print("invalid file name")
+        } catch DiaryError.invalidFileName {
+            guard let invalidFileNameError = DiaryError.invalidFileName.errorDescription else {
+                return
+            }
+            print(invalidFileNameError)
         } catch DiaryError.decodeError {
-            print("decode error")
+            guard let decodeError = DiaryError.decodeError.errorDescription else {
+                return
+            }
+            print(decodeError)
         } catch {
             print("invalid error : \(error)")
         }

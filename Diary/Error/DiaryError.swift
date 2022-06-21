@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DiaryError: String, Error {
+enum DiaryError: String, LocalizedError {
     case decodeError
     case invalidFileName
     
