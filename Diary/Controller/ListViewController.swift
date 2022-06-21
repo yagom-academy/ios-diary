@@ -27,7 +27,7 @@ final class ListViewController: UIViewController {
         mainView.tableView.delegate = self
         mainView.tableView.register(ListTableViewCell.self, forCellReuseIdentifier: "\(ListTableViewCell.self)")
         configureNavigationBar()
-        appendDiary(parsedData())
+        appendDiary(diaryArray)
     }
     
     private func configureNavigationBar() {
@@ -42,37 +42,14 @@ final class ListViewController: UIViewController {
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
     
-    private func parsedData() -> [DiaryData]? {
-        guard let asset = NSDataAsset(name: "sample") else {
-            return nil
+    private func appendDiary(_ data: [DiaryModel]?) {
+        do {
+            let array: [DiaryModel] = try CoreDataManager.shared.read()
+            self.diaryArray = array
+            print(diaryArray[0].id)
+        } catch {
+            print(error.localizedDescription)
         }
-        
-        let jsonDecoder = JSONDecoder()
-        
-        guard let sample = try? jsonDecoder.decode([DiaryData].self, from: asset.data) else {
-            return nil
-        }
-        
-        return sample
-    }
-    
-    private func appendDiary(_ data: [DiaryData]?) {
-        guard let diaryDatas = data else {
-            return
-        }
-        
-        let array: [Diary] = diaryDatas.compactMap { diaryData in
-            guard let doubleDate = diaryData.createdAt else {
-                return nil
-            }
-            
-            let date = Date(timeIntervalSince1970: doubleDate)
-            let stringDate = date.dateToKoreanString
-            
-            return Diary(title: diaryData.title ?? "", body: diaryData.body ?? "", createdAt: stringDate)
-        }
-        
-        self.diaryArray = array
     }
 }
 
