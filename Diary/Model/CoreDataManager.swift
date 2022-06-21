@@ -41,7 +41,7 @@ final class CoreDataManager {
         }
     }
     
-    private func create(_ diaryData: TestData) {
+    private func create(_ diaryData: Diary) {
         guard let entity = entity else {
             return
         }
@@ -68,7 +68,7 @@ final class CoreDataManager {
         return diaryModels
     }
     
-    func update(_ diaryData: TestData) throws {
+    func update(_ diaryData: Diary) throws {
         let predicate = NSPredicate(format: "id == %@", diaryData.id.uuidString)
         let request = DiaryModel.fetchRequest()
         request.predicate = predicate
@@ -89,7 +89,7 @@ final class CoreDataManager {
         saveContext()
     }
     
-    func delete(_ diaryData: TestData) throws {
+    func delete(_ diaryData: Diary) throws {
         let predicate = NSPredicate(format: "id == %@", diaryData.id.uuidString)
         let request = DiaryModel.fetchRequest()
         request.predicate = predicate

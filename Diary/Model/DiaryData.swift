@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct TestData {
+struct Diary {
     let title: String
     let body: String
     let createdAt: Double

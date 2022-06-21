@@ -16,7 +16,7 @@ class DiaryViewController: UIViewController {
         setInitialView()
     }
     
-    func update(_ testData: TestData?) {
+    func update(_ testData: Diary?) {
         do {
             guard let testData = testData else {
                 return

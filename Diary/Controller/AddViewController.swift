@@ -25,8 +25,8 @@ final class AddViewController: DiaryViewController {
         self.title = Date().dateToKoreanString
     }
     
-    private func setTestData() -> TestData? {
+    private func setTestData() -> Diary? {
         var textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
-        return TestData(title: textArray.removeFirst(), body: textArray.joined(separator: "\n"), createdAt: Date().timeIntervalSince1970, id: id)
+        return Diary(title: textArray.removeFirst(), body: textArray.joined(separator: "\n"), createdAt: Date().timeIntervalSince1970, id: id)
     }
 }
