@@ -11,8 +11,8 @@ final class EditViewController: DiaryViewController {
     private var diary: DiaryModel?
     
     init(diary: DiaryModel?) {
-        self.diary = diary
         super.init(nibName: nil, bundle: nil)
+        self.diary = diary
     }
     
     required init?(coder: NSCoder) {

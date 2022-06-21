@@ -50,7 +50,7 @@ class DiaryViewController: UIViewController {
             self.touchShareButton()
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            print("삭제하기")
+            self.touchDeleteButton()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
 
@@ -65,5 +65,18 @@ class DiaryViewController: UIViewController {
         let text = [diaryText().joined(separator: "\n")]
         let share = UIActivityViewController(activityItems: text, applicationActivities: nil)
         self.present(share, animated: true)
+    }
+    
+    private func touchDeleteButton() {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .default)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            print("Delete")
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        
+        self.present(alert, animated: true)
     }
 }
