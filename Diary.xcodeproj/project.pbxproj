@@ -16,6 +16,7 @@
 		4EACCCD9285C1BB1008046A5 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCD8285C1BB1008046A5 /* RegistrationViewController.swift */; };
 		4EACCCDB285C9B65008046A5 /* ShareActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */; };
 		4EC4B4962861910C00669E5D /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4B4952861910C00669E5D /* UITextView.swift */; };
+		4EC4B49928619D6A00669E5D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4B49828619D6A00669E5D /* UIViewController.swift */; };
 		5B7D470C3B4D18C9DB743574 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4426E833CCAA9573A01D330A /* Pods_Diary.framework */; };
 		A152B1A3285C543300BA06A9 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A152B1A2285C543300BA06A9 /* Diary.swift */; };
 		A1B82EA2286195F200B22604 /* AppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B82EA1286195F200B22604 /* AppConstants.swift */; };
@@ -43,6 +44,7 @@
 		4EACCCD8285C1BB1008046A5 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActivityItemSource.swift; sourceTree = "<group>"; };
 		4EC4B4952861910C00669E5D /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
+		4EC4B49828619D6A00669E5D /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		A152B1A2285C543300BA06A9 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		A1B82EA1286195F200B22604 /* AppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConstants.swift; sourceTree = "<group>"; };
 		A1DCA7CB2858218A0022DB2A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 				A1DCA7DA285863B80022DB2A /* Double.swift */,
 				A1DCA7E02858AC7F0022DB2A /* Collection.swift */,
 				4EC4B4952861910C00669E5D /* UITextView.swift */,
+				4EC4B49828619D6A00669E5D /* UIViewController.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				A152B1A3285C543300BA06A9 /* Diary.swift in Sources */,
 				A1DCA7E12858AC7F0022DB2A /* Collection.swift in Sources */,
 				03EB042828586A30008A68FC /* DetailView.swift in Sources */,
+				4EC4B49928619D6A00669E5D /* UIViewController.swift in Sources */,
 				4EC4B4962861910C00669E5D /* UITextView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				03EB0426285869AE008A68FC /* DetailViewController.swift in Sources */,

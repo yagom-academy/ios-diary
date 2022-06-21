@@ -123,20 +123,11 @@ extension MainViewController: UITableViewDelegate {
 
 extension MainViewController {
     private func showDeleteAlert(indexPath: IndexPath) {
-        let UIAlertController = UIAlertController(
-            title: AppConstants.deleteAlertTitle,
-            message: AppConstants.deleteAlertMessage,
-            preferredStyle: .alert
-        )
-        let cancelAction = UIAlertAction(title: AppConstants.cancelActionTitle, style: .cancel)
-        let removeAction = UIAlertAction(title: AppConstants.deleteActionTitle, style: .destructive) { [self] _ in
+        showAlert { [self] _ in
             let objectToDelete = PersistenceManager.shared.diaries()[indexPath.row]
             PersistenceManager.shared.execute(by: .delete(objectToDelete, index: indexPath.row))
             mainView.baseTableView.deleteRows(at: [indexPath], with: .fade)
         }
-        UIAlertController.addAction(cancelAction)
-        UIAlertController.addAction(removeAction)
-        present(UIAlertController, animated: true)
     }
 }
 

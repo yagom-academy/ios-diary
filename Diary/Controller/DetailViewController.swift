@@ -162,9 +162,11 @@ extension DetailViewController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let deleteAction = UIAlertAction(title: AppConstants.deleteActionTitle, style: .destructive) { _ in
-            PersistenceManager.shared.execute(by: .delete(self.diary))
-            self.status = .delete
-            self.navigationController?.popViewController(animated: true)
+            self.showAlert { [self] _ in
+                PersistenceManager.shared.execute(by: .delete(diary))
+                status = .delete
+                navigationController?.popViewController(animated: true)
+            }
         }
         
         let shareAction = UIAlertAction(title: AppConstants.shareActionTitle, style: .default) { _ in
