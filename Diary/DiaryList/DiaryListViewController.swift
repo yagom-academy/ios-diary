@@ -13,7 +13,6 @@ enum Section {
 final class DiaryListViewController: UITableViewController, diaryDetailViewDelegate {
     private typealias DataSource = DiaryListDataSource
     
-    private lazy var alertBuilder = AlertBuilder(target: self)
     private var dataSource: DataSource?
     
     override func viewDidLoad() {
@@ -29,9 +28,7 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.makeData()
         } catch {
-            alertBuilder.addAction("확인", style: .default) {
-                // empty
-            }
+            AlertBuilder(target: self).addAction("확인", style: .default)
                 .show("데이터를 읽어오지 못했습니다", message: nil, style: .alert)
         }
     }
@@ -57,9 +54,7 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.saveData(diary)
         } catch {
-            alertBuilder.addAction("확인", style: .default) {
-                // empty
-            }
+            AlertBuilder(target: self).addAction("확인", style: .default)
                 .show("데이터를 저장하지 못했습니다", message: nil, style: .alert)
         }
     }
@@ -68,9 +63,7 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.updateData(diary)
         } catch {
-            alertBuilder.addAction("확인", style: .default) {
-                // empty
-            }
+            AlertBuilder(target: self).addAction("확인", style: .default)
                 .show("데이터를 수정하지 못했습니다", message: nil, style: .alert)
         }
     }
@@ -79,9 +72,7 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.deleteData(diary)
         } catch {
-            alertBuilder.addAction("확인", style: .default) {
-                // empty
-            }
+            AlertBuilder(target: self).addAction("확인", style: .default)
                 .show("데이터를 삭제하지 못했습니다", message: nil, style: .alert)
         }
     }
@@ -118,37 +109,34 @@ extension DiaryListViewController {
     override func tableView(
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let swipeBuilder = SwipeBuilder()
+            let swipeBuilder = SwipeBuilder()
             guard let diary = self.dataSource?.itemIdentifier(for: indexPath) else {
                 return nil
-            } 
-        return swipeBuilder.addAction(title: "삭제", style: .destructive) {
-            self.showDeleteAlert(diary)
-        }.addAction(title: "공유", style: .normal, backgroundColor: .systemBlue) {
-            self.showShareController(diary)
-        }.show()
-    
-    }
+            }
+            return swipeBuilder.addAction(title: "삭제", style: .destructive) { [weak self] in
+                self?.showDeleteAlert(diary)
+            }.addAction(title: "공유", style: .normal, backgroundColor: .systemBlue) { [weak self] in
+                self?.showShareController(diary)
+            }.show()
+            
+        }
 }
 
 // MARK: - Alert Action
 
 extension DiaryListViewController {
     private func showDeleteAlert(_ diary: Diary) {
-        AlertBuilder(target: self).addAction("취소", style: .default) {
-            // empty
-        }.addAction("삭제", style: .destructive) { [weak self] in
-            guard let self = self else { return }
-            do {
-                try self.dataSource?.deleteData(diary)
-            } catch {
-                AlertBuilder(target: self)
-                    .addAction("확인", style: .default) {
-                    // empty
+        AlertBuilder(target: self).addAction("취소", style: .default)
+            .addAction("삭제", style: .destructive) { [weak self] in
+                guard let self = self else { return }
+                do {
+                    try self.dataSource?.deleteData(diary)
+                } catch {
+                    AlertBuilder(target: self)
+                        .addAction("확인", style: .default)
+                        .show("데이터를 삭제하지 못했습니다", message: nil, style: .alert)
                 }
-                    .show("데이터를 삭제하지 못했습니다", message: nil, style: .alert)
-            }
-        }.show("진짜요?", message: "정말로 삭제하시겠어요?", style: .alert)
+            }.show("진짜요?", message: "정말로 삭제하시겠어요?", style: .alert)
     }
     
     private func showShareController(_ diary: Diary) {

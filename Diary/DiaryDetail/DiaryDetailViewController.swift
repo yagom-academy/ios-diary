@@ -132,9 +132,8 @@ extension DiaryDetailViewController {
     }
     
     private func showDeleteAlert() {
-        AlertBuilder(target: self).addAction("취소", style: .default) {
-            // empty
-        }.addAction("삭제", style: .destructive) { [weak self] in
+        AlertBuilder(target: self).addAction("취소", style: .default)
+            .addAction("삭제", style: .destructive) { [weak self] in
             guard let diary = self?.diary else { return }
             self?.delegate?.delete(diary)
             self?.navigationController?.popViewController(animated: true)
@@ -155,9 +154,8 @@ extension DiaryDetailViewController {
             self?.showShareController()
         }.addAction("Delete", style: .destructive) { [weak self] in
             self?.showDeleteAlert()
-        }.addAction("Cancel", style: .cancel) {
-            // empty
-        }.show(style: .actionSheet)
+        }.addAction("Cancel", style: .cancel)
+            .show(style: .actionSheet)
     }
 }
 

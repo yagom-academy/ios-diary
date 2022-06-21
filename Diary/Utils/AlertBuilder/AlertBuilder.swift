@@ -15,7 +15,7 @@ final class AlertBuilder {
         self.viewController = target
     }
     
-    func addAction(_ title: String, style: UIAlertAction.Style, action: @escaping (() -> Void)) -> Self {
+    func addAction(_ title: String, style: UIAlertAction.Style, action: (() -> Void)? = nil) -> Self {
         let alertAction = AlertAction(title: title, style: style, completion: action)
         alertActions.append(alertAction)
         
