@@ -77,8 +77,11 @@ final class UpdateViewController: UIViewController {
             navigationItem.rightBarButtonItem = button
         }
         
+        if identifier != nil {
+            setUpRightButton()
+        }
+        
         navigationItem.title = title
-        setUpRightButton()
     }
     
     @objc private func touchUpMoreButton() {
