@@ -24,11 +24,29 @@ final class WriteViewController: UIViewController {
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
+    self.saveDiaryData()
+  }
+  
+  private func saveDiaryData() {
+    guard let diary = makeDiaryForm() else {
+      return
+    }
+    CoredataManager.sherd.createContext(diary: diary)
   }
   
   private func configureUI() {
     self.view.backgroundColor = .systemBackground
     self.navigationItem.title = Date().setKoreaDateFormat(dateFormat: .yearMonthDay)
+  }
+  
+  private func makeDiaryForm() -> Diary? {
+    let date = Date()
+    let identifier = UUID().uuidString
+    guard let title = baseView.textView.text else {
+      return nil
+    }
+  
+    return Diary(title: title, description: title, createdAt: date, identifier: identifier)
   }
   
   deinit {
