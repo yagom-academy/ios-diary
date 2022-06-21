@@ -24,6 +24,12 @@ final class EditViewController: DiaryViewController {
         setInitialView()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        update(setTestData())
+        delegate?.updateView()
+    }
+    
     private func setInitialView() {
         self.title = diary?.createdAt ?? ""
         configureDiaryView()

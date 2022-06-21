@@ -16,14 +16,13 @@ class DiaryViewController: UIViewController {
         setInitialView()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        update()
-    }
-    
-    private func update() {
+    func update(_ testData: TestData?) {
         do {
-            try CoreDataManager.shared.update(setTestData())
+            guard let testData = testData else {
+                return
+            }
+
+            try CoreDataManager.shared.update(testData)
         } catch {
             print("저장에 실패했습니다")
         }
