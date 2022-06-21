@@ -20,20 +20,12 @@ extension UpdateViewController: BackGroundDelegate {
 final class UpdateViewController: UIViewController {
     private let textView = UITextView()
     private var keyboard: Keyboard?
-    private let identifier: UUID?
+    private let diaryData: DiaryDTO?
     private var isSavingData = false
     
     init(diaryData: DiaryDTO? = nil) {
-        guard let diaryData = diaryData else {
-            identifier = nil
-            super.init(nibName: nil, bundle: nil)
-            return
-        }
-
-        identifier = diaryData.identifier
+        self.diaryData = diaryData
         super.init(nibName: nil, bundle: nil)
-        
-        setUpEditPage(diaryData: diaryData)
     }
     
     required init?(coder: NSCoder) {
@@ -69,6 +61,10 @@ final class UpdateViewController: UIViewController {
     
     private func setUpView() {
         view.backgroundColor = .systemBackground
+        
+        if let diaryData = diaryData {
+            setUpEditPage(diaryData: diaryData)
+        }
     }
     
     private func setUpEditPage(diaryData: DiaryDTO) {
@@ -82,7 +78,7 @@ final class UpdateViewController: UIViewController {
             navigationItem.rightBarButtonItem = button
         }
         
-        if identifier != nil {
+        if diaryData != nil {
             setUpRightButton()
         }
         
@@ -91,7 +87,7 @@ final class UpdateViewController: UIViewController {
     
     @objc private func touchUpMoreButton() {
         guard let title = textView.extractData(date: navigationItem.title)?.title,
-              let identifier = identifier else {
+              let identifier = diaryData?.identifier else {
             return
         }
         
@@ -107,7 +103,7 @@ final class UpdateViewController: UIViewController {
         }
         isSavingData = true
         
-        if let identifier = identifier {
+        if let identifier = diaryData?.identifier {
             let edittedData = DiaryDTO(identifier: identifier, title: title, body: body, date: date)
             
             DiaryDAO.shared.update(userData: edittedData)
