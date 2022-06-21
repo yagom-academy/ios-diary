@@ -7,19 +7,16 @@
 
 import UIKit
 
-struct Parser {
-    func parse() throws -> [DiaryModel] {
-        
-        guard let content = NSDataAsset(name: "sample") else {
+struct Parser<T: Decodable> {
+    func parse(name: String) throws -> [T]? {
+        guard let content = NSDataAsset(name: name) else {
             throw DiaryError.invalidFileName
         }
-        
-        guard let decodedData = try? JSONDecoder().decode(
-            [DiaryModel].self, from: content.data
+        guard let decodedData: [T] = try? JSONDecoder().decode(
+            [T].self, from: content.data
         ) else {
             throw DiaryError.decodeError
         }
-        
         return decodedData
     }
 }
