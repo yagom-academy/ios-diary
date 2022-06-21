@@ -28,6 +28,8 @@ final class AddViewController: DiaryViewController {
     private func setInitialView() {
         self.title = Date().dateToKoreanString
         NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: Notification.Name.sceneDidEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
     @objc func saveDiary() {
         update(setTestData())

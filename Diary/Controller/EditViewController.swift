@@ -34,7 +34,10 @@ final class EditViewController: DiaryViewController {
             self.title = Date(timeIntervalSince1970: createdAt).dateToKoreanString
             configureDiaryView()
         }
+        
         NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: Notification.Name.sceneDidEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
     @objc func saveDiary() {
         update(setTestData())
