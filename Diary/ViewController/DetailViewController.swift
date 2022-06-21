@@ -26,6 +26,7 @@ final class DetailViewController: UIViewController {
             registerForKeyboardNotification()
             setViewGesture()
         }
+        setNavigationSetting()
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -79,5 +80,22 @@ extension DetailViewController {
     @objc func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
         self.view.endEditing(true)
         detailView.changeTextViewHeight()
+    }
+}
+
+// MARK: Navigation Method
+extension DetailViewController {
+    private func setNavigationSetting() {
+        navigationItem.title = diaryData?.date?.toString
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(rightBarbuttonClicked(_:))
+        )
+    }
+    
+    @objc
+    private func rightBarbuttonClicked(_ sender: Any) {
+        
     }
 }

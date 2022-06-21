@@ -54,7 +54,10 @@ final class DiaryUseCase: UseCase {
     }
     
     func read() throws -> [DiaryInfo] {
-        guard let diarys = try? context.fetch(DiaryData.fetchRequest()) else {
+        let fetchRequest = DiaryData.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        
+        guard let diarys = try? context.fetch(fetchRequest) else {
             throw CoreDataError.readError
         }
         var diaryInfoArray: [DiaryInfo] = []
@@ -62,6 +65,7 @@ final class DiaryUseCase: UseCase {
             let diaryInfo = DiaryInfo(title: diary.title, body: diary.body, date: diary.date, key: diary.key)
             diaryInfoArray.append(diaryInfo)
         }
+        
         return diaryInfoArray
     }
     
