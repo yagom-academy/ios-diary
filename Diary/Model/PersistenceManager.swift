@@ -8,13 +8,6 @@
 import Foundation
 import CoreData
 
-fileprivate extension AppConstants {
-    static let titleKeyName = "title"
-    static let bodyKeyName = "body"
-    static let createdAtKeyName = "createdAt"
-    static let idKeyName = "id"
-}
-
 final class PersistenceManager {
     static let shared = PersistenceManager()
     private init() {}
@@ -42,10 +35,6 @@ final class PersistenceManager {
         return persistentContainer.viewContext
     }
     
-    private var entity: NSEntityDescription? {
-        return NSEntityDescription.entity(forEntityName: AppConstants.entityName, in: context)
-    }
-    
     func diaries() -> [DiaryEntity] {
         return diaryEntities
     }
@@ -66,24 +55,20 @@ extension PersistenceManager {
     }
 
     private func createData(by diary: Diary) {
-        let request: NSFetchRequest<DiaryEntity> = DiaryEntity.fetchRequest()
-        let predicate = NSPredicate(format: "id == %@", diary.id)
-        request.returnsObjectsAsFaults = false
-        request.predicate = predicate
-        
-        let fetchResult = try? context.fetch(request)
-        guard fetchResult?.first == nil else {
-            return
+        let request = makeRequest(by: diary.id)
+        if let diaryToUpdate = fetchResult(from: request) {
+            diaryToUpdate.body = diary.body
+            diaryToUpdate.title = diary.title
+            diaryToUpdate.createdAt = diary.createdAt
+            diaryToUpdate.id = diary.id
+        } else {
+            let entity = DiaryEntity(context: context)
+            entity.body = diary.body
+            entity.title = diary.title
+            entity.createdAt = diary.createdAt
+            entity.id = diary.id
         }
-        
-        if let entity = entity {
-            let managedObject = NSManagedObject(entity: entity, insertInto: context)
-            managedObject.setValue(diary.title, forKey: AppConstants.titleKeyName)
-            managedObject.setValue(diary.body, forKey: AppConstants.bodyKeyName)
-            managedObject.setValue(diary.createdAt, forKey: AppConstants.createdAtKeyName)
-            managedObject.setValue(diary.id, forKey: AppConstants.idKeyName)
-            saveToContext()
-        }
+        saveToContext()
     }
     
     private func fetchData() {
@@ -98,20 +83,14 @@ extension PersistenceManager {
     }
         
     private func updateData(by diary: Diary) {
-        let request: NSFetchRequest<DiaryEntity> = DiaryEntity.fetchRequest()
-        let predicate = NSPredicate(format: "id == %@", diary.id)
-        request.returnsObjectsAsFaults = false
-        request.predicate = predicate
-        
-        let fetchResult = try? context.fetch(request)
-        guard let diaryToUpdate = fetchResult?.first else {
+        let request = makeRequest(by: diary.id)
+        guard let diaryToUpdate = fetchResult(from: request) else {
             return
         }
-        
-        diaryToUpdate.setValue(diary.title, forKey: AppConstants.titleKeyName)
-        diaryToUpdate.setValue(diary.body, forKey: AppConstants.bodyKeyName)
-        diaryToUpdate.setValue(diary.createdAt, forKey: AppConstants.createdAtKeyName)
-        diaryToUpdate.setValue(diary.id, forKey: AppConstants.idKeyName)
+        diaryToUpdate.body = diary.body
+        diaryToUpdate.title = diary.title
+        diaryToUpdate.createdAt = diary.createdAt
+        diaryToUpdate.id = diary.id
         saveToContext()
     }
     
@@ -123,12 +102,30 @@ extension PersistenceManager {
         context.delete(object)
         saveToContext()
     }
-    
+}
+
+extension PersistenceManager {
     private func saveToContext() {
         do {
             try context.save()
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    private func makeRequest(by id: String) -> NSFetchRequest<DiaryEntity> {
+        let request: NSFetchRequest<DiaryEntity> = DiaryEntity.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", id)
+        request.returnsObjectsAsFaults = false
+        request.predicate = predicate
+        return request
+    }
+    
+    private func fetchResult(from request: NSFetchRequest<DiaryEntity>) -> DiaryEntity? {
+        let fetchResult = try? context.fetch(request)
+        guard let diaryEntity = fetchResult?.first else {
+            return nil
+        }
+        return diaryEntity
     }
 }
