@@ -54,7 +54,7 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
   
   func updata(diary: Diary) {
     self.titleLabel.text = diary.title
-    self.dateLabel.text = Date(timeIntervalSince1970: diary.createdAt)
+    self.dateLabel.text = Date()
       .setKoreaDateFormat(dateFormat: .yearMonthDay)
     self.descriptionLabel.text = diary.description
   }
