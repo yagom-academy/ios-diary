@@ -134,18 +134,27 @@ extension DiaryDetailViewController {
     private func showDeleteAlert() {
         AlertBuilder(target: self).addAction("취소", style: .default) {
             // empty
-        }.addAction("삭제", style: .destructive) {
-            guard let diary = self.diary else { return }
-            self.delegate?.delete(diary)
-            self.navigationController?.popViewController(animated: true)
+        }.addAction("삭제", style: .destructive) { [weak self] in
+            guard let diary = self?.diary else { return }
+            self?.delegate?.delete(diary)
+            self?.navigationController?.popViewController(animated: true)
         }.show("진짜요?", message: "정말로 삭제하시겠어요?", style: .alert)
     }
     
+    private func showShareController() {
+        let shareText = mainView.readText()
+        var shareObject = [String]()
+        shareObject.append(shareText)
+        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true)
+    }
+    
     @objc func viewMoreButtonDidTapped() {
-        AlertBuilder(target: self).addAction("Share...", style: .default) {
-            
-        }.addAction("Delete", style: .destructive) {
-            self.showDeleteAlert()
+        AlertBuilder(target: self).addAction("Share...", style: .default) { [weak self] in
+            self?.showShareController()
+        }.addAction("Delete", style: .destructive) { [weak self] in
+            self?.showDeleteAlert()
         }.addAction("Cancel", style: .cancel) {
             // empty
         }.show(style: .actionSheet)
