@@ -8,6 +8,7 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
+    
     private lazy var detailView = DetailView(frame: view.frame)
     private let diaryData: DiaryModel
     
@@ -46,7 +47,7 @@ extension DetailViewController {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification ,
+            name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
         NotificationCenter.default.addObserver(
@@ -60,13 +61,21 @@ extension DetailViewController {
     @objc private func keyboardWillShow(notification: NSNotification) {
         guard let keyboardSize = (
             notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        )?.cgRectValue else {
-            return
-        }
-        detailView.mainScrollView.contentInset = .init(top: 0, left: 0, bottom: keyboardSize.height, right: 0)
+        )?.cgRectValue else { return }
+        detailView.mainScrollView.contentInset = .init(
+            top: 0,
+            left: 0,
+            bottom: keyboardSize.height,
+            right: 0
+        )
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
-        detailView.mainScrollView.contentInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+        detailView.mainScrollView.contentInset = .init(
+            top: 0,
+            left: 0,
+            bottom: 0,
+            right: 0
+        )
     }
 }

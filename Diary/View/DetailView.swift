@@ -9,34 +9,44 @@ import UIKit
 
 final class DetailView: UIView {
     
-    private lazy var mainStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleField, descriptionView])
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.spacing = 5
-        stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
-        return stackView
-    }()
+    private enum Constants {
+        static let mainStackViewSpacing: CGFloat = 5
+        static let mainStackViewLayoutMargin: CGFloat = 10
+        static let mainScrollViewSpacingFromViewLeading: CGFloat = 15
+        static let mainScrollViewSpacingFromViewTrailing: CGFloat = -15
+    }
     
     let mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.isScrollEnabled = true
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = true
-        scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
     
-    private let titleField: UITextField = {
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [titleField, descriptionView])
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = Constants.mainStackViewSpacing
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(
+            top: Constants.mainStackViewLayoutMargin,
+            left: Constants.mainStackViewLayoutMargin,
+            bottom: 0,
+            right: Constants.mainStackViewLayoutMargin
+        )
+        return stackView
+    }()
+    
+    private lazy var titleField: UITextField = {
         let textField = UITextField()
         textField.textAlignment = .left
         return textField
     }()
     
-    let descriptionView: UITextView = {
+    private lazy var descriptionView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.textAlignment = .left
@@ -64,9 +74,13 @@ extension DetailView {
         NSLayoutConstraint.activate([
             mainScrollView.topAnchor.constraint(equalTo: self.topAnchor),
             mainScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            mainScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
-            mainScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15)
-            
+            mainScrollView.leadingAnchor.constraint(
+                equalTo: self.leadingAnchor,
+                constant: Constants.mainScrollViewSpacingFromViewLeading),
+            mainScrollView.trailingAnchor.constraint(
+                equalTo: self.trailingAnchor,
+                constant: Constants.mainScrollViewSpacingFromViewTrailing
+            )
         ])
         
         mainScrollView.addSubview(mainStackView)

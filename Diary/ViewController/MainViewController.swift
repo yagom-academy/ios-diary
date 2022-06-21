@@ -14,6 +14,7 @@ final class MainViewController: UIViewController {
     }
     
     private var diaryData: [DiaryModel] = []
+    private let paser = Parser()
     private var listLayout: UICollectionViewCompositionalLayout {
         var configure = UICollectionLayoutListConfiguration(appearance: .plain)
         configure.showsSeparators = true
@@ -24,7 +25,6 @@ final class MainViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: listLayout
     )
-    private let paser = Parser()
     
     override func viewDidLoad() {
         self.view = view
@@ -133,9 +133,7 @@ extension MainViewController: UICollectionViewDelegate,
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        guard let data = diaryData[safe: indexPath.row] else {
-            return
-        }
+        guard let data = diaryData[safe: indexPath.row] else { return }
         let detailViewController = DetailViewController(
             diaryData: data
         )

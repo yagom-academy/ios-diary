@@ -109,9 +109,22 @@ extension ListCell {
                 constant: Constants.verticalStackViewSpacingFromCellBottom
             )
         ])
-        dateLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        descriptionLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        descriptionLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        
+        dateLabel.setContentHuggingPriority(
+            .defaultLow,
+            for: .horizontal
+        )
+        dateLabel.setContentCompressionResistancePriority(
+            .defaultHigh,
+            for: .horizontal
+        )
+        descriptionLabel.setContentHuggingPriority(
+            .defaultHigh,
+            for: .horizontal
+        )
+        descriptionLabel.setContentCompressionResistancePriority(
+            .defaultLow,
+            for: .horizontal
+        )
     }
 }
