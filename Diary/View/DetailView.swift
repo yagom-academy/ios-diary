@@ -57,6 +57,11 @@ final class DetailView: UIView {
         }
         
         contentTextView.text = title + "\n" + body
+        setUpContentTitleStyle()
+    }
+    
+    func setUpContentTitleStyle() {
+        contentTextView.highlightFirstLineInTextView()
     }
     
     func scrollTextViewToTop() {

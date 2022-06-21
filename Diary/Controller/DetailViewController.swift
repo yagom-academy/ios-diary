@@ -38,7 +38,6 @@ final class DetailViewController: UIViewController {
         detailView.setUpContents(data: diary)
         detailView.scrollTextViewToTop()
         detailView.contentTextView.delegate = self
-        highlightFirstLineInTextView(textView: detailView.contentTextView)
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -60,25 +59,6 @@ final class DetailViewController: UIViewController {
         let diary = Diary(title: title, createdAt: diary.createdAt, body: body, id: diary.id)
                 
         PersistenceManager.shared.execute(by: .update(diary: diary))
-    }
-    
-    private func highlightFirstLineInTextView(textView: UITextView) {
-        let textAsNSString = textView.text as NSString
-        let lineBreakRange = textAsNSString.range(of: "\n")
-        let newAttributedText = NSMutableAttributedString(attributedString: textView.attributedText)
-        let boldRange: NSRange
-        if lineBreakRange.location < textAsNSString.length {
-            boldRange = NSRange(location: 0, length: lineBreakRange.location)
-        } else {
-            boldRange = NSRange(location: 0, length: textAsNSString.length)
-        }
-        
-        newAttributedText.addAttribute(
-            NSAttributedString.Key.font,
-            value: UIFont.preferredFont(forTextStyle: UIFont.TextStyle.headline),
-            range: boldRange
-        )
-        textView.attributedText = newAttributedText
     }
 }
 
