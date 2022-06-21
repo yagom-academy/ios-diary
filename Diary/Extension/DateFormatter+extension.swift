@@ -8,12 +8,14 @@
 import Foundation
 
 extension DateFormatter {
-    func changeDateFormat(time: Int) -> String {
+    func changeDateFormat(time: Date?) -> String? {
         self.dateStyle = .long
         self.timeStyle = .none
         self.locale = Locale.current
-        let time = Date(timeIntervalSince1970: TimeInterval(time))
-        
+        guard let time = time else {
+            return nil
+        }
+
         return self.string(from: time)
     }
 }

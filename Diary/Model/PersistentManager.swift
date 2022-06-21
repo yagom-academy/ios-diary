@@ -32,7 +32,7 @@ final class PersistentManager {
     
     private func getEntity(id: UUID) -> DiaryEntity? {
         let request = DiaryEntity.fetchRequest()
-        let predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        let predicate = NSPredicate(format: "uuid == %@", id as CVarArg)
         request.predicate = predicate
         
         return try? mainContext.fetch(request).first

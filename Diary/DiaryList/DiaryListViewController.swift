@@ -6,27 +6,30 @@
 
 import UIKit
 
-private enum Section {
+enum Section {
     case main
 }
 
-final class DiaryListViewController: UITableViewController {
-    private typealias DataSource = UITableViewDiffableDataSource<Section, Diary>
-    private typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Diary>
+final class DiaryListViewController: UITableViewController, diaryDetailViewDelegate {
+    private typealias DataSource = DiaryListDataSource
+    
     private var dataSource: DataSource?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
-        dataSource = makeDataSource()
-        applySnapshot(items: makeData())
+        configureDataSource()
         configureNavigationItem()
     }
     
-    private func makeData() -> [Diary] {
-        let items = Diary.createData() ?? []
+    private func configureDataSource() {
+        dataSource = makeDataSource()
         
-        return items
+        do {
+            try dataSource?.makeData()
+        } catch {
+            // 얼럿
+        }
     }
     
     private func configureTableView() {
@@ -41,8 +44,29 @@ final class DiaryListViewController: UITableViewController {
     }
     
     @objc private func addButtonDidTapped() {
+        let presentView = DiaryDetailViewController()
+        presentView.delegate = self
+        navigationController?.pushViewController(presentView, animated: true)
+    }
+    
+    func save(_ diary: Diary) {
+        do {
+            try dataSource?.saveData(diary)
+        } catch {
+            
+        }
+    }
+    
+    func update(_ diary: Diary) {
+        do {
+            try dataSource?.updateData(diary)
+        } catch {
+            
+        }
     }
 }
+
+// MARK: - DataSource
 
 extension DiaryListViewController {
     private func makeDataSource() -> DataSource {
@@ -58,18 +82,15 @@ extension DiaryListViewController {
         
         return dataSource
     }
-    
-    private func applySnapshot(items: [Diary]) {
-        var snapShot = Snapshot()
-        snapShot.appendSections([.main])
-        snapShot.appendItems(items)
-        dataSource?.apply(snapShot)
-    }
 }
+
+// MARK: - TableView Delegate
 
 extension DiaryListViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let diary = dataSource?.snapshot().itemIdentifiers[indexPath.row] else { return }
-        navigationController?.pushViewController(DiaryDetailViewController(diary: diary), animated: true)
+        let presentView = DiaryDetailViewController(diary: diary)
+        presentView.delegate = self
+        navigationController?.pushViewController(presentView, animated: true)
     }
 }

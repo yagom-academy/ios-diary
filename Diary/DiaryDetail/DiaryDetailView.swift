@@ -27,8 +27,13 @@ final class DiaryDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(diary: Diary) {
-        diaryTextView.text = "\(diary.title ?? "제목 없음") \n\n \(diary.body ?? "내용 없음")"
+    func configure(diary: Diary?) {
+        if let diary = diary {
+            diaryTextView.text = "\(diary.title ?? "")\n\(diary.body ?? "")"
+        } else {
+            diaryTextView.text = ""
+        }
+        
         diaryTextView.contentOffset = .zero
     }
     
@@ -57,5 +62,13 @@ final class DiaryDetailView: UIView {
     func changeBottomConstraint(value: CGFloat) {
         bottomConstraint?.constant = -value
         self.layoutIfNeeded()
+    }
+    
+    func setFirstResponder() {
+        self.diaryTextView.becomeFirstResponder()
+    }
+    
+    func readText() -> String {
+        return diaryTextView.text
     }
 }

@@ -7,11 +7,17 @@
 
 import UIKit
 
+protocol diaryDetailViewDelegate: AnyObject {
+    func save(_ diary: Diary)
+    func update(_ diary: Diary)
+}
+
 final class DiaryDetailViewController: UIViewController {
     private let mainView = DiaryDetailView()
-    private let diary: Diary
+    private let diary: Diary?
+    weak var delegate: diaryDetailViewDelegate?
     
-    init(diary: Diary) {
+    init(diary: Diary? = nil) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
@@ -23,14 +29,32 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        mainView.configure(diary: diary)
         configureLayout()
         registerNotification()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setViewFirstResponder()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if let diary = diary {
+            delegate?.update(updateDiary(diary))
+        } else {
+            delegate?.save(makeDiary())
+        }
+    }
+    
+    private func setViewFirstResponder() {
+        mainView.setFirstResponder()
+    }
+    
     private func configureView() {
+        mainView.configure(diary: diary)
         view.backgroundColor = .systemBackground
-        title = diary.createdAt
+        title = DateFormatter().changeDateFormat(time: diary?.createdAt)
     }
     
     private func configureLayout() {
@@ -42,6 +66,28 @@ final class DiaryDetailViewController: UIViewController {
             mainView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             mainView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
+    }
+    
+    private func configureContent() -> (String, String) {
+        let component = mainView.readText()
+            .split(separator: "\n", maxSplits: 1)
+            .map(String.init)
+        let title = component[safe: 0] ?? ""
+        let body = component[safe: 1] ?? ""
+        
+        return (title, body)
+    }
+    
+    private func makeDiary() -> Diary {
+        let (title, body) = configureContent()
+        
+        return Diary(title: title, body: body, createdAt: Date())
+    }
+    
+    private func updateDiary(_ diary: Diary) -> Diary {
+        let (title, body) = configureContent()
+        
+        return Diary(title: title, body: body, createdAt: diary.createdAt, uuid: diary.uuid)
     }
 }
 
@@ -67,5 +113,11 @@ extension DiaryDetailViewController {
     
     @objc private func keyboardWillHide(_ sender: Notification) {
         mainView.changeBottomConstraint(value: .zero)
+    }
+}
+
+extension Array {
+    subscript (safe index: Int) -> Element? {
+        return self.indices ~= index ? self[index] : nil
     }
 }
