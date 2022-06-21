@@ -27,6 +27,10 @@ final class DiaryCell: UITableViewCell {
             .required,
             for: .horizontal
         )
+        label.setContentHuggingPriority(
+            .required,
+            for: .horizontal
+        )
         
         return label
     }()
@@ -108,8 +112,7 @@ final class DiaryCell: UITableViewCell {
                 informationStackView.bottomAnchor.constraint(
                     equalTo: contentView.bottomAnchor,
                     constant: -verticalInset
-                )
-                ,
+                ),
                 informationStackView.leadingAnchor.constraint(
                     equalTo: contentView.leadingAnchor,
                     constant: horizontalInset
