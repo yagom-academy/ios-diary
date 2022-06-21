@@ -136,7 +136,8 @@ extension DetailViewController {
         title = diary.createdAt.formattedString
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .action,
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
             target: self,
             action: #selector(didTapActionButton)
         )
