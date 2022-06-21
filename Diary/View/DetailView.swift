@@ -16,7 +16,7 @@ final class DetailView: UIView {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 5
         stackView.isLayoutMarginsRelativeArrangement = true
-        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 0, right: 10)
         return stackView
     }()
     
@@ -26,7 +26,6 @@ final class DetailView: UIView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = true
-        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 0)
         scrollView.showsVerticalScrollIndicator = false
         return scrollView
     }()
@@ -41,6 +40,7 @@ final class DetailView: UIView {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.textAlignment = .left
+        textView.isScrollEnabled = false
         return textView
     }()
     
@@ -63,9 +63,10 @@ extension DetailView {
         self.addSubview(mainScrollView)
         NSLayoutConstraint.activate([
             mainScrollView.topAnchor.constraint(equalTo: self.topAnchor),
+            mainScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             mainScrollView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
-            mainScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15),
-            mainScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            mainScrollView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -15)
+            
         ])
         
         mainScrollView.addSubview(mainStackView)
@@ -74,8 +75,7 @@ extension DetailView {
             mainStackView.bottomAnchor.constraint(equalTo: mainScrollView.bottomAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: mainScrollView.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: mainScrollView.trailingAnchor),
-            mainStackView.centerXAnchor.constraint(equalTo: mainScrollView.centerXAnchor),
-            mainStackView.centerYAnchor.constraint(equalTo: mainScrollView.centerYAnchor)
+            mainStackView.widthAnchor.constraint(equalTo: mainScrollView.widthAnchor)
         ])
     }
     
