@@ -44,7 +44,6 @@ final class WriteViewController: UIViewController {
     self.removeNotification()
   }
 }
-
 // MARK: Keyboard
 
 private extension WriteViewController {
@@ -59,6 +58,18 @@ private extension WriteViewController {
       selector: #selector(keyboardWillHide),
       name: UIResponder.keyboardWillHideNotification,
       object: nil)
+    
+    let swipeDown = UISwipeGestureRecognizer(
+      target: self,
+      action: #selector(respondToSwipeGesture)
+    )
+    swipeDown.direction = .down
+    self.view.addGestureRecognizer(swipeDown)
+  }
+  
+  @objc private func respondToSwipeGesture(gesture: UISwipeGestureRecognizer) {
+    view.endEditing(true)
+    saveDiaryData()
   }
   
   func removeNotification() {

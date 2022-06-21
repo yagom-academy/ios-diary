@@ -46,7 +46,7 @@ final class CoredataManager {
     do {
       try viewContext.save()
     } catch {
-      print(error)
+      fatalError("\(error)")
     }
   }
   
