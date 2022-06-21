@@ -68,12 +68,12 @@ final class UpdateViewController: UIViewController {
     
     private func setUpEditPage(diaryData: DiaryDTO) {
         setUpNavigationController(title: diaryData.dateString)
-        textView.text = "\(diaryData.title)\n\n\(diaryData.body)"
+        textView.text = "\(diaryData.title)\n\(diaryData.body)"
     }
     
     private func setUpNavigationController(title: String) {
         func setUpRightButton() {
-            let button = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(more))
+            let button = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(touchUpMoreButton))
             navigationItem.rightBarButtonItem = button
         }
         
@@ -81,12 +81,15 @@ final class UpdateViewController: UIViewController {
         setUpRightButton()
     }
     
-    @objc private func more() {
+    @objc private func touchUpMoreButton() {
         guard let title = extractData()?.title,
               let identifier = identifier else {
             return
         }
-        showActionSheet(shareTitle: title, identifer: identifier)
+        
+        showActionSheet(shareTitle: title, identifer: identifier) {
+            self.navigationController?.popViewController(animated: true)
+        }
     }
     
     private func extractData() -> (title: String, body: String, date: Date)? {

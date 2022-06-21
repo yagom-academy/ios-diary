@@ -8,6 +8,8 @@
 import UIKit
 
 final class DiaryCell: UITableViewCell {
+    private var identifier: UUID?
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
@@ -48,12 +50,6 @@ final class DiaryCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(data: DiaryDTO) {
-        titleLabel.text = data.title
-        dateLabel.text = data.dateString
-        bodyLabel.text = data.body
-    }
-    
     private func addSubviews() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(informationStackView)
@@ -85,5 +81,16 @@ final class DiaryCell: UITableViewCell {
         
         setUpTitleLayout()
         setupInfoLayout()
+    }
+    
+    func extractData() -> (title: String?, identifier: UUID?) {
+        return (titleLabel.text, identifier)
+    }
+    
+    func configure(data: DiaryDTO) {
+        identifier = data.identifier
+        titleLabel.text = data.title
+        dateLabel.text = data.dateString
+        bodyLabel.text = data.body
     }
 }

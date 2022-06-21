@@ -26,15 +26,14 @@ extension UIViewController {
 extension UIViewController {
     private func deleteHandler(identifier: UUID) {
         DiaryDAO.shared.delete(identifier: identifier.uuidString)
-        navigationController?.popViewController(animated: true)
     }
     
-    func showActionSheet(shareTitle: String? = nil, identifer: UUID) {
+    func showActionSheet(shareTitle: String? = nil, identifer: UUID, deleteHandler: @escaping () -> Void) {
         let share = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
             self?.showActivity(title: shareTitle)
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.showDeleteAlert(identifier: identifer)
+            self.showDeleteAlert(identifier: identifer, handler: deleteHandler)
         }
         
         let sheet = AlertBuilder()
@@ -46,9 +45,14 @@ extension UIViewController {
         present(sheet, animated: true)
     }
     
-    func showDeleteAlert(identifier: UUID) {
+    func showDeleteAlert(identifier: UUID?, handler: @escaping () -> Void) {
+        guard let identifier = identifier else {
+            return
+        }
+
         let action = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.deleteHandler(identifier: identifier)
+            handler()
         }
         
         let alert = AlertBuilder()

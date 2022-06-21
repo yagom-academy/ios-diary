@@ -41,7 +41,7 @@ final class DiaryViewController: UIViewController {
                                                  style: .plain,
                                                  target: self,
                                                  action: #selector(moveRegisterViewController))
-
+            
             registerButton.setTitleTextAttributes(attributes, for: .normal)
             
             navigationItem.rightBarButtonItem = registerButton
@@ -95,7 +95,7 @@ final class DiaryViewController: UIViewController {
         guard let sampleData = Sample.get() else {
             return
         }
-
+        
         setUpSanpshot(data: sampleData)
     }
     
@@ -126,5 +126,31 @@ extension DiaryViewController: UITableViewDelegate {
         let viewContoller = UpdateViewController(diaryData: diaryData)
         
         navigationController?.pushViewController(viewContoller, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? DiaryCell else {
+            return nil
+        }
+        
+        let cellData = cell.extractData()
+        
+        let share = UIContextualAction(style: .normal, title: "Share") {
+            [weak self] (_, _, _) in
+            self?.showActivity(title: cellData.title)
+        }
+        
+        let delete = UIContextualAction(style: .destructive, title: "Delete") {
+            [weak self] (_, _, _) in
+            self?.showDeleteAlert(identifier: cellData.identifier, handler: {
+                self?.setUpCoreData()
+            })
+        }
+        
+        let config = UISwipeActionsConfiguration(actions: [delete, share])
+        config.performsFirstActionWithFullSwipe = false
+        
+        return config
     }
 }
