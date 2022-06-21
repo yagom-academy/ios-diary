@@ -2,7 +2,7 @@
 //  AppConstants.swift
 //  Diary
 //
-//  Created by 조민호 on 2022/06/21.
+//  Created by mmim, grumpy, mino on 2022/06/21.
 //
 
 public enum AppConstants {
