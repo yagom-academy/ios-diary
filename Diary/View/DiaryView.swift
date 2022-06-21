@@ -78,7 +78,7 @@ extension DiaryView {
         
         let emptySpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
-        let toolBar = UIToolbar()
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 0))
         
         toolBar.sizeToFit()
         toolBar.barStyle = .default
