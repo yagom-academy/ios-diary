@@ -131,12 +131,12 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func setUpTextView() {
-        diaryTextView.contentOffset = .zero
-        diaryTextView.delegate = self
-        
         if diary.isEmpty == false {
             diaryTextView.text = diary.title + "\n\n" + diary.body
         }
+        
+        diaryTextView.contentOffset = .zero
+        diaryTextView.delegate = self
     }
     
     private func attribute() {
