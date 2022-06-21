@@ -82,7 +82,7 @@ final class UpdateViewController: UIViewController {
     }
     
     @objc private func more() {
-        showActionSheet()
+        
     }
     
     private func saveData() {
@@ -137,41 +137,5 @@ final class UpdateViewController: UIViewController {
 extension UpdateViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         saveData()
-    }
-}
-
-extension UpdateViewController {
-    func showActionSheet() {
-        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let share = UIAlertAction(title: "Share", style: .default) { [self] _ in
-            print("share")
-        }
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { [self] _ in
-            showAlert()
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        sheet.addAction(share)
-        sheet.addAction(delete)
-        sheet.addAction(cancel)
-        
-        present(sheet, animated: true)
-    }
-    
-    func showAlert() {
-        let sheet = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
-            guard let identifier = self?.identifier else {
-                return
-            }
-            DiaryDAO.shared.delete(identifier: identifier.uuidString)
-            self?.navigationController?.popViewController(animated: true)
-        }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        sheet.addAction(delete)
-        sheet.addAction(cancel)
-        
-        present(sheet, animated: true)
     }
 }

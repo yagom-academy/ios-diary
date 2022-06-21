@@ -19,6 +19,7 @@
 		0ECA095E2857675700A91611 /* Decodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA095D2857675700A91611 /* Decodable+.swift */; };
 		0ECA096328576A4100A91611 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA096228576A4100A91611 /* AssetManager.swift */; };
 		30BB7CD4285B6C3100CF0448 /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BB7CD3285B6C3100CF0448 /* Sample.swift */; };
+		30BF1F1B28618A99006FB017 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF1F1A28618A99006FB017 /* UIViewController+.swift */; };
 		30BF2AE328576D57009C1525 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF2AE228576D57009C1525 /* DiaryCell.swift */; };
 		30BF2AE528577135009C1525 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF2AE428577135009C1525 /* UIStackView+.swift */; };
 		30BF2AEE2858BF4C009C1525 /* Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF2AED2858BF4C009C1525 /* Keyboard.swift */; };
@@ -44,6 +45,7 @@
 		0ECA095D2857675700A91611 /* Decodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+.swift"; sourceTree = "<group>"; };
 		0ECA096228576A4100A91611 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		30BB7CD3285B6C3100CF0448 /* Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
+		30BF1F1A28618A99006FB017 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		30BF2AE228576D57009C1525 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		30BF2AE428577135009C1525 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		30BF2AEA28585F89009C1525 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -158,6 +160,14 @@
 			path = CoreDataModel;
 			sourceTree = "<group>";
 		};
+		30BF1F1928618A81006FB017 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				30BF1F1A28618A99006FB017 /* UIViewController+.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		30BF2AE828584A53009C1525 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -205,6 +215,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				30BF1F1928618A81006FB017 /* Utils */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
@@ -343,6 +354,7 @@
 			files = (
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				30BF2AEE2858BF4C009C1525 /* Keyboard.swift in Sources */,
+				30BF1F1B28618A99006FB017 /* UIViewController+.swift in Sources */,
 				0E4F85092858690300E3D309 /* Formatter.swift in Sources */,
 				30BF2AE528577135009C1525 /* UIStackView+.swift in Sources */,
 				0E4F85032858349500E3D309 /* DiaryDTO.swift in Sources */,
