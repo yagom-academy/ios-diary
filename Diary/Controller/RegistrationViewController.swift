@@ -52,19 +52,19 @@ final class RegistrationViewController: UIViewController {
 extension RegistrationViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
         let headerAttributes = [
-            NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
+            NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: UIFont.TextStyle.title2)
         ]
         let bodyAttributes = [
-            NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: UIFont.TextStyle.headline)
+            NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body)
         ]
         
         let textAsNSString = textView.text as NSString
         let replaced = textAsNSString.replacingCharacters(in: range, with: text) as NSString
         let boldRange = replaced.range(of: "\n")
         if boldRange.location <= range.location {
-            textView.typingAttributes = headerAttributes
-        } else {
             textView.typingAttributes = bodyAttributes
+        } else {
+            textView.typingAttributes = headerAttributes
         }
         
         return true
