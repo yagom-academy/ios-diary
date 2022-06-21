@@ -30,5 +30,15 @@ class DiaryViewController: UIViewController {
     
     private func setInitialView() {
         self.view = diaryView
+        self.navigationItem.setRightBarButton(optionButton(), animated: true)
+    }
+    
+    private func optionButton() -> UIBarButtonItem {
+        let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showMenu))
+        
+        return barButton
+    }
+    
+    @objc private func showMenu() {
     }
 }
