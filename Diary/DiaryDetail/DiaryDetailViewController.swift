@@ -10,13 +10,13 @@ import UIKit
 protocol diaryDetailViewDelegate: AnyObject {
     func save(_ diary: Diary)
     func update(_ diary: Diary)
+    func delete(_ diary: Diary)
 }
 
 final class DiaryDetailViewController: UIViewController {
     private let mainView = DiaryDetailView()
     private let diary: Diary?
     weak var delegate: diaryDetailViewDelegate?
-    private lazy var alertBuilder = AlertBuilder(target: self)
     
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -131,13 +131,23 @@ extension DiaryDetailViewController {
             action: #selector(viewMoreButtonDidTapped))
     }
     
+    private func showDeleteAlert() {
+        AlertBuilder(target: self).addAction("취소", style: .default) {
+            // empty
+        }.addAction("삭제", style: .destructive) {
+            guard let diary = self.diary else { return }
+            self.delegate?.delete(diary)
+            self.navigationController?.popViewController(animated: true)
+        }.show("진짜요?", message: "정말로 삭제하시겠어요?", style: .alert)
+    }
+    
     @objc func viewMoreButtonDidTapped() {
-        alertBuilder.addAction("Share...", style: .default) {
+        AlertBuilder(target: self).addAction("Share...", style: .default) {
             
         }.addAction("Delete", style: .destructive) {
-            
+            self.showDeleteAlert()
         }.addAction("Cancel", style: .cancel) {
-            
+            // empty
         }.show(style: .actionSheet)
     }
 }

@@ -39,4 +39,11 @@ final class DiaryListDataSource: UITableViewDiffableDataSource<Section, Diary> {
                 .firstIndex(where: { $0.uuid == diary.uuid }) else { return }
         items[itemIndex] = diary
     }
+    
+    func deleteData(_ diary: Diary) throws {
+        try persistentManager.delete(diary)
+        guard let itemIndex = items
+                .firstIndex(where: { $0.uuid == diary.uuid }) else { return }
+        items.remove(at: itemIndex)
+    }
 }

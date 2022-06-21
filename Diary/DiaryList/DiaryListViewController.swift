@@ -68,6 +68,15 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
                 .show("데이터를 수정하지 못했습니다", message: nil, style: .alert)
         }
     }
+    
+    func delete(_ diary: Diary) {
+        do {
+            try dataSource?.deleteData(diary)
+        } catch {
+            alertBuilder.addAction("확인", style: .default) {}
+                .show("데이터를 삭제하지 못했습니다", message: nil, style: .alert)
+        }
+    }
 }
 
 // MARK: - DataSource
