@@ -13,6 +13,7 @@ enum Section {
 final class DiaryListViewController: UITableViewController, diaryDetailViewDelegate {
     private typealias DataSource = DiaryListDataSource
     
+    private lazy var alertBuilder = AlertBuilder(target: self)
     private var dataSource: DataSource?
     
     override func viewDidLoad() {
@@ -28,7 +29,8 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.makeData()
         } catch {
-            // 얼럿
+            alertBuilder.addAction("확인", style: .default) {}
+                .show("데이터를 읽어오지 못했습니다", message: nil, style: .alert)
         }
     }
     
@@ -53,7 +55,8 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.saveData(diary)
         } catch {
-            
+            alertBuilder.addAction("확인", style: .default) {}
+                .show("데이터를 저장하지 못했습니다", message: nil, style: .alert)
         }
     }
     
@@ -61,7 +64,8 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.updateData(diary)
         } catch {
-            
+            alertBuilder.addAction("확인", style: .default) {}
+                .show("데이터를 수정하지 못했습니다", message: nil, style: .alert)
         }
     }
 }
