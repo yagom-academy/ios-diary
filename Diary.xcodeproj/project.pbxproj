@@ -131,7 +131,6 @@
 			isa = PBXGroup;
 			children = (
 				647B61A62857669900C49C61 /* Diary.swift */,
-				647B61E9285C398500C49C61 /* PersistentManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -182,6 +181,14 @@
 			path = DiaryModelTests;
 			sourceTree = "<group>";
 		};
+		9BA1D8CA28620D730048822D /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				647B61E9285C398500C49C61 /* PersistentManager.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +215,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				9BA1D8CA28620D730048822D /* Service */,
 				647B61B32858A4E300C49C61 /* Application */,
 				647B61EB28615EE700C49C61 /* Utils */,
 				647B61B02858A47000C49C61 /* DiaryList */,

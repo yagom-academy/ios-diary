@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol diaryDetailViewDelegate: AnyObject {
+protocol DiaryDetailViewDelegate: AnyObject {
     func save(_ diary: Diary)
     func update(_ diary: Diary)
     func delete(_ diary: Diary)
@@ -15,8 +15,8 @@ protocol diaryDetailViewDelegate: AnyObject {
 
 final class DiaryDetailViewController: UIViewController {
     private let mainView = DiaryDetailView()
-    private let diary: Diary?
-    weak var delegate: diaryDetailViewDelegate?
+    private var diary: Diary?
+    weak var delegate: DiaryDetailViewDelegate?
     
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -33,6 +33,8 @@ final class DiaryDetailViewController: UIViewController {
         configureLayout()
         registerNotification()
         configureNavigationItem()
+        makeKeyboardHiddenButton()
+        configureSceneDelegate()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -42,10 +44,15 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        finishTask()
+    }
+    
+    private func finishTask() {
         if let diary = diary {
             delegate?.update(updateDiary(diary))
         } else {
-            delegate?.save(makeDiary())
+            diary = makeDiary()
+            delegate?.save(diary ?? makeDiary())
         }
     }
     
@@ -78,6 +85,11 @@ final class DiaryDetailViewController: UIViewController {
         let body = component[safe: 1] ?? ""
         
         return (title, body)
+    }
+    
+    private func configureSceneDelegate() {
+        let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
+        sceneDelegate?.delegate = self
     }
     
     private func makeDiary() -> Diary {
@@ -158,6 +170,40 @@ extension DiaryDetailViewController {
             .show(style: .actionSheet)
     }
 }
+
+// MARK: - Keyboard BarButton
+
+private extension DiaryDetailViewController {
+    func makeKeyboardHiddenButton() {
+        let bar = UIToolbar()
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let hiddenButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"),
+                                           style: .plain,
+                                           target: self,
+                                           action: #selector(keyboardHidden))
+        bar.sizeToFit()
+        bar.items = [space, hiddenButton]
+        
+        mainView.setTextViewAccessory(button: bar)
+    }
+    
+    @objc private func keyboardHidden() {
+        if mainView.isTextViewFirstResponder {
+            mainView.relinquishFirstResponder()
+            finishTask()
+        }
+    }
+}
+
+// MARK: - CoreDataSceneDelegate
+
+extension DiaryDetailViewController: CoreDataSceneDelegate {
+    func saveCoreData() {
+        finishTask()
+    }
+}
+
+// MARK: - Array Extension
 
 private extension Array {
     subscript (safe index: Int) -> Element? {

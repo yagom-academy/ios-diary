@@ -17,6 +17,10 @@ final class DiaryDetailView: UIView {
         return textView
     }()
     
+    var isTextViewFirstResponder: Bool {
+        diaryTextView.isFirstResponder
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
@@ -68,7 +72,15 @@ final class DiaryDetailView: UIView {
         self.diaryTextView.becomeFirstResponder()
     }
     
+    func relinquishFirstResponder() {
+        self.diaryTextView.resignFirstResponder()
+    }
+    
     func readText() -> String {
         return diaryTextView.text
+    }
+    
+    func setTextViewAccessory(button: UIToolbar) {
+        self.diaryTextView.inputAccessoryView = button
     }
 }
