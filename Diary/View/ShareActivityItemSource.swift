@@ -43,9 +43,16 @@ final class ShareActivityItemSource: NSObject, UIActivityItemSource {
             return nil
         }
         let metadata = LPLinkMetadata()
+        self.setTitleIfEmpty()
         metadata.title = title
         metadata.iconProvider = NSItemProvider(object: icon)
         metadata.originalURL = URL(fileURLWithPath: text)
         return metadata
+    }
+    
+    private func setTitleIfEmpty() {
+        if title.isEmpty {
+            self.title = AppConstants.noTitle
+        }
     }
 }
