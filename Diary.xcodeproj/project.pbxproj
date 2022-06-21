@@ -17,6 +17,8 @@
 		647B61EA285C398500C49C61 /* PersistentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B61E9285C398500C49C61 /* PersistentManager.swift */; };
 		647B61ED28615EFE00C49C61 /* AlertBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B61EC28615EFE00C49C61 /* AlertBuilder.swift */; };
 		647B61F028615F3500C49C61 /* AlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B61EF28615F3500C49C61 /* AlertAction.swift */; };
+		647B61F32861B2DC00C49C61 /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B61F22861B2DC00C49C61 /* SwipeAction.swift */; };
+		647B61F52861B31700C49C61 /* SwipeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B61F42861B31700C49C61 /* SwipeBuilder.swift */; };
 		9B623FB3285CA38100494494 /* DiaryListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B623FB2285CA38100494494 /* DiaryListDataSource.swift */; };
 		9B9EBCB428576A37002A36FC /* DiaryModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9EBCB328576A37002A36FC /* DiaryModelTests.swift */; };
 		9B9EBCBD28577835002A36FC /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9EBCBC28577835002A36FC /* DiaryTableViewCell.swift */; };
@@ -50,6 +52,8 @@
 		647B61E9285C398500C49C61 /* PersistentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentManager.swift; sourceTree = "<group>"; };
 		647B61EC28615EFE00C49C61 /* AlertBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertBuilder.swift; sourceTree = "<group>"; };
 		647B61EF28615F3500C49C61 /* AlertAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertAction.swift; sourceTree = "<group>"; };
+		647B61F22861B2DC00C49C61 /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
+		647B61F42861B31700C49C61 /* SwipeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeBuilder.swift; sourceTree = "<group>"; };
 		6DD09768B37AD785298A6DAA /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		9B623FB2285CA38100494494 /* DiaryListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListDataSource.swift; sourceTree = "<group>"; };
 		9B9EBCB128576A36002A36FC /* DiaryModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				647B61AF2858A40400C49C61 /* Extension */,
+				647B61F12861B2B800C49C61 /* SwipeBuilder */,
 				647B61EE28615F1900C49C61 /* AlertBuilder */,
 			);
 			path = Utils;
@@ -156,6 +161,16 @@
 				647B61EC28615EFE00C49C61 /* AlertBuilder.swift */,
 				647B61EF28615F3500C49C61 /* AlertAction.swift */,
 			);
+			path = AlertBuilder;
+			sourceTree = "<group>";
+		};
+		647B61F12861B2B800C49C61 /* SwipeBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				647B61F22861B2DC00C49C61 /* SwipeAction.swift */,
+				647B61F42861B31700C49C61 /* SwipeBuilder.swift */,
+			);
+			name = SwipeBuilder;
 			path = AlertBuilder;
 			sourceTree = "<group>";
 		};
@@ -370,10 +385,12 @@
 			files = (
 				647B61F028615F3500C49C61 /* AlertAction.swift in Sources */,
 				647B61AC2858642B00C49C61 /* DiaryDetailView.swift in Sources */,
+				647B61F32861B2DC00C49C61 /* SwipeAction.swift in Sources */,
 				9BB916ED2858512200721935 /* DateFormatter+extension.swift in Sources */,
 				9B623FB3285CA38100494494 /* DiaryListDataSource.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				647B61A72857669900C49C61 /* Diary.swift in Sources */,
+				647B61F52861B31700C49C61 /* SwipeBuilder.swift in Sources */,
 				647B61E8285C392800C49C61 /* DiaryEntity+CoreDataProperties.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
