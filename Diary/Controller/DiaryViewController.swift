@@ -39,6 +39,20 @@ class DiaryViewController: UIViewController {
         return barButton
     }
     
-    @objc private func showMenu() {
+    @objc private func touchOptionButton() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            print("공유하기")
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            print("삭제하기")
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true)
     }
 }
