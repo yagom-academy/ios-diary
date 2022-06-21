@@ -11,7 +11,7 @@ final class DiaryDetailViewController: UIViewController {
     $0.adjustsFontForContentSizeCategory = true
   }
 
-  private var isKeyboardShow = false
+  private var isKeyboardVisible = false
   private let diary: Diary
 
   init(diary: Diary) {
@@ -91,23 +91,23 @@ final class DiaryDetailViewController: UIViewController {
   }
 
   @objc private func keyboardWillShow(_ notification: Notification) {
-    if !isKeyboardShow {
+    if !isKeyboardVisible {
       guard let userInfo = notification.userInfo else { return }
       guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
 
       let contentInset = UIEdgeInsets(bottom: keyboardFrame.height)
       self.bodyTextView.contentInset = contentInset
       self.bodyTextView.verticalScrollIndicatorInsets = contentInset
-      self.isKeyboardShow = true
+      self.isKeyboardVisible = true
     }
   }
 
   @objc private func keyboardWillHide(_ notification: Notification) {
-    if isKeyboardShow {
+    if isKeyboardVisible {
       let contentInset = UIEdgeInsets.zero
       self.bodyTextView.contentInset = contentInset
       self.bodyTextView.scrollIndicatorInsets = contentInset
-      self.isKeyboardShow = false
+      self.isKeyboardVisible = false
     }
   }
 }
