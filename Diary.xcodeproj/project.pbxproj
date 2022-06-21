@@ -22,6 +22,7 @@
 		DAF0ADAC285C1301000909C9 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */; };
 		DAF0ADAE2860BCAD000909C9 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0ADAD2860BCAD000909C9 /* Parser.swift */; };
 		DAF0ADB12860BF07000909C9 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0ADB02860BF07000909C9 /* DiaryError.swift */; };
+		DAF0ADB328616CEC000909C9 /* Array+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF0ADB228616CEC000909C9 /* Array+extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,6 +46,7 @@
 		DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		DAF0ADAD2860BCAD000909C9 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		DAF0ADB02860BF07000909C9 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
+		DAF0ADB228616CEC000909C9 /* Array+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				9C8FA4F7285A2329005DD4AF /* TimeInterval+extension.swift */,
+				DAF0ADB228616CEC000909C9 /* Array+extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -271,6 +274,7 @@
 				DAC41D992859B0EE00D3CD22 /* DiaryModel.swift in Sources */,
 				DAC41D9E2859B41B00D3CD22 /* ListCell.swift in Sources */,
 				9C8FA4F8285A2329005DD4AF /* TimeInterval+extension.swift in Sources */,
+				DAF0ADB328616CEC000909C9 /* Array+extension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);

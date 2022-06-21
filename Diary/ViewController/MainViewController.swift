@@ -133,8 +133,11 @@ extension MainViewController: UICollectionViewDelegate,
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
+        guard let data = diaryData[safe: indexPath.row] else {
+            return
+        }
         let detailViewController = DetailViewController(
-            diaryData: diaryData[indexPath.row]
+            diaryData: data
         )
         navigationController?.pushViewController(
             detailViewController,
