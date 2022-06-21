@@ -114,4 +114,49 @@ extension DiaryListViewController {
         presentView.delegate = self
         navigationController?.pushViewController(presentView, animated: true)
     }
+    
+    override func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let swipeBuilder = SwipeBuilder()
+            guard let diary = self.dataSource?.itemIdentifier(for: indexPath) else {
+                return nil
+            } 
+        return swipeBuilder.addAction(title: "삭제", style: .destructive) {
+            self.showDeleteAlert(diary)
+        }.addAction(title: "공유", style: .normal, backgroundColor: .systemBlue) {
+            self.showShareController(diary)
+        }.show()
+    
+    }
+}
+
+// MARK: - Alert Action
+
+extension DiaryListViewController {
+    private func showDeleteAlert(_ diary: Diary) {
+        AlertBuilder(target: self).addAction("취소", style: .default) {
+            // empty
+        }.addAction("삭제", style: .destructive) { [weak self] in
+            guard let self = self else { return }
+            do {
+                try self.dataSource?.deleteData(diary)
+            } catch {
+                AlertBuilder(target: self)
+                    .addAction("확인", style: .default) {
+                    // empty
+                }
+                    .show("데이터를 삭제하지 못했습니다", message: nil, style: .alert)
+            }
+        }.show("진짜요?", message: "정말로 삭제하시겠어요?", style: .alert)
+    }
+    
+    private func showShareController(_ diary: Diary) {
+        let shareText = "\(diary.title ?? "")\n\(diary.body ?? "")"
+        var shareObject = [String]()
+        shareObject.append(shareText)
+        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true)
+    }
 }
