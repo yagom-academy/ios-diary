@@ -16,6 +16,7 @@ final class DiaryDetailViewController: UIViewController {
     private let mainView = DiaryDetailView()
     private let diary: Diary?
     weak var delegate: diaryDetailViewDelegate?
+    private lazy var alertBuilder = AlertBuilder(target: self)
     
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -31,6 +32,7 @@ final class DiaryDetailViewController: UIViewController {
         configureView()
         configureLayout()
         registerNotification()
+        configureNavigationItem()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -91,6 +93,8 @@ final class DiaryDetailViewController: UIViewController {
     }
 }
 
+// MARK: - Keyboard Notification
+
 extension DiaryDetailViewController {
     private func registerNotification() {
         NotificationCenter.default.addObserver(self,
@@ -116,7 +120,29 @@ extension DiaryDetailViewController {
     }
 }
 
-extension Array {
+// MARK: - Alert Action
+
+extension DiaryDetailViewController {
+    private func configureNavigationItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(viewMoreButtonDidTapped))
+    }
+    
+    @objc func viewMoreButtonDidTapped() {
+        alertBuilder.addAction("Share...", style: .default) {
+            
+        }.addAction("Delete", style: .destructive) {
+            
+        }.addAction("Cancel", style: .cancel) {
+            
+        }.show(style: .actionSheet)
+    }
+}
+
+private extension Array {
     subscript (safe index: Int) -> Element? {
         return self.indices ~= index ? self[index] : nil
     }
