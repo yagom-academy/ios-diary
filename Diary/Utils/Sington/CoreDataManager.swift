@@ -28,7 +28,7 @@ final class CoredataManager {
   }
   
   func createContext(diary: Diary) {
-    guard let diaryEntity = NSEntityDescription.entity(forEntityName: "Diary", in: viewContext) else {
+    guard let diaryEntity = NSEntityDescription.entity(forEntityName: "DiaryModel", in: viewContext) else {
       return
     }
     
@@ -46,6 +46,15 @@ final class CoredataManager {
       try viewContext.save()
     } catch {
       print(error)
+    }
+  }
+  
+  func readContext() -> [DiaryModel] {
+    do {
+      let diary = try viewContext.fetch(DiaryModel.fetchRequest())
+      return diary
+    } catch {
+      fatalError("\(error)")
     }
   }
 }
