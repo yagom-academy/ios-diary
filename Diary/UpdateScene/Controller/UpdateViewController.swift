@@ -41,13 +41,8 @@ final class UpdateViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.delegate = self
-        guard let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
-            return
-        }
         
-        scene.delegate = self
-        
+        setUpDelegate()
         setUpView()
         setUpNavigationController(title: Formatter.getCurrentDate())
         setUpTextViewLayout()
@@ -60,6 +55,15 @@ final class UpdateViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         saveData()
+    }
+    
+    private func setUpDelegate() {
+        textView.delegate = self
+        guard let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
+            return
+        }
+        
+        scene.delegate = self
     }
     
     private func setUpView() {
@@ -85,7 +89,7 @@ final class UpdateViewController: UIViewController {
     }
     
     @objc private func touchUpMoreButton() {
-        guard let title = extractData()?.title,
+        guard let title = textView.extractData(date: navigationItem.title)?.title,
               let identifier = identifier else {
             return
         }
@@ -95,27 +99,8 @@ final class UpdateViewController: UIViewController {
         }
     }
     
-    private func extractData() -> (title: String, body: String, date: Date)? {
-        let splitedText = textView.text.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
-            .map {
-                String($0)
-            }
-                
-        guard let title = splitedText.first,
-              let body = splitedText.last,
-              let date = Formatter.getDate(from: navigationItem.title ?? "") else {
-            return nil
-        }
-        
-        return (title, body, date)
-    }
-    
     private func saveData() {
-        guard textView.text.isEmpty != true else {
-            return
-        }
-                
-        guard let (title, body, date) = extractData() else {
+        guard let (title, body, date) = textView.extractData(date: navigationItem.title) else {
             return
         }
         
@@ -155,5 +140,39 @@ final class UpdateViewController: UIViewController {
 extension UpdateViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         saveData()
+    }
+}
+
+private extension UITextView {
+    func extractData(date: String?) -> (title: String, body: String, date: Date)? {
+        guard let date = date else {
+            return nil
+        }
+        
+        let splitedText = text.split(separator: "\n", maxSplits: 1)
+            .map {
+                String($0)
+            }
+        
+        let body: String
+        
+        switch splitedText.count {
+        case 1:
+            body = ""
+        case 2:
+            guard let lastText = splitedText.last else {
+                return nil
+            }
+            body = lastText
+        default:
+            return nil
+        }
+        
+        guard let title = splitedText.first,
+              let date = Formatter.getDate(from: date) else {
+            return nil
+        }
+        
+        return (title, body, date)
     }
 }
