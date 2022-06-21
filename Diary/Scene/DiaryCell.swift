@@ -53,7 +53,7 @@ final class DiaryCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - funcitons
+    // MARK: - Funcitons
     
     private func attribute() {
         accessoryType = .disclosureIndicator

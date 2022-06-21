@@ -9,10 +9,14 @@ import UIKit
 final class DiaryTableViewController: UITableViewController {
     private var dataSource: DiaryTableViewDataSource?
     
+    // MARK: View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
     }
+    
+    // MARK: Functions
     
     private func setUp() {
         setUpNavigationBar()

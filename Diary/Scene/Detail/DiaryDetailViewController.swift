@@ -38,6 +38,8 @@ final class DiaryDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: View Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
@@ -53,6 +55,8 @@ final class DiaryDetailViewController: UIViewController {
             diaryTextView.becomeFirstResponder()
         }
     }
+    
+    // MARK: Functions
     
     private func setUp() {
         setUpNavigationBar()
@@ -73,7 +77,7 @@ final class DiaryDetailViewController: UIViewController {
     @objc
     private func doneButtonDidTap() {
         diaryTextView.resignFirstResponder()
-        navigationItem.rightBarButtonItems?.remove(at: 1)
+        navigationItem.rightBarButtonItems?.removeLast()
     }
     
     @objc
@@ -153,13 +157,13 @@ final class DiaryDetailViewController: UIViewController {
     }
 }
 
+// MARK: TextViewDelegate
+
 extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        
         if navigationItem.rightBarButtonItems?.count == 1 {
             navigationItem.rightBarButtonItems?.append(doneButton)
         }
-        
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {

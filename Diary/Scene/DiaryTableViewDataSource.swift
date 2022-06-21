@@ -12,13 +12,13 @@ final class DiaryTableViewDataSource: UITableViewDiffableDataSource<Int, Diary> 
     
     private(set) var diarys = [Diary]() {
         didSet {
-            makeSnapshot()
+            applySnapshot()
         }
     }
     
     private let persistentManager = PersistentManager(modelName: "Diary")
     
-    private func makeSnapshot() {
+    private func applySnapshot() {
         var snapshot = Snapshot()
         snapshot.appendSections([0])
         snapshot.appendItems(diarys)
