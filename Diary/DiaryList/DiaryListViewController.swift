@@ -29,7 +29,9 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.makeData()
         } catch {
-            alertBuilder.addAction("확인", style: .default) {}
+            alertBuilder.addAction("확인", style: .default) {
+                // empty
+            }
                 .show("데이터를 읽어오지 못했습니다", message: nil, style: .alert)
         }
     }
@@ -55,7 +57,9 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.saveData(diary)
         } catch {
-            alertBuilder.addAction("확인", style: .default) {}
+            alertBuilder.addAction("확인", style: .default) {
+                // empty
+            }
                 .show("데이터를 저장하지 못했습니다", message: nil, style: .alert)
         }
     }
@@ -64,7 +68,9 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.updateData(diary)
         } catch {
-            alertBuilder.addAction("확인", style: .default) {}
+            alertBuilder.addAction("확인", style: .default) {
+                // empty
+            }
                 .show("데이터를 수정하지 못했습니다", message: nil, style: .alert)
         }
     }
@@ -73,7 +79,9 @@ final class DiaryListViewController: UITableViewController, diaryDetailViewDeleg
         do {
             try dataSource?.deleteData(diary)
         } catch {
-            alertBuilder.addAction("확인", style: .default) {}
+            alertBuilder.addAction("확인", style: .default) {
+                // empty
+            }
                 .show("데이터를 삭제하지 못했습니다", message: nil, style: .alert)
         }
     }
