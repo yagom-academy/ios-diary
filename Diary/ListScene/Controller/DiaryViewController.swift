@@ -119,11 +119,14 @@ final class DiaryViewController: UIViewController {
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diaryData = dataSource?.itemIdentifier(for: indexPath) else {
+        guard let cell = tableView.cellForRow(at: indexPath) as? DiaryCell,
+              let diaryData = dataSource?.itemIdentifier(for: indexPath) else {
             return
         }
         
         let viewContoller = UpdateViewController(diaryData: diaryData)
+        
+        cell.isSelected = false
         
         navigationController?.pushViewController(viewContoller, animated: true)
     }
