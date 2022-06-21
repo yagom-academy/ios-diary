@@ -10,6 +10,7 @@ import UIKit
 class DiaryViewController: UIViewController {
     lazy var diaryView = DiaryView.init(frame: view.bounds)
     weak var delegate: DataSendable?
+    var diary: Diary?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,20 @@ class DiaryViewController: UIViewController {
     private func setInitialView() {
         self.view = diaryView
         self.navigationItem.setRightBarButton(optionButton(), animated: true)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: Notification.Name.sceneDidEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func saveDiary() {
+        if diary == nil {
+            
+        } else {
+            var textArray = diaryText()
+            diary?.title = textArray.removeFirst()
+            diary?.body = textArray.joined(separator: "\n")
+        }
+        update(diary)
+        delegate?.updateView()
     }
     
     private func optionButton() -> UIBarButtonItem {

@@ -8,8 +8,8 @@
 import Foundation
 
 struct Diary {
-    let title: String
-    let body: String
+    var title: String
+    var body: String
     let createdAt: Double
     let id: UUID
 }
