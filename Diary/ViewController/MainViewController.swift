@@ -20,7 +20,10 @@ final class MainViewController: UIViewController {
         configure.backgroundColor = .clear
         return UICollectionViewCompositionalLayout.list(using: configure)
     }
-    private lazy var collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
+    private lazy var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: listLayout
+    )
     private let paser = Parser()
     
     override func viewDidLoad() {
@@ -79,23 +82,31 @@ extension MainViewController {
     private func registerCollectionViewCell() {
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.register(ListCell.self, forCellWithReuseIdentifier: ListCell.identifier)
+        collectionView.register(
+            ListCell.self,
+            forCellWithReuseIdentifier: ListCell.identifier
+        )
     }
 }
 
 // MARK: - Action Method
 
 extension MainViewController {
-
+    
     @objc private func navigationBarRightPlusButtonTapped() {
         let registerViewController = RegisterViewController()
-        navigationController?.pushViewController(registerViewController, animated: true)
+        navigationController?.pushViewController(
+            registerViewController,
+            animated: true
+        )
     }
 }
 
 // MARK: - CollectionView Method
 
-extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+extension MainViewController: UICollectionViewDelegate,
+                              UICollectionViewDataSource,
+                              UICollectionViewDelegateFlowLayout {
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -118,8 +129,16 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailViewController = DetailViewController(diaryData: diaryData[indexPath.row])
-        navigationController?.pushViewController(detailViewController, animated: true)
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        let detailViewController = DetailViewController(
+            diaryData: diaryData[indexPath.row]
+        )
+        navigationController?.pushViewController(
+            detailViewController,
+            animated: true
+        )
     }
 }
