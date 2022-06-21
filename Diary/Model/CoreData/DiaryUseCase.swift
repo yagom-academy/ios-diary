@@ -41,7 +41,7 @@ final class DiaryUseCase: UseCase {
             forEntityName: DiaryInfo.entityName,
             into: context
         ) as? DiaryData else {
-            throw fatalError()
+            throw CoreDataError.createError
         }
         
         diaryData.title = element.title
@@ -56,7 +56,7 @@ final class DiaryUseCase: UseCase {
     
     func read() throws -> [DiaryInfo] {
         guard let diarys = try? context.fetch(DiaryData.fetchRequest()) else {
-            throw fatalError()
+            throw CoreDataError.readError
         }
         var diaryInfoArray: [DiaryInfo] = []
         for diary in diarys {
@@ -71,7 +71,7 @@ final class DiaryUseCase: UseCase {
         let diarys = try filterDiaryData(key: key)
         
         guard diarys.count > 0 else {
-            throw fatalError()
+            throw CoreDataError.updateError
         }
         let diary = diarys[0]
         diary.setValue(element.title, forKey: "title")
@@ -82,14 +82,14 @@ final class DiaryUseCase: UseCase {
     func delete(element: DiaryInfo) throws {
         let request: NSFetchRequest<DiaryData> = DiaryData.fetchRequest()
         guard let uuidString = element.key?.uuidString else {
-            throw fatalError()
+            throw CoreDataError.deleteError
         }
         let predicate = NSPredicate(format: "key = %@", uuidString)
         request.predicate = predicate
         let result = try context.fetch(request)
         let resultArray = result as [DiaryData]
         guard resultArray.count > 0 else {
-            throw fatalError()
+            throw CoreDataError.deleteError
         }
         context.delete(resultArray[0])
         try context.save()

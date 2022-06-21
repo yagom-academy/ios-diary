@@ -15,28 +15,17 @@ final class TableViewModel<U: UseCase>: NSObject {
         self.useCase = useCase
     }
     
-    func loadData() {
-        do {
-            let diaryDatas = try useCase.read()
-            data = diaryDatas
-        } catch {
-            fatalError()
-        }
+    func loadData() throws {
+        let diaryDatas = try useCase.read()
+        data = diaryDatas
     }
     
-    func update(data: U.Element) {
-        do {
-             try useCase.update(element: data)
-        } catch {
-            fatalError()
-        }
+    func update(data: U.Element) throws {
+        try useCase.update(element: data)
     }
     
-    func create(data: U.Element) -> U.Element {
-        do {
-            return try useCase.create(element: data)
-        } catch {
-            fatalError()
-        }
+    func create(data: U.Element) throws -> U.Element {
+        let result = try useCase.create(element: data)
+        return result
     }
 }
