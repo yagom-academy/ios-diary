@@ -51,7 +51,6 @@ final class ListViewController: UIViewController {
         do {
             let array: [DiaryModel] = try CoreDataManager.shared.read()
             self.diaryArray = array
-            print(diaryArray[0].id)
         } catch {
             print(error.localizedDescription)
         }
