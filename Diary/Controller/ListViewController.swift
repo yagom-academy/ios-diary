@@ -48,6 +48,7 @@ final class ListViewController: UIViewController {
                              createdAt: $0.createdAt,
                              id: $0.id)
             }
+            diaryArray.reverse()
         } catch {
             print(error.localizedDescription)
         }
