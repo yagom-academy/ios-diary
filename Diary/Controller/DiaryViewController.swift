@@ -21,7 +21,22 @@ class DiaryViewController: UIViewController {
         self.view = diaryView
         NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: Notification.Name.sceneDidEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: UIResponder.keyboardWillHideNotification, object: nil)
+        configureBackButton()
         configureOptionButton()
+    }
+    
+    private func configureBackButton() {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "chevron.left"), for: .normal)
+        button.frame = CGRect(x: 0, y: 0, width: 80, height: 30)
+        button.setTitle(" 일기장", for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.addTarget(self, action: #selector(touchBackButton), for: .touchUpInside)
+        button.contentHorizontalAlignment = .leading
+        
+        let barButton = UIBarButtonItem(customView: button)
+        
+        self.navigationItem.setLeftBarButton(barButton, animated: true)
     }
     
     private func configureOptionButton() {
@@ -74,6 +89,11 @@ class DiaryViewController: UIViewController {
         alert.addAction(deleteAction)
         
         self.present(alert, animated: true)
+    }
+    
+    @objc private func touchBackButton() {
+        saveDiary()
+        navigationController?.popViewController(animated: true)
     }
     
     @objc private func touchOptionButton() {
