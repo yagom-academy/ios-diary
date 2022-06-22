@@ -12,13 +12,6 @@ final class PersistenceManager {
     static let shared = PersistenceManager()
     private init() {}
     
-    enum Method {
-        case create(diary: Diary)
-        case read
-        case update(diary: Diary)
-        case delete(_ objectToDelete: DiaryEntity, index: Int? = nil)
-    }
-    
     private(set) var diaryEntities = [DiaryEntity]()
     
     private lazy var persistentContainer: NSPersistentContainer = {
