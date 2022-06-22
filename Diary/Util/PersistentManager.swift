@@ -37,15 +37,25 @@ final class PersistentManager {
       }
     }
   }
-  
+
   func create(diary: Diary) {
     guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context) else { return }
-    
+
     let diaryEntity = NSManagedObject(entity: entity, insertInto: context)
     diaryEntity.setValue(diary.title, forKey: "title")
     diaryEntity.setValue(diary.body, forKey: "body")
     diaryEntity.setValue(diary.createdAt, forKey: "createdAt")
-    
+
     self.saveContext()
+  }
+
+  func fetchAll() -> [Diary] {
+    guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return [] }
+
+    let diaries = diaryEntities.map {
+      Diary(title: $0.title ?? "", body: $0.body ?? "", createdAt: $0.createdAt)
+    }
+
+    return diaries
   }
 }
