@@ -51,9 +51,19 @@ final class DetailViewController: UIViewController {
   }
   
   private func configureUI() {
+    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+      image: UIImage(systemName: "ellipsise"),
+      style: .plain,
+      target: self,
+      action: #selector(actionSheetWillShow)
+    )
     self.view.backgroundColor = .systemBackground
     self.navigationItem.title = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
     self.baseView.updateTextView(diary: diary)
+  }
+  
+  @objc func actionSheetWillShow() {
+    
   }
   
   deinit {
@@ -77,7 +87,7 @@ private extension DetailViewController {
   func removeSaveDiaryObserver() {
     NotificationCenter.default.removeObserver(self)
   }
-
+  
   @objc func diarDataUpdate() {
     self.updateDiaryData()
   }
