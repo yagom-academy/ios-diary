@@ -13,7 +13,7 @@ final class MainViewController: UIViewController {
         static let shareImage = "person.crop.circle.badge.plus"
     }
     
-    private lazy var mainView = MainView(frame: view.bounds)
+    private lazy var mainView = MainView(frame: view.bounds, delegate: self, dataSource: self)
     private let viewModel = MainViewModel()
     
     override func loadView() {
@@ -24,7 +24,6 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpNavigationBar()
-        setUpTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -44,15 +43,10 @@ extension MainViewController {
         )
     }
     
-    private func setUpTableView() {
-        mainView.baseTableView.dataSource = self
-        mainView.baseTableView.delegate = self
-    }
-    
     private func setUpDiaries() {
         DispatchQueue.main.async { 
             self.viewModel.readDiary()
-            self.mainView.baseTableView.reloadData()
+            self.mainView.reloadBaseTableView()
         }
     }
 }
@@ -125,7 +119,7 @@ extension MainViewController {
     private func showDeleteAlert(indexPath: IndexPath) {
         showAlert { [self] _ in
             viewModel.deleteDiary(indexPath: indexPath)
-            mainView.baseTableView.deleteRows(at: [indexPath], with: .fade)
+            mainView.deleteBaseTableViewRows(at: [indexPath])
         }
     }
 }

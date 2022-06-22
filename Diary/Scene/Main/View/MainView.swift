@@ -52,4 +52,12 @@ final class MainView: UIView {
     private func registerCellIdentifier() {
         baseTableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
     }
+    
+    func reloadBaseTableView() {
+        baseTableView.reloadData()
+    }
+    
+    func deleteBaseTableViewRows(at indexPaths: [IndexPath]) {
+        baseTableView.deleteRows(at: indexPaths, with: .fade)
+    }
 }
