@@ -9,9 +9,7 @@ import UIKit
 
 final class RegistrationViewController: UIViewController {
     private lazy var detailView = DetailView(frame: view.bounds)
-    private var diary: DiaryEntity?
-    private let createdAt = Date().timeIntervalSince1970
-    private let diaryId = UUID().uuidString
+    private let viewModel = RegistrationViewModel()
     
     override func loadView() {
         super.loadView()
@@ -22,30 +20,13 @@ final class RegistrationViewController: UIViewController {
         super.viewDidLoad()
         registerNotification()
         setUpNavigationBar()
-        detailView.scrollTextViewToTop()
-        detailView.contentTextView.delegate = self
+        setUpView()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeKeyboardNotification()
-        saveDiary()
-    }
-    
-    private func saveDiary() {
-        guard let content = detailView.contentTextView.text,
-                content.isEmpty == false
-        else {
-            return
-        }
-        
-        var splitedText = content.components(separatedBy: "\n")
-        let title = splitedText.removeFirst()
-        let body = splitedText.joined(separator: "\n")
-
-        let diary = Diary(title: title, createdAt: createdAt, body: body, id: diaryId)
-        
-        PersistenceManager.shared.execute(by: .create(diary: diary))
+        viewModel.saveDiary(text: detailView.contentTextView.text)
     }
 }
 
@@ -72,7 +53,6 @@ extension RegistrationViewController: UITextViewDelegate {
 }
 
 // MARK: SetUp
-
 extension RegistrationViewController {
     private func registerNotification() {
         let notificationCenter = NotificationCenter.default
@@ -109,15 +89,19 @@ extension RegistrationViewController {
     }
     
     private func setUpNavigationBar() {
-        title = createdAt.formattedString
+        title = viewModel.createdAt.formattedString
+    }
+    
+    private func setUpView() {
+        detailView.scrollTextViewToTop()
+        detailView.contentTextView.delegate = self
     }
 }
 
 // MARK: Objc Method
-
 extension RegistrationViewController {
     @objc private func didEnterBackground() {
-        saveDiary()
+        viewModel.saveDiary(text: detailView.contentTextView.text)
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -132,7 +116,7 @@ extension RegistrationViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
-        saveDiary()
+        viewModel.saveDiary(text: detailView.contentTextView.text)
     }
 }
 
