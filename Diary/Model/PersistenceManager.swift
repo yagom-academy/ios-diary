@@ -18,7 +18,7 @@ final class PersistenceManager {
         let container = NSPersistentContainer(name: AppConstants.entityName)
         container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
-                self.showErrorAlert(DiaryError.loadFail.localizedDescription)
+                self.showErrorAlert(DiaryError.loadFail.errorDescription)
             }
         })
         return container
@@ -54,7 +54,7 @@ extension PersistenceManager {
             let fetchResult = try context.fetch(request)
             diaryEntities = fetchResult.reversed()
         } catch {
-            showErrorAlert(DiaryError.loadFail.localizedDescription)
+            showErrorAlert(DiaryError.loadFail.errorDescription)
         }
     }
         
@@ -74,7 +74,6 @@ extension PersistenceManager {
         if let index = index {
             diaryEntities.remove(at: index)
         }
-        
         context.delete(object)
         saveToContext()
     }
@@ -85,7 +84,7 @@ extension PersistenceManager {
         do {
             try context.save()
         } catch {
-            showErrorAlert(DiaryError.saveFail.localizedDescription)
+            showErrorAlert(DiaryError.saveFail.errorDescription)
         }
     }
     
@@ -98,11 +97,17 @@ extension PersistenceManager {
     }
     
     private func fetchResult(from request: NSFetchRequest<DiaryEntity>) -> DiaryEntity? {
-        let fetchResult = try? context.fetch(request)
-        guard let diaryEntity = fetchResult?.first else {
+        do {
+            let fetchResult = try context.fetch(request)
+            guard let diaryEntity = fetchResult.first else {
+                return nil
+            }
+            return diaryEntity
+        } catch {
+            showErrorAlert(DiaryError.loadFail.errorDescription)
             return nil
         }
-        return diaryEntity
+        
     }
 }
 

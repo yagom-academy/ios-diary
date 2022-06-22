@@ -11,7 +11,7 @@ enum DiaryError: LocalizedError {
     case loadFail
     case saveFail
     
-    var errorDescription: String? {
+    var errorDescription: String {
         switch self {
         case .loadFail:
             return "데이터를 불러오지 못했습니다."
