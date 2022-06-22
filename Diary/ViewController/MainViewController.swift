@@ -6,7 +6,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     private enum Constant {
         static let navigationTitle = "일기장"
     }
@@ -37,18 +37,19 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    }
-    
-    private func setMainViewSetting() {
         do {
             try viewModel.loadData()
-            mainView.dataSource = self
-            mainView.delegate = self
-            mainView.translatesAutoresizingMaskIntoConstraints = false
-            mainView.register(MainViewCell.self, forCellReuseIdentifier: MainViewCell.identifier)
+            mainView.reloadData()
         } catch {
             alertMaker.makeErrorAlert(error: error)
         }
+    }
+    
+    private func setMainViewSetting() {
+        mainView.dataSource = self
+        mainView.delegate = self
+        mainView.translatesAutoresizingMaskIntoConstraints = false
+        mainView.register(MainViewCell.self, forCellReuseIdentifier: MainViewCell.identifier)
     }
 }
 
@@ -66,8 +67,7 @@ extension MainViewController {
     @objc
     private func rightBarbuttonClicked(_ sender: Any) {
         do {
-            let detailViewController = DetailViewController()
-            detailViewController.delegate = self
+            let detailViewController = DetailViewController(view: DetailView(), viewModel: viewModel)
             let data = try viewModel.create(data: DiaryInfo(title: "", body: "", date: Date(), key: nil))
             detailViewController.updateData(diary: data)
             navigationController?.pushViewController(detailViewController, animated: true)
@@ -80,9 +80,8 @@ extension MainViewController {
 // MARK: tableView Delegate
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailViewController = DetailViewController()
+        let detailViewController = DetailViewController(view: DetailView(), viewModel: viewModel)
         detailViewController.updateData(diary: viewModel.data[indexPath.row])
-        detailViewController.delegate = self
         navigationController?.pushViewController(detailViewController, animated: true)
     }
     
@@ -132,27 +131,5 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.data.count
-    }
-}
-
-extension MainViewController: UpdateDelegateable {
-    func updatae(diaryInfo: DiaryInfo) {
-        do {
-            try viewModel.update(data: diaryInfo)
-            try viewModel.loadData()
-            mainView.reloadData()
-        } catch {
-            alertMaker.makeErrorAlert(error: error)
-        }
-    }
-    
-    func delete(diarInfo: DiaryInfo) {
-        do {
-            try viewModel.delete(data: diarInfo)
-            try viewModel.loadData()
-            mainView.reloadData()
-        } catch {
-            alertMaker.makeErrorAlert(error: error)
-        }
     }
 }

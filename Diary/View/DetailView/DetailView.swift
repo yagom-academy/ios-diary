@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailView: UIView {
+final class DetailView: UIView, DetailViewable {
     private enum Constant {
         static let emptyDefaultTitle: String = "[제목없음]"
     }

@@ -7,16 +7,27 @@
 
 import UIKit
 
-protocol UpdateDelegateable: UIViewController {
-    func updatae(diaryInfo: DiaryInfo)
-    func delete(diarInfo: DiaryInfo)
+protocol DetailViewable: UIView {
+    func setData(with diary: DiaryInfo)
+    func changeTextViewHeight(_ height: CGFloat)
+    func exportDiaryText() -> DiaryInfo
 }
 
 final class DetailViewController: UIViewController {
-    private var detailView = DetailView()
+    private var detailView: DetailViewable
     private var diaryData: DiaryInfo?
-    weak var delegate: UpdateDelegateable?
+    private var viewModel: TableViewModel<DiaryUseCase>
     var isUpdate = true
+     
+    init(view: DetailViewable, viewModel: TableViewModel<DiaryUseCase>) {
+        self.detailView = view
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = detailView
@@ -51,7 +62,11 @@ final class DetailViewController: UIViewController {
    private func saveData() {
         if isUpdate {
             let editedDiary = detailView.exportDiaryText()
-            delegate?.updatae(diaryInfo: editedDiary)
+            do {
+                try viewModel.update(data: editedDiary)
+            } catch {
+                alertMaker.makeErrorAlert(error: error)
+            }
         }
     }
 }
@@ -89,7 +104,7 @@ extension DetailViewController {
     
     @objc func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
         self.view.endEditing(true)
-        detailView.changeTextViewHeight()
+        detailView.changeTextViewHeight(0)
         saveData()
     }
 }
@@ -120,7 +135,11 @@ extension DetailViewController {
             let cancleButton = UIAlertAction(title: "취소", style: .cancel)
             let deleteButton = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 self.isUpdate = false
-                self.delegate?.delete(diarInfo: diaryData)
+                do {
+                    try self.viewModel.delete(data: diaryData)
+                } catch {
+                    self.alertMaker.makeErrorAlert(error: error)
+                }
                 self.navigationController?.popViewController(animated: true)
             }
             self.alertMaker.makeAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", buttons: [cancleButton, deleteButton])
