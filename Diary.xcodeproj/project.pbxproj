@@ -16,6 +16,7 @@
 		4EACCCD9285C1BB1008046A5 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCD8285C1BB1008046A5 /* RegistrationViewController.swift */; };
 		4EACCCDB285C9B65008046A5 /* ShareActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */; };
 		4EBF1C042862E37400C35698 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF1C032862E37400C35698 /* DiaryError.swift */; };
+		4EBF1C062862E72600C35698 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF1C052862E72600C35698 /* UIApplication.swift */; };
 		4EC4B4962861910C00669E5D /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4B4952861910C00669E5D /* UITextView.swift */; };
 		4EC4B49928619D6A00669E5D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4B49828619D6A00669E5D /* UIViewController.swift */; };
 		5B7D470C3B4D18C9DB743574 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4426E833CCAA9573A01D330A /* Pods_Diary.framework */; };
@@ -48,6 +49,7 @@
 		4EACCCD8285C1BB1008046A5 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActivityItemSource.swift; sourceTree = "<group>"; };
 		4EBF1C032862E37400C35698 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
+		4EBF1C052862E72600C35698 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		4EC4B4952861910C00669E5D /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
 		4EC4B49828619D6A00669E5D /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		A152B1A2285C543300BA06A9 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
@@ -211,6 +213,7 @@
 				A1DCA7E02858AC7F0022DB2A /* Collection.swift */,
 				4EC4B4952861910C00669E5D /* UITextView.swift */,
 				4EC4B49828619D6A00669E5D /* UIViewController.swift */,
+				4EBF1C052862E72600C35698 /* UIApplication.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				A1B82EA2286195F200B22604 /* AppConstants.swift in Sources */,
 				4EACCCD7285C1AA1008046A5 /* DiaryEntity+CoreDataProperties.swift in Sources */,
 				A1DCA7DF28587FCA0022DB2A /* ContentTextView.swift in Sources */,
+				4EBF1C062862E72600C35698 /* UIApplication.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				4EACCCCF285C1593008046A5 /* PersistenceManager.swift in Sources */,
 				4EACCCD6285C1AA1008046A5 /* DiaryEntity+CoreDataClass.swift in Sources */,
