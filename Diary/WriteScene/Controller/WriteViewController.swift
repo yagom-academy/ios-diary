@@ -45,7 +45,7 @@ final class WriteViewController: UIViewController {
     
     CoredataManager.sherd.createContext(
       title: title,
-      contnet: title,
+      content: title,
       identifier: UUID().uuidString,
       date: Date())
   }

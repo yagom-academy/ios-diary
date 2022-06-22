@@ -29,7 +29,8 @@ final class DetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
-    self.configureNotification()
+    self.addKeyboardObserver()
+    self.addUpdateDiaryObserver()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -38,7 +39,15 @@ final class DetailViewController: UIViewController {
   }
   
   private func updateDiaryData() {
+    guard let identifier = diary.identifier, let date = diary.createdDate else {
+      return
+    }
     
+    CoredataManager.sherd.updataContext(
+      title: baseView.textView.text,
+      content: baseView.textView.text,
+      identifier: identifier,
+      date: date)
   }
   
   private func configureUI() {
@@ -48,14 +57,36 @@ final class DetailViewController: UIViewController {
   }
   
   deinit {
-    self.removeNotification()
+    self.removeKeyboardObserver()
+    self.removeSaveDiaryObserver()
   }
 }
 
-// MARK: Keyboard
+// MARK: saveDiaryData Notification
 
 private extension DetailViewController {
-  func configureNotification() {
+  // SceneDidEnterBackground
+  func addUpdateDiaryObserver() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(diarDataUpdate),
+      name: Notification.Name("saveDiaryData"),
+      object: nil)
+  }
+  
+  func removeSaveDiaryObserver() {
+    NotificationCenter.default.removeObserver(self)
+  }
+
+  @objc func diarDataUpdate() {
+    self.updateDiaryData()
+  }
+}
+
+// MARK: Keyboard Notification
+
+private extension DetailViewController {
+  func addKeyboardObserver() {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(keyboardWillShow),
@@ -69,18 +100,18 @@ private extension DetailViewController {
     
     let swipeDown = UISwipeGestureRecognizer(
       target: self,
-      action: #selector(respondToSwipeGesture)
+      action: #selector(keyboardHideDidSwipeDown)
     )
     swipeDown.direction = .down
     self.view.addGestureRecognizer(swipeDown)
   }
   
-  @objc private func respondToSwipeGesture(gesture: UISwipeGestureRecognizer) {
+  @objc func keyboardHideDidSwipeDown(gesture: UISwipeGestureRecognizer) {
     view.endEditing(true)
-    self.updateDiaryData()
+    
   }
   
-  func removeNotification() {
+  func removeKeyboardObserver() {
     NotificationCenter.default.removeObserver(
       self,
       name: UIResponder.keyboardWillShowNotification,

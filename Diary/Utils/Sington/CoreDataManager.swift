@@ -26,7 +26,7 @@ final class CoredataManager {
     return persistantContainer.viewContext
   }
   
-  func createContext(title: String, contnet: String, identifier: String, date: Date) {
+  func createContext(title: String, content: String, identifier: String, date: Date) {
     guard let diaryEntity = NSEntityDescription.entity(forEntityName: "Diary", in: viewContext) else {
       return
     }
@@ -35,7 +35,7 @@ final class CoredataManager {
       return
     }
     userModel.title = title
-    userModel.content = contnet
+    userModel.content = content
     userModel.createdDate = date
     userModel.identifier = identifier
     
@@ -59,10 +59,7 @@ final class CoredataManager {
     }
   }
   
-  func updataContext(diary: Diary) {
-    guard let identifier = diary.identifier else {
-      return
-    }
+  func updataContext(title: String, content: String, identifier: String, date: Date) {
     
     let request = Diary.fetchRequest()
     request.predicate = NSPredicate(format: "identifier == %@", identifier)
@@ -70,9 +67,9 @@ final class CoredataManager {
     do {
       let diarys = try viewContext.fetch(request)
       diarys.forEach {
-        $0.title = diary.title
-        $0.createdDate = diary.createdDate
-        $0.content = diary.content
+        $0.title = title
+        $0.createdDate = date
+        $0.content = content
       }
       
       guard viewContext.hasChanges else {
