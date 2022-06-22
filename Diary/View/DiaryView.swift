@@ -38,11 +38,7 @@ final class DiaryView: UIView {
     }
     
     func configureContents(diary: Diary) {
-        diaryTextView.text = """
-        \(diary.title)
-
-        \(diary.body)
-        """
+        diaryTextView.text = diary.text
         diaryTextView.contentOffset = CGPoint(x: 0, y: 0)
     }
 }
