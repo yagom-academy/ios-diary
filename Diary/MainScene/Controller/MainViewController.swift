@@ -96,16 +96,23 @@ extension MainViewController: UITableViewDelegate {
     trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
   ) -> UISwipeActionsConfiguration? {
     
-    let context = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
+    let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
       guard let diary = self.diarys?[indexPath.row].identifier else {
         return
       }
-
       self.diarys = CoredataManager.sherd.deleteContext(identifier: diary)
       completion(true)
     }
+    deleteAction.image = UIImage(systemName: "trash")
     
-    let configuration = UISwipeActionsConfiguration(actions: [context])
+    let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, completion in
+      self.showActivityView()
+      completion(true)
+    }
+    shareAction.backgroundColor = .systemBlue
+    shareAction.image = UIImage(systemName: "square.and.arrow.up")
+    
+    let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     configuration.performsFirstActionWithFullSwipe = false
     return configuration
   }
