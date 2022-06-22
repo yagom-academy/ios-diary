@@ -124,5 +124,4 @@ extension MainViewController: UpdateDelegateable {
             alertMaker.makeErrorAlert(error: error)
         }
     }
-    
 }

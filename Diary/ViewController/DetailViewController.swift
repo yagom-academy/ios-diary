@@ -29,13 +29,13 @@ final class DetailViewController: UIViewController {
             setViewGesture()
         }
         setNavigationSetting()
+        (UIApplication.shared.delegate as? AppDelegate)?.saveDelegate = self
     }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if isUpdate {
-            let editedDiary = detailView.exportDiaryText()
-            delegate?.updatae(diaryInfo: editedDiary)
-        }
+        (UIApplication.shared.delegate as? AppDelegate)?.saveDelegate = nil
+        saveData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -46,6 +46,13 @@ final class DetailViewController: UIViewController {
     func updateData(diary: DiaryInfo) {
         diaryData = diary
         detailView.setData(with: diary)
+    }
+    
+   private func saveData() {
+        if isUpdate {
+            let editedDiary = detailView.exportDiaryText()
+            delegate?.updatae(diaryInfo: editedDiary)
+        }
     }
 }
 
@@ -83,6 +90,7 @@ extension DetailViewController {
     @objc func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
         self.view.endEditing(true)
         detailView.changeTextViewHeight()
+        saveData()
     }
 }
 
@@ -113,5 +121,11 @@ extension DetailViewController {
                                                            style: .destructive,
                                                            handler: deleteButtonHandler)]
         )
+    }
+}
+
+extension DetailViewController: SaveDelegate {
+    func save() {
+        saveData()
     }
 }
