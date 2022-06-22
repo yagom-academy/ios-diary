@@ -15,10 +15,15 @@ struct AlertAction {
 
 final class AlertBuilder {
     private var actions: [AlertAction] = []
-    weak var viewController: UIViewController?
+    private weak var viewController: UIViewController?
     
     init(viewController: UIViewController?) {
         self.viewController = viewController
+    }
+    
+    func setViewController(to viewController: UIViewController?) -> Self {
+        self.viewController = viewController
+        return self
     }
     
     func addAction(title: String, style: UIAlertAction.Style, action: (() -> Void)? = nil) -> Self {
