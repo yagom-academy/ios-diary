@@ -39,9 +39,7 @@ final class PersistentManager {
   }
 
   func create(diary: Diary) {
-    guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context) else { return }
-
-    let diaryEntity = NSManagedObject(entity: entity, insertInto: context)
+    let diaryEntity = DiaryEntity(context: context)
     diaryEntity.setValue(diary.title, forKey: "title")
     diaryEntity.setValue(diary.body, forKey: "body")
     diaryEntity.setValue(diary.createdAt, forKey: "createdAt")
