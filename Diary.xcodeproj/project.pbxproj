@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		748E249779223968DAB9D51A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8DF27F5B0E514DB780E811B /* Pods_Diary.framework */; };
 		B0B8459E28585AD7000775F3 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8459D28585AD7000775F3 /* Diary.swift */; };
-		B0B845A628585E07000775F3 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B845A528585E07000775F3 /* DiaryTests.swift */; };
+		B0B845A628585E07000775F3 /* ParserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B845A528585E07000775F3 /* ParserTests.swift */; };
 		B0B845AD28586B7F000775F3 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B845AC28586B7F000775F3 /* DiaryTableViewCell.swift */; };
 		B0B8BE34285C69580086190C /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8BE33285C69580086190C /* Parser.swift */; };
 		B0B8BE36285C75B30086190C /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8BE35285C75B30086190C /* Formatter.swift */; };
@@ -43,7 +43,7 @@
 		8A2C8A2BC348BACFA721F636 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		B0B8459D28585AD7000775F3 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		B0B845A328585E07000775F3 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		B0B845A528585E07000775F3 /* DiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTests.swift; sourceTree = "<group>"; };
+		B0B845A528585E07000775F3 /* ParserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserTests.swift; sourceTree = "<group>"; };
 		B0B845AC28586B7F000775F3 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		B0B845B22858D340000775F3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		B0B8BE33285C69580086190C /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
@@ -144,7 +144,7 @@
 		B0B845A428585E07000775F3 /* DiaryTests */ = {
 			isa = PBXGroup;
 			children = (
-				B0B845A528585E07000775F3 /* DiaryTests.swift */,
+				B0B845A528585E07000775F3 /* ParserTests.swift */,
 				E51F942C28634CCC004623DA /* PersistentManagerTests.swift */,
 			);
 			path = DiaryTests;
@@ -357,7 +357,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E51F942D28634CCC004623DA /* PersistentManagerTests.swift in Sources */,
-				B0B845A628585E07000775F3 /* DiaryTests.swift in Sources */,
+				B0B845A628585E07000775F3 /* ParserTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,7 +412,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = llingo.DiaryTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -430,7 +430,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = llingo.DiaryTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
