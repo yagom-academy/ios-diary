@@ -16,7 +16,7 @@ protocol UseCase {
 }
 
 final class DiaryUseCase: UseCase {
-    let containerManager: ContainerManagerable
+    private let containerManager: ContainerManagerable
     lazy var context = containerManager.persistentContainer.viewContext
     lazy var diaryEntity = NSEntityDescription.entity(forEntityName: DiaryInfo.entityName, in: context)
     
@@ -25,7 +25,7 @@ final class DiaryUseCase: UseCase {
     }
     
     private func filterDiaryData(key: UUID) throws -> [NSManagedObject] {
-        let request: NSFetchRequest<DiaryData> = DiaryData.fetchRequest()
+        let request = DiaryData.fetchRequest()
         let predicate = NSPredicate(format: "key = %@", key.uuidString)
         request.predicate = predicate
         let diarys = try context.fetch(request)
@@ -36,6 +36,7 @@ final class DiaryUseCase: UseCase {
     @discardableResult
     func create(element: DiaryInfo) throws -> DiaryInfo {
         let key = UUID()
+        
         guard let diaryData = NSEntityDescription.insertNewObject(
             forEntityName: DiaryInfo.entityName,
             into: context
@@ -55,12 +56,13 @@ final class DiaryUseCase: UseCase {
     
     func read() throws -> [DiaryInfo] {
         let fetchRequest = DiaryData.fetchRequest()
+        var diaryInfoArray: [DiaryInfo] = []
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         
         guard let diarys = try? context.fetch(fetchRequest) else {
             throw CoreDataError.readError
         }
-        var diaryInfoArray: [DiaryInfo] = []
+        
         for diary in diarys {
             let diaryInfo = DiaryInfo(title: diary.title, body: diary.body, date: diary.date, key: diary.key)
             diaryInfoArray.append(diaryInfo)
@@ -72,12 +74,14 @@ final class DiaryUseCase: UseCase {
     func update(element: DiaryInfo) throws {
         guard let key = element.key else {
             throw CoreDataError.updateError
-            }
+        }
+        
         let diarys = try filterDiaryData(key: key)
         
         guard diarys.count > 0 else {
             throw CoreDataError.updateError
         }
+        
         let diary = diarys[0]
         diary.setValue(element.title, forKey: "title")
         diary.setValue(element.body, forKey: "body")
@@ -85,17 +89,21 @@ final class DiaryUseCase: UseCase {
     }
     
     func delete(element: DiaryInfo) throws {
-        let request: NSFetchRequest<DiaryData> = DiaryData.fetchRequest()
+        let request = DiaryData.fetchRequest()
+        
         guard let uuidString = element.key?.uuidString else {
             throw CoreDataError.deleteError
         }
+        
         let predicate = NSPredicate(format: "key = %@", uuidString)
         request.predicate = predicate
         let result = try context.fetch(request)
         let resultArray = result as [DiaryData]
+        
         guard resultArray.count > 0 else {
             throw CoreDataError.deleteError
         }
+        
         context.delete(resultArray[0])
         try context.save()
     }

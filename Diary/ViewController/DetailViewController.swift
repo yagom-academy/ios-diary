@@ -117,8 +117,8 @@ extension DetailViewController {
         }
         
         let deleteButtonHandler: (UIAlertAction) -> Void = { _ in
-            let cancleButton: UIAlertAction = UIAlertAction(title: "취소", style: .cancel)
-            let deleteButton: UIAlertAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            let cancleButton = UIAlertAction(title: "취소", style: .cancel)
+            let deleteButton = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 self.isUpdate = false
                 self.delegate?.delete(diarInfo: diaryData)
                 self.navigationController?.popViewController(animated: true)

@@ -8,7 +8,9 @@
 import UIKit
 
 final class DetailView: UIView {
-    
+    private enum Constant {
+        static let emptyDefaultTitle: String = "[제목없음]"
+    }
     private lazy var textViewBottomConstraint = textView.bottomAnchor.constraint(
         equalTo: safeAreaLayoutGuide.bottomAnchor
     )
@@ -31,7 +33,6 @@ final class DetailView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        print("디테일뷰 초기화 안됨")
     }
     
     private func setConstraint() {
@@ -73,7 +74,7 @@ final class DetailView: UIView {
     private func findTitle() -> String {
         let titleAndBody = textView.text.components(separatedBy: "\n")
         if titleAndBody.count == 0 {
-            return "[제목없음]"
+            return Constant.emptyDefaultTitle
         } else {
             return titleAndBody[0]
         }

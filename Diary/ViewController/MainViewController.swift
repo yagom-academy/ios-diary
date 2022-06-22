@@ -7,7 +7,7 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    private enum Constnat {
+    private enum Constant {
         static let navigationTitle = "일기장"
     }
     
@@ -55,7 +55,7 @@ class MainViewController: UIViewController {
 // MARK: Navigation Method
 extension MainViewController {
     private func setNavigationSetting() {
-        navigationItem.title = Constnat.navigationTitle
+        navigationItem.title = Constant.navigationTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -89,8 +89,8 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let like = UIContextualAction(style: .normal, title: "Delete") { (_, _, success: @escaping (Bool) -> Void) in
-            let cancleButton: UIAlertAction = UIAlertAction(title: "취소", style: .cancel)
-            let deleteButton: UIAlertAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            let cancleButton = UIAlertAction(title: "취소", style: .cancel)
+            let deleteButton = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 do {
                     try self.viewModel.delete(data: self.viewModel.data[indexPath.row])
                     try self.viewModel.loadData()
