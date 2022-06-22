@@ -20,6 +20,7 @@
 		AB6B329E2861F39F00E777CE /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B329C2861F39F00E777CE /* Diary+CoreDataClass.swift */; };
 		AB6B329F2861F39F00E777CE /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B329D2861F39F00E777CE /* Diary+CoreDataProperties.swift */; };
 		AB6B32A42862E82700E777CE /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32A32862E82700E777CE /* DetailView.swift */; };
+		AB6B32A62862E96800E777CE /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32A52862E96800E777CE /* DetailViewController.swift */; };
 		AB91E912285C80BB00D9E497 /* DateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB91E911285C80BB00D9E497 /* DateFormat.swift */; };
 		ABF991A82858B2F9000A44A1 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A72858B2F9000A44A1 /* ListView.swift */; };
 		ABF991AA2858B730000A44A1 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A92858B730000A44A1 /* ListTableViewCell.swift */; };
@@ -43,6 +44,7 @@
 		AB6B329C2861F39F00E777CE /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB6B329D2861F39F00E777CE /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB6B32A32862E82700E777CE /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		AB6B32A52862E96800E777CE /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		AB91E911285C80BB00D9E497 /* DateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormat.swift; sourceTree = "<group>"; };
 		ABBBCF00285774F300589B86 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		ABF991A72858B2F9000A44A1 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
@@ -170,6 +172,7 @@
 		AB6B32A12862E7FD00E777CE /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				AB6B32A52862E96800E777CE /* DetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 				86680F2F2861BE6C001B9352 /* CoreDataManager.swift in Sources */,
 				AB0D9A052859ABB200235064 /* WriteViewController.swift in Sources */,
 				ABF991A82858B2F9000A44A1 /* ListView.swift in Sources */,
+				AB6B32A62862E96800E777CE /* DetailViewController.swift in Sources */,
 				AB91E912285C80BB00D9E497 /* DateFormat.swift in Sources */,
 				AB6B32872861B76A00E777CE /* CoreDataModel.xcdatamodeld in Sources */,
 				AB4D73C7285B1FD000BE5190 /* EmptyTableViewCell.swift in Sources */,
