@@ -23,7 +23,7 @@ final class MainView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let baseTableView: UITableView = {
+    private let baseTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
