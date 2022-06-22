@@ -85,6 +85,39 @@ extension MainViewController: UITableViewDelegate {
         detailViewController.delegate = self
         navigationController?.pushViewController(detailViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let like = UIContextualAction(style: .normal, title: "Delete") { (_, _, success: @escaping (Bool) -> Void) in
+            let cancleButton: UIAlertAction = UIAlertAction(title: "취소", style: .cancel)
+            let deleteButton: UIAlertAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                do {
+                    try self.viewModel.delete(data: self.viewModel.data[indexPath.row])
+                    // 이부분에 셀에 삭제 애니메이션이 필요하다.
+                    try self.viewModel.loadData()
+                    self.mainView.reloadData()
+                } catch {
+                    self.alertMaker.makeErrorAlert(error: error)
+                }
+            }
+            self.alertMaker.makeAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", buttons: [cancleButton, deleteButton])
+            success(true)
+        }
+        like.backgroundColor = .systemPink
+        
+        let share = UIContextualAction(style: .normal, title: "Share") { (_, _, success: @escaping (Bool) -> Void) in
+            let diaryInfo = self.viewModel.data[indexPath.row]
+            let activityController = UIActivityViewController(
+                activityItems: [diaryInfo.body ?? ""],
+                applicationActivities: nil)
+            self.present(activityController, animated: true)
+            success(true)
+        }
+        share.backgroundColor = .systemTeal
+        
+        // actions배열 인덱스 0이 왼쪽에 붙어서 나옴
+        return UISwipeActionsConfiguration(actions: [like, share])
+    }
 }
 
 extension MainViewController: UITableViewDataSource {

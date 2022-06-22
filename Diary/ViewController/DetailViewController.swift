@@ -108,18 +108,22 @@ extension DetailViewController {
     @objc private func rightBarbuttonClicked(_ sender: Any) {
         guard let diaryData = diaryData else { return }
         
-        let deleteButtonHandler: (UIAlertAction) -> Void = { _ in
-            self.isUpdate = false
-            self.delegate?.delete(diarInfo: diaryData)
-            self.navigationController?.popViewController(animated: true)
-        }
-        
         let shareButtonHandler: (UIAlertAction) -> Void = { _ in
             let diaryInfo = self.detailView.exportDiaryText()
             let activityController = UIActivityViewController(
                 activityItems: [diaryInfo.body ?? ""],
                 applicationActivities: nil)
             self.present(activityController, animated: true)
+        }
+        
+        let deleteButtonHandler: (UIAlertAction) -> Void = { _ in
+            let cancleButton: UIAlertAction = UIAlertAction(title: "취소", style: .cancel)
+            let deleteButton: UIAlertAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                self.isUpdate = false
+                self.delegate?.delete(diarInfo: diaryData)
+                self.navigationController?.popViewController(animated: true)
+            }
+            self.alertMaker.makeAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", buttons: [cancleButton, deleteButton])
         }
 
         alertMaker.makeActionSheet(buttons: [UIAlertAction(title: "Share",
