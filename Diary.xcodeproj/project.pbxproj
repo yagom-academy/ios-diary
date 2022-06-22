@@ -15,6 +15,7 @@
 		4EACCCD7285C1AA1008046A5 /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCD5285C1AA1008046A5 /* DiaryEntity+CoreDataProperties.swift */; };
 		4EACCCD9285C1BB1008046A5 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCD8285C1BB1008046A5 /* RegistrationViewController.swift */; };
 		4EACCCDB285C9B65008046A5 /* ShareActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */; };
+		4EBF1C042862E37400C35698 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF1C032862E37400C35698 /* DiaryError.swift */; };
 		4EC4B4962861910C00669E5D /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4B4952861910C00669E5D /* UITextView.swift */; };
 		4EC4B49928619D6A00669E5D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4B49828619D6A00669E5D /* UIViewController.swift */; };
 		5B7D470C3B4D18C9DB743574 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4426E833CCAA9573A01D330A /* Pods_Diary.framework */; };
@@ -46,6 +47,7 @@
 		4EACCCD5285C1AA1008046A5 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4EACCCD8285C1BB1008046A5 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActivityItemSource.swift; sourceTree = "<group>"; };
+		4EBF1C032862E37400C35698 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
 		4EC4B4952861910C00669E5D /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
 		4EC4B49828619D6A00669E5D /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		A152B1A2285C543300BA06A9 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
@@ -88,6 +90,14 @@
 				4426E833CCAA9573A01D330A /* Pods_Diary.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4EBF1C022862E36400C35698 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				4EBF1C032862E37400C35698 /* DiaryError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		A1A8C51A2862DC34008A95A9 /* Scene */ = {
@@ -166,6 +176,7 @@
 		A1A8C5222862DC82008A95A9 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				4EBF1C022862E36400C35698 /* Error */,
 				A1DCA7D92858637E0022DB2A /* Extension */,
 				A1A8C5212862DC78008A95A9 /* Util */,
 			);
@@ -376,6 +387,7 @@
 				A1DCA7D328582CFE0022DB2A /* MainView.swift in Sources */,
 				A152B1A3285C543300BA06A9 /* Diary.swift in Sources */,
 				A1A8C5282862DD5B008A95A9 /* RegistrationViewModel.swift in Sources */,
+				4EBF1C042862E37400C35698 /* DiaryError.swift in Sources */,
 				A1DCA7E12858AC7F0022DB2A /* Collection.swift in Sources */,
 				03EB042828586A30008A68FC /* DetailView.swift in Sources */,
 				A1A8C5242862DCDD008A95A9 /* MainViewModel.swift in Sources */,
