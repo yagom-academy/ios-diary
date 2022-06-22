@@ -30,8 +30,7 @@ final class PersistenceManager {
 }
 
 extension PersistenceManager {
-
-    private func createData(by diary: Diary) {
+   func createData(by diary: Diary) {
         let request = makeRequest(by: diary.id)
         if let diaryToUpdate = fetchResult(from: request) {
             diaryToUpdate.body = diary.body
@@ -48,7 +47,7 @@ extension PersistenceManager {
         saveToContext()
     }
     
-    private func fetchData() {
+    func fetchData() {
         do {
             let request = DiaryEntity.fetchRequest()
             request.returnsObjectsAsFaults = false
@@ -59,7 +58,7 @@ extension PersistenceManager {
         }
     }
         
-    private func updateData(by diary: Diary) {
+    func updateData(by diary: Diary) {
         let request = makeRequest(by: diary.id)
         guard let diaryToUpdate = fetchResult(from: request) else {
             return
@@ -71,7 +70,7 @@ extension PersistenceManager {
         saveToContext()
     }
     
-    private func deleteData(by object: DiaryEntity, index: Int? = nil) {
+    func deleteData(by object: DiaryEntity, index: Int? = nil) {
         if let index = index {
             diaryEntities.remove(at: index)
         }
