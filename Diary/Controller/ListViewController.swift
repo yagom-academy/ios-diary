@@ -90,6 +90,36 @@ extension ListViewController: UITableViewDelegate {
         editViewController.delegate = self
         self.navigationController?.pushViewController(editViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let share = UIContextualAction(style: .normal, title: "") { (_, _, success: @escaping (Bool) -> Void) in
+            let title = self.diaryArray[indexPath.row].title
+            let body = self.diaryArray[indexPath.row].body
+            
+            let diary = "\(title)\n\(body)"
+            let shareActivity = UIActivityViewController(activityItems: [diary], applicationActivities: nil)
+            self.present(shareActivity, animated: true)
+            success(true)
+        }
+        
+        let delete = UIContextualAction(style: .normal, title: "") { (_, _, success: @escaping (Bool) -> Void) in
+            do {
+                try CoreDataManager.shared.delete(self.diaryArray[indexPath.row])
+                self.diaryArray.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            } catch {
+                print("삭제에 실패했습니다.")
+            }
+            success(true)
+        }
+        
+        share.backgroundColor = .systemBlue
+        share.image = UIImage(systemName: "square.and.arrow.up")
+        delete.backgroundColor = .systemRed
+        delete.image = UIImage(systemName: "trash.fill")
+
+        return UISwipeActionsConfiguration(actions: [delete, share])
+    }
 }
 
 extension ListViewController: DataSendable {
