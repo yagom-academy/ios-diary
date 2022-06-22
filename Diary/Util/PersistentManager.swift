@@ -76,4 +76,12 @@ final class PersistentManager {
 
     self.saveContext()
   }
+
+  func deleteAll() {
+    let delete = NSBatchDeleteRequest(fetchRequest: DiaryEntity.fetchRequest())
+
+    do {
+      try self.context.execute(delete)
+    } catch {}
+  }
 }
