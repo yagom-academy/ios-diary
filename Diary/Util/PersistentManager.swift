@@ -58,4 +58,15 @@ final class PersistentManager {
 
     return diaries
   }
+
+  func update(diary: Diary) {
+    guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return }
+
+    let diaryEntity = diaryEntities.first(where: { $0.uuid == diary.uuid })
+    diaryEntity?.setValue(diary.title, forKey: "title")
+    diaryEntity?.setValue(diary.body, forKey: "body")
+    diaryEntity?.setValue(diary.createdAt, forKey: "createdAt")
+
+    self.saveContext()
+  }
 }
