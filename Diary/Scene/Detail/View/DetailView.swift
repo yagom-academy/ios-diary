@@ -19,7 +19,7 @@ final class DetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let contentTextView: UITextView = {
+    private(set) var contentTextView: UITextView = {
         let textView = ContentTextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .preferredFont(forTextStyle: .body)
