@@ -109,7 +109,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func setUpNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateDiary), name: .saveDiary, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDiary), name: .background, object: nil)
     }
     
     @objc

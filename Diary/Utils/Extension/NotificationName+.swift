@@ -8,5 +8,5 @@
 import Foundation
 
 extension Notification.Name {
-    static let saveDiary = Notification.Name("saveDiary")
+    static let background = Notification.Name("background")
 }
