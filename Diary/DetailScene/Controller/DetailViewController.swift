@@ -37,13 +37,14 @@ final class DetailViewController: UIViewController {
     self.updateDiaryData()
   }
   
-  private func configureUI() {
-    self.view.backgroundColor = .systemBackground
-    self.navigationItem.title = "임시"
-  }
-  
   private func updateDiaryData() {
     
+  }
+  
+  private func configureUI() {
+    self.view.backgroundColor = .systemBackground
+    self.navigationItem.title = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
+    self.baseView.updateTextView(diary: diary)
   }
   
   deinit {

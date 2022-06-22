@@ -23,6 +23,10 @@ final class DetailView: UIView {
     fatalError("init(coder:) has not been implemented")
   }
   
+  func updateTextView(diary: Diary) {
+    self.textView.text = diary.content
+  }
+  
   private func configureLayout() {
     self.addSubview(textView)
     
