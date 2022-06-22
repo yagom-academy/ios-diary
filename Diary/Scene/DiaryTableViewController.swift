@@ -40,15 +40,7 @@ final class DiaryTableViewController: UITableViewController {
         super.viewDidLoad()
         setUp()
     }
-    
-    private func applySnapshot() {
-        var snapshot = Snapshot()
-        snapshot.appendSections([0])
-        snapshot.appendItems(diarys)
         
-        dataSource?.apply(snapshot)
-    }
-    
     private func create() {
         let newDiary = Diary(title: "", body: "", createdDate: Date.now)
         diarys.insert(newDiary, at: .zero)
@@ -66,51 +58,16 @@ final class DiaryTableViewController: UITableViewController {
     private func find(id: String) -> Int? {
         return diarys.firstIndex { $0.id == id }
     }
-    
-    // MARK: Functions
-    
-    private func setUp() {
-        setUpNavigationBar()
-        setUpTableView()
-    }
-    
-    private func setUpNavigationBar() {
-        title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(addButtondidTap)
-        )
-    }
-    
+
     @objc
-    private func addButtondidTap() {
+    private func addButtonDidTap() {
         create()
         guard let diary = diarys.first else { return }
         
-        let diaryViewController = DiaryDetailViewController(diary: diary)
+        let diaryViewController = DiaryDetailViewController.instance(diary: diary)
         diaryViewController.delegate = self
         
         navigationController?.pushViewController(diaryViewController, animated: true)
-    }
-    
-    private func setUpTableView() {
-        tableView.separatorInset.left = 20
-        tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.reuseIdentifier)
-        makeDataSource()
-        read()
-    }
-    
-    private func makeDataSource() {
-        dataSource = DataSource(tableView: tableView) { tableView, indexPath, item in
-            let cell = tableView.dequeueReusableCell(
-                withIdentifier: DiaryCell.reuseIdentifier,
-                for: indexPath
-            ) as? DiaryCell
-            
-            cell?.setUpItem(with: item)
-            return cell
-        }
     }
 }
 
@@ -119,8 +76,7 @@ final class DiaryTableViewController: UITableViewController {
 extension DiaryTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diary = diarys[indexPath.row]
-        
-        let diaryViewController = DiaryDetailViewController(diary: diary)
+        let diaryViewController = DiaryDetailViewController.instance(diary: diary)
         diaryViewController.delegate = self
         
         navigationController?.pushViewController(diaryViewController, animated: true)
@@ -174,5 +130,50 @@ extension DiaryTableViewController: DiaryDetailViewDelegate {
     
         diarys.remove(at: index)
         persistentManager.delete(data: diary)
+    }
+}
+
+// MARK: SetUp
+
+extension DiaryTableViewController {
+    private func setUp() {
+        setUpNavigationBar()
+        setUpTableView()
+    }
+    
+    private func setUpNavigationBar() {
+        title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addButtonDidTap)
+        )
+    }
+    
+    private func setUpTableView() {
+        tableView.separatorInset.left = 20
+        tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.reuseIdentifier)
+        makeDataSource()
+        read()
+    }
+    
+    private func makeDataSource() {
+        dataSource = DataSource(tableView: tableView) { tableView, indexPath, item in
+            let cell = tableView.dequeueReusableCell(
+                withIdentifier: DiaryCell.reuseIdentifier,
+                for: indexPath
+            ) as? DiaryCell
+            
+            cell?.setUpItem(with: item)
+            return cell
+        }
+    }
+    
+    private func applySnapshot() {
+        var snapshot = Snapshot()
+        snapshot.appendSections([0])
+        snapshot.appendItems(diarys)
+        
+        dataSource?.apply(snapshot)
     }
 }
