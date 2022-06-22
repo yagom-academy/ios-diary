@@ -7,9 +7,13 @@
 
 import UIKit
 
+protocol DiaryViewControllerDelegate: AnyObject {
+    func updateView()
+}
+
 class DiaryViewController: UIViewController {
     lazy var diaryView = DiaryView.init(frame: view.bounds)
-    weak var delegate: DataSendable?
+    weak var delegate: DiaryViewControllerDelegate?
     var diary: Diary?
     
     override func viewDidLoad() {
@@ -19,24 +23,33 @@ class DiaryViewController: UIViewController {
     
     private func setInitialView() {
         self.view = diaryView
-        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: Notification.Name.sceneDidEnterBackgroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(saveDiary),
+                                               name: Notification.Name.sceneDidEnterBackgroundNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(saveDiary),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
         configureOptionButton()
     }
     
     private func configureOptionButton() {
-        let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(touchOptionButton))
+        let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(touchOptionButton))
         
         self.navigationItem.setRightBarButton(barButton, animated: true)
     }
     
-    private func update(_ testData: Diary?) {
+    private func update(_ diaryData: Diary?) {
         do {
-            guard let testData = testData else {
+            guard let diaryData = diaryData else {
                 return
             }
 
-            try CoreDataManager.shared.update(testData)
+            try CoreDataManager.shared.update(diaryData)
         } catch {
             showErrorAlert("업데이트에 실패했습니다")
         }

@@ -63,12 +63,21 @@ extension DiaryView {
     }
     
     private func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     private func addHideButtonOnKeyboard() {
-        let barButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(hideKeyboard))
+        let barButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"),
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(hideKeyboard))
         
         barButton.tintColor = .darkGray
         
