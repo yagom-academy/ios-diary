@@ -65,13 +65,14 @@ final class CoredataManager {
     request.predicate = NSPredicate(format: "identifier == %@", identifier)
     
     do {
-      let diarys = try viewContext.fetch(request)
-      diarys.forEach {
-        $0.title = title
-        $0.createdDate = date
-        $0.content = content
+      guard let diarys = try viewContext.fetch(request).first else {
+        return
       }
-      
+     
+      diarys.title = title
+      diarys.createdDate = date
+      diarys.content = content
+     
       guard viewContext.hasChanges else {
         return
       }
@@ -79,6 +80,20 @@ final class CoredataManager {
       try viewContext.save()
     } catch {
       fatalError("\(error)")
+    }
+  }
+  
+  func deleteContext(identifier: String) {
+    let request = Diary.fetchRequest()
+    request.predicate = NSPredicate(format: "identifier == %@", identifier)
+    
+    do {
+      guard let diary = try viewContext.fetch(request).first else {
+        return
+      }
+      viewContext.delete(diary)
+    } catch {
+      fatalError()
     }
   }
 }
