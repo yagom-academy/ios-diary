@@ -6,15 +6,15 @@
 
 import UIKit
 
-fileprivate extension AppConstants {
-    static let navigationTitle = "일기장"
-    static let deleteImage = "trash"
-    static let shareImage = "person.crop.circle.badge.plus"
-    
-}
-
 final class MainViewController: UIViewController {
+    private enum Constants {
+        static let navigationTitle = "일기장"
+        static let deleteImage = "trash"
+        static let shareImage = "person.crop.circle.badge.plus"
+    }
+    
     private lazy var mainView = MainView(frame: view.bounds)
+    private let viewModel = MainViewModel()
     
     override func loadView() {
         super.loadView()
@@ -34,10 +34,9 @@ final class MainViewController: UIViewController {
 }
 
 // MARK: SetUp
-
 extension MainViewController {
     private func setUpNavigationBar() {
-        title = AppConstants.navigationTitle
+        title = Constants.navigationTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -52,14 +51,13 @@ extension MainViewController {
     
     private func setUpDiaries() {
         DispatchQueue.main.async { [self] in
-            PersistenceManager.shared.execute(by: .read)
+            viewModel.readDiary()
             mainView.baseTableView.reloadData()
         }
     }
 }
 
 // MARK: Objc Method
-
 extension MainViewController {
     @objc private func didTapAddButton() {
         let registrationVC = RegistrationViewController()
@@ -68,28 +66,28 @@ extension MainViewController {
 }
 
 // MARK: UITableViewDataSource
-
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return PersistenceManager.shared.diaries().count
+        return viewModel.diaries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier) as? DiaryCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier) as? DiaryCell,
+              let diary = viewModel.diaries[safe: indexPath.row]
+        else {
             return UITableViewCell()
         }
         
-        cell.setUpContents(data: PersistenceManager.shared.diaries()[indexPath.row])
+        cell.setUpContents(data: diary)
         
         return cell
     }
 }
 
 // MARK: UITableViewDelegate
-
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diary = PersistenceManager.shared.diaries()[safe: indexPath.row] else {
+        guard let diary = viewModel.diaries[safe: indexPath.row] else {
             return
         }
         
@@ -106,13 +104,16 @@ extension MainViewController: UITableViewDelegate {
             self?.showDeleteAlert(indexPath: indexPath)
             completionHandler(true)
         }
-        deleteAction.image = UIImage(systemName: AppConstants.deleteImage)
+        deleteAction.image = UIImage(systemName: Constants.deleteImage)
         
         let shareAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completionHandler in
-            self?.showActivityView(data: PersistenceManager.shared.diaries()[indexPath.row])
+            guard let diary = self?.viewModel.diaries[safe: indexPath.row] else {
+                return
+            }
+            self?.showActivityView(data: diary)
             completionHandler(true)
         }
-        shareAction.image = UIImage(systemName: AppConstants.shareImage)
+        shareAction.image = UIImage(systemName: Constants.shareImage)
         shareAction.backgroundColor = .systemIndigo
         
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
@@ -120,27 +121,11 @@ extension MainViewController: UITableViewDelegate {
 }
 
 // MARK: Show Alert
-
 extension MainViewController {
     private func showDeleteAlert(indexPath: IndexPath) {
         showAlert { [self] _ in
-            let objectToDelete = PersistenceManager.shared.diaries()[indexPath.row]
-            PersistenceManager.shared.execute(by: .delete(objectToDelete, index: indexPath.row))
+            viewModel.deleteDiary(indexPath: indexPath)
             mainView.baseTableView.deleteRows(at: [indexPath], with: .fade)
         }
-    }
-}
-
-// MARK: Show Activity
-
-extension MainViewController {
-    private func showActivityView(data: DiaryEntity) {
-        let textToShare: [Any] = [
-            ShareActivityItemSource(
-                title: data.title ?? AppConstants.noTitle,
-                text: data.createdAt.formattedString)
-        ]
-        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
-        present(activityViewController, animated: true)
     }
 }
