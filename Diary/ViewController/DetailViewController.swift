@@ -115,9 +115,9 @@ extension DetailViewController {
         }
         
         let shareButtonHandler: (UIAlertAction) -> Void = { _ in
-            self.isUpdate = false
+            let diaryInfo = self.detailView.exportDiaryText()
             let activityController = UIActivityViewController(
-                activityItems: ["안녕하세요", UIImage(systemName: "swift") ?? ""],
+                activityItems: [diaryInfo.body ?? ""],
                 applicationActivities: nil)
             self.present(activityController, animated: true)
         }
