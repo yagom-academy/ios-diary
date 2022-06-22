@@ -39,6 +39,7 @@ final class MainViewController: UIViewController {
       ListTableViewCell.self,
       forCellReuseIdentifier: EmptyTableViewCell.identifier)
     self.baseView.tableView.dataSource = self
+    self.baseView.tableView.delegate = self
   }
   
   private func createAddBarButtonItem() -> UIBarButtonItem {
@@ -73,5 +74,18 @@ extension MainViewController: UITableViewDataSource {
     cell.update(diary: diary[indexPath.row])
     
     return cell
+  }
+}
+
+// MARK: TableViewDelegate
+
+extension MainViewController: UITableViewDelegate {
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    guard let diary = diarys?[indexPath.row] else {
+      return
+    }
+    let detailViewController = DetailViewController(diary: diary)
+    
+    self.navigationController?.pushViewController(detailViewController, animated: true)
   }
 }
