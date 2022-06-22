@@ -59,7 +59,7 @@ class DiaryViewController: UIViewController {
         let textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
         var removedSpaceArray: [String] = textArray.compactMap {
             if !$0.trimmingCharacters(in: .whitespaces).isEmpty {
-                return $0
+                return $0.trimmingCharacters(in: .whitespaces)
             }
             return nil
         }
