@@ -6,19 +6,34 @@
 
 import UIKit
 
+extension DiaryTableViewController {
+    static func instance(persistentManager: PersistentManager) -> DiaryTableViewController {
+        return DiaryTableViewController(persistentManager: persistentManager)
+    }
+}
+
 final class DiaryTableViewController: UITableViewController {
     private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Diary>
     private typealias DataSource = UITableViewDiffableDataSource<Int, Diary>
     
     private var dataSource: DataSource?
-    
-    private let persistentManager = PersistentManager.sharedDiary
-    
+    private let persistentManager: PersistentManager!
+
     private var diarys = [Diary]() {
         didSet {
             applySnapshot()
         }
     }
+    
+    init(persistentManager: PersistentManager) {
+        self.persistentManager = persistentManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     // MARK: View Life Cycle
     
     override func viewDidLoad() {
