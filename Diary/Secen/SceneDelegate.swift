@@ -17,4 +17,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       window?.rootViewController = UINavigationController(rootViewController: MainViewController())
       window?.makeKeyAndVisible()
   }
+  
+  func sceneDidEnterBackground(_ scene: UIScene) {
+    NotificationCenter.default.post(name: NSNotification.Name(rawValue: "saveDiaryData"), object: nil)
+  }
 }
