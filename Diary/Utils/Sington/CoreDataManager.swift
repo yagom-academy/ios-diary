@@ -83,17 +83,19 @@ final class CoredataManager {
     }
   }
   
-  func deleteContext(identifier: String) {
+  func deleteContext(identifier: String) -> [Diary] {
     let request = Diary.fetchRequest()
     request.predicate = NSPredicate(format: "identifier == %@", identifier)
     
     do {
       guard let diary = try viewContext.fetch(request).first else {
-        return
+        return []
       }
       viewContext.delete(diary)
     } catch {
       fatalError()
     }
+    
+    return readContext()
   }
 }

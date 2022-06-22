@@ -10,7 +10,9 @@ final class MainViewController: UIViewController {
   private lazy var baseView = ListView(frame: view.bounds)
   private var diarys: [Diary]? {
     didSet {
-      self.baseView.tableView.reloadData()
+      DispatchQueue.main.async {
+        self.baseView.tableView.reloadData()
+      }
     }
   }
   
@@ -67,7 +69,7 @@ extension MainViewController: UITableViewDataSource {
     guard let cell = tableView.dequeueReusableCell(
       withIdentifier: ListTableViewCell.identifier,
       for: indexPath) as? ListTableViewCell,
-         let diary = self.diarys else {
+          let diary = self.diarys else {
       return EmptyTableViewCell()
     }
     
@@ -88,4 +90,24 @@ extension MainViewController: UITableViewDelegate {
     
     self.navigationController?.pushViewController(detailViewController, animated: true)
   }
+  
+  func tableView(
+    _ tableView: UITableView,
+    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+  ) -> UISwipeActionsConfiguration? {
+    
+    let context = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
+      guard let diary = self.diarys?[indexPath.row].identifier else {
+        return
+      }
+
+      self.diarys = CoredataManager.sherd.deleteContext(identifier: diary)
+      completion(true)
+    }
+    
+    let configuration = UISwipeActionsConfiguration(actions: [context])
+    configuration.performsFirstActionWithFullSwipe = false
+    return configuration
+  }
 }
+
