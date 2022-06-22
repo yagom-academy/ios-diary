@@ -113,10 +113,18 @@ extension DetailViewController {
             self.delegate?.delete(diarInfo: diaryData)
             self.navigationController?.popViewController(animated: true)
         }
+        
+        let shareButtonHandler: (UIAlertAction) -> Void = { _ in
+            self.isUpdate = false
+            let activityController = UIActivityViewController(
+                activityItems: ["안녕하세요", UIImage(systemName: "swift") ?? ""],
+                applicationActivities: nil)
+            self.present(activityController, animated: true)
+        }
 
         alertMaker.makeActionSheet(buttons: [UIAlertAction(title: "Share",
                                                            style: .default,
-                                                           handler: nil),
+                                                           handler: shareButtonHandler),
                                              UIAlertAction(title: "Delete",
                                                            style: .destructive,
                                                            handler: deleteButtonHandler)]
