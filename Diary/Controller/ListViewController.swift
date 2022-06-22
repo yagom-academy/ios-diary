@@ -109,7 +109,7 @@ extension ListViewController: UITableViewDelegate {
                 self.diaryArray.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             } catch {
-                print("삭제에 실패했습니다.")
+                self.showErrorAlert("삭제에 실패했습니다")
             }
             success(true)
         }

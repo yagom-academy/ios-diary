@@ -38,7 +38,7 @@ class DiaryViewController: UIViewController {
 
             try CoreDataManager.shared.update(testData)
         } catch {
-            print("저장에 실패했습니다")
+            showErrorAlert("업데이트에 실패했습니다")
         }
     }
     
@@ -83,7 +83,7 @@ class DiaryViewController: UIViewController {
                 self.delegate?.updateView()
                 self.navigationController?.popViewController(animated: true)
             } catch {
-                print("삭제에 실패했습니다")
+                self.showErrorAlert("삭제에 실패했습니다")
             }
         }
         
