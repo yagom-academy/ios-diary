@@ -7,14 +7,16 @@
 
 import UIKit
 
-protocol UpdateDelegateable {
+protocol UpdateDelegateable: UIViewController {
     func updatae(diaryInfo: DiaryInfo)
+    func delete(diarInfo: DiaryInfo)
 }
 
 final class DetailViewController: UIViewController {
     private var detailView = DetailView()
     private var diaryData: DiaryInfo?
-    var delegate: UpdateDelegateable?
+    weak var delegate: UpdateDelegateable?
+    var isUpdate = true
     
     override func loadView() {
         view = detailView
@@ -30,8 +32,10 @@ final class DetailViewController: UIViewController {
     }
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        let editedDiary = detailView.exportDiaryText()
-        delegate?.updatae(diaryInfo: editedDiary)        
+        if isUpdate {
+            let editedDiary = detailView.exportDiaryText()
+            delegate?.updatae(diaryInfo: editedDiary)
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -42,7 +46,6 @@ final class DetailViewController: UIViewController {
     func updateData(diary: DiaryInfo) {
         diaryData = diary
         detailView.setData(with: diary)
-//        navigationItem.title = diary.date.toString
     }
 }
 
@@ -94,8 +97,21 @@ extension DetailViewController {
         )
     }
     
-    @objc
-    private func rightBarbuttonClicked(_ sender: Any) {
+    @objc private func rightBarbuttonClicked(_ sender: Any) {
+        guard let diaryData = diaryData else { return }
         
+        let deleteButtonHandler: (UIAlertAction) -> Void = { _ in
+            self.isUpdate = false
+            self.delegate?.delete(diarInfo: diaryData)
+            self.navigationController?.popViewController(animated: true)
+        }
+
+        alertMaker.makeActionSheet(buttons: [UIAlertAction(title: "Share",
+                                                           style: .default,
+                                                           handler: nil),
+                                             UIAlertAction(title: "Delete",
+                                                           style: .destructive,
+                                                           handler: deleteButtonHandler)]
+        )
     }
 }

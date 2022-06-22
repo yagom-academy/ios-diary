@@ -29,4 +29,15 @@ struct AlertMaker {
         
         viewController.present(alertContoller, animated: true)
     }
+    
+    func makeActionSheet(buttons: [UIAlertAction]) {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        _ = buttons.map { button in
+            actionSheet.addAction(button)
+        }
+        let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
+        actionSheet.addAction(cancelButton)
+        
+        viewController.present(actionSheet, animated: true)
+    }
 }

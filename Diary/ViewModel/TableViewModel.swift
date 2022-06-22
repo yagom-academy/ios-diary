@@ -28,4 +28,8 @@ final class TableViewModel<U: UseCase>: NSObject {
         let result = try useCase.create(element: data)
         return result
     }
+    
+    func delete(data: U.Element) throws {
+        try useCase.delete(element: data)
+    }
 }

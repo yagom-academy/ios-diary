@@ -35,6 +35,10 @@ class MainViewController: UIViewController {
         setNavigationSetting()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
     private func setMainViewSetting() {
         do {
             try viewModel.loadData()
@@ -110,4 +114,15 @@ extension MainViewController: UpdateDelegateable {
             alertMaker.makeErrorAlert(error: error)
         }
     }
+    
+    func delete(diarInfo: DiaryInfo) {
+        do {
+            try viewModel.delete(data: diarInfo)
+            try viewModel.loadData()
+            mainView.reloadData()
+        } catch {
+            alertMaker.makeErrorAlert(error: error)
+        }
+    }
+    
 }
