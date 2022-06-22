@@ -32,7 +32,7 @@ final class ContentTextView: UITextView {
         )
         let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         let barButton = UIBarButtonItem(
-            image: UIImage(systemName: "chevron.down"),
+            image: UIImage(systemName: AppConstants.keyboardHideButtonImage),
             style: .plain,
             target: self,
             action: #selector(didTapHideButton)

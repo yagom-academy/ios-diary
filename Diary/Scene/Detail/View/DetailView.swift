@@ -19,7 +19,7 @@ final class DetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let contentTextView: UITextView = {
+    private(set) var contentTextView: UITextView = {
         let textView = ContentTextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .preferredFont(forTextStyle: .body)
@@ -49,8 +49,19 @@ final class DetailView: UIView {
         self.bottomConstraint = bottomConstraint
     }
     
-    func setUpContents(data: Diary) {
-        contentTextView.text = data.title + "\n\n" + data.body
+    func setUpContents(data: DiaryEntity) {
+        guard let title = data.title,
+              let body = data.body
+        else {
+            return
+        }
+        
+        contentTextView.text = title + "\n" + body
+        setUpContentTitleStyle()
+    }
+    
+    func setUpContentTitleStyle() {
+        contentTextView.highlightFirstLineInTextView()
     }
     
     func scrollTextViewToTop() {

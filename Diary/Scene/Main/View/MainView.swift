@@ -13,11 +13,17 @@ final class MainView: UIView {
         setUpView()
     }
     
+    convenience init(frame: CGRect, delegate: UITableViewDelegate, dataSource: UITableViewDataSource) {
+        self.init(frame: frame)
+        self.baseTableView.delegate = delegate
+        self.baseTableView.dataSource = dataSource
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let baseTableView: UITableView = {
+    private let baseTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -45,5 +51,13 @@ final class MainView: UIView {
     
     private func registerCellIdentifier() {
         baseTableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
+    }
+    
+    func reloadBaseTableView() {
+        baseTableView.reloadData()
+    }
+    
+    func deleteBaseTableViewRows(at indexPaths: [IndexPath]) {
+        baseTableView.deleteRows(at: indexPaths, with: .fade)
     }
 }

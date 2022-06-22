@@ -7,13 +7,9 @@
 
 import Foundation
 
-struct Diary: Decodable {
+struct Diary {
     let title: String
-    let createdAt: TimeInterval
+    let createdAt: Double
     let body: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case title, body
-        case createdAt = "created_at"
-    }
+    let id: String
 }

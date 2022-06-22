@@ -42,13 +42,14 @@ final class DiaryCell: UITableViewCell {
     
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
+        label.textAlignment = .left
         label.font = .preferredFont(forTextStyle: .footnote)
         return label
     }()
@@ -77,9 +78,13 @@ final class DiaryCell: UITableViewCell {
         ])
     }
     
-    func setUpContents(data: Diary) {
-        titleLabel.text = data.title
+    func setUpContents(data: DiaryEntity) {
+        if data.title == "" {
+            titleLabel.text = AppConstants.noTitle
+        } else {
+            titleLabel.text = data.title
+        }
         dateLabel.text = data.createdAt.formattedString
-        descriptionLabel.text = data.body
+        descriptionLabel.text = data.body?.trimmingCharacters(in: .newlines)
     }
 }
