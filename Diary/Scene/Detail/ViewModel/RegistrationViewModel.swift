@@ -8,7 +8,6 @@
 import Foundation
 
 final class RegistrationViewModel {
-    private var diary: DiaryEntity?
     private(set) var createdAt = Date().timeIntervalSince1970
     private let diaryId = UUID().uuidString
 }
