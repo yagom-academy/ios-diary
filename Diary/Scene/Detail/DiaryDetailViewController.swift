@@ -12,6 +12,12 @@ protocol DiaryDetailViewDelegate: AnyObject {
     func delete(diary: Diary)
 }
 
+extension DiaryDetailViewController {
+    static func instance(diary: Diary) -> DiaryDetailViewController {
+        return DiaryDetailViewController(diary: diary)
+    }
+}
+
 final class DiaryDetailViewController: UIViewController {
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -56,24 +62,6 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
-    // MARK: Functions
-    
-    private func setUp() {
-        setUpNavigationBar()
-        setUpNotification()
-        setUpTextView()
-    }
-    
-    private func setUpNavigationBar() {
-        title = diary.createdDate.formattedString
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
-            style: .plain,
-            target: self,
-            action: #selector(moreButtonDidTap)
-        )
-    }
-    
     @objc
     private func doneButtonDidTap() {
         diaryTextView.resignFirstResponder()
@@ -108,10 +96,6 @@ final class DiaryDetailViewController: UIViewController {
             .show(style: .actionSheet)
     }
     
-    private func setUpNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateDiary), name: .background, object: nil)
-    }
-    
     @objc
     private func updateDiary() {
         guard let texts = diaryTextView.text else { return }
@@ -128,6 +112,44 @@ final class DiaryDetailViewController: UIViewController {
         }
         
         delegate?.update(diary: newDiary)
+    }
+}
+
+// MARK: TextViewDelegate
+
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if navigationItem.rightBarButtonItems?.count == 1 {
+            navigationItem.rightBarButtonItems?.append(doneButton)
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        updateDiary()
+    }
+}
+
+// MARK: - SetUp
+
+extension DiaryDetailViewController {
+    private func setUp() {
+        setUpNavigationBar()
+        setUpNotification()
+        setUpTextView()
+    }
+    
+    private func setUpNavigationBar() {
+        title = diary.createdDate.formattedString
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(moreButtonDidTap)
+        )
+    }
+    
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(updateDiary), name: .background, object: nil)
     }
     
     private func setUpTextView() {
@@ -154,19 +176,5 @@ final class DiaryDetailViewController: UIViewController {
             diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
-    }
-}
-
-// MARK: TextViewDelegate
-
-extension DiaryDetailViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if navigationItem.rightBarButtonItems?.count == 1 {
-            navigationItem.rightBarButtonItems?.append(doneButton)
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        updateDiary()
     }
 }
