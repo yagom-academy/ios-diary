@@ -83,7 +83,7 @@ extension ListCell {
     func updateLabels(diaryModel: DiaryModel) {
         titleLabel.text = diaryModel.title
         descriptionLabel.text = diaryModel.body
-        dateLabel.text = diaryModel.createdAt?.formattedDate
+        dateLabel.text = diaryModel.createdAt.formattedDate
     }
     
     private func setSubviews() {

@@ -40,7 +40,7 @@ final class DetailViewController: UIViewController {
 extension DetailViewController {
     
     private func setNavigationBarTitle() {
-        navigationItem.title = diaryData.createdAt?.formattedDate
+        navigationItem.title = diaryData.createdAt.formattedDate
     }
 }
 
