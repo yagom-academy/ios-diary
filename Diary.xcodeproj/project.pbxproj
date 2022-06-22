@@ -19,6 +19,7 @@
 		AB6B32872861B76A00E777CE /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32852861B76A00E777CE /* CoreDataModel.xcdatamodeld */; };
 		AB6B329E2861F39F00E777CE /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B329C2861F39F00E777CE /* Diary+CoreDataClass.swift */; };
 		AB6B329F2861F39F00E777CE /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B329D2861F39F00E777CE /* Diary+CoreDataProperties.swift */; };
+		AB6B32A42862E82700E777CE /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32A32862E82700E777CE /* DetailView.swift */; };
 		AB91E912285C80BB00D9E497 /* DateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB91E911285C80BB00D9E497 /* DateFormat.swift */; };
 		ABF991A82858B2F9000A44A1 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A72858B2F9000A44A1 /* ListView.swift */; };
 		ABF991AA2858B730000A44A1 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A92858B730000A44A1 /* ListTableViewCell.swift */; };
@@ -41,6 +42,7 @@
 		AB6B32862861B76A00E777CE /* DiaryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaryModel.xcdatamodel; sourceTree = "<group>"; };
 		AB6B329C2861F39F00E777CE /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AB6B329D2861F39F00E777CE /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		AB6B32A32862E82700E777CE /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		AB91E911285C80BB00D9E497 /* DateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormat.swift; sourceTree = "<group>"; };
 		ABBBCF00285774F300589B86 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		ABF991A72858B2F9000A44A1 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
@@ -121,29 +123,6 @@
 			path = Scene;
 			sourceTree = "<group>";
 		};
-		86F676022862E1F900F675E8 /* DetailScene */ = {
-			isa = PBXGroup;
-			children = (
-				86F676052862E29100F675E8 /* Controller */,
-				86F676032862E28400F675E8 /* View */,
-			);
-			path = DetailScene;
-			sourceTree = "<group>";
-		};
-		86F676032862E28400F675E8 /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		86F676052862E29100F675E8 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
 		A370ED2066CD6E1AE458FAA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -177,6 +156,30 @@
 				AB6B32852861B76A00E777CE /* CoreDataModel.xcdatamodeld */,
 			);
 			path = CoreDataModel;
+			sourceTree = "<group>";
+		};
+		AB6B32A02862E7F300E777CE /* DetailScene */ = {
+			isa = PBXGroup;
+			children = (
+				AB6B32A22862E80300E777CE /* View */,
+				AB6B32A12862E7FD00E777CE /* Controller */,
+			);
+			path = DetailScene;
+			sourceTree = "<group>";
+		};
+		AB6B32A12862E7FD00E777CE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		AB6B32A22862E80300E777CE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AB6B32A32862E82700E777CE /* DetailView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		AB91E910285C809C00D9E497 /* Enum */ = {
@@ -256,7 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				86C1322C2858A9920069CFD2 /* MainScene */,
-				86F676022862E1F900F675E8 /* DetailScene */,
+				AB6B32A02862E7F300E777CE /* DetailScene */,
 				ABF991BA2859AAA5000A44A1 /* WriteScene */,
 				86C13230285979170069CFD2 /* Resource */,
 				86C132322859794B0069CFD2 /* Scene */,
@@ -382,6 +385,7 @@
 			files = (
 				AB0D9A072859B0FB00235064 /* WriteView.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
+				AB6B32A42862E82700E777CE /* DetailView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				AB6B329E2861F39F00E777CE /* Diary+CoreDataClass.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
