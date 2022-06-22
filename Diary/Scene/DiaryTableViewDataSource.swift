@@ -16,7 +16,7 @@ final class DiaryTableViewDataSource: UITableViewDiffableDataSource<Int, Diary> 
         }
     }
     
-    private let persistentManager = PersistentManager(modelName: "Diary")
+    private let persistentManager = PersistentManager.sharedDiary
     
     private func applySnapshot() {
         var snapshot = Snapshot()

@@ -8,7 +8,10 @@
 import CoreData
 
 final class PersistentManager {
-    init(modelName: String) {
+    
+    static let sharedDiary = PersistentManager(modelName: "Diary")
+    
+    private init(modelName: String) {
         persistentContainer = NSPersistentContainer(name: modelName)
         persistentContainer.loadPersistentStores { _, error in
             if let error = error as NSError? {
