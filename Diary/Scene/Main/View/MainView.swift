@@ -13,6 +13,12 @@ final class MainView: UIView {
         setUpView()
     }
     
+    convenience init(frame: CGRect, delegate: UITableViewDelegate, dataSource: UITableViewDataSource) {
+        self.init(frame: frame)
+        self.baseTableView.delegate = delegate
+        self.baseTableView.dataSource = dataSource
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
