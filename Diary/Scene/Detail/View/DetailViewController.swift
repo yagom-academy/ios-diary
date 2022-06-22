@@ -7,22 +7,16 @@
 
 import UIKit
 
-fileprivate extension AppConstants {
-    static let rightBarButtonImage = "ellipsis.circle"
-}
-
 final class DetailViewController: UIViewController {
-    private enum ExecutionStatus {
-        case update
-        case delete
+    private enum Constants {
+        static let rightBarButtonImage = "ellipsis.circle"
     }
     
     private lazy var detailView = DetailView(frame: view.bounds)
-    private let diary: DiaryEntity
-    private var status: ExecutionStatus = .update
+    private let viewModel: DetailViewModel
     
     init(diary: DiaryEntity) {
-        self.diary = diary
+        self.viewModel = DetailViewModel(diary: diary)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -39,30 +33,12 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         registerNotification()
         setUpNavigationBar()
-        detailView.setUpContents(data: diary)
-        detailView.scrollTextViewToTop()
-        detailView.contentTextView.delegate = self
+        setUpView()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        saveDiary()
-    }
-    
-    private func saveDiary() {
-        if status == .delete {
-            return
-        }
-        
-        guard let content = detailView.contentTextView.text else { return }
-
-        var splitedText = content.components(separatedBy: "\n")
-        let title = splitedText.removeFirst()
-        let body = splitedText.joined(separator: "\n")
-
-        let diary = Diary(title: title, createdAt: diary.createdAt, body: body, id: diary.id)
-                
-        PersistenceManager.shared.execute(by: .update(diary: diary))
+        viewModel.saveDiary(text: detailView.contentTextView.text)
     }
 }
 
@@ -89,7 +65,6 @@ extension DetailViewController: UITextViewDelegate {
 }
 
 // MARK: SetUp
-
 extension DetailViewController {
     private func registerNotification() {
         let notificationCenter = NotificationCenter.default
@@ -117,22 +92,30 @@ extension DetailViewController {
     }
     
     private func setUpNavigationBar() {
-        title = diary.createdAt.formattedString
+        title = viewModel
+            .diary
+            .createdAt
+            .formattedString
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: AppConstants.rightBarButtonImage),
+            image: UIImage(systemName: Constants.rightBarButtonImage),
             style: .plain,
             target: self,
             action: #selector(didTapActionButton)
         )
     }
+    
+    private func setUpView() {
+        detailView.setUpContents(data: viewModel.diary)
+        detailView.scrollTextViewToTop()
+        detailView.contentTextView.delegate = self
+    }
 }
 
 // MARK: Objc Method
-
 extension DetailViewController {
     @objc private func didEnterBackground() {
-        saveDiary()
+        viewModel.saveDiary(text: detailView.contentTextView.text)
     }
     
     @objc private func didTapActionButton() {
@@ -151,26 +134,24 @@ extension DetailViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
-        saveDiary()
+        viewModel.saveDiary(text: detailView.contentTextView.text)
     }
 }
 
 // MARK: Show ActionSheet
-
 extension DetailViewController {
     private func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let deleteAction = UIAlertAction(title: AppConstants.deleteActionTitle, style: .destructive) { _ in
             self.showAlert { [self] _ in
-                PersistenceManager.shared.execute(by: .delete(diary))
-                status = .delete
+                self.viewModel.deleteDiary()
                 navigationController?.popViewController(animated: true)
             }
         }
         
         let shareAction = UIAlertAction(title: AppConstants.shareActionTitle, style: .default) { _ in
-            self.showActivityView(data: self.diary)
+            self.showActivityView(data: self.viewModel.diary)
         }
         
         let cancelAction = UIAlertAction(title: AppConstants.cancelActionTitle, style: .cancel)
@@ -180,19 +161,5 @@ extension DetailViewController {
         actionSheet.addAction(cancelAction)
         
         present(actionSheet, animated: true)
-    }
-}
-
-// MARK: Show ActivityView
-
-extension DetailViewController {
-    private func showActivityView(data: DiaryEntity) {
-        let textToShare: [Any] = [
-            ShareActivityItemSource(
-                title: data.title ?? AppConstants.noTitle,
-                text: data.createdAt.formattedString)
-        ]
-        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
-        present(activityViewController, animated: true)
     }
 }
