@@ -93,9 +93,8 @@ extension MainViewController: UITableViewDelegate {
             let deleteButton: UIAlertAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 do {
                     try self.viewModel.delete(data: self.viewModel.data[indexPath.row])
-                    // 이부분에 셀에 삭제 애니메이션이 필요하다.
                     try self.viewModel.loadData()
-                    self.mainView.reloadData()
+                    tableView.deleteRows(at: [indexPath], with: .automatic)
                 } catch {
                     self.alertMaker.makeErrorAlert(error: error)
                 }
@@ -115,7 +114,6 @@ extension MainViewController: UITableViewDelegate {
         }
         share.backgroundColor = .systemTeal
         
-        // actions배열 인덱스 0이 왼쪽에 붙어서 나옴
         return UISwipeActionsConfiguration(actions: [like, share])
     }
 }

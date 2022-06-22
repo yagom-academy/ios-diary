@@ -11,7 +11,7 @@ protocol SaveDelegate: UIViewController {
     func save()
 }
 
-@main
+ @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     weak var saveDelegate: SaveDelegate?
