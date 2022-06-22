@@ -30,18 +30,6 @@ final class PersistenceManager {
 }
 
 extension PersistenceManager {
-    func execute(by method: Method) {
-        switch method {
-        case .create(let diary):
-            createData(by: diary)
-        case .read:
-            fetchData()
-        case .update(let diary):
-            updateData(by: diary)
-        case .delete(let objectToDelete, let index):
-            deleteData(by: objectToDelete, index: index)
-        }
-    }
 
     private func createData(by diary: Diary) {
         let request = makeRequest(by: diary.id)
