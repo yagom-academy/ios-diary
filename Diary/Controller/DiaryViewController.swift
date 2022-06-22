@@ -57,7 +57,7 @@ class DiaryViewController: UIViewController {
     
     private func setDiary() {
         let textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
-        var removedSpaceArray: [String] = textArray.compactMap {
+        var convertedTextArray: [String] = textArray.compactMap {
             if !$0.trimmingCharacters(in: .whitespaces).isEmpty {
                 return $0.trimmingCharacters(in: .whitespaces)
             }
@@ -65,14 +65,14 @@ class DiaryViewController: UIViewController {
         }
         
         if diary == nil {
-            diary = Diary(title: removedSpaceArray.isEmpty ? "새로운 일기" : removedSpaceArray.removeFirst(),
-                          body: removedSpaceArray.isEmpty ? "본문 없음" : removedSpaceArray[0],
+            diary = Diary(title: convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst(),
+                          body: convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0],
                           text: diaryView.diaryTextView.text ?? "",
                           createdAt: Date().timeIntervalSince1970,
                           id: UUID())
         } else {
-            diary?.title = removedSpaceArray.isEmpty ? "새로운 일기" : removedSpaceArray.removeFirst()
-            diary?.body = removedSpaceArray.isEmpty ? "본문 없음" : removedSpaceArray[0]
+            diary?.title = convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst()
+            diary?.body = convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0]
             diary?.text = diaryView.diaryTextView.text ?? ""
         }
     }
