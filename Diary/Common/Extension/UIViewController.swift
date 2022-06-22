@@ -21,6 +21,17 @@ extension UIViewController {
         present(alert, animated: true)
     }
     
+    func showAlert(message: String) {
+        let alert = UIAlertController(
+            title: AppConstants.errorAlertTitle,
+            message: message,
+            preferredStyle: .alert
+        )
+        let confirmAction = UIAlertAction(title: AppConstants.confirmActionTitle, style: .cancel)
+        alert.addAction(confirmAction)
+        present(alert, animated: true)
+    }
+    
     func showActivityView(data: DiaryEntity) {
         let textToShare: [Any] = [
             ShareActivityItemSource(

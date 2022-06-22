@@ -11,6 +11,8 @@ public enum AppConstants {
     static let cancelActionTitle = "취소"
     static let deleteActionTitle = "삭제"
     static let shareActionTitle = "공유"
+    static let errorAlertTitle = "오류"
+    static let confirmActionTitle = "확인"
     
     static let noTitle = "[제목 없음]"
     

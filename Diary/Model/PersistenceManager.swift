@@ -5,7 +5,7 @@
 //  Created by mmim, grumpy, mino on 2022/06/17.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 final class PersistenceManager {
@@ -18,7 +18,7 @@ final class PersistenceManager {
         let container = NSPersistentContainer(name: AppConstants.entityName)
         container.loadPersistentStores(completionHandler: { _, error in
             if let error = error as NSError? {
-                fatalError()
+                self.showErrorAlert(DiaryError.loadFail.localizedDescription)
             }
         })
         return container
@@ -54,7 +54,7 @@ extension PersistenceManager {
             let fetchResult = try context.fetch(request)
             diaryEntities = fetchResult.reversed()
         } catch {
-            print(error.localizedDescription)
+            showErrorAlert(DiaryError.loadFail.localizedDescription)
         }
     }
         
@@ -85,7 +85,7 @@ extension PersistenceManager {
         do {
             try context.save()
         } catch {
-            print(error.localizedDescription)
+            showErrorAlert(DiaryError.saveFail.localizedDescription)
         }
     }
     
@@ -103,5 +103,12 @@ extension PersistenceManager {
             return nil
         }
         return diaryEntity
+    }
+}
+
+extension PersistenceManager {
+    private func showErrorAlert(_ message: String) {
+        guard let topViewController = UIApplication.shared.topViewController() else { return }
+        topViewController.showAlert(message: message)
     }
 }
