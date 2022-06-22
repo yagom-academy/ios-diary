@@ -42,14 +42,31 @@ class DiaryViewController: UIViewController {
         }
     }
     
-    private func diaryText() -> [String] {
+    private func setDiary() {
         let textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
-        return textArray
+        var removedSpaceArray: [String] = textArray.compactMap {
+            if !$0.trimmingCharacters(in: .whitespaces).isEmpty {
+                return $0
+            }
+            return nil
+        }
+        
+        if diary == nil {
+            diary = Diary(title: removedSpaceArray.isEmpty ? "새로운 일기" : removedSpaceArray.removeFirst(),
+                          body: removedSpaceArray.isEmpty ? "본문 없음" : removedSpaceArray[0],
+                          text: diaryView.diaryTextView.text ?? "",
+                          createdAt: Date().timeIntervalSince1970,
+                          id: UUID())
+        } else {
+            diary?.title = removedSpaceArray.isEmpty ? "새로운 일기" : removedSpaceArray.removeFirst()
+            diary?.body = removedSpaceArray.isEmpty ? "본문 없음" : removedSpaceArray[0]
+            diary?.text = diaryView.diaryTextView.text ?? ""
+        }
     }
     
     private func touchShareButton() {
-        let text = [diaryText().joined(separator: "\n")]
-        let share = UIActivityViewController(activityItems: text, applicationActivities: nil)
+        let text = diaryView.diaryTextView.text ?? ""
+        let share = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         self.present(share, animated: true)
     }
     
@@ -95,13 +112,7 @@ class DiaryViewController: UIViewController {
     }
     
     @objc private func saveDiary() {
-        var textArray = diaryText()
-        if diary == nil {
-            diary = Diary(title: textArray.removeFirst(), body: textArray.joined(separator: "\n"), createdAt: Date().timeIntervalSince1970, id: UUID())
-        } else {
-            diary?.title = textArray.removeFirst()
-            diary?.body = textArray.joined(separator: "\n")
-        }
+        setDiary()
         update(diary)
         delegate?.updateView()
     }
