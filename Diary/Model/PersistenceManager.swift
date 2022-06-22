@@ -19,7 +19,7 @@ final class PersistenceManager {
         case delete(_ objectToDelete: DiaryEntity, index: Int? = nil)
     }
     
-    private var diaryEntities = [DiaryEntity]()
+    private(set) var diaryEntities = [DiaryEntity]()
     
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: AppConstants.entityName)
@@ -33,10 +33,6 @@ final class PersistenceManager {
     
     private var context: NSManagedObjectContext {
         return persistentContainer.viewContext
-    }
-    
-    func diaries() -> [DiaryEntity] {
-        return diaryEntities
     }
 }
 
