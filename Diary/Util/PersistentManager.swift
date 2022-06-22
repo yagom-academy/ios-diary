@@ -43,6 +43,7 @@ final class PersistentManager {
     diaryEntity.setValue(diary.title, forKey: "title")
     diaryEntity.setValue(diary.body, forKey: "body")
     diaryEntity.setValue(diary.createdAt, forKey: "createdAt")
+    diaryEntity.setValue(diary.uuid, forKey: "uuid")
 
     self.saveContext()
   }
@@ -63,7 +64,6 @@ final class PersistentManager {
 
     diaryEntity.setValue(diary.title, forKey: "title")
     diaryEntity.setValue(diary.body, forKey: "body")
-    diaryEntity.setValue(diary.createdAt, forKey: "createdAt")
 
     self.saveContext()
   }
@@ -78,10 +78,12 @@ final class PersistentManager {
   }
 
   func deleteAll() {
-    let delete = NSBatchDeleteRequest(fetchRequest: DiaryEntity.fetchRequest())
+    guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return }
 
-    do {
-      try self.context.execute(delete)
-    } catch {}
+    diaryEntities.forEach { entity in
+      context.delete(entity)
+    }
+
+    self.saveContext()
   }
 }
