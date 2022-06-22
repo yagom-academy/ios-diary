@@ -7,13 +7,49 @@
 import UIKit
 
 final class DiaryTableViewController: UITableViewController {
-    private var dataSource: DiaryTableViewDataSource?
+    private typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Diary>
+    private typealias DataSource = UITableViewDiffableDataSource<Int, Diary>
     
+    private var dataSource: DataSource?
+    
+    private let persistentManager = PersistentManager.sharedDiary
+    
+    private var diarys = [Diary]() {
+        didSet {
+            applySnapshot()
+        }
+    }
     // MARK: View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
+    }
+    
+    private func applySnapshot() {
+        var snapshot = Snapshot()
+        snapshot.appendSections([0])
+        snapshot.appendItems(diarys)
+        
+        dataSource?.apply(snapshot)
+    }
+    
+    private func create() {
+        let newDiary = Diary(title: "", body: "", createdDate: Date.now)
+        diarys.insert(newDiary, at: .zero)
+        persistentManager.create(data: newDiary)
+    }
+    
+    private func read() {
+        guard let results = persistentManager.fetchAll() else { return }
+        
+        diarys = results.map { entity in
+            return Diary(title: entity.title, body: entity.body, createdDate: entity.createdDate, id: entity.id)
+        }
+    }
+    
+    private func find(id: String) -> Int? {
+        return diarys.firstIndex { $0.id == id }
     }
     
     // MARK: Functions
@@ -34,8 +70,8 @@ final class DiaryTableViewController: UITableViewController {
     
     @objc
     private func addButtondidTap() {
-        dataSource?.create()
-        guard let diary = dataSource?.diarys.first else { return }
+        create()
+        guard let diary = diarys.first else { return }
         
         let diaryViewController = DiaryDetailViewController(diary: diary)
         diaryViewController.delegate = self
@@ -47,11 +83,11 @@ final class DiaryTableViewController: UITableViewController {
         tableView.separatorInset.left = 20
         tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.reuseIdentifier)
         makeDataSource()
-        dataSource?.read()
+        read()
     }
     
     private func makeDataSource() {
-        dataSource = DiaryTableViewDataSource(tableView: tableView) { tableView, indexPath, item in
+        dataSource = DataSource(tableView: tableView) { tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(
                 withIdentifier: DiaryCell.reuseIdentifier,
                 for: indexPath
@@ -67,7 +103,7 @@ final class DiaryTableViewController: UITableViewController {
 
 extension DiaryTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diary = dataSource?.diarys[indexPath.row] else { return }
+        let diary = diarys[indexPath.row]
         
         let diaryViewController = DiaryDetailViewController(diary: diary)
         diaryViewController.delegate = self
@@ -85,8 +121,8 @@ extension DiaryTableViewController {
                 image: UIImage(systemName: "trash.circle"),
                 style: .destructive,
                 action: { [weak self] in
-                    guard let diary = self?.dataSource?.diarys[indexPath.row] else { return }
-                    self?.dataSource?.delete(diary: diary)
+                    guard let diary = self?.diarys[indexPath.row] else { return }
+                    self?.delete(diary: diary)
                 })
             .addAction(
                 title: "공유",
@@ -94,7 +130,7 @@ extension DiaryTableViewController {
                 image: UIImage(systemName: "square.and.arrow.up.circle"),
                 style: .normal,
                 action: { [weak self] in
-                    guard let diary = self?.dataSource?.diarys[indexPath.row] else { return }
+                    guard let diary = self?.diarys[indexPath.row] else { return }
                     
                     let text = diary.title + "\n\n" + diary.body
                     let activityViewController = UIActivityViewController(
@@ -112,10 +148,16 @@ extension DiaryTableViewController {
 
 extension DiaryTableViewController: DiaryDetailViewDelegate {
     func update(diary: Diary) {
-        dataSource?.update(diary: diary)
+        guard let index = find(id: diary.id) else { return }
+    
+        diarys[index] = diary
+        persistentManager.update(data: diary)
     }
     
     func delete(diary: Diary) {
-        dataSource?.delete(diary: diary)
+        guard let index = find(id: diary.id) else { return }
+    
+        diarys.remove(at: index)
+        persistentManager.delete(data: diary)
     }
 }
