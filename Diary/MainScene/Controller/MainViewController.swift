@@ -118,16 +118,4 @@ extension MainViewController: UITableViewDelegate {
     configuration.performsFirstActionWithFullSwipe = false
     return configuration
   }
-  
-  private func showActivityView() {
-    var items = [Any]()
-    let shareText = "쿼카꺼"
-    items.append(shareText)
-    
-    let activityVC = UIActivityViewController(
-      activityItems: items,
-      applicationActivities: nil)
-    activityVC.popoverPresentationController?.sourceView = self.view
-    self.present(activityVC, animated: true)
-  }  
 }

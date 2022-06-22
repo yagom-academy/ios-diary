@@ -83,6 +83,7 @@ final class CoredataManager {
     }
   }
   
+  @discardableResult
   func deleteContext(identifier: String) -> [Diary] {
     let request = Diary.fetchRequest()
     request.predicate = NSPredicate(format: "identifier == %@", identifier)

@@ -97,23 +97,12 @@ final class DetailViewController: UIViewController {
 
     let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
       CoredataManager.sherd.deleteContext(identifier: self.diary.identifier.bindOptional())
+      self.navigationController?.popViewController(animated: true)
     }
 
     alertVC.addAction(cancelAction)
     alertVC.addAction(deleteAction)
     self.present(alertVC, animated: true)
-  }
-  
-  private func showActivityView() {
-    var items = [Any]()
-    let shareText = "쿼카꺼"
-    items.append(shareText)
-    
-    let activityVC = UIActivityViewController(
-      activityItems: items,
-      applicationActivities: nil)
-    activityVC.popoverPresentationController?.sourceView = self.view
-    self.present(activityVC, animated: true)
   }
 }
 
