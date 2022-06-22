@@ -50,9 +50,9 @@ extension MainViewController {
     }
     
     private func setUpDiaries() {
-        DispatchQueue.main.async { [self] in
-            viewModel.readDiary()
-            mainView.baseTableView.reloadData()
+        DispatchQueue.main.async { 
+            self.viewModel.readDiary()
+            self.mainView.baseTableView.reloadData()
         }
     }
 }

@@ -144,9 +144,9 @@ extension DetailViewController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let deleteAction = UIAlertAction(title: AppConstants.deleteActionTitle, style: .destructive) { _ in
-            self.showAlert { [self] _ in
+            self.showAlert { _ in
                 self.viewModel.deleteDiary()
-                navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }
         }
         

@@ -20,4 +20,14 @@ extension UIViewController {
         alert.addAction(removeAction)
         present(alert, animated: true)
     }
+    
+    func showActivityView(data: DiaryEntity) {
+        let textToShare: [Any] = [
+            ShareActivityItemSource(
+                title: data.title ?? AppConstants.noTitle,
+                text: data.createdAt.formattedString)
+        ]
+        let activityViewController = UIActivityViewController(activityItems: textToShare, applicationActivities: nil)
+        present(activityViewController, animated: true)
+    }
 }

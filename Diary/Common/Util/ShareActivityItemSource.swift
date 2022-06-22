@@ -12,8 +12,8 @@ fileprivate extension AppConstants {
 }
 
 final class ShareActivityItemSource: NSObject, UIActivityItemSource {
-    var title: String
-    var text: String
+    private var title: String
+    private let text: String
     
     init(title: String, text: String) {
         self.title = title
