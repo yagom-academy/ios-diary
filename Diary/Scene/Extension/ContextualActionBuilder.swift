@@ -38,7 +38,7 @@ final class ContextualActionBuilder {
         return self
     }
     
-    func make() -> UISwipeActionsConfiguration {
+    func build() -> UISwipeActionsConfiguration {
         let actions = actions.map { action -> UIContextualAction in
             let contextualAction = UIContextualAction(style: action.style, title: action.title) { _, _, completion in
                 action.completionHandler?()

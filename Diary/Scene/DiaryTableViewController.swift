@@ -104,7 +104,7 @@ extension DiaryTableViewController {
                     
                     self?.present(activityViewController, animated: true)
                 })
-            .make()
+            .build()
     }
 }
 
