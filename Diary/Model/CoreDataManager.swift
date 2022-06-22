@@ -49,6 +49,7 @@ final class CoreDataManager {
         let diary = NSManagedObject(entity: entity, insertInto: context)
         diary.setValue(diaryData.title, forKey: "title")
         diary.setValue(diaryData.body, forKey: "body")
+        diary.setValue(diaryData.text, forKey: "text")
         diary.setValue(diaryData.createdAt, forKey: "createdAt")
         diary.setValue(diaryData.id, forKey: "id")
         
@@ -81,6 +82,7 @@ final class CoreDataManager {
             }
             diaryToUpdate.setValue(diaryData.title, forKey: "title")
             diaryToUpdate.setValue(diaryData.body, forKey: "body")
+            diaryToUpdate.setValue(diaryData.text, forKey: "text")
             diaryToUpdate.setValue(diaryData.createdAt, forKey: "createdAt")
         } catch {
             throw error

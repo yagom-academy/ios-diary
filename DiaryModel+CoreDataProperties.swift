@@ -17,6 +17,7 @@ extension DiaryModel {
 
     @NSManaged public var title: String?
     @NSManaged public var body: String?
+    @NSManaged public var text: String?
     @NSManaged public var createdAt: Double
     @NSManaged public var id: UUID
 

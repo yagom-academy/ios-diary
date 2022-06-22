@@ -10,6 +10,7 @@ import Foundation
 struct Diary {
     var title: String
     var body: String
+    var text: String
     let createdAt: Double
     let id: UUID
 }

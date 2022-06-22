@@ -45,6 +45,7 @@ final class ListViewController: UIViewController {
             diaryArray = try CoreDataManager.shared.read().compactMap {
                 return Diary(title: $0.title ?? "",
                              body: $0.body ?? "",
+                             text: $0.text ?? "",
                              createdAt: $0.createdAt,
                              id: $0.id)
             }
