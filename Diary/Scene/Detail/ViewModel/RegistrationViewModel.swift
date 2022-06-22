@@ -27,6 +27,6 @@ extension RegistrationViewModel {
 
         let diary = Diary(title: title, createdAt: createdAt, body: body, id: diaryId)
         
-        PersistenceManager.shared.execute(by: .create(diary: diary))
+        PersistenceManager.shared.createData(by: diary)
     }
 }

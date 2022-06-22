@@ -15,7 +15,7 @@ final class MainViewModel {
 
 extension MainViewModel {
     func readDiary() {
-        PersistenceManager.shared.execute(by: .read)
+        PersistenceManager.shared.fetchData()
     }
     
     func deleteDiary(indexPath: IndexPath) {
@@ -23,6 +23,6 @@ extension MainViewModel {
             return
         }
         let objectToDelete = diary
-        PersistenceManager.shared.execute(by: .delete(objectToDelete, index: indexPath.row))
+        PersistenceManager.shared.deleteData(by: objectToDelete, index: indexPath.row)
     }
 }

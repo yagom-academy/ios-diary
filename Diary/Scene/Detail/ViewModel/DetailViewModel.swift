@@ -33,11 +33,11 @@ extension DetailViewModel {
 
         let diary = Diary(title: title, createdAt: diary.createdAt, body: body, id: diary.id)
                 
-        PersistenceManager.shared.execute(by: .update(diary: diary))
+        PersistenceManager.shared.updateData(by: diary)
     }
     
     func deleteDiary() {
-        PersistenceManager.shared.execute(by: .delete(diary))
+        PersistenceManager.shared.deleteData(by: diary)
         status = .delete
     }
 }
