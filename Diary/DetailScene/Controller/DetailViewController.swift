@@ -39,36 +39,81 @@ final class DetailViewController: UIViewController {
   }
   
   private func updateDiaryData() {
-    guard let identifier = diary.identifier, let date = diary.createdDate else {
-      return
-    }
-    
     CoredataManager.sherd.updataContext(
       title: baseView.textView.text,
       content: baseView.textView.text,
-      identifier: identifier,
-      date: date)
+      identifier: diary.identifier.bindOptional(),
+      date: diary.createdDate.bindOptional())
   }
   
   private func configureUI() {
     self.navigationItem.rightBarButtonItem = UIBarButtonItem(
-      image: UIImage(systemName: "ellipsise"),
+      image: UIImage(systemName: "ellipsis"),
       style: .plain,
       target: self,
       action: #selector(actionSheetWillShow)
     )
-    self.view.backgroundColor = .systemBackground
     self.navigationItem.title = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
     self.baseView.updateTextView(diary: diary)
   }
   
   @objc func actionSheetWillShow() {
-    
+    self.showViewMoreAlert()
   }
   
   deinit {
     self.removeKeyboardObserver()
     self.removeSaveDiaryObserver()
+  }
+  
+  private func showViewMoreAlert(){
+    let alertVC = UIAlertController(
+      title: "택1하셈",
+      message: "무엇을 택1 할것인가",
+      preferredStyle: .actionSheet)
+
+    let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+      self.showActivityView()
+    }
+
+    let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+      self.showDeleteAlert()
+    }
+
+    alertVC.addAction(shareAction)
+    alertVC.addAction(deleteAction)
+    
+    present(alertVC, animated: true)
+
+  }
+
+  private func showDeleteAlert() {
+    let alertVC = UIAlertController(
+      title: "진짜요?",
+      message: "정말로 삭제하시겠어요?",
+      preferredStyle: .alert)
+
+    let cancelAction = UIAlertAction(title: "취소", style: .default)
+
+    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+      CoredataManager.sherd.deleteContext(identifier: self.diary.identifier.bindOptional())
+    }
+
+    alertVC.addAction(cancelAction)
+    alertVC.addAction(deleteAction)
+    self.present(alertVC, animated: true)
+  }
+  
+  private func showActivityView() {
+    var items = [Any]()
+    let shareText = "쿼카꺼"
+    items.append(shareText)
+    
+    let activityVC = UIActivityViewController(
+      activityItems: items,
+      applicationActivities: nil)
+    activityVC.popoverPresentationController?.sourceView = self.view
+    self.present(activityVC, animated: true)
   }
 }
 

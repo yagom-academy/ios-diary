@@ -96,20 +96,22 @@ extension MainViewController: UITableViewDelegate {
     trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
   ) -> UISwipeActionsConfiguration? {
     
-    let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, completion in
+    let deleteAction = UIContextualAction(style: .normal, title: "삭제") { _, _, completion in
       guard let diary = self.diarys?[indexPath.row].identifier else {
         return
       }
       self.diarys = CoredataManager.sherd.deleteContext(identifier: diary)
       completion(true)
     }
-    deleteAction.image = UIImage(systemName: "trash")
     
     let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, completion in
       self.showActivityView()
       completion(true)
     }
+    
+    deleteAction.backgroundColor = .systemRed
     shareAction.backgroundColor = .systemBlue
+    deleteAction.image = UIImage(systemName: "trash")
     shareAction.image = UIImage(systemName: "square.and.arrow.up")
     
     let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
@@ -118,53 +120,14 @@ extension MainViewController: UITableViewDelegate {
   }
   
   private func showActivityView() {
-    let shareText = "쿼카"
-    let taeangel = "태앙젤"
     var items = [Any]()
+    let shareText = "쿼카꺼"
     items.append(shareText)
-    items.append(taeangel)
+    
     let activityVC = UIActivityViewController(
       activityItems: items,
       applicationActivities: nil)
     activityVC.popoverPresentationController?.sourceView = self.view
     self.present(activityVC, animated: true)
-  }
-  
-  private func showViewMoreAlert() -> UIAlertController {
-    let alertVC = UIAlertController(
-      title: "택1하셈",
-      message: "무엇을 택1 할것인가",
-      preferredStyle: .actionSheet)
-    
-    let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
-      self.showActivityView()
-    }
-    
-    let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-      self.showDeleteAlert()
-    }
-    
-    alertVC.addAction(shareAction)
-    alertVC.addAction(deleteAction)
-    
-    return alertVC
-  }
-  
-  private func showDeleteAlert() {
-    let alertVC = UIAlertController(
-      title: "진짜요?",
-      message: "정말로 삭제하시겠어요?",
-      preferredStyle: .alert)
-    
-    let cancelAction = UIAlertAction(title: "취소", style: .default)
-    
-    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-      
-    }
-    
-    alertVC.addAction(cancelAction)
-    alertVC.addAction(deleteAction)
-    self.present(alertVC, animated: true)
-  }
+  }  
 }
-
