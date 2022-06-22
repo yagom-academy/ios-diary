@@ -1,8 +1,8 @@
 //
 //  Diary+CoreDataClass.swift
-//  
+//  Diary
 //
-//  Created by SeoDongyeon on 2022/06/22.
+//  Created by Donnie, OneTool on 2022/06/22.
 //
 //
 
