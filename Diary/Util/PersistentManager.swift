@@ -67,4 +67,13 @@ final class PersistentManager {
 
     self.saveContext()
   }
+
+  func delete(diary: Diary) {
+    guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return }
+    guard let diaryEntity = diaryEntities.first(where: { $0.uuid == diary.uuid }) else { return }
+
+    context.delete(diaryEntity)
+
+    self.saveContext()
+  }
 }
