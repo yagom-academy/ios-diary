@@ -111,14 +111,37 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
-		86C132322859794B0069CFD2 /* Secen */ = {
+		86C132322859794B0069CFD2 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 			);
-			path = Secen;
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		86F676022862E1F900F675E8 /* DetailScene */ = {
+			isa = PBXGroup;
+			children = (
+				86F676052862E29100F675E8 /* Controller */,
+				86F676032862E28400F675E8 /* View */,
+			);
+			path = DetailScene;
+			sourceTree = "<group>";
+		};
+		86F676032862E28400F675E8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86F676052862E29100F675E8 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		A370ED2066CD6E1AE458FAA3 /* Frameworks */ = {
@@ -215,7 +238,6 @@
 			children = (
 				ABBBCF00285774F300589B86 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
-				ABF991BA2859AAA5000A44A1 /* WriteScene */,
 				C739AE22284DF28600741E8F /* Products */,
 				A4ED2E1C6158963E9FC7C83C /* Pods */,
 				A370ED2066CD6E1AE458FAA3 /* Frameworks */,
@@ -233,10 +255,12 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				86C132322859794B0069CFD2 /* Secen */,
-				86C13230285979170069CFD2 /* Resource */,
-				ABF991B428597710000A44A1 /* Utils */,
 				86C1322C2858A9920069CFD2 /* MainScene */,
+				86F676022862E1F900F675E8 /* DetailScene */,
+				ABF991BA2859AAA5000A44A1 /* WriteScene */,
+				86C13230285979170069CFD2 /* Resource */,
+				86C132322859794B0069CFD2 /* Scene */,
+				ABF991B428597710000A44A1 /* Utils */,
 			);
 			path = Diary;
 			sourceTree = "<group>";

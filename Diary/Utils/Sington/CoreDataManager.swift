@@ -58,4 +58,30 @@ final class CoredataManager {
       fatalError("\(error)")
     }
   }
+  
+  func updataContext(diary: Diary) {
+    guard let identifier = diary.identifier else {
+      return
+    }
+    
+    let request = Diary.fetchRequest()
+    request.predicate = NSPredicate(format: "identifier == %@", identifier)
+    
+    do {
+      let diarys = try viewContext.fetch(request)
+      diarys.forEach {
+        $0.title = diary.title
+        $0.createdDate = diary.createdDate
+        $0.content = diary.content
+      }
+      
+      guard viewContext.hasChanges else {
+        return
+      }
+      
+      try viewContext.save()
+    } catch {
+      fatalError("\(error)")
+    }
+  }
 }
