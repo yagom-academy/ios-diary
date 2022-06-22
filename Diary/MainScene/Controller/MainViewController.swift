@@ -116,5 +116,55 @@ extension MainViewController: UITableViewDelegate {
     configuration.performsFirstActionWithFullSwipe = false
     return configuration
   }
+  
+  private func showActivityView() {
+    let shareText = "쿼카"
+    let taeangel = "태앙젤"
+    var items = [Any]()
+    items.append(shareText)
+    items.append(taeangel)
+    let activityVC = UIActivityViewController(
+      activityItems: items,
+      applicationActivities: nil)
+    activityVC.popoverPresentationController?.sourceView = self.view
+    self.present(activityVC, animated: true)
+  }
+  
+  private func showViewMoreAlert() -> UIAlertController {
+    let alertVC = UIAlertController(
+      title: "택1하셈",
+      message: "무엇을 택1 할것인가",
+      preferredStyle: .actionSheet)
+    
+    let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+      self.showActivityView()
+    }
+    
+    let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+      self.showDeleteAlert()
+    }
+    
+    alertVC.addAction(shareAction)
+    alertVC.addAction(deleteAction)
+    
+    return alertVC
+  }
+  
+  private func showDeleteAlert() {
+    let alertVC = UIAlertController(
+      title: "진짜요?",
+      message: "정말로 삭제하시겠어요?",
+      preferredStyle: .alert)
+    
+    let cancelAction = UIAlertAction(title: "취소", style: .default)
+    
+    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+      
+    }
+    
+    alertVC.addAction(cancelAction)
+    alertVC.addAction(deleteAction)
+    self.present(alertVC, animated: true)
+  }
 }
 
