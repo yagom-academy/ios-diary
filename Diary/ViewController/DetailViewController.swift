@@ -125,15 +125,19 @@ extension DetailViewController {
             bottom: .zero,
             right: .zero
         )
+        updateListData()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        
+    private func updateListData() {
         let title = detailView.titleField.text
         let body = detailView.descriptionView.text
         
         diaryData = DiaryModel(title: title, body: body, createdAt: diaryData.createdAt, id: diaryData.id)
         
         persistenceManager.update(diary: diaryData)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        updateListData()
     }
 }
