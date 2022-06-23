@@ -10,7 +10,8 @@ import UIKit
 final class DetailViewController: UIViewController {
     
     private lazy var detailView = DetailView(frame: view.frame)
-    private let diaryData: DiaryModel
+    private let persistenceManager = PersistenceManager.shared
+    private var diaryData: DiaryModel
     
     override func loadView() {
         super.loadView()
@@ -41,7 +42,7 @@ final class DetailViewController: UIViewController {
 extension DetailViewController {
     
     private func setNavigationBarTitle() {
-        navigationItem.title = diaryData.createdAt.description
+        navigationItem.title = diaryData.createdAt.formattedDate
     }
     
     private func setNavigationBarRightButton() {
@@ -97,5 +98,15 @@ extension DetailViewController {
             bottom: .zero,
             right: .zero
         )
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        let title = detailView.titleField.text
+        let body = detailView.descriptionView.text
+        
+        diaryData = DiaryModel(title: title, body: body, createdAt: diaryData.createdAt, id: diaryData.id)
+        
+        persistenceManager.update(diary: diaryData)
     }
 }
