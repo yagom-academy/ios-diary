@@ -53,5 +53,7 @@ final class RegisterViewController: UIViewController {
         createDiaryData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        detailView.titleField.becomeFirstResponder()
     }
 }
