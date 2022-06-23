@@ -39,26 +39,19 @@ final class RegisterViewController: UIViewController {
     @objc private func keyboardWillShow(notification: NSNotification) {
         guard let keyboardSize = (
             notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        )?.cgRectValue else { return }
-        detailView.mainScrollView.contentInset = .init(
-            top: .zero,
-            left: .zero,
-            bottom: keyboardSize.height,
-            right: .zero
-        )
+        )?.cgRectValue else {
+            return
+        }
+        detailView.mainScrollView.contentInset.bottom = keyboardSize.height
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
-        detailView.mainScrollView.contentInset = .init(
-            top: .zero,
-            left: .zero,
-            bottom: .zero,
-            right: .zero
-        )
+        detailView.mainScrollView.contentInset.bottom = .zero
         createDiaryData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         detailView.titleField.becomeFirstResponder()
     }
 }

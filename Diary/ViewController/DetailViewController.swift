@@ -115,21 +115,11 @@ extension DetailViewController {
         guard let keyboardSize = (
             notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
         )?.cgRectValue else { return }
-        detailView.mainScrollView.contentInset = .init(
-            top: .zero,
-            left: .zero,
-            bottom: keyboardSize.height,
-            right: .zero
-        )
+        detailView.mainScrollView.contentInset.bottom = keyboardSize.height
     }
     
     @objc private func keyboardWillHide(notification: NSNotification) {
-        detailView.mainScrollView.contentInset = .init(
-            top: .zero,
-            left: .zero,
-            bottom: .zero,
-            right: .zero
-        )
+        detailView.mainScrollView.contentInset.bottom = .zero
         updateListData()
     }
     
@@ -143,6 +133,7 @@ extension DetailViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         updateListData()
     }
 }

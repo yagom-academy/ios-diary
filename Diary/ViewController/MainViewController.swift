@@ -161,6 +161,7 @@ extension MainViewController: UICollectionViewDelegate,
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         fetchDiaryData()
     }
 }
