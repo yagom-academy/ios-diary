@@ -10,5 +10,6 @@ import UIKit
 final class DiaryAddViewController: DiaryBaseViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
+    bodyTextView.becomeFirstResponder()
   }
 }
