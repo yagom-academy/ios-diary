@@ -19,6 +19,11 @@ final class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackGround), name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
+    
+    @objc private func didEnterBackGround() {
+        createDiaryData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
