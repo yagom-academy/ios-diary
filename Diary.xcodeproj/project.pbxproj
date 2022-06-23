@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0334827F28649DB40082DFA0 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0334827E28649DB40082DFA0 /* UIImageView.swift */; };
+		0334828128649E120082DFA0 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0334828028649E120082DFA0 /* ImageCacheManager.swift */; };
 		03EB042428584F73008A68FC /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB042328584F73008A68FC /* DiaryCell.swift */; };
 		03EB0426285869AE008A68FC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB0425285869AE008A68FC /* DetailViewController.swift */; };
 		03EB042828586A30008A68FC /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03EB042728586A30008A68FC /* DetailView.swift */; };
@@ -44,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		0334827E28649DB40082DFA0 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
+		0334828028649E120082DFA0 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		03EB042328584F73008A68FC /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		03EB0425285869AE008A68FC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		03EB042728586A30008A68FC /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
@@ -179,6 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */,
+				0334828028649E120082DFA0 /* ImageCacheManager.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 			files = (
 				A1B82EA2286195F200B22604 /* AppConstants.swift in Sources */,
 				4EACCCD7285C1AA1008046A5 /* DiaryEntity+CoreDataProperties.swift in Sources */,
+				0334828128649E120082DFA0 /* ImageCacheManager.swift in Sources */,
 				A1DCA7DF28587FCA0022DB2A /* ContentTextView.swift in Sources */,
 				0334827F28649DB40082DFA0 /* UIImageView.swift in Sources */,
 				4EBF1C062862E72600C35698 /* UIApplication.swift in Sources */,
