@@ -99,7 +99,7 @@ final class DiaryCell: UITableViewCell {
             titleLabel.text = data.title
         }
         dateLabel.text = data.createdAt.formattedString
-        weatherImageView.loadImage(icon: "10d")
+        weatherImageView.loadImage(icon: data.icon)
         descriptionLabel.text = data.body?.trimmingCharacters(in: .newlines)
     }
 }
