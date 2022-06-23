@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import CoreLocation
 
 final class RegistrationViewModel {
     private(set) var createdAt = Date().timeIntervalSince1970
     private let diaryId = UUID().uuidString
+    private var coordinate = CLLocationCoordinate2D()
 }
 
 extension RegistrationViewModel {
@@ -28,4 +30,9 @@ extension RegistrationViewModel {
         
         PersistenceManager.shared.createData(by: diary)
     }
+    
+    func setUpLocation(by coordinate: CLLocationCoordinate2D) {
+        self.coordinate = coordinate
+    }
 }
+ 

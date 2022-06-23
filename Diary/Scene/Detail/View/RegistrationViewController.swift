@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class RegistrationViewController: UIViewController {
     private lazy var detailView = DetailView(frame: view.bounds)
     private let viewModel = RegistrationViewModel()
+    private let locationManager = CLLocationManager()
     
     override func loadView() {
         super.loadView()
@@ -21,12 +23,16 @@ final class RegistrationViewController: UIViewController {
         registerNotification()
         setUpNavigationBar()
         setUpView()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeKeyboardNotification()
         viewModel.saveDiary(text: detailView.contentTextView.text)
+        locationManager.stopUpdatingLocation()
     }
 }
 
@@ -117,6 +123,14 @@ extension RegistrationViewController {
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
         viewModel.saveDiary(text: detailView.contentTextView.text)
+    }
+}
+
+extension RegistrationViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let coordinate = locations.last?.coordinate {
+            viewModel.setUpLocation(by: coordinate)
+        }
     }
 }
 
