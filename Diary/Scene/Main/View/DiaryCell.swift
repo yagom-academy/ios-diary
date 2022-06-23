@@ -42,9 +42,17 @@ final class DiaryCell: UITableViewCell {
     
     private let dateLabel: UILabel = {
         let label = UILabel()
+        label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentHuggingPriority(.required, for: .horizontal)
         label.font = .preferredFont(forTextStyle: .body)
         return label
+    }()
+    
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.setContentHuggingPriority(.required, for: .vertical)
+        return imageView
     }()
     
     private let descriptionLabel: UILabel = {
@@ -66,6 +74,7 @@ final class DiaryCell: UITableViewCell {
         baseStackView.addArrangedSubview(titleLabel)
         baseStackView.addArrangedSubview(bottomStackView)
         bottomStackView.addArrangedSubview(dateLabel)
+        bottomStackView.addArrangedSubview(weatherImageView)
         bottomStackView.addArrangedSubview(descriptionLabel)
     }
     
@@ -76,6 +85,11 @@ final class DiaryCell: UITableViewCell {
             baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             baseStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
+        
+        NSLayoutConstraint.activate([
+            weatherImageView.heightAnchor.constraint(equalTo: descriptionLabel.heightAnchor),
+            weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.heightAnchor)
+        ])
     }
     
     func setUpContents(data: DiaryEntity) {
@@ -85,6 +99,7 @@ final class DiaryCell: UITableViewCell {
             titleLabel.text = data.title
         }
         dateLabel.text = data.createdAt.formattedString
+        weatherImageView.loadImage(icon: "10d")
         descriptionLabel.text = data.body?.trimmingCharacters(in: .newlines)
     }
 }
