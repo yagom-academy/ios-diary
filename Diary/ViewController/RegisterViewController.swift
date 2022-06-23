@@ -30,9 +30,26 @@ final class RegisterViewController: UIViewController {
         let body = detailView.descriptionView.text
         persistenceManager.create(diary: DiaryModel(title: title, body: body, createdAt: Date(), id: UUID().uuidString))
     }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (
+            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        )?.cgRectValue else { return }
+        detailView.mainScrollView.contentInset = .init(
+            top: .zero,
+            left: .zero,
+            bottom: keyboardSize.height,
+            right: .zero
         )
     }
     
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        detailView.mainScrollView.contentInset = .init(
+            top: .zero,
+            left: .zero,
+            bottom: .zero,
+            right: .zero
+        )
     }
     
     }
