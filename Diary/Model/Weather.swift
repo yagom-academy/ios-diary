@@ -12,6 +12,5 @@ struct Weather: Decodable {
 }
 
 struct WeatherElement: Decodable {
-    let id: Int
     let icon: String
 }
