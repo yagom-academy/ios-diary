@@ -34,7 +34,6 @@ final class MainViewController: UIViewController {
         setNavigationBarRightPlusButton()
         registerCollectionViewCell()
         setCollectionViewLayout()
-        fetchDiaryData()
     }
 }
 // MARK: - Method
@@ -77,6 +76,9 @@ extension MainViewController {
     
     private func fetchDiaryData() {
         diaryData = persistenceManager.fetch()
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
+        }
     }
 }
 
@@ -132,5 +134,9 @@ extension MainViewController: UICollectionViewDelegate,
             detailViewController,
             animated: true
         )
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        fetchDiaryData()
     }
 }
