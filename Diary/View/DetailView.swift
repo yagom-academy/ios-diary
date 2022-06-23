@@ -40,13 +40,13 @@ final class DetailView: UIView {
         return stackView
     }()
     
-    private lazy var titleField: UITextField = {
+    lazy var titleField: UITextField = {
         let textField = UITextField()
         textField.textAlignment = .left
         return textField
     }()
     
-    private lazy var descriptionView: UITextView = {
+    lazy var descriptionView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.textAlignment = .left

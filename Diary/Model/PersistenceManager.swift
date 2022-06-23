@@ -2,13 +2,13 @@
 //  PersistenceManager.swift
 //  Diary
 //
-//  Created by 김태훈 on 2022/06/22.
+//  Created by Donnie, OneTool on 2022/06/22.
 //
 
 import Foundation
 import CoreData
 
-class PersistenceManager {
+final class PersistenceManager {
     static var shared = PersistenceManager()
     
     lazy var persistentContainer: NSPersistentContainer = {

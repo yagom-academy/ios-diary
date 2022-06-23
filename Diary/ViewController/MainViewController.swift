@@ -13,6 +13,7 @@ final class MainViewController: UIViewController {
         static let navigationBarRightPlusButton = "plus"
     }
     
+    private let persistenceManager = PersistenceManager.shared
     private var diaryData: [DiaryModel] = []
     private var listLayout: UICollectionViewCompositionalLayout {
         var configure = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -31,9 +32,9 @@ final class MainViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setNavigationBarTitle()
         setNavigationBarRightPlusButton()
-        updateDiaryData()
         registerCollectionViewCell()
         setCollectionViewLayout()
+        fetchDiaryData()
     }
 }
 // MARK: - Method
@@ -74,25 +75,8 @@ extension MainViewController {
         )
     }
     
-    private func updateDiaryData() {
-        do {
-            guard let decodedData: [DiaryModel] = try Parser<DiaryModel>().parse(name: "sample") else {
-                return
-            }
-            diaryData = decodedData
-        } catch DiaryError.invalidFileName {
-            guard let invalidFileNameError = DiaryError.invalidFileName.errorDescription else {
-                return
-            }
-            print(invalidFileNameError)
-        } catch DiaryError.decodeError {
-            guard let decodeError = DiaryError.decodeError.errorDescription else {
-                return
-            }
-            print(decodeError)
-        } catch {
-            print("invalid error : \(error)")
-        }
+    private func fetchDiaryData() {
+        diaryData = persistenceManager.fetch()
     }
 }
 

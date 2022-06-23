@@ -32,6 +32,7 @@ final class DetailViewController: UIViewController {
         setNavigationBarTitle()
         detailView.setUpView(diaryData: diaryData)
         registerKeyboardNotifications()
+        setNavigationBarRightButton()
     }
 }
 
@@ -40,7 +41,21 @@ final class DetailViewController: UIViewController {
 extension DetailViewController {
     
     private func setNavigationBarTitle() {
-        navigationItem.title = diaryData.createdAt.formattedDate
+        navigationItem.title = diaryData.createdAt.description
+    }
+    
+    private func setNavigationBarRightButton() {
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "square.and.arrow.up"),
+            style: .plain,
+            target: self,
+            action: #selector(navigationBarRightButtonTapped)
+        )
+        navigationItem.rightBarButtonItem = button
+    }
+    
+    @objc private func navigationBarRightButtonTapped() {
+        
     }
 }
 
