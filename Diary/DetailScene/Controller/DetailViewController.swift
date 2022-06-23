@@ -2,7 +2,7 @@
 //  DetailViewController.swift
 //  Diary
 //
-//  Created by LIMGAUI on 2022/06/22.
+//  Created by Taeangel, Quokka on 2022/06/22.
 //
 
 import UIKit

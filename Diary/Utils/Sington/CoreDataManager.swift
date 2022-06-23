@@ -2,7 +2,7 @@
 //  CoreDataManager.swift
 //  Diary
 //
-//  Created by song on 2022/06/21.
+//  Created by Taeangel, Quokka on 2022/06/21.
 //
 
 import CoreData

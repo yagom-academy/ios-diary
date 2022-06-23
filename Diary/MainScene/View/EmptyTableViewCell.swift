@@ -2,7 +2,7 @@
 //  EmptyTableViewCell.swift
 //  Diary
 //
-//  Created by LIMGAUI on 2022/06/16.
+//  Created by Taeangel, Quokka on 2022/06/16.
 //
 
 import UIKit
