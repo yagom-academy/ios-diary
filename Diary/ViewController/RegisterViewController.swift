@@ -33,7 +33,11 @@ final class RegisterViewController: UIViewController {
     private func createDiaryData() {
         let title = detailView.titleField.text
         let body = detailView.descriptionView.text
-        persistenceManager.create(diary: DiaryModel(title: title, body: body, createdAt: Date(), id: UUID().uuidString))
+        if title == "" && body == "" {
+            return
+        } else {
+            persistenceManager.create(diary: DiaryModel(title: title, body: body, createdAt: Date(), id: UUID().uuidString))
+        }
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
