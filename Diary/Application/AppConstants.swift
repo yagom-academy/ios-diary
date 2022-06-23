@@ -21,4 +21,5 @@ public enum AppConstants {
     static let keyboardHideButtonImage = "chevron.down"
     
     static let entityName = "DiaryEntity"
+    static let appkey = "5d541eac3b64ce81f672025857e60683"
 }
