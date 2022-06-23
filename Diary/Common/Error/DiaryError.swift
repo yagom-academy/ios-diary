@@ -10,6 +10,7 @@ import Foundation
 enum DiaryError: LocalizedError {
     case loadFail
     case saveFail
+    case networkError
     
     var errorDescription: String {
         switch self {
@@ -17,6 +18,8 @@ enum DiaryError: LocalizedError {
             return "데이터를 불러오지 못했습니다."
         case .saveFail:
             return "데이터를 저장하지 못했습니다."
+        case .networkError:
+            return "networkError"
         }
     }
 }
