@@ -52,7 +52,7 @@ final class WriteViewController: UIViewController {
   
   private func seperateTitle(from text: String) -> String {
     guard let index = text.firstIndex(of: "\n") else {
-      return ""
+      return text
     }
     
     return String(text[..<index])
