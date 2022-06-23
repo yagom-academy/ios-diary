@@ -39,15 +39,31 @@ final class DetailViewController: UIViewController {
   }
   
   private func updateDiaryData() {
-    guard let title = diary.title,
-    let content = diary.content else {
+    guard let text = baseView.textView.text else {
       return
     }
+    
     CoredataManager.sherd.updataContext(
-      title: title,
-      content: content,
+      title: seperateTitle(from: text),
+      content: seperateContent(from: text),
       identifier: diary.identifier.bindOptional(),
       date: diary.createdDate.bindOptional())
+  }
+  
+  private func seperateTitle(from text: String) -> String {
+    guard let index = text.firstIndex(of: "\n") else {
+      return text
+    }
+    
+    return String(text[..<index])
+  }
+  
+  private func seperateContent(from text: String) -> String {
+    guard let index = text.firstIndex(of: "\n") else {
+      return ""
+    }
+    
+    return String(text[index...]).trimmingCharacters(in: ["\n"])
   }
   
   private func configureUI() {
@@ -75,35 +91,34 @@ final class DetailViewController: UIViewController {
       title: "택1하셈",
       message: "무엇을 택1 할것인가",
       preferredStyle: .actionSheet)
-
+    
     let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
       self.showActivityView()
     }
-
+    
     let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
       self.showDeleteAlert()
     }
-
+    
     alertVC.addAction(shareAction)
     alertVC.addAction(deleteAction)
     
     present(alertVC, animated: true)
-
   }
-
+  
   private func showDeleteAlert() {
     let alertVC = UIAlertController(
       title: "진짜요?",
       message: "정말로 삭제하시겠어요?",
       preferredStyle: .alert)
-
+    
     let cancelAction = UIAlertAction(title: "취소", style: .default)
-
+    
     let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
       CoredataManager.sherd.deleteContext(identifier: self.diary.identifier.bindOptional())
       self.navigationController?.popViewController(animated: true)
     }
-
+    
     alertVC.addAction(cancelAction)
     alertVC.addAction(deleteAction)
     self.present(alertVC, animated: true)
