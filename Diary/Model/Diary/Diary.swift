@@ -11,7 +11,7 @@ struct Diary: Decodable, Hashable {
     let title: String
     let body: String
     let createdDate: Date
-    let id = UUID().uuidString
+    let id: String
     
     enum CodingKeys: String, CodingKey {
         case title
@@ -27,5 +27,17 @@ struct Diary: Decodable, Hashable {
         let interval = try values.decode(Double.self, forKey: .createdDate)
         
         createdDate = Date(timeIntervalSince1970: interval)
+        id = UUID().uuidString
+    }
+    
+    init(title: String, body: String, createdDate: Date, id: String = UUID().uuidString) {
+        self.title = title
+        self.body = body
+        self.createdDate = createdDate
+        self.id = id
+    }
+    
+    var isEmpty: Bool {
+        return title == "" && body == ""
     }
 }
