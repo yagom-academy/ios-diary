@@ -12,4 +12,5 @@ struct Diary {
     let createdAt: Double
     let body: String
     let id: String
+    let icon: String
 }

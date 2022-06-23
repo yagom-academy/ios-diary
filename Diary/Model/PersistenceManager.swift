@@ -37,12 +37,14 @@ extension PersistenceManager {
             diaryToUpdate.title = diary.title
             diaryToUpdate.createdAt = diary.createdAt
             diaryToUpdate.id = diary.id
+            diaryToUpdate.icon = diary.icon
         } else {
             let entity = DiaryEntity(context: context)
             entity.body = diary.body
             entity.title = diary.title
             entity.createdAt = diary.createdAt
             entity.id = diary.id
+            entity.icon = diary.icon
         }
         saveToContext()
     }
@@ -67,6 +69,7 @@ extension PersistenceManager {
         diaryToUpdate.title = diary.title
         diaryToUpdate.createdAt = diary.createdAt
         diaryToUpdate.id = diary.id
+        diaryToUpdate.icon = diary.icon
         saveToContext()
     }
     

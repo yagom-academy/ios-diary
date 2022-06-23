@@ -31,7 +31,13 @@ extension DetailViewModel {
         let title = splitedText.removeFirst()
         let body = splitedText.joined(separator: "\n")
 
-        let diary = Diary(title: title, createdAt: diary.createdAt, body: body, id: diary.id)
+        let diary = Diary(
+            title: title,
+            createdAt: diary.createdAt,
+            body: body,
+            id: diary.id,
+            icon: diary.icon
+        )
                 
         PersistenceManager.shared.updateData(by: diary)
     }

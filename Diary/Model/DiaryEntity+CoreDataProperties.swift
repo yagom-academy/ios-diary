@@ -19,6 +19,7 @@ extension DiaryEntity {
     @NSManaged public var body: String?
     @NSManaged public var createdAt: Double
     @NSManaged public var id: String
+    @NSManaged public var icon: String
 
 }
 
