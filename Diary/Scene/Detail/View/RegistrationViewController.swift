@@ -23,9 +23,7 @@ final class RegistrationViewController: UIViewController {
         registerNotification()
         setUpNavigationBar()
         setUpView()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
+        setUpLocationManager()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -101,6 +99,11 @@ extension RegistrationViewController {
     private func setUpView() {
         detailView.scrollTextViewToTop()
         detailView.contentTextView.delegate = self
+    }
+    private func setUpLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.startUpdatingLocation()
     }
 }
 
