@@ -12,11 +12,6 @@ struct Diary: Hashable {
     let body: String?
     let createdAt: Date
     let uuid: UUID
-
-    private enum CodingKeys: String, CodingKey {
-        case title, body
-        case createdAt = "created_at"
-    }
     
     init(title: String, body: String, createdAt: Date, uuid: UUID = UUID()) {
         self.title = title

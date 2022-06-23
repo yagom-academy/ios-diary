@@ -13,7 +13,7 @@ protocol CoreDataSceneDelegate: AnyObject {
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    weak var delegate: CoreDataSceneDelegate?
+    weak var coreDataDelegate: CoreDataSceneDelegate?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
@@ -36,6 +36,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        delegate?.saveCoreData()
+        coreDataDelegate?.saveCoreData()
     }
 }

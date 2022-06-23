@@ -89,7 +89,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private func configureSceneDelegate() {
         let sceneDelegate = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate
-        sceneDelegate?.delegate = self
+        sceneDelegate?.coreDataDelegate = self
     }
     
     private func makeDiary() -> Diary {
