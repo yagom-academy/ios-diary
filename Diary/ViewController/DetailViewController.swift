@@ -56,6 +56,33 @@ extension DetailViewController {
     }
     
     @objc private func navigationBarRightButtonTapped() {
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let share = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
+            guard let title = self?.detailView.titleField.text else { return }
+            let activityViewController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
+            self?.present(activityViewController, animated: true)
+        }
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            let deleteAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "취소", style: .cancel)
+            let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+                guard let diaryData = self?.diaryData else {
+                    return
+                }
+                self?.persistenceManager.delete(diary: diaryData)
+                self?.navigationController?.popViewController(animated: true)
+            }
+            deleteAlert.addAction(delete)
+            deleteAlert.addAction(cancel)
+            self?.present(deleteAlert, animated: true)
+            
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        sheet.addAction(cancel)
+        sheet.addAction(share)
+        sheet.addAction(delete)
+        present(sheet, animated: true)
         
     }
 }
