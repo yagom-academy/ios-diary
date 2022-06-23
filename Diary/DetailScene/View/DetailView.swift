@@ -24,7 +24,12 @@ final class DetailView: UIView {
   }
   
   func updateTextView(diary: Diary) {
-    self.textView.text = diary.content
+    guard let title = diary.title,
+          let body = diary.content else {
+      return
+    }
+    let content = title + "\n" + body
+    self.textView.text = content
   }
   
   private func configureLayout() {

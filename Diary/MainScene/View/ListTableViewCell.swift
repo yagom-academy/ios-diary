@@ -53,8 +53,7 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
   }
   
   func update(diary: Diary) {
-    guard let date = diary.createdDate else { return }
-    self.dateLabel.text = date.setKoreaDateFormat(dateFormat: .yearMonthDay)
+    self.dateLabel.text = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
     self.titleLabel.text = diary.title
     self.descriptionLabel.text = diary.content
   }

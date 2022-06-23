@@ -39,9 +39,13 @@ final class DetailViewController: UIViewController {
   }
   
   private func updateDiaryData() {
+    guard let title = diary.title,
+    let content = diary.content else {
+      return
+    }
     CoredataManager.sherd.updataContext(
-      title: baseView.textView.text,
-      content: baseView.textView.text,
+      title: title,
+      content: content,
       identifier: diary.identifier.bindOptional(),
       date: diary.createdDate.bindOptional())
   }

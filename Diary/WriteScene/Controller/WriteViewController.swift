@@ -39,15 +39,31 @@ final class WriteViewController: UIViewController {
   }
   
   private func saveDiaryData() {
-    guard let title = baseView.textView.text else {
+    guard let text = baseView.textView.text else {
       return
     }
     
     CoredataManager.sherd.createContext(
-      title: title,
-      content: title,
+      title: seperateTitle(from: text),
+      content: seperateContent(from: text),
       identifier: UUID().uuidString,
       date: Date())
+  }
+  
+  private func seperateTitle(from text: String) -> String {
+    guard let index = text.firstIndex(of: "\n") else {
+      return ""
+    }
+    
+    return String(text[..<index])
+  }
+  
+  private func seperateContent(from text: String) -> String {
+    guard let index = text.firstIndex(of: "\n") else {
+      return ""
+    }
+    
+    return String(text[index...]).trimmingCharacters(in: ["\n"])
   }
 }
 
