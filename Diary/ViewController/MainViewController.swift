@@ -19,8 +19,32 @@ final class MainViewController: UIViewController {
         var configure = UICollectionLayoutListConfiguration(appearance: .plain)
         configure.showsSeparators = true
         configure.backgroundColor = .clear
+        configure.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+            let share = UIContextualAction(style: .normal, title: "Share") { [weak self] action, view, completion in
+                let activityViewController = UIActivityViewController(activityItems: [self?.diaryData[indexPath.row].title ?? "제목 없음"], applicationActivities: nil)
+                self?.present(activityViewController, animated: true)
+                completion(true)
+            }
+            
+            share.backgroundColor = .systemBlue
+            
+            let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
+                guard let diaryData = self?.diaryData[indexPath.row] else {
+                    return
+                }
+                self?.persistenceManager.delete(diary: diaryData)
+                guard let fetchData = self?.persistenceManager.fetch() else {
+                    return
+                }
+                self?.diaryData = fetchData
+                self?.collectionView.reloadData()
+                completion(true)
+            }
+            return UISwipeActionsConfiguration(actions: [delete, share])
+        }
         return UICollectionViewCompositionalLayout.list(using: configure)
     }
+    
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: listLayout
