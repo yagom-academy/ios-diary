@@ -25,14 +25,15 @@ final class RegisterViewController: UIViewController {
         createDiaryData()
     }
     
+    private func createDiaryData() {
+        let title = detailView.titleField.text
+        let body = detailView.descriptionView.text
+        persistenceManager.create(diary: DiaryModel(title: title, body: body, createdAt: Date(), id: UUID().uuidString))
+    }
         )
     }
     
     }
     
-    private func createDiaryData() {
-        let title = detailView.titleField.text
-        let body = detailView.descriptionView.text
-        persistenceManager.create(diary: DiaryModel(title: title, body: body, createdAt: Date(), id: UUID().uuidString))
     }
 }
