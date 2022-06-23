@@ -1,5 +1,5 @@
 //
-//  Diary - ViewController.swift
+//  Diary - MainViewController.swift
 //  Created by Quokka Taeangel.
 //  Copyright © yagom. All rights reserved.
 // 

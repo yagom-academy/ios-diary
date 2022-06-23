@@ -1,5 +1,5 @@
 //
-//  WriteDiaryViewController.swift
+//  WriteViewController.swift
 //  Diary
 //
 //  Created by Taeangel, Quokka on 2022/06/15.
