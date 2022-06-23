@@ -19,26 +19,15 @@ final class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        setNavigationBarSaveButton()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         createDiaryData()
     }
     
-    private func setNavigationBarSaveButton() {
-        let saveButton = UIBarButtonItem(
-            image: UIImage(systemName: "swift"),
-            style: .plain,
-            target: self,
-            action: #selector(saveButtonTapped)
         )
-        navigationItem.rightBarButtonItem = saveButton
     }
     
-    @objc private func saveButtonTapped() {
-        navigationController?.popViewController(animated: true)
-        print("세이브")
     }
     
     private func createDiaryData() {
