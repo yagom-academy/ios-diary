@@ -24,6 +24,8 @@ final class RegistrationViewController: UIViewController {
         setUpNavigationBar()
         setUpView()
         setUpLocationManager()
+        requestWeather()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -100,10 +102,15 @@ extension RegistrationViewController {
         detailView.scrollTextViewToTop()
         detailView.contentTextView.delegate = self
     }
+    
     private func setUpLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
+    }
+    
+    private func requestWeather() {
+        viewModel.requestWeather()
     }
 }
 
