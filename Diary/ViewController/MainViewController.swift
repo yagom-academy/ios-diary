@@ -20,26 +20,23 @@ final class MainViewController: UIViewController {
         configure.showsSeparators = true
         configure.backgroundColor = .clear
         configure.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
-            let share = UIContextualAction(style: .normal, title: "Share") { [weak self] action, view, completion in
+            let share = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
                 let activityViewController = UIActivityViewController(activityItems: [self?.diaryData[indexPath.row].title ?? "제목 없음"], applicationActivities: nil)
                 self?.present(activityViewController, animated: true)
                 completion(true)
             }
-            
+            share.image = UIImage(systemName: "square.and.arrow.up.on.square")
             share.backgroundColor = .systemBlue
             
-            let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] action, view, completion in
+            let delete = UIContextualAction(style: .destructive, title: nil) { [weak self] action, view, completion in
                 guard let diaryData = self?.diaryData[indexPath.row] else {
                     return
                 }
                 self?.persistenceManager.delete(diary: diaryData)
-                guard let fetchData = self?.persistenceManager.fetch() else {
-                    return
-                }
-                self?.diaryData = fetchData
-                self?.collectionView.reloadData()
+                self?.fetchDiaryData()
                 completion(true)
             }
+            delete.image = UIImage(systemName: "trash")
             return UISwipeActionsConfiguration(actions: [delete, share])
         }
         return UICollectionViewCompositionalLayout.list(using: configure)
@@ -99,7 +96,7 @@ extension MainViewController {
     }
     
     private func fetchDiaryData() {
-        diaryData = persistenceManager.fetch()
+        diaryData = persistenceManager.fetch().reversed()
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
