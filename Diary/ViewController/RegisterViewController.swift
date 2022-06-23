@@ -50,6 +50,7 @@ final class RegisterViewController: UIViewController {
             bottom: .zero,
             right: .zero
         )
+        createDiaryData()
     }
     
     }
