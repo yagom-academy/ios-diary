@@ -93,6 +93,12 @@ final class CoredataManager {
         return []
       }
       viewContext.delete(diary)
+      
+      guard viewContext.hasChanges else {
+        return []
+      }
+      
+      try viewContext.save()
     } catch {
       fatalError()
     }
