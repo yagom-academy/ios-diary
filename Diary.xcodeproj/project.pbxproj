@@ -15,6 +15,8 @@
 		4EACCCD7285C1AA1008046A5 /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCD5285C1AA1008046A5 /* DiaryEntity+CoreDataProperties.swift */; };
 		4EACCCD9285C1BB1008046A5 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCD8285C1BB1008046A5 /* RegistrationViewController.swift */; };
 		4EACCCDB285C9B65008046A5 /* ShareActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */; };
+		4EB67BBE28648A9D00D00805 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB67BBD28648A9D00D00805 /* RequestManager.swift */; };
+		4EB67BC028648AC200D00805 /* URLSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB67BBF28648AC200D00805 /* URLSessionManager.swift */; };
 		4EB67BC228648D4600D00805 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB67BC128648D4600D00805 /* Weather.swift */; };
 		4EBF1C042862E37400C35698 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF1C032862E37400C35698 /* DiaryError.swift */; };
 		4EBF1C062862E72600C35698 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF1C052862E72600C35698 /* UIApplication.swift */; };
@@ -49,6 +51,8 @@
 		4EACCCD5285C1AA1008046A5 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		4EACCCD8285C1BB1008046A5 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActivityItemSource.swift; sourceTree = "<group>"; };
+		4EB67BBD28648A9D00D00805 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
+		4EB67BBF28648AC200D00805 /* URLSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionManager.swift; sourceTree = "<group>"; };
 		4EB67BC128648D4600D00805 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		4EBF1C032862E37400C35698 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
 		4EBF1C052862E72600C35698 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
@@ -194,6 +198,8 @@
 				4EACCCD5285C1AA1008046A5 /* DiaryEntity+CoreDataProperties.swift */,
 				4EACCCCE285C1593008046A5 /* PersistenceManager.swift */,
 				A152B1A2285C543300BA06A9 /* Diary.swift */,
+				4EB67BBD28648A9D00D00805 /* RequestManager.swift */,
+				4EB67BBF28648AC200D00805 /* URLSessionManager.swift */,
 				4EB67BC128648D4600D00805 /* Weather.swift */,
 			);
 			path = Model;
@@ -391,6 +397,7 @@
 				03EB042428584F73008A68FC /* DiaryCell.swift in Sources */,
 				A1A8C5262862DCE5008A95A9 /* DetailViewModel.swift in Sources */,
 				4EACCCD9285C1BB1008046A5 /* RegistrationViewController.swift in Sources */,
+				4EB67BBE28648A9D00D00805 /* RequestManager.swift in Sources */,
 				A1DCA7D328582CFE0022DB2A /* MainView.swift in Sources */,
 				A152B1A3285C543300BA06A9 /* Diary.swift in Sources */,
 				A1A8C5282862DD5B008A95A9 /* RegistrationViewModel.swift in Sources */,
@@ -403,6 +410,7 @@
 				4EC4B4962861910C00669E5D /* UITextView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				03EB0426285869AE008A68FC /* DetailViewController.swift in Sources */,
+				4EB67BC028648AC200D00805 /* URLSessionManager.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* DiaryEntity.xcdatamodeld in Sources */,
 			);
