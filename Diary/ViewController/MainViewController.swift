@@ -25,6 +25,7 @@ final class MainViewController: UIViewController {
                 self?.present(activityViewController, animated: true)
                 completion(true)
             }
+            
             share.image = UIImage(systemName: "square.and.arrow.up.on.square")
             share.backgroundColor = .systemBlue
             
@@ -33,9 +34,11 @@ final class MainViewController: UIViewController {
                     return
                 }
                 self?.persistenceManager.delete(diary: diaryData)
-                self?.fetchDiaryData()
+                self?.diaryData.remove(at: indexPath.row)
+                self?.collectionView.deleteItems(at: [indexPath])
                 completion(true)
             }
+            
             delete.image = UIImage(systemName: "trash")
             return UISwipeActionsConfiguration(actions: [delete, share])
         }
