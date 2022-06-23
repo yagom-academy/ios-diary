@@ -8,15 +8,21 @@
 import Foundation
 
 enum EndPoint {
+    private enum Constants {
+        static let weatherInfoURL = "https://api.openweathermap.org/data/2.5/weather?"
+        static let weatherIconURL = "https://openweathermap.org/img/wn/"
+        static let appkey = "5d541eac3b64ce81f672025857e60683"
+    }
+    
     case weatherInfo(lat: Double, lon: Double)
-    case weatherIcon
+    case weatherIcon(icon: String)
     
     var url: URL? {
         switch self {
         case .weatherInfo(let lat, let lon):
-            return URL(string: "")
-        case .weatherIcon:
-            return URL(string: "")
+            return URL(string: "\(Constants.weatherInfoURL)lat=\(lat)&lon=\(lon)&APPID=\(Constants.appkey)")
+        case .weatherIcon(let icon):
+            return URL(string: "\(Constants.weatherIconURL)\(icon)@2x.png")
         }
     }
 }
