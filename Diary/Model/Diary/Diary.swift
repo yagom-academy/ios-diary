@@ -7,29 +7,12 @@
 
 import Foundation
 
-struct Diary: Decodable, Hashable {
+struct Diary: Hashable {
     let title: String
     let body: String
     let createdDate: Date
     let id: String
-    
-    enum CodingKeys: String, CodingKey {
-        case title
-        case body
-        case createdDate = "created_at"
-    }
-    
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        title = try values.decode(String.self, forKey: .title)
-        body = try values.decode(String.self, forKey: .body)
-        
-        let interval = try values.decode(Double.self, forKey: .createdDate)
-        
-        createdDate = Date(timeIntervalSince1970: interval)
-        id = UUID().uuidString
-    }
-    
+
     init(title: String, body: String, createdDate: Date, id: String = UUID().uuidString) {
         self.title = title
         self.body = body
