@@ -18,9 +18,11 @@ final class Keyboard {
     init(bottomContraint: NSLayoutConstraint, textView: UITextView) {
         self.textView = textView
         self.bottomContraint = bottomContraint
+        
+        setUpKeyboard()
     }
     
-    func setUpKeyboard() {
+    private func setUpKeyboard() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillAppear),

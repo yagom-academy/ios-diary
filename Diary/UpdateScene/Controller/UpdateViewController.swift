@@ -49,8 +49,6 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
         setUpNavigationController(title: Formatter.getCurrentDate())
         setUpTextView()
         setUpTextViewLayout()
-        
-        keyboard?.setUpKeyboard()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
