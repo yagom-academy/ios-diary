@@ -42,7 +42,7 @@ final class PersistenceManager {
         data.body = diary.body
         data.createdAt = diary.createdAt
         data.id = diary.id
-        
+
         saveContext()
     }
     
@@ -54,7 +54,12 @@ final class PersistenceManager {
         } catch {
         }
         return diaryList.map { diaryEntity in
-            DiaryModel(title: diaryEntity.title, body: diaryEntity.body, createdAt: diaryEntity.createdAt, id: diaryEntity.id)
+            DiaryModel(
+                title: diaryEntity.title,
+                body: diaryEntity.body,
+                createdAt: diaryEntity.createdAt,
+                id: diaryEntity.id
+            )
         }
     }
     

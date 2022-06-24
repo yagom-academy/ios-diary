@@ -7,19 +7,19 @@
 
 import UIKit
 
+fileprivate extension DiaryConstants {
+    static let verticalStackViewSpacing: CGFloat = 10
+    static let horizontalStackViewSpacing: CGFloat = 10
+    static let verticalStackViewSpacingFromCellTop: CGFloat = 10
+    static let verticalStackViewSpacingFromCellBottom: CGFloat = -10
+    static let verticalStackViewSpacingFromCellLeading: CGFloat = 20
+    static let verticalStackViewSpacingFromCellTrailing: CGFloat = -15
+}
+
 final class ListCell: UICollectionViewListCell {
     
     static var identifier: String {
         return String(describing: self)
-    }
-    
-    private enum Constants {
-        static let verticalStackViewSpacing: CGFloat = 10
-        static let horizontalStackViewSpacing: CGFloat = 10
-        static let verticalStackViewSpacingFromCellTop: CGFloat = 10
-        static let verticalStackViewSpacingFromCellBottom: CGFloat = -10
-        static let verticalStackViewSpacingFromCellLeading: CGFloat = 20
-        static let verticalStackViewSpacingFromCellTrailing: CGFloat = -15
     }
     
     private lazy var titleLabel: UILabel = {
@@ -51,7 +51,7 @@ final class ListCell: UICollectionViewListCell {
         view.axis = .horizontal
         view.alignment = .center
         view.distribution = .fill
-        view.spacing = Constants.horizontalStackViewSpacing
+        view.spacing = DiaryConstants.horizontalStackViewSpacing
         return view
     }()
     
@@ -61,7 +61,7 @@ final class ListCell: UICollectionViewListCell {
         view.axis = .vertical
         view.alignment = .leading
         view.distribution = .fill
-        view.spacing = Constants.verticalStackViewSpacing
+        view.spacing = DiaryConstants.verticalStackViewSpacing
         return view
     }()
 
@@ -94,19 +94,19 @@ extension ListCell {
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor,
-                constant: Constants.verticalStackViewSpacingFromCellLeading
+                constant: DiaryConstants.verticalStackViewSpacingFromCellLeading
             ),
             verticalStackView.trailingAnchor.constraint(
                 equalTo: contentView.trailingAnchor,
-                constant: Constants.verticalStackViewSpacingFromCellTrailing
+                constant: DiaryConstants.verticalStackViewSpacingFromCellTrailing
             ),
             verticalStackView.topAnchor.constraint(
                 equalTo: contentView.topAnchor,
-                constant: Constants.verticalStackViewSpacingFromCellTop
+                constant: DiaryConstants.verticalStackViewSpacingFromCellTop
             ),
             verticalStackView.bottomAnchor.constraint(
                 equalTo: contentView.bottomAnchor,
-                constant: Constants.verticalStackViewSpacingFromCellBottom
+                constant: DiaryConstants.verticalStackViewSpacingFromCellBottom
             )
         ])
         
