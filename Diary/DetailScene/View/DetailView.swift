@@ -7,16 +7,9 @@
 
 import UIKit
 
-final class DetailView: UIView {
-  let textView: UITextView = {
-    let textView = UITextView()
-    textView.translatesAutoresizingMaskIntoConstraints = false
-    return textView
-  }()
-  
+final class DetailView: WriteView {
   override init(frame: CGRect) {
     super.init(frame: frame)
-    self.configureLayout()
   }
   
   required init?(coder: NSCoder) {
@@ -29,17 +22,6 @@ final class DetailView: UIView {
       return
     }
     let content = title + "\n" + body
-    self.textView.text = content
-  }
-  
-  private func configureLayout() {
-    self.addSubview(textView)
-    
-    NSLayoutConstraint.activate([
-      self.textView.topAnchor.constraint(equalTo: topAnchor),
-      self.textView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      self.textView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-      self.textView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
-    ])
+    textView.text = content
   }
 }

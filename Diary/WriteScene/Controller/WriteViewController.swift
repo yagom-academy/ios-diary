@@ -7,9 +7,8 @@
 
 import UIKit
 
-final class WriteViewController: UIViewController {
+final class WriteViewController: DiaryBaseViewController {
   lazy var baseView = WriteView(frame: view.bounds)
-  private var keyboardSize: CGRect?
   
   override func loadView() {
     super.loadView()
@@ -19,8 +18,9 @@ final class WriteViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
-    self.addKeyboardObserver()
-    self.addSaveDiaryObserver()
+    self.addKeyboardObserver(action: #selector(keyboardWillShow))
+    addGesture()
+    self.addSaveDiaryObserver(action: #selector(diarDataSave))
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -31,6 +31,10 @@ final class WriteViewController: UIViewController {
   deinit {
     self.removeKeyboardObserver()
     self.removeSaveDiaryObserver()
+  }
+  
+  @objc func diarDataSave() {
+    self.saveDiaryData()
   }
   
   private func configureUI() {
@@ -49,82 +53,19 @@ final class WriteViewController: UIViewController {
       identifier: UUID().uuidString,
       date: Date())
   }
-  
-  private func seperateTitle(from text: String) -> String {
-    guard let index = text.firstIndex(of: "\n") else {
-      return text
-    }
-    
-    return String(text[..<index])
-  }
-  
-  private func seperateContent(from text: String) -> String {
-    guard let index = text.firstIndex(of: "\n") else {
-      return ""
-    }
-    
-    return String(text[index...]).trimmingCharacters(in: ["\n"])
-  }
 }
 
-// MARK: saveDiaryData Notification
 
-private extension WriteViewController {
-  // SceneDidEnterBackground
-  func addSaveDiaryObserver() {
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(diarDataSave),
-      name: Notification.Name("saveDiaryData"),
-      object: nil)
-  }
-  
-  func removeSaveDiaryObserver() {
-    NotificationCenter.default.removeObserver(self)
-  }
+// MARK: - keyboard
 
-  @objc func diarDataSave() {
-    self.saveDiaryData()
-  }
-}
-
-// MARK: Keyboard Notification
-
-private extension WriteViewController {
-  func addKeyboardObserver() {
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillShow),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil)
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillHide),
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil)
-    
-    let swipeDown = UISwipeGestureRecognizer(
-      target: self,
-      action: #selector(keyboardHideDidSwipeDown)
-    )
-    swipeDown.direction = .down
-    self.view.addGestureRecognizer(swipeDown)
+extension WriteViewController {
+  func addGesture() {
+    self.view.addGestureRecognizer(setSwipeGesture(action:#selector(keyboardHideDidSwipeDown)))
   }
   
   @objc func keyboardHideDidSwipeDown(gesture: UISwipeGestureRecognizer) {
     view.endEditing(true)
-    self.saveDiaryData()
-  }
-  
-  func removeKeyboardObserver() {
-    NotificationCenter.default.removeObserver(
-      self,
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil)
-    NotificationCenter.default.removeObserver(
-      self,
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil)
+    saveDiaryData()
   }
   
   @objc func keyboardWillShow(_ notification: Notification) {

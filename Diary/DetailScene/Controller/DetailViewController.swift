@@ -7,10 +7,9 @@
 
 import UIKit
 
-final class DetailViewController: UIViewController {
-  lazy var baseView = DetailView(frame: view.bounds)
-  private var keyboardSize: CGRect?
+final class DetailViewController: DiaryBaseViewController {
   private let diary: Diary
+  lazy var baseView = DetailView(frame: view.bounds)
   
   init(diary: Diary) {
     self.diary = diary
@@ -29,12 +28,22 @@ final class DetailViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.configureUI()
-    self.addKeyboardObserver()
-    self.addUpdateDiaryObserver()
+    self.addKeyboardObserver(action: #selector(keyboardWillShow))
+    addGesture()
+    self.addSaveDiaryObserver(action: #selector(diarDataUpdate))
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
+    self.updateDiaryData()
+  }
+  
+  deinit {
+    self.removeKeyboardObserver()
+    self.removeSaveDiaryObserver()
+  }
+  
+  @objc func diarDataUpdate() {
     self.updateDiaryData()
   }
   
@@ -48,22 +57,6 @@ final class DetailViewController: UIViewController {
       content: seperateContent(from: text),
       identifier: diary.identifier.bindOptional(),
       date: diary.createdDate.bindOptional())
-  }
-  
-  private func seperateTitle(from text: String) -> String {
-    guard let index = text.firstIndex(of: "\n") else {
-      return text
-    }
-    
-    return String(text[..<index])
-  }
-  
-  private func seperateContent(from text: String) -> String {
-    guard let index = text.firstIndex(of: "\n") else {
-      return ""
-    }
-    
-    return String(text[index...]).trimmingCharacters(in: ["\n"])
   }
   
   private func configureUI() {
@@ -85,86 +78,32 @@ final class DetailViewController: UIViewController {
       secondActionTitle: "Delete",
       preferredStyle: .actionSheet,
       firstAction: { [weak self] in
-      self?.showActivityView(text: "선택하세요")
-    }, secondAction: { [weak self] in
-      self?.showAlert(
-        title: "진짜?",
-        message: "정말?",
-        firstActionTitle: "취소",
-        secondActionTitle: "삭제",
-        preferredStyle: .alert,
-        secondAction: {
-        CoredataManager.sherd.deleteContext(identifier: self?.diary.identifier ?? "")
-        self?.navigationController?.pushViewController(MainViewController(), animated: true)
+        self?.showActivityView(text: "선택하세요")
+      }, secondAction: { [weak self] in
+        self?.showAlert(
+          title: "진짜?",
+          message: "정말?",
+          firstActionTitle: "취소",
+          secondActionTitle: "삭제",
+          preferredStyle: .alert,
+          secondAction: {
+            CoredataManager.sherd.deleteContext(identifier: self?.diary.identifier ?? "")
+            self?.navigationController?.pushViewController(MainViewController(), animated: true)
+          })
       })
-    })
-  }
-
-  
-  deinit {
-    self.removeKeyboardObserver()
-    self.removeSaveDiaryObserver()
   }
 }
 
-// MARK: saveDiaryData Notification
+// MARK: - keyboard
 
-private extension DetailViewController {
-  // SceneDidEnterBackground
-  func addUpdateDiaryObserver() {
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(diarDataUpdate),
-      name: Notification.Name("saveDiaryData"),
-      object: nil)
-  }
-  
-  func removeSaveDiaryObserver() {
-    NotificationCenter.default.removeObserver(self)
-  }
-  
-  @objc func diarDataUpdate() {
-    self.updateDiaryData()
-  }
-}
-
-// MARK: Keyboard Notification
-
-private extension DetailViewController {
-  func addKeyboardObserver() {
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillShow),
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil)
-    NotificationCenter.default.addObserver(
-      self,
-      selector: #selector(keyboardWillHide),
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil)
-    
-    let swipeDown = UISwipeGestureRecognizer(
-      target: self,
-      action: #selector(keyboardHideDidSwipeDown)
-    )
-    swipeDown.direction = .down
-    self.view.addGestureRecognizer(swipeDown)
+extension DetailViewController {
+  func addGesture() {
+    self.view.addGestureRecognizer(setSwipeGesture(action:#selector(keyboardHideDidSwipeDown)))
   }
   
   @objc func keyboardHideDidSwipeDown(gesture: UISwipeGestureRecognizer) {
     view.endEditing(true)
-    
-  }
-  
-  func removeKeyboardObserver() {
-    NotificationCenter.default.removeObserver(
-      self,
-      name: UIResponder.keyboardWillShowNotification,
-      object: nil)
-    NotificationCenter.default.removeObserver(
-      self,
-      name: UIResponder.keyboardWillHideNotification,
-      object: nil)
+    self.updateDiaryData()
   }
   
   @objc func keyboardWillShow(_ notification: Notification) {

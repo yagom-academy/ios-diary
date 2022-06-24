@@ -79,6 +79,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		864785CC2865BA0C00D066A9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AB2D399F286598A100D3FBC7 /* DiaryBaseView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		864785CD2865BA1700D066A9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AB2D399C2865895600D3FBC7 /* DiaryBaseViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
 		86680F2D2861BE49001B9352 /* Sington */ = {
 			isa = PBXGroup;
 			children = (
@@ -152,13 +168,13 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		AB2D399E2865986100D3FBC7 /* Class */ = {
+		AB2D399E2865986100D3FBC7 /* DiaryBase */ = {
 			isa = PBXGroup;
 			children = (
-				AB2D399C2865895600D3FBC7 /* DiaryBaseViewController.swift */,
-				AB2D399F286598A100D3FBC7 /* DiaryBaseView.swift */,
+				864785CC2865BA0C00D066A9 /* View */,
+				864785CD2865BA1700D066A9 /* Controller */,
 			);
-			path = Class;
+			path = DiaryBase;
 			sourceTree = "<group>";
 		};
 		AB4D73C5285B1D9600BE5190 /* Protocol */ = {
@@ -225,7 +241,6 @@
 		ABF991B428597710000A44A1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				AB2D399E2865986100D3FBC7 /* Class */,
 				86680F2D2861BE49001B9352 /* Sington */,
 				AB91E910285C809C00D9E497 /* Enum */,
 				AB4D73C5285B1D9600BE5190 /* Protocol */,
@@ -281,6 +296,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				AB2D399E2865986100D3FBC7 /* DiaryBase */,
 				86C1322C2858A9920069CFD2 /* MainScene */,
 				AB6B32A02862E7F300E777CE /* DetailScene */,
 				ABF991BA2859AAA5000A44A1 /* WriteScene */,
