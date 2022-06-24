@@ -1,5 +1,5 @@
 //
-//  UIViewController+.swift
+//  DiaryProtocol.swift
 //  Diary
 //
 //  Created by 김동욱 on 2022/06/21.
@@ -7,8 +7,11 @@
 
 import UIKit
 
-// MARK: - Activity
-extension UIViewController {
+protocol DiaryProtocol: ActivityProtocol, AlertProtocol {}
+
+protocol ActivityProtocol: UIViewController {}
+
+extension ActivityProtocol {
     func showActivity(title: String?) {
         var shareObject = [Any]()
         
@@ -20,59 +23,40 @@ extension UIViewController {
             activityItems: shareObject,
             applicationActivities: nil
         )
-                
+        
         present(activityViewController, animated: true)
     }
 }
 
-// MARK: - Alert
-extension UIViewController {
-    private func deleteHandler(identifier: UUID) {
-        DiaryDAO.shared.delete(identifier: identifier.uuidString)
-    }
-    
-    func showActionSheet(
-        shareTitle: String? = nil,
-        identifer: UUID,
-        deleteHandler: @escaping () -> Void
-    ) {
-        let share = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
-            self?.showActivity(title: shareTitle)
-        }
-        
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.showDeleteAlert(identifier: identifer, handler: deleteHandler)
-        }
-        
+protocol AlertProtocol: UIViewController {}
+
+extension AlertProtocol {
+    func showActionSheet(actions: [UIAlertAction]) {
         let sheet = AlertBuilder.shared
             .setType(.actionSheet)
-            .setAction(share)
-            .setAction(UIAlertAction(title: "Cancel", style: .cancel))
-            .setAction(delete)
+            .setActions(actions)
             .build()
         
         present(sheet, animated: true)
     }
     
-    func showDeleteAlert(identifier: UUID?, handler: @escaping () -> Void) {
-        guard let identifier = identifier else {
-            return
-        }
-
-        let action = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.deleteHandler(identifier: identifier)
-            handler()
-        }
-        
+    func showAlert(title: String, message: String, actions: [UIAlertAction]) {
         let alert = AlertBuilder.shared
-            .setTitle("진짜요?")
-            .setMessage("정말로 삭제하시겠어요?")
+            .setTitle(title)
+            .setMessage(message)
             .setType(.alert)
-            .setAction(UIAlertAction(title: "Cancel", style: .cancel))
-            .setAction(action)
+            .setActions(actions)
             .build()
         
         present(alert, animated: true)
+    }
+    
+    func makeAction(title: String, style: UIAlertAction.Style, completionHendler: (() -> Void)? = nil) -> UIAlertAction {
+        let action = UIAlertAction(title: title, style: style) { _ in
+            completionHendler?()
+        }
+        
+        return action
     }
 }
 
@@ -91,15 +75,15 @@ final class AlertBuilder {
         product = Product()
         return alertBuilder
     }
-
+    
     private init() { }
-
+    
     func setTitle(_ title: String) -> Self {
         Self.product.title = title
         
         return self
     }
-
+    
     func setMessage(_ message: String) -> Self {
         Self.product.message = message
         
@@ -112,9 +96,10 @@ final class AlertBuilder {
         return self
     }
     
-    @discardableResult
-    func setAction(_ action: UIAlertAction) -> Self {
-        Self.product.actions.append(action)
+    func setActions(_ actions: [UIAlertAction]) -> Self {
+        actions.forEach {
+            Self.product.actions.append($0)
+        }
         
         return self
     }

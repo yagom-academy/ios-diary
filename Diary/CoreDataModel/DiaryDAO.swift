@@ -109,8 +109,9 @@ final class DiaryDAO {
         return diary
     }
     
-    func delete(identifier: String) {
-        guard let diary = getObject(identifier: identifier) else {
+    func delete(identifier: String?) {
+        guard let identifier = identifier,
+              let diary = getObject(identifier: identifier) else {
             return
         }
         

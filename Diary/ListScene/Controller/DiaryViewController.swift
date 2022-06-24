@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class DiaryViewController: UIViewController {
+final class DiaryViewController: UIViewController, DiaryProtocol {
     enum Const {
         static let navigationTitle = "일기장"
         static let registerButton = "+"
@@ -144,23 +144,32 @@ extension DiaryViewController: UITableViewDelegate {
         
         let cellData = cell.extractData()
         
-        let share = UIContextualAction(style: .normal, title: "Share") {
-            [weak self] (_, _, completion) in
-            self?.showActivity(title: cellData.title)
-            completion(true)
+        func makeContextualAction() -> [UIContextualAction] {
+            let deleteAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
+                DiaryDAO.shared.delete(identifier: cellData.identifier?.uuidString)
+                self?.setUpCoreData()
+            }
+            
+            let cancelAction = makeAction(title: "Cancel", style: .cancel)
+            
+            let delete = UIContextualAction(style: .destructive, title: "Delete") {
+                [weak self] (_, _, completion) in
+                self?.showAlert(title: "진짜요?",
+                                message: "정말로 삭제 하시겠어요?",
+                                actions: [cancelAction, deleteAction])
+                completion(true)
+            }
+            
+            let share = UIContextualAction(style: .normal, title: "Share") {
+                [weak self] (_, _, completion) in
+                self?.showActivity(title: cellData.title)
+                completion(true)
+            }
+            
+            return [delete, share]
         }
         
-        let delete = UIContextualAction(style: .destructive, title: "Delete") {
-            [weak self] (_, _, completion) in
-            self?.showDeleteAlert(
-                identifier: cellData.identifier,
-                handler: {
-                    self?.setUpCoreData()
-                })
-            completion(true)
-        }
-        
-        let config = UISwipeActionsConfiguration(actions: [delete, share])
+        let config = UISwipeActionsConfiguration(actions: makeContextualAction())
         
         config.performsFirstActionWithFullSwipe = false
         

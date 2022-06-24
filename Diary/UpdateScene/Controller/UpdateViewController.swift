@@ -17,7 +17,7 @@ extension UpdateViewController: BackGroundDelegate {
     }
 }
 
-final class UpdateViewController: UIViewController {
+final class UpdateViewController: UIViewController, DiaryProtocol {
     enum Const {
         static let moreButton = "더보기"
         static let separator = "\n"
@@ -96,14 +96,26 @@ final class UpdateViewController: UIViewController {
     }
     
     @objc private func touchUpMoreButton() {
-        guard let title = textView.extractData(date: navigationItem.title)?.title,
-              let identifier = diaryData?.identifier else {
+        guard let title = textView.extractData(date: navigationItem.title)?.title else {
             return
         }
         
-        showActionSheet(shareTitle: title, identifer: identifier) {
-            self.navigationController?.popViewController(animated: true)
+        let shareSheetAction = makeAction(title: "Share", style: .default) { [weak self] in
+            self?.showActivity(title: title)
         }
+        
+        let deleteAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
+            DiaryDAO.shared.delete(identifier: self?.diaryData?.identifier.uuidString)
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        let cancel = makeAction(title: "Cancel", style: .cancel)
+        
+        let deleteSheetAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
+            self?.showAlert(title: "진짜요?", message: "진짜로 삭제 하시겠어요?", actions: [deleteAction, cancel])
+        }
+        
+        showActionSheet(actions: [shareSheetAction, deleteSheetAction, cancel])
     }
     
     private func saveData() {
