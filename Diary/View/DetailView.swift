@@ -34,7 +34,7 @@ final class DetailView: UIView {
         stackView.layoutMargins = UIEdgeInsets(
             top: Constants.mainStackViewLayoutMargin,
             left: Constants.mainStackViewLayoutMargin,
-            bottom: 0,
+            bottom: .zero,
             right: Constants.mainStackViewLayoutMargin
         )
         return stackView
