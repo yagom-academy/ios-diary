@@ -15,13 +15,20 @@ final class DiaryViewController: UIViewController {
     )
   }
 
-  private var diaries = [DiaryEntity]()
+  private var diaries = [DiaryEntity]() {
+    didSet {
+      DispatchQueue.main.async {
+        self.diaryTableView.reloadData()
+      }
+    }
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
     self.initializeUI()
     self.initializeNavigationBar()
     self.fetchDiaries()
+    self.observePersistentNotification()
   }
 
   private func initializeUI() {
@@ -52,8 +59,17 @@ final class DiaryViewController: UIViewController {
     self.navigationController?.pushViewController(addViewController, animated: true)
   }
 
-  private func fetchDiaries() {
+  @objc private func fetchDiaries() {
     self.diaries = DiaryStorageManager.shared.fetchAll()
+  }
+
+  private func observePersistentNotification() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(self.fetchDiaries),
+      name: DiaryStorageManager.fetchNotification,
+      object: nil
+    )
   }
 }
 

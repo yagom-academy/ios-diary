@@ -23,6 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   }
 
   func sceneDidEnterBackground(_ scene: UIScene) {
-    DiaryStorageManager.shared.saveContext()
+    NotificationCenter.default.post(name: DiaryStorageManager.saveNotification, object: nil)
   }
 }

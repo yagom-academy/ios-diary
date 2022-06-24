@@ -82,3 +82,8 @@ final class DiaryStorageManager {
     self.saveContext()
   }
 }
+
+extension DiaryStorageManager {
+  static let fetchNotification = NSNotification.Name("PersistentFetch")
+  static let saveNotification = NSNotification.Name("PersistentBackgroundSave")
+}

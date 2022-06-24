@@ -10,7 +10,7 @@ import UIKit
 final class DiaryAddViewController: DiaryBaseViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
-    bodyTextView.becomeFirstResponder()
+    self.bodyTextView.becomeFirstResponder()
   }
 
   override func viewDidDisappear(_ animated: Bool) {
@@ -19,15 +19,16 @@ final class DiaryAddViewController: DiaryBaseViewController {
   }
 
   private func saveDiary() {
-    var text = bodyTextView.text.components(separatedBy: "\n")
+    var text = self.bodyTextView.text.components(separatedBy: "\n")
     let title = text.first
     text.removeFirst()
     let body = text.joined(separator: "\n")
 
     if let title = title, !title.isEmpty {
       DiaryStorageManager.shared.create(
-        diary: Diary(title: title, body: body, createdAt: 0)
+        diary: Diary(title: title, body: body, createdAt: Date().timeIntervalSince1970)
       )
+      NotificationCenter.default.post(name: DiaryStorageManager.fetchNotification, object: nil)
     }
   }
 }

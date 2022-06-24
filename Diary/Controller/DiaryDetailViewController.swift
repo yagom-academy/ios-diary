@@ -21,6 +21,8 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     super.viewDidLoad()
     self.initializeNavigationBar()
     self.initializeItem()
+    self.observePersistentNotification()
+    self.bodyTextView.delegate = self
   }
 
   private func initializeNavigationBar() {
@@ -28,8 +30,36 @@ final class DiaryDetailViewController: DiaryBaseViewController {
   }
 
   private func initializeItem() {
-    guard let title = diary.title, let body = diary.body else { return }
+    guard let title = self.diary.title, let body = self.diary.body else { return }
 
     self.bodyTextView.text = title + "\n\n" + body
+  }
+}
+
+extension DiaryDetailViewController: UITextViewDelegate {
+  func textViewDidEndEditing(_ textView: UITextView) {
+    NotificationCenter.default.post(name: DiaryStorageManager.saveNotification, object: nil)
+  }
+
+  private func observePersistentNotification() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(self.updateDiary),
+      name: DiaryStorageManager.saveNotification,
+      object: nil
+    )
+  }
+
+  @objc private func updateDiary() {
+    var text = self.bodyTextView.text.components(separatedBy: "\n")
+    let title = text.first
+    text.removeFirst()
+    let body = text.joined(separator: "\n")
+
+    self.diary.title = title
+    self.diary.body = body
+
+    DiaryStorageManager.shared.saveContext()
+    NotificationCenter.default.post(name: DiaryStorageManager.fetchNotification, object: nil)
   }
 }
