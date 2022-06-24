@@ -26,6 +26,25 @@ final class DiaryDetailViewController: DiaryBaseViewController {
 
   private func initializeNavigationBar() {
     self.title = Formatter.changeToString(from: self.diary.createdAt)
+    let addButton = UIBarButtonItem(
+      image: UIImage(systemName: "ellipsis"),
+      style: .plain,
+      target: self,
+      action: #selector(self.presentActionSheet)
+    )
+    self.navigationItem.setRightBarButton(addButton, animated: false)
+  }
+
+  @objc private func presentActionSheet() {
+    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    let sharedAction = UIAlertAction(title: "Share...", style: .default, handler: nil)
+    let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    actionSheet.addAction(sharedAction)
+    actionSheet.addAction(deleteAction)
+    actionSheet.addAction(cancelAction)
+
+    self.present(actionSheet, animated: true, completion: nil)
   }
 
   private func initializeItem() {
