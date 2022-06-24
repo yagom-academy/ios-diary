@@ -69,7 +69,7 @@ class DiaryBaseViewController: UIViewController {
     keyboardDownButton.tintColor = .label
     toolbar.setItems([UIBarButtonItem.flexibleSpace(), keyboardDownButton], animated: true)
     toolbar.sizeToFit()
-    bodyTextView.inputAccessoryView = toolbar
+    self.bodyTextView.inputAccessoryView = toolbar
   }
 
   @objc func keyboardDownDidTap(_ sender: UIBarButtonItem) {
