@@ -10,8 +10,8 @@ import Foundation
 struct DiaryDTO: Decodable, Hashable {
     var identifier = UUID()
     
-    let title: String
-    let body: String
+    var title: String
+    var body: String
     let date: Date
     
     var dateString: String {
@@ -32,5 +32,10 @@ struct DiaryDTO: Decodable, Hashable {
         self.title = title
         self.body = body
         self.date = date
+    }
+    
+    mutating func editData(_ newData: DiaryDTO) {
+        self.title = newData.title
+        self.body = newData.body
     }
 }

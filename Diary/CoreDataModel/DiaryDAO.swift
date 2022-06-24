@@ -11,7 +11,7 @@ import CoreData
 final class DiaryDAO {
     static let shared = DiaryDAO()
     private init() { }
-        
+    
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         
@@ -28,8 +28,17 @@ final class DiaryDAO {
         return persistentContainer.viewContext
     }
     
-    func create(userData: DiaryDTO) {
-        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: viewContext) else {
+    func save(_ newData: DiaryDTO?, isNew: Bool) {
+        if isNew {
+            create(userData: newData)
+        } else {
+            update(userData: newData)
+        }
+    }
+    
+    private func create(userData: DiaryDTO?) {
+        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: viewContext),
+        let userData = userData else {
             return
         }
         
@@ -60,7 +69,7 @@ final class DiaryDAO {
         guard let diary = try? viewContext.fetch(request) else {
             return nil
         }
-            
+        
         return convert(diary: diary)
     }
     
@@ -77,8 +86,19 @@ final class DiaryDAO {
         }
     }
     
-    func update(userData: DiaryDTO) {
-        guard let diary = getObject(identifier: userData.identifier.uuidString) else {
+    private func update(userData: DiaryDTO?) {
+        func changeData(newData: DiaryDTO?) -> DiaryDTO? {
+            guard let newData = newData,
+                  let oldData = fetch(identifier: newData.identifier.uuidString),
+                  var data: DiaryDTO = convert(diary: oldData)?.first else {
+                return nil
+            }
+            data.editData(newData)
+            return data
+        }
+        
+        guard let userData = changeData(newData: userData),
+              let diary = getObject(identifier: userData.identifier.uuidString) else {
             return
         }
         

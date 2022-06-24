@@ -123,31 +123,21 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     }
     
     private func saveData() {
-        guard isSavingData == false,
-              let title = textView.title,
+        guard let title = textView.title,
               let date = Formatter.getDate(from: date) else {
             return
         }
         
-        isSavingData = true
+        let isNew = diaryData == nil
         
-        if let identifier = diaryData?.identifier {
-            let edittedData = DiaryDTO(
-                identifier: identifier,
-                title: title,
-                body: textView.body,
-                date: date
-            )
-            
-            DiaryDAO.shared.update(userData: edittedData)
-        } else {
-            let newData = DiaryDTO(
-                title: title,
-                body: textView.body,
-                date: date
-            )
-            
-            DiaryDAO.shared.create(userData: newData)
+        let data = DiaryDTO(identifier: diaryData?.identifier,
+                            title: title,
+                            body: textView.body,
+                            date: date)
+        
+        if isSavingData == false {
+            DiaryDAO.shared.save(data, isNew: isNew)
+            isSavingData = true
         }
     }
     
@@ -191,6 +181,8 @@ private extension UITextView {
     }
     
     var body: String {
-        return self.text.components(separatedBy: "\n")[safe: 1] ?? ""
+        let splitedText = self.text.split(separator: "\n", maxSplits: 1)
+        let body = splitedText.map { String($0) }
+        return body[safe: 1] ?? ""
     }
 }
