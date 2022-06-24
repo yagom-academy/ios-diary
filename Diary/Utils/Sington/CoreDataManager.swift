@@ -26,6 +26,17 @@ final class CoredataManager {
     return persistantContainer.viewContext
   }
   
+  func save() {
+    guard viewContext.hasChanges else {
+      return
+    }
+    do {
+      try viewContext.save()
+    } catch {
+      fatalError("\(error)")
+    }
+  }
+  
   func createContext(title: String, content: String, identifier: String, date: Date) {
     guard let diaryEntity = NSEntityDescription.entity(forEntityName: "Diary", in: viewContext) else {
       return
@@ -38,16 +49,7 @@ final class CoredataManager {
     userModel.content = content
     userModel.createdDate = date
     userModel.identifier = identifier
-    
-    guard viewContext.hasChanges else {
-      return
-    }
-    
-    do {
-      try viewContext.save()
-    } catch {
-      fatalError("\(error)")
-    }
+    save()
   }
   
   func readContext() -> [Diary] {
@@ -64,23 +66,12 @@ final class CoredataManager {
     let request = Diary.fetchRequest()
     request.predicate = NSPredicate(format: "identifier == %@", identifier)
     
-    do {
-      guard let diarys = try viewContext.fetch(request).first else {
-        return
-      }
-     
+    if let diarys = try? viewContext.fetch(request).first {
       diarys.title = title
       diarys.createdDate = date
       diarys.content = content
-     
-      guard viewContext.hasChanges else {
-        return
-      }
-      
-      try viewContext.save()
-    } catch {
-      fatalError("\(error)")
     }
+    save()
   }
   
   @discardableResult
@@ -88,20 +79,10 @@ final class CoredataManager {
     let request = Diary.fetchRequest()
     request.predicate = NSPredicate(format: "identifier == %@", identifier)
     
-    do {
-      guard let diary = try viewContext.fetch(request).first else {
-        return []
-      }
+    if let diary = try? viewContext.fetch(request).first {
       viewContext.delete(diary)
-      
-      guard viewContext.hasChanges else {
-        return []
-      }
-      
-      try viewContext.save()
-    } catch {
-      fatalError()
     }
+    save()
     
     return readContext()
   }
