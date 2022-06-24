@@ -37,7 +37,9 @@ final class DiaryDetailViewController: DiaryBaseViewController {
 
   @objc private func presentActionSheet() {
     let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-    let sharedAction = UIAlertAction(title: "Share...", style: .default, handler: nil)
+    let sharedAction = UIAlertAction(title: "Share...", style: .default) { _ in
+      self.presentShareActivityController()
+    }
     let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
     actionSheet.addAction(sharedAction)
@@ -45,6 +47,12 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     actionSheet.addAction(cancelAction)
 
     self.present(actionSheet, animated: true, completion: nil)
+  }
+
+  private func presentShareActivityController() {
+    guard let title = diary.title else { return }
+    let activityController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
+    self.present(activityController, animated: true, completion: nil)
   }
 
   private func initializeItem() {
