@@ -6,9 +6,14 @@
 
 import UIKit
 
+protocol CoreDataSceneDelegate: AnyObject {
+    func saveCoreData()
+}
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    weak var coreDataDelegate: CoreDataSceneDelegate?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
@@ -28,5 +33,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillEnterForeground(_ scene: UIScene) {
+    }
+    
+    func sceneDidEnterBackground(_ scene: UIScene) {
+        coreDataDelegate?.saveCoreData()
     }
 }

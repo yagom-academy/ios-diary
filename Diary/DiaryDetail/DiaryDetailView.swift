@@ -17,6 +17,10 @@ final class DiaryDetailView: UIView {
         return textView
     }()
     
+    var isTextViewFirstResponder: Bool {
+        diaryTextView.isFirstResponder
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureLayout()
@@ -27,8 +31,13 @@ final class DiaryDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(diary: Diary) {
-        diaryTextView.text = "\(diary.title ?? "제목 없음") \n\n \(diary.body ?? "내용 없음")"
+    func configure(diary: Diary?) {
+        if let diary = diary {
+            diaryTextView.text = "\(diary.title ?? "")\n\(diary.body ?? "")"
+        } else {
+            diaryTextView.text = ""
+        }
+        
         diaryTextView.contentOffset = .zero
     }
     
@@ -39,10 +48,14 @@ final class DiaryDetailView: UIView {
     private func configureLayout() {
         self.addSubview(diaryTextView)
           
-        let leadingConstraint = diaryTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor)
-        let topConstraint = diaryTextView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor)
-        let trailingConstraint = diaryTextView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
-        let bottomConstraint = diaryTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+        let leadingConstraint = diaryTextView.leadingAnchor
+            .constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor)
+        let topConstraint = diaryTextView.topAnchor
+            .constraint(equalTo: self.safeAreaLayoutGuide.topAnchor)
+        let trailingConstraint = diaryTextView.trailingAnchor
+            .constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
+        let bottomConstraint = diaryTextView.bottomAnchor
+            .constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
           
         NSLayoutConstraint.activate([
             leadingConstraint,
@@ -57,5 +70,21 @@ final class DiaryDetailView: UIView {
     func changeBottomConstraint(value: CGFloat) {
         bottomConstraint?.constant = -value
         self.layoutIfNeeded()
+    }
+    
+    func setFirstResponder() {
+        self.diaryTextView.becomeFirstResponder()
+    }
+    
+    func relinquishFirstResponder() {
+        self.diaryTextView.resignFirstResponder()
+    }
+    
+    func readText() -> String {
+        return diaryTextView.text
+    }
+    
+    func setTextViewAccessory(button: UIToolbar) {
+        self.diaryTextView.inputAccessoryView = button
     }
 }
