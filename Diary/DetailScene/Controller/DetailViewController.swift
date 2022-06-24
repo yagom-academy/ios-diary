@@ -78,50 +78,32 @@ final class DetailViewController: UIViewController {
   }
   
   @objc func actionSheetWillShow() {
-    self.showViewMoreAlert()
+    self.showAlert(
+      title: "택1",
+      message: "무엇을",
+      firstActionTitle: "Share...",
+      secondActionTitle: "Delete",
+      preferredStyle: .actionSheet,
+      firstAction: { [weak self] in
+      self?.showActivityView(text: "선택하세요")
+    }, secondAction: { [weak self] in
+      self?.showAlert(
+        title: "진짜?",
+        message: "정말?",
+        firstActionTitle: "취소",
+        secondActionTitle: "삭제",
+        preferredStyle: .alert,
+        secondAction: {
+        CoredataManager.sherd.deleteContext(identifier: self?.diary.identifier ?? "")
+        self?.navigationController?.pushViewController(MainViewController(), animated: true)
+      })
+    })
   }
+
   
   deinit {
     self.removeKeyboardObserver()
     self.removeSaveDiaryObserver()
-  }
-  
-  private func showViewMoreAlert(){
-    let alertVC = UIAlertController(
-      title: "택1하셈",
-      message: "무엇을 택1 할것인가",
-      preferredStyle: .actionSheet)
-    
-    let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
-      self.showActivityView()
-    }
-    
-    let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-      self.showDeleteAlert()
-    }
-    
-    alertVC.addAction(shareAction)
-    alertVC.addAction(deleteAction)
-    
-    present(alertVC, animated: true)
-  }
-  
-  private func showDeleteAlert() {
-    let alertVC = UIAlertController(
-      title: "진짜요?",
-      message: "정말로 삭제하시겠어요?",
-      preferredStyle: .alert)
-    
-    let cancelAction = UIAlertAction(title: "취소", style: .default)
-    
-    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-      CoredataManager.sherd.deleteContext(identifier: self.diary.identifier.bindOptional())
-      self.navigationController?.popViewController(animated: true)
-    }
-    
-    alertVC.addAction(cancelAction)
-    alertVC.addAction(deleteAction)
-    self.present(alertVC, animated: true)
   }
 }
 

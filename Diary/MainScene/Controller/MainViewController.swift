@@ -105,7 +105,7 @@ extension MainViewController: UITableViewDelegate {
     }
     
     let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, completion in
-      self.showActivityView()
+      self.showActivityView(text: "공유")
       completion(true)
     }
     
