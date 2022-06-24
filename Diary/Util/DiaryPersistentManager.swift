@@ -72,7 +72,7 @@ final class DiaryPersistentManager {
     guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return }
     guard let diaryEntity = diaryEntities.first(where: { $0.uuid == diary.uuid }) else { return }
 
-    context.delete(diaryEntity)
+    self.context.delete(diaryEntity)
 
     self.saveContext()
   }
@@ -81,7 +81,7 @@ final class DiaryPersistentManager {
     guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return }
 
     diaryEntities.forEach { entity in
-      context.delete(entity)
+      self.context.delete(entity)
     }
 
     self.saveContext()
