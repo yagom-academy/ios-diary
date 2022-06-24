@@ -131,14 +131,14 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		86C13230285979170069CFD2 /* Resource */ = {
+		86C13230285979170069CFD2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				AB0D9A022859AB8C00235064 /* sample.json */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				AB6B32942861BB9400E777CE /* CoreDataModel */,
 			);
-			path = Resource;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		86C132322859794B0069CFD2 /* Scene */ = {
@@ -300,7 +300,7 @@
 				86C1322C2858A9920069CFD2 /* MainScene */,
 				AB6B32A02862E7F300E777CE /* DetailScene */,
 				ABF991BA2859AAA5000A44A1 /* WriteScene */,
-				86C13230285979170069CFD2 /* Resource */,
+				86C13230285979170069CFD2 /* Model */,
 				86C132322859794B0069CFD2 /* Scene */,
 				ABF991B428597710000A44A1 /* Utils */,
 			);
