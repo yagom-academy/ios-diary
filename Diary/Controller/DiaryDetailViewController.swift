@@ -40,19 +40,31 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     let sharedAction = UIAlertAction(title: "Share...", style: .default) { _ in
       self.presentShareActivityController()
     }
-    let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
-    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+    let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+      self.presentDeleteAlert()
+    }
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
     actionSheet.addAction(sharedAction)
     actionSheet.addAction(deleteAction)
     actionSheet.addAction(cancelAction)
 
-    self.present(actionSheet, animated: true, completion: nil)
+    self.present(actionSheet, animated: true)
+  }
+
+  private func presentDeleteAlert() {
+    let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+    let deleteAction = UIAlertAction(title: "삭제", style: .destructive)
+
+    alert.addAction(cancelAction)
+    alert.addAction(deleteAction)
+    self.present(alert, animated: true)
   }
 
   private func presentShareActivityController() {
     guard let title = diary.title else { return }
     let activityController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
-    self.present(activityController, animated: true, completion: nil)
+    self.present(activityController, animated: true)
   }
 
   private func initializeItem() {
