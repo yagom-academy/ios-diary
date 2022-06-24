@@ -167,20 +167,22 @@ extension DiaryViewController: UITableViewDelegate {
             style: .normal,
             title: "Share"
         ) {
-            [weak self] (_, _, _) in
+            [weak self] (_, _, completion) in
             self?.showActivity(title: cellData.title)
+            completion(true)
         }
         
         let delete = UIContextualAction(
             style: .destructive,
             title: "Delete"
         ) {
-            [weak self] (_, _, _) in
+            [weak self] (_, _, completion) in
             self?.showDeleteAlert(
                 identifier: cellData.identifier,
                 handler: {
                     self?.setUpCoreData()
                 })
+            completion(true)
         }
         
         let config = UISwipeActionsConfiguration(actions: [delete, share])
