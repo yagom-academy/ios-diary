@@ -32,7 +32,7 @@ extension RegistrationViewModel {
         PersistenceManager.shared.createData(by: diary)
     }
     
-    func requestWeather() {
+    private func requestWeather() {
         guard let coordinate = coordinate else {
             self.icon = nil
             return
