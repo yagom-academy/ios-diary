@@ -8,15 +8,13 @@
 import Foundation
 
 struct Weather: Codable {
-    let id: Int
-    let main: String
-    let weatherDescription: String
-    let icon: String
-
+    let icon: [Icon]
+    
     enum CodingKeys: String, CodingKey {
-        case id
-        case main
-        case weatherDescription = "description"
-        case icon
+        case icon = "weather"
     }
+}
+
+struct Icon: Codable {
+    let icon: String?
 }
