@@ -41,7 +41,7 @@ final class DiaryTableViewCell: UITableViewCell {
     self.dateLabel.text = nil
   }
 
-  func configureItem(_ diary: Diary) {
+  func configureItem(_ diary: DiaryEntity) {
     self.titleLabel.text = diary.title
     self.bodyLabel.text = diary.body
     self.dateLabel.text = Formatter.changeToString(from: diary.createdAt)

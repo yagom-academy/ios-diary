@@ -6,9 +6,9 @@
 import UIKit
 
 final class DiaryDetailViewController: DiaryBaseViewController {
-  private let diary: Diary
+  private let diary: DiaryEntity
 
-  init(diary: Diary) {
+  init(diary: DiaryEntity) {
     self.diary = diary
     super.init(nibName: nil, bundle: nil)
   }
@@ -28,6 +28,8 @@ final class DiaryDetailViewController: DiaryBaseViewController {
   }
 
   private func initializeItem() {
-    self.bodyTextView.text = self.diary.title + "\n\n" + self.diary.body
+    guard let title = diary.title, let body = diary.body else { return }
+
+    self.bodyTextView.text = title + "\n\n" + body
   }
 }

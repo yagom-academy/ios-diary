@@ -15,7 +15,7 @@ final class DiaryViewController: UIViewController {
     )
   }
 
-  private var diaries = [Diary]()
+  private var diaries = [DiaryEntity]()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -53,8 +53,7 @@ final class DiaryViewController: UIViewController {
   }
 
   private func fetchDiaries() {
-    guard let result = Parser.decode(type: [Diary].self, assetName: "sample") else { return }
-    self.diaries = result
+    self.diaries = DiaryStorageManager.shared.fetchAll()
   }
 }
 
