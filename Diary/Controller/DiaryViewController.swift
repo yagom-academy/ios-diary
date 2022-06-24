@@ -60,7 +60,7 @@ final class DiaryViewController: UIViewController {
   }
 
   @objc private func fetchDiaries() {
-    self.diaries = DiaryStorageManager.shared.fetchAll()
+    self.diaries = DiaryStorageManager.shared.fetchAllDiaries()
   }
 
   private func observePersistentNotification() {

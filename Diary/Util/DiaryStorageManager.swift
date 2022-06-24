@@ -48,7 +48,7 @@ final class DiaryStorageManager {
     self.saveContext()
   }
 
-  func fetchAll() -> [DiaryEntity] {
+  func fetchAllDiaries() -> [DiaryEntity] {
     guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return [] }
     return diaryEntities
   }
