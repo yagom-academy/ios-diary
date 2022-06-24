@@ -18,7 +18,7 @@
 		4EACCCD9285C1BB1008046A5 /* RegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCD8285C1BB1008046A5 /* RegistrationViewController.swift */; };
 		4EACCCDB285C9B65008046A5 /* ShareActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */; };
 		4EB67BBE28648A9D00D00805 /* RequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB67BBD28648A9D00D00805 /* RequestManager.swift */; };
-		4EB67BC028648AC200D00805 /* URLSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB67BBF28648AC200D00805 /* URLSessionManager.swift */; };
+		4EB67BC028648AC200D00805 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB67BBF28648AC200D00805 /* EndPoint.swift */; };
 		4EB67BC228648D4600D00805 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB67BC128648D4600D00805 /* Weather.swift */; };
 		4EBF1C042862E37400C35698 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF1C032862E37400C35698 /* DiaryError.swift */; };
 		4EBF1C062862E72600C35698 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF1C052862E72600C35698 /* UIApplication.swift */; };
@@ -57,7 +57,7 @@
 		4EACCCD8285C1BB1008046A5 /* RegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewController.swift; sourceTree = "<group>"; };
 		4EACCCDA285C9B65008046A5 /* ShareActivityItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareActivityItemSource.swift; sourceTree = "<group>"; };
 		4EB67BBD28648A9D00D00805 /* RequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestManager.swift; sourceTree = "<group>"; };
-		4EB67BBF28648AC200D00805 /* URLSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionManager.swift; sourceTree = "<group>"; };
+		4EB67BBF28648AC200D00805 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		4EB67BC128648D4600D00805 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		4EBF1C032862E37400C35698 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
 		4EBF1C052862E72600C35698 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
@@ -105,6 +105,15 @@
 				4426E833CCAA9573A01D330A /* Pods_Diary.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		4E08EA0228658792001339F0 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				4EB67BBF28648AC200D00805 /* EndPoint.swift */,
+				4EB67BBD28648A9D00D00805 /* RequestManager.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		4EBF1C022862E36400C35698 /* Error */ = {
@@ -192,6 +201,7 @@
 		A1A8C5222862DC82008A95A9 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				4E08EA0228658792001339F0 /* Network */,
 				4EBF1C022862E36400C35698 /* Error */,
 				A1DCA7D92858637E0022DB2A /* Extension */,
 				A1A8C5212862DC78008A95A9 /* Util */,
@@ -206,8 +216,6 @@
 				4EACCCD5285C1AA1008046A5 /* DiaryEntity+CoreDataProperties.swift */,
 				4EACCCCE285C1593008046A5 /* PersistenceManager.swift */,
 				A152B1A2285C543300BA06A9 /* Diary.swift */,
-				4EB67BBD28648A9D00D00805 /* RequestManager.swift */,
-				4EB67BBF28648AC200D00805 /* URLSessionManager.swift */,
 				4EB67BC128648D4600D00805 /* Weather.swift */,
 			);
 			path = Model;
@@ -423,7 +431,7 @@
 				4EC4B4962861910C00669E5D /* UITextView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				03EB0426285869AE008A68FC /* DetailViewController.swift in Sources */,
-				4EB67BC028648AC200D00805 /* URLSessionManager.swift in Sources */,
+				4EB67BC028648AC200D00805 /* EndPoint.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* DiaryEntity.xcdatamodeld in Sources */,
 			);
