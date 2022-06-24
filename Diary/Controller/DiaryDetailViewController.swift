@@ -21,7 +21,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     super.viewDidLoad()
     self.initializeNavigationBar()
     self.initializeItem()
-    self.observePersistentNotification()
+    self.observeDiaryDidUpdateNotifications()
   }
 
   private func initializeNavigationBar() {
@@ -34,7 +34,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     self.bodyTextView.text = title + "\n" + body
   }
 
-  private func observePersistentNotification() {
+  private func observeDiaryDidUpdateNotifications() {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(self.updateDiary),
