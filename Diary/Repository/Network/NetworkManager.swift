@@ -2,10 +2,10 @@
 //  NetworkManager.swift
 //  Diary
 //
-//  Created by 이시원 on 2022/06/24.
+//  Created by safari, Eddy on 2022/06/24.
 //
 
-import Foundation
+import UIKit
 
 enum NetWorkError: Error {
     case response
@@ -30,5 +30,23 @@ final class NetworkManager {
         }
         
         return data
+    }
+    
+    func fetchImageData(urlRequest: URLRequest) async throws -> UIImage? {
+        guard let url = urlRequest.url else {
+            return nil
+            
+        }
+        let (data, response) = try await URLSession.shared.data(from: url)
+        
+        guard let httpResponse = response as? HTTPURLResponse,
+              (200...300).contains(httpResponse.statusCode) else {
+                  throw NetWorkError.response
+              }
+        
+        guard let image = UIImage(data: data) else {
+            throw NetWorkError.decode
+        }
+        return image
     }
 }

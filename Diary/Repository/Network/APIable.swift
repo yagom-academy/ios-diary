@@ -2,7 +2,7 @@
 //  APIable.swift
 //  Diary
 //
-//  Created by 이시원 on 2022/06/24.
+//  Created by safari, Eddy on 2022/06/24.
 //
 
 import Foundation
@@ -44,7 +44,7 @@ struct WeatherAPI: APIable {
 }
 
 struct IconAPI: APIable {
-    let baseURL: String = "http://openweathermap.org/img/w/"
+    let baseURL: String = "https://openweathermap.org/img/w/"
     let path: String
     let method: HTTPMethod = .get
     let parameters: [String: String]? = nil
