@@ -105,8 +105,6 @@ extension RegistrationViewController {
     
     private func setUpLocationManager() {
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
     }
     
     private func requestWeather() {
@@ -141,6 +139,30 @@ extension RegistrationViewController: CLLocationManagerDelegate {
         if let coordinate = locations.last?.coordinate {
             viewModel.setUpLocation(by: coordinate)
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+        case .restricted, .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied:
+            showAlert(title: "위치 권한 설정", message: "해당 기능을 사용하기 위해서 위치 권한이 필요합니다.") {
+                self.showSettingUrl()
+            }
+        @unknown default:
+            return
+        }
+    }
+}
+
+extension RegistrationViewController {
+    private func showSettingUrl() {
+        guard let settingsUrl = URL(string: UIApplication.openSettingsURLString) else {
+            return
+        }
+        UIApplication.shared.open(settingsUrl)
     }
 }
 
