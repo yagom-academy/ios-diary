@@ -1,5 +1,5 @@
 //
-//  DiaryPersistentManager.swift
+//  DiaryStorageManager.swift
 //  Diary
 //
 //  Created by Minseong, Lingo on 2022/06/22.
@@ -8,8 +8,8 @@
 import Foundation
 import CoreData
 
-final class DiaryPersistentManager {
-  static let shared = DiaryPersistentManager()
+final class DiaryStorageManager {
+  static let shared = DiaryStorageManager()
 
   private lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "Diary")

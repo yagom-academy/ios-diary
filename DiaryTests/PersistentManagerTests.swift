@@ -12,7 +12,7 @@ final class PersistentManagerTests: XCTestCase {
 
   override func setUpWithError() throws {
     try super.setUpWithError()
-    DiaryPersistentManager.shared.deleteAll()
+    DiaryStorageManager.shared.deleteAll()
   }
 
   override func tearDownWithError() throws {
@@ -25,8 +25,8 @@ final class PersistentManagerTests: XCTestCase {
     let expectedValue = "테스트"
 
     // when
-    DiaryPersistentManager.shared.create(diary: diary)
-    let diaries = DiaryPersistentManager.shared.fetchAll()
+    DiaryStorageManager.shared.create(diary: diary)
+    let diaries = DiaryStorageManager.shared.fetchAll()
 
     // then
     XCTAssertEqual(diaries[0].title, expectedValue)
@@ -35,13 +35,13 @@ final class PersistentManagerTests: XCTestCase {
   func testUpdate_수정할diary가주어졌을때_수정이반영되어야한다() {
     // given
     var diary = Diary(title: "테스트", body: "테스트중입니다.", createdAt: 30)
-    DiaryPersistentManager.shared.create(diary: diary)
-    let input = DiaryPersistentManager.shared.fetchAll()
+    DiaryStorageManager.shared.create(diary: diary)
+    let input = DiaryStorageManager.shared.fetchAll()
 
     // when
     diary.title = "수정테스트"
-    DiaryPersistentManager.shared.update(diary: diary)
-    let output = DiaryPersistentManager.shared.fetchAll()
+    DiaryStorageManager.shared.update(diary: diary)
+    let output = DiaryStorageManager.shared.fetchAll()
 
     // then
     XCTAssertNotEqual(input[0].title, output[0].title)
@@ -51,11 +51,11 @@ final class PersistentManagerTests: XCTestCase {
     // given
     let expectedValue = 0
     let diary = Diary(title: "테스트", body: "테스트중입니다.", createdAt: 30)
-    DiaryPersistentManager.shared.create(diary: diary)
+    DiaryStorageManager.shared.create(diary: diary)
 
     // when
-    DiaryPersistentManager.shared.delete(diary: diary)
-    let diaries = DiaryPersistentManager.shared.fetchAll()
+    DiaryStorageManager.shared.delete(diary: diary)
+    let diaries = DiaryStorageManager.shared.fetchAll()
 
     // then
     XCTAssertEqual(diaries.count, expectedValue)
