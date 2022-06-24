@@ -35,10 +35,7 @@ final class DiaryViewController: UIViewController {
     
     private func setUpNavigationController() {
         func setUpRightItem() {
-            let weight = UIFont.systemFont(
-                ofSize: 35,
-                weight: .light
-            )
+            let weight = UIFont.systemFont(ofSize: 35, weight: .light)
             let attributes = [NSAttributedString.Key.font: weight]
             let registerButton = UIBarButtonItem(
                 title: Const.registerButton,
@@ -47,10 +44,7 @@ final class DiaryViewController: UIViewController {
                 action: #selector(moveRegisterViewController)
             )
             
-            registerButton.setTitleTextAttributes(
-                attributes,
-                for: .normal
-            )
+            registerButton.setTitleTextAttributes(attributes, for: .normal)
             
             navigationItem.rightBarButtonItem = registerButton
         }
@@ -62,10 +56,7 @@ final class DiaryViewController: UIViewController {
     @objc private func moveRegisterViewController() {
         let viewContoller = UpdateViewController()
         
-        navigationController?.pushViewController(
-            viewContoller,
-            animated: true
-        )
+        navigationController?.pushViewController(viewContoller, animated: true)
     }
     
     private func setUpTableView() {
@@ -91,19 +82,13 @@ final class DiaryViewController: UIViewController {
         dataSource = UITableViewDiffableDataSource<Int, DiaryDTO>(tableView: tableView) {
             tableView, indexPath, itemIdentifier in
             
-            if let cell = tableView.dequeueReusableCell(
-                withIdentifier: DiaryCell.identifier,
-                for: indexPath
-            ) as? DiaryCell {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell {
                 cell.configure(data: itemIdentifier)
                 
                 return cell
             }
             
-            return tableView.dequeueReusableCell(
-                withIdentifier: UITableViewCell.identifier,
-                for: indexPath
-            )
+            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
         }
     }
     
@@ -111,6 +96,7 @@ final class DiaryViewController: UIViewController {
         guard let sampleData: [DiaryDTO] = AssetManager.get() else {
             return
         }
+        
         setUpSanpshot(data: sampleData)
     }
     
@@ -133,10 +119,7 @@ final class DiaryViewController: UIViewController {
 }
 
 extension DiaryViewController: UITableViewDelegate {
-    func tableView(
-        _ tableView: UITableView,
-        didSelectRowAt indexPath: IndexPath
-    ) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? DiaryCell,
               let diaryData = dataSource?.itemIdentifier(for: indexPath) else {
             return
@@ -146,10 +129,7 @@ extension DiaryViewController: UITableViewDelegate {
         
         cell.isSelected = false
         
-        navigationController?.pushViewController(
-            viewContoller,
-            animated: true
-        )
+        navigationController?.pushViewController(viewContoller, animated: true)
     }
     
     func tableView(
@@ -163,19 +143,13 @@ extension DiaryViewController: UITableViewDelegate {
         
         let cellData = cell.extractData()
         
-        let share = UIContextualAction(
-            style: .normal,
-            title: "Share"
-        ) {
+        let share = UIContextualAction(style: .normal, title: "Share") {
             [weak self] (_, _, completion) in
             self?.showActivity(title: cellData.title)
             completion(true)
         }
         
-        let delete = UIContextualAction(
-            style: .destructive,
-            title: "Delete"
-        ) {
+        let delete = UIContextualAction(style: .destructive, title: "Delete") {
             [weak self] (_, _, completion) in
             self?.showDeleteAlert(
                 identifier: cellData.identifier,

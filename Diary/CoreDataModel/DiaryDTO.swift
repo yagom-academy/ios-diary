@@ -24,12 +24,7 @@ struct DiaryDTO: Decodable, Hashable {
         case date = "created_at"
     }
     
-    init(
-        identifier: UUID? = nil,
-        title: String,
-        body: String,
-        date: Date
-    ) {
+    init(identifier: UUID? = nil, title: String, body: String, date: Date) {
         if let identifier = identifier {
             self.identifier = identifier
         }

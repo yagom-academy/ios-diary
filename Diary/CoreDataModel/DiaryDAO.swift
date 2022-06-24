@@ -73,12 +73,7 @@ final class DiaryDAO {
                 return nil
             }
             
-            return DiaryDTO(
-                identifier: identifier,
-                title: title,
-                body: body,
-                date: date
-            )
+            return DiaryDTO(identifier: identifier, title: title, body: body, date: date)
         }
     }
     
@@ -87,14 +82,8 @@ final class DiaryDAO {
             return
         }
         
-        diary.setValue(
-            userData.title,
-            forKey: "title"
-        )
-        diary.setValue(
-            userData.body,
-            forKey: "body"
-        )
+        diary.setValue(userData.title, forKey: "title")
+        diary.setValue(userData.body, forKey: "body")
         
         save()
     }
@@ -109,10 +98,7 @@ final class DiaryDAO {
     
     private func fetch(identifier: String) -> [Diary]? {
         let request = Diary.fetchRequest()
-        let predicate = NSPredicate(
-            format: "identifier == %@",
-            identifier
-        )
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
         
         request.predicate = predicate
         

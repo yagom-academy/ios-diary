@@ -36,17 +36,11 @@ extension UIViewController {
         identifer: UUID,
         deleteHandler: @escaping () -> Void
     ) {
-        let share = UIAlertAction(
-            title: "Share",
-            style: .default
-        ) { [weak self] _ in
+        let share = UIAlertAction(title: "Share", style: .default) { [weak self] _ in
             self?.showActivity(title: shareTitle)
         }
         
-        let delete = UIAlertAction(
-            title: "Delete",
-            style: .destructive
-        ) { _ in
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.showDeleteAlert(identifier: identifer, handler: deleteHandler)
         }
         
@@ -59,18 +53,12 @@ extension UIViewController {
         present(sheet, animated: true)
     }
     
-    func showDeleteAlert(
-        identifier: UUID?,
-        handler: @escaping () -> Void
-    ) {
+    func showDeleteAlert(identifier: UUID?, handler: @escaping () -> Void) {
         guard let identifier = identifier else {
             return
         }
 
-        let action = UIAlertAction(
-            title: "Delete",
-            style: .destructive
-        ) { _ in
+        let action = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.deleteHandler(identifier: identifier)
             handler()
         }
@@ -97,10 +85,7 @@ final class AlertBuilder {
     private var product = Product()
 
     init() {
-        let cancel = UIAlertAction(
-            title: "Cancel",
-            style: .cancel
-        )
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         
         self.setAction(cancel)
     }

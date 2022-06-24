@@ -23,14 +23,8 @@ final class DiaryCell: UITableViewCell {
         let label = UILabel()
         
         label.font = .preferredFont(forTextStyle: .body)
-        label.setContentCompressionResistancePriority(
-            .required,
-            for: .horizontal
-        )
-        label.setContentHuggingPriority(
-            .required,
-            for: .horizontal
-        )
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         
         return label
     }()
@@ -52,14 +46,8 @@ final class DiaryCell: UITableViewCell {
         return stackView
     }()
     
-    override init(
-        style: UITableViewCell.CellStyle,
-        reuseIdentifier: String?
-    ) {
-        super.init(
-            style: style,
-            reuseIdentifier: reuseIdentifier
-        )
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         accessoryType = .disclosureIndicator
         
@@ -75,10 +63,7 @@ final class DiaryCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(informationStackView)
         
-        informationStackView.addArrangedSubviews(
-            dateLabel,
-            bodyLabel
-        )
+        informationStackView.addArrangedSubviews(dateLabel, bodyLabel)
     }
     
     private func setUpLayout() {
@@ -88,39 +73,18 @@ final class DiaryCell: UITableViewCell {
         func setUpTitleLayout() {
             NSLayoutConstraint.activate([
                 titleLabel.heightAnchor.constraint(equalTo: informationStackView.heightAnchor),
-                titleLabel.topAnchor.constraint(
-                    equalTo: contentView.topAnchor,
-                    constant: verticalInset
-                ),
-                titleLabel.leadingAnchor.constraint(
-                    equalTo: contentView.leadingAnchor,
-                    constant: horizontalInset
-                ),
-                titleLabel.trailingAnchor.constraint(
-                    equalTo: contentView.trailingAnchor,
-                    constant: -horizontalInset
-                )
+                titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: verticalInset),
+                titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalInset),
+                titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalInset)
             ])
         }
         
         func setupInfoLayout() {
             NSLayoutConstraint.activate([
-                informationStackView.topAnchor.constraint(
-                    equalTo: titleLabel.bottomAnchor,
-                    constant: verticalInset
-                ),
-                informationStackView.bottomAnchor.constraint(
-                    equalTo: contentView.bottomAnchor,
-                    constant: -verticalInset
-                ),
-                informationStackView.leadingAnchor.constraint(
-                    equalTo: contentView.leadingAnchor,
-                    constant: horizontalInset
-                ),
-                informationStackView.trailingAnchor.constraint(
-                    equalTo: contentView.trailingAnchor,
-                    constant: -horizontalInset
-                )
+                informationStackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: verticalInset),
+                informationStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -verticalInset),
+                informationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalInset),
+                informationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalInset)
             ])
         }
         
@@ -128,14 +92,8 @@ final class DiaryCell: UITableViewCell {
         setupInfoLayout()
     }
     
-    func extractData() -> (
-        title: String?,
-        identifier: UUID?
-    ) {
-        return (
-            titleLabel.text,
-            identifier
-        )
+    func extractData() -> (title: String?, identifier: UUID?) {
+        return (titleLabel.text, identifier)
     }
     
     func configure(data: DiaryDTO) {

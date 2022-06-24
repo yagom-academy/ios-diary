@@ -56,8 +56,7 @@ final class UpdateViewController: UIViewController {
     }
     
     private func setUpDelegate() {
-        guard let scene = UIApplication.shared.connectedScenes.first?.delegate
-                as? SceneDelegate else {
+        guard let scene = UIApplication.shared.connectedScenes.first?.delegate as? SceneDelegate else {
             return
         }
         
@@ -102,10 +101,7 @@ final class UpdateViewController: UIViewController {
             return
         }
         
-        showActionSheet(
-            shareTitle: title,
-            identifer: identifier
-        ) {
+        showActionSheet(shareTitle: title, identifer: identifier) {
             self.navigationController?.popViewController(animated: true)
         }
     }
@@ -152,10 +148,7 @@ final class UpdateViewController: UIViewController {
             bottomContraint
         ].compactMap { $0 })
         
-        keyboard = Keyboard(
-            bottomContraint: bottomContraint,
-            textView: textView
-        )
+        keyboard = Keyboard(bottomContraint: bottomContraint, textView: textView)
     }
     
     private func showKeyboard() {
@@ -175,19 +168,12 @@ private extension UITextView {
         static let defaultBody = ""
     }
     
-    func extractData(date: String?) -> (
-        title: String,
-        body: String,
-        date: Date
-    )? {
+    func extractData(date: String?) -> (title: String, body: String, date: Date)? {
         guard let date = date else {
             return nil
         }
         
-        let splitedText = text.split(
-            separator: Const.separator,
-            maxSplits: 1
-        ).map {
+        let splitedText = text.split(separator: Const.separator, maxSplits: 1).map {
             String($0)
         }
         
