@@ -28,7 +28,7 @@ final class DiaryViewController: UIViewController {
     self.initializeUI()
     self.initializeNavigationBar()
     self.fetchDiaries()
-    self.observePersistentNotification()
+    self.observeDiaryDidSaveNotification()
   }
 
   private func initializeUI() {
@@ -63,7 +63,7 @@ final class DiaryViewController: UIViewController {
     self.diaries = DiaryStorageManager.shared.fetchAllDiaries()
   }
 
-  private func observePersistentNotification() {
+  private func observeDiaryDidSaveNotification() {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(self.fetchDiaries),
