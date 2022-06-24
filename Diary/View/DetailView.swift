@@ -7,14 +7,14 @@
 
 import UIKit
 
+fileprivate extension DiaryConstants {
+    static let mainStackViewSpacing: CGFloat = 5
+    static let mainStackViewLayoutMargin: CGFloat = 10
+    static let mainScrollViewSpacingFromViewLeading: CGFloat = 15
+    static let mainScrollViewSpacingFromViewTrailing: CGFloat = -15
+}
+
 final class DetailView: UIView {
-    
-    private enum Constants {
-        static let mainStackViewSpacing: CGFloat = 5
-        static let mainStackViewLayoutMargin: CGFloat = 10
-        static let mainScrollViewSpacingFromViewLeading: CGFloat = 15
-        static let mainScrollViewSpacingFromViewTrailing: CGFloat = -15
-    }
     
     let mainScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -29,24 +29,24 @@ final class DetailView: UIView {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.spacing = Constants.mainStackViewSpacing
+        stackView.spacing = DiaryConstants.mainStackViewSpacing
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(
-            top: Constants.mainStackViewLayoutMargin,
-            left: Constants.mainStackViewLayoutMargin,
-            bottom: 0,
-            right: Constants.mainStackViewLayoutMargin
+            top: DiaryConstants.mainStackViewLayoutMargin,
+            left: DiaryConstants.mainStackViewLayoutMargin,
+            bottom: .zero,
+            right: DiaryConstants.mainStackViewLayoutMargin
         )
         return stackView
     }()
     
-    private lazy var titleField: UITextField = {
+    lazy var titleField: UITextField = {
         let textField = UITextField()
         textField.textAlignment = .left
         return textField
     }()
     
-    private lazy var descriptionView: UITextView = {
+    lazy var descriptionView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.textAlignment = .left
@@ -76,10 +76,10 @@ extension DetailView {
             mainScrollView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             mainScrollView.leadingAnchor.constraint(
                 equalTo: self.leadingAnchor,
-                constant: Constants.mainScrollViewSpacingFromViewLeading),
+                constant: DiaryConstants.mainScrollViewSpacingFromViewLeading),
             mainScrollView.trailingAnchor.constraint(
                 equalTo: self.trailingAnchor,
-                constant: Constants.mainScrollViewSpacingFromViewTrailing
+                constant: DiaryConstants.mainScrollViewSpacingFromViewTrailing
             )
         ])
         

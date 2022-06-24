@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension TimeInterval {
+extension Date {
     var formattedDate: String {
         let dateFormatter = DateFormatter()
         let localID = Locale.preferredLanguages.first
@@ -15,6 +15,6 @@ extension TimeInterval {
         dateFormatter.dateStyle = .long
         dateFormatter.locale = deviceLocale
         dateFormatter.timeZone = TimeZone.current
-        return dateFormatter.string(from: Date(timeIntervalSince1970: self))
+        return dateFormatter.string(from: self)
     }
 }
