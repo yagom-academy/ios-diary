@@ -15,29 +15,19 @@ final class RequestManager {
     func requestAPI(lat: Double, lon: Double, completion: @escaping ((Result<Weather, Error>) -> Void)) {
         let endpoint: EndPoint = .weatherInfo(lat: lat, lon: lon)
         
-            request(endpoint: endpoint) { data, response, error in
-            guard error == nil else {
-                completion(.failure(DiaryError.networkError))
-                return
+        request(endpoint: endpoint) { data, response, error in
+            self.verifyError(with: data, response, error) { result in
+                switch result {
+                case .success(let result):
+                    guard let decodedData = try? JSONDecoder().decode(Weather.self, from: result) else {
+                        completion(.failure(DiaryError.networkError))
+                        return
+                    }
+                    completion(.success(decodedData))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
-            
-            guard let response = response as? HTTPURLResponse,
-                  (200..<300).contains(response.statusCode)
-            else {
-                completion(.failure(DiaryError.networkError))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(DiaryError.networkError))
-                return
-            }
-            
-            guard let decodedData = try? JSONDecoder().decode(Weather.self, from: data) else {
-                completion(.failure(DiaryError.networkError))
-                return
-            }
-            completion(.success(decodedData))
         }
     }
     
@@ -45,28 +35,17 @@ final class RequestManager {
         let endpoint: EndPoint = .weatherIcon(icon: icon)
         
         request(endpoint: endpoint) { data, response, error in
-            guard error == nil else {
-                completion(.failure(DiaryError.networkError))
-                return
+            self.verifyError(with: data, response, error) { result in
+                switch result {
+                case .success(let result):
+                    guard let image = UIImage(data: result) else {
+                        return
+                    }
+                    completion(.success(image))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
             }
-            
-            guard let response = response as? HTTPURLResponse,
-                  (200..<300).contains(response.statusCode)
-            else {
-                completion(.failure(DiaryError.networkError))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(DiaryError.networkError))
-                return
-            }
-            
-            guard let image = UIImage(data: data) else {
-                return
-            }
-            
-            completion(.success(image))
         }
     }
     
@@ -77,5 +56,30 @@ final class RequestManager {
         var request: URLRequest = URLRequest(url: url)
         request.httpMethod = "GET"
         URLSession.shared.dataTask(with: request, completionHandler: completion).resume()
+    }
+    
+    private func verifyError(
+        with data: Data?,
+        _ response: URLResponse?,
+        _ error: Error?,
+        completion: @escaping ((Result<Data, Error>) -> Void)
+    ) {
+        guard error == nil else {
+            completion(.failure(DiaryError.networkError))
+            return
+        }
+        
+        guard let response = response as? HTTPURLResponse,
+              (200..<300).contains(response.statusCode)
+        else {
+            completion(.failure(DiaryError.networkError))
+            return
+        }
+        
+        guard let data = data else {
+            completion(.failure(DiaryError.networkError))
+            return
+        }
+        completion(.success(data))
     }
 }
