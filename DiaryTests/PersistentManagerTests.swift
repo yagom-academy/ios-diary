@@ -23,9 +23,11 @@ final class PersistentManagerTests: XCTestCase {
     // given
     let diary = Diary(title: "테스트", body: "테스트중입니다.", createdAt: 30)
     let expectedValue = "테스트"
+
     // when
     DiaryPersistentManager.shared.create(diary: diary)
     let diaries = DiaryPersistentManager.shared.fetchAll()
+
     // then
     XCTAssertEqual(diaries[0].title, expectedValue)
   }
@@ -35,10 +37,12 @@ final class PersistentManagerTests: XCTestCase {
     var diary = Diary(title: "테스트", body: "테스트중입니다.", createdAt: 30)
     DiaryPersistentManager.shared.create(diary: diary)
     let input = DiaryPersistentManager.shared.fetchAll()
+
     // when
     diary.title = "수정테스트"
     DiaryPersistentManager.shared.update(diary: diary)
     let output = DiaryPersistentManager.shared.fetchAll()
+
     // then
     XCTAssertNotEqual(input[0].title, output[0].title)
   }
@@ -48,6 +52,7 @@ final class PersistentManagerTests: XCTestCase {
     let expectedValue = 0
     let diary = Diary(title: "테스트", body: "테스트중입니다.", createdAt: 30)
     DiaryPersistentManager.shared.create(diary: diary)
+
     // when
     DiaryPersistentManager.shared.delete(diary: diary)
     let diaries = DiaryPersistentManager.shared.fetchAll()
