@@ -23,7 +23,7 @@ extension UIImageView {
                 }
             case .failure:
                 DispatchQueue.main.async {
-                    self.image = UIImage(systemName: "person")
+                    self.image = UIImage(systemName: "questionmark.square.dashed")
                 }
             }
         }
