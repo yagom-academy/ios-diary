@@ -47,10 +47,10 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
         setUpDelegate()
         setUpView()
         setUpNavigationController(title: Formatter.getCurrentDate())
+        setUpTextView()
         setUpTextViewLayout()
         
         keyboard?.setUpKeyboard()
-        showKeyboard()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -151,10 +151,13 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
         }
     }
     
+    private func setUpTextView() {
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.becomeFirstResponder()
+    }
+    
     private func setUpTextViewLayout() {
         view.addSubview(textView)
-        
-        textView.translatesAutoresizingMaskIntoConstraints = false
         
         let bottomContraint = textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         
@@ -166,10 +169,6 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
         ].compactMap { $0 })
         
         keyboard = Keyboard(bottomContraint: bottomContraint, textView: textView)
-    }
-    
-    private func showKeyboard() {
-        textView.becomeFirstResponder()
     }
 }
 
