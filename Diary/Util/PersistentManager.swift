@@ -13,11 +13,12 @@ final class PersistentManager {
 
   private lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "Diary")
-    container.loadPersistentStores(completionHandler: { (_, error) in
-      if let error = error as NSError? {
-        fatalError("Unresolved error \(error), \(error.userInfo)")
+    container.loadPersistentStores { _, error in
+      if let error = error {
+        print("PersistentManagerError - LoadContainer: ", error)
       }
-    })
+    }
+
     return container
   }()
 
@@ -32,8 +33,7 @@ final class PersistentManager {
       do {
         try context.save()
       } catch {
-        let nserror = error as NSError
-        fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        print("PersistentManagerError - SaveContext: ", error)
       }
     }
   }
