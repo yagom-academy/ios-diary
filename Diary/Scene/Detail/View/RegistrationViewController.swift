@@ -104,10 +104,6 @@ extension RegistrationViewController {
     private func setUpLocationManager() {
         locationManager.delegate = self
     }
-    
-    private func requestWeather() {
-        viewModel.requestWeather()
-    }
 }
 
 // MARK: Objc Method
