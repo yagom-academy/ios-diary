@@ -44,6 +44,7 @@ final class DiaryCell: UITableViewCell {
         let label = UILabel()
         label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentHuggingPriority(.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .vertical)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.font = .preferredFont(forTextStyle: .body)
         return label
