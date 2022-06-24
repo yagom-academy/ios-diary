@@ -21,8 +21,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     )
     self.window?.makeKeyAndVisible()
   }
-
-  func sceneDidEnterBackground(_ scene: UIScene) {
-    NotificationCenter.default.post(name: DiaryStorageManager.saveNotification, object: nil)
-  }
 }

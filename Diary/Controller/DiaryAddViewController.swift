@@ -11,6 +11,7 @@ final class DiaryAddViewController: DiaryBaseViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.bodyTextView.becomeFirstResponder()
+    self.observeDidEnterBackgroundNotification()
   }
 
   override func viewDidDisappear(_ animated: Bool) {
@@ -18,7 +19,16 @@ final class DiaryAddViewController: DiaryBaseViewController {
     self.saveDiary()
   }
 
-  private func saveDiary() {
+  private func observeDidEnterBackgroundNotification() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(self.saveDiary),
+      name: UIApplication.didEnterBackgroundNotification,
+      object: nil
+    )
+  }
+
+  @objc private func saveDiary() {
     var text = self.bodyTextView.text.components(separatedBy: "\n")
     let title = text.first
     text.removeFirst()
@@ -28,7 +38,7 @@ final class DiaryAddViewController: DiaryBaseViewController {
       DiaryStorageManager.shared.create(
         diary: Diary(title: title, body: body, createdAt: Date().timeIntervalSince1970)
       )
-      NotificationCenter.default.post(name: DiaryStorageManager.fetchNotification, object: nil)
+      NotificationCenter.default.post(name: DiaryStorageNotification.diaryDidSave, object: nil)
     }
   }
 }
