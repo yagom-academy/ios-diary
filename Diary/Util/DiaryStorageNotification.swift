@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+enum DiaryStorageNotification {
+  static let diaryDidSave = NSNotification.Name("DiaryStorageDidSaveNotification")
+}
