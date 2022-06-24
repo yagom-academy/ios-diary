@@ -12,7 +12,7 @@ final class PersistentManagerTests: XCTestCase {
 
   override func setUpWithError() throws {
     try super.setUpWithError()
-    PersistentManager.shared.deleteAll()
+    DiaryPersistentManager.shared.deleteAll()
   }
 
   override func tearDownWithError() throws {
@@ -24,8 +24,8 @@ final class PersistentManagerTests: XCTestCase {
     let diary = Diary(title: "테스트", body: "테스트중입니다.", createdAt: 30)
     let expectedValue = "테스트"
     // when
-    PersistentManager.shared.create(diary: diary)
-    let diaries = PersistentManager.shared.fetchAll()
+    DiaryPersistentManager.shared.create(diary: diary)
+    let diaries = DiaryPersistentManager.shared.fetchAll()
     // then
     XCTAssertEqual(diaries[0].title, expectedValue)
   }
@@ -33,12 +33,12 @@ final class PersistentManagerTests: XCTestCase {
   func testUpdate_수정할diary가주어졌을때_수정이반영되어야한다() {
     // given
     var diary = Diary(title: "테스트", body: "테스트중입니다.", createdAt: 30)
-    PersistentManager.shared.create(diary: diary)
-    let input = PersistentManager.shared.fetchAll()
+    DiaryPersistentManager.shared.create(diary: diary)
+    let input = DiaryPersistentManager.shared.fetchAll()
     // when
     diary.title = "수정테스트"
-    PersistentManager.shared.update(diary: diary)
-    let output = PersistentManager.shared.fetchAll()
+    DiaryPersistentManager.shared.update(diary: diary)
+    let output = DiaryPersistentManager.shared.fetchAll()
     // then
     XCTAssertNotEqual(input[0].title, output[0].title)
   }
@@ -47,10 +47,10 @@ final class PersistentManagerTests: XCTestCase {
     // given
     let expectedValue = 0
     let diary = Diary(title: "테스트", body: "테스트중입니다.", createdAt: 30)
-    PersistentManager.shared.create(diary: diary)
+    DiaryPersistentManager.shared.create(diary: diary)
     // when
-    PersistentManager.shared.delete(diary: diary)
-    let diaries = PersistentManager.shared.fetchAll()
+    DiaryPersistentManager.shared.delete(diary: diary)
+    let diaries = DiaryPersistentManager.shared.fetchAll()
 
     // then
     XCTAssertEqual(diaries.count, expectedValue)

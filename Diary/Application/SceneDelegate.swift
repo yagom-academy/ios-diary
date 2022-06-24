@@ -23,6 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   }
 
   func sceneDidEnterBackground(_ scene: UIScene) {
-    PersistentManager.shared.saveContext()
+    DiaryPersistentManager.shared.saveContext()
   }
 }
