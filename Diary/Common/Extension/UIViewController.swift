@@ -21,13 +21,17 @@ extension UIViewController {
         present(alert, animated: true)
     }
     
-    func showAlert(message: String) {
+    func showAlert(title: String, message: String, handler: (() -> Void)? = nil) {
         let alert = UIAlertController(
-            title: AppConstants.errorAlertTitle,
+            title: title,
             message: message,
             preferredStyle: .alert
         )
-        let confirmAction = UIAlertAction(title: AppConstants.confirmActionTitle, style: .cancel)
+        let confirmAction = UIAlertAction(title: AppConstants.confirmActionTitle, style: .default) { _ in
+            if let handler = handler {
+                handler()
+            }
+        }
         alert.addAction(confirmAction)
         present(alert, animated: true)
     }

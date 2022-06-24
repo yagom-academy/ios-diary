@@ -117,6 +117,6 @@ extension PersistenceManager {
 extension PersistenceManager {
     private func showErrorAlert(_ message: String) {
         guard let topViewController = UIApplication.shared.topViewController() else { return }
-        topViewController.showAlert(message: message)
+        topViewController.showAlert(title: AppConstants.errorAlertTitle, message: message)
     }
 }
