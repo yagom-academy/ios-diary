@@ -37,8 +37,8 @@ extension RegistrationViewModel {
             switch result {
             case .success(let result):
                 self.icon = result.weather.first?.icon
-            case .failure(let error):
-                print(error)
+            case .failure:
+                self.icon = nil
             }
         }
     }
