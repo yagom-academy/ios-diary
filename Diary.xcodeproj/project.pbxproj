@@ -18,8 +18,8 @@
 		94332A2C2865D60C00BA1ADB /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 94332A2A2865D60C00BA1ADB /* Diary.xcdatamodeld */; };
 		94332A2F2865D67900BA1ADB /* DiaryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94332A2D2865D67900BA1ADB /* DiaryEntity+CoreDataClass.swift */; };
 		94332A302865D67900BA1ADB /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94332A2E2865D67900BA1ADB /* DiaryEntity+CoreDataProperties.swift */; };
-		94332A322865D6DD00BA1ADB /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94332A312865D6DD00BA1ADB /* NetworkManager.swift */; };
 		94332A352865E06700BA1ADB /* OpenWeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94332A342865E06700BA1ADB /* OpenWeatherAPI.swift */; };
+		94332A392865E2B800BA1ADB /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94332A382865E2B800BA1ADB /* NetworkManager.swift */; };
 		947133D5285CBFC200511170 /* ContextualActionBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947133D4285CBFC200511170 /* ContextualActionBuilder.swift */; };
 		9480591F285817EF006993F8 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480591E285817EF006993F8 /* Diary.swift */; };
 		9480592728581B10006993F8 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9480592628581B10006993F8 /* DiaryTests.swift */; };
@@ -57,8 +57,8 @@
 		94332A2B2865D60C00BA1ADB /* Diary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Diary.xcdatamodel; sourceTree = "<group>"; };
 		94332A2D2865D67900BA1ADB /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		94332A2E2865D67900BA1ADB /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		94332A312865D6DD00BA1ADB /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		94332A342865E06700BA1ADB /* OpenWeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherAPI.swift; sourceTree = "<group>"; };
+		94332A382865E2B800BA1ADB /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		947133D4285CBFC200511170 /* ContextualActionBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextualActionBuilder.swift; sourceTree = "<group>"; };
 		9480591E285817EF006993F8 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		9480592428581B10006993F8 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -175,7 +175,7 @@
 			isa = PBXGroup;
 			children = (
 				94332A332865E00A00BA1ADB /* API */,
-				94332A312865D6DD00BA1ADB /* NetworkManager.swift */,
+				94332A382865E2B800BA1ADB /* NetworkManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -435,6 +435,7 @@
 				67B0A6312865551800946668 /* APIable.swift in Sources */,
 				94090A67285C1E3F00918B25 /* PersistentManager.swift in Sources */,
 				94332A352865E06700BA1ADB /* OpenWeatherAPI.swift in Sources */,
+				94332A392865E2B800BA1ADB /* NetworkManager.swift in Sources */,
 				678A6EAE285853D300447B53 /* Date+.swift in Sources */,
 				9480593528582F24006993F8 /* UITableViewCell+.swift in Sources */,
 				67B0A62D2865532900946668 /* WeatherInformation.swift in Sources */,
@@ -445,7 +446,6 @@
 				9480592E2858274C006993F8 /* DiaryCell.swift in Sources */,
 				94CFB9AB2860B749005C1B5A /* NotificationName+.swift in Sources */,
 				94332A2C2865D60C00BA1ADB /* Diary.xcdatamodeld in Sources */,
-				94332A322865D6DD00BA1ADB /* NetworkManager.swift in Sources */,
 				94332A2F2865D67900BA1ADB /* DiaryEntity+CoreDataClass.swift in Sources */,
 				678A6EAC28584F5500447B53 /* DiaryDetailViewController.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
