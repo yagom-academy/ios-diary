@@ -11,7 +11,7 @@ import CoreLocation
 final class RegistrationViewModel {
     private(set) var createdAt = Date().timeIntervalSince1970
     private let diaryId = UUID().uuidString
-    private var coordinate = CLLocationCoordinate2D()
+    private var coordinate: CLLocationCoordinate2D?
     private var icon: String?
 }
 
