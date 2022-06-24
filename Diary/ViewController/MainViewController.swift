@@ -11,6 +11,8 @@ final class MainViewController: UIViewController {
     private enum Constants {
         static let navigationBarTitle = "일기장"
         static let navigationBarRightPlusButton = "plus"
+        static let cellSwipeShareButton = "square.and.arrow.up.on.square"
+        static let cellSwipeDeleteButton = "trash"
     }
     
     private let persistenceManager = PersistenceManager.shared
@@ -20,16 +22,21 @@ final class MainViewController: UIViewController {
         configure.showsSeparators = true
         configure.backgroundColor = .clear
         configure.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
-            let share = UIContextualAction(style: .normal, title: nil) { [weak self] action, view, completion in
-                let activityViewController = UIActivityViewController(activityItems: [self?.diaryData[indexPath.row].title ?? "제목 없음"], applicationActivities: nil)
+            let share = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completion in
+                guard let diaryTitle = self?.diaryData[indexPath.row].title else {
+                    return
+                }
+                let activityViewController = UIActivityViewController(
+                    activityItems: [diaryTitle],
+                    applicationActivities: nil
+                )
                 self?.present(activityViewController, animated: true)
                 completion(true)
             }
-            
-            share.image = UIImage(systemName: "square.and.arrow.up.on.square")
+            share.image = UIImage(systemName: Constants.cellSwipeShareButton)
             share.backgroundColor = .systemBlue
             
-            let delete = UIContextualAction(style: .destructive, title: nil) { [weak self] action, view, completion in
+            let delete = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
                 guard let diaryData = self?.diaryData[indexPath.row] else {
                     return
                 }
@@ -38,8 +45,7 @@ final class MainViewController: UIViewController {
                 self?.collectionView.deleteItems(at: [indexPath])
                 completion(true)
             }
-            
-            delete.image = UIImage(systemName: "trash")
+            delete.image = UIImage(systemName: Constants.cellSwipeDeleteButton)
             return UISwipeActionsConfiguration(actions: [delete, share])
         }
         return UICollectionViewCompositionalLayout.list(using: configure)
@@ -49,6 +55,11 @@ final class MainViewController: UIViewController {
         frame: .zero,
         collectionViewLayout: listLayout
     )
+}
+
+// MARK: - View Life Cycle Method
+
+extension MainViewController {
     
     override func viewDidLoad() {
         self.view = view
@@ -59,7 +70,13 @@ final class MainViewController: UIViewController {
         registerCollectionViewCell()
         setCollectionViewLayout()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        fetchDiaryData()
+    }
 }
+
 // MARK: - Method
 
 extension MainViewController {
@@ -158,10 +175,5 @@ extension MainViewController: UICollectionViewDelegate,
             detailViewController,
             animated: true
         )
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        fetchDiaryData()
     }
 }
