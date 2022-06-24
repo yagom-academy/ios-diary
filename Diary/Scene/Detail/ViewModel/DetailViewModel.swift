@@ -2,7 +2,7 @@
 //  DetailViewModel.swift
 //  Diary
 //
-//  Created by 조민호 on 2022/06/22.
+//  Created by mmim, grumpy, mino on 2022/06/22.
 //
 
 final class DetailViewModel {
