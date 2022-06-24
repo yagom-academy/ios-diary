@@ -19,6 +19,7 @@ extension DiaryEntity {
     @NSManaged public var createdAt: Date
     @NSManaged public var title: String
     @NSManaged public var uuid: UUID
+    @NSManaged public var weatherIcon: String
 
 }
 
