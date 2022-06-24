@@ -8,7 +8,14 @@
 import UIKit
 
 struct Diary: Decodable {
-  let title: String
-  let body: String
+  let uuid = UUID().uuidString
+  var title: String
+  var body: String
   let createdAt: Double
+
+  private enum CodingKeys: String, CodingKey {
+    case title
+    case body
+    case createdAt
+  }
 }

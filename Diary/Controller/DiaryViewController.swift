@@ -29,10 +29,10 @@ final class DiaryViewController: UIViewController {
     self.view.addSubview(diaryTableView)
     self.diaryTableView.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
-      diaryTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-      diaryTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-      diaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-      diaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+      self.diaryTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+      self.diaryTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+      self.diaryTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+      self.diaryTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
     ])
   }
 
@@ -65,20 +65,20 @@ extension DiaryViewController: UITableViewDataSource {
     _ tableView: UITableView,
     numberOfRowsInSection section: Int
   ) -> Int {
-    return diaries.count
+    return self.diaries.count
   }
 
   func tableView(
     _ tableView: UITableView,
     cellForRowAt indexPath: IndexPath
   ) -> UITableViewCell {
-    guard diaries.indices.contains(indexPath.row) else { return UITableViewCell() }
+    guard self.diaries.indices.contains(indexPath.row) else { return UITableViewCell() }
     guard let cell = tableView.dequeueReusableCell(
       withIdentifier: DiaryTableViewCell.identifier,
       for: indexPath) as? DiaryTableViewCell
     else { return UITableViewCell() }
 
-    cell.configureItem(diaries[indexPath.row])
+    cell.configureItem(self.diaries[indexPath.row])
 
     return cell
   }
@@ -91,10 +91,10 @@ extension DiaryViewController: UITableViewDelegate {
     _ tableView: UITableView,
     didSelectRowAt indexPath: IndexPath
   ) {
-    guard diaries.indices.contains(indexPath.row) else { return }
+    guard self.diaries.indices.contains(indexPath.row) else { return }
 
     tableView.deselectRow(at: indexPath, animated: true)
-    let detailViewController = DiaryDetailViewController(diary: diaries[indexPath.row])
+    let detailViewController = DiaryDetailViewController(diary: self.diaries[indexPath.row])
     self.navigationController?.pushViewController(detailViewController, animated: true)
   }
 }

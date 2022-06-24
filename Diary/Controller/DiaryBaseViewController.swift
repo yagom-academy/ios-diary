@@ -26,54 +26,54 @@ class DiaryBaseViewController: UIViewController {
 
     let container = UIScrollView()
     self.view.addSubview(container)
-    container.addSubview(bodyTextView)
+    container.addSubview(self.bodyTextView)
     container.translatesAutoresizingMaskIntoConstraints = false
-    bodyTextView.translatesAutoresizingMaskIntoConstraints = false
+    self.bodyTextView.translatesAutoresizingMaskIntoConstraints = false
 
     NSLayoutConstraint.activate([
       container.topAnchor.constraint(
-        equalTo: view.safeAreaLayoutGuide.topAnchor,
+        equalTo: self.view.safeAreaLayoutGuide.topAnchor,
         constant: 8.0
       ),
       container.bottomAnchor.constraint(
-        equalTo: view.safeAreaLayoutGuide.bottomAnchor
+        equalTo: self.view.safeAreaLayoutGuide.bottomAnchor
       ),
       container.leadingAnchor.constraint(
-        equalTo: view.safeAreaLayoutGuide.leadingAnchor,
+        equalTo: self.view.safeAreaLayoutGuide.leadingAnchor,
         constant: 8.0
       ),
       container.trailingAnchor.constraint(
-        equalTo: view.safeAreaLayoutGuide.trailingAnchor,
+        equalTo: self.view.safeAreaLayoutGuide.trailingAnchor,
         constant: -8.0
       ),
 
-      bodyTextView.topAnchor.constraint(equalTo: container.contentLayoutGuide.topAnchor),
-      bodyTextView.bottomAnchor.constraint(equalTo: container.contentLayoutGuide.bottomAnchor),
-      bodyTextView.leadingAnchor.constraint(equalTo: container.contentLayoutGuide.leadingAnchor),
-      bodyTextView.trailingAnchor.constraint(equalTo: container.contentLayoutGuide.trailingAnchor),
-      bodyTextView.widthAnchor.constraint(equalTo: container.widthAnchor),
-      bodyTextView.heightAnchor.constraint(equalTo: container.heightAnchor, constant: 1)
+      self.bodyTextView.topAnchor.constraint(equalTo: container.contentLayoutGuide.topAnchor),
+      self.bodyTextView.bottomAnchor.constraint(equalTo: container.contentLayoutGuide.bottomAnchor),
+      self.bodyTextView.leadingAnchor.constraint(equalTo: container.contentLayoutGuide.leadingAnchor),
+      self.bodyTextView.trailingAnchor.constraint(equalTo: container.contentLayoutGuide.trailingAnchor),
+      self.bodyTextView.widthAnchor.constraint(equalTo: container.widthAnchor),
+      self.bodyTextView.heightAnchor.constraint(equalTo: container.heightAnchor, constant: 1)
     ])
   }
 
   private func observeKeyboardNotifications() {
     NotificationCenter.default.addObserver(
       self,
-      selector: #selector(keyboardWillShow(_:)),
+      selector: #selector(self.keyboardWillShow(_:)),
       name: UIResponder.keyboardWillShowNotification,
       object: nil
     )
 
     NotificationCenter.default.addObserver(
       self,
-      selector: #selector(keyboardWillHide(_:)),
+      selector: #selector(self.keyboardWillHide(_:)),
       name: UIResponder.keyboardWillHideNotification,
       object: nil
     )
   }
 
   @objc private func keyboardWillShow(_ notification: Notification) {
-    if !isKeyboardVisible {
+    if !self.isKeyboardVisible {
       guard let userInfo = notification.userInfo else { return }
       guard let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
 
@@ -85,7 +85,7 @@ class DiaryBaseViewController: UIViewController {
   }
 
   @objc private func keyboardWillHide(_ notification: Notification) {
-    if isKeyboardVisible {
+    if self.isKeyboardVisible {
       let contentInset = UIEdgeInsets.zero
       self.bodyTextView.contentInset = contentInset
       self.bodyTextView.scrollIndicatorInsets = contentInset

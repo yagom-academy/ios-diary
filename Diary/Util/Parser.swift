@@ -11,10 +11,10 @@ enum Parser {
   private static let jsonDecoder = JSONDecoder()
 
   static func decode<T: Decodable>(type: T.Type, assetName: String) -> T? {
-    jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+    self.jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
 
     guard let dataAsset = NSDataAsset(name: assetName) else { return nil }
-    guard let result = try? jsonDecoder.decode(type, from: dataAsset.data) else { return nil }
+    guard let result = try? self.jsonDecoder.decode(type, from: dataAsset.data) else { return nil }
 
     return result
   }

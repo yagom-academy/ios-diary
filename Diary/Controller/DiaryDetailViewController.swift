@@ -24,10 +24,10 @@ final class DiaryDetailViewController: DiaryBaseViewController {
   }
 
   private func initializeNavigationBar() {
-    self.title = Formatter.changeToString(from: diary.createdAt)
+    self.title = Formatter.changeToString(from: self.diary.createdAt)
   }
 
   private func initializeItem() {
-    self.bodyTextView.text = diary.title + "\n\n" + diary.body
+    self.bodyTextView.text = self.diary.title + "\n\n" + self.diary.body
   }
 }
