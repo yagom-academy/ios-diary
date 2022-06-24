@@ -12,10 +12,10 @@ enum Formatter {
 
   static func changeToString(from timeInterval: TimeInterval) -> String {
     let date = Date(timeIntervalSince1970: timeInterval)
-    dateFormatter.dateStyle = .long
-    dateFormatter.locale = Locale.current
-    dateFormatter.timeZone = TimeZone.current
+    self.dateFormatter.dateStyle = .long
+    self.dateFormatter.locale = Locale.current
+    self.dateFormatter.timeZone = TimeZone.current
 
-    return dateFormatter.string(from: date)
+    return self.dateFormatter.string(from: date)
   }
 }

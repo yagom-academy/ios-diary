@@ -50,21 +50,21 @@ final class DiaryTableViewCell: UITableViewCell {
   private func initializeUI() {
     self.accessoryType = .disclosureIndicator
 
-    let subContainer = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
+    let subContainer = UIStackView(arrangedSubviews: [self.dateLabel, self.bodyLabel])
     subContainer.axis = .horizontal
     subContainer.spacing = 5.0
 
-    let container = UIStackView(arrangedSubviews: [titleLabel, subContainer])
+    let container = UIStackView(arrangedSubviews: [self.titleLabel, subContainer])
     container.axis = .vertical
     container.spacing = 8.0
     container.translatesAutoresizingMaskIntoConstraints = false
 
     self.contentView.addSubview(container)
     NSLayoutConstraint.activate([
-      container.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5.0),
-      container.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5.0),
-      container.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20.0),
-      container.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+      container.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5.0),
+      container.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5.0),
+      container.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20.0),
+      container.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
     ])
   }
 }

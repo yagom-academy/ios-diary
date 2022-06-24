@@ -23,15 +23,15 @@ final class DiaryStorageManager {
   }()
 
   private var context: NSManagedObjectContext {
-    return persistentContainer.viewContext
+    return self.persistentContainer.viewContext
   }
 
   private init() {}
 
   func saveContext () {
-    if context.hasChanges {
+    if self.context.hasChanges {
       do {
-        try context.save()
+        try self.context.save()
       } catch {
         print("PersistentManagerError - SaveContext: ", error)
       }
@@ -39,7 +39,7 @@ final class DiaryStorageManager {
   }
 
   func create(diary: Diary) {
-    let diaryEntity = DiaryEntity(context: context)
+    let diaryEntity = DiaryEntity(context: self.context)
     diaryEntity.setValue(diary.title, forKey: "title")
     diaryEntity.setValue(diary.body, forKey: "body")
     diaryEntity.setValue(diary.createdAt, forKey: "createdAt")
@@ -49,7 +49,7 @@ final class DiaryStorageManager {
   }
 
   func fetchAll() -> [Diary] {
-    guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return [] }
+    guard let diaryEntities = try? self.context.fetch(DiaryEntity.fetchRequest()) else { return [] }
 
     let diaries = diaryEntities.map {
       Diary(title: $0.title ?? "", body: $0.body ?? "", createdAt: $0.createdAt)
@@ -59,7 +59,7 @@ final class DiaryStorageManager {
   }
 
   func update(diary: Diary) {
-    guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return }
+    guard let diaryEntities = try? self.context.fetch(DiaryEntity.fetchRequest()) else { return }
     guard let diaryEntity = diaryEntities.first(where: { $0.uuid == diary.uuid }) else { return }
 
     diaryEntity.setValue(diary.title, forKey: "title")
@@ -69,7 +69,7 @@ final class DiaryStorageManager {
   }
 
   func delete(diary: Diary) {
-    guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return }
+    guard let diaryEntities = try? self.context.fetch(DiaryEntity.fetchRequest()) else { return }
     guard let diaryEntity = diaryEntities.first(where: { $0.uuid == diary.uuid }) else { return }
 
     self.context.delete(diaryEntity)
@@ -78,7 +78,7 @@ final class DiaryStorageManager {
   }
 
   func deleteAll() {
-    guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return }
+    guard let diaryEntities = try? self.context.fetch(DiaryEntity.fetchRequest()) else { return }
 
     diaryEntities.forEach { entity in
       self.context.delete(entity)
