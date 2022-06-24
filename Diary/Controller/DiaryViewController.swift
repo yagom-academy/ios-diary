@@ -112,4 +112,44 @@ extension DiaryViewController: UITableViewDelegate {
     let detailViewController = DiaryDetailViewController(diary: self.diaries[indexPath.row])
     self.navigationController?.pushViewController(detailViewController, animated: true)
   }
+
+  func tableView(
+    _ tableView: UITableView,
+    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+  ) -> UISwipeActionsConfiguration? {
+    let diary = self.diaries[indexPath.row]
+
+    let share = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
+      self.presentShareActivityController(diary: diary)
+    }
+    let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
+      self.presentDeleteAlert(diary: diary)
+    }
+
+    let configuration = UISwipeActionsConfiguration(actions: [delete, share])
+    return configuration
+  }
+
+  private func presentShareActivityController(diary: DiaryEntity) {
+    guard let title = diary.title else { return }
+    let activityController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
+    self.present(activityController, animated: true)
+  }
+
+  private func presentDeleteAlert(diary: DiaryEntity) {
+    let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+      self.deleteDiary(diary: diary)
+    }
+
+    alert.addAction(cancelAction)
+    alert.addAction(deleteAction)
+    self.present(alert, animated: true)
+  }
+
+  private func deleteDiary(diary: DiaryEntity) {
+    DiaryStorageManager.shared.delete(diary: diary)
+    NotificationCenter.default.post(name: DiaryStorageManager.fetchNotification, object: nil)
+  }
 }

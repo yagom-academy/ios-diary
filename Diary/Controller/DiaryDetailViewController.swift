@@ -62,7 +62,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     alert.addAction(deleteAction)
     self.present(alert, animated: true)
   }
-  
+
   private func deleteDiary() {
     DiaryStorageManager.shared.delete(diary: self.diary)
     NotificationCenter.default.post(name: DiaryStorageManager.fetchNotification, object: nil)
