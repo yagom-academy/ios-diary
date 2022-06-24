@@ -54,11 +54,19 @@ final class DiaryDetailViewController: DiaryBaseViewController {
   private func presentDeleteAlert() {
     let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
     let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-    let deleteAction = UIAlertAction(title: "삭제", style: .destructive)
+    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+      self.deleteDiary()
+    }
 
     alert.addAction(cancelAction)
     alert.addAction(deleteAction)
     self.present(alert, animated: true)
+  }
+  
+  private func deleteDiary() {
+    DiaryStorageManager.shared.delete(diary: self.diary)
+    NotificationCenter.default.post(name: DiaryStorageManager.fetchNotification, object: nil)
+    self.navigationController?.popViewController(animated: true)
   }
 
   private func presentShareActivityController() {

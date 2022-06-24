@@ -59,12 +59,8 @@ final class DiaryStorageManager {
     NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
   }
 
-  func delete(diary: Diary) {
-    guard let diaryEntities = try? self.context.fetch(DiaryEntity.fetchRequest()) else { return }
-    guard let diaryEntity = diaryEntities.first(where: { $0.uuid == diary.uuid }) else { return }
-
-    self.context.delete(diaryEntity)
-
+  func delete(diary: DiaryEntity) {
+    self.context.delete(diary)
     self.saveContext()
   }
 
