@@ -44,9 +44,10 @@ extension UIViewController {
             self.showDeleteAlert(identifier: identifer, handler: deleteHandler)
         }
         
-        let sheet = AlertBuilder()
+        let sheet = AlertBuilder.shared
             .setType(.actionSheet)
             .setAction(share)
+            .setAction(UIAlertAction(title: "Cancel", style: .cancel))
             .setAction(delete)
             .build()
         
@@ -63,10 +64,11 @@ extension UIViewController {
             handler()
         }
         
-        let alert = AlertBuilder()
+        let alert = AlertBuilder.shared
             .setTitle("진짜요?")
             .setMessage("정말로 삭제하시겠어요?")
             .setType(.alert)
+            .setAction(UIAlertAction(title: "Cancel", style: .cancel))
             .setAction(action)
             .build()
         
@@ -82,47 +84,49 @@ final class AlertBuilder {
         var actions: [UIAlertAction] = []
     }
     
-    private var product = Product()
-
-    init() {
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        self.setAction(cancel)
+    static private let alertBuilder = AlertBuilder()
+    static private var product = Product()
+    
+    static var shared: AlertBuilder {
+        product = Product()
+        return alertBuilder
     }
 
+    private init() { }
+
     func setTitle(_ title: String) -> Self {
-        product.title = title
+        Self.product.title = title
         
         return self
     }
 
     func setMessage(_ message: String) -> Self {
-        product.message = message
+        Self.product.message = message
         
         return self
     }
     
     func setType(_ type: UIAlertController.Style) -> Self {
-        product.type = type
+        Self.product.type = type
         
         return self
     }
     
     @discardableResult
     func setAction(_ action: UIAlertAction) -> Self {
-        product.actions.append(action)
+        Self.product.actions.append(action)
         
         return self
     }
     
     func build() -> UIAlertController {
         let alert = UIAlertController(
-            title: product.title,
-            message: product.message,
-            preferredStyle: product.type
+            title: AlertBuilder.product.title,
+            message: AlertBuilder.product.message,
+            preferredStyle: AlertBuilder.product.type
         )
         
-        product.actions.forEach {
+        AlertBuilder.product.actions.forEach {
             alert.addAction($0)
         }
         
