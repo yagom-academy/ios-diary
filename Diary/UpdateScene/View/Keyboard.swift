@@ -12,12 +12,12 @@ final class Keyboard {
         static let keyboardBounds = "UIKeyboardBoundsUserInfoKey"
     }
     
-    private let bottomContraint: NSLayoutConstraint?
+    private let bottomConstraint: NSLayoutConstraint?
     private let textView: UITextView?
     
     init(bottomContraint: NSLayoutConstraint, textView: UITextView) {
         self.textView = textView
-        self.bottomContraint = bottomContraint
+        self.bottomConstraint = bottomContraint
         
         setUpKeyboard()
     }
@@ -47,11 +47,11 @@ final class Keyboard {
             return
         }
         
-        bottomContraint?.constant = -keyboardBounds.cgRectValue.height
+        bottomConstraint?.constant = -keyboardBounds.cgRectValue.height
     }
     
     @objc private func keyboardWillHide() {
-        bottomContraint?.constant = .zero
+        bottomConstraint?.constant = .zero
     }
     
     @objc private func swipeDownGesture(gesture: UISwipeGestureRecognizer) {
