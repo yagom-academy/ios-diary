@@ -7,17 +7,22 @@
 
 import UIKit
 
+fileprivate extension DiaryConstants {
+    static let navigationBarRightButton = "ellipsis"
+    static let actionSheetShareTitle = "Share..."
+    static let actionSheetDeleteTitle = "Delete"
+    static let actionSheetDeleteAlertTitle = "진짜요?"
+    static let actionSheetDeleteAlertMessage = "정말로 삭제하시겠어요?"
+    static let actionSheetDeleteAlertCancelTitle = "취소"
+    static let actionSheetDeleteAlertDeleteTitle = "삭제"
+    static let actionSheetCancleTitle = "Cancel"
+}
+
 final class DetailViewController: UIViewController {
     
     private lazy var detailView = DetailView(frame: view.frame)
     private let persistenceManager = PersistenceManager.shared
     private var diaryData: DiaryModel
-    
-    override func loadView() {
-        super.loadView()
-        detailView.backgroundColor = .systemBackground
-        self.view = detailView
-    }
     
     init(diaryData: DiaryModel) {
         self.diaryData = diaryData
@@ -27,6 +32,17 @@ final class DetailViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+// MARK: - View Life Cycle Method
+
+extension DetailViewController {
+    
+    override func loadView() {
+        super.loadView()
+        detailView.backgroundColor = .systemBackground
+        self.view = detailView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,10 +50,11 @@ final class DetailViewController: UIViewController {
         detailView.setUpView(diaryData: diaryData)
         registerKeyboardNotifications()
         setNavigationBarRightButton()
-        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        registerDidEnterBackgroundNotification()
     }
-    
-    @objc private func didEnterBackground() {
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         updateListData()
     }
 }
@@ -52,7 +69,7 @@ extension DetailViewController {
     
     private func setNavigationBarRightButton() {
         let button = UIBarButtonItem(
-            image: UIImage(systemName: "square.and.arrow.up"),
+            image: UIImage(systemName: DiaryConstants.navigationBarRightButton),
             style: .plain,
             target: self,
             action: #selector(navigationBarRightButtonTapped)
@@ -60,35 +77,98 @@ extension DetailViewController {
         navigationItem.rightBarButtonItem = button
     }
     
+    private func updateListData() {
+        let title = detailView.titleField.text
+        let body = detailView.descriptionView.text
+        diaryData = DiaryModel(
+            title: title,
+            body: body,
+            createdAt: diaryData.createdAt,
+            id: diaryData.id
+        )
+        persistenceManager.update(diary: diaryData)
+    }
+    
+    private func registerDidEnterBackgroundNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+    }
+    
+    private func showAlert() {
+        let alert = UIAlertController(
+            title: DiaryConstants.actionSheetDeleteAlertTitle,
+            message: DiaryConstants.actionSheetDeleteAlertMessage,
+            preferredStyle: .alert
+        )
+        let alertCancel = UIAlertAction(
+            title: DiaryConstants.actionSheetDeleteAlertCancelTitle,
+            style: .cancel
+        )
+        let alertDelete = UIAlertAction(
+            title: DiaryConstants.actionSheetDeleteAlertDeleteTitle,
+            style: .destructive
+        ) { [weak self] _ in
+            guard let diaryData = self?.diaryData else {
+                return
+            }
+            self?.persistenceManager.delete(diary: diaryData)
+            self?.navigationController?.popViewController(animated: true)
+        }
+        alert.addAction(alertDelete)
+        alert.addAction(alertCancel)
+        present(alert, animated: true)
+    }
+}
+
+// MARK: - Action Method
+
+extension DetailViewController {
+    
     @objc private func navigationBarRightButtonTapped() {
-        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let share = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
-            guard let title = self?.detailView.titleField.text else { return }
-            let activityViewController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
+        let actionSheet = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        let actionSheetShare = UIAlertAction(
+            title: DiaryConstants.actionSheetShareTitle,
+            style: .default
+        ) { [weak self] _ in
+            guard let diaryTitle = self?.detailView.titleField.text else {
+                return
+            }
+            let activityViewController = UIActivityViewController(
+                activityItems: [diaryTitle],
+                applicationActivities: nil
+            )
             self?.present(activityViewController, animated: true)
         }
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
-            let deleteAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-            let cancel = UIAlertAction(title: "취소", style: .cancel)
-            let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
-                guard let diaryData = self?.diaryData else {
-                    return
-                }
-                self?.persistenceManager.delete(diary: diaryData)
-                self?.navigationController?.popViewController(animated: true)
-            }
-            deleteAlert.addAction(delete)
-            deleteAlert.addAction(cancel)
-            self?.present(deleteAlert, animated: true)
-            
+        
+        let actionSheetDelete = UIAlertAction(
+            title: DiaryConstants.actionSheetDeleteTitle,
+            style: .destructive
+        ) { [weak self] _ in
+            self?.showAlert()
         }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         
-        sheet.addAction(cancel)
-        sheet.addAction(share)
-        sheet.addAction(delete)
-        present(sheet, animated: true)
+        let actionSheetCancel = UIAlertAction(
+            title: DiaryConstants.actionSheetCancleTitle,
+            style: .cancel
+        )
         
+        actionSheet.addAction(actionSheetCancel)
+        actionSheet.addAction(actionSheetShare)
+        actionSheet.addAction(actionSheetDelete)
+        present(actionSheet, animated: true)
+    }
+    
+    @objc private func didEnterBackground() {
+        updateListData()
     }
 }
 
@@ -120,20 +200,6 @@ extension DetailViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.mainScrollView.contentInset.bottom = .zero
-        updateListData()
-    }
-    
-    private func updateListData() {
-        let title = detailView.titleField.text
-        let body = detailView.descriptionView.text
-        
-        diaryData = DiaryModel(title: title, body: body, createdAt: diaryData.createdAt, id: diaryData.id)
-        
-        persistenceManager.update(diary: diaryData)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
         updateListData()
     }
 }

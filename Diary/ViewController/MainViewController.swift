@@ -6,14 +6,14 @@
 
 import UIKit
 
+fileprivate extension DiaryConstants {
+    static let navigationBarTitle = "일기장"
+    static let navigationBarRightPlusButton = "plus"
+    static let cellSwipeShareButton = "square.and.arrow.up.on.square"
+    static let cellSwipeDeleteButton = "trash"
+}
+
 final class MainViewController: UIViewController {
-    
-    private enum Constants {
-        static let navigationBarTitle = "일기장"
-        static let navigationBarRightPlusButton = "plus"
-        static let cellSwipeShareButton = "square.and.arrow.up.on.square"
-        static let cellSwipeDeleteButton = "trash"
-    }
     
     private let persistenceManager = PersistenceManager.shared
     private var diaryData: [DiaryModel] = []
@@ -33,7 +33,7 @@ final class MainViewController: UIViewController {
                 self?.present(activityViewController, animated: true)
                 completion(true)
             }
-            share.image = UIImage(systemName: Constants.cellSwipeShareButton)
+            share.image = UIImage(systemName: DiaryConstants.cellSwipeShareButton)
             share.backgroundColor = .systemBlue
             
             let delete = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
@@ -45,7 +45,7 @@ final class MainViewController: UIViewController {
                 self?.collectionView.deleteItems(at: [indexPath])
                 completion(true)
             }
-            delete.image = UIImage(systemName: Constants.cellSwipeDeleteButton)
+            delete.image = UIImage(systemName: DiaryConstants.cellSwipeDeleteButton)
             return UISwipeActionsConfiguration(actions: [delete, share])
         }
         return UICollectionViewCompositionalLayout.list(using: configure)
@@ -82,12 +82,12 @@ extension MainViewController {
 extension MainViewController {
     
     private func setNavigationBarTitle() {
-        navigationController?.navigationBar.topItem?.title = Constants.navigationBarTitle
+        navigationController?.navigationBar.topItem?.title = DiaryConstants.navigationBarTitle
     }
     
     private func setNavigationBarRightPlusButton() {
         let plusButton = UIBarButtonItem(
-            image: UIImage(systemName: Constants.navigationBarRightPlusButton),
+            image: UIImage(systemName: DiaryConstants.navigationBarRightPlusButton),
             style: .plain,
             target: self,
             action: #selector(navigationBarRightPlusButtonTapped)
