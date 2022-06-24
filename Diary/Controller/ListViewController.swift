@@ -48,7 +48,6 @@ final class ListViewController: UIViewController {
                              createdAt: $0.createdAt,
                              id: $0.id)
             }
-            diaries.reverse()
         } catch {
             showErrorAlert("일기를 불러올 수 없습니다")
         }

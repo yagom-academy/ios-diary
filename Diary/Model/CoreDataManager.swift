@@ -61,6 +61,8 @@ final class CoreDataManager {
         
         do {
             let request = DiaryModel.fetchRequest()
+            let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: false)
+            request.sortDescriptors = [sortDescriptor]
             diaryModels = try context.fetch(request)
         } catch {
             throw error
