@@ -137,13 +137,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		0E6DB1D8285C65E700B9B5D5 /* Window */ = {
+		0E6DB1D8285C65E700B9B5D5 /* StartUp */ = {
 			isa = PBXGroup;
 			children = (
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 			);
-			path = Window;
+			path = StartUp;
 			sourceTree = "<group>";
 		};
 		0ECA096128576A0600A91611 /* CoreDataModel */ = {
@@ -155,6 +155,24 @@
 				0EAE1FF4286014BA00AD7F08 /* DiaryDAO.swift */,
 			);
 			path = CoreDataModel;
+			sourceTree = "<group>";
+		};
+		3012470C286559F1009EF72C /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+				C739AE35284DF28600741E8F /* Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		3012470D28655A36009EF72C /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE30284DF28600741E8F /* Assets.xcassets */,
+				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		30BF1F1928618A81006FB017 /* Utils */ = {
@@ -212,13 +230,11 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				3012470D28655A36009EF72C /* Resource */,
+				3012470C286559F1009EF72C /* SupportingFiles */,
+				0E6DB1D8285C65E700B9B5D5 /* StartUp */,
 				30BF1F1928618A81006FB017 /* Utils */,
-				C739AE35284DF28600741E8F /* Info.plist */,
-				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				0ECA096128576A0600A91611 /* CoreDataModel */,
-				0E6DB1D8285C65E700B9B5D5 /* Window */,
 				0E6DB1D1285C638700B9B5D5 /* ListScene */,
 				0E6DB1D6285C652600B9B5D5 /* UpdateScene */,
 			);
