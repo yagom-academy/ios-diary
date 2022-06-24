@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreLocation
 
 extension DiaryTableViewController {
     static func instance(persistentManager: PersistentManager) -> DiaryTableViewController {
@@ -18,6 +19,8 @@ final class DiaryTableViewController: UITableViewController {
     
     private var dataSource: DataSource?
     private let persistentManager: PersistentManager!
+    
+    private let locationManager = CLLocationManager()
 
     private var diarys = [Diary]() {
         didSet {
@@ -34,7 +37,7 @@ final class DiaryTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: View Life Cycle
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -71,7 +74,7 @@ final class DiaryTableViewController: UITableViewController {
     }
 }
 
-// MARK: TableViewDelegate
+// MARK: - TableViewDelegate
 
 extension DiaryTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -115,7 +118,22 @@ extension DiaryTableViewController {
     }
 }
 
-// MARK: DiaryDetailViewDelegate
+// MARK: - CLLocationManagerDelegate
+
+extension DiaryTableViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let coordinator = locations.last?.coordinate {
+            print(coordinator.longitude)
+            print(coordinator.latitude)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+}
+
+// MARK: - DiaryDetailViewDelegate
 
 extension DiaryTableViewController: DiaryDetailViewDelegate {
     func update(diary: Diary) {
@@ -133,12 +151,13 @@ extension DiaryTableViewController: DiaryDetailViewDelegate {
     }
 }
 
-// MARK: SetUp
+// MARK: - SetUp
 
 extension DiaryTableViewController {
     private func setUp() {
         setUpNavigationBar()
         setUpTableView()
+        setUpLocationManager()
     }
     
     private func setUpNavigationBar() {
@@ -155,6 +174,11 @@ extension DiaryTableViewController {
         tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.reuseIdentifier)
         makeDataSource()
         read()
+    }
+    
+    private func setUpLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
     }
     
     private func makeDataSource() {
