@@ -50,6 +50,6 @@ extension RegistrationViewModel {
     
     func setUpLocation(by coordinate: CLLocationCoordinate2D) {
         self.coordinate = coordinate
+        requestWeather()
     }
 }
- 
