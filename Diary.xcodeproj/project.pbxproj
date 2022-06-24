@@ -19,6 +19,10 @@
 		647B61F028615F3500C49C61 /* AlertAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B61EF28615F3500C49C61 /* AlertAction.swift */; };
 		647B61F32861B2DC00C49C61 /* SwipeAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B61F22861B2DC00C49C61 /* SwipeAction.swift */; };
 		647B61F52861B31700C49C61 /* SwipeBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 647B61F42861B31700C49C61 /* SwipeBuilder.swift */; };
+		9B41D5B428658AA70087B89F /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B41D5B328658AA70087B89F /* Weather.swift */; };
+		9B41D5B828658B970087B89F /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B41D5B728658B960087B89F /* NetworkManager.swift */; };
+		9B41D5BC28658EAB0087B89F /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B41D5BB28658EAB0087B89F /* APIable.swift */; };
+		9B41D5BE286590340087B89F /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B41D5BD286590340087B89F /* HTTPMethod.swift */; };
 		9B623FB3285CA38100494494 /* DiaryListDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B623FB2285CA38100494494 /* DiaryListDataSource.swift */; };
 		9B9EBCB428576A37002A36FC /* DiaryModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9EBCB328576A37002A36FC /* DiaryModelTests.swift */; };
 		9B9EBCBD28577835002A36FC /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B9EBCBC28577835002A36FC /* DiaryTableViewCell.swift */; };
@@ -55,6 +59,10 @@
 		647B61F22861B2DC00C49C61 /* SwipeAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeAction.swift; sourceTree = "<group>"; };
 		647B61F42861B31700C49C61 /* SwipeBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeBuilder.swift; sourceTree = "<group>"; };
 		6DD09768B37AD785298A6DAA /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
+		9B41D5B328658AA70087B89F /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		9B41D5B728658B960087B89F /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		9B41D5BB28658EAB0087B89F /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
+		9B41D5BD286590340087B89F /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		9B623FB2285CA38100494494 /* DiaryListDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListDataSource.swift; sourceTree = "<group>"; };
 		9B9EBCB128576A36002A36FC /* DiaryModelTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryModelTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B9EBCB328576A37002A36FC /* DiaryModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModelTests.swift; sourceTree = "<group>"; };
@@ -173,6 +181,43 @@
 			path = AlertBuilder;
 			sourceTree = "<group>";
 		};
+		9B41D5B528658AD80087B89F /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				647B61E5285C392800C49C61 /* DiaryEntity+CoreDataClass.swift */,
+				647B61E6285C392800C49C61 /* DiaryEntity+CoreDataProperties.swift */,
+				9B41D5B328658AA70087B89F /* Weather.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		9B41D5B628658B200087B89F /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				9B41D5BA28658E8C0087B89F /* Network */,
+				9B41D5B928658E7C0087B89F /* CoreData */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		9B41D5B928658E7C0087B89F /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				647B61E9285C398500C49C61 /* PersistentManager.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		9B41D5BA28658E8C0087B89F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				9B41D5BB28658EAB0087B89F /* APIable.swift */,
+				9B41D5B728658B960087B89F /* NetworkManager.swift */,
+				9B41D5BD286590340087B89F /* HTTPMethod.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		9B9EBCB228576A36002A36FC /* DiaryModelTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,19 +226,9 @@
 			path = DiaryModelTests;
 			sourceTree = "<group>";
 		};
-		9BA1D8CA28620D730048822D /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				647B61E9285C398500C49C61 /* PersistentManager.swift */,
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
-				647B61E5285C392800C49C61 /* DiaryEntity+CoreDataClass.swift */,
-				647B61E6285C392800C49C61 /* DiaryEntity+CoreDataProperties.swift */,
 				647B619D285759EB00C49C61 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
 				9B9EBCB228576A36002A36FC /* DiaryModelTests */,
@@ -215,12 +250,13 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				9BA1D8CA28620D730048822D /* Service */,
 				647B61B32858A4E300C49C61 /* Application */,
 				647B61EB28615EE700C49C61 /* Utils */,
 				647B61B02858A47000C49C61 /* DiaryList */,
 				647B61B12858A4B000C49C61 /* DiaryDetail */,
+				9B41D5B628658B200087B89F /* Repository */,
 				647B61B22858A4C600C49C61 /* Model */,
+				9B41D5B528658AD80087B89F /* Entity */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
@@ -391,7 +427,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B41D5B828658B970087B89F /* NetworkManager.swift in Sources */,
 				647B61F028615F3500C49C61 /* AlertAction.swift in Sources */,
+				9B41D5BE286590340087B89F /* HTTPMethod.swift in Sources */,
+				9B41D5BC28658EAB0087B89F /* APIable.swift in Sources */,
 				647B61AC2858642B00C49C61 /* DiaryDetailView.swift in Sources */,
 				647B61F32861B2DC00C49C61 /* SwipeAction.swift in Sources */,
 				9BB916ED2858512200721935 /* DateFormatter+extension.swift in Sources */,
@@ -405,6 +444,7 @@
 				647B61AA2858639B00C49C61 /* DiaryDetailViewController.swift in Sources */,
 				647B61E7285C392800C49C61 /* DiaryEntity+CoreDataClass.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				9B41D5B428658AA70087B89F /* Weather.swift in Sources */,
 				9B9EBCBD28577835002A36FC /* DiaryTableViewCell.swift in Sources */,
 				647B61ED28615EFE00C49C61 /* AlertBuilder.swift in Sources */,
 				647B61EA285C398500C49C61 /* PersistentManager.swift in Sources */,
@@ -612,7 +652,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -640,7 +680,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

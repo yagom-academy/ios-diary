@@ -19,7 +19,7 @@ final class DiaryListViewController: UITableViewController {
         super.viewDidLoad()
         configureTableView()
         configureDataSource()
-        configureNavigationItem()
+        configureNavigationItem()        
     }
     
     private func configureDataSource() {
