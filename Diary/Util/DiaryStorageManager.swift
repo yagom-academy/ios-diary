@@ -53,14 +53,9 @@ final class DiaryStorageManager {
     return diaryEntities
   }
 
-  func update(diary: Diary) {
-    guard let diaryEntities = try? self.context.fetch(DiaryEntity.fetchRequest()) else { return }
-    guard let diaryEntity = diaryEntities.first(where: { $0.uuid == diary.uuid }) else { return }
-
-    diaryEntity.setValue(diary.title, forKey: "title")
-    diaryEntity.setValue(diary.body, forKey: "body")
-
+  func update() {
     self.saveContext()
+    NotificationCenter.default.post(name: DiaryStorageNotification.diaryDidSave, object: nil)
   }
 
   func delete(diary: Diary) {

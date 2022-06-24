@@ -58,7 +58,6 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     self.diary.title = title
     self.diary.body = body
 
-    DiaryStorageManager.shared.saveContext()
-    NotificationCenter.default.post(name: DiaryStorageNotification.diaryDidSave, object: nil)
+    DiaryStorageManager.shared.update()
   }
 }
