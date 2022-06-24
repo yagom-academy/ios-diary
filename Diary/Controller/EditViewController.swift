@@ -23,10 +23,12 @@ final class EditViewController: DiaryViewController {
     }
 
     private func setInitialView() {
-        if let createdAt = diary?.createdAt {
-            self.title = Date(timeIntervalSince1970: createdAt).dateToKoreanString
-            configureDiaryView()
+        guard let createdAt = diary?.createdAt else {
+            return
         }
+        
+        self.title = Date(timeIntervalSince1970: createdAt).dateToKoreanString
+        configureDiaryView()
     }
 
     private func configureDiaryView() {
