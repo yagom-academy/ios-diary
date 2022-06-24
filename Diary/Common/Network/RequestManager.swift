@@ -6,14 +6,15 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class RequestManager {
     static let shared = RequestManager()
     
     private init() { }
     
-    func requestAPI(lat: Double, lon: Double, completion: @escaping ((Result<Weather, Error>) -> Void)) {
-        let endpoint: EndPoint = .weatherInfo(lat: lat, lon: lon)
+    func requestAPI(by coordinate: CLLocationCoordinate2D, completion: @escaping ((Result<Weather, Error>) -> Void)) {
+        let endpoint: EndPoint = .weatherInfo(coordinate.latitude, coordinate.longitude)
         
         request(endpoint: endpoint) { data, response, error in
             self.verifyError(with: data, response, error) { result in
@@ -32,7 +33,7 @@ final class RequestManager {
     }
     
     func requestAPI(icon: String, completion: @escaping ((Result<UIImage, Error>) -> Void)) {
-        let endpoint: EndPoint = .weatherIcon(icon: icon)
+        let endpoint: EndPoint = .weatherIcon(icon)
         
         request(endpoint: endpoint) { data, response, error in
             self.verifyError(with: data, response, error) { result in

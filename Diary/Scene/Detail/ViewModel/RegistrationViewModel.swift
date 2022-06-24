@@ -33,7 +33,12 @@ extension RegistrationViewModel {
     }
     
     func requestWeather() {
-        RequestManager.shared.requestAPI(lat: coordinate.latitude, lon: coordinate.longitude) { result in
+        guard let coordinate = coordinate else {
+            self.icon = nil
+            return
+        }
+        
+        RequestManager.shared.requestAPI(by: coordinate) { result in
             switch result {
             case .success(let result):
                 self.icon = result.weather.first?.icon
