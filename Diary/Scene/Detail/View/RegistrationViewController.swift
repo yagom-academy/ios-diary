@@ -24,8 +24,6 @@ final class RegistrationViewController: UIViewController {
         setUpNavigationBar()
         setUpView()
         setUpLocationManager()
-        requestWeather()
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
