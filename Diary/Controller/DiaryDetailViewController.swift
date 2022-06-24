@@ -32,7 +32,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
   private func initializeItem() {
     guard let title = self.diary.title, let body = self.diary.body else { return }
 
-    self.bodyTextView.text = title + "\n\n" + body
+    self.bodyTextView.text = title + "\n" + body
   }
 }
 
