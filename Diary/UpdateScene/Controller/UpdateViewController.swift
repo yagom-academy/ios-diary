@@ -28,6 +28,10 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     private let diaryData: DiaryDTO?
     private var isSavingData = false
     
+    private var date: String {
+        return navigationItem.title ?? ""
+    }
+    
     init(diaryData: DiaryDTO? = nil) {
         self.diaryData = diaryData
         super.init(nibName: nil, bundle: nil)
@@ -96,7 +100,7 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     }
     
     @objc private func touchUpMoreButton() {
-        guard let title = textView.extractData(date: navigationItem.title)?.title else {
+        guard let title = textView.title else {
             return
         }
         
@@ -120,7 +124,8 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     
     private func saveData() {
         guard isSavingData == false,
-              let (title, body, date) = textView.extractData(date: navigationItem.title) else {
+              let title = textView.title,
+              let date = Formatter.getDate(from: date) else {
             return
         }
         
@@ -130,7 +135,7 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
             let edittedData = DiaryDTO(
                 identifier: identifier,
                 title: title,
-                body: body,
+                body: textView.body,
                 date: date
             )
             
@@ -138,7 +143,7 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
         } else {
             let newData = DiaryDTO(
                 title: title,
-                body: body,
+                body: textView.body,
                 date: date
             )
             
@@ -174,41 +179,19 @@ extension UpdateViewController: UITextViewDelegate {
     }
 }
 
+private extension Array {
+    subscript(safe index: Int) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
 private extension UITextView {
-    enum Const {
-        static let separator: Character = "\n"
-        static let defaultBody = ""
+    var title: String? {
+        let text = self.text.components(separatedBy: "\n")
+        return text.first == "" ? nil : text.first
     }
     
-    func extractData(date: String?) -> (title: String, body: String, date: Date)? {
-        guard let date = date else {
-            return nil
-        }
-        
-        let splitedText = text.split(separator: Const.separator, maxSplits: 1).map {
-            String($0)
-        }
-        
-        let body: String
-        
-        switch splitedText.count {
-        case 1:
-            body = Const.defaultBody
-        case 2:
-            guard let lastText = splitedText.last else {
-                return nil
-            }
-            
-            body = lastText
-        default:
-            return nil
-        }
-        
-        guard let title = splitedText.first,
-              let date = Formatter.getDate(from: date) else {
-            return nil
-        }
-        
-        return (title, body, date)
+    var body: String {
+        return self.text.components(separatedBy: "\n")[safe: 1] ?? ""
     }
 }

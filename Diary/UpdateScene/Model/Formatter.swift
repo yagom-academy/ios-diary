@@ -23,7 +23,7 @@ struct Formatter {
     }
     
     static func getDate(from dateString: String) -> Date? {
-        dateFormatter.date(from: dateString)
+        return dateFormatter.date(from: dateString)
     }
     
     static func getCurrentDate() -> String {
