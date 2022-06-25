@@ -86,8 +86,7 @@ view는 “정보를 보여주는 역할” 만 해야한다고 생각했다.
 
 이는 DiaryView가 DiaryViewController의 viewDidLoad가 아닌 메서드를 통해 각 뷰 요소들에게 할당해주는 방식 이어서, 
 즉, view가 로드되기 전에 뷰 요소들에게 diary요소들을 할당해주는 메서드를 호출해 주기 때문에 할당이 되지 않았던 것으로 추측하고 아래와 같이 로직을 변경했다.
-
-![](https://i.imgur.com/FxUVGUx.png)
+<img src="https://i.imgur.com/FxUVGUx.png" width="572" height="150"/>
 
 ![](https://i.imgur.com/wsKw6Vl.png)
 
