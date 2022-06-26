@@ -21,7 +21,7 @@ fileprivate extension DiaryConstants {
 final class DetailViewController: UIViewController {
     
     private lazy var detailView = DetailView(frame: view.frame)
-    private let persistenceManager = PersistenceManager.shared
+    private let persistenceManager = DiaryEntityManager.shared
     private var diaryData: DiaryModel
     
     init(diaryData: DiaryModel) {
@@ -40,7 +40,6 @@ extension DetailViewController {
     
     override func loadView() {
         super.loadView()
-        detailView.backgroundColor = .systemBackground
         self.view = detailView
     }
     
