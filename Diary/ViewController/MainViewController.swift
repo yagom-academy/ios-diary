@@ -15,7 +15,7 @@ fileprivate extension DiaryConstants {
 
 final class MainViewController: UIViewController {
     
-    private let persistenceManager = PersistenceManager.shared
+    private let persistenceManager = DiaryEntityManager.shared
     private var diaryData: [DiaryModel] = []
     private var listLayout: UICollectionViewCompositionalLayout {
         var configure = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -116,7 +116,7 @@ extension MainViewController {
     }
     
     private func fetchDiaryData() {
-        diaryData = persistenceManager.fetch().reversed()
+        diaryData = persistenceManager.fetch()
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
