@@ -8,8 +8,8 @@
 import Foundation
 import CoreData
 
-final class PersistenceManager {
-    static var shared = PersistenceManager()
+final class DiaryEntityManager {
+    static let shared = DiaryEntityManager()
     
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DiaryEntity")
@@ -53,6 +53,7 @@ final class PersistenceManager {
             diaryList = try context.fetch(request)
         } catch {
         }
+        diaryList = diaryList.reversed()
         return diaryList.map { diaryEntity in
             DiaryModel(
                 title: diaryEntity.title,
