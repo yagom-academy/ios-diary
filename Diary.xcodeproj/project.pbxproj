@@ -16,8 +16,7 @@
 		C739AE2F284DF28600741E8F /* DiaryEntity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* DiaryEntity.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
-		DA71A83C2863554100655845 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA71A83B2863554100655845 /* PersistenceManager.swift */; };
-		DA71A8432863716700655845 /* DiaryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA71A8412863716700655845 /* DiaryEntity+CoreDataClass.swift */; };
+		DA71A83C2863554100655845 /* DiaryEntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA71A83B2863554100655845 /* DiaryEntityManager.swift */; };
 		DA71A8442863716700655845 /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA71A8422863716700655845 /* DiaryEntity+CoreDataProperties.swift */; };
 		DAC41D992859B0EE00D3CD22 /* DiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC41D982859B0EE00D3CD22 /* DiaryModel.swift */; };
 		DAC41D9E2859B41B00D3CD22 /* ListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC41D9D2859B41B00D3CD22 /* ListCell.swift */; };
@@ -43,8 +42,7 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		DA71A83B2863554100655845 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
-		DA71A8412863716700655845 /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		DA71A83B2863554100655845 /* DiaryEntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntityManager.swift; sourceTree = "<group>"; };
 		DA71A8422863716700655845 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		DAC41D962859AFC000D3CD22 /* .swiftlint.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = .swiftlint.md; sourceTree = "<group>"; };
 		DAC41D982859B0EE00D3CD22 /* DiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModel.swift; sourceTree = "<group>"; };
@@ -144,11 +142,10 @@
 		DAC41D972859B08C00D3CD22 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				DA71A8412863716700655845 /* DiaryEntity+CoreDataClass.swift */,
 				DA71A8422863716700655845 /* DiaryEntity+CoreDataProperties.swift */,
 				DAC41D982859B0EE00D3CD22 /* DiaryModel.swift */,
 				DAF0ADAD2860BCAD000909C9 /* Parser.swift */,
-				DA71A83B2863554100655845 /* PersistenceManager.swift */,
+				DA71A83B2863554100655845 /* DiaryEntityManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -287,8 +284,7 @@
 				DA71A8442863716700655845 /* DiaryEntity+CoreDataProperties.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				DAF0ADAE2860BCAD000909C9 /* Parser.swift in Sources */,
-				DA71A83C2863554100655845 /* PersistenceManager.swift in Sources */,
-				DA71A8432863716700655845 /* DiaryEntity+CoreDataClass.swift in Sources */,
+				DA71A83C2863554100655845 /* DiaryEntityManager.swift in Sources */,
 				DAF0ADB12860BF07000909C9 /* DiaryError.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				DAF0ADAC285C1301000909C9 /* RegisterViewController.swift in Sources */,
