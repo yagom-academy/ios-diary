@@ -13,7 +13,7 @@ fileprivate extension DiaryConstants {
 
 final class RegisterViewController: UIViewController {
     
-    private let persistenceManager = PersistenceManager.shared
+    private let persistenceManager = DiaryEntityManager.shared
     private lazy var detailView = DetailView(frame: view.frame)
 }
 
@@ -38,6 +38,7 @@ extension RegisterViewController {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         createDiaryData()
     }
 }
