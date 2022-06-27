@@ -53,6 +53,8 @@ final class DiaryCell: UITableViewCell {
         return label
     }()
     
+    private var imageDownloadTask: Task<UIImage, Error>?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         attribute()
@@ -62,6 +64,14 @@ final class DiaryCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Cell Life Cycle
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageDownloadTask?.cancel()
+        weatherImageView.image = UIImage(systemName: "questionmark.circle")
     }
     
     // MARK: - Funcitons
@@ -94,15 +104,11 @@ final class DiaryCell: UITableViewCell {
     }
     
     private func setUpImage(with url: String) {
+        let openWeatherIconImageAPI = OpenWeatherIconImageAPI(path: "\(url)@2x.png")
+        imageDownloadTask = NetworkManager().requestImage(api: openWeatherIconImageAPI)
+        
         Task {
-            let openWeatherIconImageAPI = OpenWeatherIconImageAPI(path: "\(url)@2x.png")
-            
-            do {
-                let result = try await NetworkManager().requestImage(api: openWeatherIconImageAPI)
-                weatherImageView.image = result
-            } catch {
-                print(error.localizedDescription)
-            }
+            weatherImageView.image = try await imageDownloadTask?.value
         }
     }
 }

@@ -11,7 +11,7 @@ import UIKit
 enum NetworkError: Error {
     case invalidURLRequest
     case invalidHTTPResponse
-    case emtpyData
+    case invalidData
     case decodingFail
     case unknown
 }
@@ -34,24 +34,30 @@ struct NetworkManager {
             throw NetworkError.invalidHTTPResponse
         }
         
-        return try JSONDecoder().decode(T.self, from: data)
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            throw NetworkError.decodingFail
+        }
     }
     
-    func requestImage(api: APIable) async throws -> UIImage {
-        guard let urlRequest = api.urlRequest else {
-            throw NetworkError.invalidURLRequest
+    func requestImage(api: APIable) -> Task<UIImage, Error> {
+        return Task {
+            guard let urlRequest = api.urlRequest else {
+                throw NetworkError.invalidURLRequest
+            }
+            
+            let (data, response) = try await session.data(for: urlRequest)
+            
+            guard let httpResponse = response as? HTTPURLResponse, (200..<300) ~= httpResponse.statusCode else {
+                throw NetworkError.invalidHTTPResponse
+            }
+            
+            guard let image = UIImage(data: data) else {
+                throw NetworkError.invalidData
+            }
+            
+            return image
         }
-        
-        let (data, response) = try await session.data(for: urlRequest)
-        
-        guard let httpResponse = response as? HTTPURLResponse, (200..<300) ~= httpResponse.statusCode else {
-            throw NetworkError.invalidHTTPResponse
-        }
-        
-        guard let image = UIImage(data: data) else {
-            throw NetworkError.emtpyData
-        }
-        
-        return image
     }
 }
