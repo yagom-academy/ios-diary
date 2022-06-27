@@ -83,7 +83,11 @@ final class DiaryTableViewCell: UITableViewCell {
     private func setImageView(icon: String) async {
         guard let urlRequest = IconAPI(path: icon + ".png").makeURLRequest() else { return }
         self.task = NetworkManager().fetchImageData(urlRequest: urlRequest)
-        self.weatherImageView.image = try? await task?.value
+        let image = try? await task?.value
+        
+        DispatchQueue.main.async {
+            self.weatherImageView.image = image
+        }
     }
     
     override func prepareForReuse() {
