@@ -24,6 +24,7 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
     
     lazy var locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.delegate = self
         return locationManager
     }()
