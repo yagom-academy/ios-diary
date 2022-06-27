@@ -22,29 +22,29 @@ final class DetailViewController: DiaryBaseViewController {
   
   override func loadView() {
     super.loadView()
-    self.view = baseView
+    view = baseView
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.configureUI()
-    self.addKeyboardObserver(action: #selector(keyboardWillShow))
+    configureUI()
+    addKeyboardObserver(action: #selector(keyboardWillShow))
     addGesture()
-    self.addSaveDiaryObserver(action: #selector(diarDataUpdate))
+    addSaveDiaryObserver(action: #selector(diarDataUpdate))
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    self.updateDiaryData()
+    updateDiaryData()
   }
   
   deinit {
-    self.removeKeyboardObserver()
-    self.removeSaveDiaryObserver()
+    removeKeyboardObserver()
+    removeSaveDiaryObserver()
   }
   
   @objc func diarDataUpdate() {
-    self.updateDiaryData()
+    updateDiaryData()
   }
   
   private func updateDiaryData() {
@@ -60,18 +60,18 @@ final class DetailViewController: DiaryBaseViewController {
   }
   
   private func configureUI() {
-    self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+    navigationItem.rightBarButtonItem = UIBarButtonItem(
       image: UIImage(systemName: "ellipsis"),
       style: .plain,
       target: self,
       action: #selector(actionSheetWillShow)
     )
-    self.navigationItem.title = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
-    self.baseView.updateTextView(diary: diary)
+    navigationItem.title = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
+    baseView.updateTextView(diary: diary)
   }
   
   @objc func actionSheetWillShow() {
-    self.showAlert(
+    showAlert(
       title: "택1",
       message: "무엇을",
       firstActionTitle: "Share...",
@@ -98,12 +98,12 @@ final class DetailViewController: DiaryBaseViewController {
 
 extension DetailViewController {
   func addGesture() {
-    self.view.addGestureRecognizer(setSwipeGesture(action:#selector(keyboardHideDidSwipeDown)))
+    view.addGestureRecognizer(setSwipeGesture(action:#selector(keyboardHideDidSwipeDown)))
   }
   
   @objc func keyboardHideDidSwipeDown(gesture: UISwipeGestureRecognizer) {
     view.endEditing(true)
-    self.updateDiaryData()
+    updateDiaryData()
   }
   
   @objc func keyboardWillShow(_ notification: Notification) {
@@ -117,13 +117,13 @@ extension DetailViewController {
       right: .zero
     )
     
-    self.baseView.textView.contentInset = contentInset
-    self.baseView.textView.verticalScrollIndicatorInsets = contentInset
+    baseView.textView.contentInset = contentInset
+    baseView.textView.verticalScrollIndicatorInsets = contentInset
   }
   
   @objc func keyboardWillHide(_ notification: Notification) {
     let contentInset = UIEdgeInsets.zero
-    self.baseView.textView.contentInset = contentInset
-    self.baseView.textView.scrollIndicatorInsets = contentInset
+    baseView.textView.contentInset = contentInset
+    baseView.textView.scrollIndicatorInsets = contentInset
   }
 }

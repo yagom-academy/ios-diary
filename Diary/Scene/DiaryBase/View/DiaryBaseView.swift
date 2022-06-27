@@ -16,7 +16,7 @@ class DiaryBaseView: UIView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    self.configureLayout()
+    configureLayout()
   }
   
   required init?(coder: NSCoder) {
@@ -24,13 +24,13 @@ class DiaryBaseView: UIView {
   }
   
   private func configureLayout() {
-    self.addSubview(textView)
+    addSubview(textView)
     
     NSLayoutConstraint.activate([
-      self.textView.topAnchor.constraint(equalTo: topAnchor),
-      self.textView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      self.textView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-      self.textView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+      textView.topAnchor.constraint(equalTo: topAnchor),
+      textView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      textView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+      textView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
     ])
   }
 }

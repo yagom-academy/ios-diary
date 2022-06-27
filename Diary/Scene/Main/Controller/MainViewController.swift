@@ -18,30 +18,30 @@ final class MainViewController: UIViewController {
   
   override func loadView() {
     super.loadView()
-    self.view = baseView
+    view = baseView
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.configureUI()
+    configureUI()
   }
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    self.diarys = CoredataManager.sherd.readContext()
+    diarys = CoredataManager.sherd.readContext()
   }
   
   private func configureUI() {
-    self.navigationItem.title = "일기장"
-    self.navigationItem.rightBarButtonItem = createAddBarButtonItem()
-    self.baseView.tableView.register(
+    navigationItem.title = "일기장"
+    navigationItem.rightBarButtonItem = createAddBarButtonItem()
+    baseView.tableView.register(
       ListTableViewCell.self,
       forCellReuseIdentifier: ListTableViewCell.identifier)
-    self.baseView.tableView.register(
+    baseView.tableView.register(
       ListTableViewCell.self,
       forCellReuseIdentifier: EmptyTableViewCell.identifier)
-    self.baseView.tableView.dataSource = self
-    self.baseView.tableView.delegate = self
+    baseView.tableView.dataSource = self
+    baseView.tableView.delegate = self
   }
   
   private func createAddBarButtonItem() -> UIBarButtonItem {
@@ -62,18 +62,18 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDataSource {
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return self.diarys?.count ?? 0
+    return diarys?.count ?? 0
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let cell = tableView.dequeueReusableCell(
       withIdentifier: ListTableViewCell.identifier,
       for: indexPath) as? ListTableViewCell,
-          let diary = self.diarys else {
+          let diary = diarys?[indexPath.row] else {
       return EmptyTableViewCell()
     }
     
-    cell.update(diary: diary[indexPath.row])
+    cell.update(diary: diary)
     
     return cell
   }

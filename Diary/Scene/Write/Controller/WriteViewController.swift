@@ -12,34 +12,34 @@ final class WriteViewController: DiaryBaseViewController {
   
   override func loadView() {
     super.loadView()
-    self.view = baseView
+    view = baseView
   }
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.configureUI()
-    self.addKeyboardObserver(action: #selector(keyboardWillShow))
+    configureUI()
+    addKeyboardObserver(action: #selector(keyboardWillShow))
     addGesture()
-    self.addSaveDiaryObserver(action: #selector(diarDataSave))
+    addSaveDiaryObserver(action: #selector(diarDataSave))
   }
   
   override func viewWillDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    self.saveDiaryData()
+    saveDiaryData()
   }
   
   deinit {
-    self.removeKeyboardObserver()
-    self.removeSaveDiaryObserver()
+    removeKeyboardObserver()
+    removeSaveDiaryObserver()
   }
   
   @objc func diarDataSave() {
-    self.saveDiaryData()
+    saveDiaryData()
   }
   
   private func configureUI() {
-    self.view.backgroundColor = .systemBackground
-    self.navigationItem.title = Date().setKoreaDateFormat(dateFormat: .yearMonthDay)
+    view.backgroundColor = .systemBackground
+    navigationItem.title = Date().setKoreaDateFormat(dateFormat: .yearMonthDay)
   }
   
   private func saveDiaryData() {
@@ -60,7 +60,7 @@ final class WriteViewController: DiaryBaseViewController {
 
 extension WriteViewController {
   func addGesture() {
-    self.view.addGestureRecognizer(setSwipeGesture(action:#selector(keyboardHideDidSwipeDown)))
+    view.addGestureRecognizer(setSwipeGesture(action:#selector(keyboardHideDidSwipeDown)))
   }
   
   @objc func keyboardHideDidSwipeDown(gesture: UISwipeGestureRecognizer) {
@@ -79,13 +79,13 @@ extension WriteViewController {
       right: .zero
     )
     
-    self.baseView.textView.contentInset = contentInset
-    self.baseView.textView.verticalScrollIndicatorInsets = contentInset
+    baseView.textView.contentInset = contentInset
+    baseView.textView.verticalScrollIndicatorInsets = contentInset
   }
   
   @objc func keyboardWillHide(_ notification: Notification) {
     let contentInset = UIEdgeInsets.zero
-    self.baseView.textView.contentInset = contentInset
-    self.baseView.textView.scrollIndicatorInsets = contentInset
+    baseView.textView.contentInset = contentInset
+    baseView.textView.scrollIndicatorInsets = contentInset
   }
 }

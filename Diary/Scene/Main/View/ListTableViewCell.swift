@@ -44,7 +44,7 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    self.configureUI()
+    configureUI()
     accessoryType = .disclosureIndicator
   }
   
@@ -53,21 +53,21 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
   }
   
   func update(diary: Diary) {
-    self.dateLabel.text = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
-    self.titleLabel.text = diary.title
-    self.descriptionLabel.text = diary.content
+    dateLabel.text = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
+    titleLabel.text = diary.title
+    descriptionLabel.text = diary.content
   }
   
   private func configureUI() {
     contentView.addSubview(mainStackView)
-    self.mainStackView.addArrangedSubviews(titleLabel, bottomStackView)
-    self.bottomStackView.addArrangedSubviews(dateLabel, descriptionLabel)
+    mainStackView.addArrangedSubviews(titleLabel, bottomStackView)
+    bottomStackView.addArrangedSubviews(dateLabel, descriptionLabel)
   
     NSLayoutConstraint.activate([
-      self.mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
-      self.mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
-      self.mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-      self.mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+      mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+      mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+      mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+      mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
     ])
   }
 }

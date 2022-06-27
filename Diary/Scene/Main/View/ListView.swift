@@ -16,8 +16,8 @@ final class ListView: UIView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    self.configureLayout()
-    self.backgroundColor = .systemBackground
+    configureLayout()
+    backgroundColor = .systemBackground
   }
   
   required init?(coder: NSCoder) {
@@ -25,13 +25,13 @@ final class ListView: UIView {
   }
   
   private func configureLayout() {
-    self.addSubview(tableView)
+    addSubview(tableView)
     
     NSLayoutConstraint.activate([
-      self.tableView.topAnchor.constraint(equalTo: topAnchor),
-      self.tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
-      self.tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-      self.tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+      tableView.topAnchor.constraint(equalTo: topAnchor),
+      tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+      tableView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+      tableView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
     ])
   }
 }

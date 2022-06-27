@@ -10,8 +10,8 @@ import UIKit
 class DiaryBaseViewController: UIViewController {
 
   deinit {
-    self.removeKeyboardObserver()
-    self.removeSaveDiaryObserver()
+    removeKeyboardObserver()
+    removeSaveDiaryObserver()
   }
   
   func seperateTitle(from text: String) -> String {
