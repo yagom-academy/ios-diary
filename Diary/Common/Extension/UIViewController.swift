@@ -28,9 +28,7 @@ extension UIViewController {
             preferredStyle: .alert
         )
         let confirmAction = UIAlertAction(title: AppConstants.confirmActionTitle, style: .default) { _ in
-            if let handler = handler {
-                handler()
-            }
+            handler?()
         }
         alert.addAction(confirmAction)
         present(alert, animated: true)
