@@ -10,12 +10,9 @@ import UIKit
 extension UIViewController {
   func showActivityView(text: String) {
     var items = [Any]()
-    let shareText = text
-    items.append(shareText)
+    items.append(text)
     
-    let activityVC = UIActivityViewController(
-      activityItems: items,
-      applicationActivities: nil)
+    let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
     activityVC.popoverPresentationController?.sourceView = self.view
     self.present(activityVC, animated: true)
   }
