@@ -52,11 +52,11 @@ final class DetailViewController: DiaryBaseViewController {
       return
     }
     
-    CoredataManager.sherd.updataContext(
+    CoreData.updateDiary(
       title: seperateTitle(from: text),
+      date: diary.createdDate.bindOptional(),
       content: seperateContent(from: text),
-      identifier: diary.identifier.bindOptional(),
-      date: diary.createdDate.bindOptional())
+      identifier: diary.identifier.bindOptional())
   }
   
   private func configureUI() {
@@ -79,16 +79,16 @@ final class DetailViewController: DiaryBaseViewController {
       preferredStyle: .actionSheet,
       firstAction: { [weak self] in
         self?.showActivityView(text: "선택하세요")
-      }, secondAction: { [weak self] in
-        self?.showAlert(
+      }, secondAction: {
+        self.showAlert(
           title: "진짜?",
           message: "정말?",
           firstActionTitle: "취소",
           secondActionTitle: "삭제",
           preferredStyle: .alert,
           secondAction: {
-            CoredataManager.sherd.deleteContext(identifier: self?.diary.identifier ?? "")
-            self?.navigationController?.pushViewController(MainViewController(), animated: true)
+            CoreData.deleteDiary(identifier: self.diary.identifier.bindOptional())
+            self.navigationController?.pushViewController(MainViewController(), animated: true)
           })
       })
   }

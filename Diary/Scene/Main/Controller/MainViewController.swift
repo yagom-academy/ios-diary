@@ -28,7 +28,7 @@ final class MainViewController: UIViewController {
   
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    diarys = CoredataManager.sherd.readContext()
+    diarys = CoreData.readDiary()
   }
   
   private func configureUI() {
@@ -101,7 +101,7 @@ extension MainViewController: UITableViewDelegate {
         return
       }
 
-      CoredataManager.sherd.deleteContext(identifier: identifier)
+      CoreData.deleteDiary(identifier: identifier)
       self.diarys?.remove(at: indexPath.row)
       completion(true)
     }

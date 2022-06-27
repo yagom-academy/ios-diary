@@ -8,7 +8,7 @@
 import CoreData
 
 final class CoredataManager {
-  static let sherd = CoredataManager()
+  static let shared = CoredataManager()
   
   private init() {}
   
@@ -30,6 +30,7 @@ final class CoredataManager {
     guard viewContext.hasChanges else {
       return
     }
+    
     do {
       try viewContext.save()
     } catch {
@@ -37,50 +38,15 @@ final class CoredataManager {
     }
   }
   
-  func createContext(title: String, content: String, identifier: String, date: Date) {
-    guard let diaryEntity = NSEntityDescription.entity(forEntityName: "Diary", in: viewContext) else {
-      return
+  func createContext(etityName: String) -> NSManagedObject? {
+    guard let diaryEntity = NSEntityDescription.entity(forEntityName: etityName, in: viewContext) else {
+      return nil
     }
     
-    guard let userModel = NSManagedObject(entity: diaryEntity, insertInto: viewContext) as? Diary else {
-      return
-    }
-    userModel.title = title
-    userModel.content = content
-    userModel.createdDate = date
-    userModel.identifier = identifier
-    save()
+    return NSManagedObject(entity: diaryEntity, insertInto: viewContext)
   }
   
-  func readContext() -> [Diary] {
-    do {
-      let diary = try viewContext.fetch(Diary.fetchRequest())
-      return diary
-    } catch {
-      fatalError("\(error)")
-    }
-  }
-  
-  func updataContext(title: String, content: String, identifier: String, date: Date) {
-    
-    let request = Diary.fetchRequest()
-    request.predicate = NSPredicate(format: "identifier == %@", identifier)
-    
-    if let diarys = try? viewContext.fetch(request).first {
-      diarys.title = title
-      diarys.createdDate = date
-      diarys.content = content
-    }
-    save()
-  }
-  
-  func deleteContext(identifier: String) {
-    let request = Diary.fetchRequest()
-    request.predicate = NSPredicate(format: "identifier == %@", identifier)
-    
-    if let diary = try? viewContext.fetch(request).first {
-      viewContext.delete(diary)
-    }
-    save()
+  func readViewContext() -> NSManagedObjectContext {
+    return viewContext
   }
 }

@@ -47,7 +47,7 @@ final class WriteViewController: DiaryBaseViewController {
       return
     }
     
-    CoredataManager.sherd.createContext(
+    CoreData.createDiary (
       title: seperateTitle(from: text),
       content: seperateContent(from: text),
       identifier: UUID().uuidString,
