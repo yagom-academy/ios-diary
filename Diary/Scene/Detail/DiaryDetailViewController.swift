@@ -161,7 +161,12 @@ extension DiaryDetailViewController {
     }
     
     private func setUpNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateDiary), name: .background, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateDiary),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
     }
     
     private func setUpTextView() {
