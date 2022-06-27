@@ -48,7 +48,6 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
         configureNavigationItem()
         makeKeyboardHiddenButton()
         configureSceneDelegate()
-        
         locationManager.requestLocation()
     }
     
