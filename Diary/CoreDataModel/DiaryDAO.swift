@@ -44,12 +44,35 @@ final class DiaryDAO {
         
         let userModel = NSManagedObject(entity: entity, insertInto: viewContext)
         
-        userModel.setValue(userData.identifier, forKey: "identifier")
-        userModel.setValue(userData.title, forKey: "title")
-        userModel.setValue(userData.date, forKey: "date")
-        userModel.setValue(userData.body, forKey: "body")
+        guard let (lat, lon) = Location.shared.getLocation() else {
+            return
+        }
         
-        save()
+        WeatherAPIManager.shared.fetchData(url: EntryPoint.weatherDescription(lat: lat, lon: lon).url) { [weak self] data in
+            
+            guard let data = try? data.get(),
+                  let weather: WeatherDTO = data.convert() else {
+                return
+            }
+            let weatherDescription = weather.description
+            
+            userModel.setValue(userData.identifier, forKey: "identifier")
+            
+            userModel.setValue(userData.title, forKey: "title")
+            userModel.setValue(userData.date, forKey: "date")
+            userModel.setValue(userData.body, forKey: "body")
+            
+            userModel.setValue(weather.icon, forKey: "icon")
+
+            userModel.setValue(weatherDescription.temperature, forKey: "temp")
+            userModel.setValue(weatherDescription.feelsLike, forKey: "feelsLike")
+            userModel.setValue(weatherDescription.minTemperature, forKey: "tmpMin")
+            userModel.setValue(weatherDescription.maxTempaerature, forKey: "tmpMax")
+            userModel.setValue(weatherDescription.pressure, forKey: "pressure")
+            userModel.setValue(weatherDescription.humidity, forKey: "humidity")
+            
+            self?.save()
+        }
     }
     
     private func save() {

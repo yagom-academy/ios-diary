@@ -7,6 +7,44 @@
 
 import Foundation
 
+extension Data {
+    func convert<T: Decodable>() -> T? {
+        guard let diaryData = T.parse(data: self) else {
+            return nil
+        }
+        
+        return diaryData
+    }
+}
+
+struct WeatherDTO: Decodable {
+    let icon: String
+    let description: DescriptionDTO
+    
+    struct DescriptionDTO: Decodable {
+        let temperature: Double
+        let feelsLike: Double
+        let minTemperature: Double
+        let maxTempaerature: Double
+        let pressure: Double
+        let humidity: Double
+        
+        enum CodingKeys: String, CodingKey {
+            case temperature
+            case feelsLike = "feels_like"
+            case minTemperature = "temp_min"
+            case maxTempaerature = "temp_max"
+            case pressure
+            case humidity
+        }
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case icon = "weather"
+        case description = "main"
+    }
+}
+
 struct DiaryDTO: Decodable, Hashable {
     var identifier = UUID()
     

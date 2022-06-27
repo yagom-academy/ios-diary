@@ -49,7 +49,11 @@ extension NetworkError: LocalizedError {
 }
 
 final class WeatherAPIManager {
+    static let shared = WeatherAPIManager()
     
+    private init() { }
+    
+    @discardableResult
     func fetchData(url: URL?, complition: @escaping (Result<Data, NetworkError>) -> Void) -> URLSessionDataTask? {
         guard let url = url else {
             complition(.failure(.invalidURL))
