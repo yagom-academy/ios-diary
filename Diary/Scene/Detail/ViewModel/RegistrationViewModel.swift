@@ -38,12 +38,12 @@ extension RegistrationViewModel {
             return
         }
         
-        RequestManager.shared.requestAPI(by: coordinate) { result in
+        RequestManager.shared.requestAPI(by: coordinate) { [weak self] result in
             switch result {
             case .success(let result):
-                self.icon = result.weather.first?.icon
+                self?.icon = result.weather.first?.icon
             case .failure:
-                self.icon = nil
+                self?.icon = nil
             }
         }
     }

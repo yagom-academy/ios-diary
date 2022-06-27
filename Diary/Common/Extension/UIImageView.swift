@@ -14,16 +14,16 @@ extension UIImageView {
             self.image = cacheImage
             return
         }
-        RequestManager.shared.requestAPI(icon: icon) { result in
+        RequestManager.shared.requestAPI(icon: icon) { [weak self] result in
             switch result {
             case .success(let image):
                 ImageCacheManager.shared.setObject(image, forKey: cacheKey)
                 DispatchQueue.main.async {
-                    self.image = image
+                    self?.image = image
                 }
             case .failure:
                 DispatchQueue.main.async {
-                    self.image = UIImage(systemName: "questionmark.square.dashed")
+                    self?.image = UIImage(systemName: "questionmark.square.dashed")
                 }
             }
         }

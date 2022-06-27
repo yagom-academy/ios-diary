@@ -16,8 +16,8 @@ final class RequestManager {
     func requestAPI(by coordinate: CLLocationCoordinate2D, completion: @escaping ((Result<Weather, Error>) -> Void)) {
         let endpoint: EndPoint = .weatherInfo(coordinate.latitude, coordinate.longitude)
         
-        request(endpoint: endpoint) { data, response, error in
-            self.verifyError(with: data, response, error) { result in
+        request(endpoint: endpoint) { [weak self] data, response, error in
+            self?.verifyError(with: data, response, error) { result in
                 switch result {
                 case .success(let result):
                     guard let decodedData = try? JSONDecoder().decode(Weather.self, from: result) else {
@@ -35,11 +35,12 @@ final class RequestManager {
     func requestAPI(icon: String, completion: @escaping ((Result<UIImage, Error>) -> Void)) {
         let endpoint: EndPoint = .weatherIcon(icon)
         
-        request(endpoint: endpoint) { data, response, error in
-            self.verifyError(with: data, response, error) { result in
+        request(endpoint: endpoint) { [weak self] data, response, error in
+            self?.verifyError(with: data, response, error) { result in
                 switch result {
                 case .success(let result):
                     guard let image = UIImage(data: result) else {
+                        completion(.failure(DiaryError.networkError))
                         return
                     }
                     completion(.success(image))
