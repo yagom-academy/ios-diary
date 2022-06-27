@@ -14,10 +14,15 @@ protocol DetailViewable: UIView {
 }
 
 final class DetailViewController: UIViewController {
+    private enum State {
+        case update
+        case delete
+    }
+    
     private var detailView: DetailViewable
     private var diaryData: DiaryInfo?
     private var viewModel: TableViewModel<DiaryUseCase>
-    var isUpdate = true
+    private var state: State = .update
      
     init(view: DetailViewable, viewModel: TableViewModel<DiaryUseCase>) {
         self.detailView = view
@@ -59,13 +64,11 @@ final class DetailViewController: UIViewController {
         detailView.setData(with: diary)
     }
     
-   private func saveData() {
-        if isUpdate {
+    private func saveData() {
+        if state == .update {
             let editedDiary = detailView.exportDiaryText()
-            do {
-                try viewModel.update(data: editedDiary)
-            } catch {
-                alertMaker.makeErrorAlert(error: error)
+            viewModel.update(data: editedDiary) { error in
+                self.alertMaker.makeErrorAlert(error: error)
             }
         }
     }
@@ -134,12 +137,10 @@ extension DetailViewController {
         let deleteButtonHandler: (UIAlertAction) -> Void = { _ in
             let cancleButton = UIAlertAction(title: "취소", style: .cancel)
             let deleteButton = UIAlertAction(title: "삭제", style: .destructive) { _ in
-                self.isUpdate = false
-                do {
-                    try self.viewModel.delete(data: diaryData)
-                } catch {
-                    self.alertMaker.makeErrorAlert(error: error)
-                }
+                self.state = .delete
+                    self.viewModel.delete(data: diaryData) { error in
+                        self.alertMaker.makeErrorAlert(error: error)
+                    }
                 self.navigationController?.popViewController(animated: true)
             }
             self.alertMaker.makeAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", buttons: [cancleButton, deleteButton])

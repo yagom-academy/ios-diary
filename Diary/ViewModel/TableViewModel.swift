@@ -8,28 +8,56 @@
 import UIKit
 
 final class TableViewModel<U: UseCase>: NSObject {
-    private(set) var data: [U.Element] = []
+    private var data: [U.Element] = []
     private let useCase: U
+    var dataCount: Int {
+        return data.count
+    }
     
     init(useCase: U) {
         self.useCase = useCase
     }
     
-    func loadData() throws {
-        let diaryDatas = try useCase.read()
-        data = diaryDatas
+    func create(data: U.Element,
+                completionHandler: ((U.Element) -> Void)? = nil,
+                errorHandler: ((Error) -> Void)? = nil) {
+        do {
+            let result = try useCase.create(element: data)
+            completionHandler?(result)
+        } catch {
+            errorHandler?(error)
+        }
     }
     
-    func update(data: U.Element) throws {
-        try useCase.update(element: data)
+    func loadData(errorHandler: ((Error) -> Void)? = nil) {
+        do {
+            let diaryDatas = try useCase.read()
+            data = diaryDatas
+        } catch {
+            errorHandler?(error)
+        }
     }
     
-    func create(data: U.Element) throws -> U.Element {
-        let result = try useCase.create(element: data)
-        return result
+    func update(data: U.Element, errorHandler: ((Error) -> Void)? = nil) {
+        do {
+            try useCase.update(element: data)
+        } catch {
+            errorHandler?(error)
+        }
     }
     
-    func delete(data: U.Element) throws {
-        try useCase.delete(element: data)
+    func delete(data: U.Element, errorHandler: ((Error) -> Void)? = nil) {
+        do {
+            try useCase.delete(element: data)
+        } catch {
+            errorHandler?(error)
+        }
+    }
+    
+    func indexData(_ index: Int)-> U.Element? {
+        guard index < data.count else {
+            return nil
+        }
+        return data[index]
     }
 }
