@@ -7,9 +7,32 @@
 
 import UIKit
 
+protocol DetailViewable: UIView {
+    func setData(with diary: DiaryInfo)
+    func changeTextViewHeight(_ height: CGFloat)
+    func exportDiaryText() -> DiaryInfo
+}
+
 final class DetailViewController: UIViewController {
-    private var detailView = DetailView()
-    private var diaryData: DiaryData?
+    private enum State {
+        case update
+        case delete
+    }
+    
+    private var detailView: DetailViewable
+    private var diaryData: DiaryInfo?
+    private var viewModel: TableViewModel<DiaryUseCase>
+    private var state: State = .update
+     
+    init(view: DetailViewable, viewModel: TableViewModel<DiaryUseCase>) {
+        self.detailView = view
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         view = detailView
@@ -21,16 +44,33 @@ final class DetailViewController: UIViewController {
             registerForKeyboardNotification()
             setViewGesture()
         }
+        setNavigationSetting()
+        (UIApplication.shared.delegate as? AppDelegate)?.saveDelegate = self
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        (UIApplication.shared.delegate as? AppDelegate)?.saveDelegate = nil
+        saveData()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         removeRegisterForKeyboardNotification()
     }
     
-    func updateData(diary: DiaryData) {
+    func updateData(diary: DiaryInfo) {
         diaryData = diary
         detailView.setData(with: diary)
-        navigationItem.title = diary.date.toString
+    }
+    
+    private func saveData() {
+        if state == .update {
+            let editedDiary = detailView.exportDiaryText()
+            viewModel.update(data: editedDiary) { error in
+                self.alertMaker.makeErrorAlert(error: error)
+            }
+        }
     }
 }
 
@@ -67,6 +107,57 @@ extension DetailViewController {
     
     @objc func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
         self.view.endEditing(true)
-        detailView.changeTextViewHeight()
+        detailView.changeTextViewHeight(0)
+        saveData()
+    }
+}
+
+// MARK: Navigation Method
+extension DetailViewController {
+    private func setNavigationSetting() {
+        navigationItem.title = diaryData?.date?.toString
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(rightBarbuttonClicked(_:))
+        )
+    }
+    
+    @objc private func rightBarbuttonClicked(_ sender: Any) {
+        guard let diaryData = diaryData else { return }
+        
+        let shareButtonHandler: (UIAlertAction) -> Void = { _ in
+            let diaryInfo = self.detailView.exportDiaryText()
+            let activityController = UIActivityViewController(
+                activityItems: [diaryInfo.body ?? ""],
+                applicationActivities: nil)
+            self.present(activityController, animated: true)
+        }
+        
+        let deleteButtonHandler: (UIAlertAction) -> Void = { _ in
+            let cancleButton = UIAlertAction(title: "취소", style: .cancel)
+            let deleteButton = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                self.state = .delete
+                    self.viewModel.delete(data: diaryData) { error in
+                        self.alertMaker.makeErrorAlert(error: error)
+                    }
+                self.navigationController?.popViewController(animated: true)
+            }
+            self.alertMaker.makeAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", buttons: [cancleButton, deleteButton])
+        }
+
+        alertMaker.makeActionSheet(buttons: [UIAlertAction(title: "Share",
+                                                           style: .default,
+                                                           handler: shareButtonHandler),
+                                             UIAlertAction(title: "Delete",
+                                                           style: .destructive,
+                                                           handler: deleteButtonHandler)]
+        )
+    }
+}
+
+extension DetailViewController: SaveDelegate {
+    func save() {
+        saveData()
     }
 }

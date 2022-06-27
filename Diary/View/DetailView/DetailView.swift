@@ -7,8 +7,10 @@
 
 import UIKit
 
-final class DetailView: UIView {
-    
+final class DetailView: UIView, DetailViewable {
+    private enum Constant {
+        static let emptyDefaultTitle: String = "[제목없음]"
+    }
     private lazy var textViewBottomConstraint = textView.bottomAnchor.constraint(
         equalTo: safeAreaLayoutGuide.bottomAnchor
     )
@@ -20,6 +22,8 @@ final class DetailView: UIView {
         return textView
     }()
     
+    private var diary: DiaryInfo?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -29,7 +33,6 @@ final class DetailView: UIView {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        print("디테일뷰 초기화 안됨")
     }
     
     private func setConstraint() {
@@ -50,7 +53,8 @@ final class DetailView: UIView {
         }
     }
     
-    func setData(with diary: DiaryData) {
+    func setData(with diary: DiaryInfo) {
+        self.diary = diary
         textView.text = diary.body
     }
     
@@ -61,5 +65,18 @@ final class DetailView: UIView {
             constant: -height
         )
         textViewBottomConstraint.isActive = true
+    }
+    
+    func exportDiaryText() -> DiaryInfo {
+        return DiaryInfo(title: findTitle(), body: textView.text, date: diary?.date, key: diary?.key)
+    }
+    
+    private func findTitle() -> String {
+        let titleAndBody = textView.text.components(separatedBy: "\n")
+        if titleAndBody.count == 0 {
+            return Constant.emptyDefaultTitle
+        } else {
+            return titleAndBody[0]
+        }
     }
 }

@@ -36,6 +36,7 @@ final class MainViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
@@ -69,9 +70,13 @@ final class MainViewCell: UITableViewCell {
         ])
     }
     
-    func setDiaryData(_ data: DiaryData) {
+    func setDiaryData(_ data: DiaryInfo) {
+        var bodies = data.body?.components(separatedBy: "\n")
+        bodies?.removeFirst()
+        let body = bodies?.reduce("") { $0 + " " + $1 }
+        
         titleLabel.text = data.title
-        dateLabel.text = data.date.toString
-        descriptionLabel.text = data.body
+        dateLabel.text = data.date?.toString ?? ""
+        descriptionLabel.text = body
     }
 }
