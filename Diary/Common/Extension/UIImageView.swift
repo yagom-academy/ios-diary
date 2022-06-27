@@ -8,13 +8,13 @@
 import UIKit
 
 extension UIImageView {
-    func loadImage(icon: String) {
+    func loadImage(icon: String) -> URLSessionDataTask? {
         let cacheKey = NSString(string: icon)
         if let cacheImage = ImageCacheManager.shared.object(forKey: cacheKey) {
             self.image = cacheImage
-            return
+            return nil
         }
-        RequestManager.shared.requestAPI(icon: icon) { [weak self] result in
+        return RequestManager.shared.requestAPI(icon: icon) { [weak self] result in
             switch result {
             case .success(let image):
                 ImageCacheManager.shared.setObject(image, forKey: cacheKey)

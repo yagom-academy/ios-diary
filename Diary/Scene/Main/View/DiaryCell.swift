@@ -9,6 +9,7 @@ import UIKit
 
 final class DiaryCell: UITableViewCell {
     static let identifier = "DiaryCell"
+    private var task: URLSessionDataTask?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -17,6 +18,16 @@ final class DiaryCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        dateLabel.text = nil
+        descriptionLabel.text = nil
+        weatherImageView.image = nil
+        
+        task?.suspend()
+        task?.cancel()
     }
     
     private let baseStackView: UIStackView = {
@@ -101,7 +112,7 @@ final class DiaryCell: UITableViewCell {
             titleLabel.text = data.title
         }
         dateLabel.text = data.createdAt.formattedString
-        weatherImageView.loadImage(icon: data.icon)
+        task = weatherImageView.loadImage(icon: data.icon)
         descriptionLabel.text = data.body?.trimmingCharacters(in: .newlines)
     }
 }
