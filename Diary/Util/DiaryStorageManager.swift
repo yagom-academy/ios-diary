@@ -55,7 +55,7 @@ final class DiaryStorageManager {
 
   func update() {
     self.saveContext()
-    NotificationCenter.default.post(name: DiaryStorageNotification.diaryDidSave, object: nil)
+    NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
   }
 
   func delete(diary: Diary) {

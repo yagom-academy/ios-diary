@@ -67,7 +67,7 @@ final class DiaryViewController: UIViewController {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(self.fetchDiaries),
-      name: DiaryStorageNotification.diaryDidSave,
+      name: DiaryStorageNotification.diaryWasSaved,
       object: nil
     )
   }
