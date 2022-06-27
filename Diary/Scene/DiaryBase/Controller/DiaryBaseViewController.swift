@@ -8,7 +8,6 @@
 import UIKit
 
 class DiaryBaseViewController: UIViewController {
-
   deinit {
     removeKeyboardObserver()
     removeSaveDiaryObserver()

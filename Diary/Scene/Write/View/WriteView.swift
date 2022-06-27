@@ -7,6 +7,4 @@
 
 import UIKit
 
-class WriteView: DiaryBaseView {
- 
-}
+class WriteView: DiaryBaseView {}

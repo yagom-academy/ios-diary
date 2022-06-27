@@ -11,18 +11,15 @@ import CoreData
 
 
 extension Diary {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Diary> {
-        return NSFetchRequest<Diary>(entityName: "Diary")
-    }
-
-    @NSManaged public var content: String?
-    @NSManaged public var createdDate: Date?
-    @NSManaged public var identifier: String?
-    @NSManaged public var title: String?
-
+  @nonobjc public class func fetchRequest() -> NSFetchRequest<Diary> {
+    return NSFetchRequest<Diary>(entityName: "Diary")
+  }
+  
+  @NSManaged public var content: String?
+  @NSManaged public var createdDate: Date?
+  @NSManaged public var identifier: String?
+  @NSManaged public var title: String?
+  
 }
 
-extension Diary : Identifiable {
-
-}
+extension Diary : Identifiable {}

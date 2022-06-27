@@ -8,7 +8,6 @@
 import Foundation
 
 extension Optional where Wrapped == String {
-  
   func bindOptional() -> String {
     guard let bind = self else {
       return ""
