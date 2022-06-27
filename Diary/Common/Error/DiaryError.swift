@@ -19,7 +19,7 @@ enum DiaryError: LocalizedError {
         case .saveFail:
             return "데이터를 저장하지 못했습니다."
         case .networkError:
-            return "networkError"
+            return "서버와 통신하지 못했습니다."
         }
     }
 }
