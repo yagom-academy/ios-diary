@@ -40,6 +40,14 @@ final class MainViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "swift")
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        return imageView
+    }()
+    
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
@@ -49,7 +57,7 @@ final class MainViewCell: UITableViewCell {
     }()
     
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [dateLabel, descriptionLabel])
+        let stackView = UIStackView(arrangedSubviews: [dateLabel, weatherImageView, descriptionLabel])
         contentView.addSubview(stackView)
         stackView.axis = .horizontal
         stackView.distribution = .fill
