@@ -41,6 +41,8 @@ final class DiaryCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "swift")
         imageView.setContentHuggingPriority(.required, for: .horizontal)
+        imageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
+        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         
         return imageView
     }()
@@ -87,6 +89,20 @@ final class DiaryCell: UITableViewCell {
     func setUpItem(with diary: Diary) {
         titleLabel.text = diary.title
         dateLabel.text = diary.createdDate.formattedString
+        setUpImage(with: diary.weather.icon)
         contentLabel.text = diary.body
+    }
+    
+    private func setUpImage(with url: String) {
+        Task {
+            let openWeatherIconImageAPI = OpenWeatherIconImageAPI(path: "\(url)@2x.png")
+            
+            do {
+                let result = try await NetworkManager().requestImage(api: openWeatherIconImageAPI)
+                weatherImageView.image = result
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }

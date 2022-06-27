@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 enum NetworkError: Error {
     case invalidURLRequest
@@ -36,7 +37,7 @@ struct NetworkManager {
         return try JSONDecoder().decode(T.self, from: data)
     }
     
-    func requestImage(api: APIable) async throws -> Data {
+    func requestImage(api: APIable) async throws -> UIImage {
         guard let urlRequest = api.urlRequest else {
             throw NetworkError.invalidURLRequest
         }
@@ -47,6 +48,10 @@ struct NetworkManager {
             throw NetworkError.invalidHTTPResponse
         }
         
-        return data
+        guard let image = UIImage(data: data) else {
+            throw NetworkError.emtpyData
+        }
+        
+        return image
     }
 }
