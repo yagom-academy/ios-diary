@@ -95,13 +95,13 @@ final class DiaryDetailViewController: UIViewController {
     private func makeDiary() -> Diary {
         let (title, body) = configureContent()
         
-        return Diary(title: title, body: body, createdAt: Date())
+        return Diary(title: title, body: body, createdAt: Date(), weatherIcon: "")
     }
     
     private func updateDiary(_ diary: Diary) -> Diary {
         let (title, body) = configureContent()
         
-        return Diary(title: title, body: body, createdAt: diary.createdAt, uuid: diary.uuid)
+        return Diary(title: title, body: body, createdAt: diary.createdAt, weatherIcon: "", uuid: diary.uuid)
     }
 }
 

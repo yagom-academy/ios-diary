@@ -25,7 +25,7 @@ final class DiaryTableViewCell: UITableViewCell {
     }()
     
     private lazy var subTextStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [createdAtLabel, bodyLabel])
+        let stackView = UIStackView(arrangedSubviews: [createdAtLabel, weatherImageView, bodyLabel])
         stackView.axis = .horizontal
         stackView.spacing = 8
         
@@ -36,8 +36,18 @@ final class DiaryTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         
         return label
+    }()
+    
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        
+        return imageView
     }()
     
     private let bodyLabel: UILabel = {
