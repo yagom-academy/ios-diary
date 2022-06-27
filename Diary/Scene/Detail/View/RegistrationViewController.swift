@@ -11,7 +11,6 @@ import CoreLocation
 final class RegistrationViewController: UIViewController {
     private lazy var detailView = DetailView(frame: view.bounds)
     private let viewModel = RegistrationViewModel()
-    private let locationManager = CLLocationManager()
     
     override func loadView() {
         super.loadView()
@@ -30,7 +29,7 @@ final class RegistrationViewController: UIViewController {
         super.viewWillDisappear(animated)
         removeKeyboardNotification()
         viewModel.saveDiary(text: detailView.contentTextView.text)
-        locationManager.stopUpdatingLocation()
+        viewModel.locationManager.stopUpdatingLocation()
     }
 }
 
@@ -101,8 +100,8 @@ extension RegistrationViewController {
         detailView.contentTextView.delegate = self
     }
     
-    private func setUpLocationManager() {
-        locationManager.delegate = self
+    func setUpLocationManager() {
+        viewModel.locationManager.delegate = self
     }
 }
 
@@ -138,9 +137,9 @@ extension RegistrationViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            locationManager.startUpdatingLocation()
+            viewModel.locationManager.startUpdatingLocation()
         case .restricted, .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
+            viewModel.locationManager.requestWhenInUseAuthorization()
         case .denied:
             showAlert(title: "위치 권한 설정", message: "해당 기능을 사용하기 위해서 위치 권한이 필요합니다.") {
                 self.showSettingUrl()
