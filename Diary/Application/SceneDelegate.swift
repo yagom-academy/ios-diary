@@ -19,6 +19,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   }
   
   func sceneDidEnterBackground(_ scene: UIScene) {
-    NotificationCenter.default.post(name: Notification.Name("saveDiaryData"), object: nil)
+    NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
   }
 }

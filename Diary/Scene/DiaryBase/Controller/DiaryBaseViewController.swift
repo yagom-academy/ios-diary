@@ -33,12 +33,11 @@ class DiaryBaseViewController: UIViewController {
 // MARK: saveDiaryData Notification
 
 extension DiaryBaseViewController {
-  // SceneDidEnterBackground
   func addSaveDiaryObserver(action: Selector) {
     NotificationCenter.default.addObserver(
       self,
       selector: action,
-      name: Notification.Name("saveDiaryData"),
+      name: UIApplication.didEnterBackgroundNotification,
       object: nil)
   }
   
