@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreLocation
 
 final class DiaryViewController: UIViewController, DiaryProtocol {
     enum Const {
@@ -23,6 +24,7 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         setUpTableView()
         setUpTableViewLayout()
         setUpDataSource()
+        LocationManager.agree(viewController: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -174,5 +176,19 @@ extension DiaryViewController: UITableViewDelegate {
         config.performsFirstActionWithFullSwipe = false
         
         return config
+    }
+}
+
+extension DiaryViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = manager.location?.coordinate else {
+            return
+        }
+        
+        Location.shared.configure(lat: location.latitude, lon: location.longitude)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        showAlert(title: "사용자의 위치를 가져올수 없습니다.")
     }
 }

@@ -19,6 +19,8 @@
 		0ECA095E2857675700A91611 /* Decodable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA095D2857675700A91611 /* Decodable+.swift */; };
 		0ECA096328576A4100A91611 /* AssetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECA096228576A4100A91611 /* AssetManager.swift */; };
 		30A7EC422869A388005F4645 /* WeatherAPIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A7EC412869A388005F4645 /* WeatherAPIManager.swift */; };
+		30A7EC442869DA25005F4645 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A7EC432869DA25005F4645 /* LocationManager.swift */; };
+		30A7EC462869DA6E005F4645 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30A7EC452869DA6E005F4645 /* Location.swift */; };
 		30BF1F1B28618A99006FB017 /* DiaryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF1F1A28618A99006FB017 /* DiaryProtocol.swift */; };
 		30BF2AE328576D57009C1525 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF2AE228576D57009C1525 /* DiaryCell.swift */; };
 		30BF2AE528577135009C1525 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30BF2AE428577135009C1525 /* UIStackView+.swift */; };
@@ -45,6 +47,8 @@
 		0ECA095D2857675700A91611 /* Decodable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Decodable+.swift"; sourceTree = "<group>"; };
 		0ECA096228576A4100A91611 /* AssetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetManager.swift; sourceTree = "<group>"; };
 		30A7EC412869A388005F4645 /* WeatherAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAPIManager.swift; sourceTree = "<group>"; };
+		30A7EC432869DA25005F4645 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		30A7EC452869DA6E005F4645 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		30BF1F1A28618A99006FB017 /* DiaryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryProtocol.swift; sourceTree = "<group>"; };
 		30BF2AE228576D57009C1525 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		30BF2AE428577135009C1525 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
@@ -181,6 +185,8 @@
 			isa = PBXGroup;
 			children = (
 				30BF1F1A28618A99006FB017 /* DiaryProtocol.swift */,
+				30A7EC432869DA25005F4645 /* LocationManager.swift */,
+				30A7EC452869DA6E005F4645 /* Location.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -380,6 +386,8 @@
 				0EAE1FF5286014BA00AD7F08 /* DiaryDAO.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				30BF2AE328576D57009C1525 /* DiaryCell.swift in Sources */,
+				30A7EC442869DA25005F4645 /* LocationManager.swift in Sources */,
+				30A7EC462869DA6E005F4645 /* Location.swift in Sources */,
 				0E6DB1CE285B1B2C00B9B5D5 /* UITableView+.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				0E6DB1D0285B1F4F00B9B5D5 /* UITableViewCell+.swift in Sources */,

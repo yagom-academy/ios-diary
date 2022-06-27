@@ -40,7 +40,7 @@ extension AlertProtocol {
         present(sheet, animated: true)
     }
     
-    func showAlert(title: String, message: String, actions: [UIAlertAction]) {
+    func showAlert(title: String, message: String? = nil, actions: [UIAlertAction]? = nil) {
         let alert = AlertBuilder.shared
             .setTitle(title)
             .setMessage(message)
@@ -84,7 +84,7 @@ final class AlertBuilder {
         return self
     }
     
-    func setMessage(_ message: String) -> Self {
+    func setMessage(_ message: String?) -> Self {
         Self.product.message = message
         
         return self
@@ -96,7 +96,11 @@ final class AlertBuilder {
         return self
     }
     
-    func setActions(_ actions: [UIAlertAction]) -> Self {
+    func setActions(_ actions: [UIAlertAction]?) -> Self {
+        guard let actions = actions else {
+            return self
+        }
+
         actions.forEach {
             Self.product.actions.append($0)
         }
