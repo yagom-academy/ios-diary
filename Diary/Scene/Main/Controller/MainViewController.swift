@@ -97,10 +97,10 @@ extension MainViewController: UITableViewDelegate {
   ) -> UISwipeActionsConfiguration? {
     
     let deleteAction = UIContextualAction(style: .normal, title: "삭제") { _, _, completion in
-      guard let diary = self.diarys?[indexPath.row].identifier else {
+      guard let identifier = self.diarys?[indexPath.row].identifier else {
         return
       }
-      self.diarys = CoredataManager.sherd.deleteContext(identifier: diary)
+      self.diarys = CoredataManager.sherd.deleteContext(identifier: identifier)
       completion(true)
     }
     
