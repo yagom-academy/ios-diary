@@ -12,9 +12,9 @@ struct Diary: Hashable {
     let body: String
     let createdDate: Date
     let id: String
-    let weather: Weather
+    let weather: Weather?
 
-    init(title: String, body: String, createdDate: Date, id: String = UUID().uuidString, weather: Weather) {
+    init(title: String, body: String, createdDate: Date, id: String = UUID().uuidString, weather: Weather?) {
         self.title = title
         self.body = body
         self.createdDate = createdDate

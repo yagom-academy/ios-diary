@@ -44,7 +44,9 @@ final class DiaryTableViewController: UITableViewController {
         setUp()
     }
     
-    private func requestWeather(location: CLLocationCoordinate2D) async throws -> Weather {
+    private func requestWeather(location: CLLocationCoordinate2D?) async throws -> Weather? {
+        guard let location = location else { return nil }
+
         let querys = [
             "lat": "\(location.latitude)",
             "lon": "\(location.longitude)",
@@ -61,7 +63,7 @@ final class DiaryTableViewController: UITableViewController {
         return weather
     }
         
-    private func create(with weather: Weather) {
+    private func create(with weather: Weather?) {
         let newDiary = Diary(title: "", body: "", createdDate: Date.now, weather: weather)
         diarys.insert(newDiary, at: .zero)
         persistentManager.create(data: newDiary)
@@ -71,12 +73,18 @@ final class DiaryTableViewController: UITableViewController {
         guard let results = persistentManager.fetchAll() else { return }
         
         diarys = results.map { entity in
+            var weather: Weather?
+            
+            if let main = entity.weather, let icon = entity.weatherIcon {
+                weather = Weather(main: main, icon: icon)
+            }
+            
             return Diary(
                 title: entity.title,
                 body: entity.body,
                 createdDate: entity.createdDate,
                 id: entity.id,
-                weather: Weather(main: entity.weather, icon: entity.weatherIcon)
+                weather: weather
             )
         }
     }
@@ -88,6 +96,24 @@ final class DiaryTableViewController: UITableViewController {
     @objc
     private func addButtonDidTap() {
         locationManager.requestLocation()
+    }
+    
+    func makeDiary(with location: CLLocationCoordinate2D?) async {
+        do {
+            let weather = try await requestWeather(location: location)
+            create(with: weather)
+        } catch {
+            print(error)
+        }
+        
+        guard let diary = diarys.first else { return }
+        
+        let diaryViewController = DiaryDetailViewController.instance(diary: diary)
+        diaryViewController.delegate = self
+        
+        DispatchQueue.main.async {
+            self.navigationController?.pushViewController(diaryViewController, animated: true)
+        }
     }
 }
 
@@ -142,22 +168,14 @@ extension DiaryTableViewController: CLLocationManagerDelegate {
         guard let location = locations.last?.coordinate else { return }
         
         Task {
-            let weather = try await requestWeather(location: location)
-            create(with: weather)
-            guard let diary = diarys.first else { return }
-            
-            let diaryViewController = DiaryDetailViewController.instance(diary: diary)
-            diaryViewController.delegate = self
-            
-            DispatchQueue.main.async {
-                self.navigationController?.pushViewController(diaryViewController, animated: true)
-            }
+            await makeDiary(with: location)
         }
-        
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error.localizedDescription)
+        Task {
+            await makeDiary(with: nil)
+        }
     }
 }
 

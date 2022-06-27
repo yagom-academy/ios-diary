@@ -39,7 +39,6 @@ final class DiaryCell: UITableViewCell {
     
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "swift")
         imageView.setContentHuggingPriority(.required, for: .horizontal)
         imageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
         imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
@@ -71,7 +70,7 @@ final class DiaryCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         imageDownloadTask?.cancel()
-        weatherImageView.image = UIImage(systemName: "questionmark.circle")
+        weatherImageView.image = nil
     }
     
     // MARK: - Funcitons
@@ -99,16 +98,22 @@ final class DiaryCell: UITableViewCell {
     func setUpItem(with diary: Diary) {
         titleLabel.text = diary.title
         dateLabel.text = diary.createdDate.formattedString
-        setUpImage(with: diary.weather.icon)
+        setUpImage(with: diary.weather?.icon)
         contentLabel.text = diary.body
     }
     
-    private func setUpImage(with url: String) {
+    private func setUpImage(with url: String?) {
+        guard let url = url else { return }
+        
         let openWeatherIconImageAPI = OpenWeatherIconImageAPI(path: "\(url)@2x.png")
         imageDownloadTask = NetworkManager().requestImage(api: openWeatherIconImageAPI)
         
         Task {
-            weatherImageView.image = try await imageDownloadTask?.value
+            let image = try await imageDownloadTask?.value
+            
+            DispatchQueue.main.async {
+                self.weatherImageView.image = image
+            }
         }
     }
 }

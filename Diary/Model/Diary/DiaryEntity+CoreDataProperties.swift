@@ -18,8 +18,8 @@ extension DiaryEntity {
     @NSManaged public var createdDate: Date
     @NSManaged public var id: String
     @NSManaged public var title: String
-    @NSManaged public var weather: String
-    @NSManaged public var weatherIcon: String
+    @NSManaged public var weather: String?
+    @NSManaged public var weatherIcon: String?
 }
 
 extension DiaryEntity: Identifiable {}
