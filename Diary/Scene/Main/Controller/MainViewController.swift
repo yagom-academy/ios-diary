@@ -100,7 +100,9 @@ extension MainViewController: UITableViewDelegate {
       guard let identifier = self.diarys?[indexPath.row].identifier else {
         return
       }
-      self.diarys = CoredataManager.sherd.deleteContext(identifier: identifier)
+
+      CoredataManager.sherd.deleteContext(identifier: identifier)
+      self.diarys?.remove(at: indexPath.row)
       completion(true)
     }
     

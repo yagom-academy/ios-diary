@@ -74,8 +74,7 @@ final class CoredataManager {
     save()
   }
   
-  @discardableResult
-  func deleteContext(identifier: String) -> [Diary] {
+  func deleteContext(identifier: String) {
     let request = Diary.fetchRequest()
     request.predicate = NSPredicate(format: "identifier == %@", identifier)
     
@@ -83,7 +82,5 @@ final class CoredataManager {
       viewContext.delete(diary)
     }
     save()
-    
-    return readContext()
   }
 }
