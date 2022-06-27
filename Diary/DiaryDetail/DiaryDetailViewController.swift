@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 protocol DiaryDetailViewDelegate: AnyObject {
     func save(_ diary: Diary?)
@@ -13,10 +14,22 @@ protocol DiaryDetailViewDelegate: AnyObject {
     func delete(_ diary: Diary)
 }
 
-final class DiaryDetailViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController, CLLocationManagerDelegate {
     private let mainView = DiaryDetailView()
     private var diary: Diary?
     weak var delegate: DiaryDetailViewDelegate?
+    
+    private var lat: String?
+    private var lon: String?
+    
+    lazy var locationManager: CLLocationManager = {
+        let locationManager = CLLocationManager()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
+        
+        return locationManager
+    }()
     
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -35,6 +48,8 @@ final class DiaryDetailViewController: UIViewController {
         configureNavigationItem()
         makeKeyboardHiddenButton()
         configureSceneDelegate()
+        
+        locationManager.requestLocation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -48,9 +63,14 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func requestWeatherIcon() async throws -> String? {
+        guard let lat = lat, let lon = lon else {
+            return nil
+            
+        }
+
         guard let urlRequest = WeatherAPI(parameters: [
-            "lat": "35",
-            "lon": "139",
+            "lat": lat,
+            "lon": lon,
             "appid": "35e629549016019976c1803c71e8fc16"
         ]).makeURLRequest() else { return nil }
         
@@ -107,18 +127,20 @@ final class DiaryDetailViewController: UIViewController {
     private func makeDiary() async -> Diary {
         let (title, body) = configureContent()
         
-        do {
-            let icon = try await requestWeatherIcon() ?? ""
-            return Diary(title: title, body: body, createdAt: Date(), weatherIcon: icon)
-        } catch {
+        guard let icon = try? await requestWeatherIcon() else {
             return Diary(title: title, body: body, createdAt: Date(), weatherIcon: "")
         }
+        return Diary(title: title, body: body, createdAt: Date(), weatherIcon: icon)
     }
     
     private func updateDiary(_ diary: Diary) -> Diary {
         let (title, body) = configureContent()
         
-        return Diary(title: title, body: body, createdAt: diary.createdAt, weatherIcon: diary.weatherIcon, uuid: diary.uuid)
+        return Diary(title: title,
+                     body: body,
+                     createdAt: diary.createdAt,
+                     weatherIcon: diary.weatherIcon,
+                     uuid: diary.uuid)
     }
 }
 
@@ -225,5 +247,23 @@ extension DiaryDetailViewController: CoreDataSceneDelegate {
 private extension Array {
     subscript (safe index: Int) -> Element? {
         return self.indices ~= index ? self[index] : nil
+    }
+}
+
+// MARK: - Location Delegate
+
+extension DiaryDetailViewController {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            
+            lat = location.coordinate.latitude.description
+            lon = location.coordinate.longitude.description
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        AlertBuilder(target: self)
+            .addAction("확인", style: .default)
+            .show("오류", message: "사용자의 위치 정보 불러오기를 실패했습니다.", style: .alert)
     }
 }
