@@ -8,14 +8,18 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
+    var coordinator: MainCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let diaryTableViewController = DiaryTableViewController.instance(persistentManager: PersistentManager(modelName: "Diary"))
-        window?.rootViewController = UINavigationController(rootViewController: diaryTableViewController)
+        let rootNavigationController = UINavigationController()
+        window?.rootViewController = rootNavigationController
         window?.makeKeyAndVisible()
+        
+        coordinator = MainCoordinator(navigationController: rootNavigationController)
+        coordinator?.start(PersistentManager(modelName: "Diary"))
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}

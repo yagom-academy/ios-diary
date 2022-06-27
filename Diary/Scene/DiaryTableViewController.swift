@@ -18,6 +18,7 @@ final class DiaryTableViewController: UITableViewController {
     private typealias DataSource = UITableViewDiffableDataSource<Int, Diary>
     
     private var dataSource: DataSource?
+    weak var coordinator: MainCoordinator?
     private let persistentManager: PersistentManager!
     private let locationManager = CLLocationManager()
     
@@ -82,20 +83,13 @@ final class DiaryTableViewController: UITableViewController {
         do {
             let weather = try await requestWeather(location: location)
             create(with: weather)
+            guard let diary = diarys.first else { return }
+            
+            coordinator?.pushDetailViewController(diary: diary, delegate: self)
         } catch {
             AlertBuilder(viewController: self)
                 .addAction(title: "확인", style: .default)
                 .show(title: "서버연결에 실패했습니다", message: "다시 시도해 보세요", style: .alert)
-            return
-        }
-        
-        guard let diary = diarys.first else { return }
-        
-        let diaryViewController = DiaryDetailViewController.instance(diary: diary)
-        diaryViewController.delegate = self
-        
-        DispatchQueue.main.async {
-            self.navigationController?.pushViewController(diaryViewController, animated: true)
         }
     }
     
@@ -114,10 +108,7 @@ final class DiaryTableViewController: UITableViewController {
 extension DiaryTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diary = diarys[indexPath.row]
-        let diaryViewController = DiaryDetailViewController.instance(diary: diary)
-        diaryViewController.delegate = self
-        
-        navigationController?.pushViewController(diaryViewController, animated: true)
+        coordinator?.pushDetailViewController(diary: diary, delegate: self)
     }
     
     override func tableView(

@@ -34,6 +34,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private let diary: Diary
     weak var delegate: DiaryDetailViewDelegate?
+    weak var coordinator: MainCoordinator?
     
     init(diary: Diary) {
         self.diary = diary
@@ -88,7 +89,7 @@ final class DiaryDetailViewController: UIViewController {
                         guard let diary = self?.diary else { return }
                         
                         self?.delegate?.delete(diary: diary)
-                        self?.navigationController?.popViewController(animated: true)
+                        self?.coordinator?.popDetailViewController()
                     }
                     .show(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert)
             }
