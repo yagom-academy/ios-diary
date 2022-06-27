@@ -38,7 +38,6 @@ final class DiaryAddViewController: DiaryBaseViewController {
       DiaryStorageManager.shared.create(
         diary: Diary(title: title, body: body, createdAt: Date().timeIntervalSince1970)
       )
-      NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
     }
   }
 }

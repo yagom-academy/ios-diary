@@ -46,6 +46,7 @@ final class DiaryStorageManager {
     diaryEntity.setValue(diary.uuid, forKey: "uuid")
 
     self.saveContext()
+    NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
   }
 
   func fetchAllDiaries() -> [DiaryEntity] {
