@@ -16,19 +16,19 @@ final class DiaryAddViewController: DiaryBaseViewController {
 
   override func viewDidDisappear(_ animated: Bool) {
     super.viewWillDisappear(animated)
-    self.saveDiary()
+    self.createDiary()
   }
 
   private func observeDidEnterBackgroundNotification() {
     NotificationCenter.default.addObserver(
       self,
-      selector: #selector(self.saveDiary),
+      selector: #selector(self.createDiary),
       name: UIApplication.didEnterBackgroundNotification,
       object: nil
     )
   }
 
-  @objc private func saveDiary() {
+  @objc private func createDiary() {
     var text = self.bodyTextView.text.components(separatedBy: "\n")
     let title = text.first
     text.removeFirst()
