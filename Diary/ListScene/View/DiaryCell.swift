@@ -29,6 +29,14 @@ final class DiaryCell: UITableViewCell {
         return label
     }()
     
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
     private let bodyLabel: UILabel = {
         let label = UILabel()
         
@@ -63,7 +71,7 @@ final class DiaryCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(informationStackView)
         
-        informationStackView.addArrangedSubviews(dateLabel, bodyLabel)
+        informationStackView.addArrangedSubviews(dateLabel, weatherImageView, bodyLabel)
     }
     
     private func setUpLayout() {
@@ -85,6 +93,11 @@ final class DiaryCell: UITableViewCell {
                 informationStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -verticalInset),
                 informationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalInset),
                 informationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalInset)
+            ])
+            
+            NSLayoutConstraint.activate([
+                weatherImageView.heightAnchor.constraint(equalTo: weatherImageView.widthAnchor),
+                weatherImageView.heightAnchor.constraint(equalTo: informationStackView.heightAnchor)
             ])
         }
         
