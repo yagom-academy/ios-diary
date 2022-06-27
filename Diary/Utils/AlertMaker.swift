@@ -23,7 +23,8 @@ struct AlertMaker {
     
     func makeAlert(title: String, message: String, buttons: [UIAlertAction]) {
         let alertContoller = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        _ = buttons.map { button in
+        
+        buttons.forEach { button in
             alertContoller.addAction(button)
         }
         
@@ -32,9 +33,11 @@ struct AlertMaker {
     
     func makeActionSheet(buttons: [UIAlertAction]) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        _ = buttons.map { button in
+        
+        buttons.forEach { button in
             actionSheet.addAction(button)
         }
+        
         let cancelButton = UIAlertAction(title: "Cancel", style: .cancel)
         actionSheet.addAction(cancelButton)
         

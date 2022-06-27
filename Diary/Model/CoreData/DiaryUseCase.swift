@@ -17,11 +17,13 @@ protocol UseCase {
 
 final class DiaryUseCase: UseCase {
     private let containerManager: ContainerManagerable
-    lazy var context = containerManager.persistentContainer.viewContext
-    lazy var diaryEntity = NSEntityDescription.entity(forEntityName: DiaryInfo.entityName, in: context)
+    let context: NSManagedObjectContext
+    let diaryEntity: NSEntityDescription?
     
     init(containerManager: ContainerManagerable) {
         self.containerManager = containerManager
+        context = containerManager.persistentContainer.viewContext
+        diaryEntity = NSEntityDescription.entity(forEntityName: DiaryInfo.entityName, in: context)
     }
     
     private func filterDiaryData(key: UUID) throws -> [NSManagedObject] {
@@ -56,16 +58,15 @@ final class DiaryUseCase: UseCase {
     
     func read() throws -> [DiaryInfo] {
         let fetchRequest = DiaryData.fetchRequest()
-        var diaryInfoArray: [DiaryInfo] = []
+        
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         
         guard let diarys = try? context.fetch(fetchRequest) else {
             throw CoreDataError.readError
         }
         
-        for diary in diarys {
-            let diaryInfo = DiaryInfo(title: diary.title, body: diary.body, date: diary.date, key: diary.key)
-            diaryInfoArray.append(diaryInfo)
+        let diaryInfoArray = diarys.map { diary -> DiaryInfo in
+            return DiaryInfo(title: diary.title, body: diary.body, date: diary.date, key: diary.key)
         }
         
         return diaryInfoArray
