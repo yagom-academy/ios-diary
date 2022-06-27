@@ -59,7 +59,7 @@ final class DiaryTableViewController: UITableViewController {
                 body: entity.body,
                 createdDate: entity.createdDate,
                 id: entity.id,
-                weather: Weather(main: "Clear", icon: "01d")
+                weather: Weather(main: entity.weather, icon: entity.weatherIcon)
             )
         }
     }

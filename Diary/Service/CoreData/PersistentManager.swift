@@ -45,6 +45,8 @@ extension PersistentManager {
         entity.body = data.body
         entity.createdDate = data.createdDate
         entity.id = data.id
+        entity.weather = data.weather.main
+        entity.weatherIcon = data.weather.icon
         
         saveContext()
     }
@@ -71,6 +73,8 @@ extension PersistentManager {
         entity.title = data.title
         entity.body = data.body
         entity.createdDate = data.createdDate
+        entity.weather = data.weather.main
+        entity.weatherIcon = data.weather.icon
         
         saveContext()
     }
