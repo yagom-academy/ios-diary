@@ -96,8 +96,8 @@ final class DiaryCell: UITableViewCell {
             ])
             
             NSLayoutConstraint.activate([
-                weatherImageView.heightAnchor.constraint(equalTo: weatherImageView.widthAnchor),
-                weatherImageView.heightAnchor.constraint(equalTo: informationStackView.heightAnchor)
+                weatherImageView.widthAnchor.constraint(equalToConstant: contentView.frame.height / 2),
+                weatherImageView.heightAnchor.constraint(equalTo: weatherImageView.widthAnchor)
             ])
         }
         
