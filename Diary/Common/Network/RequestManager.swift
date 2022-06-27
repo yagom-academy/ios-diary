@@ -9,9 +9,11 @@ import UIKit
 import CoreLocation
 
 final class RequestManager {
-    static let shared = RequestManager()
+    private let session: URLSession
     
-    private init() { }
+    init(session: URLSession = URLSession.shared) {
+        self.session = session
+    }
     
     func requestAPI(by coordinate: CLLocationCoordinate2D, completion: @escaping ((Result<Weather, Error>) -> Void)) {
         let endpoint: EndPoint = .weatherInfo(coordinate.latitude, coordinate.longitude)
@@ -59,7 +61,7 @@ final class RequestManager {
         var request: URLRequest = URLRequest(url: url)
         request.httpMethod = "GET"
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 completion(.failure(DiaryError.networkError))
                 return

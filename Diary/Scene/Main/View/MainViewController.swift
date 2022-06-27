@@ -72,7 +72,7 @@ extension MainViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.setUpContents(data: diary)
+        cell.setUpContents(data: diary, viewModel.requestManager)
         
         return cell
     }

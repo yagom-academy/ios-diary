@@ -105,14 +105,14 @@ final class DiaryCell: UITableViewCell {
         ])
     }
     
-    func setUpContents(data: DiaryEntity) {
+    func setUpContents(data: DiaryEntity, _ requestManager: RequestManager) {
         if data.title == "" {
             titleLabel.text = AppConstants.noTitle
         } else {
             titleLabel.text = data.title
         }
         dateLabel.text = data.createdAt.formattedString
-        task = weatherImageView.loadImage(icon: data.icon)
+        task = weatherImageView.loadImage(icon: data.icon, requestManager)
         descriptionLabel.text = data.body?.trimmingCharacters(in: .newlines)
     }
 }
