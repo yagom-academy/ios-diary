@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DiaryDetailViewDelegate: AnyObject {
-    func save(_ diary: Diary)
+    func save(_ diary: Diary?)
     func update(_ diary: Diary)
     func delete(_ diary: Diary)
 }
@@ -47,12 +47,24 @@ final class DiaryDetailViewController: UIViewController {
         finishTask()
     }
     
+    private func requestWeatherIcon() async throws -> String? {
+        guard let urlRequest = WeatherAPI(parameters: [
+            "lat": "35",
+            "lon": "139",
+            "appid": "35e629549016019976c1803c71e8fc16"
+        ]).makeURLRequest() else { return nil }
+        
+        return try await NetworkManager().fetchWeatherData(urlRequest: urlRequest)
+    }
+    
     private func finishTask() {
-        if let diary = diary {
-            delegate?.update(updateDiary(diary))
-        } else {
-            diary = makeDiary()
-            delegate?.save(diary ?? makeDiary())
+        Task {
+            if let diary = diary {
+                delegate?.update(updateDiary(diary))
+            } else {
+                diary = await makeDiary()
+                delegate?.save(diary)
+            }
         }
     }
     
@@ -92,16 +104,21 @@ final class DiaryDetailViewController: UIViewController {
         sceneDelegate?.coreDataDelegate = self
     }
     
-    private func makeDiary() -> Diary {
+    private func makeDiary() async -> Diary {
         let (title, body) = configureContent()
         
-        return Diary(title: title, body: body, createdAt: Date())
+        do {
+            let icon = try await requestWeatherIcon() ?? ""
+            return Diary(title: title, body: body, createdAt: Date(), weatherIcon: icon)
+        } catch {
+            return Diary(title: title, body: body, createdAt: Date(), weatherIcon: "")
+        }
     }
     
     private func updateDiary(_ diary: Diary) -> Diary {
         let (title, body) = configureContent()
         
-        return Diary(title: title, body: body, createdAt: diary.createdAt, uuid: diary.uuid)
+        return Diary(title: title, body: body, createdAt: diary.createdAt, weatherIcon: diary.weatherIcon, uuid: diary.uuid)
     }
 }
 
