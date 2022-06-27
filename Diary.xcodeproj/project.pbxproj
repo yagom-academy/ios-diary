@@ -95,13 +95,13 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		86680F2D2861BE49001B9352 /* Sington */ = {
+		86680F2D2861BE49001B9352 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
 				86680F2E2861BE6C001B9352 /* CoreDataManager.swift */,
 				AB135A882869F0CE0090A6D0 /* CoreData.swift */,
 			);
-			path = Sington;
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		867CACFF285B14C900A04F1F /* Extension */ = {
@@ -252,7 +252,7 @@
 		ABF991B428597710000A44A1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				86680F2D2861BE49001B9352 /* Sington */,
+				86680F2D2861BE49001B9352 /* CoreData */,
 				AB91E910285C809C00D9E497 /* Enum */,
 				AB4D73C5285B1D9600BE5190 /* Protocol */,
 				867CACFF285B14C900A04F1F /* Extension */,
