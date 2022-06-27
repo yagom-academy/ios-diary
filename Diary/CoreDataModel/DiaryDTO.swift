@@ -18,8 +18,12 @@ extension Data {
 }
 
 struct WeatherDTO: Decodable {
-    let icon: String
+    let icon: [Icon]
     let description: DescriptionDTO
+    
+    struct Icon: Decodable {
+        let icon: String
+    }
     
     struct DescriptionDTO: Decodable {
         let temperature: Double
@@ -30,7 +34,7 @@ struct WeatherDTO: Decodable {
         let humidity: Double
         
         enum CodingKeys: String, CodingKey {
-            case temperature
+            case temperature = "temp"
             case feelsLike = "feels_like"
             case minTemperature = "temp_min"
             case maxTempaerature = "temp_max"
@@ -51,6 +55,7 @@ struct DiaryDTO: Decodable, Hashable {
     var title: String
     var body: String
     let date: Date
+    var icon: String? = ""
     
     var dateString: String {
         return Formatter.setUpDate(from: date.timeIntervalSinceReferenceDate)
@@ -62,7 +67,7 @@ struct DiaryDTO: Decodable, Hashable {
         case date = "created_at"
     }
     
-    init(identifier: UUID? = nil, title: String, body: String, date: Date) {
+    init(identifier: UUID? = nil, title: String, body: String, date: Date, icon: String? = nil) {
         if let identifier = identifier {
             self.identifier = identifier
         }
@@ -70,6 +75,7 @@ struct DiaryDTO: Decodable, Hashable {
         self.title = title
         self.body = body
         self.date = date
+        self.icon = icon
     }
     
     mutating func editData(_ newData: DiaryDTO) {

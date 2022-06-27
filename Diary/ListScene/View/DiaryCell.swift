@@ -114,5 +114,22 @@ final class DiaryCell: UITableViewCell {
         titleLabel.text = data.title
         dateLabel.text = data.dateString
         bodyLabel.text = data.body
+        
+        guard let icon = DiaryDAO.shared.search(identifier: data.identifier.uuidString)?.icon else {
+            return
+        }
+        
+        getImage(icon: icon)
+    }
+    
+    func getImage(icon: String) {
+        WeatherAPIManager.shared.fetchData(url: EntryPoint.image(icon: icon).url) { [weak self] data in
+            guard let data = try? data.get() else {
+                return
+            }
+            DispatchQueue.main.async {
+                self?.weatherImageView.image = UIImage(data: data)
+            }
+        }
     }
 }

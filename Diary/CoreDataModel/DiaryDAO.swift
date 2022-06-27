@@ -38,7 +38,7 @@ final class DiaryDAO {
     
     private func create(userData: DiaryDTO?) {
         guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: viewContext),
-        let userData = userData else {
+              let userData = userData else {
             return
         }
         
@@ -54,6 +54,7 @@ final class DiaryDAO {
                   let weather: WeatherDTO = data.convert() else {
                 return
             }
+            
             let weatherDescription = weather.description
             
             userModel.setValue(userData.identifier, forKey: "identifier")
@@ -62,12 +63,12 @@ final class DiaryDAO {
             userModel.setValue(userData.date, forKey: "date")
             userModel.setValue(userData.body, forKey: "body")
             
-            userModel.setValue(weather.icon, forKey: "icon")
-
+            userModel.setValue(weather.icon.first?.icon, forKey: "icon")
+            
             userModel.setValue(weatherDescription.temperature, forKey: "temp")
             userModel.setValue(weatherDescription.feelsLike, forKey: "feelsLike")
-            userModel.setValue(weatherDescription.minTemperature, forKey: "tmpMin")
-            userModel.setValue(weatherDescription.maxTempaerature, forKey: "tmpMax")
+            userModel.setValue(weatherDescription.minTemperature, forKey: "tempMin")
+            userModel.setValue(weatherDescription.maxTempaerature, forKey: "tempMax")
             userModel.setValue(weatherDescription.pressure, forKey: "pressure")
             userModel.setValue(weatherDescription.humidity, forKey: "humidity")
             
@@ -101,12 +102,34 @@ final class DiaryDAO {
             guard let identifier = $0.identifier,
                   let title = $0.title,
                   let body = $0.body,
-                  let date = $0.date else {
+                  let date = $0.date,
+                  let icon = $0.icon else {
                 return nil
             }
             
-            return DiaryDTO(identifier: identifier, title: title, body: body, date: date)
+            return DiaryDTO(identifier: identifier, title: title, body: body, date: date, icon: icon)
         }
+    }
+    
+    func search(identifier: String) -> DiaryDTO? {
+        guard let diary = fetch(identifier: identifier) else {
+            return nil
+        }
+        
+        return convert(diary: diary)?.first
+    }
+    
+    private func fetch(identifier: String) -> [Diary]? {
+        let request = Diary.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        request.predicate = predicate
+        
+        guard let diary = try? viewContext.fetch(request) else {
+            return nil
+        }
+        
+        return diary
     }
     
     private func update(userData: DiaryDTO?) {
@@ -133,19 +156,6 @@ final class DiaryDAO {
     
     private func getObject(identifier: String) -> NSManagedObject? {
         guard let diary = fetch(identifier: identifier)?.first as? NSManagedObject else {
-            return nil
-        }
-        
-        return diary
-    }
-    
-    private func fetch(identifier: String) -> [Diary]? {
-        let request = Diary.fetchRequest()
-        let predicate = NSPredicate(format: "identifier == %@", identifier)
-        
-        request.predicate = predicate
-        
-        guard let diary = try? viewContext.fetch(request) else {
             return nil
         }
         
