@@ -19,7 +19,6 @@ final class DiaryTableViewController: UITableViewController {
     
     private var dataSource: DataSource?
     private let persistentManager: PersistentManager!
-    
     private let locationManager = CLLocationManager()
     
     private var diarys = [Diary]() {
@@ -44,25 +43,6 @@ final class DiaryTableViewController: UITableViewController {
         setUp()
     }
     
-    private func requestWeather(location: CLLocationCoordinate2D?) async throws -> Weather? {
-        guard let location = location else { return nil }
-
-        let querys = [
-            "lat": "\(location.latitude)",
-            "lon": "\(location.longitude)",
-            "appid": "95fa734d26ad04e49be4058946a14ff8"
-        ]
-        
-        let api = OpenWeatherAPI(queryParameters: querys)
-        
-        let weatherInformation: WeatherInfomation = try await NetworkManager().request(api: api)
-        guard let weather = weatherInformation.weather.first else {
-            throw NetworkError.unknown
-        }
-        
-        return weather
-    }
-        
     private func create(with weather: Weather?) {
         let newDiary = Diary(title: "", body: "", createdDate: Date.now, weather: weather)
         diarys.insert(newDiary, at: .zero)
@@ -98,12 +78,15 @@ final class DiaryTableViewController: UITableViewController {
         locationManager.requestLocation()
     }
     
-    func makeDiary(with location: CLLocationCoordinate2D?) async {
+    private func makeDiary(with location: CLLocationCoordinate2D?) async {
         do {
             let weather = try await requestWeather(location: location)
             create(with: weather)
         } catch {
-            print(error)
+            AlertBuilder(viewController: self)
+                .addAction(title: "확인", style: .default)
+                .show(title: "서버연결에 실패했습니다", message: "다시 시도해 보세요", style: .alert)
+            return
         }
         
         guard let diary = diarys.first else { return }
@@ -114,6 +97,15 @@ final class DiaryTableViewController: UITableViewController {
         DispatchQueue.main.async {
             self.navigationController?.pushViewController(diaryViewController, animated: true)
         }
+    }
+    
+    private func requestWeather(location: CLLocationCoordinate2D?) async throws -> Weather? {
+        guard let location = location else { return nil }
+
+        let openWeahterAPI = OpenWeatherAPI(latitude: location.latitude, longitude: location.longitude)
+        let weatherInformation: WeatherInfomation = try await NetworkManager().request(api: openWeahterAPI)
+        
+        return weatherInformation.weather.first
     }
 }
 

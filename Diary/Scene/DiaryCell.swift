@@ -40,8 +40,6 @@ final class DiaryCell: UITableViewCell {
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.setContentHuggingPriority(.required, for: .horizontal)
-        imageView.widthAnchor.constraint(equalToConstant: 30).isActive = true
-        imageView.widthAnchor.constraint(equalTo: imageView.heightAnchor).isActive = true
         
         return imageView
     }()
@@ -93,6 +91,11 @@ final class DiaryCell: UITableViewCell {
             baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
+        
+        NSLayoutConstraint.activate([
+            weatherImageView.widthAnchor.constraint(equalToConstant: 30),
+            weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.heightAnchor)
+        ])
     }
     
     func setUpItem(with diary: Diary) {
@@ -105,7 +108,7 @@ final class DiaryCell: UITableViewCell {
     private func setUpImage(with url: String?) {
         guard let url = url else { return }
         
-        let openWeatherIconImageAPI = OpenWeatherIconImageAPI(path: "\(url)@2x.png")
+        let openWeatherIconImageAPI = OpenWeatherIconImageAPI(imageURL: url)
         imageDownloadTask = NetworkManager().requestImage(api: openWeatherIconImageAPI)
         
         Task {
