@@ -32,8 +32,17 @@ final class DiaryCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
+    }()
+    
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "swift")
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        
+        return imageView
     }()
     
     private let contentLabel: UILabel = {
@@ -60,7 +69,7 @@ final class DiaryCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        bottomStackView.addArrangedSubviews(dateLabel, contentLabel)
+        bottomStackView.addArrangedSubviews(dateLabel, weatherImageView, contentLabel)
         baseStackView.addArrangedSubviews(titleLabel, bottomStackView)
         
         contentView.addSubview(baseStackView)
