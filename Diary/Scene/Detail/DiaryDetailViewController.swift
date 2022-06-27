@@ -106,9 +106,21 @@ final class DiaryDetailViewController: UIViewController {
             let title = String(texts[..<index])
             let body = texts[index...].trimmingCharacters(in: .newlines)
             
-            newDiary = Diary(title: title, body: body, createdDate: diary.createdDate, id: diary.id)
+            newDiary = Diary(
+                title: title,
+                body: body,
+                createdDate: diary.createdDate,
+                id: diary.id,
+                weather: diary.weather
+            )
         } else {
-            newDiary = Diary(title: texts, body: "", createdDate: diary.createdDate, id: diary.id)
+            newDiary = Diary(
+                title: texts,
+                body: "",
+                createdDate: diary.createdDate,
+                id: diary.id,
+                weather: diary.weather
+            )
         }
         
         delegate?.update(diary: newDiary)

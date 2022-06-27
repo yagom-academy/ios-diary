@@ -45,7 +45,7 @@ final class DiaryTableViewController: UITableViewController {
     }
         
     private func create() {
-        let newDiary = Diary(title: "", body: "", createdDate: Date.now)
+        let newDiary = Diary(title: "", body: "", createdDate: Date.now, weather: Weather(main: "Clear", icon: "01d"))
         diarys.insert(newDiary, at: .zero)
         persistentManager.create(data: newDiary)
     }
@@ -54,7 +54,13 @@ final class DiaryTableViewController: UITableViewController {
         guard let results = persistentManager.fetchAll() else { return }
         
         diarys = results.map { entity in
-            return Diary(title: entity.title, body: entity.body, createdDate: entity.createdDate, id: entity.id)
+            return Diary(
+                title: entity.title,
+                body: entity.body,
+                createdDate: entity.createdDate,
+                id: entity.id,
+                weather: Weather(main: "Clear", icon: "01d")
+            )
         }
     }
     

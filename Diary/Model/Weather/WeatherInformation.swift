@@ -7,9 +7,9 @@
 
 struct WeatherInfomation: Decodable {
     let weather: [Weather]
-    
-    struct Weather: Decodable {
-        let main: String
-        let icon: String
-    }
+}
+
+struct Weather: Decodable, Hashable {
+    let main: String
+    let icon: String
 }

@@ -15,6 +15,6 @@ struct OpenWeatherAPI: APIable {
 struct OpenWeatherIconImageAPI: APIable {
     let baseURL: String = "http://openweathermap.org/img/wn/"
     let path: String
-    let queryParameters: [String : String]? = nil
+    let queryParameters: [String: String]? = nil
     let httpMethod: HTTPMethod = .get
 }
