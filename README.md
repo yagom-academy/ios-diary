@@ -3,33 +3,46 @@ Core Data를 활용하여 로컬에 데이터를 저장하는 일기장 앱
 
 ## 🥳 팀원(마리솔 & 두기)
 
-![](https://i.imgur.com/D1eMxU3.png) <img src="https://i.imgur.com/b9JhIqK.jpg" width="250" height="350"/>
+|[마리솔](https://github.com/marisol-develop)|[두기](https://github.com/doogie97)|
+|:-:|:-:|
+|![](https://i.imgur.com/D1eMxU3.png)|<img src="https://i.imgur.com/ItogH6r.png" width="380" height="380"/>
 
-[마리솔](https://github.com/marisol-develop),[두기](https://github.com/doogie97)
 
 ## 📅 프로젝트 기간
 >2022-06-13 ~ 2022-07-01
 
 ## ⏰ 타임라인
-6/13(월): SwiftLint 설치, SwiftLint rule 설정
 
-6/14(화): 코드로 리스트뷰와 다이어리 뷰 구성, JSON 데이터 파싱
+| 날짜     | 진행 내용                                                                                     |
+| -------- | - |
+| 6/13(월) | SwiftLint 설치, SwiftLint rule 설정  |
+| 6/14(화) | 코드로 리스트뷰와 다이어리 뷰 구성, JSON 데이터 파싱 |
+| 6/14(수) | 다이어리 뷰에 데이터 할당 기능 구현, 키보드 자동스크롤 기능 구현, STEP1 PR |
+| 6/15(목) | Core Data 학습 |
+| 6/16(금) | STEP1 리팩터링 |
+| 6/20(월) | Core Data의 CRUD 구현 |
+| 6/21(화) | Core Data에서 가져온 데이터를 뷰에 띄우는 기능 구현 (DiaryViewController의 공통기능으로 구현) |
+| 6/22(수) | 일기 공유와 삭제 기능 구현 |
+| 6/23(목) | 개인 공부 |
+| 6/24(금) | STEP2 리팩터링 |
 
-6/14(수): 다이어리 뷰에 데이터 할당 기능 구현, 키보드 자동스크롤 기능 구현, STEP1 PR
+## 📱 실행 화면
 
-6/15(목): Core Data 학습
+|1. List View와 Diary View|2. 키보드 자동 스크롤 기능|
+|:-:|:-:|
+|![](https://i.imgur.com/Rcangs4.gif)|![](https://i.imgur.com/5pnZc5m.gif)|
 
-6/16(금): STEP1 리팩터링
+|3. Create(생성하기)|4. Read(읽어오기)|
+|:-:|:-:|
+|![](https://i.imgur.com/AuqnAF0.gif)|![](https://i.imgur.com/GXAfQKI.gif)|
 
-## 📱 실행 화면(기능 설명)
-### 1. List View와 Diary View
-![](https://i.imgur.com/Rcangs4.gif)
+|5. Update(수정하기)|6. Delete(삭제하기)|
+|:-:|:-:|
+|![](https://i.imgur.com/j9lKUvv.gif)|![](https://i.imgur.com/UtSg01N.gif)|
 
-### 2. 키보드 자동 스크롤 기능 
-![](https://i.imgur.com/5pnZc5m.gif)
-
-### 3. 가로모드 지원
-![](https://i.imgur.com/uU1r5WO.gif)
+|7. Share(공유하기)|
+|:-:|
+|![](https://i.imgur.com/VRtuyP1.gif)|
 
 ## 💡 트러블 슈팅
 
@@ -73,11 +86,40 @@ view는 “정보를 보여주는 역할” 만 해야한다고 생각했다.
 
 이는 DiaryView가 DiaryViewController의 viewDidLoad가 아닌 메서드를 통해 각 뷰 요소들에게 할당해주는 방식 이어서, 
 즉, view가 로드되기 전에 뷰 요소들에게 diary요소들을 할당해주는 메서드를 호출해 주기 때문에 할당이 되지 않았던 것으로 추측하고 아래와 같이 로직을 변경했다.
-
-![](https://i.imgur.com/FxUVGUx.png)
+<img src="https://i.imgur.com/FxUVGUx.png" width="572" height="150"/>
 
 ![](https://i.imgur.com/wsKw6Vl.png)
 
 
 위와 같이 DiaryViewController가 init 될 때 diary를 파라미터로 받고 viewDidLoad에서 뷰 요소들에게 할당해주는 방식으로 구현 하니 정상 작동 하였다.
 
+### 📌 DiaryViewController상속을 통한 공통화
+`AddViewController`와 `EditViewController가` 동일한 뷰를 사용하고 있고, 공통으로 사용하는 메서드들이 있어서 `DiaryViewController`라는 부모 ViewController를 만들어서 자식 뷰가 상속 받도록 구현했다.
+
+1) 키보드가 내려가거나
+2) 백그라운드에 진입했을 때 
+
+자동으로 저장 또는 업데이트 해야했는데,
+cell을 선택해서 (didSelectRowAt) EditViewController에 진입했을 때에는 diary를 전달해주기 때문에, 전역변수로 선언된 diary가 nil이 아닐 때 (Edit)와
+diary가 nil일 때 (Add)로 분기 처리를 해주는 방식으로 처리했다.
+
+![](https://i.imgur.com/TQTQBBi.png)
+그리고 공통화 기능 구현 전에는 새로운 일기 내용을 저장하는 방식이
+
+textView.text -> core data에 저장하는 방식이었는데,
+이렇게 하니 공통화가 힘들어져서
+textView.text -> DiaryViewController의 diary 프로퍼티에 저장 -> 저장된 diary를 core data에 저장
+
+하는 방식으로 변경했다.
+
+### 📌 사용자가 일기를 작성할 때 생기는 여러 변수
+최초에는 textview에서 가져온 내용 중 첫 번째줄은 title, 두번째 줄은 body 이런 식으로 저장을 했었는데 사용자가 일기를 작성할 때 꼭 위와같은 형식으로 작성하지 않을것이기 때문에 그 대응을 아이폰 기본 어플인 메모 어플을 예시로 수정했다.
+
+![](https://i.imgur.com/LMMtmw7.png)
+`(대표적인 예외 케이스로는 줄바꿈 및 띄어쓰기 이후 글을 작성한 케이스)`
+
+공백을 제거하고 가장 먼저 만나는 첫 번째 글은 `title` , 두 번째 글은 `body`로 지정하는게 요구서 사항이지만 위와 같은 상황에서 일기 본문은 사용자가 위와 같은 모양을 의도하고 작성했을 것이다.
+
+그래서 저장된 `title`과 `body`는 list에 표시하기 위한 용도로만 사용하고 `text`라는 요소를 추가하여 일기화면에서는 사용자가 작성한 text 그대로를 보여줄 수 있게 했다.
+
+![](https://i.imgur.com/ar8E2qe.png)

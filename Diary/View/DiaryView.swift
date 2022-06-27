@@ -18,7 +18,7 @@ final class DiaryView: UIView {
         super.init(coder: coder)
     }
     
-    private lazy var diaryTextView: UITextView = {
+    lazy var diaryTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
@@ -38,11 +38,7 @@ final class DiaryView: UIView {
     }
     
     func configureContents(diary: Diary) {
-        diaryTextView.text = """
-        \(diary.title)
-
-        \(diary.body)
-        """
+        diaryTextView.text = diary.text
         diaryTextView.contentOffset = CGPoint(x: 0, y: 0)
     }
 }
@@ -67,18 +63,27 @@ extension DiaryView {
     }
     
     private func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     private func addHideButtonOnKeyboard() {
-        let barButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(hideKeyboard))
+        let barButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"),
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(hideKeyboard))
         
         barButton.tintColor = .darkGray
         
         let emptySpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
         
-        let toolBar = UIToolbar()
+        let toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 40, height: 0))
         
         toolBar.sizeToFit()
         toolBar.barStyle = .default
@@ -89,5 +94,5 @@ extension DiaryView {
     
     @objc private func hideKeyboard() {
         self.diaryTextView.endEditing(true)
-    }
+    }    
 }

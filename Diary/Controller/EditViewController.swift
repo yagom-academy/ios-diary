@@ -8,11 +8,9 @@
 import UIKit
 
 final class EditViewController: DiaryViewController {
-    private var diary: Diary?
-    
     init(diary: Diary?) {
-        self.diary = diary
         super.init(nibName: nil, bundle: nil)
+        self.diary = diary
     }
     
     required init?(coder: NSCoder) {
@@ -23,12 +21,16 @@ final class EditViewController: DiaryViewController {
         super.viewDidLoad()
         setInitialView()
     }
-    
+
     private func setInitialView() {
-        self.title = diary?.createdAt ?? ""
+        guard let createdAt = diary?.createdAt else {
+            return
+        }
+        
+        self.title = Date(timeIntervalSince1970: createdAt).dateToKoreanString
         configureDiaryView()
     }
-    
+
     private func configureDiaryView() {
         guard let diary = diary else {
             return

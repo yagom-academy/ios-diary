@@ -77,7 +77,7 @@ final class ListTableViewCell: UITableViewCell {
     
     func configureContents(_ diaryArray: Diary) {
         titleLabel.text = diaryArray.title
-        dateLabel.text = diaryArray.createdAt
+        dateLabel.text = Date(timeIntervalSince1970: diaryArray.createdAt).dateToKoreanString
         previewLabel.text = diaryArray.body
     }
 }

@@ -8,10 +8,14 @@
 import UIKit
 
 final class AddViewController: DiaryViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitialView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        diaryView.diaryTextView.becomeFirstResponder()
     }
     
     private func setInitialView() {
