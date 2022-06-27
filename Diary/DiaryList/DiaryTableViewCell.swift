@@ -8,6 +8,8 @@
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
+    var task: Task<UIImage, Error>?
+    
     private lazy var baseStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, subTextStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,7 +43,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let weatherImageView: UIImageView = {
+    private var weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -73,6 +75,20 @@ final class DiaryTableViewCell: UITableViewCell {
         self.bodyLabel.text = item.body?.split(separator: "\n")
             .map(String.init)
             .first
+        Task {
+            await setImageView(icon: item.weatherIcon)
+        }
+    }
+    
+    private func setImageView(icon: String) async {
+        guard let urlRequest = IconAPI(path: icon + ".png").makeURLRequest() else { return }
+        self.task = NetworkManager().fetchImageData(urlRequest: urlRequest)
+        self.weatherImageView.image = try? await task?.value
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        task?.cancel()
     }
     
     private func configureLayout() {
@@ -83,6 +99,11 @@ final class DiaryTableViewCell: UITableViewCell {
             baseStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -8),
             baseStackView.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.8),
             baseStackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 16)
+        ])
+        
+        NSLayoutConstraint.activate([
+            weatherImageView.heightAnchor.constraint(equalTo: weatherImageView.widthAnchor),
+            weatherImageView.heightAnchor.constraint(equalToConstant: 20)
         ])
     }
 }

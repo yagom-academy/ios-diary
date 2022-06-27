@@ -54,8 +54,9 @@ final class DiaryListViewController: UITableViewController {
 // MARK: - DiaryDetailViewDelegate
 
 extension DiaryListViewController: DiaryDetailViewDelegate {
-    func save(_ diary: Diary) {
+    func save(_ diary: Diary?) {
         do {
+            guard let diary = diary else { return }
             try dataSource?.saveData(diary)
         } catch {
             AlertBuilder(target: self).addAction("확인", style: .default)
