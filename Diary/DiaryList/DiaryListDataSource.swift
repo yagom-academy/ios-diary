@@ -30,7 +30,7 @@ final class DiaryListDataSource: UITableViewDiffableDataSource<Section, Diary> {
     
     func saveData(_ diary: Diary) throws {
         try persistentManager.register(diary)
-        items.append(diary)
+        items.insert(diary, at: 0)
     }
     
     func updateData(_ diary: Diary) throws {

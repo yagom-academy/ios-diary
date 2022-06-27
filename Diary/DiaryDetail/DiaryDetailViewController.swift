@@ -24,10 +24,7 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
     
     lazy var locationManager: CLLocationManager = {
         let locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
         locationManager.delegate = self
-        
         return locationManager
     }()
     
@@ -48,7 +45,7 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
         configureNavigationItem()
         makeKeyboardHiddenButton()
         configureSceneDelegate()
-        locationManager.requestLocation()
+        locationManager.requestWhenInUseAuthorization()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -63,8 +60,8 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
     
     private func requestWeatherIcon() async throws -> String? {
         guard let lat = lat, let lon = lon else {
-            return nil
             
+            return nil
         }
 
         guard let urlRequest = WeatherAPI(parameters: [
@@ -253,8 +250,7 @@ private extension Array {
 
 extension DiaryDetailViewController {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            
+        if let location = locations.last {
             lat = location.coordinate.latitude.description
             lon = location.coordinate.longitude.description
         }
@@ -264,5 +260,22 @@ extension DiaryDetailViewController {
         AlertBuilder(target: self)
             .addAction("확인", style: .default)
             .show("오류", message: "사용자의 위치 정보 불러오기를 실패했습니다.", style: .alert)
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            break
+        case .denied:
+            break
+        case .authorizedAlways:
+            locationManager.requestLocation()
+        case .authorizedWhenInUse:
+            locationManager.requestLocation()
+        @unknown default:
+            locationManager.requestLocation()
+        }
     }
 }
