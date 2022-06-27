@@ -18,4 +18,6 @@ struct DiaryInfo: DataModelable, Equatable {
     let body: String?
     let date: Date?
     let key: UUID?
+    let weather: String?
+    let icon: String?
 }
