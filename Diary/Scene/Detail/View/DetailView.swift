@@ -8,14 +8,6 @@
 import UIKit
 
 final class DetailView: WriteView {
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
-  
   func updateTextView(diary: Diary) {
     guard let title = diary.title,
           let body = diary.content else {

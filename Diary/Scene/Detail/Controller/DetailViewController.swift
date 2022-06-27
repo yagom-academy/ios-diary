@@ -96,7 +96,7 @@ final class DetailViewController: DiaryBaseViewController {
 
 // MARK: - keyboard
 
-extension DetailViewController {
+private extension DetailViewController {
   func addGesture() {
     view.addGestureRecognizer(setSwipeGesture(action:#selector(keyboardHideDidSwipeDown)))
   }

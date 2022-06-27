@@ -8,7 +8,7 @@
 import UIKit
 
 final class WriteViewController: DiaryBaseViewController {
-  lazy var baseView = WriteView(frame: view.bounds)
+  private lazy var baseView = WriteView(frame: view.bounds)
   
   override func loadView() {
     super.loadView()
@@ -20,7 +20,7 @@ final class WriteViewController: DiaryBaseViewController {
     configureUI()
     addKeyboardObserver(action: #selector(keyboardWillShow))
     addGesture()
-    addSaveDiaryObserver(action: #selector(diarDataSave))
+    addSaveDiaryObserver(action: #selector(diaryDataSave))
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -33,7 +33,7 @@ final class WriteViewController: DiaryBaseViewController {
     removeSaveDiaryObserver()
   }
   
-  @objc func diarDataSave() {
+  @objc func diaryDataSave() {
     saveDiaryData()
   }
   
@@ -58,7 +58,7 @@ final class WriteViewController: DiaryBaseViewController {
 
 // MARK: - keyboard
 
-extension WriteViewController {
+private extension WriteViewController {
   func addGesture() {
     view.addGestureRecognizer(setSwipeGesture(action:#selector(keyboardHideDidSwipeDown)))
   }
