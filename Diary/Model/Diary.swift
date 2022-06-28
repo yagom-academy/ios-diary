@@ -19,5 +19,5 @@ struct Diary {
 struct Weather {
     let main: String?
     let iconID: String?
-    let iconImage: Data?
+    var iconImage: Data?
 }

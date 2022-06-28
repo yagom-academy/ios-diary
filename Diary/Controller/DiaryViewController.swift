@@ -19,6 +19,12 @@ class DiaryViewController: UIViewController {
     lazy var diaryView = DiaryView.init(frame: view.bounds)
     weak var delegate: DiaryViewControllerDelegate?
     var diary: Diary?
+    var weather: Weather?
+    var weatherImage: Data? {
+        didSet {
+            self.weather?.iconImage = weatherImage
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +94,9 @@ class DiaryViewController: UIViewController {
                           text: diaryView.diaryTextView.text ?? "",
                           createdAt: Date().timeIntervalSince1970,
                           id: UUID(),
-                          weather: Weather(main: "main", iconID: "", iconImage: nil))
+                          weather: self.weather)
+            let abc = UIImage(data: self.weather?.iconImage ?? Data())
+            print(abc)
         } else {
             diary?.title = convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst()
             diary?.body = convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0]
@@ -186,6 +194,25 @@ extension DiaryViewController: CLLocationManagerDelegate {
         }
         dataTask.resume()
     }
+    private func getIcon(iconID: String) {
+        guard let url = URL(string: "https://openweathermap.org/img/w/\(iconID).png") else { return }
+
+        let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            self.weatherImage = data
+        }
+        dataTask.resume()
+    }
     
     private func parse(_ data: Data) {
         guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
@@ -204,6 +231,10 @@ extension DiaryViewController: CLLocationManagerDelegate {
             guard let icon = element["icon"] as? String else {
                 return
             }
+            DispatchQueue.main.async {
+                self.getIcon(iconID: icon)
+            }
+            self.weather = Weather(main: main, iconID: icon)
         }
     }
 }
