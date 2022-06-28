@@ -23,13 +23,18 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
         static let separator = "\n"
     }
     
-    private let textView = UITextView()
-    private var keyboard: Keyboard?
     private let diaryData: DiaryDTO?
     private var isSavingData = false
     
     private var date: String {
         return navigationItem.title ?? ""
+    }
+    
+    private var updateView: UpdateView? {
+        guard let view = view as? UpdateView else {
+            return nil
+        }
+        return view
     }
     
     init(diaryData: DiaryDTO? = nil) {
@@ -41,14 +46,17 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func loadView() {
+        super.loadView()
+        view = UpdateView(delegate: self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpDelegate()
         setUpView()
         setUpNavigationController(title: Formatter.getCurrentDate())
-        setUpTextView()
-        setUpTextViewLayout()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -63,7 +71,6 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
         }
         
         scene.delegate = self
-        textView.delegate = self
     }
     
     private func setUpView() {
@@ -76,7 +83,7 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     
     private func setUpEditPage(diaryData: DiaryDTO) {
         setUpNavigationController(title: diaryData.dateString)
-        textView.text = "\(diaryData.title)\(Const.separator)\(diaryData.body)"
+        updateView?.setUpTextView(text: "\(diaryData.title)\(Const.separator)\(diaryData.body)")
     }
     
     private func setUpNavigationController(title: String) {
@@ -98,7 +105,7 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     }
     
     @objc private func touchUpMoreButton() {
-        guard let title = textView.title else {
+        guard let title = updateView?.getTextViewTitle() else {
             return
         }
         
@@ -121,7 +128,8 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     }
     
     private func saveData() {
-        guard let title = textView.title,
+        guard let title = updateView?.getTextViewTitle(),
+              let body = updateView?.getTextViewBody(),
               let date = Formatter.getDate(from: date) else {
             return
         }
@@ -130,7 +138,7 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
         
         let data = DiaryDTO(identifier: diaryData?.identifier,
                             title: title,
-                            body: textView.body,
+                            body: body,
                             date: date)
         
         if isSavingData == false {
@@ -138,49 +146,10 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
             isSavingData = true
         }
     }
-    
-    private func setUpTextView() {
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.becomeFirstResponder()
-    }
-    
-    private func setUpTextViewLayout() {
-        view.addSubview(textView)
-        
-        let bottomContraint = textView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        
-        NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: view.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            bottomContraint
-        ].compactMap { $0 })
-        
-        keyboard = Keyboard(bottomContraint: bottomContraint, textView: textView)
-    }
 }
 
 extension UpdateViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         saveData()
-    }
-}
-
-private extension Array {
-    subscript(safe index: Int) -> Element? {
-        return indices.contains(index) ? self[index] : nil
-    }
-}
-
-private extension UITextView {
-    var title: String? {
-        let text = self.text.components(separatedBy: "\n")
-        return text.first == "" ? nil : text.first
-    }
-    
-    var body: String {
-        let splitedText = self.text.split(separator: "\n", maxSplits: 1)
-        let body = splitedText.map { String($0) }
-        return body[safe: 1] ?? ""
     }
 }
