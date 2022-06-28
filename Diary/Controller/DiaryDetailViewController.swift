@@ -7,9 +7,11 @@ import UIKit
 
 final class DiaryDetailViewController: DiaryBaseViewController {
   private let diary: DiaryEntity
+  private let storageManger: DiaryStorageManager
 
-  init(diary: DiaryEntity) {
+  init(diary: DiaryEntity, storageManager: DiaryStorageManager) {
     self.diary = diary
+    self.storageManger = storageManager
     super.init(nibName: nil, bundle: nil)
   }
 
@@ -64,7 +66,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
   }
 
   private func deleteDiary() {
-    DiaryStorageManager.shared.delete(diary: self.diary)
+    self.storageManger.delete(diary: self.diary)
     self.navigationController?.popViewController(animated: true)
   }
 
@@ -104,6 +106,6 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     self.diary.title = title
     self.diary.body = body
 
-    DiaryStorageManager.shared.update()
+    self.storageManger.update()
   }
 }

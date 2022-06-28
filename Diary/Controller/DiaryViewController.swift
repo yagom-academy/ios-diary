@@ -15,6 +15,7 @@ final class DiaryViewController: UIViewController {
     )
   }
 
+  private let storageManger = DiaryStorageManager()
   private var diaries = [DiaryEntity]() {
     didSet {
       DispatchQueue.main.async {
@@ -55,12 +56,12 @@ final class DiaryViewController: UIViewController {
   }
 
   @objc private func addDiaryButtonDidTap() {
-    let addViewController = DiaryAddViewController()
+    let addViewController = DiaryAddViewController(storageManger: storageManger)
     self.navigationController?.pushViewController(addViewController, animated: true)
   }
 
   @objc private func fetchDiaries() {
-    self.diaries = DiaryStorageManager.shared.fetchAllDiaries()
+    self.diaries = self.storageManger.fetchAllDiaries()
   }
 
   private func observeDiaryDidSaveNotification() {
@@ -115,7 +116,10 @@ extension DiaryViewController: UITableViewDelegate {
     guard self.diaries.indices.contains(indexPath.row) else { return }
 
     tableView.deselectRow(at: indexPath, animated: true)
-    let detailViewController = DiaryDetailViewController(diary: self.diaries[indexPath.row])
+    let detailViewController = DiaryDetailViewController(
+      diary: self.diaries[indexPath.row],
+      storageManager: storageManger
+    )
     self.navigationController?.pushViewController(detailViewController, animated: true)
   }
 
@@ -155,6 +159,6 @@ extension DiaryViewController: UITableViewDelegate {
   }
 
   private func deleteDiary(diary: DiaryEntity) {
-    DiaryStorageManager.shared.delete(diary: diary)
+    self.storageManger.delete(diary: diary)
   }
 }
