@@ -6,12 +6,16 @@
 //
 
 import UIKit
+import CoreLocation
 
 protocol DiaryViewControllerDelegate: AnyObject {
     func updateView()
 }
 
 class DiaryViewController: UIViewController {
+    private var locationManager: CLLocationManager?
+    let apiKey = "783e209f3bc56998f3575fbe0168df43"
+    
     lazy var diaryView = DiaryView.init(frame: view.bounds)
     weak var delegate: DiaryViewControllerDelegate?
     var diary: Diary?
@@ -19,6 +23,7 @@ class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitialView()
+        setLocationManager()
     }
     
     private func setInitialView() {
@@ -32,6 +37,18 @@ class DiaryViewController: UIViewController {
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
         configureOptionButton()
+    }
+    
+    private func setLocationManager() {
+        if diary == nil {
+            locationManager = CLLocationManager()
+            guard let locationManager = locationManager else {
+                return
+            }
+            locationManager.delegate = self
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
+        }
     }
     
     private func configureOptionButton() {
@@ -129,5 +146,18 @@ class DiaryViewController: UIViewController {
         setDiary()
         update(diary)
         delegate?.updateView()
+    }
+}
+
+extension DiaryViewController: CLLocationManagerDelegate {
+    private func getCoordinate() -> (Double, Double)? {
+        let coordinate = locationManager?.location?.coordinate
+        guard let latitude = coordinate?.latitude as? Double else {
+            return nil
+        }
+        guard let longtitude = coordinate?.longitude as? Double else {
+            return nil
+        }
+        return (latitude, longtitude)
     }
 }
