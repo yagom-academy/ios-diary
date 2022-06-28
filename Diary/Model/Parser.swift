@@ -12,7 +12,7 @@ struct Parser<T: Decodable> {
         guard let content = NSDataAsset(name: name) else {
             throw DiaryError.invalidFileName
         }
-        guard let decodedData: [T] = try? JSONDecoder().decode(
+        guard let decodedData = try? JSONDecoder().decode(
             [T].self, from: content.data
         ) else {
             throw DiaryError.decodeError
