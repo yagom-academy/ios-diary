@@ -78,7 +78,7 @@ final class DetailViewController: DiaryBaseViewController {
       firstActionTitle: "취소",
       secondActionTitle: "삭제",
       firstAction: nil) { [weak self] in
-      CoreData.deleteDiary(identifier: self?.diary.identifier ?? "")
+        CoreData.deleteDiary(identifier: self?.diary.identifier ?? "")
         self?.navigationController?.popViewController(animated: true)
     }
     
@@ -87,10 +87,10 @@ final class DetailViewController: DiaryBaseViewController {
       message: "무엇을",
       firstActionTitle: "Share...",
       secondActionTitle: "Delete",
-      firstAction:  { [weak self] in
+      firstAction: { [weak self] in
         self?.showActivityView(text: "선택하세요")},
       secondAction: { [weak self] in
-      self?.showAlert(alertAction: alertConst)
+        self?.showAlert(alertAction: alertConst)
     })
     
     showActionSheet(alertAction: actionSheetConst)
