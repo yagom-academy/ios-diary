@@ -1,5 +1,5 @@
 //
-//  EndPointStorage.swift
+//  EndpointStorage.swift
 //  Diary
 //
 //  Created by mmim, grumpy, mino on 2022/06/28.
@@ -7,12 +7,14 @@
 
 import Foundation
 
-enum EndPointStorage {
+enum EndpointStorage {
     private enum Constants {
         static let weatherInfoURL = "https://api.openweathermap.org/"
         static let weatherInfoPath = "data/2.5/weather?"
+        
         static let weatherIconURL = "https://openweathermap.org/"
         static let weatherIconPath = "img/wn/"
+        
         static let appkey = "5d541eac3b64ce81f672025857e60683"
     }
     
@@ -22,7 +24,7 @@ enum EndPointStorage {
     var endPoint: Requestable {
         switch self {
         case .weatherInfo(let latitude, let longitude):
-            return EndPoint(
+            return Endpoint(
                 baseURL: Constants.weatherInfoURL,
                 path: Constants.weatherInfoPath,
                 queryParameters: WeatherRequest(
@@ -32,7 +34,7 @@ enum EndPointStorage {
                 )
             )
         case .weatherIcon(let icon):
-            return EndPoint(
+            return Endpoint(
                 baseURL: Constants.weatherIconURL,
                 path: "\(Constants.weatherIconPath)\(icon)@2x.png"
             )

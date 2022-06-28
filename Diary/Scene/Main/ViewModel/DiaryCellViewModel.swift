@@ -27,7 +27,11 @@ final class DiaryCellViewModel {
             self.image = cacheImage
             return
         }
-        let endpoint = EndPointStorage.weatherIcon(icon).endPoint
+        
+        let endpoint = EndpointStorage
+            .weatherIcon(icon)
+            .endPoint
+        
         task = networkManager.requestImageAPI(with: endpoint) { [weak self] (result: Result<UIImage, Error>) in
             switch result {
             case .success(let image):

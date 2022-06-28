@@ -1,5 +1,5 @@
 //
-//  EndPoint.swift
+//  Endpoint.swift
 //  Diary
 //
 //  Created by mmim, grumpy, mino on 2022/06/28.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class EndPoint: Requestable {
+final class Endpoint: Requestable {
     var baseURL: String
     var path: String
     var method: HttpMethod

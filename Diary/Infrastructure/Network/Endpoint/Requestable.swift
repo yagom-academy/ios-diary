@@ -43,10 +43,12 @@ extension Requestable {
                 return .failure(error)
             }
         }
+        
         urlRequest.httpMethod = method.rawValue
         headers?.forEach {
             urlRequest.setValue($1, forHTTPHeaderField: $0)
         }
+        
         return .success(urlRequest)
     }
     
@@ -73,6 +75,7 @@ extension Requestable {
         guard let url = urlComponents.url else {
             return .failure(.urlComponentError)
         }
+        
         return .success(url)
     }
 }

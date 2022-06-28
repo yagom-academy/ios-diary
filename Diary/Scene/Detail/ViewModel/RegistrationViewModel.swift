@@ -34,12 +34,20 @@ extension RegistrationViewModel {
         PersistenceManager.shared.createData(by: diary)
     }
     
+    func setUpLocation(by coordinate: CLLocationCoordinate2D) {
+        self.coordinate = coordinate
+        requestWeather()
+    }
+    
     private func requestWeather() {
         guard let coordinate = coordinate else {
             self.icon = nil
             return
         }
-        let endpoint = EndPointStorage.weatherInfo(coordinate.latitude, coordinate.longitude).endPoint
+        
+        let endpoint = EndpointStorage
+            .weatherInfo(coordinate.latitude, coordinate.longitude)
+            .endPoint
         
         networkManager.requestAPI(with: endpoint) { [weak self] (result: Result<Weather, Error>) in
             switch result {
@@ -50,9 +58,4 @@ extension RegistrationViewModel {
             }
         }
     }
-    
-    func setUpLocation(by coordinate: CLLocationCoordinate2D) {
-        self.coordinate = coordinate
-        requestWeather()
-    }    
 }

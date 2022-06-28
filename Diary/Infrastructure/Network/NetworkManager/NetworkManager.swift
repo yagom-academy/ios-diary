@@ -56,7 +56,7 @@ final class NetworkManager {
     @discardableResult
     func request(
         endpoint: Requestable,
-        completion: @escaping ((Result<Data, Error>) -> Void)
+        completion: @escaping (Result<Data, Error>) -> Void
     ) -> URLSessionDataTask? {
         let urlRequest = endpoint.generateUrlRequest()
         
