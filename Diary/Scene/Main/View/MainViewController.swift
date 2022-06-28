@@ -28,6 +28,7 @@ final class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        viewModel.viewWillAppear()
         setUpDiaries()
     }
 }
@@ -44,8 +45,7 @@ extension MainViewController {
     }
     
     private func setUpDiaries() {
-        DispatchQueue.main.async { 
-            self.viewModel.readDiary()
+        DispatchQueue.main.async {
             self.mainView.reloadBaseTableView()
         }
     }
@@ -95,7 +95,7 @@ extension MainViewController: UITableViewDelegate {
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completionHandler in
-            self?.showDeleteAlert(indexPath: indexPath)
+            self?.showDeleteAlert(by: indexPath)
             completionHandler(true)
         }
         deleteAction.image = UIImage(systemName: Constants.deleteImage)
@@ -116,9 +116,9 @@ extension MainViewController: UITableViewDelegate {
 
 // MARK: Show Alert
 extension MainViewController {
-    private func showDeleteAlert(indexPath: IndexPath) {
+    private func showDeleteAlert(by indexPath: IndexPath) {
         showAlert { [self] _ in
-            viewModel.deleteDiary(indexPath: indexPath)
+            viewModel.didTapDeleteButton(by: indexPath)
             mainView.deleteBaseTableViewRows(at: [indexPath])
         }
     }

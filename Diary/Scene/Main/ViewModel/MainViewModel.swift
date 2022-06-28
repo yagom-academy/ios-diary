@@ -11,15 +11,27 @@ final class MainViewModel {
     var diaries: [DiaryEntity] {
         return PersistenceManager.shared.diaryEntities
     }
-    private(set) var requestManager = NetworkManager()
 }
 
 extension MainViewModel {
-    func readDiary() {
-        PersistenceManager.shared.fetchData()
+    
+    // MARK: Input
+    
+    func viewWillAppear() {
+        readDiary()
     }
     
-    func deleteDiary(indexPath: IndexPath) {
+    func didTapDeleteButton(by indexPath: IndexPath) {
+        deleteDiary(by: indexPath)
+    }
+    
+    // MARK: Output
+    
+    private func readDiary() {
+        PersistenceManager.shared.fetchData()
+    }
+   
+    private func deleteDiary(by indexPath: IndexPath) {
         guard let diary = diaries[safe: indexPath.row] else {
             return
         }
