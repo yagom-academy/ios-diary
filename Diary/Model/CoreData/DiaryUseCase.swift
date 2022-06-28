@@ -39,10 +39,8 @@ final class DiaryUseCase: UseCase {
     func create(element: DiaryInfo) throws -> DiaryInfo {
         let key = UUID()
         
-        guard let diaryData = NSEntityDescription.insertNewObject(
-            forEntityName: DiaryInfo.entityName,
-            into: context
-        ) as? DiaryData else {
+        guard let diaryEntity = diaryEntity,
+              let diaryData = NSManagedObject(entity: diaryEntity, insertInto: context) as? DiaryData else {
             throw CoreDataError.createError
         }
 
