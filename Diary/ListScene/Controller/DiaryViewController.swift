@@ -23,7 +23,7 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
     }
     
     override func loadView() {
-        view = DiaryView(delgate: self)
+        view = DiaryView(delegate: self)
     }
     
     override func viewDidLoad() {

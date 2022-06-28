@@ -37,6 +37,30 @@ final class DiaryDAO {
     }
     
     private func create(userData: DiaryDTO?) {
+        func setUpCoreData(at userModel: NSManagedObject, textData: DiaryDTO, weatherData: Result<Data, NetworkError>) {
+            guard let data = try? weatherData.get(),
+                  let weather: WeatherDTO = data.convert() else {
+                return
+            }
+            
+            let weatherDescription = weather.description
+            
+            userModel.setValue(textData.identifier, forKey: "identifier")
+            
+            userModel.setValue(textData.title, forKey: "title")
+            userModel.setValue(textData.date, forKey: "date")
+            userModel.setValue(textData.body, forKey: "body")
+            
+            userModel.setValue(weather.icon.first?.icon, forKey: "icon")
+            
+            userModel.setValue(weatherDescription.temperature, forKey: "temp")
+            userModel.setValue(weatherDescription.feelsLike, forKey: "feelsLike")
+            userModel.setValue(weatherDescription.minTemperature, forKey: "tempMin")
+            userModel.setValue(weatherDescription.maxTempaerature, forKey: "tempMax")
+            userModel.setValue(weatherDescription.pressure, forKey: "pressure")
+            userModel.setValue(weatherDescription.humidity, forKey: "humidity")
+        }
+        
         guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: viewContext),
               let userData = userData else {
             return
@@ -50,28 +74,7 @@ final class DiaryDAO {
         
         WeatherAPIManager.shared.fetchData(url: EntryPoint.weatherDescription(lat: lat, lon: lon).url) { [weak self] data in
             
-            guard let data = try? data.get(),
-                  let weather: WeatherDTO = data.convert() else {
-                return
-            }
-            
-            let weatherDescription = weather.description
-            
-            userModel.setValue(userData.identifier, forKey: "identifier")
-            
-            userModel.setValue(userData.title, forKey: "title")
-            userModel.setValue(userData.date, forKey: "date")
-            userModel.setValue(userData.body, forKey: "body")
-            
-            userModel.setValue(weather.icon.first?.icon, forKey: "icon")
-            
-            userModel.setValue(weatherDescription.temperature, forKey: "temp")
-            userModel.setValue(weatherDescription.feelsLike, forKey: "feelsLike")
-            userModel.setValue(weatherDescription.minTemperature, forKey: "tempMin")
-            userModel.setValue(weatherDescription.maxTempaerature, forKey: "tempMax")
-            userModel.setValue(weatherDescription.pressure, forKey: "pressure")
-            userModel.setValue(weatherDescription.humidity, forKey: "humidity")
-            
+            setUpCoreData(at: userModel, textData: userData, weatherData: data)
             self?.save()
         }
     }

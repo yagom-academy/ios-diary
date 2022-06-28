@@ -16,10 +16,10 @@ final class DiaryView: UIView {
         return tableView
     }()
     
-    init(delgate: UITableViewDelegate) {
+    init(delegate: UITableViewDelegate) {
         super.init(frame: CGRect(x: 0, y: 0, width: 0, height: 0))
         
-        tableView.delegate = delgate
+        setUpTableView(delegate: delegate)
         
         registerCell()
         layout()
@@ -27,6 +27,10 @@ final class DiaryView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setUpTableView(delegate: UITableViewDelegate) {
+        tableView.delegate = delegate
     }
     
     private func registerCell() {
