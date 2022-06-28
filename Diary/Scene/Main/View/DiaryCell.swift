@@ -9,7 +9,8 @@ import UIKit
 
 final class DiaryCell: UITableViewCell {
     static let identifier = "DiaryCell"
-    private var task: URLSessionDataTask?
+    //private var task: URLSessionDataTask?
+    private var viewModel: DiaryCellViewModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -25,9 +26,8 @@ final class DiaryCell: UITableViewCell {
         dateLabel.text = nil
         descriptionLabel.text = nil
         weatherImageView.image = nil
-        
-        task?.suspend()
-        task?.cancel()
+     
+        viewModel?.prepareForReuse()
     }
     
     private let baseStackView: UIStackView = {
@@ -112,7 +112,7 @@ final class DiaryCell: UITableViewCell {
             titleLabel.text = data.title
         }
         dateLabel.text = data.createdAt.formattedString
-        task = weatherImageView.loadImage(icon: data.icon, requestManager)
         descriptionLabel.text = data.body?.trimmingCharacters(in: .newlines)
+        viewModel.setUpContents(icon: data.icon)
     }
 }
