@@ -14,7 +14,7 @@ final class RegistrationViewModel {
     private let diaryId = UUID().uuidString
     private var coordinate: CLLocationCoordinate2D?
     private var icon: String?
-    private let requestManager = RequestManager()
+    private let networkManager = NetworkManager()
 }
 
 extension RegistrationViewModel {
@@ -39,8 +39,9 @@ extension RegistrationViewModel {
             self.icon = nil
             return
         }
+        let endpoint = EndPointStorage.weatherInfo(coordinate.latitude, coordinate.longitude).endPoint
         
-        requestManager.requestAPI(by: coordinate) { [weak self] result in
+        networkManager.requestAPI(with: endpoint) { [weak self] (result: Result<Weather, Error>) in
             switch result {
             case .success(let result):
                 self?.icon = result.weather.first?.icon
