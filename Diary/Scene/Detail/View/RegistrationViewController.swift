@@ -10,7 +10,7 @@ import CoreLocation
 
 final class RegistrationViewController: UIViewController {
     private lazy var detailView = DetailView(frame: view.bounds)
-    private let viewModel = RegistrationViewModel()
+    private lazy var viewModel = RegistrationViewModel(delegate: self)
     
     override func loadView() {
         super.loadView()
@@ -22,14 +22,12 @@ final class RegistrationViewController: UIViewController {
         registerNotification()
         setUpNavigationBar()
         setUpView()
-        setUpLocationManager()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeKeyboardNotification()
         viewWillDisappearEvent()
-        viewModel.locationManager.stopUpdatingLocation()
     }
 }
 
@@ -102,10 +100,6 @@ extension RegistrationViewController {
     private func setUpView() {
         detailView.scrollTextViewToTop()
         detailView.contentTextView.delegate = self
-    }
-    
-    func setUpLocationManager() {
-        viewModel.locationManager.delegate = self
     }
 }
 
@@ -181,9 +175,9 @@ extension RegistrationViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            viewModel.locationManager.startUpdatingLocation()
+            viewModel.authorizedInUse()
         case .restricted, .notDetermined:
-            viewModel.locationManager.requestWhenInUseAuthorization()
+            viewModel.unauthorizedInUse()
         case .denied:
             alertController.showConfirmAlert(
                 title: "위치 권한 설정",

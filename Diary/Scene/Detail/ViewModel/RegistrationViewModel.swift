@@ -9,13 +9,17 @@ import Foundation
 import CoreLocation
 
 final class RegistrationViewModel {
-    private(set) var locationManager = CLLocationManager()
+    private var locationManager = CLLocationManager()
     private(set) var createdAt = Date().timeIntervalSince1970
     private let diaryId = UUID().uuidString
     private var coordinate: CLLocationCoordinate2D?
     private var icon: String?
     private let networkManager = NetworkManager()
     private var currentText: String?
+    
+    init(delegate: CLLocationManagerDelegate) {
+        self.locationManager.delegate = delegate
+    }
 }
 
 extension RegistrationViewModel {
@@ -24,6 +28,7 @@ extension RegistrationViewModel {
     
     func viewWillDisappear() throws {
         try saveDiary()
+        locationManager.stopUpdatingLocation()
     }
     
     func didEnterBackground() throws {
@@ -74,7 +79,6 @@ extension RegistrationViewModel {
         let endpoint = EndpointStorage
             .weatherInfo(coordinate.latitude, coordinate.longitude)
             .endPoint
-        
         networkManager.requestAPI(with: endpoint) { [weak self] (result: Result<Weather, Error>) in
             switch result {
             case .success(let result):
@@ -83,5 +87,13 @@ extension RegistrationViewModel {
                 self?.icon = nil
             }
         }
+    }
+    
+    func authorizedInUse() {
+        locationManager.startUpdatingLocation()
+    }
+    
+    func unauthorizedInUse() {
+        locationManager.requestWhenInUseAuthorization()
     }
 }
