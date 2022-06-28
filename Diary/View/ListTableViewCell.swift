@@ -17,6 +17,16 @@ final class ListTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        weatherImageView.isHidden = false
+        titleLabel.text = nil
+        dateLabel.text = nil
+        weatherImageView.image = nil
+        previewLabel.text = nil
+    }
+    
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
