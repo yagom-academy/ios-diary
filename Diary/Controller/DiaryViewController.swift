@@ -69,7 +69,8 @@ class DiaryViewController: UIViewController {
                           body: convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0],
                           text: diaryView.diaryTextView.text ?? "",
                           createdAt: Date().timeIntervalSince1970,
-                          id: UUID())
+                          id: UUID(),
+                          weather: Weather(main: "main", iconID: "", iconImage: nil))
         } else {
             diary?.title = convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst()
             diary?.body = convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0]

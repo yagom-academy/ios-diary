@@ -13,4 +13,11 @@ struct Diary {
     var text: String
     let createdAt: Double
     let id: UUID
+    let weather: Weather?
+}
+
+struct Weather {
+    let main: String?
+    let iconID: String?
+    let iconImage: Data?
 }

@@ -6,16 +6,16 @@
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="text" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="newRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherModel" inverseName="newRelationship" inverseEntity="WeatherModel"/>
+        <relationship name="weatherModel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WeatherModel" inverseName="diaryModel" inverseEntity="WeatherModel"/>
     </entity>
-    <entity name="WeatherModel" representedClassName="WeatherModel" syncable="YES" codeGenerationType="class">
+    <entity name="WeatherModel" representedClassName="WeatherModel" syncable="YES">
         <attribute name="iconID" optional="YES" attributeType="String"/>
         <attribute name="iconImage" optional="YES" attributeType="Binary"/>
         <attribute name="main" optional="YES" attributeType="String"/>
-        <relationship name="newRelationship" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DiaryModel" inverseName="newRelationship" inverseEntity="DiaryModel"/>
+        <relationship name="diaryModel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DiaryModel" inverseName="weatherModel" inverseEntity="DiaryModel"/>
     </entity>
     <elements>
         <element name="DiaryModel" positionX="106.813720703125" positionY="554.3806762695312" width="128" height="133"/>
-        <element name="WeatherModel" positionX="368.691650390625" positionY="545.517578125" width="128" height="103"/>
+        <element name="WeatherModel" positionX="427.41650390625" positionY="514.6444702148438" width="128" height="103"/>
     </elements>
 </model>

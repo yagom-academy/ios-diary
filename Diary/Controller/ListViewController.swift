@@ -46,7 +46,10 @@ final class ListViewController: UIViewController {
                              body: $0.body ?? "",
                              text: $0.text ?? "",
                              createdAt: $0.createdAt,
-                             id: $0.id)
+                             id: $0.id,
+                             weather: Weather(main: $0.weatherModel?.main,
+                                              iconID: $0.weatherModel?.iconID,
+                                              iconImage: $0.weatherModel?.iconImage))
             }
         } catch {
             showErrorAlert("일기를 불러올 수 없습니다")

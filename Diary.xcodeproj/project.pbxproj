@@ -14,10 +14,12 @@
 		AC7E277C2860028500FB90D0 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7E277B2860028500FB90D0 /* EditViewController.swift */; };
 		ACFA965628596909009DFD8F /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFA965528596909009DFD8F /* DiaryView.swift */; };
 		B32FEFA228600F5600F3A6B5 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA028600F5600F3A6B5 /* Model.xcdatamodeld */; };
-		B32FEFA52860116500F3A6B5 /* DiaryModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */; };
-		B32FEFA62860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */; };
 		B3427841286192F3004488E4 /* Notification.Name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3427840286192F3004488E4 /* Notification.Name+.swift */; };
-		B379881E286A8F08005FA8D9 /* MappingModelV1ToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = B379881D286A8F08005FA8D9 /* MappingModelV1ToV2.xcmappingmodel */; };
+		B379883A286AA88D005FA8D9 /* MappingModelVer1ToVer2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = B3798839286AA88D005FA8D9 /* MappingModelVer1ToVer2.xcmappingmodel */; };
+		B379883F286AA8BB005FA8D9 /* DiaryModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B379883B286AA8BB005FA8D9 /* DiaryModel+CoreDataClass.swift */; };
+		B3798840286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B379883C286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift */; };
+		B3798841286AA8BB005FA8D9 /* WeatherModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B379883D286AA8BB005FA8D9 /* WeatherModel+CoreDataClass.swift */; };
+		B3798842286AA8BB005FA8D9 /* WeatherModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B379883E286AA8BB005FA8D9 /* WeatherModel+CoreDataProperties.swift */; };
 		B3940C7E2862BF1400EB2280 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3940C7D2862BF1400EB2280 /* UIViewController+.swift */; };
 		B3D761702860131C00C4AE94 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */; };
 		B3FB2B2B285C1EC6009A932C /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FB2B2A285C1EC6009A932C /* Date+.swift */; };
@@ -40,11 +42,13 @@
 		AC7E277B2860028500FB90D0 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		ACFA965528596909009DFD8F /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		B32FEFA128600F5600F3A6B5 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3427840286192F3004488E4 /* Notification.Name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Notification.Name+.swift"; path = "Diary/Controller/Notification.Name+.swift"; sourceTree = SOURCE_ROOT; };
 		B379881C286A8B9B005FA8D9 /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
-		B379881D286A8F08005FA8D9 /* MappingModelV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
+		B3798839286AA88D005FA8D9 /* MappingModelVer1ToVer2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelVer1ToVer2.xcmappingmodel; sourceTree = "<group>"; };
+		B379883B286AA8BB005FA8D9 /* DiaryModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B379883C286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B379883D286AA8BB005FA8D9 /* WeatherModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B379883E286AA8BB005FA8D9 /* WeatherModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3940C7D2862BF1400EB2280 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIViewController+.swift"; path = "Diary/Controller/UIViewController+.swift"; sourceTree = SOURCE_ROOT; };
 		B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B3FB2B2A285C1EC6009A932C /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -126,9 +130,11 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
-				B379881D286A8F08005FA8D9 /* MappingModelV1ToV2.xcmappingmodel */,
-				B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */,
-				B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */,
+				B379883B286AA8BB005FA8D9 /* DiaryModel+CoreDataClass.swift */,
+				B379883C286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift */,
+				B379883D286AA8BB005FA8D9 /* WeatherModel+CoreDataClass.swift */,
+				B379883E286AA8BB005FA8D9 /* WeatherModel+CoreDataProperties.swift */,
+				B3798839286AA88D005FA8D9 /* MappingModelVer1ToVer2.xcmappingmodel */,
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
 				66692EE6C238CE0BA38B6037 /* Pods */,
@@ -284,23 +290,25 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC7E277C2860028500FB90D0 /* EditViewController.swift in Sources */,
+				B379883A286AA88D005FA8D9 /* MappingModelVer1ToVer2.xcmappingmodel in Sources */,
+				B3798842286AA8BB005FA8D9 /* WeatherModel+CoreDataProperties.swift in Sources */,
 				B3427841286192F3004488E4 /* Notification.Name+.swift in Sources */,
 				B3940C7E2862BF1400EB2280 /* UIViewController+.swift in Sources */,
-				B32FEFA52860116500F3A6B5 /* DiaryModel+CoreDataClass.swift in Sources */,
+				B3798841286AA8BB005FA8D9 /* WeatherModel+CoreDataClass.swift in Sources */,
 				AC50348C28582C450068C2A0 /* UIStackView+.swift in Sources */,
 				C739AE29284DF28600741E8F /* ListViewController.swift in Sources */,
 				AC7E277A2860027E00FB90D0 /* AddViewController.swift in Sources */,
+				B379883F286AA8BB005FA8D9 /* DiaryModel+CoreDataClass.swift in Sources */,
 				B3FB2B2B285C1EC6009A932C /* Date+.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
-				B32FEFA62860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift in Sources */,
+				B3798840286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift in Sources */,
 				ACFA965628596909009DFD8F /* DiaryView.swift in Sources */,
 				B3FE9B39285820680006A7AB /* MainView.swift in Sources */,
 				B3FE9B3D2858890D0006A7AB /* DiaryViewController.swift in Sources */,
 				AC50348928582BDE0068C2A0 /* ListTableViewCell.swift in Sources */,
 				B32FEFA228600F5600F3A6B5 /* Model.xcdatamodeld in Sources */,
 				B3D761702860131C00C4AE94 /* CoreDataManager.swift in Sources */,
-				B379881E286A8F08005FA8D9 /* MappingModelV1ToV2.xcmappingmodel in Sources */,
 				B3FE9B3B285853F60006A7AB /* Diary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

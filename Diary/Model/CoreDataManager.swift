@@ -12,7 +12,7 @@ final class CoreDataManager {
     private init() {}
     
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Model2")
+        let container = NSPersistentContainer(name: "Model")
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -41,16 +41,17 @@ final class CoreDataManager {
     }
     
     private func create(_ diaryData: Diary) {
-        guard let entity = entity else {
-            return
-        }
+        let diary = DiaryModel(context: context)
         
-        let diary = NSManagedObject(entity: entity, insertInto: context)
-        diary.setValue(diaryData.title, forKey: "title")
-        diary.setValue(diaryData.body, forKey: "body")
-        diary.setValue(diaryData.text, forKey: "text")
-        diary.setValue(diaryData.createdAt, forKey: "createdAt")
-        diary.setValue(diaryData.id, forKey: "id")
+        diary.title = diaryData.title
+        diary.body = diaryData.body
+        diary.text = diaryData.text
+        diary.createdAt = diaryData.createdAt
+        diary.id = diaryData.id
+        diary.weatherModel = WeatherModel(context: context)
+        diary.weatherModel?.main = diaryData.weather?.main
+        diary.weatherModel?.iconID = diaryData.weather?.iconID
+        diary.weatherModel?.iconImage = diaryData.weather?.iconImage
         
         saveContext()
     }
