@@ -6,9 +6,9 @@
 import UIKit
 
 final class DiaryDetailViewController: DiaryBaseViewController {
-  private let diary: Diary
+  private let diary: DiaryEntity
 
-  init(diary: Diary) {
+  init(diary: DiaryEntity) {
     self.diary = diary
     super.init(nibName: nil, bundle: nil)
   }
@@ -21,6 +21,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     super.viewDidLoad()
     self.initializeNavigationBar()
     self.initializeItem()
+    self.observeDiaryDidUpdateNotifications()
   }
 
   private func initializeNavigationBar() {
@@ -28,6 +29,35 @@ final class DiaryDetailViewController: DiaryBaseViewController {
   }
 
   private func initializeItem() {
-    self.bodyTextView.text = self.diary.title + "\n\n" + self.diary.body
+    guard let title = self.diary.title, let body = self.diary.body else { return }
+
+    self.bodyTextView.text = title + "\n" + body
+  }
+
+  private func observeDiaryDidUpdateNotifications() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(self.updateDiary),
+      name: UITextView.textDidEndEditingNotification,
+      object: nil
+    )
+
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(self.updateDiary),
+      name: UIApplication.didEnterBackgroundNotification,
+      object: nil)
+  }
+
+  @objc private func updateDiary() {
+    var text = self.bodyTextView.text.components(separatedBy: "\n")
+    let title = text.first
+    text.removeFirst()
+    let body = text.joined(separator: "\n")
+
+    self.diary.title = title
+    self.diary.body = body
+
+    DiaryStorageManager.shared.update()
   }
 }

@@ -46,26 +46,17 @@ final class DiaryStorageManager {
     diaryEntity.setValue(diary.uuid, forKey: "uuid")
 
     self.saveContext()
+    NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
   }
 
-  func fetchAll() -> [Diary] {
-    guard let diaryEntities = try? self.context.fetch(DiaryEntity.fetchRequest()) else { return [] }
-
-    let diaries = diaryEntities.map {
-      Diary(title: $0.title ?? "", body: $0.body ?? "", createdAt: $0.createdAt)
-    }
-
-    return diaries
+  func fetchAllDiaries() -> [DiaryEntity] {
+    guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return [] }
+    return diaryEntities
   }
 
-  func update(diary: Diary) {
-    guard let diaryEntities = try? self.context.fetch(DiaryEntity.fetchRequest()) else { return }
-    guard let diaryEntity = diaryEntities.first(where: { $0.uuid == diary.uuid }) else { return }
-
-    diaryEntity.setValue(diary.title, forKey: "title")
-    diaryEntity.setValue(diary.body, forKey: "body")
-
+  func update() {
     self.saveContext()
+    NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
   }
 
   func delete(diary: Diary) {
