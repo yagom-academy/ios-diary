@@ -140,7 +140,7 @@ extension RegistrationViewController {
         } catch {
             alertController.showConfirmAlert(
                 title: "오류",
-                message: error.localizedDescription,
+                message: DiaryError.saveFail.errorDescription,
                 presentedViewController: self
             )
         }
@@ -152,7 +152,7 @@ extension RegistrationViewController {
         } catch {
             alertController.showConfirmAlert(
                 title: "오류",
-                message: error.localizedDescription,
+                message: DiaryError.saveFail.errorDescription,
                 presentedViewController: self
             )
         }
@@ -164,7 +164,7 @@ extension RegistrationViewController {
         } catch {
             alertController.showConfirmAlert(
                 title: "오류",
-                message: error.localizedDescription,
+                message: DiaryError.saveFail.errorDescription,
                 presentedViewController: self
             )
         }

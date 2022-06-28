@@ -133,7 +133,7 @@ extension MainViewController {
         } catch {
             alertController.showConfirmAlert(
                 title: "오류",
-                message: error.localizedDescription,
+                message: DiaryError.loadFail.errorDescription,
                 presentedViewController: self
             )
         }
@@ -145,7 +145,7 @@ extension MainViewController {
         } catch {
             alertController.showConfirmAlert(
                 title: "오류",
-                message: error.localizedDescription,
+                message: DiaryError.loadFail.errorDescription,
                 presentedViewController: self
             )
         }

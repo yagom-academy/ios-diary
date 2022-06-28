@@ -177,7 +177,7 @@ extension DetailViewController {
         } catch {
             alertController.showConfirmAlert(
                 title: "오류",
-                message: error.localizedDescription,
+                message: DiaryError.saveFail.errorDescription,
                 presentedViewController: self
             )
         }
@@ -189,7 +189,7 @@ extension DetailViewController {
         } catch {
             alertController.showConfirmAlert(
                 title: "오류",
-                message: error.localizedDescription,
+                message: DiaryError.saveFail.errorDescription,
                 presentedViewController: self
             )
         }
@@ -201,7 +201,7 @@ extension DetailViewController {
         } catch {
             alertController.showConfirmAlert(
                 title: "오류",
-                message: error.localizedDescription,
+                message: DiaryError.saveFail.errorDescription,
                 presentedViewController: self
             )
         }
@@ -213,7 +213,7 @@ extension DetailViewController {
         } catch {
             alertController.showConfirmAlert(
                 title: "오류",
-                message: error.localizedDescription,
+                message: DiaryError.loadFail.errorDescription,
                 presentedViewController: self
             )
         }
