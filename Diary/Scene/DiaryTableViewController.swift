@@ -207,6 +207,7 @@ extension DiaryTableViewController {
     
     private func setUpLocationManager() {
         locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyReduced
         locationManager.requestWhenInUseAuthorization()
     }
     
