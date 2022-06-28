@@ -15,11 +15,37 @@ final class RegistrationViewModel {
     private var coordinate: CLLocationCoordinate2D?
     private var icon: String?
     private let networkManager = NetworkManager()
+    private var currentText: String?
 }
 
 extension RegistrationViewModel {
-    func saveDiary(text: String?) {
-        guard let content = text,
+    
+    // MARK: Input
+    
+    func viewDidDisappear() {
+        saveDiary()
+    }
+    
+    func didEnterBackground() {
+        saveDiary()
+    }
+    
+    func keyboardWillHide() {
+        saveDiary()
+    }
+    
+    func textViewDidChange(text: String) {
+        currentText = text
+    }
+    
+    func didUpdateLocations(by coordinate: CLLocationCoordinate2D) {
+        setUpLocation(by: coordinate)
+    }
+    
+    // MARK: Output
+    
+    private func saveDiary() {
+        guard let content = currentText,
                 content.isEmpty == false
         else {
             return
@@ -34,7 +60,7 @@ extension RegistrationViewModel {
         PersistenceManager.shared.createData(by: diary)
     }
     
-    func setUpLocation(by coordinate: CLLocationCoordinate2D) {
+    private func setUpLocation(by coordinate: CLLocationCoordinate2D) {
         self.coordinate = coordinate
         requestWeather()
     }

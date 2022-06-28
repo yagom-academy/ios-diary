@@ -28,7 +28,7 @@ final class RegistrationViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeKeyboardNotification()
-        viewModel.saveDiary(text: detailView.contentTextView.text)
+        viewModel.viewDidDisappear()
         viewModel.locationManager.stopUpdatingLocation()
     }
 }
@@ -52,6 +52,10 @@ extension RegistrationViewController: UITextViewDelegate {
         }
         
         return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        viewModel.textViewDidChange(text: textView.text)
     }
 }
 
@@ -108,7 +112,7 @@ extension RegistrationViewController {
 // MARK: Objc Method
 extension RegistrationViewController {
     @objc private func didEnterBackground() {
-        viewModel.saveDiary(text: detailView.contentTextView.text)
+        viewModel.didEnterBackground()
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -123,14 +127,14 @@ extension RegistrationViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
-        viewModel.saveDiary(text: detailView.contentTextView.text)
+        viewModel.keyboardWillHide()
     }
 }
 
 extension RegistrationViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.last?.coordinate {
-            viewModel.setUpLocation(by: coordinate)
+            viewModel.didUpdateLocations(by: coordinate)
         }
     }
     
