@@ -23,12 +23,13 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         setUpNavigationController()
         setUpTableView()
         setUpTableViewLayout()
+        setUpRefreshControll()
         setUpDataSource()
         LocationManager.agree(viewController: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setUpCoreData()
+        updataTableView()
     }
     
     private func setUpView() {
@@ -81,6 +82,17 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         ])
     }
     
+    private func setUpRefreshControll() {
+        let refresh = UIRefreshControl()
+        refresh.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
+        tableView.refreshControl = refresh
+    }
+    
+    @objc private func pullToRefresh() {
+        setUpCoreData()
+        tableView.refreshControl?.endRefreshing()
+    }
+    
     private func setUpDataSource() {
         dataSource = UITableViewDiffableDataSource<Int, DiaryDTO>(tableView: tableView) {
             tableView, indexPath, itemIdentifier in
@@ -100,7 +112,7 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
             return
         }
         
-        setUpSanpshot(data: sampleData)
+        setUpSnapshot(data: sampleData)
     }
     
     private func setUpCoreData() {
@@ -108,16 +120,24 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
             return
         }
         
-        setUpSanpshot(data: coreData)
+        setUpSnapshot(data: coreData)
     }
     
-    private func setUpSanpshot(data: [DiaryDTO]) {
+    private func setUpSnapshot(data: [DiaryDTO]) {
         var snapshot = NSDiffableDataSourceSnapshot<Int, DiaryDTO>()
         
         snapshot.appendSections([.zero])
         snapshot.appendItems(data)
         
         dataSource?.apply(snapshot)
+    }
+    
+    private func updataTableView() {
+        tableView.refreshControl?.beginRefreshing()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+            self?.setUpCoreData()
+            self?.tableView.refreshControl?.endRefreshing()
+        }
     }
 }
 

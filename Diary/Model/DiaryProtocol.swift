@@ -13,14 +13,12 @@ protocol ActivityProtocol: UIViewController {}
 
 extension ActivityProtocol {
     func showActivity(title: String?) {
-        var shareObject = [Any]()
-        
-        if let shareText = title {
-            shareObject.append(shareText)
+        guard let title = title else {
+            return
         }
-        
+            
         let activityViewController = UIActivityViewController(
-            activityItems: shareObject,
+            activityItems: [title],
             applicationActivities: nil
         )
         
