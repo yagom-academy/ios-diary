@@ -69,11 +69,6 @@ class DiaryViewController: UIViewController {
     }
     
     private func update() {
-        if diary == nil {
-            getWeatherInfo()
-        } else {
-            editDiary()
-        }
         do {
             guard let diaryData = self.diary else {
                 return
