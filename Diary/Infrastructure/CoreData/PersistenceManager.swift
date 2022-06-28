@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreData
+import OSLog
 
 final class PersistenceManager {
     static let shared = PersistenceManager()
@@ -18,7 +19,7 @@ final class PersistenceManager {
         let container = NSPersistentContainer(name: AppConstants.entityName)
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                print(error)
+                os_log(.error, log: .data, "%@", "loadPersistentStores Error Occured.")
             }
         }
         return container
@@ -98,4 +99,9 @@ extension PersistenceManager {
         }
         return diaryEntity
     }
+}
+
+extension OSLog {
+    private static var subsystem = Bundle.main.bundleIdentifier ?? ""
+    static let data = OSLog(subsystem: subsystem, category: "Data")
 }
