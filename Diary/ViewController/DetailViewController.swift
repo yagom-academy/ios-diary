@@ -115,7 +115,25 @@ extension DetailViewController {
 // MARK: Navigation Method
 extension DetailViewController {
     private func setNavigationSetting() {
-        navigationItem.title = diaryData?.date?.toString
+        let titleLabel = UILabel()
+        titleLabel.text = diaryData?.date?.toString
+        titleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
+        
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "swift")
+        
+        if let icon = diaryData?.icon {
+            imageView.weatherImage(icon: icon)
+        }
+        
+        let stackView = UIStackView(arrangedSubviews: [imageView, titleLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+
+        navigationItem.titleView = stackView
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .action,
             target: self,

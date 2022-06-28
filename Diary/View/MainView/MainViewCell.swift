@@ -74,7 +74,10 @@ final class MainViewCell: UITableViewCell {
             titleLabel.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -Constant.lineInset),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constant.lineInset),
             stackView.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: titleLabel.rightAnchor)
+            stackView.rightAnchor.constraint(equalTo: titleLabel.rightAnchor),
+
+            weatherImageView.widthAnchor.constraint(equalToConstant: 26),
+            weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.heightAnchor)
         ])
     }
     
