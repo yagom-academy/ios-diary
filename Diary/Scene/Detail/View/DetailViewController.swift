@@ -38,7 +38,7 @@ final class DetailViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        viewModel.saveDiary(text: detailView.contentTextView.text)
+        viewModel.viewDidDisappear()
     }
 }
 
@@ -61,6 +61,10 @@ extension DetailViewController: UITextViewDelegate {
         }
         
         return true
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        viewModel.textViewDidChange(text: textView.text)
     }
 }
 
@@ -115,7 +119,7 @@ extension DetailViewController {
 // MARK: Objc Method
 extension DetailViewController {
     @objc private func didEnterBackground() {
-        viewModel.saveDiary(text: detailView.contentTextView.text)
+        viewModel.didEnterBackground()
     }
     
     @objc private func didTapActionButton() {
@@ -134,7 +138,7 @@ extension DetailViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
-        viewModel.saveDiary(text: detailView.contentTextView.text)
+        viewModel.keyboardWillHide()
     }
 }
 
@@ -145,7 +149,7 @@ extension DetailViewController {
         
         let deleteAction = UIAlertAction(title: AppConstants.deleteActionTitle, style: .destructive) { _ in
             self.showAlert { _ in
-                self.viewModel.deleteDiary()
+                self.viewModel.didTapDeleteButton()
                 self.navigationController?.popViewController(animated: true)
             }
         }

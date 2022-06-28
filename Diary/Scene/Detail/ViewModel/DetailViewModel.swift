@@ -13,6 +13,7 @@ final class DetailViewModel {
     
     private(set) var diary: DiaryEntity
     private var status: ExecutionStatus = .update
+    private var currentText: String?
     
     init(diary: DiaryEntity) {
         self.diary = diary
@@ -20,12 +21,39 @@ final class DetailViewModel {
 }
 
 extension DetailViewModel {
-    func saveDiary(text: String?) {
+    
+    // MARK: Input
+    
+    func viewDidDisappear() {
+        saveDiary()
+    }
+    
+    func didEnterBackground() {
+        saveDiary()
+    }
+    
+    func keyboardWillHide() {
+        saveDiary()
+    }
+    
+    func textViewDidChange(text: String) {
+        currentText = text
+    }
+    
+    func didTapDeleteButton() {
+        deleteDiary()
+    }
+    
+    // MARK: Output
+    
+    private func saveDiary() {
         if status == .delete {
             return
         }
         
-        guard let content = text else { return }
+        guard let content = currentText else {
+            return
+        }
 
         var splitedText = content.components(separatedBy: "\n")
         let title = splitedText.removeFirst()
@@ -42,7 +70,7 @@ extension DetailViewModel {
         PersistenceManager.shared.updateData(by: diary)
     }
     
-    func deleteDiary() {
+    private func deleteDiary() {
         PersistenceManager.shared.deleteData(by: diary)
         status = .delete
     }
