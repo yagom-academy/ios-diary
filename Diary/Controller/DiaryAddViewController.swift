@@ -40,15 +40,6 @@ final class DiaryAddViewController: DiaryBaseViewController {
   }
 
   @objc private func createDiary() {
-    var text = self.bodyTextView.text.components(separatedBy: "\n")
-    let title = text.first
-    text.removeFirst()
-    let body = text.joined(separator: "\n")
-
-    if let title = title, !title.isEmpty {
-      self.storageManger.create(
-        diary: Diary(uuid: UUID().uuidString, title: title, body: body, createdAt: Date().timeIntervalSince1970)
-      )
-    }
+    self.storageManger.create(text: self.bodyTextView.text)
   }
 }

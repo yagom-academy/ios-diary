@@ -16,7 +16,7 @@ final class DiaryViewController: UIViewController {
   }
 
   private let storageManger = DiaryStorageManager()
-  private var diaries = [DiaryEntity]() {
+  private var diaries = [Diary]() {
     didSet {
       DispatchQueue.main.async {
         self.diaryTableView.reloadData()
@@ -148,13 +148,13 @@ extension DiaryViewController: UITableViewDelegate {
     return configuration
   }
 
-  private func presentShareActivityController(diary: DiaryEntity) {
+  private func presentShareActivityController(diary: Diary) {
     guard let title = diary.title else { return }
     let activityController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
     self.present(activityController, animated: true)
   }
 
-  private func presentDeleteAlert(diary: DiaryEntity) {
+  private func presentDeleteAlert(diary: Diary) {
     let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
     let cancelAction = UIAlertAction(title: "취소", style: .cancel)
     let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
@@ -166,7 +166,9 @@ extension DiaryViewController: UITableViewDelegate {
     self.present(alert, animated: true)
   }
 
-  private func deleteDiary(diary: DiaryEntity) {
-    self.storageManger.delete(diary: diary)
+  private func deleteDiary(diary: Diary) {
+    guard let uuid = diary.uuid else { return }
+
+    self.storageManger.delete(uuid: uuid)
   }
 }

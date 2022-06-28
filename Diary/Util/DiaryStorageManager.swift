@@ -11,29 +11,62 @@ import CoreData
 final class DiaryStorageManager {
   private let storage = PersistentStore(fileName: "Diary")
 
-  func create(diary: Diary) {
-    let diaryEntity = DiaryEntity(context: self.storage.context)
-    diaryEntity.setValue(diary.title, forKey: "title")
-    diaryEntity.setValue(diary.body, forKey: "body")
-    diaryEntity.setValue(diary.createdAt, forKey: "createdAt")
-    diaryEntity.setValue(diary.uuid, forKey: "uuid")
+  func create(text: String) {
+    var separatedText = text.components(separatedBy: "\n")
+    let title = separatedText.first
+    separatedText.removeFirst()
+    let body = separatedText.joined(separator: "\n")
 
-    self.storage.saveContext()
-    NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
+    if let title = title, !title.isEmpty {
+      let diaryEntity = DiaryEntity(context: self.storage.context)
+      diaryEntity.setValue(title, forKey: "title")
+      diaryEntity.setValue(body, forKey: "body")
+      diaryEntity.setValue(Date().timeIntervalSince1970, forKey: "createdAt")
+      diaryEntity.setValue(UUID().uuidString, forKey: "uuid")
+
+      self.storage.saveContext()
+      NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
+    }
   }
 
-  func fetchAllDiaries() -> [DiaryEntity] {
+  func fetchAllDiaries() -> [Diary] {
     guard let diaryEntities = try? self.storage.context.fetch(DiaryEntity.fetchRequest()) else { return [] }
-    return diaryEntities
+
+    return diaryEntities.map { entity in
+      return Diary(
+        uuid: entity.uuid,
+        title: entity.title,
+        body: entity.body,
+        createdAt: entity.createdAt
+      )
+    }
   }
 
-  func update() {
+  func update(uuid: String, text: String) {
+    let request = DiaryEntity.fetchRequest()
+    request.predicate = NSPredicate(format: "uuid == %@", uuid)
+
+    guard let entity = try? self.storage.context.fetch(request).first else { return }
+
+    var separatedText = text.components(separatedBy: "\n")
+    let title = separatedText.first
+    separatedText.removeFirst()
+    let body = separatedText.joined(separator: "\n")
+
+    entity.title = title
+    entity.body = body
+
     self.storage.saveContext()
     NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
   }
 
-  func delete(diary: DiaryEntity) {
-    self.storage.context.delete(diary)
+  func delete(uuid: String) {
+    let request = DiaryEntity.fetchRequest()
+    request.predicate = NSPredicate(format: "uuid == %@", uuid)
+
+    guard let entity = try? self.storage.context.fetch(request).first else { return }
+
+    self.storage.context.delete(entity)
     self.storage.saveContext()
     NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasDeleted, object: nil)
   }
