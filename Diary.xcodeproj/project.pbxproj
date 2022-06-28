@@ -24,6 +24,7 @@
 		4EBF1C062862E72600C35698 /* UIApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF1C052862E72600C35698 /* UIApplication.swift */; };
 		4EC4B4962861910C00669E5D /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4B4952861910C00669E5D /* UITextView.swift */; };
 		4EC4B49928619D6A00669E5D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4B49828619D6A00669E5D /* UIViewController.swift */; };
+		4ED43D3B286ACFDB008CB017 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED43D3A286ACFDB008CB017 /* NetworkError.swift */; };
 		5B7D470C3B4D18C9DB743574 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4426E833CCAA9573A01D330A /* Pods_Diary.framework */; };
 		A152B1A3285C543300BA06A9 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A152B1A2285C543300BA06A9 /* Diary.swift */; };
 		A1A8C5242862DCDD008A95A9 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A8C5232862DCDD008A95A9 /* MainViewModel.swift */; };
@@ -63,6 +64,7 @@
 		4EBF1C052862E72600C35698 /* UIApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIApplication.swift; sourceTree = "<group>"; };
 		4EC4B4952861910C00669E5D /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
 		4EC4B49828619D6A00669E5D /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
+		4ED43D3A286ACFDB008CB017 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		A152B1A2285C543300BA06A9 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		A1A8C5232862DCDD008A95A9 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		A1A8C5252862DCE5008A95A9 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				4EBF1C032862E37400C35698 /* DiaryError.swift */,
+				4ED43D3A286ACFDB008CB017 /* NetworkError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -429,6 +432,7 @@
 				4EB67BC228648D4600D00805 /* Weather.swift in Sources */,
 				4EC4B49928619D6A00669E5D /* UIViewController.swift in Sources */,
 				4EC4B4962861910C00669E5D /* UITextView.swift in Sources */,
+				4ED43D3B286ACFDB008CB017 /* NetworkError.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				03EB0426285869AE008A68FC /* DetailViewController.swift in Sources */,
 				4EB67BC028648AC200D00805 /* EndPoint.swift in Sources */,
