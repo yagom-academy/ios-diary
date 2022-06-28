@@ -9,7 +9,6 @@ import UIKit
 
 final class DiaryCell: UITableViewCell {
     static let identifier = "DiaryCell"
-    //private var task: URLSessionDataTask?
     private var viewModel: DiaryCellViewModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -105,7 +104,7 @@ final class DiaryCell: UITableViewCell {
         ])
     }
     
-    func setUpContents(data: DiaryEntity, _ requestManager: RequestManager) {
+    func setUpContents(data: DiaryEntity, _ requestManager: NetworkManager) {
         if data.title == "" {
             titleLabel.text = AppConstants.noTitle
         } else {
@@ -113,6 +112,6 @@ final class DiaryCell: UITableViewCell {
         }
         dateLabel.text = data.createdAt.formattedString
         descriptionLabel.text = data.body?.trimmingCharacters(in: .newlines)
-        viewModel.setUpContents(icon: data.icon)
+        viewModel?.setUpContents(icon: data.icon)
     }
 }

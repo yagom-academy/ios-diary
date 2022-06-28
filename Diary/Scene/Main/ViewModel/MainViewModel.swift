@@ -11,7 +11,7 @@ final class MainViewModel {
     var diaries: [DiaryEntity] {
         return PersistenceManager.shared.diaryEntities
     }
-    private(set) var requestManager = RequestManager()
+    private(set) var requestManager = NetworkManager()
 }
 
 extension MainViewModel {

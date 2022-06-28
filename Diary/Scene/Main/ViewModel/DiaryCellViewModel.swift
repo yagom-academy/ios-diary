@@ -10,7 +10,7 @@ import UIKit
 
 final class DiaryCellViewModel {
     private(set) var task: URLSessionDataTask?
-    private let apiProvider = RequestManager()
+    private let networkManager = NetworkManager()
     private(set) var image = UIImage()
     
     func prepareForReuse() {
@@ -18,10 +18,27 @@ final class DiaryCellViewModel {
         task?.cancel()
     }
     
-    func setUpContents(data: String) {
-        requestImage(data: data)
+    func setUpContents(icon: String) {
+        requestImage(icon: icon)
     }
     
-    private func requestImage(data: String) {
+    private func requestImage(icon: String) {
+        if let cacheImage = ImageCacheManager.shared.retrive(forKey: icon) {
+            self.image = cacheImage
+            return
+        }
+        let endpoint = EndPointStorage.weatherIcon(icon).endPoint
+        task = networkManager.requestImageAPI(with: endpoint) { [weak self] (result: Result<UIImage, Error>) in
+            switch result {
+            case .success(let image):
+                ImageCacheManager.shared.set(object: image, forKey: icon)
+                self?.image = image
+            case .failure:
+                guard let image = UIImage(systemName: "questionmark.square.dashed") else {
+                    return
+                }
+                self?.image = image
+            }
+        }
     }
 }
