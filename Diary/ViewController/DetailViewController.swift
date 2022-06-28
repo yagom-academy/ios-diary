@@ -18,10 +18,10 @@ fileprivate extension DiaryConstants {
     static let actionSheetCancleTitle = "Cancel"
 }
 
-final class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController, Activitable, ErrorAlertProtocol {
     
     private lazy var detailView = DetailView(frame: view.frame)
-    private let persistenceManager = DiaryEntityManager.shared
+    private let diaryEntityManager = DiaryEntityManager.shared
     private var diaryData: DiaryModel
     
     init(diaryData: DiaryModel) {
@@ -85,7 +85,7 @@ extension DetailViewController {
             createdAt: diaryData.createdAt,
             id: diaryData.id
         )
-        persistenceManager.update(diary: diaryData)
+        diaryEntityManager.update(diary: diaryData)
     }
     
     private func registerDidEnterBackgroundNotification() {
@@ -114,7 +114,11 @@ extension DetailViewController {
             guard let diaryData = self?.diaryData else {
                 return
             }
-            self?.persistenceManager.delete(diary: diaryData)
+            do {
+                try self?.diaryEntityManager.delete(diary: diaryData)
+            } catch {
+                self?.showAlert(alertMessage: ("\(CoreDataError.deleteError.errorDescription)"))
+            }
             self?.navigationController?.popViewController(animated: true)
         }
         alert.addAction(alertDelete)
@@ -141,11 +145,7 @@ extension DetailViewController {
             guard let diaryTitle = self?.detailView.titleField.text else {
                 return
             }
-            let activityViewController = UIActivityViewController(
-                activityItems: [diaryTitle],
-                applicationActivities: nil
-            )
-            self?.present(activityViewController, animated: true)
+            self?.activitySheet(activityItems: [diaryTitle])
         }
         
         let actionSheetDelete = UIAlertAction(

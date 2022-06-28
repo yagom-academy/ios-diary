@@ -13,7 +13,7 @@ fileprivate extension DiaryConstants {
     static let cellSwipeDeleteButton = "trash"
 }
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, Activitable, ErrorAlertProtocol {
     
     private let persistenceManager = DiaryEntityManager.shared
     private var diaryData: [DiaryModel] = []
@@ -26,11 +26,7 @@ final class MainViewController: UIViewController {
                 guard let diaryTitle = self?.diaryData[indexPath.row].title else {
                     return
                 }
-                let activityViewController = UIActivityViewController(
-                    activityItems: [diaryTitle],
-                    applicationActivities: nil
-                )
-                self?.present(activityViewController, animated: true)
+                self?.activitySheet(activityItems: [diaryTitle])
                 completion(true)
             }
             share.image = UIImage(systemName: DiaryConstants.cellSwipeShareButton)
@@ -40,7 +36,12 @@ final class MainViewController: UIViewController {
                 guard let diaryData = self?.diaryData[indexPath.row] else {
                     return
                 }
-                self?.persistenceManager.delete(diary: diaryData)
+                do {
+                   try self?.persistenceManager.delete(diary: diaryData)
+                } catch {
+                    self?.showAlert(alertMessage: ("\(CoreDataError.deleteError.errorDescription)"))
+                }
+                
                 self?.diaryData.remove(at: indexPath.row)
                 self?.collectionView.deleteItems(at: [indexPath])
                 completion(true)
@@ -118,11 +119,10 @@ extension MainViewController {
     private func fetchDiaryData() {
         do {
             diaryData = try persistenceManager.fetch()
-        } catch CoreDataError.fetchError {
-            print(CoreDataError.fetchError.errorDescription)
         } catch {
-            print("invalid error")
+            showAlert(alertMessage: ("\(CoreDataError.fetchError.errorDescription)"))
         }
+       
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
