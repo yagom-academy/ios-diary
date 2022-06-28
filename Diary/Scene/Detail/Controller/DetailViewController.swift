@@ -79,7 +79,7 @@ final class DetailViewController: DiaryBaseViewController {
       secondActionTitle: "삭제",
       firstAction: nil) { [weak self] in
       CoreData.deleteDiary(identifier: self?.diary.identifier ?? "")
-        self?.navigationController?.pushViewController(MainViewController(), animated: true)
+        self?.navigationController?.popViewController(animated: true)
     }
     
     let actionSheetConst = AlertAction(
