@@ -96,7 +96,8 @@ final class DiaryDetailViewController: DiaryBaseViewController {
       self,
       selector: #selector(self.updateDiary),
       name: UIApplication.didEnterBackgroundNotification,
-      object: nil)
+      object: nil
+    )
   }
 
   @objc private func updateDiary() {
