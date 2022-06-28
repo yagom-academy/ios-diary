@@ -53,6 +53,7 @@ class DiaryViewController: UIViewController {
             guard let locationManager = locationManager else {
                 return
             }
+            
             locationManager.delegate = self
             locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
@@ -109,8 +110,10 @@ class DiaryViewController: UIViewController {
             if !$0.trimmingCharacters(in: .whitespaces).isEmpty {
                 return $0.trimmingCharacters(in: .whitespaces)
             }
+            
             return nil
         }
+        
         return convertedTextArray
     }
     
@@ -149,9 +152,11 @@ class DiaryViewController: UIViewController {
         let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
             self.touchShareButton()
         }
+        
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.touchDeleteButton()
         }
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
 
         alert.addAction(shareAction)
@@ -173,25 +178,28 @@ class DiaryViewController: UIViewController {
 extension DiaryViewController: CLLocationManagerDelegate {
     private func getCoordinate() -> (Double, Double)? {
         let coordinate = locationManager?.location?.coordinate
-        guard let latitude = coordinate?.latitude as? Double else {
+        guard let latitude = coordinate?.latitude else {
             return nil
         }
-        guard let longtitude = coordinate?.longitude as? Double else {
+        
+        guard let longtitude = coordinate?.longitude else {
             return nil
         }
+        
         return (latitude, longtitude)
     }
     
-    private func getWeatherInfo() {
+    private func setWeatherInfo() {
         let apiKey = "783e209f3bc56998f3575fbe0168df43"
         
-        guard let coor = getCoordinate() else {
+        guard let coordinate = getCoordinate() else {
             return
         }
 
-        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(coor.0)&lon=\(coor.1)&appid=\(apiKey)") else {
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(coordinate.0)&lon=\(coordinate.1)&appid=\(apiKey)") else {
             return
         }
+        
         let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
             guard error == nil else {
                 return
@@ -207,9 +215,11 @@ extension DiaryViewController: CLLocationManagerDelegate {
             
             self.parse(data)
         }
+        
         dataTask.resume()
     }
-    private func getIcon(iconID: String) {
+    
+    private func setWeatherImage(_ iconID: String) {
         guard let url = URL(string: "https://openweathermap.org/img/w/\(iconID).png") else { return }
 
         let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -224,8 +234,10 @@ extension DiaryViewController: CLLocationManagerDelegate {
             guard let data = data else {
                 return
             }
+            
             self.weatherImage = data
         }
+        
         dataTask.resume()
     }
     
@@ -243,13 +255,15 @@ extension DiaryViewController: CLLocationManagerDelegate {
                 return
             }
             
-            guard let icon = element["icon"] as? String else {
+            guard let iconID = element["icon"] as? String else {
                 return
             }
+            
             DispatchQueue.main.async {
-                self.getIcon(iconID: icon)
+                self.setWeatherImage(iconID)
             }
-            self.weather = Weather(main: main, iconID: icon)
+            
+            self.weather = Weather(main: main, iconID: iconID)
         }
     }
 }
