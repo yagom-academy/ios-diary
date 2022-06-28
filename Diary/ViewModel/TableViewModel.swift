@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class TableViewModel<U: UseCase>: NSObject {
+final class TableViewModel<U: CoreDataUseCase>: NSObject {
     private var data: [U.Element] = []
     private let useCase: U
     var dataCount: Int {

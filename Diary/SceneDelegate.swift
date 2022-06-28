@@ -14,7 +14,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let window = UIWindow(windowScene: windowScene)
-        let mainViewController = MainViewController(view: MainView(), viewModel: TableViewModel(useCase: DiaryUseCase(containerManager: DiaryContainerManager.shared)))
+        let weatherDataUseCase = WeatherDataUseCase(network: Network(), jsonDecoder: JSONDecoder())
+        let diaryUseCase = DiaryUseCase(containerManager: DiaryContainerManager.shared,
+                                        weatherUseCase: weatherDataUseCase)
+        let tableViewModel = TableViewModel(useCase: diaryUseCase)
+        let mainViewController = MainViewController(view: MainView(),
+                                                    viewModel: tableViewModel)
         let navigationController = UINavigationController(rootViewController: mainViewController)
         window.rootViewController = navigationController
         self.window = window

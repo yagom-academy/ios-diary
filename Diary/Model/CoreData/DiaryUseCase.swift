@@ -6,8 +6,9 @@
 //
 
 import CoreData
+import CoreLocation
 
-protocol UseCase {
+protocol CoreDataUseCase {
     associatedtype Element: DataModelable
     func create(element: Element) throws -> Element
     func read() throws -> [Element]
@@ -15,13 +16,28 @@ protocol UseCase {
     func delete(element: Element) throws
 }
 
-final class DiaryUseCase: UseCase {
+final class DiaryUseCase: CoreDataUseCase {
     private let containerManager: ContainerManagerable
+    private let weatherUseCase: WeatherDataUseCase
     let context: NSManagedObjectContext
     let diaryEntity: NSEntityDescription?
     
-    init(containerManager: ContainerManagerable) {
+    private var location: Location? {
+        get{
+            let locationManager = CLLocationManager()
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
+            guard let lat = locationManager.location?.coordinate.latitude,
+                  let lon = locationManager.location?.coordinate.longitude else {
+                return nil
+            }
+            return Location(lat: lat, lon: lon)
+        }
+    }
+    
+    init(containerManager: ContainerManagerable, weatherUseCase: WeatherDataUseCase) {
         self.containerManager = containerManager
+        self.weatherUseCase = weatherUseCase
         context = containerManager.persistentContainer.viewContext
         diaryEntity = NSEntityDescription.entity(forEntityName: DiaryInfo.entityName, in: context)
     }
@@ -43,7 +59,12 @@ final class DiaryUseCase: UseCase {
               let diaryData = NSManagedObject(entity: diaryEntity, insertInto: context) as? DiaryData else {
             throw CoreDataError.createError
         }
-
+                
+        /*
+        let weatherData = weatherUseCase.requestWeatherData(location: location,
+                                                            completeHandler: <#T##(WeatherData) -> Void#>,
+                                                            errorHandler: <#T##(Error) -> Void#>)
+*/
         diaryData.title = element.title
         diaryData.body = element.body
         diaryData.date = element.date
