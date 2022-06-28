@@ -47,7 +47,7 @@ final class DiaryAddViewController: DiaryBaseViewController {
 
     if let title = title, !title.isEmpty {
       self.storageManger.create(
-        diary: Diary(title: title, body: body, createdAt: Date().timeIntervalSince1970)
+        diary: Diary(uuid: UUID().uuidString, title: title, body: body, createdAt: Date().timeIntervalSince1970)
       )
     }
   }
