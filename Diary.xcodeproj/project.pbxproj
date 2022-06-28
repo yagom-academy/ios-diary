@@ -11,6 +11,7 @@
 		86680F2F2861BE6C001B9352 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86680F2E2861BE6C001B9352 /* CoreDataManager.swift */; };
 		867CAD01285B14FA00A04F1F /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD00285B14FA00A04F1F /* UIStackView+Extension.swift */; };
 		86F67609286332DA00F675E8 /* Optional+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F67608286332DA00F675E8 /* Optional+Extension.swift */; };
+		86FB0332286ACE0A002A2834 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB0331286ACE0A002A2834 /* Alert.swift */; };
 		AB0D9A032859AB8C00235064 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = AB0D9A022859AB8C00235064 /* sample.json */; };
 		AB0D9A052859ABB200235064 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A042859ABB200235064 /* WriteViewController.swift */; };
 		AB0D9A072859B0FB00235064 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A062859B0FB00235064 /* WriteView.swift */; };
@@ -38,6 +39,7 @@
 		86680F2E2861BE6C001B9352 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		867CAD00285B14FA00A04F1F /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
 		86F67608286332DA00F675E8 /* Optional+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extension.swift"; sourceTree = "<group>"; };
+		86FB0331286ACE0A002A2834 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		90BC7C1B1D0558C345CE0253 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		AB0D9A022859AB8C00235064 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
 		AB0D9A042859ABB200235064 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
@@ -153,6 +155,14 @@
 			path = Scene;
 			sourceTree = "<group>";
 		};
+		86FB0330286ACDF4002A2834 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				86FB0331286ACE0A002A2834 /* Alert.swift */,
+			);
+			path = Alert;
+			sourceTree = "<group>";
+		};
 		A370ED2066CD6E1AE458FAA3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +262,7 @@
 		ABF991B428597710000A44A1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				86FB0330286ACDF4002A2834 /* Alert */,
 				86680F2D2861BE49001B9352 /* CoreData */,
 				AB91E910285C809C00D9E497 /* Enum */,
 				AB4D73C5285B1D9600BE5190 /* Protocol */,
@@ -436,6 +447,7 @@
 				AB6B32A42862E82700E777CE /* DetailView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				AB6B329E2861F39F00E777CE /* Diary+CoreDataClass.swift in Sources */,
+				86FB0332286ACE0A002A2834 /* Alert.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				86680F2F2861BE6C001B9352 /* CoreDataManager.swift in Sources */,
 				AB0D9A052859ABB200235064 /* WriteViewController.swift in Sources */,

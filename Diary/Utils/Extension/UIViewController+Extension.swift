@@ -19,35 +19,59 @@ extension UIViewController {
 }
 
 extension UIViewController {
-  func showAlert(
-    title: String?,
-    message: String? = nil,
-    firstActionTitle: String? = nil,
-    secondActionTitle: String? = nil,
-    preferredStyle: UIAlertController.Style,
-    firstAction: (() -> Void)? = nil,
-    secondAction: (() -> Void)? = nil
+  func showActionSheet(
+    alertAction: AlertAction
   ) {
     DispatchQueue.main.async { [weak self] in
-      let alert = UIAlertController(title: title, message: message, preferredStyle: preferredStyle)
+      let alert = UIAlertController(title: alertAction.title, message: alertAction.message, preferredStyle: .actionSheet)
       
-      if let action = firstAction {
-        let firstAction = UIAlertAction(title: firstActionTitle, style: .default) { _ in
+      if let action = alertAction.firstAction {
+        let firstAction = UIAlertAction(title: alertAction.firstActionTitle, style: .default) { _ in
           action()
         }
         alert.addAction(firstAction)
       } else {
-        let firstAction = UIAlertAction(title: firstActionTitle, style: .default)
+        let firstAction = UIAlertAction(title: alertAction.firstActionTitle, style: .default)
         alert.addAction(firstAction)
       }
       
-      if let action = secondAction {
-        let secondAction = UIAlertAction(title: secondActionTitle, style: .destructive) { _ in
+      if let action = alertAction.secondAction {
+        let secondAction = UIAlertAction(title: alertAction.secondActionTitle, style: .destructive) { _ in
           action()
         }
         alert.addAction(secondAction)
       } else {
-        let secondAction = UIAlertAction(title: secondActionTitle, style: .destructive)
+        let secondAction = UIAlertAction(title: alertAction.secondActionTitle, style: .destructive)
+        alert.addAction(secondAction)
+      }
+      
+      self?.present(alert, animated: true)
+    }
+  }
+  
+  func showAlert(
+    alertAction: AlertAction
+  ) {
+    DispatchQueue.main.async { [weak self] in
+      let alert = UIAlertController(title: alertAction.title, message: alertAction.message, preferredStyle: .alert)
+      
+      if let action = alertAction.firstAction {
+        let firstAction = UIAlertAction(title: alertAction.firstActionTitle, style: .default) { _ in
+          action()
+        }
+        alert.addAction(firstAction)
+      } else {
+        let firstAction = UIAlertAction(title: alertAction.firstActionTitle, style: .default)
+        alert.addAction(firstAction)
+      }
+      
+      if let action = alertAction.secondAction {
+        let secondAction = UIAlertAction(title: alertAction.secondActionTitle, style: .destructive) { _ in
+          action()
+        }
+        alert.addAction(secondAction)
+      } else {
+        let secondAction = UIAlertAction(title: alertAction.secondActionTitle, style: .destructive)
         alert.addAction(secondAction)
       }
       

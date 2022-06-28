@@ -9,6 +9,7 @@ import UIKit
 
 final class DetailViewController: DiaryBaseViewController {
   private let diary: Diary
+  
   lazy var baseView = DetailView(frame: view.bounds)
   
   init(diary: Diary) {
@@ -69,28 +70,30 @@ final class DetailViewController: DiaryBaseViewController {
     navigationItem.title = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
     baseView.updateTextView(diary: diary)
   }
-  
+
   @objc func actionSheetWillShow() {
-    showAlert(
+    let alertConst = AlertAction(
+      title: "진짜?",
+      message: "정말",
+      firstActionTitle: "취소",
+      secondActionTitle: "삭제",
+      firstAction: nil) { [weak self] in
+      CoreData.deleteDiary(identifier: self?.diary.identifier ?? "")
+        self?.navigationController?.pushViewController(MainViewController(), animated: true)
+    }
+    
+    let actionSheetConst = AlertAction(
       title: "택1",
       message: "무엇을",
       firstActionTitle: "Share...",
       secondActionTitle: "Delete",
-      preferredStyle: .actionSheet,
-      firstAction: { [weak self] in
-        self?.showActivityView(text: "선택하세요")
-      }, secondAction: {
-        self.showAlert(
-          title: "진짜?",
-          message: "정말?",
-          firstActionTitle: "취소",
-          secondActionTitle: "삭제",
-          preferredStyle: .alert,
-          secondAction: {
-            CoreData.deleteDiary(identifier: self.diary.identifier.bindOptional())
-            self.navigationController?.pushViewController(MainViewController(), animated: true)
-          })
-      })
+      firstAction:  { [weak self] in
+        self?.showActivityView(text: "선택하세요")},
+      secondAction: { [weak self] in
+      self?.showAlert(alertAction: alertConst)
+    })
+    
+    showActionSheet(alertAction: actionSheetConst)
   }
 }
 
@@ -127,3 +130,4 @@ private extension DetailViewController {
     baseView.textView.scrollIndicatorInsets = contentInset
   }
 }
+
