@@ -78,29 +78,31 @@ class DiaryViewController: UIViewController {
     }
     
     private func setDiary() {
+        var convertedTextArray = convertedTextArray()
+        diary = Diary(title: convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst(),
+                      body: convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0],
+                      text: diaryView.diaryTextView.text ?? "",
+                      createdAt: Date().timeIntervalSince1970,
+                      id: UUID(),
+                      weather: self.weather)
+    }
+    
+    private func editDiary() {
+        var convertedTextArray = convertedTextArray()
+        diary?.title = convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst()
+        diary?.body = convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0]
+        diary?.text = diaryView.diaryTextView.text ?? ""
+    }
+    
+    private func convertedTextArray() -> [String] {
         let textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
-        var convertedTextArray: [String] = textArray.compactMap {
+        let convertedTextArray: [String] = textArray.compactMap {
             if !$0.trimmingCharacters(in: .whitespaces).isEmpty {
                 return $0.trimmingCharacters(in: .whitespaces)
             }
             return nil
         }
-        
-        if diary == nil {
-            getWeatherInfo()
-            diary = Diary(title: convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst(),
-                          body: convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0],
-                          text: diaryView.diaryTextView.text ?? "",
-                          createdAt: Date().timeIntervalSince1970,
-                          id: UUID(),
-                          weather: self.weather)
-            let abc = UIImage(data: self.weather?.iconImage ?? Data())
-            print(abc)
-        } else {
-            diary?.title = convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst()
-            diary?.body = convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0]
-            diary?.text = diaryView.diaryTextView.text ?? ""
-        }
+        return convertedTextArray
     }
     
     private func touchShareButton() {
