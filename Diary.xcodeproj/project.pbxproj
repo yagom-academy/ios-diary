@@ -168,10 +168,10 @@
 				E526BE03285D80B600BD2D94 /* Extension */,
 				B0B8BE33285C69580086190C /* Parser.swift */,
 				E51F942A2863311C004623DA /* DiaryStorageManager.swift */,
+				E51F942E2865E771004623DA /* DiaryStorageNotification.swift */,
 				B031059A286AE1460020AE3F /* PersistentStore.swift */,
 				B0B8BE35285C75B30086190C /* Formatter.swift */,
 				E5AE00EE285C5C980046E430 /* Then.swift */,
-				E51F942E2865E771004623DA /* DiaryStorageNotification.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
