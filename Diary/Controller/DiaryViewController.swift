@@ -22,6 +22,9 @@ class DiaryViewController: UIViewController {
     private var weatherImage: Data? {
         didSet {
             self.weather?.iconImage = weatherImage
+            DispatchQueue.main.async {
+                self.setDiary()
+            }
         }
     }
     
@@ -65,9 +68,14 @@ class DiaryViewController: UIViewController {
         self.navigationItem.setRightBarButton(barButton, animated: true)
     }
     
-    private func update(_ diaryData: Diary?) {
+    private func update() {
+        if diary == nil {
+            getWeatherInfo()
+        } else {
+            editDiary()
+        }
         do {
-            guard let diaryData = diaryData else {
+            guard let diaryData = self.diary else {
                 return
             }
 
@@ -153,12 +161,12 @@ class DiaryViewController: UIViewController {
     }
     
     @objc private func saveDiary() {
-        setDiary()
-        update(diary)
+
+        update()
         delegate?.updateView()
     }
 }
-
+// MARK: - weather info
 extension DiaryViewController: CLLocationManagerDelegate {
     private func getCoordinate() -> (Double, Double)? {
         let coordinate = locationManager?.location?.coordinate
