@@ -82,6 +82,7 @@ class DiaryViewController: UIViewController {
         }
         
         if diary == nil {
+            getWeatherInfo()
             diary = Diary(title: convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst(),
                           body: convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0],
                           text: diaryView.diaryTextView.text ?? "",
@@ -159,5 +160,50 @@ extension DiaryViewController: CLLocationManagerDelegate {
             return nil
         }
         return (latitude, longtitude)
+    }
+    
+    private func getWeatherInfo() {
+        guard let coor = getCoordinate() else {
+            return
+        }
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(coor.0)&lon=\(coor.1)&appid=\(apiKey)") else {
+            return
+        }
+        let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
+            guard error == nil else {
+                return
+            }
+            
+            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+                return
+            }
+            
+            guard let data = data else {
+                return
+            }
+            
+            self.parse(data)
+        }
+        dataTask.resume()
+    }
+    
+    private func parse(_ data: Data) {
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+            return
+        }
+        
+        guard let weather = json["weather"] as? [[String: Any]] else {
+            return
+        }
+        
+        for element in weather {
+            guard let main = element["main"] as? String else {
+                return
+            }
+            
+            guard let icon = element["icon"] as? String else {
+                return
+            }
+        }
     }
 }
