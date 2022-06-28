@@ -17,6 +17,7 @@
 		B32FEFA52860116500F3A6B5 /* DiaryModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */; };
 		B32FEFA62860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */; };
 		B3427841286192F3004488E4 /* Notification.Name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3427840286192F3004488E4 /* Notification.Name+.swift */; };
+		B379881E286A8F08005FA8D9 /* MappingModelV1ToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = B379881D286A8F08005FA8D9 /* MappingModelV1ToV2.xcmappingmodel */; };
 		B3940C7E2862BF1400EB2280 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3940C7D2862BF1400EB2280 /* UIViewController+.swift */; };
 		B3D761702860131C00C4AE94 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */; };
 		B3FB2B2B285C1EC6009A932C /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FB2B2A285C1EC6009A932C /* Date+.swift */; };
@@ -42,6 +43,8 @@
 		B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataClass.swift"; sourceTree = "<group>"; };
 		B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3427840286192F3004488E4 /* Notification.Name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Notification.Name+.swift"; path = "Diary/Controller/Notification.Name+.swift"; sourceTree = SOURCE_ROOT; };
+		B379881C286A8B9B005FA8D9 /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
+		B379881D286A8F08005FA8D9 /* MappingModelV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
 		B3940C7D2862BF1400EB2280 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIViewController+.swift"; path = "Diary/Controller/UIViewController+.swift"; sourceTree = SOURCE_ROOT; };
 		B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B3FB2B2A285C1EC6009A932C /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
@@ -123,6 +126,7 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
+				B379881D286A8F08005FA8D9 /* MappingModelV1ToV2.xcmappingmodel */,
 				B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */,
 				B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */,
 				C739AE23284DF28600741E8F /* Diary */,
@@ -296,6 +300,7 @@
 				AC50348928582BDE0068C2A0 /* ListTableViewCell.swift in Sources */,
 				B32FEFA228600F5600F3A6B5 /* Model.xcdatamodeld in Sources */,
 				B3D761702860131C00C4AE94 /* CoreDataManager.swift in Sources */,
+				B379881E286A8F08005FA8D9 /* MappingModelV1ToV2.xcmappingmodel in Sources */,
 				B3FE9B3B285853F60006A7AB /* Diary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -515,9 +520,10 @@
 		B32FEFA028600F5600F3A6B5 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B379881C286A8B9B005FA8D9 /* Model 2.xcdatamodel */,
 				B32FEFA128600F5600F3A6B5 /* Model.xcdatamodel */,
 			);
-			currentVersion = B32FEFA128600F5600F3A6B5 /* Model.xcdatamodel */;
+			currentVersion = B379881C286A8B9B005FA8D9 /* Model 2.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
