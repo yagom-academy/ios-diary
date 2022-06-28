@@ -6,7 +6,7 @@
 
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
   var window: UIWindow?
   func scene(
     _ scene: UIScene,
@@ -16,5 +16,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       window = UIWindow(windowScene: windowScene)
       window?.rootViewController = UINavigationController(rootViewController: MainViewController())
       window?.makeKeyAndVisible()
+  }
+  
+  func sceneDidEnterBackground(_ scene: UIScene) {
+    NotificationCenter.default.post(name: UIApplication.didEnterBackgroundNotification, object: nil)
   }
 }

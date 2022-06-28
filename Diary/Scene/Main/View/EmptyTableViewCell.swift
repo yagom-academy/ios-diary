@@ -2,7 +2,7 @@
 //  EmptyTableViewCell.swift
 //  Diary
 //
-//  Created by LIMGAUI on 2022/06/16.
+//  Created by Taeangel, Quokka on 2022/06/16.
 //
 
 import UIKit
@@ -20,7 +20,7 @@ final class EmptyTableViewCell: UITableViewCell, Identifiable {
   
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
-    self.configureUI()
+    configureUI()
   }
   
   required init?(coder: NSCoder) {
@@ -28,13 +28,13 @@ final class EmptyTableViewCell: UITableViewCell, Identifiable {
   }
   
   private func configureUI() {
-    self.contentView.addSubview(titleLabel)
+    contentView.addSubview(titleLabel)
     
     NSLayoutConstraint.activate([
-      self.titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-      self.titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
-      self.titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-      self.titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+      titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
+      titleLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20),
+      titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+      titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
     ])
   }
 }

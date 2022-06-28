@@ -8,47 +8,63 @@
 
 /* Begin PBXBuildFile section */
 		239FC1E248AC305B681B2D7A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE0D737916E9FC85357EA8D2 /* Pods_Diary.framework */; };
-		867CAD01285B14FA00A04F1F /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD00285B14FA00A04F1F /* UIStackView+.swift */; };
-		867CAD03285B15A000A04F1F /* ParserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD02285B15A000A04F1F /* ParserManager.swift */; };
+		86680F2F2861BE6C001B9352 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86680F2E2861BE6C001B9352 /* CoreDataManager.swift */; };
+		867CAD01285B14FA00A04F1F /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 867CAD00285B14FA00A04F1F /* UIStackView+Extension.swift */; };
+		86F67609286332DA00F675E8 /* Optional+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86F67608286332DA00F675E8 /* Optional+Extension.swift */; };
+		86FB0332286ACE0A002A2834 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB0331286ACE0A002A2834 /* Alert.swift */; };
 		AB0D9A032859AB8C00235064 /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = AB0D9A022859AB8C00235064 /* sample.json */; };
 		AB0D9A052859ABB200235064 /* WriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A042859ABB200235064 /* WriteViewController.swift */; };
 		AB0D9A072859B0FB00235064 /* WriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0D9A062859B0FB00235064 /* WriteView.swift */; };
+		AB135A892869F0CE0090A6D0 /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB135A882869F0CE0090A6D0 /* DiaryData.swift */; };
+		AB2D399D2865895600D3FBC7 /* DiaryBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2D399C2865895600D3FBC7 /* DiaryBaseViewController.swift */; };
+		AB2D39A0286598A100D3FBC7 /* DiaryBaseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB2D399F286598A100D3FBC7 /* DiaryBaseView.swift */; };
 		AB4D73C2285B197700BE5190 /* Identifierable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D73C1285B197700BE5190 /* Identifierable.swift */; };
-		AB4D73C4285B1CDD00BE5190 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D73C3285B1CDD00BE5190 /* Date+.swift */; };
+		AB4D73C4285B1CDD00BE5190 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D73C3285B1CDD00BE5190 /* Date+Extension.swift */; };
 		AB4D73C7285B1FD000BE5190 /* EmptyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB4D73C6285B1FD000BE5190 /* EmptyTableViewCell.swift */; };
+		AB6B32872861B76A00E777CE /* CoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32852861B76A00E777CE /* CoreDataModel.xcdatamodeld */; };
+		AB6B329E2861F39F00E777CE /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B329C2861F39F00E777CE /* Diary+CoreDataClass.swift */; };
+		AB6B329F2861F39F00E777CE /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B329D2861F39F00E777CE /* Diary+CoreDataProperties.swift */; };
+		AB6B32A42862E82700E777CE /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32A32862E82700E777CE /* DetailView.swift */; };
+		AB6B32A62862E96800E777CE /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32A52862E96800E777CE /* DetailViewController.swift */; };
+		AB6B32A82863381200E777CE /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB6B32A72863381200E777CE /* UIViewController+Extension.swift */; };
 		AB91E912285C80BB00D9E497 /* DateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB91E911285C80BB00D9E497 /* DateFormat.swift */; };
 		ABF991A82858B2F9000A44A1 /* ListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A72858B2F9000A44A1 /* ListView.swift */; };
 		ABF991AA2858B730000A44A1 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991A92858B730000A44A1 /* ListTableViewCell.swift */; };
-		ABF991B228596D2F000A44A1 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991B128596D2F000A44A1 /* Diary.swift */; };
-		ABF991B72859778E000A44A1 /* Json.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF991B62859778E000A44A1 /* Json.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* MainViewController.swift */; };
-		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		867CAD00285B14FA00A04F1F /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
-		867CAD02285B15A000A04F1F /* ParserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParserManager.swift; sourceTree = "<group>"; };
+		86680F2E2861BE6C001B9352 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		867CAD00285B14FA00A04F1F /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
+		86F67608286332DA00F675E8 /* Optional+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Optional+Extension.swift"; sourceTree = "<group>"; };
+		86FB0331286ACE0A002A2834 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		90BC7C1B1D0558C345CE0253 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		AB0D9A022859AB8C00235064 /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
 		AB0D9A042859ABB200235064 /* WriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteViewController.swift; sourceTree = "<group>"; };
 		AB0D9A062859B0FB00235064 /* WriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WriteView.swift; sourceTree = "<group>"; };
+		AB135A882869F0CE0090A6D0 /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
+		AB2D399C2865895600D3FBC7 /* DiaryBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryBaseViewController.swift; sourceTree = "<group>"; };
+		AB2D399F286598A100D3FBC7 /* DiaryBaseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryBaseView.swift; sourceTree = "<group>"; };
 		AB4D73C1285B197700BE5190 /* Identifierable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifierable.swift; sourceTree = "<group>"; };
-		AB4D73C3285B1CDD00BE5190 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		AB4D73C3285B1CDD00BE5190 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		AB4D73C6285B1FD000BE5190 /* EmptyTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyTableViewCell.swift; sourceTree = "<group>"; };
+		AB6B32862861B76A00E777CE /* DiaryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaryModel.xcdatamodel; sourceTree = "<group>"; };
+		AB6B329C2861F39F00E777CE /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
+		AB6B329D2861F39F00E777CE /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		AB6B32A32862E82700E777CE /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
+		AB6B32A52862E96800E777CE /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		AB6B32A72863381200E777CE /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		AB91E911285C80BB00D9E497 /* DateFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormat.swift; sourceTree = "<group>"; };
 		ABBBCF00285774F300589B86 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		ABF991A72858B2F9000A44A1 /* ListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListView.swift; sourceTree = "<group>"; };
 		ABF991A92858B730000A44A1 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
-		ABF991B128596D2F000A44A1 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
-		ABF991B62859778E000A44A1 /* Json.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Json.swift; sourceTree = "<group>"; };
 		AF34973433EA21680A7FB816 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		C739AE28284DF28600741E8F /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
-		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FE0D737916E9FC85357EA8D2 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -65,30 +81,49 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		864785CC2865BA0C00D066A9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AB2D399F286598A100D3FBC7 /* DiaryBaseView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		864785CD2865BA1700D066A9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AB2D399C2865895600D3FBC7 /* DiaryBaseViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		86680F2D2861BE49001B9352 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				86680F2E2861BE6C001B9352 /* CoreDataManager.swift */,
+				AB135A882869F0CE0090A6D0 /* DiaryData.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		867CACFF285B14C900A04F1F /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				867CAD00285B14FA00A04F1F /* UIStackView+.swift */,
-				AB4D73C3285B1CDD00BE5190 /* Date+.swift */,
+				867CAD00285B14FA00A04F1F /* UIStackView+Extension.swift */,
+				AB4D73C3285B1CDD00BE5190 /* Date+Extension.swift */,
+				86F67608286332DA00F675E8 /* Optional+Extension.swift */,
+				AB6B32A72863381200E777CE /* UIViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
 		};
-		86B36174285C50BE00EEBDF4 /* ParserManager */ = {
-			isa = PBXGroup;
-			children = (
-				867CAD02285B15A000A04F1F /* ParserManager.swift */,
-			);
-			path = ParserManager;
-			sourceTree = "<group>";
-		};
-		86C1322C2858A9920069CFD2 /* MainScene */ = {
+		86C1322C2858A9920069CFD2 /* Main */ = {
 			isa = PBXGroup;
 			children = (
 				ABF991A62858B2F3000A44A1 /* View */,
 				86C1322D2858AA9A0069CFD2 /* Controller */,
 			);
-			path = MainScene;
+			path = Main;
 			sourceTree = "<group>";
 		};
 		86C1322D2858AA9A0069CFD2 /* Controller */ = {
@@ -99,23 +134,33 @@
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		86C13230285979170069CFD2 /* Resource */ = {
+		86C13230285979170069CFD2 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				AB0D9A022859AB8C00235064 /* sample.json */,
 				C739AE35284DF28600741E8F /* Info.plist */,
+				AB6B32942861BB9400E777CE /* CoreDataModel */,
 			);
-			path = Resource;
+			path = Model;
 			sourceTree = "<group>";
 		};
-		86C132322859794B0069CFD2 /* Secen */ = {
+		86C132322859794B0069CFD2 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				C739AE24284DF28600741E8F /* AppDelegate.swift */,
-				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+				AB2D399E2865986100D3FBC7 /* DiaryBase */,
+				86C1322C2858A9920069CFD2 /* Main */,
+				AB6B32A02862E7F300E777CE /* Detail */,
+				ABF991BA2859AAA5000A44A1 /* Write */,
 			);
-			path = Secen;
+			path = Scene;
+			sourceTree = "<group>";
+		};
+		86FB0330286ACDF4002A2834 /* Alert */ = {
+			isa = PBXGroup;
+			children = (
+				86FB0331286ACE0A002A2834 /* Alert.swift */,
+			);
+			path = Alert;
 			sourceTree = "<group>";
 		};
 		A370ED2066CD6E1AE458FAA3 /* Frameworks */ = {
@@ -135,12 +180,65 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		AB135A872869CB220090A6D0 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE24284DF28600741E8F /* AppDelegate.swift */,
+				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		AB2D399E2865986100D3FBC7 /* DiaryBase */ = {
+			isa = PBXGroup;
+			children = (
+				864785CC2865BA0C00D066A9 /* View */,
+				864785CD2865BA1700D066A9 /* Controller */,
+			);
+			path = DiaryBase;
+			sourceTree = "<group>";
+		};
 		AB4D73C5285B1D9600BE5190 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				AB4D73C1285B197700BE5190 /* Identifierable.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		AB6B32942861BB9400E777CE /* CoreDataModel */ = {
+			isa = PBXGroup;
+			children = (
+				AB6B329C2861F39F00E777CE /* Diary+CoreDataClass.swift */,
+				AB6B329D2861F39F00E777CE /* Diary+CoreDataProperties.swift */,
+				AB6B32852861B76A00E777CE /* CoreDataModel.xcdatamodeld */,
+			);
+			path = CoreDataModel;
+			sourceTree = "<group>";
+		};
+		AB6B32A02862E7F300E777CE /* Detail */ = {
+			isa = PBXGroup;
+			children = (
+				AB6B32A22862E80300E777CE /* View */,
+				AB6B32A12862E7FD00E777CE /* Controller */,
+			);
+			path = Detail;
+			sourceTree = "<group>";
+		};
+		AB6B32A12862E7FD00E777CE /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				AB6B32A52862E96800E777CE /* DetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		AB6B32A22862E80300E777CE /* View */ = {
+			isa = PBXGroup;
+			children = (
+				AB6B32A32862E82700E777CE /* DetailView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 		AB91E910285C809C00D9E497 /* Enum */ = {
@@ -161,41 +259,25 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		ABF991B028596D0E000A44A1 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				ABF991B128596D2F000A44A1 /* Diary.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		ABF991B428597710000A44A1 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				86FB0330286ACDF4002A2834 /* Alert */,
+				86680F2D2861BE49001B9352 /* CoreData */,
 				AB91E910285C809C00D9E497 /* Enum */,
-				86B36174285C50BE00EEBDF4 /* ParserManager */,
 				AB4D73C5285B1D9600BE5190 /* Protocol */,
 				867CACFF285B14C900A04F1F /* Extension */,
-				ABF991B52859772F000A44A1 /* Singleton */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		ABF991B52859772F000A44A1 /* Singleton */ = {
-			isa = PBXGroup;
-			children = (
-				ABF991B62859778E000A44A1 /* Json.swift */,
-			);
-			path = Singleton;
-			sourceTree = "<group>";
-		};
-		ABF991BA2859AAA5000A44A1 /* WriteScene */ = {
+		ABF991BA2859AAA5000A44A1 /* Write */ = {
 			isa = PBXGroup;
 			children = (
 				ABF991BB2859AAB0000A44A1 /* View */,
 				ABF991BC2859AAB5000A44A1 /* Controller */,
 			);
-			path = WriteScene;
+			path = Write;
 			sourceTree = "<group>";
 		};
 		ABF991BB2859AAB0000A44A1 /* View */ = {
@@ -219,7 +301,6 @@
 			children = (
 				ABBBCF00285774F300589B86 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
-				ABF991BA2859AAA5000A44A1 /* WriteScene */,
 				C739AE22284DF28600741E8F /* Products */,
 				A4ED2E1C6158963E9FC7C83C /* Pods */,
 				A370ED2066CD6E1AE458FAA3 /* Frameworks */,
@@ -237,11 +318,10 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				86C132322859794B0069CFD2 /* Secen */,
-				86C13230285979170069CFD2 /* Resource */,
 				ABF991B428597710000A44A1 /* Utils */,
-				ABF991B028596D0E000A44A1 /* Model */,
-				86C1322C2858A9920069CFD2 /* MainScene */,
+				AB135A872869CB220090A6D0 /* Application */,
+				86C132322859794B0069CFD2 /* Scene */,
+				86C13230285979170069CFD2 /* Model */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -257,7 +337,7 @@
 				C739AE1D284DF28600741E8F /* Sources */,
 				C739AE1E284DF28600741E8F /* Frameworks */,
 				C739AE1F284DF28600741E8F /* Resources */,
-				ABBBCEFD285773C000589B86 /* ShellScript */,
+				ABBBCEFD285773C000589B86 /* Run Script */,
 			);
 			buildRules = (
 			);
@@ -306,7 +386,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */,
 				AB0D9A032859AB8C00235064 /* sample.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,20 +393,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		ABBBCEFD285773C000589B86 /* ShellScript */ = {
+		ABBBCEFD285773C000589B86 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${PODS_ROOT}/SwiftLint/swiftlint\"\n";
 		};
@@ -360,36 +440,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ABF991B72859778E000A44A1 /* Json.swift in Sources */,
-				ABF991B228596D2F000A44A1 /* Diary.swift in Sources */,
 				AB0D9A072859B0FB00235064 /* WriteView.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
+				AB6B32A82863381200E777CE /* UIViewController+Extension.swift in Sources */,
+				86F67609286332DA00F675E8 /* Optional+Extension.swift in Sources */,
+				AB6B32A42862E82700E777CE /* DetailView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				AB6B329E2861F39F00E777CE /* Diary+CoreDataClass.swift in Sources */,
+				86FB0332286ACE0A002A2834 /* Alert.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				86680F2F2861BE6C001B9352 /* CoreDataManager.swift in Sources */,
 				AB0D9A052859ABB200235064 /* WriteViewController.swift in Sources */,
 				ABF991A82858B2F9000A44A1 /* ListView.swift in Sources */,
+				AB2D39A0286598A100D3FBC7 /* DiaryBaseView.swift in Sources */,
+				AB6B32A62862E96800E777CE /* DetailViewController.swift in Sources */,
 				AB91E912285C80BB00D9E497 /* DateFormat.swift in Sources */,
+				AB6B32872861B76A00E777CE /* CoreDataModel.xcdatamodeld in Sources */,
 				AB4D73C7285B1FD000BE5190 /* EmptyTableViewCell.swift in Sources */,
-				867CAD01285B14FA00A04F1F /* UIStackView+.swift in Sources */,
-				AB4D73C4285B1CDD00BE5190 /* Date+.swift in Sources */,
-				867CAD03285B15A000A04F1F /* ParserManager.swift in Sources */,
+				867CAD01285B14FA00A04F1F /* UIStackView+Extension.swift in Sources */,
+				AB4D73C4285B1CDD00BE5190 /* Date+Extension.swift in Sources */,
+				AB6B329F2861F39F00E777CE /* Diary+CoreDataProperties.swift in Sources */,
 				AB4D73C2285B197700BE5190 /* Identifierable.swift in Sources */,
 				ABF991AA2858B730000A44A1 /* ListTableViewCell.swift in Sources */,
+				AB135A892869F0CE0090A6D0 /* DiaryData.swift in Sources */,
+				AB2D399D2865895600D3FBC7 /* DiaryBaseViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		C739AE32284DF28600741E8F /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C739AE33284DF28600741E8F /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C739AE36284DF28600741E8F /* Debug */ = {
@@ -517,7 +595,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Resource/Info.plist;
+				INFOPLIST_FILE = Diary/Model/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -545,7 +623,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Resource/Info.plist;
+				INFOPLIST_FILE = Diary/Model/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -586,6 +664,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		AB6B32852861B76A00E777CE /* CoreDataModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AB6B32862861B76A00E777CE /* DiaryModel.xcdatamodel */,
+			);
+			currentVersion = AB6B32862861B76A00E777CE /* DiaryModel.xcdatamodel */;
+			path = CoreDataModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = C739AE19284DF28600741E8F /* Project object */;
 }
