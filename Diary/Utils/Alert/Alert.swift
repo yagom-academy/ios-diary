@@ -12,17 +12,6 @@ struct AlertAction {
   let message: String?
   let firstActionTitle: String?
   let secondActionTitle: String?
-  let preferredStyle: UIAlertController.Style
   let firstAction: (() -> Void)?
   let secondAction: (() -> Void)?
-  
-  init(title: String? = nil, message: String? = nil ,firstActionTitle: String? = nil,secondActionTitle: String? = nil,preferredStyle: UIAlertController.Style = .alert, firstAction: (() -> Void)? = nil, secondAction: (() -> Void)? = nil) {
-    self.title = title
-    self.message = message
-    self.firstActionTitle = firstActionTitle
-    self.secondActionTitle = secondActionTitle
-    self.preferredStyle = preferredStyle
-    self.firstAction = firstAction
-    self.secondAction = secondAction
-  }
 }
