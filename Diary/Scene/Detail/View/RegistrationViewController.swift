@@ -28,7 +28,7 @@ final class RegistrationViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeKeyboardNotification()
-        viewModel.viewDidDisappear()
+        viewWillDisappearEvent()
         viewModel.locationManager.stopUpdatingLocation()
     }
 }
@@ -112,7 +112,7 @@ extension RegistrationViewController {
 // MARK: Objc Method
 extension RegistrationViewController {
     @objc private func didEnterBackground() {
-        viewModel.didEnterBackground()
+        didEnterBackgroundEvent()
     }
     
     @objc private func keyboardWillShow(notification: NSNotification) {
@@ -127,7 +127,47 @@ extension RegistrationViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
-        viewModel.keyboardWillHide()
+        keyboardWillHideEvent()
+    }
+}
+
+// MARK: Event Handle
+
+extension RegistrationViewController {
+    private func viewWillDisappearEvent() {
+        do {
+            try viewModel.viewWillDisappear()
+        } catch {
+            alertController.showConfirmAlert(
+                title: "오류",
+                message: error.localizedDescription,
+                presentedViewController: self
+            )
+        }
+    }
+    
+    private func didEnterBackgroundEvent() {
+        do {
+            try viewModel.didEnterBackground()
+        } catch {
+            alertController.showConfirmAlert(
+                title: "오류",
+                message: error.localizedDescription,
+                presentedViewController: self
+            )
+        }
+    }
+    
+    private func keyboardWillHideEvent() {
+        do {
+            try viewModel.keyboardWillHide()
+        } catch {
+            alertController.showConfirmAlert(
+                title: "오류",
+                message: error.localizedDescription,
+                presentedViewController: self
+            )
+        }
     }
 }
 
@@ -145,7 +185,11 @@ extension RegistrationViewController: CLLocationManagerDelegate {
         case .restricted, .notDetermined:
             viewModel.locationManager.requestWhenInUseAuthorization()
         case .denied:
-            showAlert(title: "위치 권한 설정", message: "해당 기능을 사용하기 위해서 위치 권한이 필요합니다.") {
+            alertController.showConfirmAlert(
+                title: "위치 권한 설정",
+                message: "해당 기능을 사용하기 위해서 위치 권한이 필요합니다.",
+                presentedViewController: self
+            ) {
                 self.showSettingUrl()
             }
         @unknown default:

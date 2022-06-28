@@ -17,25 +17,25 @@ extension MainViewModel {
     
     // MARK: Input
     
-    func viewWillAppear() {
-        readDiary()
+    func viewWillAppear() throws {
+        try readDiary()
     }
     
-    func didTapDeleteButton(by indexPath: IndexPath) {
-        deleteDiary(by: indexPath)
+    func didTapDeleteButton(by indexPath: IndexPath) throws {
+        try deleteDiary(by: indexPath)
     }
     
     // MARK: Output
     
-    private func readDiary() {
-        PersistenceManager.shared.fetchData()
+    private func readDiary() throws {
+        try PersistenceManager.shared.fetchData()
     }
    
-    private func deleteDiary(by indexPath: IndexPath) {
+    private func deleteDiary(by indexPath: IndexPath) throws {
         guard let diary = diaries[safe: indexPath.row] else {
             return
         }
         let objectToDelete = diary
-        PersistenceManager.shared.deleteData(by: objectToDelete, index: indexPath.row)
+        try PersistenceManager.shared.deleteData(by: objectToDelete, index: indexPath.row)
     }
 }

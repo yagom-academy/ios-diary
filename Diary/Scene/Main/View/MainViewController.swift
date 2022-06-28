@@ -28,7 +28,7 @@ final class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.viewWillAppear()
+        viewWillAppearEvent()
         setUpDiaries()
     }
 }
@@ -117,9 +117,37 @@ extension MainViewController: UITableViewDelegate {
 // MARK: Show Alert
 extension MainViewController {
     private func showDeleteAlert(by indexPath: IndexPath) {
-        showAlert { [self] _ in
-            viewModel.didTapDeleteButton(by: indexPath)
+        alertController.showDeleteAlert(presentedViewController: self) { [self] _ in
+            didTapDeleteButtonEvent(by: indexPath)
             mainView.deleteBaseTableViewRows(at: [indexPath])
+        }
+    }
+}
+
+// MARK: Event Handle
+
+extension MainViewController {
+    private func viewWillAppearEvent() {
+        do {
+            try viewModel.viewWillAppear()
+        } catch {
+            alertController.showConfirmAlert(
+                title: "오류",
+                message: error.localizedDescription,
+                presentedViewController: self
+            )
+        }
+    }
+    
+    private func didTapDeleteButtonEvent(by indexPath: IndexPath) {
+        do {
+            try viewModel.didTapDeleteButton(by: indexPath)
+        } catch {
+            alertController.showConfirmAlert(
+                title: "오류",
+                message: error.localizedDescription,
+                presentedViewController: self
+            )
         }
     }
 }

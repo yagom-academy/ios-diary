@@ -22,16 +22,16 @@ extension RegistrationViewModel {
     
     // MARK: Input
     
-    func viewDidDisappear() {
-        saveDiary()
+    func viewWillDisappear() throws {
+        try saveDiary()
     }
     
-    func didEnterBackground() {
-        saveDiary()
+    func didEnterBackground() throws {
+        try saveDiary()
     }
     
-    func keyboardWillHide() {
-        saveDiary()
+    func keyboardWillHide() throws {
+        try saveDiary()
     }
     
     func textViewDidChange(text: String) {
@@ -44,7 +44,7 @@ extension RegistrationViewModel {
     
     // MARK: Output
     
-    private func saveDiary() {
+    private func saveDiary() throws {
         guard let content = currentText,
                 content.isEmpty == false
         else {
@@ -57,7 +57,7 @@ extension RegistrationViewModel {
 
         let diary = Diary(title: title, createdAt: createdAt, body: body, id: diaryId, icon: icon ?? "")
         
-        PersistenceManager.shared.createData(by: diary)
+        try PersistenceManager.shared.createData(by: diary)
     }
     
     private func setUpLocation(by coordinate: CLLocationCoordinate2D) {

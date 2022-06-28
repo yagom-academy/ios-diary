@@ -38,7 +38,7 @@ final class DetailViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        viewModel.viewDidDisappear()
+        viewDidDisappearEvent()
     }
 }
 
@@ -119,7 +119,7 @@ extension DetailViewController {
 // MARK: Objc Method
 extension DetailViewController {
     @objc private func didEnterBackground() {
-        viewModel.didEnterBackground()
+        didEnterBackgroundEvent()
     }
     
     @objc private func didTapActionButton() {
@@ -138,7 +138,7 @@ extension DetailViewController {
     
     @objc private func keyboardWillHide(notification: NSNotification) {
         detailView.adjustConstraint(by: .zero)
-        viewModel.keyboardWillHide()
+        keyboardWillHideEvent()
     }
 }
 
@@ -148,8 +148,8 @@ extension DetailViewController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let deleteAction = UIAlertAction(title: AppConstants.deleteActionTitle, style: .destructive) { _ in
-            self.showAlert { _ in
-                self.viewModel.didTapDeleteButton()
+            self.alertController.showDeleteAlert(presentedViewController: self) { _ in
+                self.didTapDeleteButtonEvent()
                 self.navigationController?.popViewController(animated: true)
             }
         }
@@ -165,5 +165,57 @@ extension DetailViewController {
         actionSheet.addAction(cancelAction)
         
         present(actionSheet, animated: true)
+    }
+}
+
+// MARK: Event Handle
+
+extension DetailViewController {
+    private func viewDidDisappearEvent() {
+        do {
+            try viewModel.viewDidDisappear()
+        } catch {
+            alertController.showConfirmAlert(
+                title: "오류",
+                message: error.localizedDescription,
+                presentedViewController: self
+            )
+        }
+    }
+    
+    private func didEnterBackgroundEvent() {
+        do {
+            try viewModel.didEnterBackground()
+        } catch {
+            alertController.showConfirmAlert(
+                title: "오류",
+                message: error.localizedDescription,
+                presentedViewController: self
+            )
+        }
+    }
+    
+    private func keyboardWillHideEvent() {
+        do {
+            try viewModel.keyboardWillHide()
+        } catch {
+            alertController.showConfirmAlert(
+                title: "오류",
+                message: error.localizedDescription,
+                presentedViewController: self
+            )
+        }
+    }
+    
+    private func didTapDeleteButtonEvent() {
+        do {
+            try viewModel.didTapDeleteButton()
+        } catch {
+            alertController.showConfirmAlert(
+                title: "오류",
+                message: error.localizedDescription,
+                presentedViewController: self
+            )
+        }
     }
 }

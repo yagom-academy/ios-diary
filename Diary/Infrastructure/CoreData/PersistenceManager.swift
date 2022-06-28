@@ -16,11 +16,11 @@ final class PersistenceManager {
     
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: AppConstants.entityName)
-        container.loadPersistentStores(completionHandler: { _, error in
+        container.loadPersistentStores { _, error in
             if let error = error as NSError? {
-                self.showErrorAlert(DiaryError.loadFail.errorDescription)
+                print(error)
             }
-        })
+        }
         return container
     }()
     
@@ -30,9 +30,9 @@ final class PersistenceManager {
 }
 
 extension PersistenceManager {
-   func createData(by diary: Diary) {
+   func createData(by diary: Diary) throws {
         let request = makeRequest(by: diary.id)
-        if let diaryToUpdate = fetchResult(from: request) {
+        if let diaryToUpdate = try fetchResult(from: request) {
             diaryToUpdate.body = diary.body
             diaryToUpdate.title = diary.title
             diaryToUpdate.createdAt = diary.createdAt
@@ -46,23 +46,19 @@ extension PersistenceManager {
             entity.id = diary.id
             entity.icon = diary.icon
         }
-        saveToContext()
+        try saveToContext()
     }
     
-    func fetchData() {
-        do {
-            let request = DiaryEntity.fetchRequest()
-            request.returnsObjectsAsFaults = false
-            let fetchResult = try context.fetch(request)
-            diaryEntities = fetchResult.reversed()
-        } catch {
-            showErrorAlert(DiaryError.loadFail.errorDescription)
-        }
+    func fetchData() throws {
+        let request = DiaryEntity.fetchRequest()
+        request.returnsObjectsAsFaults = false
+        let fetchResult = try context.fetch(request)
+        diaryEntities = fetchResult.reversed()
     }
         
-    func updateData(by diary: Diary) {
+    func updateData(by diary: Diary) throws {
         let request = makeRequest(by: diary.id)
-        guard let diaryToUpdate = fetchResult(from: request) else {
+        guard let diaryToUpdate = try fetchResult(from: request) else {
             return
         }
         diaryToUpdate.body = diary.body
@@ -70,25 +66,21 @@ extension PersistenceManager {
         diaryToUpdate.createdAt = diary.createdAt
         diaryToUpdate.id = diary.id
         diaryToUpdate.icon = diary.icon
-        saveToContext()
+        try saveToContext()
     }
     
-    func deleteData(by object: DiaryEntity, index: Int? = nil) {
+    func deleteData(by object: DiaryEntity, index: Int? = nil) throws {
         if let index = index {
             diaryEntities.remove(at: index)
         }
         context.delete(object)
-        saveToContext()
+        try saveToContext()
     }
 }
 
 extension PersistenceManager {
-    private func saveToContext() {
-        do {
-            try context.save()
-        } catch {
-            showErrorAlert(DiaryError.saveFail.errorDescription)
-        }
+    private func saveToContext() throws {
+        try context.save()
     }
     
     private func makeRequest(by id: String) -> NSFetchRequest<DiaryEntity> {
@@ -99,24 +91,11 @@ extension PersistenceManager {
         return request
     }
     
-    private func fetchResult(from request: NSFetchRequest<DiaryEntity>) -> DiaryEntity? {
-        do {
-            let fetchResult = try context.fetch(request)
-            guard let diaryEntity = fetchResult.first else {
-                return nil
-            }
-            return diaryEntity
-        } catch {
-            showErrorAlert(DiaryError.loadFail.errorDescription)
+    private func fetchResult(from request: NSFetchRequest<DiaryEntity>) throws -> DiaryEntity? {
+        let fetchResult = try context.fetch(request)
+        guard let diaryEntity = fetchResult.first else {
             return nil
         }
-        
-    }
-}
-
-extension PersistenceManager {
-    private func showErrorAlert(_ message: String) {
-        guard let topViewController = UIApplication.shared.topViewController() else { return }
-        topViewController.showAlert(title: AppConstants.errorAlertTitle, message: message)
+        return diaryEntity
     }
 }

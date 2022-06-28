@@ -24,29 +24,29 @@ extension DetailViewModel {
     
     // MARK: Input
     
-    func viewDidDisappear() {
-        saveDiary()
+    func viewDidDisappear() throws {
+        try saveDiary()
     }
     
-    func didEnterBackground() {
-        saveDiary()
+    func didEnterBackground() throws {
+        try saveDiary()
     }
     
-    func keyboardWillHide() {
-        saveDiary()
+    func keyboardWillHide() throws {
+        try saveDiary()
     }
     
     func textViewDidChange(text: String) {
         currentText = text
     }
     
-    func didTapDeleteButton() {
-        deleteDiary()
+    func didTapDeleteButton() throws {
+        try deleteDiary()
     }
     
     // MARK: Output
     
-    private func saveDiary() {
+    private func saveDiary() throws {
         if status == .delete {
             return
         }
@@ -67,11 +67,11 @@ extension DetailViewModel {
             icon: diary.icon
         )
                 
-        PersistenceManager.shared.updateData(by: diary)
+        try PersistenceManager.shared.updateData(by: diary)
     }
     
-    private func deleteDiary() {
-        PersistenceManager.shared.deleteData(by: diary)
+    private func deleteDiary() throws {
+        try PersistenceManager.shared.deleteData(by: diary)
         status = .delete
     }
 }
