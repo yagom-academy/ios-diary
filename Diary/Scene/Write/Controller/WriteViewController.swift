@@ -47,7 +47,7 @@ final class WriteViewController: DiaryBaseViewController {
       return
     }
     
-    CoreData.createDiary (
+    DiaryData.create (
       title: seperateTitle(from: text),
       content: seperateContent(from: text),
       identifier: UUID().uuidString,

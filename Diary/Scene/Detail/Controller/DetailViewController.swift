@@ -53,7 +53,7 @@ final class DetailViewController: DiaryBaseViewController {
       return
     }
     
-    CoreData.updateDiary(
+    DiaryData.update(
       title: seperateTitle(from: text),
       date: diary.createdDate.bindOptional(),
       content: seperateContent(from: text),
@@ -78,7 +78,7 @@ final class DetailViewController: DiaryBaseViewController {
       firstActionTitle: "취소",
       secondActionTitle: "삭제",
       firstAction: nil) { [weak self] in
-        CoreData.deleteDiary(identifier: self?.diary.identifier ?? "")
+        DiaryData.delete(identifier: self?.diary.identifier ?? "")
         self?.navigationController?.popViewController(animated: true)
     }
     

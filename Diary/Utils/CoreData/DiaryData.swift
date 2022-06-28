@@ -7,8 +7,8 @@
 
 import Foundation
 
-final class CoreData {
-  static func createDiary(title: String, content: String, identifier: String, date: Date) {
+final class DiaryData {
+  static func create(title: String, content: String, identifier: String, date: Date) {
     guard let diary = CoredataManager.shared.createContext(etityName: "Diary") as? Diary else {
       return
     }
@@ -21,7 +21,7 @@ final class CoreData {
     CoredataManager.shared.save()
   }
   
-  static func readDiary() -> [Diary] {
+  static func read() -> [Diary] {
     let viewContext = CoredataManager.shared.readViewContext()
     do {
       let diary = try viewContext.fetch(Diary.fetchRequest())
@@ -31,7 +31,7 @@ final class CoreData {
     }
   }
   
-  static func updateDiary(title: String, date: Date, content: String, identifier: String) {
+  static func update(title: String, date: Date, content: String, identifier: String) {
     let viewContext = CoredataManager.shared.readViewContext()
     
     let request = Diary.fetchRequest()
@@ -46,7 +46,7 @@ final class CoreData {
     CoredataManager.shared.save()
   }
   
-  static func deleteDiary(identifier: String) {
+  static func delete(identifier: String) {
     let viewContext = CoredataManager.shared.readViewContext()
     
     let request = Diary.fetchRequest()
@@ -55,6 +55,7 @@ final class CoreData {
     if let diary = try? viewContext.fetch(request).first {
       viewContext.delete(diary)
     }
+    
     CoredataManager.shared.save()
   }
 }
