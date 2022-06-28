@@ -119,17 +119,27 @@ final class DiaryCell: UITableViewCell {
             return
         }
         
-        getImage(icon: icon)
+        weatherImageView.setImage(icon: icon)
     }
-    
-    func getImage(icon: String) {
-        WeatherAPIManager.shared.fetchData(url: EntryPoint.image(icon: icon).url) { [weak self] data in
+}
+
+private extension UIImageView {
+    func setImage(icon: String) {
+        WeatherAPIManager.shared.getImage(icon: icon) { [weak self] data in
+            DispatchQueue.main.async {
+                self?.image = UIImage(data: data)
+            }
+        }
+    }
+}
+
+private extension WeatherAPIManager {
+    func getImage(icon: String, completion: @escaping (Data) -> Void) {
+        fetchData(url: EntryPoint.image(icon: icon).url) { data in
             guard let data = try? data.get() else {
                 return
             }
-            DispatchQueue.main.async {
-                self?.weatherImageView.image = UIImage(data: data)
-            }
+            completion(data)
         }
     }
 }
