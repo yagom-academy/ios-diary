@@ -9,7 +9,7 @@ import Foundation
 import CoreLocation
 
 final class RegistrationViewModel {
-    private var locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
     private(set) var createdAt = Date().timeIntervalSince1970
     private let diaryId = UUID().uuidString
     private var coordinate: CLLocationCoordinate2D?
