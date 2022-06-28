@@ -31,7 +31,6 @@ final class ListTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
         stackView.alignment = .leading
         stackView.spacing = 8
         
@@ -67,8 +66,8 @@ final class ListTableViewCell: UITableViewCell {
     private lazy var weatherImageView: UIImageView = {
         let imageView = UIImageView()
         
-        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return imageView
     }()
