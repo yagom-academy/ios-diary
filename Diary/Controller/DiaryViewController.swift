@@ -70,6 +70,12 @@ final class DiaryViewController: UIViewController {
       name: DiaryStorageNotification.diaryWasSaved,
       object: nil
     )
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(self.fetchDiaries),
+      name: DiaryStorageNotification.diaryWasDeleted,
+      object: nil
+    )
   }
 }
 
@@ -150,6 +156,5 @@ extension DiaryViewController: UITableViewDelegate {
 
   private func deleteDiary(diary: DiaryEntity) {
     DiaryStorageManager.shared.delete(diary: diary)
-    NotificationCenter.default.post(name: DiaryStorageManager.fetchNotification, object: nil)
   }
 }

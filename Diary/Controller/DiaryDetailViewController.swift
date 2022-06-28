@@ -65,7 +65,6 @@ final class DiaryDetailViewController: DiaryBaseViewController {
 
   private func deleteDiary() {
     DiaryStorageManager.shared.delete(diary: self.diary)
-    NotificationCenter.default.post(name: DiaryStorageManager.fetchNotification, object: nil)
     self.navigationController?.popViewController(animated: true)
   }
 

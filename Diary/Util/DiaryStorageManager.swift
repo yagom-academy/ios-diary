@@ -62,6 +62,7 @@ final class DiaryStorageManager {
   func delete(diary: DiaryEntity) {
     self.context.delete(diary)
     self.saveContext()
+    NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasDeleted, object: nil)
   }
 
   func deleteAll() {

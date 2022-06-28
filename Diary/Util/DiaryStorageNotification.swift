@@ -9,4 +9,5 @@ import Foundation
 
 enum DiaryStorageNotification {
   static let diaryWasSaved = NSNotification.Name("DiaryStorageWasSavedNotification")
+  static let diaryWasDeleted = NSNotification.Name("DiaryStorageWasDeletedNotification")
 }
