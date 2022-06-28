@@ -18,6 +18,7 @@
 		C739AE2F284DF28600741E8F /* DiaryEntity.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* DiaryEntity.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
+		DA44D14F286ACD6000EFBF56 /* Activable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA44D14E286ACD6000EFBF56 /* Activable.swift */; };
 		DA71A83C2863554100655845 /* DiaryEntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA71A83B2863554100655845 /* DiaryEntityManager.swift */; };
 		DA71A8442863716700655845 /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA71A8422863716700655845 /* DiaryEntity+CoreDataProperties.swift */; };
 		DAC41D992859B0EE00D3CD22 /* DiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC41D982859B0EE00D3CD22 /* DiaryModel.swift */; };
@@ -46,6 +47,7 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DA44D14E286ACD6000EFBF56 /* Activable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activable.swift; sourceTree = "<group>"; };
 		DA71A83B2863554100655845 /* DiaryEntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntityManager.swift; sourceTree = "<group>"; };
 		DA71A8422863716700655845 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		DAC41D962859AFC000D3CD22 /* .swiftlint.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = .swiftlint.md; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 				DACAF14A2859ADBB0080CB0F /* ViewController */,
 				DACAF1492859ADAD0080CB0F /* View */,
 				DAC41D972859B08C00D3CD22 /* Model */,
+				DA44D14D286ACD2A00EFBF56 /* Protocol */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -141,6 +144,15 @@
 				806A4120895BAD8EABE40594 /* Pods-Diary.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		DA44D14D286ACD2A00EFBF56 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				9CAD539B286A9E0100AF0B91 /* ErrorAlertProtocol.swift */,
+				DA44D14E286ACD6000EFBF56 /* Activable.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		DAC41D972859B08C00D3CD22 /* Model */ = {
@@ -165,8 +177,8 @@
 		DACAF1492859ADAD0080CB0F /* View */ = {
 			isa = PBXGroup;
 			children = (
-				DAC41D9C2859B3F800D3CD22 /* Cell */,
 				DACAF1472859AD9F0080CB0F /* DetailView.swift */,
+				DAC41D9C2859B3F800D3CD22 /* Cell */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -186,7 +198,6 @@
 			children = (
 				DAF0ADB02860BF07000909C9 /* DiaryError.swift */,
 				9CAD539D286A9F8700AF0B91 /* CoreDataError.swift */,
-				9CAD539B286A9E0100AF0B91 /* ErrorAlertProtocol.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -292,6 +303,7 @@
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				DAF0ADAE2860BCAD000909C9 /* Parser.swift in Sources */,
 				DA71A83C2863554100655845 /* DiaryEntityManager.swift in Sources */,
+				DA44D14F286ACD6000EFBF56 /* Activable.swift in Sources */,
 				9CAD539E286A9F8700AF0B91 /* CoreDataError.swift in Sources */,
 				DAF0ADB12860BF07000909C9 /* DiaryError.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
