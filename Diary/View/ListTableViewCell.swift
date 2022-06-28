@@ -54,6 +54,15 @@ final class ListTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
     private lazy var previewLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
@@ -64,13 +73,15 @@ final class ListTableViewCell: UITableViewCell {
     private func configureLayout() {
         self.contentView.addSubview(mainStackView)
         self.mainStackView.addArrangedSubview([titleLabel, subStackView])
-        self.subStackView.addArrangedSubview([dateLabel, previewLabel])
+        self.subStackView.addArrangedSubview([dateLabel, weatherImageView, previewLabel])
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            weatherImageView.heightAnchor.constraint(equalToConstant: 30),
+            weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.heightAnchor, multiplier: 1)
         ])
         self.accessoryType = .disclosureIndicator
     }
@@ -78,6 +89,12 @@ final class ListTableViewCell: UITableViewCell {
     func configureContents(_ diaryArray: Diary) {
         titleLabel.text = diaryArray.title
         dateLabel.text = Date(timeIntervalSince1970: diaryArray.createdAt).dateToKoreanString
+        if let iconData = diaryArray.weather?.iconImage {
+            weatherImageView.isHidden = false
+            weatherImageView.image = UIImage(data: iconData)
+        } else {
+            weatherImageView.isHidden = true
+        }
         previewLabel.text = diaryArray.body
     }
 }
