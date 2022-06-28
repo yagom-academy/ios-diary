@@ -70,9 +70,9 @@ final class DetailViewController: DiaryBaseViewController {
     navigationItem.title = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
     baseView.updateTextView(diary: diary)
   }
-
-  @objc func actionSheetWillShow() {
-    let alertConst = AlertAction(
+  
+  private func showConfirmAlert() {
+    let confirmAlert = AlertAction(
       title: "진짜?",
       message: "정말",
       firstActionTitle: "취소",
@@ -82,7 +82,11 @@ final class DetailViewController: DiaryBaseViewController {
         self?.navigationController?.popViewController(animated: true)
     }
     
-    let actionSheetConst = AlertAction(
+    showActionSheet(alertAction: confirmAlert)
+  }
+  
+  private func showViewMoreAlert() {
+    let viewMoreAlert = AlertAction(
       title: "택1",
       message: "무엇을",
       firstActionTitle: "Share...",
@@ -90,10 +94,14 @@ final class DetailViewController: DiaryBaseViewController {
       firstAction: { [weak self] in
         self?.showActivityView(text: "선택하세요")},
       secondAction: { [weak self] in
-        self?.showAlert(alertAction: alertConst)
+        self?.showConfirmAlert()
     })
     
-    showActionSheet(alertAction: actionSheetConst)
+    showActionSheet(alertAction: viewMoreAlert)
+  }
+  
+  @objc private func actionSheetWillShow() {
+    showViewMoreAlert()
   }
 }
 
