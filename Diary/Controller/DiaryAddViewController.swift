@@ -13,6 +13,7 @@ final class DiaryAddViewController: DiaryBaseViewController {
   init(storageManger: DiaryStorageManager) {
     self.storageManger = storageManger
     super.init(nibName: nil, bundle: nil)
+    self.observeDidEnterBackgroundNotification()
   }
 
   required init?(coder: NSCoder) {
@@ -22,7 +23,6 @@ final class DiaryAddViewController: DiaryBaseViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     self.bodyTextView.becomeFirstResponder()
-    self.observeDidEnterBackgroundNotification()
   }
 
   override func viewDidDisappear(_ animated: Bool) {

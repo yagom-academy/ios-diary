@@ -24,12 +24,20 @@ final class DiaryViewController: UIViewController {
     }
   }
 
+  init() {
+    super.init(nibName: nil, bundle: nil)
+    self.initializeNavigationBar()
+    self.observeDiaryDidSaveNotification()
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     self.initializeUI()
-    self.initializeNavigationBar()
     self.fetchDiaries()
-    self.observeDiaryDidSaveNotification()
   }
 
   private func initializeUI() {

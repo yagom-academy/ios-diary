@@ -13,6 +13,8 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     self.diary = diary
     self.storageManger = storageManager
     super.init(nibName: nil, bundle: nil)
+    self.initializeNavigationBar()
+    self.observeDiaryDidUpdateNotifications()
   }
 
   required init?(coder: NSCoder) {
@@ -21,9 +23,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.initializeNavigationBar()
     self.initializeItem()
-    self.observeDiaryDidUpdateNotifications()
   }
 
   private func initializeNavigationBar() {
