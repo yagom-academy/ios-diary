@@ -13,23 +13,33 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         static let registerButton = "+"
     }
     
-    private let tableView = UITableView()
-    private var dataSource: UITableViewDiffableDataSource<Int, DiaryDTO>?
+    private let viewModel = DiaryViewModel()
+    
+    private var diaryView: DiaryView? {
+        guard let view = view as? DiaryView else {
+            return nil
+        }
+        return view
+    }
+    
+    override func loadView() {
+        view = DiaryView(delgate: self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        viewModel.setUpDataSource(tableView: diaryView?.getTableView())
+        
         setUpView()
         setUpNavigationController()
-        setUpTableView()
-        setUpTableViewLayout()
         setUpRefreshControll()
-        setUpDataSource()
+
         LocationManager.agree(viewController: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        updataTableView()
+        viewModel.updataTableView(tableView: diaryView?.getTableView())
     }
     
     private func setUpView() {
@@ -62,89 +72,22 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         navigationController?.pushViewController(viewContoller, animated: true)
     }
     
-    private func setUpTableView() {
-        tableView.register(DiaryCell.self)
-        tableView.register(UITableViewCell.self)
-        
-        tableView.delegate = self
-        
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private func setUpTableViewLayout() {
-        view.addSubview(tableView)
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-    }
-    
     private func setUpRefreshControll() {
         let refresh = UIRefreshControl()
+        
         refresh.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
-        tableView.refreshControl = refresh
+        diaryView?.setUpTableView(refresh: refresh)
     }
-    
+
     @objc private func pullToRefresh() {
-        setUpCoreData()
-        tableView.refreshControl?.endRefreshing()
-    }
-    
-    private func setUpDataSource() {
-        dataSource = UITableViewDiffableDataSource<Int, DiaryDTO>(tableView: tableView) {
-            tableView, indexPath, itemIdentifier in
-            
-            if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell {
-                cell.configure(data: itemIdentifier)
-                
-                return cell
-            }
-            
-            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
-        }
-    }
-    
-    private func setUpSampleData() {
-        guard let sampleData: [DiaryDTO] = AssetManager.get() else {
-            return
-        }
-        
-        setUpSnapshot(data: sampleData)
-    }
-    
-    private func setUpCoreData() {
-        guard let coreData = DiaryDAO.shared.read() else {
-            return
-        }
-        
-        setUpSnapshot(data: coreData)
-    }
-    
-    private func setUpSnapshot(data: [DiaryDTO]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, DiaryDTO>()
-        
-        snapshot.appendSections([.zero])
-        snapshot.appendItems(data)
-        
-        dataSource?.apply(snapshot)
-    }
-    
-    private func updataTableView() {
-        tableView.refreshControl?.beginRefreshing()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.setUpCoreData()
-            self?.tableView.refreshControl?.endRefreshing()
-        }
+        viewModel.setUpCoreData(tableView: diaryView?.getTableView())
     }
 }
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? DiaryCell,
-              let diaryData = dataSource?.itemIdentifier(for: indexPath) else {
+              let diaryData = viewModel.getDataSource()?.itemIdentifier(for: indexPath) else {
             return
         }
         
@@ -169,7 +112,7 @@ extension DiaryViewController: UITableViewDelegate {
         func makeContextualAction() -> [UIContextualAction] {
             let deleteAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
                 DiaryDAO.shared.delete(identifier: cellData.identifier?.uuidString)
-                self?.setUpCoreData()
+                self?.viewModel.setUpCoreData(tableView: self?.diaryView?.getTableView())
             }
             
             let cancelAction = makeAction(title: "Cancel", style: .cancel)
