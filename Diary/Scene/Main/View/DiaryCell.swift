@@ -104,7 +104,7 @@ final class DiaryCell: UITableViewCell {
         ])
     }
     
-    func setUpContents(data: DiaryEntity, _ requestManager: NetworkManager) {
+    func setUpContents(data: DiaryEntity) {
         if data.title == "" {
             titleLabel.text = AppConstants.noTitle
         } else {

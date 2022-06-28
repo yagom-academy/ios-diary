@@ -71,9 +71,9 @@ extension MainViewController: UITableViewDataSource {
         else {
             return UITableViewCell()
         }
-        
-        cell.setUpContents(data: diary, viewModel.requestManager)
-        
+        let cellViewModel = DiaryCellViewModel()
+        cell.bind(viewModel: cellViewModel)
+        cell.setUpContents(data: diary)
         return cell
     }
 }

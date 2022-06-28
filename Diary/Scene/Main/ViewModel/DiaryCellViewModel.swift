@@ -11,7 +11,7 @@ import UIKit
 final class DiaryCellViewModel {
     private(set) var task: URLSessionDataTask?
     private let networkManager = NetworkManager()
-    private(set) var image = UIImage()
+    private(set) var image = Observable(UIImage())
     
     func prepareForReuse() {
         task?.suspend()
@@ -24,7 +24,7 @@ final class DiaryCellViewModel {
     
     private func requestImage(icon: String) {
         if let cacheImage = ImageCacheManager.shared.retrive(forKey: icon) {
-            self.image = cacheImage
+            image.value = cacheImage
             return
         }
         
@@ -36,12 +36,12 @@ final class DiaryCellViewModel {
             switch result {
             case .success(let image):
                 ImageCacheManager.shared.set(object: image, forKey: icon)
-                self?.image = image
+                self?.image.value = image
             case .failure:
                 guard let image = UIImage(systemName: "questionmark.square.dashed") else {
                     return
                 }
-                self?.image = image
+                self?.image.value = image
             }
         }
     }
