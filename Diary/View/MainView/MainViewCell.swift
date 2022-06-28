@@ -82,7 +82,9 @@ final class MainViewCell: UITableViewCell {
         var bodies = data.body?.components(separatedBy: "\n")
         bodies?.removeFirst()
         let body = bodies?.reduce("") { $0 + " " + $1 }
-        
+        if let icon = data.icon {
+            weatherImageView.weatherImage(icon: icon)
+        }
         titleLabel.text = data.title
         dateLabel.text = data.date?.toString ?? ""
         descriptionLabel.text = body

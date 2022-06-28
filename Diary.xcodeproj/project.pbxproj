@@ -38,8 +38,9 @@
 		E1BBB2A9286AD327008914F5 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BBB2A8286AD327008914F5 /* URLSessionProtocol.swift */; };
 		E1BBB2AB286AD341008914F5 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BBB2AA286AD341008914F5 /* NetworkError.swift */; };
 		E1BBB2AD286AD570008914F5 /* WeatherDataUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BBB2AC286AD570008914F5 /* WeatherDataUseCase.swift */; };
-		E1BBB2AF286AD5E5008914F5 /* OpenMarketApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BBB2AE286AD5E5008914F5 /* OpenMarketApi.swift */; };
 		E1BBB2B1286ADBAF008914F5 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BBB2B0286ADBAF008914F5 /* Location.swift */; };
+		E1BBB2B4286B1A46008914F5 /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BBB2B3286B1A46008914F5 /* UIImageView+Extension.swift */; };
+		E1BBB2B6286B1AC7008914F5 /* WeatherApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BBB2B5286B1AC7008914F5 /* WeatherApi.swift */; };
 		E1EBE0272858695D00DA3EF7 /* MainViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EBE0262858695D00DA3EF7 /* MainViewCell.swift */; };
 		E1EBE02C28586F2400DA3EF7 /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1EBE02B28586F2400DA3EF7 /* UIView+Extension.swift */; };
 /* End PBXBuildFile section */
@@ -92,8 +93,9 @@
 		E1BBB2A8286AD327008914F5 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		E1BBB2AA286AD341008914F5 /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		E1BBB2AC286AD570008914F5 /* WeatherDataUseCase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherDataUseCase.swift; sourceTree = "<group>"; };
-		E1BBB2AE286AD5E5008914F5 /* OpenMarketApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OpenMarketApi.swift; sourceTree = "<group>"; };
 		E1BBB2B0286ADBAF008914F5 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		E1BBB2B3286B1A46008914F5 /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		E1BBB2B5286B1AC7008914F5 /* WeatherApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherApi.swift; sourceTree = "<group>"; };
 		E1EBE0262858695D00DA3EF7 /* MainViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCell.swift; sourceTree = "<group>"; };
 		E1EBE02B28586F2400DA3EF7 /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -178,7 +180,7 @@
 		DA5D2E9F2869DA3A007EBF09 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				E1BBB2AE286AD5E5008914F5 /* OpenMarketApi.swift */,
+				E1BBB2B5286B1AC7008914F5 /* WeatherApi.swift */,
 				E1BBB2A8286AD327008914F5 /* URLSessionProtocol.swift */,
 				E1BBB2A6286AD31D008914F5 /* Network.swift */,
 				E1BBB2AC286AD570008914F5 /* WeatherDataUseCase.swift */,
@@ -295,6 +297,7 @@
 				DAD7F77428619BCB00F53652 /* UIViewController+Extension.swift */,
 				E1EBE02B28586F2400DA3EF7 /* UIView+Extension.swift */,
 				DAD7F6AB2858D4CE00F53652 /* Date+Extension.swift */,
+				E1BBB2B3286B1A46008914F5 /* UIImageView+Extension.swift */,
 			);
 			path = extension;
 			sourceTree = "<group>";
@@ -457,15 +460,16 @@
 				DA5D2E9C2869D935007EBF09 /* DiaryMapping.xcmappingmodel in Sources */,
 				E1BBB2A7286AD31D008914F5 /* Network.swift in Sources */,
 				DAD7F6AA2858C78E00F53652 /* DetailViewController.swift in Sources */,
-				E1BBB2AF286AD5E5008914F5 /* OpenMarketApi.swift in Sources */,
 				DAD7F7772861A06300F53652 /* UnknownError.swift in Sources */,
 				E1B7599228618C840058A316 /* ErrorAlertProtocol.swift in Sources */,
 				DAD7F6A028585E1500F53652 /* DiaryDateFormatter.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				DAD7F6A82858C58400F53652 /* DetailView.swift in Sources */,
 				DAD7F70C285B5D2900F53652 /* DiaryData+CoreDataClass.swift in Sources */,
+				E1BBB2B6286B1AC7008914F5 /* WeatherApi.swift in Sources */,
 				DAD7F712285B970200F53652 /* DiaryInfo.swift in Sources */,
 				E1BBB2B1286ADBAF008914F5 /* Location.swift in Sources */,
+				E1BBB2B4286B1A46008914F5 /* UIImageView+Extension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				E1BBB2AD286AD570008914F5 /* WeatherDataUseCase.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
@@ -631,7 +635,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = LZZV4V63N5;
+				DEVELOPMENT_TEAM = 4645UMZ6U4;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Diary/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "앱을 열 때마다 위치정보 가져오기 허용";
@@ -645,7 +649,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "r.yagom-academy.Diary";
+				PRODUCT_BUNDLE_IDENTIFIER = "r.yagom-academy.Diaryk";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
