@@ -114,4 +114,14 @@ final class DiaryCell: UITableViewCell {
         descriptionLabel.text = data.body?.trimmingCharacters(in: .newlines)
         viewModel?.setUpContents(icon: data.icon)
     }
+    
+    func bind(viewModel: DiaryCellViewModel) {
+        self.viewModel = viewModel
+        
+        viewModel.image.subscribe { [weak self] image in
+            DispatchQueue.main.async {
+                self?.weatherImageView.image = image
+            }
+        }
+    }
 }
