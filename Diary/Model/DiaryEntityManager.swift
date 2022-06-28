@@ -15,7 +15,7 @@ final class DiaryEntityManager {
         let container = NSPersistentContainer(name: "DiaryEntity")
         container.loadPersistentStores { _ , error in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                print("컨테이너 생성에 실패하였습니다.")
             }
         }
         return container
@@ -25,12 +25,12 @@ final class DiaryEntityManager {
         return persistentContainer.viewContext
     }
     
-    private func saveContext() {
+    private func saveContext() throws {
         if context.hasChanges {
             do {
                 try self.context.save()
             } catch {
-                fatalError("invalid error")
+                throw CoreDataError.saveContextError
             }
         }
     }
@@ -43,15 +43,22 @@ final class DiaryEntityManager {
         data.createdAt = diary.createdAt
         data.id = diary.id
 
-        saveContext()
+        do {
+            try saveContext()
+        } catch CoreDataError.saveContextError {
+            print(CoreDataError.saveContextError.errorDescription)
+        } catch {
+            print("invalid error")
+        }
     }
     
-    func fetch() -> [DiaryModel] {
+    func fetch() throws -> [DiaryModel] {
         var diaryList = [DiaryEntity]()
         do {
             let request = DiaryEntity.fetchRequest()
             diaryList = try context.fetch(request)
         } catch {
+            throw CoreDataError.fetchError
         }
         diaryList = diaryList.reversed()
         return diaryList.map { diaryEntity in
@@ -79,7 +86,13 @@ final class DiaryEntityManager {
             diaryEntity.createdAt = diary.createdAt
         }
         
-        saveContext()
+        do {
+            try saveContext()
+        } catch CoreDataError.saveContextError {
+            print(CoreDataError.saveContextError.errorDescription)
+        } catch {
+            print("invalid error")
+        }
     }
     
     func delete(diary: DiaryModel) {
@@ -93,6 +106,12 @@ final class DiaryEntityManager {
         
         context.delete(diaryEntity)
         
-        saveContext()
+        do {
+            try saveContext()
+        } catch CoreDataError.saveContextError {
+            print(CoreDataError.saveContextError.errorDescription)
+        } catch {
+            print("invalid error")
+        }
     }
 }

@@ -7,11 +7,15 @@
 
 import Foundation
 
-enum DiaryError: String, LocalizedError {
+enum DiaryError: LocalizedError, ErrorAlertProtocol {
     case decodeError
     case invalidFileName
     
-    var errorDescription: String? {
+    var alertTitle: String {
+        return "에러발생!"
+    }
+    
+    var alertMessage: String {
         switch self {
         case .decodeError:
             return "디코드 오류"

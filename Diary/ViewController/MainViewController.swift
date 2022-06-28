@@ -116,7 +116,13 @@ extension MainViewController {
     }
     
     private func fetchDiaryData() {
-        diaryData = persistenceManager.fetch()
+        do {
+            diaryData = try persistenceManager.fetch()
+        } catch CoreDataError.fetchError {
+            print(CoreDataError.fetchError.errorDescription)
+        } catch {
+            print("invalid error")
+        }
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }
