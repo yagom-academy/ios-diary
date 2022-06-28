@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum DiaryError: LocalizedError, ErrorAlertProtocol {
+enum DiaryError: LocalizedError {
     case decodeError
     case invalidFileName
     
