@@ -83,6 +83,8 @@ class DiaryViewController: UIViewController {
         } catch {
             showErrorAlert("업데이트에 실패했습니다")
         }
+        
+        delegate?.updateView()
     }
     
     private func setDiary() {
@@ -93,6 +95,8 @@ class DiaryViewController: UIViewController {
                       createdAt: Date().timeIntervalSince1970,
                       id: UUID(),
                       weather: self.weather)
+        
+        update()
     }
     
     private func editDiary() {
@@ -100,6 +104,8 @@ class DiaryViewController: UIViewController {
         diary?.title = convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst()
         diary?.body = convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0]
         diary?.text = diaryView.diaryTextView.text ?? ""
+        
+        update()
     }
     
     private func convertedTextArray() -> [String] {
@@ -161,9 +167,11 @@ class DiaryViewController: UIViewController {
     }
     
     @objc private func saveDiary() {
-
-        update()
-        delegate?.updateView()
+        if diary == nil {
+            setWeatherInfo()
+        } else {
+            editDiary()
+        }
     }
 }
 // MARK: - weather info
