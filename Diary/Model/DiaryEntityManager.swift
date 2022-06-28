@@ -95,17 +95,19 @@ final class DiaryEntityManager {
         }
     }
     
-    func delete(diary: DiaryModel) {
+    func delete(diary: DiaryModel) throws {
         let request = DiaryEntity.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", diary.id)
         request.predicate = predicate
         
-        guard let diaryEntity = try? context.fetch(request).first else {
-            return
+        do {
+            if let diaryEntity = try context.fetch(request).first {
+                context.delete(diaryEntity)
+            }
+        }  catch {
+            throw CoreDataError.deleteError
         }
-        
-        context.delete(diaryEntity)
-        
+
         do {
             try saveContext()
         } catch CoreDataError.saveContextError {

@@ -11,6 +11,7 @@ enum CoreDataError: String, LocalizedError {
     case persistentContainerError
     case saveContextError
     case fetchError
+    case deleteError
     
     var errorDescription: String {
         switch self {
@@ -20,6 +21,8 @@ enum CoreDataError: String, LocalizedError {
             return "컨텍스트 저장을 실패하였습니다."
         case .fetchError:
             return "컨텍스트 패치를 실패하였습니다."
+        case .deleteError:
+            return "삭제에 실패하였습니다."
         }
     }
 }
