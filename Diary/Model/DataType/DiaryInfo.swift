@@ -12,12 +12,21 @@ protocol DataModelable {
 }
 
 struct DiaryInfo: DataModelable, Equatable {
+    init(title: String?, body: String?, date: Date?, key: UUID?, weather: String? = nil, icon: String? = nil) {
+        self.title = title
+        self.body = body
+        self.date = date
+        self.key = key
+        self.weather = weather
+        self.icon = icon
+    }
+    
     static var entityName = "DiaryData"
     
     let title: String?
     let body: String?
     let date: Date?
     let key: UUID?
-//    let weather: String?
-//    let icon: String?
+    let weather: String?
+    let icon: String?
 }

@@ -13,6 +13,7 @@ protocol CoreDataUseCase {
     func create(element: Element) throws -> Element
     func read() throws -> [Element]
     func update(element: Element) throws
+    func asyncUpdate(element: Element, errorHandler: @escaping (Error) -> Void)
     func delete(element: Element) throws
 }
 
@@ -23,7 +24,6 @@ final class DiaryUseCase: CoreDataUseCase {
     let diaryEntity: NSEntityDescription?
     
     private var location: Location? {
-        get{
             let locationManager = CLLocationManager()
             locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
@@ -31,8 +31,8 @@ final class DiaryUseCase: CoreDataUseCase {
                   let lon = locationManager.location?.coordinate.longitude else {
                 return nil
             }
+            
             return Location(lat: lat, lon: lon)
-        }
     }
     
     init(containerManager: ContainerManagerable, weatherUseCase: WeatherDataUseCase) {
@@ -59,20 +59,16 @@ final class DiaryUseCase: CoreDataUseCase {
               let diaryData = NSManagedObject(entity: diaryEntity, insertInto: context) as? DiaryData else {
             throw CoreDataError.createError
         }
-                
-        /*
-        let weatherData = weatherUseCase.requestWeatherData(location: location,
-                                                            completeHandler: <#T##(WeatherData) -> Void#>,
-                                                            errorHandler: <#T##(Error) -> Void#>)
-*/
+        
         diaryData.title = element.title
         diaryData.body = element.body
         diaryData.date = element.date
         diaryData.key = key
-
-        try context.save()
         
-        return DiaryInfo(title: element.title, body: element.body, date: element.date, key: key)
+        try context.save()
+        let diaryInfo = DiaryInfo(title: element.title, body: element.body, date: element.date, key: key)
+
+        return diaryInfo
     }
     
     func read() throws -> [DiaryInfo] {
@@ -85,7 +81,12 @@ final class DiaryUseCase: CoreDataUseCase {
         }
         
         let diaryInfoArray = diarys.map { diary -> DiaryInfo in
-            return DiaryInfo(title: diary.title, body: diary.body, date: diary.date, key: diary.key)
+            return DiaryInfo(title: diary.title,
+                             body: diary.body,
+                             date: diary.date,
+                             key: diary.key,
+                             weather: diary.weather,
+                             icon: diary.icon)
         }
         
         return diaryInfoArray
@@ -126,6 +127,32 @@ final class DiaryUseCase: CoreDataUseCase {
         
         context.delete(resultArray[0])
         try context.save()
+    }
+    
+    func asyncUpdate(element: DiaryInfo, errorHandler: @escaping (Error) -> Void) {
+        updateWeather(element: element, errorHandler: errorHandler)
+    }
+    
+    private func updateWeather(element: DiaryInfo, errorHandler: @escaping (Error) -> Void) {
+        if let location = location {
+            weatherUseCase.requestWeatherData(location: location) { weatherData in
+                do {
+                    guard let key = element.key else {
+                        throw CoreDataError.updateError
+                    }
+                    
+                    let diarys = try self.filterDiaryData(key: key)
+                    diarys[0].setValue(weatherData.weather[0].main, forKey: "weather")
+                    diarys[0].setValue(weatherData.weather[0].icon, forKey: "icon")
+                    
+                    try self.context.save()
+                } catch {
+                    errorHandler(error)
+                }
+            } errorHandler: { error in
+                errorHandler(error)
+            }
+        }
     }
 }
 

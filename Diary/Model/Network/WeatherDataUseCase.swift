@@ -2,7 +2,7 @@
 //  WeatherDataUseCase.swift
 //  OpenMarket
 //
-//  Created by 우롱차, Donnie on 2022/06/03.
+//  Created by 우롱차, Red on 2022/06/28.
 //
 
 import Foundation

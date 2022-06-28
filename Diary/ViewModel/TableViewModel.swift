@@ -60,4 +60,8 @@ final class TableViewModel<U: CoreDataUseCase>: NSObject {
         }
         return data[index]
     }
+    
+    func updateWeather(data: U.Element, errorHandler: @escaping (Error) -> Void) {
+        useCase.asyncUpdate(element: data, errorHandler: errorHandler)
+    }
 }

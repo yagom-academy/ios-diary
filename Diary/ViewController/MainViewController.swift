@@ -66,6 +66,11 @@ extension MainViewController {
     private func rightBarbuttonClicked(_ sender: Any) {
         viewModel.create(data: DiaryInfo(title: "", body: "", date: Date(), key: nil)) { data in
             let detailViewController = DetailViewController(view: DetailView(), viewModel: self.viewModel)
+            
+            self.viewModel.updateWeather(data: data) { error in
+                self.alertMaker.makeErrorAlert(error: error)
+            }
+            
             detailViewController.updateData(diary: data)
             self.navigationController?.pushViewController(detailViewController, animated: true)
         } errorHandler: { error in
