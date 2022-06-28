@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-final class PersistentStore {
+final class PersistentStorage {
   private let fileName: String
 
   init(fileName: String) {

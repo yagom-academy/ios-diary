@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 final class DiaryStorageManager {
-  private let storage = PersistentStore(fileName: "Diary")
+  private let storage = PersistentStorage(fileName: "Diary")
 
   func create(text: String) {
     var separatedText = text.components(separatedBy: "\n")
