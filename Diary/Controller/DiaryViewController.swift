@@ -13,14 +13,13 @@ protocol DiaryViewControllerDelegate: AnyObject {
 }
 
 class DiaryViewController: UIViewController {
-    private var locationManager: CLLocationManager?
-    let apiKey = "783e209f3bc56998f3575fbe0168df43"
-    
     lazy var diaryView = DiaryView.init(frame: view.bounds)
     weak var delegate: DiaryViewControllerDelegate?
     var diary: Diary?
-    var weather: Weather?
-    var weatherImage: Data? {
+    
+    private var locationManager: CLLocationManager?
+    private var weather: Weather?
+    private var weatherImage: Data? {
         didSet {
             self.weather?.iconImage = weatherImage
         }
@@ -171,9 +170,12 @@ extension DiaryViewController: CLLocationManagerDelegate {
     }
     
     private func getWeatherInfo() {
+        let apiKey = "783e209f3bc56998f3575fbe0168df43"
+        
         guard let coor = getCoordinate() else {
             return
         }
+
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(coor.0)&lon=\(coor.1)&appid=\(apiKey)") else {
             return
         }
