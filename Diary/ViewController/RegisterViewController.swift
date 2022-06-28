@@ -12,7 +12,7 @@ fileprivate extension DiaryConstants {
 }
 
 final class RegisterViewController: UIViewController {
-    
+    private var diaryModel: DiaryModel?
     private let persistenceManager = DiaryEntityManager.shared
     private lazy var detailView = DetailView(frame: view.frame)
 }
@@ -39,7 +39,7 @@ extension RegisterViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        createDiaryData()
+        checkDiaryData()
     }
 }
 
@@ -64,6 +64,34 @@ extension RegisterViewController {
         }
     }
     
+    private func updateDiaryData() {
+        let title = detailView.titleField.text
+        let body = detailView.descriptionView.text
+        guard let diary = diaryModel else {
+            return
+        }
+        if title == DiaryConstants.emptyString && body == DiaryConstants.emptyString {
+            return
+        } else {
+            persistenceManager.update(
+                diary: DiaryModel(
+                    title: title,
+                    body: body,
+                    createdAt: Date(),
+                    id: diary.id
+                )
+            )
+        }
+    }
+    
+    private func checkDiaryData() {
+        if diaryModel == nil {
+            createDiaryData()
+        } else {
+            updateDiaryData()
+        }
+    }
+    
     private func registerDidEnterBackgroundNotification() {
         NotificationCenter.default.addObserver(
             self,
@@ -79,7 +107,7 @@ extension RegisterViewController {
 extension RegisterViewController {
     
     @objc private func didEnterBackground() {
-        createDiaryData()
+        checkDiaryData()
     }
 }
 
@@ -98,6 +126,6 @@ extension RegisterViewController {
      
      @objc private func keyboardWillHide(notification: NSNotification) {
          detailView.mainScrollView.contentInset.bottom = .zero
-         createDiaryData()
+         checkDiaryData()
      }
 }
