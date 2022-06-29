@@ -19,4 +19,11 @@ struct APIEndpoint {
       ]
     )
   }
+
+  static func fetchWeatherIcon(iconID: String) -> Endpoint {
+    return Endpoint(
+      baseURL: "https://openweathermap.org",
+      path: "img/wn/\(iconID)@2x.png"
+    )
+  }
 }
