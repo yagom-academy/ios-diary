@@ -113,10 +113,7 @@ final class DiaryCell: UITableViewCell {
         
         Task {
             let image = try await imageDownloadTask?.value
-            
-            DispatchQueue.main.async {
-                self.weatherImageView.image = image
-            }
+            weatherImageView.image = image
         }
     }
 }
