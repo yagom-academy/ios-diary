@@ -21,7 +21,8 @@ fileprivate extension DiaryConstants {
 final class DetailViewController: UIViewController, Activitable, ErrorAlertProtocol {
     
     private lazy var detailView = DetailView(frame: view.frame)
-    private let diaryEntityManager = DiaryEntityManager.shared
+    private let diaryModelManger = DiaryModelManger()
+    private let diaryEntityManager = DiaryEntityManager()
     private var diaryData: DiaryModel
     
     init(diaryData: DiaryModel) {
@@ -47,9 +48,9 @@ extension DetailViewController {
         super.viewDidLoad()
         setNavigationBarTitle()
         detailView.setUpView(diaryData: diaryData)
-        registerKeyboardNotifications()
         setNavigationBarRightButton()
         registerDidEnterBackgroundNotification()
+        registerKeyboardNotifications()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -77,15 +78,10 @@ extension DetailViewController {
     }
     
     private func updateListData() {
-        let title = detailView.titleField.text
-        let body = detailView.descriptionView.text
-        diaryData = DiaryModel(
-            title: title,
-            body: body,
-            createdAt: diaryData.createdAt,
-            id: diaryData.id
-        )
-        diaryEntityManager.update(diary: diaryData)
+        guard let title = detailView.titleField.text, let body = detailView.descriptionView.text else {
+            return
+        }
+        diaryModelManger.update(title: title, body: body, createdAt: diaryData.createdAt, id: diaryData.id)
     }
     
     private func registerDidEnterBackgroundNotification() {
@@ -169,36 +165,8 @@ extension DetailViewController {
     @objc private func didEnterBackground() {
         updateListData()
     }
-}
-
-// MARK: - Keyboard Method
-
-extension DetailViewController {
     
-    private func registerKeyboardNotifications() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
-    
-    @objc private func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardSize = (
-            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
-        )?.cgRectValue else { return }
-        detailView.mainScrollView.contentInset.bottom = keyboardSize.height
-    }
-    
-    @objc private func keyboardWillHide(notification: NSNotification) {
-        detailView.mainScrollView.contentInset.bottom = .zero
+    @objc override func keyboardWillHide(notification: NSNotification) {
         updateListData()
     }
 }
