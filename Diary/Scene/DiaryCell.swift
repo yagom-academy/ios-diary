@@ -50,7 +50,7 @@ final class DiaryCell: UITableViewCell {
         return label
     }()
     
-    private var imageDownloadTask: Task<UIImage, Error>?
+    private var imageDownloadTask: Task<Data, Error>?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -109,11 +109,11 @@ final class DiaryCell: UITableViewCell {
         guard let url = url else { return }
         
         let openWeatherIconImageAPI = OpenWeatherIconImageAPI(imageURL: url)
-        imageDownloadTask = NetworkManager().requestImage(api: openWeatherIconImageAPI)
+        imageDownloadTask = NetworkManager().request(api: openWeatherIconImageAPI)
         
         Task {
-            let image = try await imageDownloadTask?.value
-            weatherImageView.image = image
+            guard let imageData = try await imageDownloadTask?.value else { return }
+            weatherImageView.image = UIImage(data: imageData)
         }
     }
 }

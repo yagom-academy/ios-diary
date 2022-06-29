@@ -97,9 +97,14 @@ final class DiaryTableViewController: UITableViewController {
         guard let location = location else { return nil }
 
         let openWeahterAPI = OpenWeatherAPI(latitude: location.latitude, longitude: location.longitude)
-        let weatherInformation: WeatherInfomation = try await NetworkManager().request(api: openWeahterAPI)
+        let task = NetworkManager().request(api: openWeahterAPI)
         
-        return weatherInformation.weather.first
+        switch await task.result {
+        case .success(let data):
+            return WeatherInfomation.parse(data)?.weather.first
+        case .failure(let error):
+            throw error
+        }
     }
 }
 

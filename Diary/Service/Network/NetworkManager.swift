@@ -23,25 +23,7 @@ struct NetworkManager {
         self.session = session
     }
     
-    func request<T: Decodable>(api: APIable) async throws -> T {
-        guard let urlRequest = api.urlRequest else {
-            throw NetworkError.invalidURLRequest
-        }
-        
-        let (data, response) = try await session.data(for: urlRequest)
-        
-        guard let httpResponse = response as? HTTPURLResponse, (200..<300) ~= httpResponse.statusCode else {
-            throw NetworkError.invalidHTTPResponse
-        }
-        
-        do {
-            return try JSONDecoder().decode(T.self, from: data)
-        } catch {
-            throw NetworkError.decodingFail
-        }
-    }
-    
-    func requestImage(api: APIable) -> Task<UIImage, Error> {
+    func request(api: APIable) -> Task<Data, Error> {
         return Task {
             guard let urlRequest = api.urlRequest else {
                 throw NetworkError.invalidURLRequest
@@ -53,11 +35,7 @@ struct NetworkManager {
                 throw NetworkError.invalidHTTPResponse
             }
             
-            guard let image = UIImage(data: data) else {
-                throw NetworkError.invalidData
-            }
-            
-            return image
+            return data
         }
     }
 }
