@@ -10,8 +10,8 @@ import CoreLocation
 fileprivate enum APIOption {
   static let apiKey: String = "88db245fdcf84f6e66530a76837b25cb"
   static let baseURL: String = "https://api.openweathermap.org/data/2.5/weather"
-  static var icon: String = ""
-  static let iconURL: String = "http://openweathermap.org/img/wn/\(icon)@2x.png"
+  static var iconID: String = ""
+  static let iconURL: String = "http://openweathermap.org/img/wn/\(iconID)@2x.png"
 }
 
 final class WeatherService {
