@@ -47,7 +47,7 @@ final class DiaryAddViewController: DiaryBaseViewController {
   }
 
   @objc private func createDiary() {
-    self.storageManger.createDiary(text: self.bodyTextView.text)
+    self.storageManger.createDiary(text: self.bodyTextView.text, weather: self.weather)
   }
 
   private func initializeLocationManager() {
