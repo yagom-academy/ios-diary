@@ -12,11 +12,13 @@ struct Diary: Decodable {
   var title: String?
   var body: String?
   let createdAt: Double
+  let weatherIcon: String?
 
   private enum CodingKeys: String, CodingKey {
     case uuid
     case title
     case body
     case createdAt
+    case weatherIcon
   }
 }
