@@ -12,9 +12,10 @@ final class MainViewController: UIViewController {
     }
     
     private var mainView: UITableView
-    private var viewModel: TableViewModel<DiaryUseCase>
+    private var viewModel: TableViewModel
+    private weak var detailViewController: DetailViewController?
     
-    init(view: UITableView, viewModel: TableViewModel<DiaryUseCase>) {
+    init(view: UITableView, viewModel: TableViewModel) {
         self.mainView = view
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -37,10 +38,9 @@ final class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.loadData { error in
-            self.alertMaker.makeErrorAlert(error: error)
-        }
+        viewModel.loadData()
         mainView.reloadData()
+        viewModel.delegate = self
     }
     
     private func setMainViewSetting() {
@@ -64,18 +64,24 @@ extension MainViewController {
     
     @objc
     private func rightBarbuttonClicked(_ sender: Any) {
-        viewModel.create(data: DiaryInfo(title: "", body: "", date: Date(), key: nil)) { data in
-            let detailViewController = DetailViewController(view: DetailView(), viewModel: self.viewModel)
-            self.viewModel.asyncUpdate(data: data) { diaryInfo in
-                detailViewController.updateNavigationImage(with: diaryInfo)
-            }  errorHandler: { error in
-                self.alertMaker.makeErrorAlert(error: error )
-            }
-            detailViewController.updateData(diary: data)
-            self.navigationController?.pushViewController(detailViewController, animated: true)
-        } errorHandler: { error in
-            self.alertMaker.makeErrorAlert(error: error)
-        }
+        let newDiary = DiaryInfo(title: "", body: "", date: Date(), key: nil)
+        viewModel.create(data: newDiary)
+        
+        
+        
+        
+//        viewModel.create(data: DiaryInfo(title: "", body: "", date: Date(), key: nil)) { data in
+//            let detailViewController = DetailViewController(view: DetailView(), viewModel: self.viewModel)
+//            self.viewModel.asyncUpdate(data: data) { diaryInfo in
+//                detailViewController.updateNavigationImage(with: diaryInfo)
+//            }  errorHandler: { error in
+//                self.alertMaker.makeErrorAlert(error: error )
+//            }
+//            detailViewController.updateData(diary: data)
+//            self.navigationController?.pushViewController(detailViewController, animated: true)
+//        } errorHandler: { error in
+//            self.alertMaker.makeErrorAlert(error: error)
+//        }
     }
 }
 
@@ -94,12 +100,8 @@ extension MainViewController: UITableViewDelegate {
             let cancleButton = UIAlertAction(title: "취소", style: .cancel)
             let deleteButton = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 guard let diary = self.viewModel.indexData(indexPath.row) else { return }
-                self.viewModel.delete(data: diary) { error in
-                    self.alertMaker.makeErrorAlert(error: error)
-                }
-                self.viewModel.loadData { error in
-                    self.alertMaker.makeErrorAlert(error: error)
-                }
+                self.viewModel.delete(data: diary)
+                self.viewModel.loadData()
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             }
             self.alertMaker.makeAlert(title: "진짜요?",
@@ -143,4 +145,25 @@ extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.dataCount
     }
+}
+
+extension MainViewController: TableViewModelDelegate {
+    func asyncUpdateHandler(_ data: DiaryInfo) {
+        guard let detailViewController = detailViewController else { return }
+            detailViewController.updateNavigationImage(with: data)
+    }
+    
+    func createHandler(_ data: DiaryInfo) {
+        let detailViewController = DetailViewController(view: DetailView(), viewModel: self.viewModel)
+        self.detailViewController = detailViewController
+        self.viewModel.asyncUpdate(data: data)
+        
+        detailViewController.updateData(diary: data)
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    func errorHandler(_ error: Error) {
+        self.alertMaker.makeErrorAlert(error: error)
+    }
+
 }

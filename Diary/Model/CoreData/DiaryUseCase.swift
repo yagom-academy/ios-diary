@@ -8,18 +8,18 @@
 import CoreData
 import CoreLocation
 
-protocol CoreDataUseCase {
-    associatedtype Element: DataModelable
-    func create(element: Element) throws -> Element
-    func read() throws -> [Element]
-    func update(element: Element) throws
-    func asyncUpdate(element: Element,
-                     completionHandler: @escaping (Element) -> Void,
-                     errorHandler: @escaping (Error) -> Void)
-    func delete(element: Element) throws
-}
+//protocol CoreDataUseCase {
+//    associatedtype Element: DataModelable
+//    func create(element: Element) throws -> Element
+//    func read() throws -> [Element]
+//    func update(element: Element) throws
+//    func asyncUpdate(element: Element,
+//                     completionHandler: @escaping (Element) -> Void,
+//                     errorHandler: @escaping (Error) -> Void)
+//    func delete(element: Element) throws
+//}
 
-final class DiaryUseCase: CoreDataUseCase {
+final class DiaryUseCase {
     private let containerManager: ContainerManagerable
     private let weatherUseCase: WeatherDataUseCase
     let context: NSManagedObjectContext

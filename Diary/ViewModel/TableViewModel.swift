@@ -6,64 +6,72 @@
 //
 
 import UIKit
+protocol TableViewModelDelegate: AnyObject {
+    func createHandler(_ data: DiaryInfo)
+    func asyncUpdateHandler(_ data: DiaryInfo)
+    func errorHandler(_ error: Error)
+    
+}
 
-final class TableViewModel<U: CoreDataUseCase>: NSObject {
-    private var data: [U.Element] = []
-    private let useCase: U
+final class TableViewModel: NSObject {
+    private var data: [DiaryInfo] = []
+    private let useCase: DiaryUseCase
+    var delegate: TableViewModelDelegate?
     var dataCount: Int {
         return data.count
     }
     
-    init(useCase: U) {
+    init(useCase: DiaryUseCase) {
         self.useCase = useCase
     }
     
-    func create(data: U.Element,
-                completionHandler: ((U.Element) -> Void)? = nil,
-                errorHandler: ((Error) -> Void)? = nil) {
+    func create(data: DiaryInfo) {
         do {
             let result = try useCase.create(element: data)
-            completionHandler?(result)
+            delegate?.createHandler(result)
         } catch {
-            errorHandler?(error)
+            delegate?.errorHandler(error)
         }
     }
     
-    func loadData(errorHandler: ((Error) -> Void)? = nil) {
+    func loadData() {
         do {
             let diaryDatas = try useCase.read()
             data = diaryDatas
         } catch {
-            errorHandler?(error)
+            delegate?.errorHandler(error)
         }
     }
     
-    func update(data: U.Element, errorHandler: ((Error) -> Void)? = nil) {
+    func update(data: DiaryInfo) {
         do {
             try useCase.update(element: data)
         } catch {
-            errorHandler?(error)
+            delegate?.errorHandler(error)
         }
     }
     
-    func delete(data: U.Element, errorHandler: ((Error) -> Void)? = nil) {
+    func delete(data: DiaryInfo) {
         do {
             try useCase.delete(element: data)
         } catch {
-            errorHandler?(error)
+            delegate?.errorHandler(error)
         }
     }
     
-    func indexData(_ index: Int)-> U.Element? {
+    func indexData(_ index: Int) -> DiaryInfo? {
         guard index < data.count else {
             return nil
         }
         return data[index]
     }
     
-    func asyncUpdate(data: U.Element,
-                     completionHandler: @escaping (U.Element) -> Void,
-                     errorHandler: @escaping (Error) -> Void) {
-        useCase.asyncUpdate(element: data, completionHandler: completionHandler, errorHandler: errorHandler)
+    func asyncUpdate(data: DiaryInfo) {
+        guard let delegate = delegate else {
+            return
+        }
+        useCase.asyncUpdate(element: data,
+                            completionHandler: delegate.asyncUpdateHandler,
+                            errorHandler: delegate.errorHandler)
     }
 }
