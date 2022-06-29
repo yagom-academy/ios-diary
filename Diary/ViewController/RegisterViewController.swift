@@ -68,7 +68,8 @@ extension RegisterViewController {
     }
     
     private func updateDiaryData() {
-        guard let title = detailView.titleField.text, let body = detailView.descriptionView.text else {
+        guard let title = detailView.titleField.text,
+                let body = detailView.descriptionView.text else {
             return
         }
         guard let diary = diaryModel else {

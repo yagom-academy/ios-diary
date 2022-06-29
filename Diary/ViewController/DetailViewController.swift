@@ -78,10 +78,16 @@ extension DetailViewController {
     }
     
     private func updateListData() {
-        guard let title = detailView.titleField.text, let body = detailView.descriptionView.text else {
+        guard let title = detailView.titleField.text,
+                let body = detailView.descriptionView.text else {
             return
         }
-        diaryModelManger.update(title: title, body: body, createdAt: diaryData.createdAt, id: diaryData.id)
+        diaryModelManger.update(
+            title: title,
+            body: body,
+            createdAt: diaryData.createdAt,
+            id: diaryData.id
+        )
     }
     
     private func registerDidEnterBackgroundNotification() {

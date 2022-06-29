@@ -7,8 +7,7 @@
 
 import UIKit
 
-protocol Activitable: UIViewController {
-}
+protocol Activitable: UIViewController {}
 
 extension Activitable {
     func activitySheet(activityItems: [Any]) {
