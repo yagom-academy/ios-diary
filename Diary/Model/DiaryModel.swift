@@ -10,10 +10,11 @@ import Foundation
 struct DiaryModel: Decodable {
     let title: String?
     let body: String?
-    let createdAt: TimeInterval?
+    let createdAt: Date
+    let id: String
     
     private enum CodingKeys: String, CodingKey {
         case createdAt = "created_at"
-        case title, body
+        case title, body, id
     }
 }

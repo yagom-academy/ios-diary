@@ -6,25 +6,61 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+fileprivate extension DiaryConstants {
+    static let navigationBarTitle = "일기장"
+    static let navigationBarRightPlusButton = "plus"
+    static let cellSwipeShareButton = "square.and.arrow.up.on.square"
+    static let cellSwipeDeleteButton = "trash"
+}
+
+final class MainViewController: UIViewController, Activitable, ErrorAlertProtocol {
     
-    private enum Constants {
-        static let navigationBarTitle = "일기장"
-        static let navigationBarRightPlusButton = "plus"
-    }
-    
+    private let persistenceManager = DiaryEntityManager.shared
     private var diaryData: [DiaryModel] = []
-    private let paser = Parser()
     private var listLayout: UICollectionViewCompositionalLayout {
         var configure = UICollectionLayoutListConfiguration(appearance: .plain)
         configure.showsSeparators = true
         configure.backgroundColor = .clear
+        configure.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+            let share = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completion in
+                guard let diaryTitle = self?.diaryData[indexPath.row].title else {
+                    return
+                }
+                self?.activitySheet(activityItems: [diaryTitle])
+                completion(true)
+            }
+            share.image = UIImage(systemName: DiaryConstants.cellSwipeShareButton)
+            share.backgroundColor = .systemBlue
+            
+            let delete = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completion in
+                guard let diaryData = self?.diaryData[indexPath.row] else {
+                    return
+                }
+                do {
+                   try self?.persistenceManager.delete(diary: diaryData)
+                } catch {
+                    self?.showAlert(alertMessage: ("\(CoreDataError.deleteError.errorDescription)"))
+                }
+                
+                self?.diaryData.remove(at: indexPath.row)
+                self?.collectionView.deleteItems(at: [indexPath])
+                completion(true)
+            }
+            delete.image = UIImage(systemName: DiaryConstants.cellSwipeDeleteButton)
+            return UISwipeActionsConfiguration(actions: [delete, share])
+        }
         return UICollectionViewCompositionalLayout.list(using: configure)
     }
+    
     private lazy var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: listLayout
     )
+}
+
+// MARK: - View Life Cycle Method
+
+extension MainViewController {
     
     override func viewDidLoad() {
         self.view = view
@@ -32,22 +68,27 @@ final class MainViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setNavigationBarTitle()
         setNavigationBarRightPlusButton()
-        updateDiaryData()
         registerCollectionViewCell()
         setCollectionViewLayout()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        fetchDiaryData()
+    }
 }
+
 // MARK: - Method
 
 extension MainViewController {
     
     private func setNavigationBarTitle() {
-        navigationController?.navigationBar.topItem?.title = Constants.navigationBarTitle
+        navigationController?.navigationBar.topItem?.title = DiaryConstants.navigationBarTitle
     }
     
     private func setNavigationBarRightPlusButton() {
         let plusButton = UIBarButtonItem(
-            image: UIImage(systemName: Constants.navigationBarRightPlusButton),
+            image: UIImage(systemName: DiaryConstants.navigationBarRightPlusButton),
             style: .plain,
             target: self,
             action: #selector(navigationBarRightPlusButtonTapped)
@@ -75,16 +116,15 @@ extension MainViewController {
         )
     }
     
-    private func updateDiaryData() {
+    private func fetchDiaryData() {
         do {
-            let decodedData = try paser.parse()
-            diaryData = decodedData
-        } catch DiaryError.invalidFileName{
-            print("invalid file name")
-        } catch DiaryError.decodeError {
-            print("decode error")
+            diaryData = try persistenceManager.fetch()
         } catch {
-            print("invalid error : \(error)")
+            showAlert(alertMessage: ("\(CoreDataError.fetchError.errorDescription)"))
+        }
+       
+        DispatchQueue.main.async {
+            self.collectionView.reloadData()
         }
     }
 }
