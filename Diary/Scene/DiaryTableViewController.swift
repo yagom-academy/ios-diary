@@ -8,8 +8,8 @@ import UIKit
 import CoreLocation
 
 extension DiaryTableViewController {
-    static func instance(persistentManager: PersistentManager) -> DiaryTableViewController {
-        return DiaryTableViewController(persistentManager: persistentManager)
+    static func instance(databaseManager: DatabaseManageable) -> DiaryTableViewController {
+        return DiaryTableViewController(databaseManager: databaseManager)
     }
 }
 
@@ -19,7 +19,7 @@ final class DiaryTableViewController: UITableViewController {
     
     private var dataSource: DataSource?
     weak var coordinator: MainCoordinator?
-    private let persistentManager: PersistentManager!
+    private let databaseManager: DatabaseManageable
     private let locationManager = CLLocationManager()
     
     private var diarys = [Diary]() {
@@ -28,8 +28,8 @@ final class DiaryTableViewController: UITableViewController {
         }
     }
     
-    init(persistentManager: PersistentManager) {
-        self.persistentManager = persistentManager
+    init(databaseManager: DatabaseManageable) {
+        self.databaseManager = databaseManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -47,11 +47,11 @@ final class DiaryTableViewController: UITableViewController {
     private func create(with weather: Weather?) {
         let newDiary = Diary(title: "", body: "", createdDate: Date.now, weather: weather)
         diarys.insert(newDiary, at: .zero)
-        persistentManager.create(data: newDiary)
+        databaseManager.create(data: newDiary)
     }
     
     private func read() {
-        guard let results = persistentManager.fetchAll() else { return }
+        guard let results = databaseManager.read() else { return }
         
         diarys = results.map { entity in
             var weather: Weather?
@@ -169,14 +169,14 @@ extension DiaryTableViewController: DiaryDetailViewDelegate {
         guard let index = find(id: diary.id) else { return }
     
         diarys[index] = diary
-        persistentManager.update(data: diary)
+        databaseManager.update(data: diary)
     }
     
     func delete(diary: Diary) {
         guard let index = find(id: diary.id) else { return }
     
         diarys.remove(at: index)
-        persistentManager.delete(data: diary)
+        databaseManager.delete(data: diary)
     }
 }
 

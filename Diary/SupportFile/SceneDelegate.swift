@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         
         coordinator = MainCoordinator(navigationController: rootNavigationController)
-        coordinator?.start(PersistentManager(modelName: "Diary"))
+        coordinator?.start(CoreDataManager(modelName: "Diary"))
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {}

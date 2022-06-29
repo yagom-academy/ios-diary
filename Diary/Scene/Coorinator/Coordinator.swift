@@ -18,8 +18,8 @@ final class MainCoordinator: Coordinator {
         self.navigationController = navigationController
     }
     
-    func start(_ persistentManager: PersistentManager) {
-        let diaryTableViewController = DiaryTableViewController.instance(persistentManager: persistentManager)
+    func start(_ dataManager: DatabaseManageable) {
+        let diaryTableViewController = DiaryTableViewController.instance(databaseManager: dataManager)
         diaryTableViewController.coordinator = self
         
         if Thread.isMainThread == false {

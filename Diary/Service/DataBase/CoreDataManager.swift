@@ -1,5 +1,5 @@
 //
-//  PersistentManager.swift
+//  CoreDataManager.swift
 //  Diary
 //
 //  Created by dudu, papri on 2022/06/17.
@@ -7,7 +7,7 @@
 
 import CoreData
 
-final class PersistentManager {
+final class CoreDataManager {
     init(modelName: String) {
         persistentContainer = NSPersistentContainer(name: modelName)
         persistentContainer.loadPersistentStores { _, error in
@@ -37,7 +37,7 @@ final class PersistentManager {
 
 // MARK: Diary CRUD
 
-extension PersistentManager {
+extension CoreDataManager: DatabaseManageable {
     func create(data: Diary) {
         let entity = DiaryEntity(context: mainContext)
         
@@ -51,11 +51,11 @@ extension PersistentManager {
         saveContext()
     }
     
-    func fetchAll() -> [DiaryEntity]? {
+    func read() -> [DiaryEntity]? {
         let request = DiaryEntity.fetchRequest()
         let sortByDate = NSSortDescriptor(key: "createdDate", ascending: false)
         request.sortDescriptors = [sortByDate]
-        
+                
         return try? mainContext.fetch(request)
     }
     
