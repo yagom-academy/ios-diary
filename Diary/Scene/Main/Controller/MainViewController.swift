@@ -60,6 +60,7 @@ final class MainViewController: UIViewController, CLLocationManagerDelegate {
           let lon = locationManager.location?.coordinate.longitude else {
       return
     }
+    
     let detailViewController = WriteViewController(latitude: lat, longitude: lon)
     navigationController?.pushViewController(detailViewController, animated: true)
   }
