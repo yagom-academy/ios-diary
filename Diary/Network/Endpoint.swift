@@ -6,3 +6,16 @@
 //
 
 import Foundation
+
+enum HTTPMethod: String {
+  case get = "GET"
+}
+
+protocol Requestable {
+  var baseURL: String { get }
+  var path: String { get }
+  var method: HTTPMethod { get }
+  var queries: [String: String] { get }
+  var headers: [String: String] { get }
+  var payload: Data? { get }
+}
