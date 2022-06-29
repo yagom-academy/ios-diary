@@ -10,6 +10,12 @@ final class ListViewController: UIViewController {
     private lazy var mainView = MainView.init(frame: view.bounds)
     private var diaries: [Diary] = [] {
         didSet {
+            searchedDiaries = diaries
+        }
+    }
+    
+    private lazy var searchedDiaries: [Diary] = [] {
+        didSet {
             DispatchQueue.main.async {
                 self.mainView.tableView.reloadData()
             }
@@ -68,7 +74,7 @@ final class ListViewController: UIViewController {
 
 extension ListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaries.count
+        return searchedDiaries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -76,7 +82,7 @@ extension ListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configureContents(diaries[indexPath.row])
+        cell.configureContents(searchedDiaries[indexPath.row])
         
         return cell
     }
@@ -87,7 +93,7 @@ extension ListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let editViewController = EditViewController(diary: diaries[indexPath.row])
+        let editViewController = EditViewController(diary: searchedDiaries[indexPath.row])
         
         editViewController.delegate = self
         self.navigationController?.pushViewController(editViewController, animated: true)
@@ -95,8 +101,8 @@ extension ListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let share = UIContextualAction(style: .normal, title: "") { (_, _, success: @escaping (Bool) -> Void) in
-            let title = self.diaries[indexPath.row].title
-            let body = self.diaries[indexPath.row].body
+            let title = self.searchedDiaries[indexPath.row].title
+            let body = self.searchedDiaries[indexPath.row].body
             let diary = "\(title)\n\(body)"
             let shareActivity = UIActivityViewController(activityItems: [diary], applicationActivities: nil)
             
@@ -106,8 +112,8 @@ extension ListViewController: UITableViewDelegate {
         
         let delete = UIContextualAction(style: .normal, title: "") { (_, _, success: @escaping (Bool) -> Void) in
             do {
-                try CoreDataManager.shared.delete(self.diaries[indexPath.row])
-                self.diaries.remove(at: indexPath.row)
+                try CoreDataManager.shared.delete(self.searchedDiaries[indexPath.row])
+                self.searchedDiaries.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             } catch {
                 self.showErrorAlert("삭제에 실패했습니다")
