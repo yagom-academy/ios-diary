@@ -18,4 +18,10 @@ enum Parser {
 
     return result
   }
+
+  static func decode<T: Decodable>(_ type: T.Type, data: Data) -> T? {
+    guard let result = try? self.jsonDecoder.decode(type, from: data) else { return nil }
+
+    return result
+  }
 }
