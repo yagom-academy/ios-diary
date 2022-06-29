@@ -6,9 +6,23 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class WriteViewController: DiaryBaseViewController {
   private lazy var baseView = WriteView(frame: view.bounds)
+  private let weatherService = WeatherService()
+  private let latitude: CLLocationDegrees
+  private let longitude: CLLocationDegrees
+  
+  init(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+    self.latitude = latitude
+    self.longitude = longitude
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
   
   override func loadView() {
     super.loadView()
@@ -53,6 +67,18 @@ final class WriteViewController: DiaryBaseViewController {
       identifier: UUID().uuidString,
       date: Date())
   }
+  
+  private func fecthData() -> WeatherResponse? {
+    var weatherData: WeatherResponse?
+    weatherService.fetch(latitude: latitude, longitude: longitude) { result in
+      guard let resultData = try? result.get() else {
+        return
+      }
+      weatherData = resultData
+    }
+    return weatherData
+  }
+  
 }
 
 
