@@ -36,6 +36,11 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
     return label
   }()
   
+  private let iconImageView : UIImageView = {
+    let imageView = UIImageView()
+    return imageView
+  }()
+  
   private let descriptionLabel: UILabel = {
     let label = UILabel()
     label.font = UIFont.preferredFont(forTextStyle: .footnote)
@@ -52,16 +57,35 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
     fatalError("init(coder:) has not been implemented")
   }
   
+  private func fetchImage(_ iconID: String) -> UIImage? {
+    APIOption.iconID = iconID
+    guard let url = URL(string: APIOption.iconURL) else {
+      return nil
+    }
+
+    guard let iconData = try? Data(contentsOf: url) else {
+      return nil
+    }
+    
+    guard let iconImg = UIImage(data: iconData) else {
+      return nil
+    }
+    
+    return iconImg
+  }
+  
   func update(diary: Diary) {
     dateLabel.text = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
     titleLabel.text = diary.title
     descriptionLabel.text = diary.content
+    let iconimage = diary.iconID.bindOptional()
+    iconImageView.image = fetchImage(iconimage)
   }
   
   private func configureUI() {
     contentView.addSubview(mainStackView)
     mainStackView.addArrangedSubviews(titleLabel, bottomStackView)
-    bottomStackView.addArrangedSubviews(dateLabel, descriptionLabel)
+    bottomStackView.addArrangedSubviews(dateLabel, iconImageView ,descriptionLabel)
   
     NSLayoutConstraint.activate([
       mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),

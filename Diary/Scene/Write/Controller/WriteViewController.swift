@@ -57,7 +57,9 @@ final class WriteViewController: DiaryBaseViewController {
   }
   
   private func saveDiaryData() {
-    guard let text = baseView.textView.text else {
+    guard let text = baseView.textView.text,
+          let data = fecthData(),
+          let weather = data.weather.first else {
       return
     }
     
@@ -65,7 +67,9 @@ final class WriteViewController: DiaryBaseViewController {
       title: seperateTitle(from: text),
       content: seperateContent(from: text),
       identifier: UUID().uuidString,
-      date: Date())
+      date: Date(),
+      main: weather.main,
+      iconID: weather.icon)
   }
   
   private func fecthData() -> WeatherResponse? {
