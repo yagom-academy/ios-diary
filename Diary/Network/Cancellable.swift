@@ -6,3 +6,8 @@
 //
 
 import Foundation
+
+protocol Cancellable {
+  func suspend()
+  func cancel()
+}
