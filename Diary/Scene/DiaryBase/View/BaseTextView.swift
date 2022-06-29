@@ -1,13 +1,13 @@
 //
-//  DiaryBaseView.swift
+//  DetailView.swift
 //  Diary
 //
-//  Created by LIMGAUI on 2022/06/24.
+//  Created by Taeangel, Quokka on 2022/06/22.
 //
 
 import UIKit
 
-class DiaryBaseView: UIView {
+final class BaseTextView: UIView {
   let textView: UITextView = {
     let textView = UITextView()
     textView.translatesAutoresizingMaskIntoConstraints = false
@@ -21,6 +21,15 @@ class DiaryBaseView: UIView {
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
+  }
+  
+  func updateTextView(diary: Diary) {
+    guard let title = diary.title,
+          let body = diary.content else {
+      return
+    }
+    let content = title + "\n" + body
+    textView.text = content
   }
   
   private func configureLayout() {

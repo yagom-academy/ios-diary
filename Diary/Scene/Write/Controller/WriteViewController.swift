@@ -9,7 +9,7 @@ import UIKit
 import CoreLocation
 
 final class WriteViewController: DiaryBaseViewController {
-  private lazy var baseView = WriteView(frame: view.bounds)
+  private lazy var baseView = BaseTextView(frame: view.bounds)
   var weatherData: Weather?
   
   private let latitude: CLLocationDegrees
