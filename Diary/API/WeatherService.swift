@@ -13,7 +13,7 @@ struct WeatherService {
     longitude: CLLocationDegrees,
     completion: @escaping (Result<WeatherResponse, NetworkError>) -> Void) {
       
-    guard let url = URL(string: "\(APIOption.baseURL)?lat=\(latitude)&lon=\(longitude)&appid=\(APIOption.apiKey)") else {
+      guard let url = URL(string: "\(APIOption.baseURL)\(APIOption.path)?lat=\(latitude)&lon=\(longitude)&appid=\(APIOption.apiKey)") else {
       return
     }
     
@@ -41,7 +41,7 @@ struct WeatherService {
   
   func fetchImage(_ iconID: String,
                   completion: @escaping (Result<Data, NetworkError>) -> Void) {
-    guard let url = URL(string: "http://openweathermap.org/img/wn/\(iconID)@2x.png") else {
+    guard let url = URL(string: "\(APIOption.iconbaseURL)/\(iconID)@2x.png") else {
       return
     }
     
