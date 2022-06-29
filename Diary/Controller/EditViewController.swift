@@ -23,12 +23,25 @@ final class EditViewController: DiaryViewController {
     }
 
     private func setInitialView() {
+        setTitle()
+        configureDiaryView()
+    }
+    
+    private func setTitle() {
         guard let createdAt = diary?.createdAt else {
             return
         }
         
-        self.title = Date(timeIntervalSince1970: createdAt).dateToKoreanString
-        configureDiaryView()
+        if let iconImage = diary?.weather?.iconImage {
+            let stackView = UIStackView()
+            let imageView = UIImageView(image: UIImage(data: iconImage))
+            let label = UILabel()
+            label.text = Date(timeIntervalSince1970: createdAt).dateToKoreanString
+            stackView.addArrangedSubview(([imageView, label]))
+            self.navigationItem.titleView = stackView
+        } else {
+            self.title = Date(timeIntervalSince1970: createdAt).dateToKoreanString
+        }
     }
 
     private func configureDiaryView() {
