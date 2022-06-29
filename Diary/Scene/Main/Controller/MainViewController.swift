@@ -5,9 +5,11 @@
 // 
 
 import UIKit
+import CoreLocation
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, CLLocationManagerDelegate {
   private lazy var baseView = ListView(frame: view.bounds)
+  private let locationManager = CLLocationManager()
   private var diarys: [Diary]? {
     didSet {
       DispatchQueue.main.async {
@@ -24,6 +26,7 @@ final class MainViewController: UIViewController {
   override func viewDidLoad() {
     super.viewDidLoad()
     configureUI()
+    setlocationManager()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -53,8 +56,19 @@ final class MainViewController: UIViewController {
   }
   
   @objc private func addButtonDidTap() {
-    let detailViewController = WriteViewController()
+    guard let lat = locationManager.location?.coordinate.latitude,
+          let lon = locationManager.location?.coordinate.longitude else {
+      return
+    }
+    let detailViewController = WriteViewController(latitude: lat, longitude: lon)
     navigationController?.pushViewController(detailViewController, animated: true)
+  }
+  
+  private func setlocationManager() {
+    locationManager.delegate = self
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    locationManager.requestWhenInUseAuthorization()
+    locationManager.stopUpdatingLocation()
   }
 }
 
@@ -100,7 +114,7 @@ extension MainViewController: UITableViewDelegate {
       guard let identifier = self.diarys?[indexPath.row].identifier else {
         return
       }
-
+      
       DiaryData.delete(identifier: identifier)
       self.diarys?.remove(at: indexPath.row)
       completion(true)
