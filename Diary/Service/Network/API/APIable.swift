@@ -23,9 +23,12 @@ protocol APIable {
 extension APIable {
     private var url: URL? {
         var urlComponents = URLComponents(string: baseURL + path)
-        urlComponents?.queryItems = queryParameters?.map { key, value in
-            URLQueryItem(name: key, value: value)
+        if httpMethod == .get {
+            urlComponents?.queryItems = queryParameters?.map { key, value in
+                URLQueryItem(name: key, value: value)
+            }
         }
+        
         return urlComponents?.url
     }
     
