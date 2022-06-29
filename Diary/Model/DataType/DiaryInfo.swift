@@ -21,7 +21,7 @@ struct DiaryInfo: DataModelable, Equatable {
         self.icon = icon
     }
     
-    static var entityName = "DiaryData"
+    static let entityName = "DiaryData"
     
     let title: String?
     let body: String?

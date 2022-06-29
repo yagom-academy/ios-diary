@@ -43,11 +43,11 @@ final class DetailViewController: UIViewController {
     
     private lazy var titleImageView: UIImageView = {
         let imageView = UIImageView()
-    imageView.image = UIImage(systemName: "questionmark.circle")
-    
-    if let icon = diaryData?.icon {
-        imageView.weatherImage(icon: icon)
-    }
+        imageView.image = UIImage(systemName: "questionmark.circle")
+        
+        if let icon = diaryData?.icon {
+            imageView.weatherImage(icon: icon)
+        }
         return imageView
     }()
     
@@ -174,7 +174,9 @@ extension DetailViewController {
                     }
                 self.navigationController?.popViewController(animated: true)
             }
-            self.alertMaker.makeAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", buttons: [cancleButton, deleteButton])
+            self.alertMaker.makeAlert(title: "진짜요?",
+                                      message: "정말로 삭제하시겠어요?",
+                                      buttons: [cancleButton, deleteButton])
         }
 
         alertMaker.makeActionSheet(buttons: [UIAlertAction(title: "Share",
@@ -182,8 +184,7 @@ extension DetailViewController {
                                                            handler: shareButtonHandler),
                                              UIAlertAction(title: "Delete",
                                                            style: .destructive,
-                                                           handler: deleteButtonHandler)]
-        )
+                                                           handler: deleteButtonHandler)])
     }
 }
 

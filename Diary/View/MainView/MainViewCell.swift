@@ -21,7 +21,6 @@ final class MainViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        print("셀 생성 중 에러 생김")
     }
     
     private lazy var titleLabel: UILabel = {

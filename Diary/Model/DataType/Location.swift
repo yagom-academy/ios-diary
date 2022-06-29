@@ -2,7 +2,7 @@
 //  Location.swift
 //  Diary
 //
-//  Created by 곽우종 on 2022/06/28.
+//  Created by 우롱차, RED on 2022/06/28.
 //
 
 import Foundation

@@ -19,6 +19,5 @@ extension UIImageView {
             }
         } errorHandler: { _ in
         }
-
     }
 }

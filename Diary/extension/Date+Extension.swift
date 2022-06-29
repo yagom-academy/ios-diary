@@ -9,6 +9,6 @@ import Foundation
 
 extension Date {
     var toString: String {
-            return DiaryDateFormatter.shared.string(from: self)
+        return DiaryDateFormatter.shared.string(from: self)
     }
 }

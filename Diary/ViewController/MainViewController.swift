@@ -66,13 +66,11 @@ extension MainViewController {
     private func rightBarbuttonClicked(_ sender: Any) {
         viewModel.create(data: DiaryInfo(title: "", body: "", date: Date(), key: nil)) { data in
             let detailViewController = DetailViewController(view: DetailView(), viewModel: self.viewModel)
-            
             self.viewModel.asyncUpdate(data: data) { diaryInfo in
                 detailViewController.updateNavigationImage(with: diaryInfo)
             }  errorHandler: { error in
                 self.alertMaker.makeErrorAlert(error: error )
             }
-            
             detailViewController.updateData(diary: data)
             self.navigationController?.pushViewController(detailViewController, animated: true)
         } errorHandler: { error in
@@ -86,7 +84,6 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detailViewController = DetailViewController(view: DetailView(), viewModel: viewModel)
         guard let diary = viewModel.indexData(indexPath.row) else { return }
-        
         detailViewController.updateData(diary: diary)
         navigationController?.pushViewController(detailViewController, animated: true)
     }
@@ -105,11 +102,13 @@ extension MainViewController: UITableViewDelegate {
                 }
                 tableView.deleteRows(at: [indexPath], with: .automatic)
             }
-            self.alertMaker.makeAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", buttons: [cancleButton, deleteButton])
+            self.alertMaker.makeAlert(title: "진짜요?",
+                                      message: "정말로 삭제하시겠어요?",
+                                      buttons: [cancleButton, deleteButton])
             success(true)
         }
-        like.backgroundColor = .systemPink
         
+        like.backgroundColor = .systemPink
         let share = UIContextualAction(style: .normal, title: "Share") { (_, _, success: @escaping (Bool) -> Void) in
             guard let diaryInfo = self.viewModel.indexData(indexPath.row) else { return }
             let activityController = UIActivityViewController(
@@ -131,6 +130,7 @@ extension MainViewController: UITableViewDataSource {
         ) as? MainViewCell else {
             return MainViewCell()
         }
+        
         guard let diary = viewModel.indexData(indexPath.row) else {
             return MainViewCell()
         }
