@@ -56,8 +56,11 @@ final class Endpoint: Requestable {
     urlString.append(self.path)
 
     var component = URLComponents(string: urlString)
-    component?.queryItems = self.queries.map {
-      URLQueryItem(name: $0.key, value: $0.value)
+
+    if self.method == .get {
+      component?.queryItems = self.queries.map {
+        URLQueryItem(name: $0.key, value: $0.value)
+      }
     }
 
     return component?.url
