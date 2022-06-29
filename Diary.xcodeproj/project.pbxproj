@@ -28,6 +28,7 @@
 		E5453F9A2858A4BF0073D7BA /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5453F992858A4BF0073D7BA /* DiaryDetailViewController.swift */; };
 		E5A973DF286B2264006EC84B /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A973DE286B2264006EC84B /* Weather.swift */; };
 		E5A973E2286C14CB006EC84B /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A973E1286C14CB006EC84B /* Endpoint.swift */; };
+		E5A973E4286C1B4A006EC84B /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A973E3286C1B4A006EC84B /* APIEndpoint.swift */; };
 		E5AE00EF285C5C980046E430 /* Then.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5AE00EE285C5C980046E430 /* Then.swift */; };
 		E5FF9D59286191BA0049F9E6 /* DiaryAddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FF9D58286191BA0049F9E6 /* DiaryAddViewController.swift */; };
 		E5FF9D5B286194270049F9E6 /* DiaryBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5FF9D5A286194270049F9E6 /* DiaryBaseViewController.swift */; };
@@ -71,6 +72,7 @@
 		E5453F992858A4BF0073D7BA /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		E5A973DE286B2264006EC84B /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		E5A973E1286C14CB006EC84B /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		E5A973E3286C1B4A006EC84B /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		E5AE00EE285C5C980046E430 /* Then.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Then.swift; sourceTree = "<group>"; };
 		E5FF9D58286191BA0049F9E6 /* DiaryAddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryAddViewController.swift; sourceTree = "<group>"; };
 		E5FF9D5A286194270049F9E6 /* DiaryBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryBaseViewController.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 			children = (
 				B0AA891A286B25150034E16A /* NetworkService.swift */,
 				E5A973E1286C14CB006EC84B /* Endpoint.swift */,
+				E5A973E3286C1B4A006EC84B /* APIEndpoint.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -407,6 +410,7 @@
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				B031059B286AE1460020AE3F /* PersistentStorage.swift in Sources */,
 				B0B845AD28586B7F000775F3 /* DiaryTableViewCell.swift in Sources */,
+				E5A973E4286C1B4A006EC84B /* APIEndpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
