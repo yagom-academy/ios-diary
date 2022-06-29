@@ -24,6 +24,12 @@ final class DiaryTableViewCell: UITableViewCell {
     $0.setContentHuggingPriority(.required, for: .horizontal)
     $0.setContentCompressionResistancePriority(.required, for: .horizontal)
   }
+  private let weatherImageView = UIImageView().then {
+    $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+    $0.contentMode = .scaleAspectFit
+  }
+
+  private var canceller: Cancellable?
 
   override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
     super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -36,6 +42,9 @@ final class DiaryTableViewCell: UITableViewCell {
 
   override func prepareForReuse() {
     super.prepareForReuse()
+    self.canceller?.suspend()
+    self.canceller?.cancel()
+    self.weatherImageView.image = nil
     self.titleLabel.text = nil
     self.bodyLabel.text = nil
     self.dateLabel.text = nil
@@ -45,12 +54,13 @@ final class DiaryTableViewCell: UITableViewCell {
     self.titleLabel.text = diary.title
     self.bodyLabel.text = diary.body
     self.dateLabel.text = Formatter.changeToString(from: diary.createdAt)
+    self.canceller = self.weatherImageView.setImage(iconID: "04d")
   }
 
   private func initializeUI() {
     self.accessoryType = .disclosureIndicator
 
-    let subContainer = UIStackView(arrangedSubviews: [self.dateLabel, self.bodyLabel])
+    let subContainer = UIStackView(arrangedSubviews: [self.dateLabel, self.weatherImageView, self.bodyLabel])
     subContainer.axis = .horizontal
     subContainer.spacing = 5.0
 
@@ -64,7 +74,10 @@ final class DiaryTableViewCell: UITableViewCell {
       container.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5.0),
       container.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5.0),
       container.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20.0),
-      container.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
+      container.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+
+      self.weatherImageView.heightAnchor.constraint(equalToConstant: 30),
+      self.weatherImageView.heightAnchor.constraint(equalTo: self.weatherImageView.widthAnchor, multiplier: 1.0)
     ])
   }
 }
