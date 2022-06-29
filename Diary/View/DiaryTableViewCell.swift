@@ -25,6 +25,7 @@ final class DiaryTableViewCell: UITableViewCell {
     $0.setContentCompressionResistancePriority(.required, for: .horizontal)
   }
   private let weatherImageView = UIImageView().then {
+    $0.image = UIImage(named: "no")
     $0.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     $0.contentMode = .scaleAspectFit
   }
@@ -44,7 +45,7 @@ final class DiaryTableViewCell: UITableViewCell {
     super.prepareForReuse()
     self.canceller?.suspend()
     self.canceller?.cancel()
-    self.weatherImageView.image = nil
+    self.weatherImageView.image = UIImage(named: "no")
     self.titleLabel.text = nil
     self.bodyLabel.text = nil
     self.dateLabel.text = nil
@@ -54,7 +55,9 @@ final class DiaryTableViewCell: UITableViewCell {
     self.titleLabel.text = diary.title
     self.bodyLabel.text = diary.body
     self.dateLabel.text = Formatter.changeToString(from: diary.createdAt)
-    self.canceller = self.weatherImageView.setImage(iconID: "04d")
+    if let weatherIcon = diary.weatherIcon {
+      self.canceller = self.weatherImageView.setImage(iconID: weatherIcon)
+    }
   }
 
   private func initializeUI() {
