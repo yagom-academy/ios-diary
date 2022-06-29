@@ -67,7 +67,6 @@ final class ListTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return imageView
     }()

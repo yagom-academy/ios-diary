@@ -19,9 +19,9 @@ class DiaryViewController: UIViewController {
     
     private var locationManager: CLLocationManager?
     private var weather: Weather?
-    private var weatherImage: Data? {
+    private var iconImage: Data? {
         didSet {
-            self.weather?.iconImage = weatherImage
+            self.weather?.iconImage = iconImage
             DispatchQueue.main.async {
                 self.setDiary()
             }
@@ -69,20 +69,6 @@ class DiaryViewController: UIViewController {
         self.navigationItem.setRightBarButton(barButton, animated: true)
     }
     
-    private func update() {
-        do {
-            guard let diaryData = self.diary else {
-                return
-            }
-
-            try CoreDataManager.shared.update(diaryData)
-        } catch {
-            showErrorAlert("업데이트에 실패했습니다")
-        }
-        
-        delegate?.updateView()
-    }
-    
     private func setDiary() {
         var convertedTextArray = convertedTextArray()
         diary = Diary(title: convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst(),
@@ -115,6 +101,20 @@ class DiaryViewController: UIViewController {
         }
         
         return convertedTextArray
+    }
+    
+    private func update() {
+        do {
+            guard let diaryData = self.diary else {
+                return
+            }
+
+            try CoreDataManager.shared.update(diaryData)
+        } catch {
+            showErrorAlert("업데이트에 실패했습니다")
+        }
+        
+        delegate?.updateView()
     }
     
     private func touchShareButton() {
@@ -174,9 +174,10 @@ class DiaryViewController: UIViewController {
         }
     }
 }
+
 // MARK: - weather info
 extension DiaryViewController: CLLocationManagerDelegate {
-    private func getCoordinate() -> (Double, Double)? {
+    private func getCoordinate() -> (latitude: Double, longitude: Double)? {
         let coordinate = locationManager?.location?.coordinate
         guard let latitude = coordinate?.latitude else {
             return nil
@@ -196,7 +197,7 @@ extension DiaryViewController: CLLocationManagerDelegate {
             return
         }
 
-        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(coordinate.0)&lon=\(coordinate.1)&appid=\(apiKey)") else {
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appid=\(apiKey)") else {
             return
         }
         
@@ -235,7 +236,7 @@ extension DiaryViewController: CLLocationManagerDelegate {
                 return
             }
             
-            self.weatherImage = data
+            self.iconImage = data
         }
         
         dataTask.resume()
@@ -259,10 +260,7 @@ extension DiaryViewController: CLLocationManagerDelegate {
                 return
             }
             
-            DispatchQueue.main.async {
-                self.setWeatherImage(iconID)
-            }
-            
+            self.setWeatherImage(iconID)
             self.weather = Weather(main: main, iconID: iconID)
         }
     }
