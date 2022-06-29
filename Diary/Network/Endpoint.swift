@@ -18,6 +18,8 @@ protocol Requestable {
   var queries: [String: String] { get }
   var headers: [String: String] { get }
   var payload: Data? { get }
+
+  func createRequest() -> URLRequest?
 }
 
 final class Endpoint: Requestable {
