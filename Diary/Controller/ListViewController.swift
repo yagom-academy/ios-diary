@@ -31,6 +31,7 @@ final class ListViewController: UIViewController {
         self.view = mainView
         mainView.tableView.dataSource = self
         mainView.tableView.delegate = self
+        mainView.searchBar.delegate = self
         mainView.tableView.register(ListTableViewCell.self,
                                     forCellReuseIdentifier: "\(ListTableViewCell.self)")
         configureNavigationBar()
@@ -133,5 +134,28 @@ extension ListViewController: UITableViewDelegate {
 extension ListViewController: DiaryViewControllerDelegate {
     func updateView() {
         readDiaryDatas()
+    }
+}
+
+extension ListViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
+    }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        guard let keyword = searchBar.text else {
+            return
+        }
+        if keyword.trimmingCharacters(in: .whitespaces).isEmpty {
+                   searchedDiaries = diaries
+        } else {
+            searchedDiaries = []
+            searchedDiaries = diaries.compactMap {
+                if $0.title.contains(keyword) || $0.body.contains(keyword) {
+                    return $0
+                }
+                return nil
+            }
+        }
     }
 }
