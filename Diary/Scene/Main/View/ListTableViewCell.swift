@@ -33,13 +33,14 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
     let label = UILabel()
     label.font = UIFont.preferredFont(forTextStyle: .footnote)
     label.setContentCompressionResistancePriority(.required, for: .horizontal)
+    label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     return label
   }()
   
   private let iconImageView : UIImageView = {
     let imageView = UIImageView()
     imageView.sizeToFit()
-    imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+    imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
     return imageView
   }()
   
@@ -91,7 +92,10 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
       mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
       mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
       mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-      mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+      mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+      
+      iconImageView.widthAnchor.constraint(equalToConstant: frame.width * 0.1),
+      iconImageView.heightAnchor.constraint(equalToConstant: frame.width * 0.1)
     ])
   }
 }
