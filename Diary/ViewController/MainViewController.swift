@@ -67,8 +67,10 @@ extension MainViewController {
         viewModel.create(data: DiaryInfo(title: "", body: "", date: Date(), key: nil)) { data in
             let detailViewController = DetailViewController(view: DetailView(), viewModel: self.viewModel)
             
-            self.viewModel.asyncUpdate(data: data) { error in
-                self.alertMaker.makeErrorAlert(error: error)
+            self.viewModel.asyncUpdate(data: data) { diaryInfo in
+                detailViewController.updateNavigationImage(with: diaryInfo)
+            }  errorHandler: { error in
+                self.alertMaker.makeErrorAlert(error: error )
             }
             
             detailViewController.updateData(diary: data)

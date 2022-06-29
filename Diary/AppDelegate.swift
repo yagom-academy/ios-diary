@@ -6,6 +6,7 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 protocol SaveDelegate: UIViewController {
     func save()
@@ -18,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        let locationManager = CLLocationManager()
+        locationManager.requestWhenInUseAuthorization()
         return true
     }
 

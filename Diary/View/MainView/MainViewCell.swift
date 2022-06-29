@@ -43,7 +43,7 @@ final class MainViewCell: UITableViewCell {
     private lazy var weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.image = UIImage(systemName: "swift")
+        imageView.image = UIImage(systemName: "questionmark.circle")
         imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return imageView
     }()

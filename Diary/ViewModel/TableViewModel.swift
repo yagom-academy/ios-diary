@@ -61,7 +61,9 @@ final class TableViewModel<U: CoreDataUseCase>: NSObject {
         return data[index]
     }
     
-    func asyncUpdate(data: U.Element, errorHandler: @escaping (Error) -> Void) {
-        useCase.asyncUpdate(element: data, errorHandler: errorHandler)
+    func asyncUpdate(data: U.Element,
+                     completionHandler: @escaping (U.Element) -> Void,
+                     errorHandler: @escaping (Error) -> Void) {
+        useCase.asyncUpdate(element: data, completionHandler: completionHandler, errorHandler: errorHandler)
     }
 }

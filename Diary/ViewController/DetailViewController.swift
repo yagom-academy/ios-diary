@@ -34,6 +34,23 @@ final class DetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = diaryData?.date?.toString
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        return label
+    }()
+    
+    private lazy var titleImageView: UIImageView = {
+        let imageView = UIImageView()
+    imageView.image = UIImage(systemName: "questionmark.circle")
+    
+    if let icon = diaryData?.icon {
+        imageView.weatherImage(icon: icon)
+    }
+        return imageView
+    }()
+    
     override func loadView() {
         view = detailView
     }
@@ -115,18 +132,7 @@ extension DetailViewController {
 // MARK: Navigation Method
 extension DetailViewController {
     private func setNavigationSetting() {
-        let titleLabel = UILabel()
-        titleLabel.text = diaryData?.date?.toString
-        titleLabel.font = UIFont.preferredFont(forTextStyle: .title2)
-        
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "swift")
-        
-        if let icon = diaryData?.icon {
-            imageView.weatherImage(icon: icon)
-        }
-        
-        let stackView = UIStackView(arrangedSubviews: [imageView, titleLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleImageView, titleLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.alignment = .center
@@ -139,6 +145,13 @@ extension DetailViewController {
             target: self,
             action: #selector(rightBarbuttonClicked(_:))
         )
+    }
+    
+    func updateNavigationImage(with diaryInfo: DiaryInfo) {
+        guard let icon = diaryInfo.icon else {
+            return
+        }
+        titleImageView.weatherImage(icon: icon)
     }
     
     @objc private func rightBarbuttonClicked(_ sender: Any) {

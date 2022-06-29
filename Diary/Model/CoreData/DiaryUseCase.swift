@@ -13,7 +13,9 @@ protocol CoreDataUseCase {
     func create(element: Element) throws -> Element
     func read() throws -> [Element]
     func update(element: Element) throws
-    func asyncUpdate(element: Element, errorHandler: @escaping (Error) -> Void)
+    func asyncUpdate(element: Element,
+                     completionHandler: @escaping (Element) -> Void,
+                     errorHandler: @escaping (Error) -> Void)
     func delete(element: Element) throws
 }
 
@@ -25,7 +27,6 @@ final class DiaryUseCase: CoreDataUseCase {
     
     private var location: Location? {
             let locationManager = CLLocationManager()
-            locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
             guard let lat = locationManager.location?.coordinate.latitude,
                   let lon = locationManager.location?.coordinate.longitude else {
@@ -129,23 +130,46 @@ final class DiaryUseCase: CoreDataUseCase {
         try context.save()
     }
     
-    func asyncUpdate(element: DiaryInfo, errorHandler: @escaping (Error) -> Void) {
-        updateWeather(element: element, errorHandler: errorHandler)
+    func asyncUpdate(element: DiaryInfo,
+                     completionHandler: @escaping (DiaryInfo) -> Void,
+                     errorHandler: @escaping (Error) -> Void) {
+        updateWeather(element: element,
+                      completionHandler: completionHandler,
+                      errorHandler: errorHandler)
     }
     
-    private func updateWeather(element: DiaryInfo, errorHandler: @escaping (Error) -> Void) {
+    private func updateWeather(element: DiaryInfo,
+                               completionHandler: @escaping (DiaryInfo) -> Void,
+                               errorHandler: @escaping (Error) -> Void) {
         if let location = location {
-            weatherUseCase.requestWeatherData(location: location) { weatherData in
+            weatherUseCase.requestWeatherData(location: location) { weatherDatas in
                 do {
+                    guard let weatherData = weatherDatas.weather.first else {
+                        throw NetworkError.dataError
+                    }
+                    
                     guard let key = element.key else {
                         throw CoreDataError.updateError
                     }
                     
                     let diarys = try self.filterDiaryData(key: key)
-                    diarys[0].setValue(weatherData.weather[0].main, forKey: "weather")
-                    diarys[0].setValue(weatherData.weather[0].icon, forKey: "icon")
+                    
+                    guard let diary = diarys.first as? DiaryData else {
+                        throw CoreDataError.readError
+                    }
+                    
+                    diary.setValue(weatherData.main, forKey: "weather")
+                    diary.setValue(weatherData.icon, forKey: "icon")
                     
                     try self.context.save()
+                    
+                    completionHandler(DiaryInfo(title: diary.title,
+                                                body: diary.body,
+                                                date: diary.date,
+                                                key: diary.key,
+                                                weather: diary.weather,
+                                                icon: diary.icon)
+                    )
                 } catch {
                     errorHandler(error)
                 }
