@@ -168,7 +168,11 @@ class DiaryViewController: UIViewController {
     
     @objc private func saveDiary() {
         if diary == nil {
-            setWeatherInfo()
+            if locationManager?.authorizationStatus == .authorizedAlways || locationManager?.authorizationStatus == .authorizedWhenInUse {
+                setWeatherInfo()
+            } else {
+                setDiary()
+            }
         } else {
             editDiary()
         }
