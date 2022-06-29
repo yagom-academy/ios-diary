@@ -11,7 +11,6 @@ final class DiaryView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureView()
-        addHideButtonOnKeyboard()
     }
     
     required init?(coder: NSCoder) {
@@ -35,6 +34,7 @@ final class DiaryView: UIView {
             diaryTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
         addKeyboardObserver()
+        addHideButtonOnKeyboard()
     }
     
     func configureContents(diary: Diary) {
