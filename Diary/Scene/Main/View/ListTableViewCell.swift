@@ -38,12 +38,15 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
   
   private let iconImageView : UIImageView = {
     let imageView = UIImageView()
+    imageView.sizeToFit()
+    imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
     return imageView
   }()
   
   private let descriptionLabel: UILabel = {
     let label = UILabel()
     label.font = UIFont.preferredFont(forTextStyle: .footnote)
+    label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     return label
   }()
   
@@ -57,29 +60,26 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
     fatalError("init(coder:) has not been implemented")
   }
   
-  private func fetchImage(_ iconID: String) -> UIImage? {
-    APIOption.iconID = iconID
-    guard let url = URL(string: APIOption.iconURL) else {
-      return nil
+  private func uploadIconImage(_ iconID: String?) {
+    guard let iconID = iconID else {
+      return
     }
-
-    guard let iconData = try? Data(contentsOf: url) else {
-      return nil
+    WeatherService().fetchImage(iconID) { result in
+      switch result {
+      case .success(let data):
+        DispatchQueue.main.async {
+          self.iconImageView.image = UIImage(data: data)
+        }
+      case .failure(_): break
+      }
     }
-    
-    guard let iconImg = UIImage(data: iconData) else {
-      return nil
-    }
-    
-    return iconImg
   }
   
   func update(diary: Diary) {
     dateLabel.text = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
     titleLabel.text = diary.title
     descriptionLabel.text = diary.content
-    let iconimage = diary.iconID.bindOptional()
-    iconImageView.image = fetchImage(iconimage)
+    uploadIconImage(diary.iconID)
   }
   
   private func configureUI() {

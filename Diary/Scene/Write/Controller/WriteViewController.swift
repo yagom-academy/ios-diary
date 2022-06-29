@@ -10,7 +10,8 @@ import CoreLocation
 
 final class WriteViewController: DiaryBaseViewController {
   private lazy var baseView = WriteView(frame: view.bounds)
-  private let weatherService = WeatherService()
+  var weatherData: Weather?
+  
   private let latitude: CLLocationDegrees
   private let longitude: CLLocationDegrees
   
@@ -31,6 +32,7 @@ final class WriteViewController: DiaryBaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    fecthData()
     configureUI()
     addKeyboardObserver(action: #selector(keyboardWillShow))
     addGesture()
@@ -57,9 +59,11 @@ final class WriteViewController: DiaryBaseViewController {
   }
   
   private func saveDiaryData() {
-    guard let text = baseView.textView.text,
-          let data = fecthData(),
-          let weather = data.weather.first else {
+    guard let text = baseView.textView.text else {
+      return
+    }
+    
+    guard let weather = weatherData else {
       return
     }
     
@@ -72,17 +76,15 @@ final class WriteViewController: DiaryBaseViewController {
       iconID: weather.icon)
   }
   
-  private func fecthData() -> WeatherResponse? {
-    var weatherData: WeatherResponse?
-    weatherService.fetch(latitude: latitude, longitude: longitude) { result in
-      guard let resultData = try? result.get() else {
-        return
+  private func fecthData() {
+    WeatherService().fetch(latitude: latitude, longitude: longitude) { result in
+      switch result {
+      case .success(let weatherResponse):
+        self.weatherData = weatherResponse.weather.first
+      case .failure(_): break
       }
-      weatherData = resultData
     }
-    return weatherData
   }
-  
 }
 
 
