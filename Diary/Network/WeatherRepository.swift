@@ -13,7 +13,7 @@ final class WeatherRepository {
   init(networkService: NetworkService) {
     self.networkService = networkService
   }
-  
+
   func fetchWeather(lat: Double, lon: Double, completion: @escaping (Weather) -> Void) {
     let endpoint = APIEndpoint.fetchWeather(lat: lat, lon: lon)
     self.networkService.request(endpoint: endpoint) { result in
