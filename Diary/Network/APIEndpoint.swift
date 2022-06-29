@@ -6,3 +6,17 @@
 //
 
 import Foundation
+
+struct APIEndpoint {
+  static func fetchWeather(lat: Double, lon: Double) -> Endpoint {
+    return Endpoint(
+      baseURL: "https://api.openweathermap.org",
+      path: "data/2.5/weather",
+      queries: [
+        "lat": "\(lat)",
+        "lon": "\(lon)",
+        "appid": "c2da2eb2d3d8092983a8ad336224a808"
+      ]
+    )
+  }
+}
