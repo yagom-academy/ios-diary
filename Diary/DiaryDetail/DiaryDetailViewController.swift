@@ -18,9 +18,8 @@ final class DiaryDetailViewController: UIViewController {
     private let mainView = DiaryDetailView()
     private var diary: Diary?
     weak var delegate: DiaryDetailViewDelegate?
-    
-    private var lat: String?
-    private var lon: String?
+
+    private var completion: (() -> (lat: String, lon: String))?
     
     private let locationManager: CLLocationManager
     
@@ -59,11 +58,11 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func requestWeatherIcon() async throws -> String? {
-        guard let lat = lat, let lon = lon else {
-            
+        guard let completion = completion else {
             return nil
         }
-
+        
+        let (lat, lon) = completion()
         guard let urlRequest = WeatherAPI(parameters: [
             "lat": lat,
             "lon": lon,
@@ -131,7 +130,6 @@ final class DiaryDetailViewController: UIViewController {
     
     private func updateDiary(_ diary: Diary) -> Diary {
         let (title, body) = configureContent()
-        
         return Diary(title: title,
                      body: body,
                      createdAt: diary.createdAt,
@@ -251,8 +249,9 @@ private extension Array {
 extension DiaryDetailViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
-            lat = location.coordinate.latitude.description
-            lon = location.coordinate.longitude.description
+            completion = {
+                return (location.coordinate.latitude.description, location.coordinate.longitude.description)
+            }
         }
     }
     
