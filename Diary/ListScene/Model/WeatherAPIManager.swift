@@ -65,9 +65,9 @@ final class WeatherAPIManager {
                 return complition(.failure(.responseError(error: error)))
             }
             
-            guard let response = urlResponse as? HTTPURLResponse,
-                  (200...299).contains(response.statusCode) else {
-                complition(.failure(.invalidStatusCode(statusCode: (urlResponse as? HTTPURLResponse)?.statusCode)))
+            if let response = urlResponse as? HTTPURLResponse,
+                !(200...299).contains(response.statusCode) {
+                complition(.failure(.invalidStatusCode(statusCode: response.statusCode)))
                 return
             }
             
