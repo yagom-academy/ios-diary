@@ -126,8 +126,8 @@ extension DiaryViewController: UITableViewDelegate {
 
     tableView.deselectRow(at: indexPath, animated: true)
     let detailViewController = DiaryDetailViewController(
-      diary: self.diaries[indexPath.row],
-      storageManager: storageManger
+      storageManager: storageManger,
+      diary: self.diaries[indexPath.row]
     )
     self.navigationController?.pushViewController(detailViewController, animated: true)
   }

@@ -9,7 +9,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
   private var diary: Diary
   private let storageManger: DiaryStorageManager
 
-  init(diary: Diary, storageManager: DiaryStorageManager) {
+  init(storageManager: DiaryStorageManager, diary: Diary) {
     self.diary = diary
     self.storageManger = storageManager
     super.init(nibName: nil, bundle: nil)
