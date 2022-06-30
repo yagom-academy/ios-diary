@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 final class DiaryStorageManager {
-  private let storage = PersistentStorage(fileName: "Diary")
+  private let persistentStorage = PersistentStorage(fileName: "Diary")
 
   func create(text: String) {
     var separatedText = text.components(separatedBy: "\n")
@@ -18,19 +18,19 @@ final class DiaryStorageManager {
     let body = separatedText.joined(separator: "\n")
 
     if let title = title, !title.isEmpty {
-      let diaryEntity = DiaryEntity(context: self.storage.context)
+      let diaryEntity = DiaryEntity(context: self.persistentStorage.context)
       diaryEntity.setValue(title, forKey: "title")
       diaryEntity.setValue(body, forKey: "body")
       diaryEntity.setValue(Date().timeIntervalSince1970, forKey: "createdAt")
       diaryEntity.setValue(UUID().uuidString, forKey: "uuid")
 
-      self.storage.saveContext()
+      self.persistentStorage.saveContext()
       NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
     }
   }
 
   func fetchAllDiaries() -> [Diary] {
-    guard let diaryEntities = try? self.storage.context.fetch(DiaryEntity.fetchRequest()) else { return [] }
+    guard let diaryEntities = try? self.persistentStorage.context.fetch(DiaryEntity.fetchRequest()) else { return [] }
 
     return diaryEntities.map { entity in
       return Diary(
@@ -46,7 +46,7 @@ final class DiaryStorageManager {
     let request = DiaryEntity.fetchRequest()
     request.predicate = NSPredicate(format: "uuid == %@", uuid)
 
-    guard let entity = try? self.storage.context.fetch(request).first else { return }
+    guard let entity = try? self.persistentStorage.context.fetch(request).first else { return }
 
     var separatedText = text.components(separatedBy: "\n")
     let title = separatedText.first
@@ -56,7 +56,7 @@ final class DiaryStorageManager {
     entity.title = title
     entity.body = body
 
-    self.storage.saveContext()
+    self.persistentStorage.saveContext()
     NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
   }
 
@@ -64,20 +64,20 @@ final class DiaryStorageManager {
     let request = DiaryEntity.fetchRequest()
     request.predicate = NSPredicate(format: "uuid == %@", uuid)
 
-    guard let entity = try? self.storage.context.fetch(request).first else { return }
+    guard let entity = try? self.persistentStorage.context.fetch(request).first else { return }
 
-    self.storage.context.delete(entity)
-    self.storage.saveContext()
+    self.persistentStorage.context.delete(entity)
+    self.persistentStorage.saveContext()
     NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasDeleted, object: nil)
   }
 
   func deleteAll() {
-    guard let diaryEntities = try? self.storage.context.fetch(DiaryEntity.fetchRequest()) else { return }
+    guard let diaryEntities = try? self.persistentStorage.context.fetch(DiaryEntity.fetchRequest()) else { return }
 
     diaryEntities.forEach { entity in
-      self.storage.context.delete(entity)
+      self.persistentStorage.context.delete(entity)
     }
 
-    self.storage.saveContext()
+    self.persistentStorage.saveContext()
   }
 }
