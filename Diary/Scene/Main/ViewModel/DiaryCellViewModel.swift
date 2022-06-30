@@ -9,13 +9,11 @@ import Foundation
 import UIKit
 
 final class DiaryCellViewModel {
-    private(set) var task: URLSessionDataTask?
-    private let networkManager = NetworkManager()
+    private let imageDownloader = ImageDownloader()
     private(set) var image = Observable(UIImage())
     
     func prepareForReuse() {
-        task?.suspend()
-        task?.cancel()
+        imageDownloader.cancelTask()
     }
     
     func setUpContents(icon: String) {
@@ -23,26 +21,8 @@ final class DiaryCellViewModel {
     }
     
     private func requestImage(icon: String) {
-        if let cacheImage = ImageCacheManager.shared.retrive(forKey: icon) {
-            image.value = cacheImage
-            return
-        }
-        
-        let endpoint = EndpointStorage
-            .weatherIcon(icon)
-            .endPoint
-        
-        task = networkManager.requestImageAPI(with: endpoint) { [weak self] (result: Result<UIImage, Error>) in
-            switch result {
-            case .success(let image):
-                ImageCacheManager.shared.set(object: image, forKey: icon)
-                self?.image.value = image
-            case .failure:
-                guard let image = UIImage(systemName: "questionmark.square.dashed") else {
-                    return
-                }
-                self?.image.value = image
-            }
+        imageDownloader.requestImage(icon: icon) { [weak self] result in
+            self?.image.value = result
         }
     }
 }

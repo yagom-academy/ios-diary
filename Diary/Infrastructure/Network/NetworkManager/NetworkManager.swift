@@ -35,25 +35,6 @@ final class NetworkManager {
     }
     
     @discardableResult
-    func requestImageAPI(
-        with endpoint: Requestable,
-        completion: @escaping (Result<UIImage, Error>) -> Void
-    ) -> URLSessionDataTask? {
-        return request(endpoint: endpoint) { result in
-            switch result {
-            case .success(let result):
-                guard let image = UIImage(data: result) else {
-                    completion(.failure(NetworkError.emptyDataError))
-                    return
-                }
-                completion(.success(image))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-    
-    @discardableResult
     func request(
         endpoint: Requestable,
         completion: @escaping (Result<Data, Error>) -> Void
