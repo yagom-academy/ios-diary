@@ -141,14 +141,14 @@ extension DiaryViewController: UITableViewDelegate {
   ) -> UISwipeActionsConfiguration? {
     let diary = self.diaries[indexPath.row]
 
-    let share = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
+    let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
       self.presentShareActivityController(diary: diary)
     }
-    let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
+    let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
       self.presentDeleteAlert(diary: diary)
     }
 
-    let configuration = UISwipeActionsConfiguration(actions: [delete, share])
+    let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     return configuration
   }
 
