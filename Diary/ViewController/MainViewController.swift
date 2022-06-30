@@ -71,7 +71,8 @@ extension MainViewController {
 // MARK: tableView Delegate
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailViewController = DetailViewController(view: DetailView(), viewModel: viewModel)
+        let detailViewController = DetailViewController(view: DetailView(),
+                                                        viewModel: DetailViewModel(useCase: viewModel.useCase))
         let diary = datas[indexPath.row]
         detailViewController.updateData(diary: diary)
         navigationController?.pushViewController(detailViewController, animated: true)
@@ -83,13 +84,9 @@ extension MainViewController: UITableViewDelegate {
             let cancleButton = UIAlertAction(title: "취소", style: .cancel)
             let deleteButton = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 let diary = self.datas[indexPath.row]
-                // 애니메이션 추후 변경 하기
                 self.viewModel.requireAction(.delete(diary))
-//                self.viewModel.requireAction(.loadData)
                 self.datas.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .automatic)
-//                self.viewModel.requireAction(.delete(diary))
-                
             }
             self.alertMaker.makeAlert(title: "진짜요?",
                                       message: "정말로 삭제하시겠어요?",
@@ -99,7 +96,7 @@ extension MainViewController: UITableViewDelegate {
         
         like.backgroundColor = .systemPink
         let share = UIContextualAction(style: .normal, title: "Share") { (_, _, success: @escaping (Bool) -> Void) in
-            // safe Array 처리를 하면 좋을 것 같음
+            // 추후 safe Array 처리
             let diaryInfo = self.datas[indexPath.row]
             let activityController = UIActivityViewController(
                 activityItems: [diaryInfo.body ?? ""],
@@ -149,7 +146,8 @@ extension MainViewController: TableViewModelDelegate {
     }
     
     func createHandler(_ data: DiaryInfo) {
-        let detailViewController = DetailViewController(view: DetailView(), viewModel: self.viewModel)
+        let detailViewController = DetailViewController(view: DetailView(),
+                                                        viewModel: DetailViewModel(useCase: viewModel.useCase))
         self.detailViewController = detailViewController
         self.viewModel.requireAction(.asyncUpdate(data))
         
@@ -160,5 +158,4 @@ extension MainViewController: TableViewModelDelegate {
     func errorHandler(_ error: Error) {
         self.alertMaker.makeErrorAlert(error: error)
     }
-
 }

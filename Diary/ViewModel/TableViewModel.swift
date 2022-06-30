@@ -10,9 +10,7 @@ protocol TableViewModelDelegate: AnyObject {
     func createHandler(_ data: DiaryInfo)
     func asyncUpdateHandler(_ data: DiaryInfo)
     func errorHandler(_ error: Error)
-    
     func reloadData(_ datas: [DiaryInfo])
-    
 }
 
 enum ViewModelAction {
@@ -25,7 +23,7 @@ enum ViewModelAction {
 
 final class TableViewModel: NSObject {
     private var data: [DiaryInfo] = []
-    private let useCase: DiaryUseCase
+    let useCase: DiaryUseCase
     var delegate: TableViewModelDelegate?
     private var dataCount: Int {
         return data.count
@@ -85,13 +83,6 @@ final class TableViewModel: NSObject {
             delegate?.errorHandler(error)
         }
     }
-    
-//    private func indexData(_ index: Int) -> DiaryInfo? {
-//        guard index < data.count else {
-//            return nil
-//        }
-//        return data[index]
-//    }
     
     private func asyncUpdate(data: DiaryInfo) {
         guard let delegate = delegate else {
