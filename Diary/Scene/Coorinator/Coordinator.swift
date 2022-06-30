@@ -8,50 +8,17 @@
 import UIKit
 
 protocol Coordinator {
-    var navigationController: UINavigationController { get }
+    var viewController: UIViewController? { get }
 }
 
-final class MainCoordinator: Coordinator {
-    let navigationController: UINavigationController
-    
-    init(navigationController: UINavigationController) {
-        self.navigationController = navigationController
-    }
-    
-    func start(_ dataManager: DatabaseManageable) {
-        let diaryTableViewController = DiaryTableViewController.instance(databaseManager: dataManager)
-        diaryTableViewController.coordinator = self
-        
-        if Thread.isMainThread == false {
-            DispatchQueue.main.async {
-                self.navigationController.pushViewController(diaryTableViewController, animated: false)
-            }
+extension Coordinator {
+    func popViewController(animated: Bool) {
+        if Thread.isMainThread {
+            viewController?.navigationController?.popViewController(animated: animated)
         } else {
-            navigationController.pushViewController(diaryTableViewController, animated: false)
-        }
-    }
-    
-    func pushDetailViewController(diary: Diary, delegate: DiaryDetailViewDelegate?) {
-        let detailViewController = DiaryDetailViewController.instance(diary: diary)
-        detailViewController.delegate = delegate
-        detailViewController.coordinator = self
-        
-        if Thread.isMainThread == false {
             DispatchQueue.main.async {
-                self.navigationController.pushViewController(detailViewController, animated: true)
+                viewController?.navigationController?.popViewController(animated: animated)
             }
-        } else {
-            navigationController.pushViewController(detailViewController, animated: true)
-        }
-    }
-    
-    func popDetailViewController() {
-        if Thread.isMainThread == false {
-            DispatchQueue.main.async {
-                self.navigationController.popViewController(animated: true)
-            }
-        } else {
-            navigationController.popViewController(animated: true)
         }
     }
 }

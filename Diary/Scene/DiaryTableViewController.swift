@@ -8,8 +8,8 @@ import UIKit
 import CoreLocation
 
 extension DiaryTableViewController {
-    static func instance(databaseManager: DatabaseManageable) -> DiaryTableViewController {
-        return DiaryTableViewController(databaseManager: databaseManager)
+    static func instance(coordinator: DiaryTableCoordinator, databaseManager: DatabaseManageable) -> DiaryTableViewController {
+        return DiaryTableViewController(coordinator: coordinator, databaseManager: databaseManager)
     }
 }
 
@@ -18,7 +18,7 @@ final class DiaryTableViewController: UITableViewController {
     private typealias DataSource = UITableViewDiffableDataSource<Int, Diary>
     
     private var dataSource: DataSource?
-    weak var coordinator: MainCoordinator?
+    private let coordinator: DiaryTableCoordinator
     private let databaseManager: DatabaseManageable
     private let locationManager = CLLocationManager()
     
@@ -28,7 +28,8 @@ final class DiaryTableViewController: UITableViewController {
         }
     }
     
-    init(databaseManager: DatabaseManageable) {
+    init(coordinator: DiaryTableCoordinator, databaseManager: DatabaseManageable) {
+        self.coordinator = coordinator
         self.databaseManager = databaseManager
         super.init(nibName: nil, bundle: nil)
     }
@@ -85,7 +86,7 @@ final class DiaryTableViewController: UITableViewController {
             create(with: weather)
             guard let diary = diarys.first else { return }
             
-            coordinator?.pushDetailViewController(diary: diary, delegate: self)
+            coordinator.pushToDiaryDetail(diary)
         } catch {
             AlertBuilder(viewController: self)
                 .addAction(title: "확인", style: .default)
@@ -113,7 +114,7 @@ final class DiaryTableViewController: UITableViewController {
 extension DiaryTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diary = diarys[indexPath.row]
-        coordinator?.pushDetailViewController(diary: diary, delegate: self)
+        coordinator.pushToDiaryDetail(diary)
     }
     
     override func tableView(

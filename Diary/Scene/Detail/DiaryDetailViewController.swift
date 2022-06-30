@@ -13,8 +13,8 @@ protocol DiaryDetailViewDelegate: AnyObject {
 }
 
 extension DiaryDetailViewController {
-    static func instance(diary: Diary) -> DiaryDetailViewController {
-        return DiaryDetailViewController(diary: diary)
+    static func instance(coordinator: DiaryDetailCoordinator, diary: Diary) -> DiaryDetailViewController {
+        return DiaryDetailViewController(coordinator: coordinator, diary: diary)
     }
 }
 
@@ -33,10 +33,11 @@ final class DiaryDetailViewController: UIViewController {
     )
     
     private let diary: Diary
+    private let coordinator: DiaryDetailCoordinator
     weak var delegate: DiaryDetailViewDelegate?
-    weak var coordinator: MainCoordinator?
     
-    init(diary: Diary) {
+    init(coordinator: DiaryDetailCoordinator, diary: Diary) {
+        self.coordinator = coordinator
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
@@ -89,7 +90,7 @@ final class DiaryDetailViewController: UIViewController {
                         guard let diary = self?.diary else { return }
                         
                         self?.delegate?.delete(diary: diary)
-                        self?.coordinator?.popDetailViewController()
+                        self?.coordinator.popViewController(animated: true)
                     }
                     .show(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert)
             }
