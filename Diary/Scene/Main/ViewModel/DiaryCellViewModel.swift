@@ -5,7 +5,6 @@
 //  Created by mmim, grumpy, mino on 2022/06/28.
 //
 
-import Foundation
 import UIKit
 
 final class DiaryCellViewModel {
