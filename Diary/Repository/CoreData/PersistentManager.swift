@@ -42,7 +42,7 @@ final class PersistentManager {
         let request = DiaryEntity.fetchRequest()
         
         return try self.mainContext.fetch(request).map {
-            Diary(title: $0.title, body: $0.body, createdAt: $0.createdAt, uuid: $0.uuid)
+            Diary(title: $0.title, body: $0.body, createdAt: $0.createdAt, weatherIcon: $0.weatherIcon, uuid: $0.uuid)
         }
     }
     
@@ -53,6 +53,7 @@ final class PersistentManager {
             managedObject.setValue(item.title, forKey: "title")
             managedObject.setValue(item.body, forKey: "body")
             managedObject.setValue(item.createdAt, forKey: "createdAt")
+            managedObject.setValue(item.weatherIcon, forKey: "weatherIcon")
             managedObject.setValue(item.uuid, forKey: "uuid")
             
             try self.mainContext.save()
@@ -70,8 +71,6 @@ final class PersistentManager {
         let entity = getEntity(id: item.uuid)
         entity?.setValue(item.title, forKey: "title")
         entity?.setValue(item.body, forKey: "body")
-        entity?.setValue(item.createdAt, forKey: "createdAt")
-        entity?.setValue(item.uuid, forKey: "uuid")
         
         try self.mainContext.save()
     }

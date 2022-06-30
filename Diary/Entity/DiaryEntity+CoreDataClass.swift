@@ -2,7 +2,7 @@
 //  DiaryEntity+CoreDataClass.swift
 //  Diary
 //
-//  Created by Eddy on 2022/06/17.
+//  Created by safari, Eddy on 2022/06/17.
 //
 //
 

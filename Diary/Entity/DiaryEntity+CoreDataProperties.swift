@@ -2,7 +2,7 @@
 //  DiaryEntity+CoreDataProperties.swift
 //  Diary
 //
-//  Created by 이시원 on 2022/06/20.
+//  Created by safari, Eddy on 2022/06/20.
 //
 //
 
@@ -19,6 +19,7 @@ extension DiaryEntity {
     @NSManaged public var createdAt: Date
     @NSManaged public var title: String
     @NSManaged public var uuid: UUID
+    @NSManaged public var weatherIcon: String
 
 }
 

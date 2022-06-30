@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import CoreLocation
 
 protocol DiaryDetailViewDelegate: AnyObject {
-    func save(_ diary: Diary)
+    func save(_ diary: Diary?)
     func update(_ diary: Diary)
     func delete(_ diary: Diary)
 }
@@ -17,9 +18,17 @@ final class DiaryDetailViewController: UIViewController {
     private let mainView = DiaryDetailView()
     private var diary: Diary?
     weak var delegate: DiaryDetailViewDelegate?
+
+    private var completion: (() -> (lat: String, lon: String))?
+    
+    private let locationManager: CLLocationManager
     
     init(diary: Diary? = nil) {
         self.diary = diary
+        
+        self.locationManager = CLLocationManager()
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -35,6 +44,7 @@ final class DiaryDetailViewController: UIViewController {
         configureNavigationItem()
         makeKeyboardHiddenButton()
         configureSceneDelegate()
+        locationManager.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -47,12 +57,29 @@ final class DiaryDetailViewController: UIViewController {
         finishTask()
     }
     
+    private func requestWeatherIcon() async throws -> String? {
+        guard let completion = completion else {
+            return nil
+        }
+        
+        let (lat, lon) = completion()
+        guard let urlRequest = WeatherAPI(parameters: [
+            "lat": lat,
+            "lon": lon,
+            "appid": "35e629549016019976c1803c71e8fc16"
+        ]).makeURLRequest() else { return nil }
+        
+        return try await NetworkManager().fetchWeatherData(urlRequest: urlRequest)
+    }
+    
     private func finishTask() {
-        if let diary = diary {
-            delegate?.update(updateDiary(diary))
-        } else {
-            diary = makeDiary()
-            delegate?.save(diary ?? makeDiary())
+        Task {
+            if let diary = diary {
+                delegate?.update(updateDiary(diary))
+            } else {
+                diary = await makeDiary()
+                delegate?.save(diary)
+            }
         }
     }
     
@@ -92,16 +119,22 @@ final class DiaryDetailViewController: UIViewController {
         sceneDelegate?.coreDataDelegate = self
     }
     
-    private func makeDiary() -> Diary {
+    private func makeDiary() async -> Diary {
         let (title, body) = configureContent()
         
-        return Diary(title: title, body: body, createdAt: Date())
+        guard let icon = try? await requestWeatherIcon() else {
+            return Diary(title: title, body: body, createdAt: Date(), weatherIcon: "")
+        }
+        return Diary(title: title, body: body, createdAt: Date(), weatherIcon: icon)
     }
     
     private func updateDiary(_ diary: Diary) -> Diary {
         let (title, body) = configureContent()
-        
-        return Diary(title: title, body: body, createdAt: diary.createdAt, uuid: diary.uuid)
+        return Diary(title: title,
+                     body: body,
+                     createdAt: diary.createdAt,
+                     weatherIcon: diary.weatherIcon,
+                     uuid: diary.uuid)
     }
 }
 
@@ -208,5 +241,40 @@ extension DiaryDetailViewController: CoreDataSceneDelegate {
 private extension Array {
     subscript (safe index: Int) -> Element? {
         return self.indices ~= index ? self[index] : nil
+    }
+}
+
+// MARK: - Location Delegate
+
+extension DiaryDetailViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            completion = {
+                return (location.coordinate.latitude.description, location.coordinate.longitude.description)
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        AlertBuilder(target: self)
+            .addAction("확인", style: .default)
+            .show("오류", message: "사용자의 위치 정보 불러오기를 실패했습니다.", style: .alert)
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .restricted:
+            break
+        case .denied:
+            break
+        case .authorizedAlways:
+            locationManager.requestLocation()
+        case .authorizedWhenInUse:
+            locationManager.requestLocation()
+        @unknown default:
+            locationManager.requestLocation()
+        }
     }
 }
