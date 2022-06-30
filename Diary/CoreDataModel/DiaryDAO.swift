@@ -39,13 +39,8 @@ final class DiaryDAO {
     }
     
     private func create(userData: DiaryDTO?) {
-        func setUpCoreData(at userModel: NSManagedObject, textData: DiaryDTO, weatherData: Result<Data, NetworkError>) {
-            guard let data = try? weatherData.get(),
-                  let weather: WeatherDTO = data.convert() else {
-                return
-            }
-            
-            let weatherDescription = weather.description
+        func setUpCoreData(at userModel: NSManagedObject, textData: DiaryDTO, weatherData: WeatherDTO) {
+            let weatherDescription = weatherData.description
             
             userModel.setValue(textData.identifier, forKey: "identifier")
             
@@ -53,7 +48,7 @@ final class DiaryDAO {
             userModel.setValue(textData.date, forKey: "date")
             userModel.setValue(textData.body, forKey: "body")
             
-            userModel.setValue(weather.icon.first?.icon, forKey: "icon")
+            userModel.setValue(weatherData.icon.first?.icon, forKey: "icon")
             
             userModel.setValue(weatherDescription.temperature, forKey: "temp")
             userModel.setValue(weatherDescription.feelsLike, forKey: "feelsLike")
@@ -75,8 +70,12 @@ final class DiaryDAO {
         }
         
         WeatherAPIManager.shared.fetchData(url: EntryPoint.weatherDescription(lat: lat, lon: lon).url) { [weak self] data in
+            guard let data = try? data.get(),
+                  let weather: WeatherDTO = data.convert() else {
+                return
+            }
             
-            setUpCoreData(at: userModel, textData: userData, weatherData: data)
+            setUpCoreData(at: userModel, textData: userData, weatherData: weather)
             self?.save()
         }
     }
