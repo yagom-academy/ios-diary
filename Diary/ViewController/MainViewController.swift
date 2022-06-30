@@ -15,7 +15,7 @@ fileprivate extension DiaryConstants {
 
 final class MainViewController: UIViewController, Activitable, ErrorAlertProtocol {
     
-    private let persistenceManager = DiaryEntityManager.shared
+    private let diaryViewModel = DiaryViewModel()
     private var diaryData: [DiaryModel] = []
     private var listLayout: UICollectionViewCompositionalLayout {
         var configure = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -37,13 +37,12 @@ final class MainViewController: UIViewController, Activitable, ErrorAlertProtoco
                     return
                 }
                 do {
-                   try self?.persistenceManager.delete(diary: diaryData)
+                    try self?.diaryViewModel.delete(diaryData: diaryData)
+                    self?.diaryData.remove(at: indexPath.row)
+                    self?.collectionView.deleteItems(at: [indexPath])
                 } catch {
-                    self?.showAlert(alertMessage: ("\(CoreDataError.deleteError.errorDescription)"))
+                    self?.showAlert(alertMessage: error.localizedDescription)
                 }
-                
-                self?.diaryData.remove(at: indexPath.row)
-                self?.collectionView.deleteItems(at: [indexPath])
                 completion(true)
             }
             delete.image = UIImage(systemName: DiaryConstants.cellSwipeDeleteButton)
@@ -118,11 +117,10 @@ extension MainViewController {
     
     private func fetchDiaryData() {
         do {
-            diaryData = try persistenceManager.fetch()
+            diaryData = try DiaryEntityManager.shared.fetch()
         } catch {
-            showAlert(alertMessage: ("\(CoreDataError.fetchError.errorDescription)"))
+            showAlert(alertMessage: error.localizedDescription)
         }
-       
         DispatchQueue.main.async {
             self.collectionView.reloadData()
         }

@@ -15,7 +15,7 @@ final class DiaryViewModel {
         self.diaryModel = diaryModel
     }
     
-    private func create(title: String, body: String) {
+    private func create(title: String, body: String) throws {
         diaryModel = DiaryModel(
             title: title,
             body: body,
@@ -25,10 +25,10 @@ final class DiaryViewModel {
         guard let diary = diaryModel else {
             return
         }
-        DiaryEntityManager.shared.create(diary: diary)
+        try DiaryEntityManager.shared.create(diary: diary)
     }
     
-    private func update(title: String, body: String) {
+    private func update(title: String, body: String) throws {
         guard let createdAt = diaryModel?.createdAt,
                 let id = diaryModel?.id else {
             return
@@ -41,14 +41,14 @@ final class DiaryViewModel {
         guard let diary = diaryModel else {
             return
         }
-        DiaryEntityManager.shared.update(diary: diary)
+        try DiaryEntityManager.shared.update(diary: diary)
     }
     
     func delete(diaryData: DiaryModel) throws {
         try DiaryEntityManager.shared.delete(diary: diaryData)
     }
     
-    func checkDiaryData(title: String?, body: String?) {
+    func checkDiaryData(title: String?, body: String?) throws {
         guard let title = title, let body = body else {
             return
         }
@@ -56,9 +56,9 @@ final class DiaryViewModel {
             return
         }
         if diaryModel == nil {
-            create(title: title, body: body)
+            try create(title: title, body: body)
         } else {
-            update(title: title, body: body)
+            try update(title: title, body: body)
         }
     }
 }

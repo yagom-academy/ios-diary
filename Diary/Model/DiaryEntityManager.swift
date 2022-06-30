@@ -35,33 +35,26 @@ final class DiaryEntityManager {
         }
     }
     
-    func create(diary: DiaryModel) {
+    func create(diary: DiaryModel) throws {
         let data = DiaryEntity(context: context)
-        
         data.title = diary.title
         data.body = diary.body
         data.createdAt = diary.createdAt
         data.id = diary.id
-
-        do {
-            try saveContext()
-        } catch CoreDataError.saveContextError {
-            print(CoreDataError.saveContextError.errorDescription)
-        } catch {
-            print("invalid error")
-        }
+        try saveContext()
     }
     
     func fetch() throws -> [DiaryModel] {
         var diaryList = [DiaryEntity]()
+        
         do {
             let request = DiaryEntity.fetchRequest()
             diaryList = try context.fetch(request)
         } catch {
             throw CoreDataError.fetchError
         }
-        diaryList = diaryList.reversed()
-        return diaryList.map { diaryEntity in
+        
+        return diaryList.reversed().map { diaryEntity in
             DiaryModel(
                 title: diaryEntity.title,
                 body: diaryEntity.body,
@@ -71,7 +64,7 @@ final class DiaryEntityManager {
         }
     }
     
-    func update(diary: DiaryModel) {
+    func update(diary: DiaryModel) throws {
         let request = DiaryEntity.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", diary.id)
 
@@ -79,20 +72,12 @@ final class DiaryEntityManager {
         guard let diaryList = try? context.fetch(request) else {
             return
         }
-        
         if let diaryEntity = diaryList.first {
             diaryEntity.title = diary.title
             diaryEntity.body = diary.body
             diaryEntity.createdAt = diary.createdAt
         }
-        
-        do {
-            try saveContext()
-        } catch CoreDataError.saveContextError {
-            print(CoreDataError.saveContextError.errorDescription)
-        } catch {
-            print("invalid error")
-        }
+        try saveContext()
     }
     
     func delete(diary: DiaryModel) throws {
@@ -107,13 +92,6 @@ final class DiaryEntityManager {
         }  catch {
             throw CoreDataError.deleteError
         }
-
-        do {
-            try saveContext()
-        } catch CoreDataError.saveContextError {
-            print(CoreDataError.saveContextError.errorDescription)
-        } catch {
-            print("invalid error")
-        }
+        try saveContext()
     }
 }

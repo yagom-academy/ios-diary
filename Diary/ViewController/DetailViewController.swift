@@ -55,13 +55,24 @@ extension DetailViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
+        sendDiaryViewModel()
     }
 }
 
 // MARK: - Method
 
 extension DetailViewController {
+    
+    private func sendDiaryViewModel() {
+        do {
+            try diaryViewModel.checkDiaryData(
+                title: detailView.titleField.text,
+                body: detailView.descriptionView.text
+            )
+        } catch {
+            showAlert(alertMessage: error.localizedDescription)
+        }
+    }
     
     private func setNavigationBarTitle() {
         navigationItem.title = diaryData.createdAt.formattedDate
@@ -86,7 +97,7 @@ extension DetailViewController {
         )
     }
     
-    private func showAlert() {
+    private func showActionSheetAlert() {
         let alert = UIAlertController(
             title: DiaryConstants.actionSheetDeleteAlertTitle,
             message: DiaryConstants.actionSheetDeleteAlertMessage,
@@ -126,7 +137,6 @@ extension DetailViewController {
             message: nil,
             preferredStyle: .actionSheet
         )
-        
         let actionSheetShare = UIAlertAction(
             title: DiaryConstants.actionSheetShareTitle,
             style: .default
@@ -136,19 +146,16 @@ extension DetailViewController {
             }
             self?.activitySheet(activityItems: [diaryTitle])
         }
-        
         let actionSheetDelete = UIAlertAction(
             title: DiaryConstants.actionSheetDeleteTitle,
             style: .destructive
         ) { [weak self] _ in
-            self?.showAlert()
+            self?.showActionSheetAlert()
         }
-        
         let actionSheetCancel = UIAlertAction(
             title: DiaryConstants.actionSheetCancleTitle,
             style: .cancel
         )
-        
         actionSheet.addAction(actionSheetCancel)
         actionSheet.addAction(actionSheetShare)
         actionSheet.addAction(actionSheetDelete)
@@ -156,10 +163,38 @@ extension DetailViewController {
     }
     
     @objc private func didEnterBackground() {
-        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
+        sendDiaryViewModel()
+    }
+}
+
+// MARK: - Keyboard Method
+
+extension DetailViewController {
+    
+    func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
-    @objc override func keyboardWillHide(notification: NSNotification) {
-        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (
+            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        )?.cgRectValue else { return }
+        detailView.mainScrollView.contentInset.bottom = keyboardSize.height
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        detailView.mainScrollView.contentInset.bottom = .zero
+        sendDiaryViewModel()
     }
 }

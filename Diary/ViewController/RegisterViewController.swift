@@ -7,11 +7,7 @@
 
 import UIKit
 
-fileprivate extension DiaryConstants {
-    static let emptyString = ""
-}
-
-final class RegisterViewController: UIViewController {
+final class RegisterViewController: UIViewController, ErrorAlertProtocol {
     private var diaryModel: DiaryModel?
     private lazy var detailView = DetailView(frame: view.frame)
     private let diaryViewModel = DiaryViewModel()
@@ -40,7 +36,7 @@ extension RegisterViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
+        sendDiaryViewModel()
     }
 }
 
@@ -56,6 +52,17 @@ extension RegisterViewController {
             object: nil
         )
     }
+    
+    private func sendDiaryViewModel() {
+        do {
+            try diaryViewModel.checkDiaryData(
+                title: detailView.titleField.text,
+                body: detailView.descriptionView.text
+            )
+        } catch {
+            showAlert(alertMessage: error.localizedDescription)
+        }
+    }
 }
 
 // MARK: - Action Method
@@ -63,11 +70,38 @@ extension RegisterViewController {
 extension RegisterViewController {
     
     @objc private func didEnterBackground() {
-        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
-    }
-    
-    @objc override func keyboardWillHide(notification: NSNotification) {
-        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
+        sendDiaryViewModel()
     }
 }
 
+// MARK: - Keyboard Method
+
+extension RegisterViewController {
+    
+    func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (
+            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        )?.cgRectValue else { return }
+        detailView.mainScrollView.contentInset.bottom = keyboardSize.height
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        detailView.mainScrollView.contentInset.bottom = .zero
+        sendDiaryViewModel()
+    }
+}
