@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
-    var task: Task<UIImage, Error>?
+    private let taskManager = TaskManager()
     
     private lazy var baseStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, subTextStackView])
@@ -81,10 +81,7 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     private func setImageView(icon: String) async {
-        guard let urlRequest = IconAPI(path: icon + ".png").makeURLRequest() else { return }
-        self.task = NetworkManager().fetchImageData(urlRequest: urlRequest)
-        let image = try? await task?.value
-        
+        let image = await taskManager.request(icon: icon)
         DispatchQueue.main.async {
             self.weatherImageView.image = image
         }
@@ -92,7 +89,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        task?.cancel()
+        taskManager.cancel()
     }
     
     private func configureLayout() {
