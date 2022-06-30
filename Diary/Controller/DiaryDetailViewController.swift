@@ -43,7 +43,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
       self.presentShareActivityController()
     }
     let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-      self.presentDeleteAlert()
+      self.presentDiaryDeletionAlert()
     }
     let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
     actionSheet.addAction(sharedAction)
@@ -53,7 +53,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
     self.present(actionSheet, animated: true)
   }
 
-  private func presentDeleteAlert() {
+  private func presentDiaryDeletionAlert() {
     let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
     let cancelAction = UIAlertAction(title: "취소", style: .cancel)
     let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
