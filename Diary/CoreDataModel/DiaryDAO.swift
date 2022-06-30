@@ -182,3 +182,14 @@ final class DiaryDAO {
         save()
     }
 }
+
+// MARK: - Data
+private extension Data {
+    func convert<T: Decodable>() -> T? {
+        guard let diaryData = T.parse(data: self) else {
+            return nil
+        }
+        
+        return diaryData
+    }
+}
