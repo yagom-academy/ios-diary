@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum CoreDataError: String, LocalizedError {
+enum CoreDataError: LocalizedError {
     case persistentContainerError
     case saveContextError
     case fetchError
