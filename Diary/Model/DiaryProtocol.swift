@@ -17,10 +17,7 @@ extension ActivityProtocol {
             return
         }
             
-        let activityViewController = UIActivityViewController(
-            activityItems: [title],
-            applicationActivities: nil
-        )
+        let activityViewController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
         
         present(activityViewController, animated: true)
     }

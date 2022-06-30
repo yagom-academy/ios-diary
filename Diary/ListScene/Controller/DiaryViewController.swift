@@ -8,23 +8,13 @@ import UIKit
 import CoreLocation
 
 final class DiaryViewController: UIViewController, DiaryProtocol {
-    enum Const {
-        static let navigationTitle = "일기장"
-        static let registerButton = "+"
-    }
-    
     private lazy var tableView = DiaryTableView(delegate: self)
     
     private lazy var dataSource = DiaryDataSource(tableView: tableView) {
         tableView, indexPath, itemIdentifier in
-        
-        if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell {
-            cell.configure(data: itemIdentifier)
-            
-            return cell
-        }
-        
-        return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
+        return self.setUpDataSource(tableView: tableView,
+                                    indexPath: indexPath,
+                                    itemIdentifier: itemIdentifier)
     }
     
     override func viewDidLoad() {
@@ -34,7 +24,7 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         tableView.layout(view: view)
                 
         setUpView()
-        setUpNavigationController()
+        navigationController?.setUpNavigationController(viewController: self)
         setUpRefreshControll()
 
         LocationManager.agree(viewController: self)
@@ -44,34 +34,18 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         dataSource.updataTableView(tableView: tableView)
     }
     
-    private func setUpView() {
-        view.backgroundColor = .systemBackground
-    }
-    
-    private func setUpNavigationController() {
-        func setUpRightItem() {
-            let weight = UIFont.systemFont(ofSize: 35, weight: .light)
-            let attributes = [NSAttributedString.Key.font: weight]
-            let registerButton = UIBarButtonItem(
-                title: Const.registerButton,
-                style: .plain,
-                target: self,
-                action: #selector(moveRegisterViewController)
-            )
+    private func setUpDataSource(tableView: UITableView, indexPath: IndexPath, itemIdentifier: DiaryDTO) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell {
+            cell.configure(data: itemIdentifier)
             
-            registerButton.setTitleTextAttributes(attributes, for: .normal)
-            
-            navigationItem.rightBarButtonItem = registerButton
+            return cell
         }
         
-        navigationItem.title = Const.navigationTitle
-        setUpRightItem()
+        return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
     }
     
-    @objc private func moveRegisterViewController() {
-        let viewContoller = UpdateViewController()
-        
-        navigationController?.pushViewController(viewContoller, animated: true)
+    private func setUpView() {
+        view.backgroundColor = .systemBackground
     }
     
     private func setUpRefreshControll() {
@@ -86,6 +60,41 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
     }
 }
 
+// MARK: - UINavigationController
+private extension UINavigationController {
+    enum Const {
+        static let navigationTitle = "일기장"
+        static let registerButton = "+"
+    }
+    
+    func setUpNavigationController(viewController: UIViewController) {
+        func setUpRightItem() {
+            let weight = UIFont.systemFont(ofSize: 35, weight: .light)
+            let attributes = [NSAttributedString.Key.font: weight]
+            let registerButton = UIBarButtonItem(
+                title: Const.registerButton,
+                style: .plain,
+                target: self,
+                action: #selector(moveRegisterViewController)
+            )
+            
+            registerButton.setTitleTextAttributes(attributes, for: .normal)
+            
+            viewController.navigationItem.rightBarButtonItem = registerButton
+        }
+        
+        viewController.navigationItem.title = Const.navigationTitle
+        setUpRightItem()
+    }
+    
+    @objc private func moveRegisterViewController() {
+        let viewContoller = UpdateViewController()
+        
+        pushViewController(viewContoller, animated: true)
+    }
+}
+
+// MARK: - UITableViewDelegate
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? DiaryCell,
@@ -100,10 +109,7 @@ extension DiaryViewController: UITableViewDelegate {
         navigationController?.pushViewController(viewContoller, animated: true)
     }
     
-    func tableView(
-        _ tableView: UITableView,
-        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-    ) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? DiaryCell else {
             return nil
@@ -144,6 +150,7 @@ extension DiaryViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - CLLocationManagerDelegate
 extension DiaryViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = manager.location?.coordinate else {
