@@ -15,7 +15,8 @@ final class DiaryViewController: UIViewController {
     )
   }
 
-  private var diaries = [DiaryEntity]() {
+  private let storageManger = DiaryStorageManager()
+  private var diaries = [Diary]() {
     didSet {
       DispatchQueue.main.async {
         self.diaryTableView.reloadData()
@@ -23,12 +24,21 @@ final class DiaryViewController: UIViewController {
     }
   }
 
+  init() {
+    super.init(nibName: nil, bundle: nil)
+    self.initializeNavigationBar()
+    self.observeDiaryWasSavedNotification()
+    self.observeDiaryWasDeletedNotification()
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     self.initializeUI()
-    self.initializeNavigationBar()
     self.fetchDiaries()
-    self.observeDiaryDidSaveNotification()
   }
 
   private func initializeUI() {
@@ -55,19 +65,28 @@ final class DiaryViewController: UIViewController {
   }
 
   @objc private func addDiaryButtonDidTap() {
-    let addViewController = DiaryAddViewController()
+    let addViewController = DiaryAddViewController(storageManger: storageManger)
     self.navigationController?.pushViewController(addViewController, animated: true)
   }
 
   @objc private func fetchDiaries() {
-    self.diaries = DiaryStorageManager.shared.fetchAllDiaries()
+    self.diaries = self.storageManger.fetchAllDiaries()
   }
 
-  private func observeDiaryDidSaveNotification() {
+  private func observeDiaryWasSavedNotification() {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(self.fetchDiaries),
       name: DiaryStorageNotification.diaryWasSaved,
+      object: nil
+    )
+  }
+
+  private func observeDiaryWasDeletedNotification() {
+    NotificationCenter.default.addObserver(
+      self,
+      selector: #selector(self.fetchDiaries),
+      name: DiaryStorageNotification.diaryWasDeleted,
       object: nil
     )
   }
@@ -109,7 +128,50 @@ extension DiaryViewController: UITableViewDelegate {
     guard self.diaries.indices.contains(indexPath.row) else { return }
 
     tableView.deselectRow(at: indexPath, animated: true)
-    let detailViewController = DiaryDetailViewController(diary: self.diaries[indexPath.row])
+    let detailViewController = DiaryDetailViewController(
+      storageManager: storageManger,
+      diary: self.diaries[indexPath.row]
+    )
     self.navigationController?.pushViewController(detailViewController, animated: true)
+  }
+
+  func tableView(
+    _ tableView: UITableView,
+    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+  ) -> UISwipeActionsConfiguration? {
+    let diary = self.diaries[indexPath.row]
+
+    let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
+      self.presentShareActivityController(diary: diary)
+    }
+    let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
+      self.presentDiaryDeletionAlert(diary: diary)
+    }
+
+    return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+  }
+
+  private func presentShareActivityController(diary: Diary) {
+    guard let title = diary.title else { return }
+    let activityController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
+    self.present(activityController, animated: true)
+  }
+
+  private func presentDiaryDeletionAlert(diary: Diary) {
+    let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+      self.deleteDiary(diary: diary)
+    }
+
+    alert.addAction(cancelAction)
+    alert.addAction(deleteAction)
+    self.present(alert, animated: true)
+  }
+
+  private func deleteDiary(diary: Diary) {
+    guard let uuid = diary.uuid else { return }
+
+    self.storageManger.deleteDiary(uuid: uuid)
   }
 }

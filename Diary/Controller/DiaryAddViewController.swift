@@ -8,10 +8,21 @@
 import UIKit
 
 final class DiaryAddViewController: DiaryBaseViewController {
+  private let storageManger: DiaryStorageManager
+
+  init(storageManger: DiaryStorageManager) {
+    self.storageManger = storageManger
+    super.init(nibName: nil, bundle: nil)
+    self.observeDidEnterBackgroundNotification()
+  }
+
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
   override func viewDidLoad() {
     super.viewDidLoad()
     self.bodyTextView.becomeFirstResponder()
-    self.observeDidEnterBackgroundNotification()
   }
 
   override func viewDidDisappear(_ animated: Bool) {
@@ -29,15 +40,6 @@ final class DiaryAddViewController: DiaryBaseViewController {
   }
 
   @objc private func createDiary() {
-    var text = self.bodyTextView.text.components(separatedBy: "\n")
-    let title = text.first
-    text.removeFirst()
-    let body = text.joined(separator: "\n")
-
-    if let title = title, !title.isEmpty {
-      DiaryStorageManager.shared.create(
-        diary: Diary(title: title, body: body, createdAt: Date().timeIntervalSince1970)
-      )
-    }
+    self.storageManger.createDiary(text: self.bodyTextView.text)
   }
 }

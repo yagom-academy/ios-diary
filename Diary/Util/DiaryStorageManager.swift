@@ -9,72 +9,75 @@ import Foundation
 import CoreData
 
 final class DiaryStorageManager {
-  static let shared = DiaryStorageManager()
+  private let persistentStorage = PersistentStorage(fileName: "Diary")
 
-  private lazy var persistentContainer: NSPersistentContainer = {
-    let container = NSPersistentContainer(name: "Diary")
-    container.loadPersistentStores { _, error in
-      if let error = error {
-        print("PersistentManagerError - LoadContainer: ", error)
-      }
-    }
+  func createDiary(text: String) {
+    var separatedText = text.components(separatedBy: "\n")
+    let title = separatedText.first
+    separatedText.removeFirst()
+    let body = separatedText.joined(separator: "\n")
 
-    return container
-  }()
+    if let title = title, !title.isEmpty {
+      let diaryEntity = DiaryEntity(context: self.persistentStorage.context)
+      diaryEntity.setValue(title, forKey: "title")
+      diaryEntity.setValue(body, forKey: "body")
+      diaryEntity.setValue(Date().timeIntervalSince1970, forKey: "createdAt")
+      diaryEntity.setValue(UUID().uuidString, forKey: "uuid")
 
-  private var context: NSManagedObjectContext {
-    return self.persistentContainer.viewContext
-  }
-
-  private init() {}
-
-  func saveContext () {
-    if self.context.hasChanges {
-      do {
-        try self.context.save()
-      } catch {
-        print("PersistentManagerError - SaveContext: ", error)
-      }
+      self.persistentStorage.saveContext()
+      NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
     }
   }
 
-  func create(diary: Diary) {
-    let diaryEntity = DiaryEntity(context: self.context)
-    diaryEntity.setValue(diary.title, forKey: "title")
-    diaryEntity.setValue(diary.body, forKey: "body")
-    diaryEntity.setValue(diary.createdAt, forKey: "createdAt")
-    diaryEntity.setValue(diary.uuid, forKey: "uuid")
+  func fetchAllDiaries() -> [Diary] {
+    guard let diaryEntities = try? self.persistentStorage.context.fetch(DiaryEntity.fetchRequest()) else { return [] }
 
-    self.saveContext()
+    return diaryEntities.map { entity in
+      return Diary(
+        uuid: entity.uuid,
+        title: entity.title,
+        body: entity.body,
+        createdAt: entity.createdAt
+      )
+    }
+  }
+
+  func updateDiary(uuid: String, text: String) {
+    let request = DiaryEntity.fetchRequest()
+    request.predicate = NSPredicate(format: "uuid == %@", uuid)
+
+    guard let entity = try? self.persistentStorage.context.fetch(request).first else { return }
+
+    var separatedText = text.components(separatedBy: "\n")
+    let title = separatedText.first
+    separatedText.removeFirst()
+    let body = separatedText.joined(separator: "\n")
+
+    entity.title = title
+    entity.body = body
+
+    self.persistentStorage.saveContext()
     NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
   }
 
-  func fetchAllDiaries() -> [DiaryEntity] {
-    guard let diaryEntities = try? context.fetch(DiaryEntity.fetchRequest()) else { return [] }
-    return diaryEntities
+  func deleteDiary(uuid: String) {
+    let request = DiaryEntity.fetchRequest()
+    request.predicate = NSPredicate(format: "uuid == %@", uuid)
+
+    guard let entity = try? self.persistentStorage.context.fetch(request).first else { return }
+
+    self.persistentStorage.context.delete(entity)
+    self.persistentStorage.saveContext()
+    NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasDeleted, object: nil)
   }
 
-  func update() {
-    self.saveContext()
-    NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
-  }
-
-  func delete(diary: Diary) {
-    guard let diaryEntities = try? self.context.fetch(DiaryEntity.fetchRequest()) else { return }
-    guard let diaryEntity = diaryEntities.first(where: { $0.uuid == diary.uuid }) else { return }
-
-    self.context.delete(diaryEntity)
-
-    self.saveContext()
-  }
-
-  func deleteAll() {
-    guard let diaryEntities = try? self.context.fetch(DiaryEntity.fetchRequest()) else { return }
+  func deleteAllDiaries() {
+    guard let diaryEntities = try? self.persistentStorage.context.fetch(DiaryEntity.fetchRequest()) else { return }
 
     diaryEntities.forEach { entity in
-      self.context.delete(entity)
+      self.persistentStorage.context.delete(entity)
     }
 
-    self.saveContext()
+    self.persistentStorage.saveContext()
   }
 }

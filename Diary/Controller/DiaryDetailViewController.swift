@@ -6,11 +6,15 @@
 import UIKit
 
 final class DiaryDetailViewController: DiaryBaseViewController {
-  private let diary: DiaryEntity
+  private var diary: Diary
+  private let storageManger: DiaryStorageManager
 
-  init(diary: DiaryEntity) {
+  init(storageManager: DiaryStorageManager, diary: Diary) {
     self.diary = diary
+    self.storageManger = storageManager
     super.init(nibName: nil, bundle: nil)
+    self.initializeNavigationBar()
+    self.observeDiaryDidUpdateNotifications()
   }
 
   required init?(coder: NSCoder) {
@@ -19,13 +23,59 @@ final class DiaryDetailViewController: DiaryBaseViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.initializeNavigationBar()
     self.initializeItem()
-    self.observeDiaryDidUpdateNotifications()
   }
 
   private func initializeNavigationBar() {
     self.title = Formatter.changeToString(from: self.diary.createdAt)
+    let ellipsisButton = UIBarButtonItem(
+      image: UIImage(systemName: "ellipsis"),
+      style: .plain,
+      target: self,
+      action: #selector(self.presentEllipsisButtonActionSheet)
+    )
+    self.navigationItem.setRightBarButton(ellipsisButton, animated: false)
+  }
+
+  @objc private func presentEllipsisButtonActionSheet() {
+    let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    let sharedAction = UIAlertAction(title: "Share...", style: .default) { _ in
+      self.presentShareActivityController()
+    }
+    let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+      self.presentDiaryDeletionAlert()
+    }
+    let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+    actionSheet.addAction(sharedAction)
+    actionSheet.addAction(deleteAction)
+    actionSheet.addAction(cancelAction)
+
+    self.present(actionSheet, animated: true)
+  }
+
+  private func presentDiaryDeletionAlert() {
+    let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+    let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+    let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+      self.deleteDiary()
+    }
+
+    alert.addAction(cancelAction)
+    alert.addAction(deleteAction)
+    self.present(alert, animated: true)
+  }
+
+  private func deleteDiary() {
+    guard let uuid = self.diary.uuid else { return }
+
+    self.storageManger.deleteDiary(uuid: uuid)
+    self.navigationController?.popViewController(animated: true)
+  }
+
+  private func presentShareActivityController() {
+    guard let title = diary.title else { return }
+    let activityController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
+    self.present(activityController, animated: true)
   }
 
   private func initializeItem() {
@@ -46,18 +96,12 @@ final class DiaryDetailViewController: DiaryBaseViewController {
       self,
       selector: #selector(self.updateDiary),
       name: UIApplication.didEnterBackgroundNotification,
-      object: nil)
+      object: nil
+    )
   }
 
   @objc private func updateDiary() {
-    var text = self.bodyTextView.text.components(separatedBy: "\n")
-    let title = text.first
-    text.removeFirst()
-    let body = text.joined(separator: "\n")
-
-    self.diary.title = title
-    self.diary.body = body
-
-    DiaryStorageManager.shared.update()
+    guard let uuid = self.diary.uuid else { return }
+    self.storageManger.updateDiary(uuid: uuid, text: self.bodyTextView.text)
   }
 }
