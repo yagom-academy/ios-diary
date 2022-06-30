@@ -27,7 +27,8 @@ final class DiaryViewController: UIViewController {
   init() {
     super.init(nibName: nil, bundle: nil)
     self.initializeNavigationBar()
-    self.observeDiaryDidSaveNotification()
+    self.observeDiaryWasSavedNotification()
+    self.observeDiaryWasDeletedNotification()
   }
 
   required init?(coder: NSCoder) {
@@ -72,14 +73,16 @@ final class DiaryViewController: UIViewController {
     self.diaries = self.storageManger.fetchAllDiaries()
   }
 
-  private func observeDiaryDidSaveNotification() {
+  private func observeDiaryWasSavedNotification() {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(self.fetchDiaries),
       name: DiaryStorageNotification.diaryWasSaved,
       object: nil
     )
+  }
 
+  private func observeDiaryWasDeletedNotification() {
     NotificationCenter.default.addObserver(
       self,
       selector: #selector(self.fetchDiaries),
