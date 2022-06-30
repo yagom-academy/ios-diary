@@ -6,33 +6,48 @@
 //
 
 import Foundation
-import UIKit
 
-final class NetworkManager {
-    private let session: URLSession
+final class WeatherRepository {
+    private let networkManager = NetworkManager()
     private let jsonDecoder = JSONDecoder()
     
-    init(session: URLSession = URLSession.shared) {
-        self.session = session
-    }
-    
-    func requestAPI<T: Decodable> (
+    func requestAPI (
         with endpoint: Requestable,
-        completion: @escaping (Result<T, Error>) -> Void
+        completion: @escaping (Result<Weather?, Error>) -> Void
     ) {
-        request(endpoint: endpoint) { [weak self] result in
+        networkManager.request(endpoint: endpoint) { [weak self] result in
             guard let self = self else {
                 return
             }
             
             switch result {
             case .success(let result):
-                completion(result.decode(with: self.jsonDecoder))
+                completion(.success(self.decode(data: result)))
             case .failure(let error):
                 completion(.failure(error))
             }
         }
     }
+    
+    private func decode(data: Data) -> Weather? {
+        return try? jsonDecoder.decode(Weather.self, from: data)
+//        do {
+//            let decoded = try jsonDecoder.decode(Weather.self, from: data)
+//            return decoded
+//        } catch {
+//            return .failure(NetworkError.decodeError)
+//        }
+    }
+}
+
+final class NetworkManager {
+    private let session: URLSession
+    
+    init(session: URLSession = URLSession.shared) {
+        self.session = session
+    }
+    
+    
     
     @discardableResult
     func request(
