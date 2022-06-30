@@ -14,7 +14,7 @@ final class RegistrationViewModel: NSObject {
     private let diaryId = UUID().uuidString
     private var coordinate: CLLocationCoordinate2D?
     private var icon: String?
-    private let weatherRepository = WeatherRepository()
+    private let useCase = WeatherUseCase()
     private var currentText: String?
     let error: ColdObservable<DiaryError> = .init()
     let isLocationDenied: ColdObservable<Bool> = .init()
@@ -84,20 +84,15 @@ extension RegistrationViewModel {
     }
     
     private func requestWeather() {
-        guard let coordinate = coordinate else {
-            self.icon = nil
-            return
-        }
-        
-        let endpoint = EndpointStorage
-            .weatherInfo(coordinate.latitude, coordinate.longitude)
-            .endPoint
-        weatherRepository.requestAPI(with: endpoint) { [weak self] (result: Result<Weather?, NetworkError>) in
+        useCase.requestWeather(
+            latitude: coordinate?.latitude,
+            longitude: coordinate?.longitude
+        ) { (result: Result<String, NetworkError>) in
             switch result {
-            case .success(let result):
-                self?.icon = result?.weather.first?.icon
+            case .success(let icon):
+                self.icon = icon
             case .failure:
-                self?.icon = nil
+                self.icon = nil
             }
         }
     }
