@@ -14,7 +14,7 @@ final class Observable<T> {
         }
     }
     
-    var listener: ((T) -> Void)?
+    private var listener: ((T) -> Void)?
     
     init(_ value: T) {
         self.value = value
