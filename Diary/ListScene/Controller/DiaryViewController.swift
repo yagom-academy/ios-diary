@@ -62,7 +62,7 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
 
 // MARK: - UINavigationController
 private extension UINavigationController {
-    enum Const {
+    private enum Const {
         static let navigationTitle = "일기장"
         static let registerButton = "+"
     }

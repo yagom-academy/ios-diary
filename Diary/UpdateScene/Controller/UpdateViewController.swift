@@ -19,10 +19,8 @@ extension UpdateViewController: BackGroundDelegate {
 
 final class UpdateViewController: UIViewController, DiaryProtocol {
     enum Const {
-        static let moreButton = "더보기"
         static let separator = "\n"
     }
-    
     private lazy var textView = DiaryTextView(delegate: self)
     
     private let diaryData: DiaryDTO?
@@ -30,6 +28,10 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     
     private var date: String {
         return navigationItem.title ?? ""
+    }
+    
+    var textViewAndDiaryData: (DiaryTextView, DiaryDTO?) {
+        return (textView, diaryData)
     }
     
     init(diaryData: DiaryDTO? = nil) {
@@ -80,44 +82,9 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     }
     
     private func setUpNavigationController(title: String) {
-        func setUpRightButton() {
-            let button = UIBarButtonItem(
-                title: Const.moreButton,
-                style: .plain,
-                target: self,
-                action: #selector(touchUpMoreButton)
-            )
-            navigationItem.rightBarButtonItem = button
-        }
-        
-        if diaryData != nil {
-            setUpRightButton()
-        }
-        
-        navigationItem.title = title
-    }
-    
-    @objc private func touchUpMoreButton() {
-        guard let title = textView.title else {
-            return
-        }
-        
-        let shareSheetAction = makeAction(title: "Share", style: .default) { [weak self] in
-            self?.showActivity(title: title)
-        }
-        
-        let deleteAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
-            DiaryDAO.shared.delete(identifier: self?.diaryData?.identifier.uuidString)
-            self?.navigationController?.popViewController(animated: true)
-        }
-        
-        let cancel = makeAction(title: "Cancel", style: .cancel)
-        
-        let deleteSheetAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
-            self?.showAlert(title: "진짜요?", message: "진짜로 삭제 하시겠어요?", actions: [deleteAction, cancel])
-        }
-        
-        showActionSheet(actions: [shareSheetAction, deleteSheetAction, cancel])
+        navigationController?.setUpNavigationController(title: title,
+                                                        diaryData: diaryData,
+                                                        viewController: self)
     }
     
     private func saveData() {
@@ -143,5 +110,58 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
 extension UpdateViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         saveData()
+    }
+}
+
+extension UINavigationController: DiaryProtocol {
+    private enum Const {
+        static let moreButton = "더보기"
+    }
+        
+    func setUpNavigationController(title: String, diaryData: DiaryDTO?, viewController: UIViewController) {
+        func setUpRightButton() {
+            let button = UIBarButtonItem(
+                title: Const.moreButton,
+                style: .plain,
+                target: self,
+                action: #selector(touchUpMoreButton)
+            )
+            viewController.navigationItem.rightBarButtonItem = button
+        }
+        
+        if diaryData != nil {
+            setUpRightButton()
+        }
+        
+        viewController.navigationItem.title = title
+    }
+    
+    @objc private func touchUpMoreButton() {
+        guard let viewController = viewControllers.last as? UpdateViewController else {
+            return
+        }
+        
+        let (textView, diaryData) = viewController.textViewAndDiaryData
+        
+        guard let title = textView.title else {
+            return
+        }
+        
+        let shareSheetAction = makeAction(title: "Share", style: .default) { [weak self] in
+            self?.showActivity(title: title)
+        }
+        
+        let deleteAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
+            DiaryDAO.shared.delete(identifier: diaryData?.identifier.uuidString)
+            self?.popViewController(animated: true)
+        }
+        
+        let cancel = makeAction(title: "Cancel", style: .cancel)
+        
+        let deleteSheetAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
+            self?.showAlert(title: "진짜요?", message: "진짜로 삭제 하시겠어요?", actions: [deleteAction, cancel])
+        }
+        
+        showActionSheet(actions: [shareSheetAction, deleteSheetAction, cancel])
     }
 }
