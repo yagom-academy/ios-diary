@@ -79,7 +79,7 @@ extension RegistrationViewModel {
         let endpoint = EndpointStorage
             .weatherInfo(coordinate.latitude, coordinate.longitude)
             .endPoint
-        weatherRepository.requestAPI(with: endpoint) { [weak self] (result: Result<Weather?, Error>) in
+        weatherRepository.requestAPI(with: endpoint) { [weak self] (result: Result<Weather?, NetworkError>) in
             switch result {
             case .success(let result):
                 self?.icon = result?.weather.first?.icon

@@ -30,7 +30,7 @@ final class ImageDownloader {
             .weatherIcon(icon)
             .endPoint
         
-        task = requestImageAPI(with: endpoint) { [weak self] (result: Result<UIImage, Error>) in
+        task = requestImageAPI(with: endpoint) { [weak self] (result: Result<UIImage, NetworkError>) in
             switch result {
             case .success(let image):
                 self?.imageCacheManager.set(object: image, forKey: icon)
@@ -47,7 +47,7 @@ final class ImageDownloader {
     @discardableResult
     private func requestImageAPI(
         with endpoint: Requestable,
-        completion: @escaping (Result<UIImage, Error>) -> Void
+        completion: @escaping (Result<UIImage, NetworkError>) -> Void
     ) -> URLSessionDataTask? {
         return networkManager.request(endpoint: endpoint) { result in
             switch result {
