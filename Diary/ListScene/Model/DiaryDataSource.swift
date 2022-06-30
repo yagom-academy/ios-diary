@@ -7,27 +7,7 @@
 
 import UIKit
 
-final class DiaryViewModel {
-    private var dataSource: UITableViewDiffableDataSource<Int, DiaryDTO>?
-    
-    func setUpDataSource(tableView: UITableView?) {
-        guard let tableView = tableView else {
-            return
-        }
-        
-        dataSource = UITableViewDiffableDataSource<Int, DiaryDTO>(tableView: tableView) {
-            tableView, indexPath, itemIdentifier in
-            
-            if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell {
-                cell.configure(data: itemIdentifier)
-                
-                return cell
-            }
-            
-            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
-        }
-    }
-    
+final class DiaryDataSource: UITableViewDiffableDataSource<Int, DiaryDTO> {
     func setUpSampleData() {
         guard let sampleData: [DiaryDTO] = AssetManager.get() else {
             return
@@ -53,11 +33,7 @@ final class DiaryViewModel {
         snapshot.appendSections([.zero])
         snapshot.appendItems(data)
         
-        dataSource?.apply(snapshot)
-    }
-    
-    func getDataSource() -> UITableViewDiffableDataSource<Int, DiaryDTO>? {
-        return dataSource
+        apply(snapshot)
     }
     
     func updataTableView(tableView: UITableView?) {

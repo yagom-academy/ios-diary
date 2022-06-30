@@ -13,24 +13,26 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         static let registerButton = "+"
     }
     
-    private let viewModel = DiaryViewModel()
+    private lazy var tableView = DiaryTableView(delegate: self)
     
-    private var diaryView: DiaryView? {
-        guard let view = view as? DiaryView else {
-            return nil
+    private lazy var dataSource = DiaryDataSource(tableView: tableView) {
+        tableView, indexPath, itemIdentifier in
+        
+        if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell {
+            cell.configure(data: itemIdentifier)
+            
+            return cell
         }
-        return view
-    }
-    
-    override func loadView() {
-        view = DiaryView(delegate: self)
+        
+        return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        viewModel.setUpDataSource(tableView: diaryView?.getTableView())
-        
+                
+        view.addSubview(tableView)
+        tableView.layout(view: view)
+                
         setUpView()
         setUpNavigationController()
         setUpRefreshControll()
@@ -39,7 +41,7 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        viewModel.updataTableView(tableView: diaryView?.getTableView())
+        dataSource.updataTableView(tableView: tableView)
     }
     
     private func setUpView() {
@@ -76,18 +78,18 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         let refresh = UIRefreshControl()
         
         refresh.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
-        diaryView?.setUpTableView(refresh: refresh)
+        tableView.setUpTableView(refresh: refresh)
     }
 
     @objc private func pullToRefresh() {
-        viewModel.setUpCoreData(tableView: diaryView?.getTableView())
+        dataSource.setUpCoreData(tableView: tableView)
     }
 }
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? DiaryCell,
-              let diaryData = viewModel.getDataSource()?.itemIdentifier(for: indexPath) else {
+              let diaryData = dataSource.itemIdentifier(for: indexPath) else {
             return
         }
         
@@ -112,7 +114,7 @@ extension DiaryViewController: UITableViewDelegate {
         func makeContextualAction() -> [UIContextualAction] {
             let deleteAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
                 DiaryDAO.shared.delete(identifier: cellData.identifier?.uuidString)
-                self?.viewModel.setUpCoreData(tableView: self?.diaryView?.getTableView())
+                self?.dataSource.setUpCoreData(tableView: tableView)
             }
             
             let cancelAction = makeAction(title: "Cancel", style: .cancel)
