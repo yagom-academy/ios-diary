@@ -5,7 +5,6 @@
 // 
 
 import UIKit
-import CoreLocation
 
 extension DiaryTableViewController {
     static func instance(coordinator: DiaryTableCoordinator, databaseManager: DatabaseManageable) -> DiaryTableViewController {
@@ -20,7 +19,6 @@ final class DiaryTableViewController: UITableViewController {
     private var dataSource: DataSource?
     private let coordinator: DiaryTableCoordinator
     private let databaseManager: DatabaseManageable
-    private let locationManager = CLLocationManager()
     
     private var diarys = [Diary]() {
         didSet {
@@ -45,8 +43,8 @@ final class DiaryTableViewController: UITableViewController {
         setUp()
     }
     
-    private func create(with weather: Weather?) {
-        let newDiary = Diary(title: "", body: "", createdDate: Date.now, weather: weather)
+    private func create() {
+        let newDiary = Diary(title: "", body: "", createdDate: Date.now, weather: nil)
         diarys.insert(newDiary, at: .zero)
         databaseManager.create(data: newDiary)
     }
@@ -77,35 +75,9 @@ final class DiaryTableViewController: UITableViewController {
 
     @objc
     private func addButtonDidTap() {
-        locationManager.requestLocation()
-    }
-    
-    private func makeDiary(with location: CLLocationCoordinate2D?) async {
-        do {
-            let weather = try await requestWeather(location: location)
-            create(with: weather)
-            guard let diary = diarys.first else { return }
-            
-            coordinator.pushToDiaryDetail(diary)
-        } catch {
-            AlertBuilder(viewController: self)
-                .addAction(title: "확인", style: .default)
-                .show(title: "서버연결에 실패했습니다", message: "다시 시도해 보세요", style: .alert)
-        }
-    }
-    
-    private func requestWeather(location: CLLocationCoordinate2D?) async throws -> Weather? {
-        guard let location = location else { return nil }
-
-        let openWeahterAPI = OpenWeatherAPI(latitude: location.latitude, longitude: location.longitude)
-        let task = NetworkManager().request(api: openWeahterAPI)
-        
-        switch await task.result {
-        case .success(let data):
-            return WeatherInfomation.parse(data)?.weather.first
-        case .failure(let error):
-            throw error
-        }
+        create()
+        guard let diary = diarys.first else { return }
+        coordinator.pushToDiaryDetail(diary)
     }
 }
 
@@ -150,24 +122,6 @@ extension DiaryTableViewController {
     }
 }
 
-// MARK: - CLLocationManagerDelegate
-
-extension DiaryTableViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last?.coordinate else { return }
-        
-        Task {
-            await makeDiary(with: location)
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        Task {
-            await makeDiary(with: nil)
-        }
-    }
-}
-
 // MARK: - DiaryDetailViewDelegate
 
 extension DiaryTableViewController: DiaryDetailViewDelegate {
@@ -192,7 +146,6 @@ extension DiaryTableViewController {
     private func setUp() {
         setUpNavigationBar()
         setUpTableView()
-        setUpLocationManager()
     }
     
     private func setUpNavigationBar() {
@@ -209,12 +162,6 @@ extension DiaryTableViewController {
         tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.reuseIdentifier)
         makeDataSource()
         read()
-    }
-    
-    private func setUpLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyReduced
-        locationManager.requestWhenInUseAuthorization()
     }
     
     private func makeDataSource() {

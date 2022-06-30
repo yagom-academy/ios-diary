@@ -12,7 +12,7 @@ struct Diary: Hashable {
     let body: String
     let createdDate: Date
     let id: String
-    let weather: Weather?
+    var weather: Weather?
 
     init(title: String, body: String, createdDate: Date, id: String = UUID().uuidString, weather: Weather?) {
         self.title = title
@@ -24,5 +24,9 @@ struct Diary: Hashable {
     
     var isEmpty: Bool {
         return title == "" && body == ""
+    }
+    
+    mutating func setWeather(_ weather: Weather?) {
+        self.weather = weather
     }
 }
