@@ -12,16 +12,16 @@ final class Location {
     
     private init() {}
     
-    private var lat: Double?
-    private var lon: Double?
+    private var latitude: Double?
+    private var longitude: Double?
     
-    func configure(lat: Double, lon: Double) {
-        self.lat = lat
-        self.lon = lon
+    func configure(latitude: Double, longitude: Double) {
+        self.latitude = latitude
+        self.longitude = longitude
     }
     
-    func getLocation() -> (lat: Double, lon: Double)? {
-        guard let lat = lat, let lon = lon else {
+    func getLocation() -> (latitude: Double, longitude: Double)? {
+        guard let lat = latitude, let lon = longitude else {
             return nil
         }
         

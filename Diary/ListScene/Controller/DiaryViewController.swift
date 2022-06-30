@@ -156,7 +156,7 @@ extension DiaryViewController: CLLocationManagerDelegate {
             return
         }
         
-        Location.shared.configure(lat: location.latitude, lon: location.longitude)
+        Location.shared.configure(latitude: location.latitude, longitude: location.longitude)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
