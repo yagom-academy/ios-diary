@@ -14,7 +14,7 @@ protocol DiaryDetailViewDelegate: AnyObject {
     func delete(_ diary: Diary)
 }
 
-final class DiaryDetailViewController: UIViewController, CLLocationManagerDelegate {
+final class DiaryDetailViewController: UIViewController {
     private let mainView = DiaryDetailView()
     private var diary: Diary?
     weak var delegate: DiaryDetailViewDelegate?
@@ -249,7 +249,7 @@ private extension Array {
 
 // MARK: - Location Delegate
 
-extension DiaryDetailViewController {
+extension DiaryDetailViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.last {
             lat = location.coordinate.latitude.description
