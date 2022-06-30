@@ -14,6 +14,7 @@ final class DetailViewModel {
     private(set) var diary: DiaryEntity
     private var status: ExecutionStatus = .update
     private var currentText: String?
+    private(set) var error: Observable<DiaryError>?
     
     init(diary: DiaryEntity) {
         self.diary = diary
@@ -24,29 +25,29 @@ extension DetailViewModel {
     
     // MARK: Input
     
-    func viewDidDisappear() throws {
-        try saveDiary()
+    func viewDidDisappear() {
+        saveDiary()
     }
     
-    func didEnterBackground() throws {
-        try saveDiary()
+    func didEnterBackground() {
+        saveDiary()
     }
     
-    func keyboardWillHide() throws {
-        try saveDiary()
+    func keyboardWillHide() {
+        saveDiary()
     }
     
     func textViewDidChange(text: String) {
         currentText = text
     }
     
-    func didTapDeleteButton() throws {
-        try deleteDiary()
+    func didTapDeleteButton() {
+        deleteDiary()
     }
     
     // MARK: Output
     
-    private func saveDiary() throws {
+    private func saveDiary() {
         if status == .delete {
             return
         }
@@ -66,12 +67,20 @@ extension DetailViewModel {
             id: diary.id,
             icon: diary.icon
         )
-                
-        try PersistenceManager.shared.updateData(by: diary)
+        
+        do {
+            try PersistenceManager.shared.updateData(by: diary)
+        } catch {
+            self.error?.value = .saveFail
+        }
     }
     
-    private func deleteDiary() throws {
-        try PersistenceManager.shared.deleteData(by: diary)
-        status = .delete
+    private func deleteDiary() {
+        do {
+            try PersistenceManager.shared.deleteData(by: diary)
+            status = .delete
+        } catch {
+            self.error?.value = .deleteFail
+        }
     }
 }

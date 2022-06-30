@@ -31,6 +31,7 @@ final class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bind()
         registerNotification()
         setUpNavigationBar()
         setUpView()
@@ -114,6 +115,20 @@ extension DetailViewController {
         detailView.scrollTextViewToTop()
         detailView.contentTextView.delegate = self
     }
+    
+    private func bind() {
+        viewModel.error?.subscribe { [weak self] errorType in
+            guard let self = self else {
+                return
+            }
+            
+            self.alertController.showConfirmAlert(
+                title: "오류",
+                message: errorType.errorDescription,
+                presentedViewController: self
+            )
+        }
+    }
 }
 
 // MARK: Objc Method
@@ -172,50 +187,18 @@ extension DetailViewController {
 
 extension DetailViewController {
     private func viewDidDisappearEvent() {
-        do {
-            try viewModel.viewDidDisappear()
-        } catch {
-            alertController.showConfirmAlert(
-                title: "오류",
-                message: DiaryError.saveFail.errorDescription,
-                presentedViewController: self
-            )
-        }
+        viewModel.viewDidDisappear()
     }
     
     private func didEnterBackgroundEvent() {
-        do {
-            try viewModel.didEnterBackground()
-        } catch {
-            alertController.showConfirmAlert(
-                title: "오류",
-                message: DiaryError.saveFail.errorDescription,
-                presentedViewController: self
-            )
-        }
+        viewModel.didEnterBackground()
     }
     
     private func keyboardWillHideEvent() {
-        do {
-            try viewModel.keyboardWillHide()
-        } catch {
-            alertController.showConfirmAlert(
-                title: "오류",
-                message: DiaryError.saveFail.errorDescription,
-                presentedViewController: self
-            )
-        }
+        viewModel.keyboardWillHide()
     }
     
     private func didTapDeleteButtonEvent() {
-        do {
-            try viewModel.didTapDeleteButton()
-        } catch {
-            alertController.showConfirmAlert(
-                title: "오류",
-                message: DiaryError.loadFail.errorDescription,
-                presentedViewController: self
-            )
-        }
+        viewModel.didTapDeleteButton()
     }
 }
