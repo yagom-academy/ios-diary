@@ -172,6 +172,6 @@ extension DiaryViewController: UITableViewDelegate {
   private func deleteDiary(diary: Diary) {
     guard let uuid = diary.uuid else { return }
 
-    self.storageManger.delete(uuid: uuid)
+    self.storageManger.deleteDiary(uuid: uuid)
   }
 }

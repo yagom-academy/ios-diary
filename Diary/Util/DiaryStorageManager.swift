@@ -11,7 +11,7 @@ import CoreData
 final class DiaryStorageManager {
   private let persistentStorage = PersistentStorage(fileName: "Diary")
 
-  func create(text: String) {
+  func createDiary(text: String) {
     var separatedText = text.components(separatedBy: "\n")
     let title = separatedText.first
     separatedText.removeFirst()
@@ -42,7 +42,7 @@ final class DiaryStorageManager {
     }
   }
 
-  func update(uuid: String, text: String) {
+  func updateDiary(uuid: String, text: String) {
     let request = DiaryEntity.fetchRequest()
     request.predicate = NSPredicate(format: "uuid == %@", uuid)
 
@@ -60,7 +60,7 @@ final class DiaryStorageManager {
     NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
   }
 
-  func delete(uuid: String) {
+  func deleteDiary(uuid: String) {
     let request = DiaryEntity.fetchRequest()
     request.predicate = NSPredicate(format: "uuid == %@", uuid)
 
@@ -71,7 +71,7 @@ final class DiaryStorageManager {
     NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasDeleted, object: nil)
   }
 
-  func deleteAll() {
+  func deleteAllDiaries() {
     guard let diaryEntities = try? self.persistentStorage.context.fetch(DiaryEntity.fetchRequest()) else { return }
 
     diaryEntities.forEach { entity in

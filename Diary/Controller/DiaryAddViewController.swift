@@ -40,6 +40,6 @@ final class DiaryAddViewController: DiaryBaseViewController {
   }
 
   @objc private func createDiary() {
-    self.storageManger.create(text: self.bodyTextView.text)
+    self.storageManger.createDiary(text: self.bodyTextView.text)
   }
 }

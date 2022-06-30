@@ -68,7 +68,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
   private func deleteDiary() {
     guard let uuid = self.diary.uuid else { return }
 
-    self.storageManger.delete(uuid: uuid)
+    self.storageManger.deleteDiary(uuid: uuid)
     self.navigationController?.popViewController(animated: true)
   }
 
@@ -102,6 +102,6 @@ final class DiaryDetailViewController: DiaryBaseViewController {
 
   @objc private func updateDiary() {
     guard let uuid = self.diary.uuid else { return }
-    self.storageManger.update(uuid: uuid, text: self.bodyTextView.text)
+    self.storageManger.updateDiary(uuid: uuid, text: self.bodyTextView.text)
   }
 }

@@ -14,7 +14,7 @@ final class DiaryStorageManagerTests: XCTestCase {
   override func setUpWithError() throws {
     try super.setUpWithError()
     self.sut = DiaryStorageManager()
-    self.sut?.deleteAll()
+    self.sut?.deleteAllDiaries()
   }
 
   override func tearDownWithError() throws {
@@ -28,7 +28,7 @@ final class DiaryStorageManagerTests: XCTestCase {
     let expectedValue = "테스트"
 
     // when
-    self.sut?.create(text: text)
+    self.sut?.createDiary(text: text)
     guard let diaries = self.sut?.fetchAllDiaries() else {
       XCTFail()
       return
@@ -41,7 +41,7 @@ final class DiaryStorageManagerTests: XCTestCase {
   func testUpdate_수정할diary가주어졌을때_수정이반영되어야한다() {
     // given
     var text = "테스트\n테스트중입니다."
-    self.sut?.create(text: text)
+    self.sut?.createDiary(text: text)
     guard let input = self.sut?.fetchAllDiaries().first,
           let uuid = input.uuid
     else {
@@ -51,7 +51,7 @@ final class DiaryStorageManagerTests: XCTestCase {
 
     // when
     text = "수정테스트\n테스트중입니다."
-    self.sut?.update(uuid: uuid, text: text)
+    self.sut?.updateDiary(uuid: uuid, text: text)
     guard let output = self.sut?.fetchAllDiaries().first else {
       XCTFail()
       return
@@ -65,7 +65,7 @@ final class DiaryStorageManagerTests: XCTestCase {
     // given
     let expectedValue = 0
     let text = "테스트\n테스트중입니다."
-    self.sut?.create(text: text)
+    self.sut?.createDiary(text: text)
     guard let input = self.sut?.fetchAllDiaries().first,
           let uuid = input.uuid
     else {
@@ -74,7 +74,7 @@ final class DiaryStorageManagerTests: XCTestCase {
     }
 
     // when
-    self.sut?.delete(uuid: uuid)
+    self.sut?.deleteDiary(uuid: uuid)
     guard let diaries = self.sut?.fetchAllDiaries() else {
       XCTFail()
       return
