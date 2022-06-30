@@ -22,15 +22,14 @@ final class DiaryDetailViewController: UIViewController {
     private var lat: String?
     private var lon: String?
     
-    lazy var locationManager: CLLocationManager = {
-        let locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
-        locationManager.delegate = self
-        return locationManager
-    }()
+    private let locationManager: CLLocationManager
     
     init(diary: Diary? = nil) {
         self.diary = diary
+        
+        self.locationManager = CLLocationManager()
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -46,7 +45,7 @@ final class DiaryDetailViewController: UIViewController {
         configureNavigationItem()
         makeKeyboardHiddenButton()
         configureSceneDelegate()
-        locationManager.requestWhenInUseAuthorization()
+        locationManager.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
