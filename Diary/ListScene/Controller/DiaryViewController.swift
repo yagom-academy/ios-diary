@@ -20,9 +20,6 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
     override func viewDidLoad() {
         super.viewDidLoad()
                 
-        view.addSubview(tableView)
-        tableView.layout(view: view)
-                
         setUpView()
         navigationController?.setUpNavigationController(viewController: self)
         setUpRefreshControll()
@@ -46,6 +43,9 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
     
     private func setUpView() {
         view.backgroundColor = .systemBackground
+        
+        view.addSubview(tableView)
+        tableView.layout(view: view)
     }
     
     private func setUpRefreshControll() {

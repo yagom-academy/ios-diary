@@ -23,18 +23,13 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
         static let separator = "\n"
     }
     
+    private lazy var textView = DiaryTextView(delegate: self)
+    
     private let diaryData: DiaryDTO?
     private var isSavingData = false
     
     private var date: String {
         return navigationItem.title ?? ""
-    }
-    
-    private var updateView: UpdateView? {
-        guard let view = view as? UpdateView else {
-            return nil
-        }
-        return view
     }
     
     init(diaryData: DiaryDTO? = nil) {
@@ -44,11 +39,6 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func loadView() {
-        super.loadView()
-        view = UpdateView(delegate: self)
     }
     
     override func viewDidLoad() {
@@ -76,6 +66,9 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     private func setUpView() {
         view.backgroundColor = .systemBackground
         
+        view.addSubview(textView)
+        textView.setUpTextViewLayout(view: view)
+        
         if let diaryData = diaryData {
             setUpEditPage(diaryData: diaryData)
         }
@@ -83,7 +76,7 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     
     private func setUpEditPage(diaryData: DiaryDTO) {
         setUpNavigationController(title: diaryData.dateString)
-        updateView?.setUpTextView(text: "\(diaryData.title)\(Const.separator)\(diaryData.body)")
+        textView.text = "\(diaryData.title)\(Const.separator)\(diaryData.body)"
     }
     
     private func setUpNavigationController(title: String) {
@@ -105,7 +98,7 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     }
     
     @objc private func touchUpMoreButton() {
-        guard let title = updateView?.getTextViewTitle() else {
+        guard let title = textView.title else {
             return
         }
         
@@ -128,12 +121,11 @@ final class UpdateViewController: UIViewController, DiaryProtocol {
     }
     
     private func saveData() {
-        guard let title = updateView?.getTextViewTitle(),
-              let body = updateView?.getTextViewBody(),
+        guard let title = textView.title,
               let date = Formatter.getDate(from: date) else {
             return
         }
-        
+        let body = textView.body
         let isNew = diaryData == nil
         
         let data = DiaryDTO(identifier: diaryData?.identifier,
