@@ -21,12 +21,12 @@ fileprivate extension DiaryConstants {
 final class DetailViewController: UIViewController, Activitable, ErrorAlertProtocol {
     
     private lazy var detailView = DetailView(frame: view.frame)
-    private let diaryModelManger = DiaryModelManger()
-    private let diaryEntityManager = DiaryEntityManager()
-    private var diaryData: DiaryModel
+    private let diaryData: DiaryModel
+    private let diaryViewModel: DiaryViewModel
     
     init(diaryData: DiaryModel) {
         self.diaryData = diaryData
+        self.diaryViewModel = DiaryViewModel(diaryModel: diaryData)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,7 +55,7 @@ extension DetailViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        updateListData()
+        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
     }
 }
 
@@ -75,19 +75,6 @@ extension DetailViewController {
             action: #selector(navigationBarRightButtonTapped)
         )
         navigationItem.rightBarButtonItem = button
-    }
-    
-    private func updateListData() {
-        guard let title = detailView.titleField.text,
-                let body = detailView.descriptionView.text else {
-            return
-        }
-        diaryModelManger.update(
-            title: title,
-            body: body,
-            createdAt: diaryData.createdAt,
-            id: diaryData.id
-        )
     }
     
     private func registerDidEnterBackgroundNotification() {
@@ -117,7 +104,7 @@ extension DetailViewController {
                 return
             }
             do {
-                try self?.diaryEntityManager.delete(diary: diaryData)
+                try self?.diaryViewModel.delete(diaryData: diaryData)
             } catch {
                 self?.showAlert(alertMessage: ("\(CoreDataError.deleteError.errorDescription)"))
             }
@@ -169,10 +156,10 @@ extension DetailViewController {
     }
     
     @objc private func didEnterBackground() {
-        updateListData()
+        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
     }
     
     @objc override func keyboardWillHide(notification: NSNotification) {
-        updateListData()
+        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
     }
 }

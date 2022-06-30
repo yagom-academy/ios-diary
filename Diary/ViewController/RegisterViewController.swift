@@ -14,7 +14,7 @@ fileprivate extension DiaryConstants {
 final class RegisterViewController: UIViewController {
     private var diaryModel: DiaryModel?
     private lazy var detailView = DetailView(frame: view.frame)
-    private let diaryModelManger: DiaryModelManger = DiaryModelManger()
+    private let diaryViewModel = DiaryViewModel()
 }
 
 // MARK: - View Life Cycle Method
@@ -40,60 +40,13 @@ extension RegisterViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        checkDiaryData()
+        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
     }
 }
 
 // MARK: - Method
 
 extension RegisterViewController {
-    
-    private func createDiaryData() {
-        guard let title = detailView.titleField.text else {
-            return
-        }
-        guard let body = detailView.descriptionView.text else {
-            return
-        }
-        if title == DiaryConstants.emptyString && body == DiaryConstants.emptyString {
-            return
-        } else {
-            diaryModelManger.create(
-                title: title,
-                body: body,
-                createdAt: Date(),
-                id: UUID().uuidString
-            )
-        }
-    }
-    
-    private func updateDiaryData() {
-        guard let title = detailView.titleField.text,
-                let body = detailView.descriptionView.text else {
-            return
-        }
-        guard let diary = diaryModel else {
-            return
-        }
-        if title == DiaryConstants.emptyString && body == DiaryConstants.emptyString {
-            return
-        } else {
-            diaryModelManger.update(
-                    title: title,
-                    body: body,
-                    createdAt: Date(),
-                    id: diary.id
-            )
-        }
-    }
-    
-    private func checkDiaryData() {
-        if diaryModel == nil {
-            createDiaryData()
-        } else {
-            updateDiaryData()
-        }
-    }
     
     private func registerDidEnterBackgroundNotification() {
         NotificationCenter.default.addObserver(
@@ -110,11 +63,11 @@ extension RegisterViewController {
 extension RegisterViewController {
     
     @objc private func didEnterBackground() {
-        checkDiaryData()
+        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
     }
     
     @objc override func keyboardWillHide(notification: NSNotification) {
-        checkDiaryData()
+        diaryViewModel.checkDiaryData(title: detailView.titleField.text, body: detailView.descriptionView.text)
     }
 }
 
