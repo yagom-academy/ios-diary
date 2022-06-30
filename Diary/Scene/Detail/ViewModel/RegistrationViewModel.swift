@@ -26,17 +26,17 @@ extension RegistrationViewModel {
     
     // MARK: Input
     
-    func viewWillDisappear() throws {
-        try saveDiary()
+    func viewWillDisappear() {
+        saveDiary()
         locationManager.stopUpdatingLocation()
     }
     
-    func didEnterBackground() throws {
-        try saveDiary()
+    func didEnterBackground() {
+        saveDiary()
     }
     
-    func keyboardWillHide() throws {
-        try saveDiary()
+    func keyboardWillHide() {
+        saveDiary()
     }
     
     func textViewDidChange(text: String) {
@@ -49,7 +49,7 @@ extension RegistrationViewModel {
     
     // MARK: Output
     
-    private func saveDiary() throws {
+    private func saveDiary() {
         guard let content = currentText,
                 content.isEmpty == false
         else {

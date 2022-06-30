@@ -101,6 +101,34 @@ extension RegistrationViewController {
         detailView.scrollTextViewToTop()
         detailView.contentTextView.delegate = self
     }
+    
+    private func bind() {
+        viewModel.error.subscribe { [weak self] errorType in
+            guard let self = self else {
+                return
+            }
+            
+            self.alertController.showConfirmAlert(
+                title: "오류",
+                message: errorType.errorDescription,
+                presentedViewController: self
+            )
+        }
+        
+        viewModel.isLocationDenied.subscribe { [weak self] _ in
+            guard let self = self else {
+                return
+            }
+            
+            self.alertController.showConfirmAlert(
+                title: "위치 권한 설정",
+                message: "해당 기능을 사용하기 위해서 위치 권한이 필요합니다.",
+                presentedViewController: self
+            ) {
+                self.showSettingUrl()
+            }
+        }
+    }
 }
 
 // MARK: Objc Method
