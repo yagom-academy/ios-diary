@@ -11,13 +11,23 @@ protocol TableViewModelDelegate: AnyObject {
     func asyncUpdateHandler(_ data: DiaryInfo)
     func errorHandler(_ error: Error)
     
+    func reloadData(_ datas: [DiaryInfo])
+    
+}
+
+enum ViewModelAction {
+    case create
+    case loadData
+    case update(DiaryInfo)
+    case delete(DiaryInfo)
+    case asyncUpdate(DiaryInfo)
 }
 
 final class TableViewModel: NSObject {
     private var data: [DiaryInfo] = []
     private let useCase: DiaryUseCase
     var delegate: TableViewModelDelegate?
-    var dataCount: Int {
+    private var dataCount: Int {
         return data.count
     }
     
@@ -25,25 +35,42 @@ final class TableViewModel: NSObject {
         self.useCase = useCase
     }
     
-    func create(data: DiaryInfo) {
+    func requireAction(_ action: ViewModelAction) {
+        switch action {
+        case .create:
+            create()
+        case .loadData:
+            loadData()
+        case .update(let diaryInfo):
+            update(data: diaryInfo)
+        case .delete(let diaryInfo):
+            delete(data: diaryInfo)
+        case .asyncUpdate(let diaryInfo):
+            asyncUpdate(data: diaryInfo)
+        }
+    }
+    
+    private func create() {
         do {
-            let result = try useCase.create(element: data)
+            let newDiary = DiaryInfo(title: "", body: "", date: Date(), key: nil)
+            let result = try useCase.create(element: newDiary)
             delegate?.createHandler(result)
         } catch {
             delegate?.errorHandler(error)
         }
     }
     
-    func loadData() {
+    private func loadData() {
         do {
             let diaryDatas = try useCase.read()
             data = diaryDatas
+            delegate?.reloadData(data)
         } catch {
             delegate?.errorHandler(error)
         }
     }
     
-    func update(data: DiaryInfo) {
+    private func update(data: DiaryInfo) {
         do {
             try useCase.update(element: data)
         } catch {
@@ -51,7 +78,7 @@ final class TableViewModel: NSObject {
         }
     }
     
-    func delete(data: DiaryInfo) {
+    private func delete(data: DiaryInfo) {
         do {
             try useCase.delete(element: data)
         } catch {
@@ -59,14 +86,14 @@ final class TableViewModel: NSObject {
         }
     }
     
-    func indexData(_ index: Int) -> DiaryInfo? {
-        guard index < data.count else {
-            return nil
-        }
-        return data[index]
-    }
+//    private func indexData(_ index: Int) -> DiaryInfo? {
+//        guard index < data.count else {
+//            return nil
+//        }
+//        return data[index]
+//    }
     
-    func asyncUpdate(data: DiaryInfo) {
+    private func asyncUpdate(data: DiaryInfo) {
         guard let delegate = delegate else {
             return
         }

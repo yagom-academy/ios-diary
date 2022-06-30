@@ -67,7 +67,7 @@ final class DetailViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel.delegate = self
+//        viewModel.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -89,7 +89,7 @@ final class DetailViewController: UIViewController {
     private func saveData() {
         if state == .update {
             let editedDiary = detailView.exportDiaryText()
-            viewModel.update(data: editedDiary)
+//            viewModel.update(data: editedDiary)
         }
     }
 }
@@ -172,7 +172,7 @@ extension DetailViewController {
             let cancleButton = UIAlertAction(title: "취소", style: .cancel)
             let deleteButton = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 self.state = .delete
-                    self.viewModel.delete(data: diaryData)
+//                    self.viewModel.delete(data: diaryData)
                 self.navigationController?.popViewController(animated: true)
             }
             self.alertMaker.makeAlert(title: "진짜요?",
@@ -194,16 +194,16 @@ extension DetailViewController: SaveDelegate {
         saveData()
     }
 }
-
-extension DetailViewController: TableViewModelDelegate {
-    func asyncUpdateHandler(_ data: DiaryInfo) {
-    }
-    
-    func createHandler(_ data: DiaryInfo) {
-    }
-    
-    func errorHandler(_ error: Error) {
-        alertMaker.makeErrorAlert(error: error)
-    }
-
-}
+//
+//extension DetailViewController: TableViewModelDelegate {
+//    func asyncUpdateHandler(_ data: DiaryInfo) {
+//    }
+//
+//    func createHandler(_ data: DiaryInfo) {
+//    }
+//
+//    func errorHandler(_ error: Error) {
+//        alertMaker.makeErrorAlert(error: error)
+//    }
+//
+//}
