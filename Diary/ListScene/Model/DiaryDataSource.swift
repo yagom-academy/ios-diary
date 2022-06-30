@@ -17,14 +17,11 @@ final class DiaryDataSource: UITableViewDiffableDataSource<Int, DiaryDTO> {
     }
     
     func setUpCoreData(tableView: UITableView?) {
-        guard let tableView = tableView,
-              let coreData = DiaryDAO.shared.read() else {
+        guard let coreData = DiaryDAO.shared.read() else {
             return
         }
         
-        setUpSnapshot(data: coreData)
-        
-        tableView.refreshControl?.endRefreshing()
+        setUpSnapshot(data: coreData.reversed())
     }
     
     private func setUpSnapshot(data: [DiaryDTO]) {
