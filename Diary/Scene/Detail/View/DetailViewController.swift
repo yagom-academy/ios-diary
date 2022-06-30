@@ -117,7 +117,7 @@ extension DetailViewController {
     }
     
     private func bind() {
-        viewModel.error?.subscribe { [weak self] errorType in
+        viewModel.error.subscribe { [weak self] errorType in
             guard let self = self else {
                 return
             }

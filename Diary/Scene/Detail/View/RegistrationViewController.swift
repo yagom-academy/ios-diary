@@ -10,7 +10,7 @@ import CoreLocation
 
 final class RegistrationViewController: UIViewController {
     private lazy var detailView = DetailView(frame: view.bounds)
-    private lazy var viewModel = RegistrationViewModel(delegate: self)
+    private let viewModel = RegistrationViewModel()
     
     override func loadView() {
         super.loadView()
@@ -19,6 +19,7 @@ final class RegistrationViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bind()
         registerNotification()
         setUpNavigationBar()
         setUpView()
@@ -157,66 +158,15 @@ extension RegistrationViewController {
 
 extension RegistrationViewController {
     private func viewWillDisappearEvent() {
-        do {
-            try viewModel.viewWillDisappear()
-        } catch {
-            alertController.showConfirmAlert(
-                title: "오류",
-                message: DiaryError.saveFail.errorDescription,
-                presentedViewController: self
-            )
-        }
+        viewModel.viewWillDisappear()
     }
     
     private func didEnterBackgroundEvent() {
-        do {
-            try viewModel.didEnterBackground()
-        } catch {
-            alertController.showConfirmAlert(
-                title: "오류",
-                message: DiaryError.saveFail.errorDescription,
-                presentedViewController: self
-            )
-        }
+        viewModel.didEnterBackground()
     }
     
     private func keyboardWillHideEvent() {
-        do {
-            try viewModel.keyboardWillHide()
-        } catch {
-            alertController.showConfirmAlert(
-                title: "오류",
-                message: DiaryError.saveFail.errorDescription,
-                presentedViewController: self
-            )
-        }
-    }
-}
-
-extension RegistrationViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let coordinate = locations.last?.coordinate {
-            viewModel.didUpdateLocations(by: coordinate)
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .authorizedAlways, .authorizedWhenInUse:
-            viewModel.authorizedInUse()
-        case .restricted, .notDetermined:
-            viewModel.unauthorizedInUse()
-        case .denied:
-            alertController.showConfirmAlert(
-                title: "위치 권한 설정",
-                message: "해당 기능을 사용하기 위해서 위치 권한이 필요합니다.",
-                presentedViewController: self
-            ) {
-                self.showSettingUrl()
-            }
-        @unknown default:
-            return
-        }
+        viewModel.keyboardWillHide()
     }
 }
 

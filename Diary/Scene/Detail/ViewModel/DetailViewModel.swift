@@ -14,7 +14,7 @@ final class DetailViewModel {
     private(set) var diary: DiaryEntity
     private var status: ExecutionStatus = .update
     private var currentText: String?
-    private(set) var error: Observable<DiaryError>?
+    let error: ColdObservable<DiaryError> = .init()
     
     init(diary: DiaryEntity) {
         self.diary = diary
@@ -71,16 +71,16 @@ extension DetailViewModel {
         do {
             try PersistenceManager.shared.updateData(by: diary)
         } catch {
-            self.error?.value = .saveFail
+            self.error.onNext(value: .saveFail)
         }
     }
     
     private func deleteDiary() {
         do {
-            try PersistenceManager.shared.deleteData(by: diary)
             status = .delete
+            try PersistenceManager.shared.deleteData(by: diary)
         } catch {
-            self.error?.value = .deleteFail
+            self.error.onNext(value: .deleteFail)
         }
     }
 }

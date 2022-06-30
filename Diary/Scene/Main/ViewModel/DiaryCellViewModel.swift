@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryCellViewModel {
     private let imageDownloader = ImageDownloader()
-    private(set) var image = Observable(UIImage())
+    private(set) var image = HotObservable(UIImage())
     
     func prepareForReuse() {
         imageDownloader.cancelTask()

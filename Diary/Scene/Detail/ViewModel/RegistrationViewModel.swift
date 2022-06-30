@@ -8,7 +8,7 @@
 import Foundation
 import CoreLocation
 
-final class RegistrationViewModel {
+final class RegistrationViewModel: NSObject {
     private let locationManager = CLLocationManager()
     private(set) var createdAt = Date().timeIntervalSince1970
     private let diaryId = UUID().uuidString
@@ -16,9 +16,12 @@ final class RegistrationViewModel {
     private var icon: String?
     private let weatherRepository = WeatherRepository()
     private var currentText: String?
+    let error: ColdObservable<DiaryError> = .init()
+    let isLocationDenied: ColdObservable<Bool> = .init()
     
-    init(delegate: CLLocationManagerDelegate) {
-        self.locationManager.delegate = delegate
+    override init() {
+        super.init()
+        self.locationManager.delegate = self
     }
 }
 
@@ -60,9 +63,19 @@ extension RegistrationViewModel {
         let title = splitedText.removeFirst()
         let body = splitedText.joined(separator: "\n")
 
-        let diary = Diary(title: title, createdAt: createdAt, body: body, id: diaryId, icon: icon ?? "")
+        let diary = Diary(
+            title: title,
+            createdAt: createdAt,
+            body: body,
+            id: diaryId,
+            icon: icon ?? ""
+        )
         
-        try PersistenceManager.shared.createData(by: diary)
+        do {
+            try PersistenceManager.shared.createData(by: diary)
+        } catch {
+            self.error.onNext(value: .saveFail)
+        }
     }
     
     private func setUpLocation(by coordinate: CLLocationCoordinate2D) {
@@ -88,12 +101,25 @@ extension RegistrationViewModel {
             }
         }
     }
-    
-    func authorizedInUse() {
-        locationManager.startUpdatingLocation()
+}
+
+extension RegistrationViewModel: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let coordinate = locations.last?.coordinate {
+            didUpdateLocations(by: coordinate)
+        }
     }
     
-    func unauthorizedInUse() {
-        locationManager.requestWhenInUseAuthorization()
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+        case .restricted, .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied:
+            self.isLocationDenied.onNext(value: true)
+        @unknown default:
+            return
+        }
     }
 }
