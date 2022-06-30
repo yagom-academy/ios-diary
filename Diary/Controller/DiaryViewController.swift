@@ -145,11 +145,10 @@ extension DiaryViewController: UITableViewDelegate {
       self.presentShareActivityController(diary: diary)
     }
     let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
-      self.presentDeleteAlert(diary: diary)
+      self.presentDiaryDeletionAlert(diary: diary)
     }
 
-    let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
-    return configuration
+    return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
   }
 
   private func presentShareActivityController(diary: Diary) {
@@ -158,7 +157,7 @@ extension DiaryViewController: UITableViewDelegate {
     self.present(activityController, animated: true)
   }
 
-  private func presentDeleteAlert(diary: Diary) {
+  private func presentDiaryDeletionAlert(diary: Diary) {
     let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
     let cancelAction = UIAlertAction(title: "취소", style: .cancel)
     let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
