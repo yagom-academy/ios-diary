@@ -12,6 +12,8 @@ final class DiaryDAO {
     static let shared = DiaryDAO()
     private init() { }
     
+    weak var delegate: DataSourceDelegate?
+    
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         
@@ -86,6 +88,7 @@ final class DiaryDAO {
         
         do {
             try viewContext.save()
+            delegate?.updatePage()
         } catch let error {
             print("Error: \(error)")
         }

@@ -7,6 +7,16 @@
 import UIKit
 import CoreLocation
 
+protocol DataSourceDelegate: AnyObject {
+    func updatePage()
+}
+
+extension DiaryViewController: DataSourceDelegate {
+    func updatePage() {
+        dataSource.setUpCoreData(tableView: tableView)
+    }
+}
+
 final class DiaryViewController: UIViewController, DiaryProtocol {
     private lazy var tableView = DiaryTableView(delegate: self)
     
@@ -22,13 +32,13 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
                 
         setUpView()
         navigationController?.setUpNavigationController(viewController: self)
-        setUpRefreshControll()
-
+        
         LocationManager.agree(viewController: self)
+        dataSource.setUpCoreData(tableView: tableView)
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        dataSource.updataTableView(tableView: tableView)
+        DiaryDAO.shared.delegate = self
     }
     
     private func setUpDataSource(tableView: UITableView, indexPath: IndexPath, itemIdentifier: DiaryDTO) -> UITableViewCell {
@@ -46,17 +56,6 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         
         view.addSubview(tableView)
         tableView.layout(view: view)
-    }
-    
-    private func setUpRefreshControll() {
-        let refresh = UIRefreshControl()
-        
-        refresh.addTarget(self, action: #selector(pullToRefresh), for: .valueChanged)
-        tableView.setUpTableView(refresh: refresh)
-    }
-
-    @objc private func pullToRefresh() {
-        dataSource.setUpCoreData(tableView: tableView)
     }
 }
 

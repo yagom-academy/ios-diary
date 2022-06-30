@@ -35,15 +35,4 @@ final class DiaryDataSource: UITableViewDiffableDataSource<Int, DiaryDTO> {
         
         apply(snapshot)
     }
-    
-    func updataTableView(tableView: UITableView?) {
-        guard let tableView = tableView else {
-            return
-        }
-        
-        tableView.refreshControl?.beginRefreshing()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-            self?.setUpCoreData(tableView: tableView)
-        }
-    }
 }
