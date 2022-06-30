@@ -28,16 +28,16 @@ final class DiaryDetailViewController: DiaryBaseViewController {
 
   private func initializeNavigationBar() {
     self.title = Formatter.changeToString(from: self.diary.createdAt)
-    let addButton = UIBarButtonItem(
+    let ellipsisButton = UIBarButtonItem(
       image: UIImage(systemName: "ellipsis"),
       style: .plain,
       target: self,
-      action: #selector(self.presentActionSheet)
+      action: #selector(self.presentEllipsisButtonActionSheet)
     )
-    self.navigationItem.setRightBarButton(addButton, animated: false)
+    self.navigationItem.setRightBarButton(ellipsisButton, animated: false)
   }
 
-  @objc private func presentActionSheet() {
+  @objc private func presentEllipsisButtonActionSheet() {
     let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
     let sharedAction = UIAlertAction(title: "Share...", style: .default) { _ in
       self.presentShareActivityController()
