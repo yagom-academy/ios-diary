@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class NetworkService {
+final class Networking {
   private let session: URLSession
 
   init(session: URLSession) {

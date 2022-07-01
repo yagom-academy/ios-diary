@@ -7,16 +7,16 @@
 
 import Foundation
 
-final class WeatherRepository {
-  private let networkService: NetworkService
+final class WeatherService {
+  private let networking: Networking
 
-  init(networkService: NetworkService) {
-    self.networkService = networkService
+  init(networking: Networking) {
+    self.networking = networking
   }
 
   func fetchWeather(lat: Double, lon: Double, completion: @escaping (Weather) -> Void) {
     let endpoint = APIEndpoint.weatherEndpoint(lat: lat, lon: lon)
-    self.networkService.request(endpoint: endpoint) { result in
+    self.networking.request(endpoint: endpoint) { result in
       switch result {
       case .success(let data):
         guard let weatherData = Parser.decode(WeatherResponse.self, data: data) else { return }
