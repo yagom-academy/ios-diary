@@ -65,7 +65,7 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
     guard let iconID = iconID else {
       return
     }
-    WeatherService().fetchImage(iconID) { result in
+    WeatherService().fetch(api: .iconImage(iconID: iconID)) { result in
       switch result {
       case .success(let data):
         DispatchQueue.main.async {

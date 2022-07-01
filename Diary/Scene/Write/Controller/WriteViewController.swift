@@ -77,10 +77,13 @@ final class WriteViewController: DiaryBaseViewController {
   }
   
   private func fecthData() {
-    WeatherService().fetch(latitude: latitude, longitude: longitude) { result in
+    WeatherService().fetch(api: .weatherApi(lat: latitude, lon: longitude)) { result in
       switch result {
       case .success(let weatherResponse):
-        self.weatherData = weatherResponse.weather.first
+        guard let weather = try? JSONDecoder().decode(WeatherResponse.self, from: weatherResponse) else {
+          return
+        }
+        self.weatherData = weather.weather.first
       case .failure(_): break
       }
     }
