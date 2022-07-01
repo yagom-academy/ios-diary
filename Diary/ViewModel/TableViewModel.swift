@@ -49,37 +49,46 @@ final class TableViewModel: NSObject {
     }
     
     private func create() {
-        do {
-            let newDiary = DiaryInfo(title: "", body: "", date: Date(), key: nil)
-            let result = try useCase.create(element: newDiary)
-            delegate?.createHandler(result)
-        } catch {
+        let newDiary = DiaryInfo(title: "", body: "", date: Date(), key: nil)
+        let result = useCase.create(element: newDiary)
+        
+        switch result {
+        case .success(let diary):
+            delegate?.createHandler(diary)
+        case .failure(let error):
             delegate?.errorHandler(error)
         }
     }
     
     private func loadData() {
-        do {
-            let diaryDatas = try useCase.read()
+        let diaryDatas = useCase.read()
+        switch diaryDatas {
+        case .success(let diaryDatas):
             data = diaryDatas
             delegate?.reloadData(data)
-        } catch {
+        case.failure(let error ):
             delegate?.errorHandler(error)
         }
     }
     
     private func update(data: DiaryInfo) {
-        do {
-            try useCase.update(element: data)
-        } catch {
+        let result = useCase.update(element: data)
+        
+        switch result {
+        case .success:
+            return
+        case .failure(let error):
             delegate?.errorHandler(error)
         }
     }
     
     private func delete(data: DiaryInfo) {
-        do {
-            try useCase.delete(element: data)
-        } catch {
+        
+        let result = useCase.delete(element: data)
+        switch result {
+        case .success:
+            return
+        case .failure(let error):
             delegate?.errorHandler(error)
         }
     }

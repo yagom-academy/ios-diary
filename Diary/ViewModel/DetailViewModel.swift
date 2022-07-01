@@ -37,17 +37,23 @@ final class DetailViewModel: NSObject {
     }
     
     private func update(data: DiaryInfo) {
-        do {
-            try useCase.update(element: data)
-        } catch {
+        let result = useCase.update(element: data)
+        
+        switch result {
+        case .success:
+            return
+        case .failure(let error):
             delegate?.errorHandler(error)
         }
     }
     
     private func delete(data: DiaryInfo) {
-        do {
-            try useCase.delete(element: data)
-        } catch {
+        
+        let result = useCase.delete(element: data)
+        switch result {
+        case .success:
+            return
+        case .failure(let error):
             delegate?.errorHandler(error)
         }
     }
