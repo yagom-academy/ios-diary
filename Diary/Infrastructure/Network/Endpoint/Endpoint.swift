@@ -13,8 +13,8 @@ struct Endpoint {
     var method: HttpMethod
     var queryParameters: Encodable?
 
-    init(baseURL: String = "",
-         path: String = "",
+    init(baseURL: String,
+         path: String,
          method: HttpMethod = .get,
          queryParameters: Encodable? = nil
     ) {
