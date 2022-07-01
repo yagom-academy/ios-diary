@@ -28,7 +28,7 @@ final class ParserTests: XCTestCase {
     let promise = expectation(description: "NetworkServiceExpectation")
 
     let service = NetworkService(session: .shared)
-    let endpoint = APIEndpoint.fetchWeather(lat: 33.33, lon: 12.33)
+    let endpoint = APIEndpoint.weatherEndpoint(lat: 33.33, lon: 12.33)
 
     service.request(endpoint: endpoint) { result in
       guard case let .success(data) = result else {

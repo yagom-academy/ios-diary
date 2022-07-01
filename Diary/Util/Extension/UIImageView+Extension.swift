@@ -10,7 +10,7 @@ import UIKit
 extension UIImageView {
   func setImage(iconID: String) -> Cancellable? {
     let service = NetworkService(session: .shared)
-    let endpoint = APIEndpoint.fetchWeatherIcon(iconID: iconID)
+    let endpoint = APIEndpoint.weatherIconEndpoint(iconID: iconID)
 
     let cancellable = service.request(endpoint: endpoint) { result in
       guard case let .success(data) = result else { return }

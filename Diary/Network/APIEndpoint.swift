@@ -8,7 +8,7 @@
 import Foundation
 
 struct APIEndpoint {
-  static func fetchWeather(lat: Double, lon: Double) -> Endpoint {
+  static func weatherEndpoint(lat: Double, lon: Double) -> Endpoint {
     return Endpoint(
       baseURL: "https://api.openweathermap.org",
       path: "data/2.5/weather",
@@ -20,7 +20,7 @@ struct APIEndpoint {
     )
   }
 
-  static func fetchWeatherIcon(iconID: String) -> Endpoint {
+  static func weatherIconEndpoint(iconID: String) -> Endpoint {
     return Endpoint(
       baseURL: "https://openweathermap.org",
       path: "img/wn/\(iconID)@2x.png"
