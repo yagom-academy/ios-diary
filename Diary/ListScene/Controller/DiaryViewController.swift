@@ -13,7 +13,7 @@ protocol DataSourceDelegate: AnyObject {
 
 extension DiaryViewController: DataSourceDelegate {
     func updatePage() {
-        dataSource.setUpCoreData(tableView: tableView)
+        dataSource.setUpCoreData()
     }
 }
 
@@ -38,7 +38,7 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         #if DEBUG
             dataSource.setUpSampleData()
         #else
-            dataSource.setUpCoreData(tableView: tableView)
+            dataSource.setUpCoreData()
         #endif
     }
     
@@ -124,7 +124,7 @@ extension DiaryViewController: UITableViewDelegate {
         func makeContextualAction() -> [UIContextualAction] {
             let deleteAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
                 DiaryDAO.shared.delete(identifier: cellData.identifier?.uuidString)
-                self?.dataSource.setUpCoreData(tableView: tableView)
+                self?.dataSource.setUpCoreData()
             }
             
             let cancelAction = makeAction(title: "Cancel", style: .cancel)

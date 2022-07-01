@@ -18,7 +18,7 @@ final class DiaryDataSource: UITableViewDiffableDataSource<Int, DiaryDTO> {
     }
     #endif
     
-    func setUpCoreData(tableView: UITableView?) {
+    func setUpCoreData() {
         guard let coreData = DiaryDAO.shared.read() else {
             return
         }
