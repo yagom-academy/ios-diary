@@ -2,11 +2,15 @@
 > 프로젝트 기간 2022.06.13 ~ 2022.07.01  
 팀원 : [malrang](https://github.com/malrang-malrang) [Tiana](https://github.com/Kim-TaeHyun-A) / 리뷰어 : [stevenkim](https://github.com/stevenkim18)
 
+- [개발환경 및 라이브러리](#-개발환경-및-라이브러리)
 - [Ground Rules](#ground-rules)
 - [실행화면](#실행화면)
 - [UML](#uml)
 - [핵심 고민사항](#핵심-고민사항)
 - [챕터별 고민 사항](#챕터별-고민-사항)
+
+## 🛠 개발환경 및 라이브러리
+[![swift](https://img.shields.io/badge/swift-5.6-orange)]() [![xcode](https://img.shields.io/badge/Xcode-13.3.1-blue)]() [![iOS](https://img.shields.io/badge/iOS-14.0-red)]()
 
 ## Ground Rules
 ### 🌈 스크럼
