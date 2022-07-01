@@ -16,7 +16,7 @@ final class NetworkService {
 
   @discardableResult
   func request(endpoint: Endpoint, completion: @escaping (Result<Data, Error>) -> Void) -> Cancellable? {
-    guard let urlRequest = endpoint.createRequest() else {
+    guard let urlRequest = endpoint.request() else {
       completion(.failure(NetworkError.invalidateEndpoint))
       return nil
     }

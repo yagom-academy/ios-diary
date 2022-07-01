@@ -55,7 +55,7 @@ final class Endpoint {
     return component?.url
   }
 
-  func createRequest() -> URLRequest? {
+  func request() -> URLRequest? {
     guard let url = self.createURL() else { return nil }
 
     var request = URLRequest(url: url)

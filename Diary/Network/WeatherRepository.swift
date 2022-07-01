@@ -22,6 +22,7 @@ final class WeatherRepository {
         guard let weatherData = Parser.decode(WeatherResponse.self, data: data) else { return }
         guard let weather = weatherData.weather.first else { return }
         completion(weather)
+
       case .failure(let error):
         print(error.localizedDescription)
       }
