@@ -34,7 +34,12 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
         navigationController?.setUpNavigationController(viewController: self)
         
         LocationManager.agree(viewController: self)
-        dataSource.setUpCoreData(tableView: tableView)
+        
+        #if DEBUG
+            dataSource.setUpSampleData()
+        #else
+            dataSource.setUpCoreData(tableView: tableView)
+        #endif
     }
     
     override func viewWillAppear(_ animated: Bool) {

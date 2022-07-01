@@ -8,6 +8,7 @@
 import UIKit
 
 final class DiaryDataSource: UITableViewDiffableDataSource<Int, DiaryDTO> {
+    #if DEBUG
     func setUpSampleData() {
         guard let sampleData: [DiaryDTO] = AssetManager.get() else {
             return
@@ -15,6 +16,7 @@ final class DiaryDataSource: UITableViewDiffableDataSource<Int, DiaryDTO> {
         
         setUpSnapshot(data: sampleData)
     }
+    #endif
     
     func setUpCoreData(tableView: UITableView?) {
         guard let coreData = DiaryDAO.shared.read() else {
