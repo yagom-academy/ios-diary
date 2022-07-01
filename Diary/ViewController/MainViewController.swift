@@ -112,19 +112,25 @@ extension MainViewController: UITableViewDelegate {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: MainViewCell.identifier, for: indexPath
         ) as? MainViewCell else {
             return MainViewCell()
         }
+        
         guard datas.count > indexPath.row else {
             return MainViewCell()
         }
         let diary = datas[indexPath.row]
         
         cell.setDiaryData(diary)
-        
+
+        DispatchQueue.main.async {
+            if tableView.indexPath(for: cell) == indexPath {
+                cell.setWeatherImage(diary)
+                }
+            }
         return cell
     }
     
