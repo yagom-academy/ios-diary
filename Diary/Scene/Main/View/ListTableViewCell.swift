@@ -33,12 +33,21 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
     let label = UILabel()
     label.font = UIFont.preferredFont(forTextStyle: .footnote)
     label.setContentCompressionResistancePriority(.required, for: .horizontal)
+    label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
     return label
+  }()
+  
+  private let iconImageView : UIImageView = {
+    let imageView = UIImageView()
+    imageView.sizeToFit()
+    imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
+    return imageView
   }()
   
   private let descriptionLabel: UILabel = {
     let label = UILabel()
     label.font = UIFont.preferredFont(forTextStyle: .footnote)
+    label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     return label
   }()
   
@@ -52,22 +61,41 @@ final class ListTableViewCell: UITableViewCell, Identifiable {
     fatalError("init(coder:) has not been implemented")
   }
   
+  private func uploadIconImage(_ iconID: String?) {
+    guard let iconID = iconID else {
+      return
+    }
+    WeatherService().fetch(api: .iconImage(iconID: iconID)) { result in
+      switch result {
+      case .success(let data):
+        DispatchQueue.main.async {
+          self.iconImageView.image = UIImage(data: data)
+        }
+      case .failure(_): break
+      }
+    }
+  }
+  
   func update(diary: Diary) {
     dateLabel.text = diary.createdDate?.setKoreaDateFormat(dateFormat: .yearMonthDay)
     titleLabel.text = diary.title
     descriptionLabel.text = diary.content
+    uploadIconImage(diary.iconID)
   }
   
   private func configureUI() {
     contentView.addSubview(mainStackView)
     mainStackView.addArrangedSubviews(titleLabel, bottomStackView)
-    bottomStackView.addArrangedSubviews(dateLabel, descriptionLabel)
+    bottomStackView.addArrangedSubviews(dateLabel, iconImageView ,descriptionLabel)
   
     NSLayoutConstraint.activate([
       mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
       mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
       mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-      mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+      mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+      
+      iconImageView.widthAnchor.constraint(equalToConstant: frame.width * 0.1),
+      iconImageView.heightAnchor.constraint(equalToConstant: frame.width * 0.1)
     ])
   }
 }

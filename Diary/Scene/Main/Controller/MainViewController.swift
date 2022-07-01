@@ -5,8 +5,9 @@
 // 
 
 import UIKit
+import CoreLocation
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, CLLocationManagerDelegate {
   private lazy var baseView = ListView(frame: view.bounds)
   private var diarys: [Diary]? {
     didSet {
@@ -53,8 +54,7 @@ final class MainViewController: UIViewController {
   }
   
   @objc private func addButtonDidTap() {
-    let detailViewController = WriteViewController()
-    navigationController?.pushViewController(detailViewController, animated: true)
+    navigationController?.pushViewController(WriteViewController(), animated: true)
   }
 }
 
@@ -100,7 +100,7 @@ extension MainViewController: UITableViewDelegate {
       guard let identifier = self.diarys?[indexPath.row].identifier else {
         return
       }
-
+      
       DiaryData.delete(identifier: identifier)
       self.diarys?.remove(at: indexPath.row)
       completion(true)

@@ -10,7 +10,7 @@ import UIKit
 final class DetailViewController: DiaryBaseViewController {
   private let diary: Diary
   
-  lazy var baseView = DetailView(frame: view.bounds)
+  lazy var baseView = BaseTextView(frame: view.bounds)
   
   init(diary: Diary) {
     self.diary = diary

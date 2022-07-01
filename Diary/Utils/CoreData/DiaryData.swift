@@ -8,7 +8,7 @@
 import Foundation
 
 final class DiaryData {
-  static func create(title: String, content: String, identifier: String, date: Date) {
+  static func create(title: String, content: String, identifier: String, date: Date, main: String, iconID: String) {
     guard let diary = CoredataManager.shared.createContext(etityName: "Diary") as? Diary else {
       return
     }
@@ -17,6 +17,8 @@ final class DiaryData {
     diary.content = content
     diary.identifier = identifier
     diary.createdDate = date
+    diary.main = main
+    diary.iconID = iconID
     
     CoredataManager.shared.save()
   }

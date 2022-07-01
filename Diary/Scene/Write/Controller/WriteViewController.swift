@@ -6,9 +6,12 @@
 //
 
 import UIKit
+import CoreLocation
 
-final class WriteViewController: DiaryBaseViewController {
-  private lazy var baseView = WriteView(frame: view.bounds)
+final class WriteViewController: DiaryBaseViewController ,CLLocationManagerDelegate {
+  private lazy var baseView = BaseTextView(frame: view.bounds)
+  private var weatherData: Weather?
+  private let locationManager = CLLocationManager()
   
   override func loadView() {
     super.loadView()
@@ -17,10 +20,12 @@ final class WriteViewController: DiaryBaseViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    fecthData()
     configureUI()
     addKeyboardObserver(action: #selector(keyboardWillShow))
     addGesture()
     addSaveDiaryObserver(action: #selector(diaryDataSave))
+    setlocationManager()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -47,11 +52,42 @@ final class WriteViewController: DiaryBaseViewController {
       return
     }
     
+    guard let weather = weatherData else {
+      return
+    }
+    
     DiaryData.create (
       title: seperateTitle(from: text),
       content: seperateContent(from: text),
       identifier: UUID().uuidString,
-      date: Date())
+      date: Date(),
+      main: weather.main,
+      iconID: weather.icon)
+  }
+  
+  private func setlocationManager() {
+    locationManager.delegate = self
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    locationManager.requestWhenInUseAuthorization()
+    locationManager.stopUpdatingLocation()
+  }
+  
+  private func fecthData() {
+    guard let latitude = locationManager.location?.coordinate.latitude,
+          let longitude = locationManager.location?.coordinate.longitude else {
+      return
+    }
+    
+    WeatherService().fetch(api: .weatherApi(lat: latitude, lon: longitude)) { result in
+      switch result {
+      case .success(let weatherResponse):
+        guard let weather = try? JSONDecoder().decode(WeatherResponse.self, from: weatherResponse) else {
+          return
+        }
+        self.weatherData = weather.weather.first
+      case .failure(_): break
+      }
+    }
   }
 }
 
