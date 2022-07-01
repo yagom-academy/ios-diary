@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryCellViewModel {
     private let imageDownloader = ImageDownloader()
-    let image = HotObservable(UIImage())
+    let image: ColdObservable<UIImage> = .init()
     
     func prepareForReuse() {
         imageDownloader.cancelTask()
@@ -21,7 +21,7 @@ final class DiaryCellViewModel {
     
     private func requestImage(icon: String) {
         imageDownloader.requestImage(icon: icon) { [weak self] result in
-            self?.image.value = result
+            self?.image.onNext(value: result)
         }
     }
 }
