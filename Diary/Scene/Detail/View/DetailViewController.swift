@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController, Alertable, ActivityViewable {
     private enum Constants {
         static let rightBarButtonImage = "ellipsis.circle"
     }
@@ -170,7 +170,7 @@ extension DetailViewController {
         }
         
         let shareAction = UIAlertAction(title: AppConstants.shareActionTitle, style: .default) { _ in
-            self.showActivityView(data: self.viewModel.diary)
+            self.showActivityView(data: self.viewModel.diary, presentedViewController: self)
         }
         
         let cancelAction = UIAlertAction(title: AppConstants.cancelActionTitle, style: .cancel)

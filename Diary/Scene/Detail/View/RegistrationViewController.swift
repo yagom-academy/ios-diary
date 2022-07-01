@@ -8,7 +8,7 @@
 import UIKit
 import CoreLocation
 
-final class RegistrationViewController: UIViewController {
+final class RegistrationViewController: UIViewController, Alertable {
     private lazy var detailView = DetailView(frame: view.bounds)
     private let viewModel = RegistrationViewModel()
     

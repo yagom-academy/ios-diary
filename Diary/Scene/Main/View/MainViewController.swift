@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, Alertable, ActivityViewable {
     private enum Constants {
         static let navigationTitle = "일기장"
         static let deleteImage = "trash"
@@ -101,10 +101,12 @@ extension MainViewController: UITableViewDelegate {
         deleteAction.image = UIImage(systemName: Constants.deleteImage)
         
         let shareAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completionHandler in
-            guard let diary = self?.viewModel.diaries[safe: indexPath.row] else {
+            guard let diary = self?.viewModel.diaries[safe: indexPath.row],
+                  let self = self
+            else {
                 return
             }
-            self?.showActivityView(data: diary)
+            self.showActivityView(data: diary, presentedViewController: self)
             completionHandler(true)
         }
         shareAction.image = UIImage(systemName: Constants.shareImage)

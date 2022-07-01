@@ -20,7 +20,6 @@
 		4EB67BC228648D4600D00805 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB67BC128648D4600D00805 /* Weather.swift */; };
 		4EBF1C042862E37400C35698 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBF1C032862E37400C35698 /* DiaryError.swift */; };
 		4EC4B4962861910C00669E5D /* UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4B4952861910C00669E5D /* UITextView.swift */; };
-		4EC4B49928619D6A00669E5D /* UIViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC4B49828619D6A00669E5D /* UIViewController.swift */; };
 		4ECCDB21286DDADA0039C878 /* WeatherRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECCDB20286DDADA0039C878 /* WeatherRepository.swift */; };
 		4ED43D33286ACB26008CB017 /* DiaryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED43D32286ACB26008CB017 /* DiaryCellViewModel.swift */; };
 		4ED43D37286ACE3F008CB017 /* EndpointStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED43D36286ACE3F008CB017 /* EndpointStorage.swift */; };
@@ -34,6 +33,8 @@
 		A11DCF76286DC25A00DDDC04 /* ImageDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11DCF75286DC25A00DDDC04 /* ImageDownloader.swift */; };
 		A11DCF7A286DF64600DDDC04 /* WeatherUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = A11DCF79286DF64600DDDC04 /* WeatherUseCase.swift */; };
 		A152B1A3285C543300BA06A9 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = A152B1A2285C543300BA06A9 /* Diary.swift */; };
+		A15EA043286EC42C0001E90C /* Alertable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15EA042286EC42C0001E90C /* Alertable.swift */; };
+		A15EA045286EC4DF0001E90C /* ActivityViewable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A15EA044286EC4DF0001E90C /* ActivityViewable.swift */; };
 		A18D5D91286AF812009DF803 /* UIAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A18D5D90286AF812009DF803 /* UIAlertController.swift */; };
 		A1A8C5242862DCDD008A95A9 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A8C5232862DCDD008A95A9 /* MainViewModel.swift */; };
 		A1A8C5262862DCE5008A95A9 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1A8C5252862DCE5008A95A9 /* DetailViewModel.swift */; };
@@ -68,7 +69,6 @@
 		4EB67BC128648D4600D00805 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		4EBF1C032862E37400C35698 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
 		4EC4B4952861910C00669E5D /* UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextView.swift; sourceTree = "<group>"; };
-		4EC4B49828619D6A00669E5D /* UIViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewController.swift; sourceTree = "<group>"; };
 		4ECCDB20286DDADA0039C878 /* WeatherRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRepository.swift; sourceTree = "<group>"; };
 		4ED43D32286ACB26008CB017 /* DiaryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCellViewModel.swift; sourceTree = "<group>"; };
 		4ED43D36286ACE3F008CB017 /* EndpointStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointStorage.swift; sourceTree = "<group>"; };
@@ -81,6 +81,8 @@
 		A11DCF75286DC25A00DDDC04 /* ImageDownloader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownloader.swift; sourceTree = "<group>"; };
 		A11DCF79286DF64600DDDC04 /* WeatherUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherUseCase.swift; sourceTree = "<group>"; };
 		A152B1A2285C543300BA06A9 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
+		A15EA042286EC42C0001E90C /* Alertable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alertable.swift; sourceTree = "<group>"; };
+		A15EA044286EC4DF0001E90C /* ActivityViewable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewable.swift; sourceTree = "<group>"; };
 		A18D5D90286AF812009DF803 /* UIAlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAlertController.swift; sourceTree = "<group>"; };
 		A1A8C5232862DCDD008A95A9 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		A1A8C5252862DCE5008A95A9 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
@@ -179,6 +181,15 @@
 			path = UseCase;
 			sourceTree = "<group>";
 		};
+		A15EA041286EC41B0001E90C /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				A15EA042286EC42C0001E90C /* Alertable.swift */,
+				A15EA044286EC4DF0001E90C /* ActivityViewable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		A18D5D8E286AE096009DF803 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,6 +286,7 @@
 		A1A8C5222862DC82008A95A9 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				A15EA041286EC41B0001E90C /* Protocol */,
 				4EBF1C022862E36400C35698 /* Error */,
 				A1DCA7D92858637E0022DB2A /* Extension */,
 				A1A8C5212862DC78008A95A9 /* Util */,
@@ -310,7 +322,6 @@
 				A1DCA7DA285863B80022DB2A /* Double.swift */,
 				A1DCA7E02858AC7F0022DB2A /* Collection.swift */,
 				4EC4B4952861910C00669E5D /* UITextView.swift */,
-				4EC4B49828619D6A00669E5D /* UIViewController.swift */,
 				A18D5D90286AF812009DF803 /* UIAlertController.swift */,
 			);
 			path = Extension;
@@ -498,6 +509,7 @@
 				A1DCA7D328582CFE0022DB2A /* MainView.swift in Sources */,
 				A152B1A3285C543300BA06A9 /* Diary.swift in Sources */,
 				A1A8C5282862DD5B008A95A9 /* RegistrationViewModel.swift in Sources */,
+				A15EA043286EC42C0001E90C /* Alertable.swift in Sources */,
 				4ED43D43286AD68E008CB017 /* NetworkManager.swift in Sources */,
 				4ED43D37286ACE3F008CB017 /* EndpointStorage.swift in Sources */,
 				4EBF1C042862E37400C35698 /* DiaryError.swift in Sources */,
@@ -506,9 +518,9 @@
 				03EB042828586A30008A68FC /* DetailView.swift in Sources */,
 				A1A8C5242862DCDD008A95A9 /* MainViewModel.swift in Sources */,
 				4ED43D41286AD51B008CB017 /* WeatherRequest.swift in Sources */,
+				A15EA045286EC4DF0001E90C /* ActivityViewable.swift in Sources */,
 				4EB67BC228648D4600D00805 /* Weather.swift in Sources */,
 				4ED43D33286ACB26008CB017 /* DiaryCellViewModel.swift in Sources */,
-				4EC4B49928619D6A00669E5D /* UIViewController.swift in Sources */,
 				4EC4B4962861910C00669E5D /* UITextView.swift in Sources */,
 				4ED43D3B286ACFDB008CB017 /* NetworkError.swift in Sources */,
 				03F6F4D4286AE1A500CAE1A5 /* Observable.swift in Sources */,
