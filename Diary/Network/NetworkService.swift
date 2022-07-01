@@ -7,13 +7,6 @@
 
 import Foundation
 
-enum NetworkError: Error {
-  case invalidateEndpoint
-  case invalidateRequest
-  case invalidateResponse
-  case internalServerError
-}
-
 final class NetworkService {
   private let session: URLSession
 
