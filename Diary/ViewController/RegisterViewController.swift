@@ -6,11 +6,14 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class RegisterViewController: UIViewController, ErrorAlertProtocol {
+    private let locationManager = CLLocationManager()
     private var diaryModel: DiaryModel?
     private lazy var detailView = DetailView(frame: view.frame)
     private let diaryViewModel = DiaryViewModel()
+//    private var icon: String?
 }
 
 // MARK: - View Life Cycle Method
@@ -27,6 +30,7 @@ extension RegisterViewController {
         self.view.backgroundColor = .systemBackground
         registerDidEnterBackgroundNotification()
         registerKeyboardNotifications()
+        registerCoreLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,7 +61,8 @@ extension RegisterViewController {
         do {
             try diaryViewModel.checkDiaryData(
                 title: detailView.titleField.text,
-                body: detailView.descriptionView.text
+                body: detailView.descriptionView.text,
+                icon: diaryModel?.weatherImage
             )
         } catch {
             showAlert(alertMessage: error.localizedDescription)
@@ -103,5 +108,48 @@ extension RegisterViewController {
     @objc func keyboardWillHide(notification: NSNotification) {
         detailView.mainScrollView.contentInset.bottom = .zero
         sendDiaryViewModel()
+    }
+}
+
+// MARK: - Core Location Method
+
+extension RegisterViewController: CLLocationManagerDelegate {
+    
+    private func registerCoreLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+    }
+    
+    func locationManager(
+        _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
+        if let location = locations.last {
+            locationManager.stopUpdatingLocation()
+            let latitude = Double(location.coordinate.latitude)
+            let longitude = Double(location.coordinate.longitude)
+            let diaryRegisterUseCase = DiaryRegisterUseCase(
+                network: Network(),
+                jsonDecoder: JSONDecoder(),
+                coordinateManager: CoordinateManager(
+                    latitude: latitude,
+                    longitude: longitude
+                )
+            )
+            diaryRegisterUseCase.requestWeatherInformation { [weak self] data in
+                guard let icon = data.weather.first?.icon else { return }
+                self?.diaryModel?.weatherImage = icon
+            } errorHandler: { error in
+                print(error)
+            }
+        }
+    }
+    
+    func locationManager(
+        _ manager: CLLocationManager,
+        didFailWithError error: Error
+    ) {
+        print("Error: \(error.localizedDescription)")
     }
 }
