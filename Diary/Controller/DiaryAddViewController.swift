@@ -11,13 +11,13 @@ import CoreLocation
 final class DiaryAddViewController: DiaryBaseViewController {
   private let storageManger: DiaryStorageManager
   private let locationManager: CLLocationManager
-  private let repository: WeatherRepository
+  private let weatherService: WeatherService
   private var weather: Weather?
 
   init(storageManger: DiaryStorageManager) {
     self.storageManger = storageManger
     self.locationManager = CLLocationManager()
-    self.repository = WeatherRepository(networkService: .init(session: .shared))
+    self.weatherService = WeatherService(networking: .init(session: .shared))
     super.init(nibName: nil, bundle: nil)
     self.observeDidEnterBackgroundNotification()
     self.initializeLocationManager()
@@ -61,7 +61,7 @@ extension DiaryAddViewController: CLLocationManagerDelegate {
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     if let coordinate = locations.last?.coordinate {
       self.locationManager.stopUpdatingLocation()
-      self.repository.fetchWeather(lat: coordinate.latitude, lon: coordinate.longitude) { [weak self] weather in
+      self.weatherService.fetchWeather(lat: coordinate.latitude, lon: coordinate.longitude) { [weak self] weather in
         self?.weather = weather
       }
     }
