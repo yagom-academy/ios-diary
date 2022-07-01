@@ -248,17 +248,16 @@ extension DiaryViewController {
             return
         }
         
-        for element in weather {
-            guard let main = element["main"] as? String else {
-                return
-            }
-            
-            guard let iconID = element["icon"] as? String else {
-                return
-            }
-            
-            self.setWeatherImage(iconID)
-            self.weather = Weather(main: main, iconID: iconID)
+        guard let weatherData = weather.first else {
+            return
         }
+        
+        guard let main = weatherData["main"] as? String,
+              let iconID = weatherData["icon"] as? String else {
+            return
+        }
+        
+        self.setWeatherImage(iconID)
+        self.weather = Weather(main: main, iconID: iconID)
     }
 }
