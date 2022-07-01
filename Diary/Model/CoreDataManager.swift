@@ -42,16 +42,17 @@ final class CoreDataManager {
     
     private func create(_ diaryData: Diary) {
         let diary = DiaryModel(context: context)
-        
         diary.title = diaryData.title
         diary.body = diaryData.body
         diary.text = diaryData.text
         diary.createdAt = diaryData.createdAt
         diary.id = diaryData.id
-        diary.weatherModel = WeatherModel(context: context)
+        
+        let weather = WeatherModel(context: context)
         diary.weatherModel?.main = diaryData.weather?.main
         diary.weatherModel?.iconID = diaryData.weather?.iconID
         diary.weatherModel?.iconImage = diaryData.weather?.iconImage
+        diary.weatherModel = weather
         
         saveContext()
     }
