@@ -9,8 +9,8 @@ import Foundation
 
 final class APIProvider {
     private let session: URLSession
-    private var bodyParameters: Encodable?
-    private var headers: [String: String]?
+    private let bodyParameters: Encodable?
+    private let headers: [String: String]?
     
     init(session: URLSession = URLSession.shared,
          bodyParameters: Encodable? = nil,
@@ -133,7 +133,7 @@ fileprivate extension Encodable {
             }
             return .success(jsonData)
         } catch {
-            return .failure(.decodeError)
+            return .failure(.encodeError)
         }
     }
 }
