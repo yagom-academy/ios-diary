@@ -131,7 +131,7 @@ final class DiaryUseCase {
                                completionHandler: @escaping (DiaryInfo) -> Void,
                                errorHandler: @escaping (Error) -> Void) {
         if let location = location {
-            weatherUseCase.requestWeatherData(location: location) { weatherDatas in
+            weatherUseCase.requestWeatherData(location: location) { (weatherDatas: WeatherData) in
                 do {
                     guard let weatherData = weatherDatas.weather.first else {
                         throw NetworkError.dataError

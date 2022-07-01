@@ -16,9 +16,9 @@ struct WeatherDataUseCase {
         self.jsonDecoder = jsonDecoder
     }
     
-    func requestWeatherData(
+    func requestWeatherData<T: Decodable>(
         location: Location,
-        completeHandler: @escaping (WeatherData) -> Void,
+        completeHandler: @escaping (T) -> Void,
         errorHandler: @escaping (Error) -> Void
     ) {
         guard let url = WeatherApi.weatherData(lat: location.lat, lon: location.lon).url else {
@@ -27,7 +27,7 @@ struct WeatherDataUseCase {
         }
         
         network.requestData(url) { data, _ in
-            guard let decodedData = try? jsonDecoder.decode(WeatherData.self, from: data) else {
+            guard let decodedData = try? jsonDecoder.decode(T.self, from: data) else {
                 errorHandler(NetworkError.dataError)
                 return
             }
