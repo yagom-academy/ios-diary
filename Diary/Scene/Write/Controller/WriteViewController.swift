@@ -8,22 +8,10 @@
 import UIKit
 import CoreLocation
 
-final class WriteViewController: DiaryBaseViewController {
+final class WriteViewController: DiaryBaseViewController ,CLLocationManagerDelegate {
   private lazy var baseView = BaseTextView(frame: view.bounds)
-  var weatherData: Weather?
-  
-  private let latitude: CLLocationDegrees
-  private let longitude: CLLocationDegrees
-  
-  init(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
-    self.latitude = latitude
-    self.longitude = longitude
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+  private var weatherData: Weather?
+  private let locationManager = CLLocationManager()
   
   override func loadView() {
     super.loadView()
@@ -37,6 +25,7 @@ final class WriteViewController: DiaryBaseViewController {
     addKeyboardObserver(action: #selector(keyboardWillShow))
     addGesture()
     addSaveDiaryObserver(action: #selector(diaryDataSave))
+    setlocationManager()
   }
   
   override func viewWillDisappear(_ animated: Bool) {
@@ -76,7 +65,19 @@ final class WriteViewController: DiaryBaseViewController {
       iconID: weather.icon)
   }
   
+  private func setlocationManager() {
+    locationManager.delegate = self
+    locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    locationManager.requestWhenInUseAuthorization()
+    locationManager.stopUpdatingLocation()
+  }
+  
   private func fecthData() {
+    guard let latitude = locationManager.location?.coordinate.latitude,
+          let longitude = locationManager.location?.coordinate.longitude else {
+      return
+    }
+    
     WeatherService().fetch(api: .weatherApi(lat: latitude, lon: longitude)) { result in
       switch result {
       case .success(let weatherResponse):
