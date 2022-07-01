@@ -23,6 +23,7 @@ final class MainViewController: UIViewController, Alertable, ActivityViewable {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        bind()
         setUpNavigationBar()
     }
     
@@ -47,6 +48,20 @@ extension MainViewController {
     private func setUpDiaries() {
         DispatchQueue.main.async {
             self.mainView.reloadBaseTableView()
+        }
+    }
+    
+    private func bind() {
+        viewModel.error.subscribe { [weak self] errorType in
+            guard let self = self else {
+                return
+            }
+            
+            self.alertController.showConfirmAlert(
+                title: "오류",
+                message: errorType.errorDescription,
+                presentedViewController: self
+            )
         }
     }
 }
@@ -130,26 +145,10 @@ extension MainViewController {
 
 extension MainViewController {
     private func viewWillAppearEvent() {
-        do {
-            try viewModel.viewWillAppear()
-        } catch {
-            alertController.showConfirmAlert(
-                title: "오류",
-                message: DiaryError.loadFail.errorDescription,
-                presentedViewController: self
-            )
-        }
+        viewModel.viewWillAppear()
     }
     
     private func didTapDeleteButtonEvent(by indexPath: IndexPath) {
-        do {
-            try viewModel.didTapDeleteButton(by: indexPath)
-        } catch {
-            alertController.showConfirmAlert(
-                title: "오류",
-                message: DiaryError.loadFail.errorDescription,
-                presentedViewController: self
-            )
-        }
+        viewModel.didTapDeleteButton(by: indexPath)
     }
 }
