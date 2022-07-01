@@ -10,8 +10,13 @@
 |<img width="150" src="https://avatars.githubusercontent.com/u/94295586?v=4"/>|<img width="150" src="https://avatars.githubusercontent.com/u/94151993?v=4"/>|
 
 ## 프로젝트 기간
+> 2022.06.13(월) ~ 07.01(금) 리뷰어: [@루카스(innocarpe)](https://github.com/innocarpe)
 
-> 2022.06.13(월) ~ 07.01(금)
+## 목차
+- [1. 키워드](#키워드)
+- [2. 프로젝트 구조](#프로젝트-구조)
+- [3. 트러블 슈팅](#트러블-슈팅)
+- [4. 실행화면](#실행화면)
 
 ## 키워드
 
@@ -31,6 +36,14 @@
 ## 프로젝트 구조
 
 ![](https://i.imgur.com/Ef4qlN4.png)
+
+## PR 코드 리뷰
+
+|STEP 1|STEP 2|STEP 3|
+|:---:|:---:|:---:|
+|[STEP 1-1](https://github.com/yagom-academy/ios-diary/pull/5)|[STEP 2-1](https://github.com/yagom-academy/ios-diary/pull/19)|[STEP 3-1](https://github.com/yagom-academy/ios-diary/pull/30)|
+|[STEP 1-2](https://github.com/yagom-academy/ios-diary/pull/13)|[STEP 2-2](https://github.com/yagom-academy/ios-diary/pull/22)|[STEP 3-2](https://github.com/yagom-academy/ios-diary/pull/32)|
+|[STEP 1-3](https://github.com/yagom-academy/ios-diary/pull/14)|[STEP 2-3](https://github.com/yagom-academy/ios-diary/pull/26)|
 
 ## 트러블 슈팅
 
