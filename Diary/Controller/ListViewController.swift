@@ -150,11 +150,8 @@ extension ListViewController: UISearchBarDelegate {
                    searchedDiaries = diaries
         } else {
             searchedDiaries = []
-            searchedDiaries = diaries.compactMap {
-                if $0.title.contains(keyword) || $0.body.contains(keyword) {
-                    return $0
-                }
-                return nil
+            searchedDiaries = diaries.filter {
+                $0.title.contains(keyword) || $0.body.contains(keyword)
             }
         }
     }
