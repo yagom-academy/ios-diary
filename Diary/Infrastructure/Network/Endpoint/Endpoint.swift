@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Endpoint {
+struct Endpoint {
     var baseURL: String
     var path: String
     var method: HttpMethod
