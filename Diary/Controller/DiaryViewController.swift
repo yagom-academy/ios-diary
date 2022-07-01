@@ -194,6 +194,7 @@ extension DiaryViewController {
         let apiKey = "783e209f3bc56998f3575fbe0168df43"
 
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appid=\(apiKey)") else {
+            self.setDiary()
             return
         }
         
