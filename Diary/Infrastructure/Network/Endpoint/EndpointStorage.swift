@@ -21,7 +21,7 @@ enum EndpointStorage {
     case weatherInfo(_ latitude: Double, _ longitude: Double)
     case weatherIcon(_ icon: String)
     
-    var endPoint: Requestable {
+    var endPoint: Endpoint {
         switch self {
         case .weatherInfo(let latitude, let longitude):
             return Endpoint(

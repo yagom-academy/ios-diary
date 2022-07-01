@@ -8,14 +8,14 @@
 import Foundation
 
 final class WeatherRepository {
-    private let networkManager = NetworkManager()
+    private let service = APIProvider()
     private let jsonDecoder = JSONDecoder()
     
     func requestAPI (
-        with endpoint: Requestable,
+        with endpoint: Endpoint,
         completion: @escaping (Result<Weather?, NetworkError>) -> Void
     ) {
-        networkManager.request(endpoint: endpoint) { [weak self] result in
+        service.request(endpoint: endpoint) { [weak self] result in
             guard let self = self else {
                 return
             }

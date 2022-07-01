@@ -8,7 +8,7 @@
 import UIKit
 
 final class ImageDownloader {
-    private let networkManager = NetworkManager()
+    private let service = APIProvider()
     private let imageCacheManager = ImageCacheManager()
     private var task: URLSessionDataTask?
     
@@ -46,10 +46,10 @@ final class ImageDownloader {
     
     @discardableResult
     private func requestImageAPI(
-        with endpoint: Requestable,
+        with endpoint: Endpoint,
         completion: @escaping (Result<UIImage, NetworkError>) -> Void
     ) -> URLSessionDataTask? {
-        return networkManager.request(endpoint: endpoint) { result in
+        return service.request(endpoint: endpoint) { result in
             switch result {
             case .success(let result):
                 guard let image = UIImage(data: result) else {
