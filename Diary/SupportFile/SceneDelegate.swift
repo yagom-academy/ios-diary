@@ -13,8 +13,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let diaryTableViewController = DiaryTableViewController.instance(persistentManager: PersistentManager(modelName: "Diary"))
-        window?.rootViewController = UINavigationController(rootViewController: diaryTableViewController)
+        let rootCoordinator = DiaryTableCoordinator()
+        let databaseManager = CoreDataManager(modelName: "Diary")
+        let rootViewController = DiaryTableViewController(coordinator: rootCoordinator, databaseManager: databaseManager)
+        rootCoordinator.viewController = rootViewController
+        
+        window?.rootViewController = UINavigationController(rootViewController: rootViewController)
         window?.makeKeyAndVisible()
     }
 
@@ -26,7 +30,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneWillEnterForeground(_ scene: UIScene) {}
 
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        NotificationCenter.default.post(name: .background, object: nil)
-    }
+    func sceneDidEnterBackground(_ scene: UIScene) {}
 }

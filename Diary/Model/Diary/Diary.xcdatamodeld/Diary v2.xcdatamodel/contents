@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DiaryEntity" representedClassName="DiaryEntity" syncable="YES">
+        <attribute name="body" attributeType="String"/>
+        <attribute name="createdDate" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="String"/>
+        <attribute name="title" attributeType="String"/>
+        <attribute name="weather" optional="YES" attributeType="String"/>
+        <attribute name="weatherIcon" optional="YES" attributeType="String"/>
+    </entity>
+    <elements>
+        <element name="DiaryEntity" positionX="-63" positionY="-18" width="128" height="119"/>
+    </elements>
+</model>

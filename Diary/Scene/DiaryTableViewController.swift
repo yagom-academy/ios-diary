@@ -7,8 +7,8 @@
 import UIKit
 
 extension DiaryTableViewController {
-    static func instance(persistentManager: PersistentManager) -> DiaryTableViewController {
-        return DiaryTableViewController(persistentManager: persistentManager)
+    static func instance(coordinator: DiaryTableCoordinator, databaseManager: DatabaseManageable) -> DiaryTableViewController {
+        return DiaryTableViewController(coordinator: coordinator, databaseManager: databaseManager)
     }
 }
 
@@ -17,16 +17,18 @@ final class DiaryTableViewController: UITableViewController {
     private typealias DataSource = UITableViewDiffableDataSource<Int, Diary>
     
     private var dataSource: DataSource?
-    private let persistentManager: PersistentManager!
-
+    private let coordinator: DiaryTableCoordinator
+    private let databaseManager: DatabaseManageable
+    
     private var diarys = [Diary]() {
         didSet {
             applySnapshot()
         }
     }
     
-    init(persistentManager: PersistentManager) {
-        self.persistentManager = persistentManager
+    init(coordinator: DiaryTableCoordinator, databaseManager: DatabaseManageable) {
+        self.coordinator = coordinator
+        self.databaseManager = databaseManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,24 +36,36 @@ final class DiaryTableViewController: UITableViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: View Life Cycle
+    // MARK: - View Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setUp()
     }
-        
+    
     private func create() {
-        let newDiary = Diary(title: "", body: "", createdDate: Date.now)
+        let newDiary = Diary(title: "", body: "", createdDate: Date.now, weather: nil)
         diarys.insert(newDiary, at: .zero)
-        persistentManager.create(data: newDiary)
+        databaseManager.create(data: newDiary)
     }
     
     private func read() {
-        guard let results = persistentManager.fetchAll() else { return }
+        guard let results = databaseManager.read() else { return }
         
         diarys = results.map { entity in
-            return Diary(title: entity.title, body: entity.body, createdDate: entity.createdDate, id: entity.id)
+            var weather: Weather?
+            
+            if let main = entity.weather, let icon = entity.weatherIcon {
+                weather = Weather(main: main, icon: icon)
+            }
+            
+            return Diary(
+                title: entity.title,
+                body: entity.body,
+                createdDate: entity.createdDate,
+                id: entity.id,
+                weather: weather
+            )
         }
     }
     
@@ -63,23 +77,16 @@ final class DiaryTableViewController: UITableViewController {
     private func addButtonDidTap() {
         create()
         guard let diary = diarys.first else { return }
-        
-        let diaryViewController = DiaryDetailViewController.instance(diary: diary)
-        diaryViewController.delegate = self
-        
-        navigationController?.pushViewController(diaryViewController, animated: true)
+        coordinator.pushToDiaryDetail(diary)
     }
 }
 
-// MARK: TableViewDelegate
+// MARK: - TableViewDelegate
 
 extension DiaryTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diary = diarys[indexPath.row]
-        let diaryViewController = DiaryDetailViewController.instance(diary: diary)
-        diaryViewController.delegate = self
-        
-        navigationController?.pushViewController(diaryViewController, animated: true)
+        coordinator.pushToDiaryDetail(diary)
     }
     
     override func tableView(
@@ -115,25 +122,25 @@ extension DiaryTableViewController {
     }
 }
 
-// MARK: DiaryDetailViewDelegate
+// MARK: - DiaryDetailViewDelegate
 
 extension DiaryTableViewController: DiaryDetailViewDelegate {
     func update(diary: Diary) {
         guard let index = find(id: diary.id) else { return }
     
         diarys[index] = diary
-        persistentManager.update(data: diary)
+        databaseManager.update(data: diary)
     }
     
     func delete(diary: Diary) {
         guard let index = find(id: diary.id) else { return }
     
         diarys.remove(at: index)
-        persistentManager.delete(data: diary)
+        databaseManager.delete(data: diary)
     }
 }
 
-// MARK: SetUp
+// MARK: - SetUp
 
 extension DiaryTableViewController {
     private func setUp() {

@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 protocol DiaryDetailViewDelegate: AnyObject {
     func update(diary: Diary)
@@ -13,8 +14,8 @@ protocol DiaryDetailViewDelegate: AnyObject {
 }
 
 extension DiaryDetailViewController {
-    static func instance(diary: Diary) -> DiaryDetailViewController {
-        return DiaryDetailViewController(diary: diary)
+    static func instance(coordinator: DiaryDetailCoordinator, diary: Diary) -> DiaryDetailViewController {
+        return DiaryDetailViewController(coordinator: coordinator, diary: diary)
     }
 }
 
@@ -32,10 +33,13 @@ final class DiaryDetailViewController: UIViewController {
         action: #selector(doneButtonDidTap)
     )
     
-    private let diary: Diary
+    private var diary: Diary
+    private let coordinator: DiaryDetailCoordinator
+    private let locationManager = CLLocationManager()
     weak var delegate: DiaryDetailViewDelegate?
     
-    init(diary: Diary) {
+    init(coordinator: DiaryDetailCoordinator, diary: Diary) {
+        self.coordinator = coordinator
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
@@ -88,7 +92,7 @@ final class DiaryDetailViewController: UIViewController {
                         guard let diary = self?.diary else { return }
                         
                         self?.delegate?.delete(diary: diary)
-                        self?.navigationController?.popViewController(animated: true)
+                        self?.coordinator.popViewController(animated: true)
                     }
                     .show(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert)
             }
@@ -106,12 +110,49 @@ final class DiaryDetailViewController: UIViewController {
             let title = String(texts[..<index])
             let body = texts[index...].trimmingCharacters(in: .newlines)
             
-            newDiary = Diary(title: title, body: body, createdDate: diary.createdDate, id: diary.id)
+            newDiary = Diary(
+                title: title,
+                body: body,
+                createdDate: diary.createdDate,
+                id: diary.id,
+                weather: diary.weather
+            )
         } else {
-            newDiary = Diary(title: texts, body: "", createdDate: diary.createdDate, id: diary.id)
+            newDiary = Diary(
+                title: texts,
+                body: "",
+                createdDate: diary.createdDate,
+                id: diary.id,
+                weather: diary.weather
+            )
         }
         
         delegate?.update(diary: newDiary)
+    }
+    
+    private func setDiaryWeather(with location: CLLocationCoordinate2D?) async {
+        do {
+            let weather = try await requestWeather(location: location)
+            diary.setWeather(weather)
+        } catch {
+            AlertBuilder(viewController: self)
+                .addAction(title: "확인", style: .default)
+                .show(title: "서버연결에 실패했습니다", message: "다시 시도해 보세요", style: .alert)
+        }
+    }
+    
+    private func requestWeather(location: CLLocationCoordinate2D?) async throws -> Weather? {
+        guard let location = location else { return nil }
+
+        let openWeahterAPI = OpenWeatherAPI(latitude: location.latitude, longitude: location.longitude)
+        let task = NetworkManager().request(api: openWeahterAPI)
+        
+        switch await task.result {
+        case .success(let data):
+            return WeatherInfomation.parse(data)?.weather.first
+        case .failure(let error):
+            throw error
+        }
     }
 }
 
@@ -128,6 +169,40 @@ extension DiaryDetailViewController: UITextViewDelegate {
         updateDiary()
     }
 }
+// MARK: - CLLocationManagerDelegate
+
+extension DiaryDetailViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last?.coordinate else { return }
+        
+        Task {
+            await setDiaryWeather(with: location)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        Task {
+            await setDiaryWeather(with: nil)
+        }
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .notDetermined:
+            locationManager.requestLocation()
+        case .restricted:
+            break
+        case .denied:
+            break
+        case .authorizedAlways:
+            locationManager.requestLocation()
+        case .authorizedWhenInUse:
+            locationManager.requestLocation()
+        @unknown default:
+            break
+        }
+    }
+}
 
 // MARK: - SetUp
 
@@ -136,6 +211,7 @@ extension DiaryDetailViewController {
         setUpNavigationBar()
         setUpNotification()
         setUpTextView()
+        setUpLocationManager()
     }
     
     private func setUpNavigationBar() {
@@ -149,7 +225,12 @@ extension DiaryDetailViewController {
     }
     
     private func setUpNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(updateDiary), name: .background, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(updateDiary),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
     }
     
     private func setUpTextView() {
@@ -159,6 +240,12 @@ extension DiaryDetailViewController {
         
         diaryTextView.contentOffset = .zero
         diaryTextView.delegate = self
+    }
+    
+    private func setUpLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyReduced
+        locationManager.requestWhenInUseAuthorization()
     }
     
     private func attribute() {

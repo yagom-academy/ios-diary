@@ -32,8 +32,16 @@ final class DiaryCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
+    }()
+    
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        
+        return imageView
     }()
     
     private let contentLabel: UILabel = {
@@ -41,6 +49,8 @@ final class DiaryCell: UITableViewCell {
         label.font = .preferredFont(forTextStyle: .footnote)
         return label
     }()
+    
+    private var imageDownloadTask: Task<Data, Error>?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -53,6 +63,14 @@ final class DiaryCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Cell Life Cycle
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        imageDownloadTask?.cancel()
+        weatherImageView.image = nil
+    }
+    
     // MARK: - Funcitons
     
     private func attribute() {
@@ -60,7 +78,7 @@ final class DiaryCell: UITableViewCell {
     }
     
     private func addSubviews() {
-        bottomStackView.addArrangedSubviews(dateLabel, contentLabel)
+        bottomStackView.addArrangedSubviews(dateLabel, weatherImageView, contentLabel)
         baseStackView.addArrangedSubviews(titleLabel, bottomStackView)
         
         contentView.addSubview(baseStackView)
@@ -73,11 +91,29 @@ final class DiaryCell: UITableViewCell {
             baseStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             baseStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
+        
+        NSLayoutConstraint.activate([
+            weatherImageView.widthAnchor.constraint(equalToConstant: 30),
+            weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.heightAnchor)
+        ])
     }
     
     func setUpItem(with diary: Diary) {
         titleLabel.text = diary.title
         dateLabel.text = diary.createdDate.formattedString
+        setUpImage(with: diary.weather?.icon)
         contentLabel.text = diary.body
+    }
+    
+    private func setUpImage(with url: String?) {
+        guard let url = url else { return }
+        
+        let openWeatherIconImageAPI = OpenWeatherIconImageAPI(imageURL: url)
+        imageDownloadTask = NetworkManager().request(api: openWeatherIconImageAPI)
+        
+        Task {
+            guard let imageData = try await imageDownloadTask?.value else { return }
+            weatherImageView.image = UIImage(data: imageData)
+        }
     }
 }
