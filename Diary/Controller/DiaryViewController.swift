@@ -179,25 +179,19 @@ class DiaryViewController: UIViewController {
 }
 
 // MARK: - weather info
-    private func getCoordinate() -> (latitude: Double, longitude: Double)? {
+extension DiaryViewController {
+    var coordinate: (latitude: Double, longitude: Double) {
         let coordinate = locationManager?.location?.coordinate
-        guard let latitude = coordinate?.latitude else {
-            return nil
+        guard let latitude = coordinate?.latitude,
+              let longitude = coordinate?.longitude else {
+            return (0, 0)
         }
-        
-        guard let longtitude = coordinate?.longitude else {
-            return nil
-        }
-        
-        return (latitude, longtitude)
+                
+        return (latitude, longitude)
     }
     
     private func setWeatherInfo() {
         let apiKey = "783e209f3bc56998f3575fbe0168df43"
-        
-        guard let coordinate = getCoordinate() else {
-            return
-        }
 
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appid=\(apiKey)") else {
             return
