@@ -54,7 +54,6 @@ class DiaryViewController: UIViewController {
                 return
             }
             
-            locationManager.delegate = self
             locationManager.requestWhenInUseAuthorization()
             locationManager.startUpdatingLocation()
         }
@@ -180,7 +179,6 @@ class DiaryViewController: UIViewController {
 }
 
 // MARK: - weather info
-extension DiaryViewController: CLLocationManagerDelegate {
     private func getCoordinate() -> (latitude: Double, longitude: Double)? {
         let coordinate = locationManager?.location?.coordinate
         guard let latitude = coordinate?.latitude else {
