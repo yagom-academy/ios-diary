@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		766AA509243A8B56BB950F37 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A6F4A49657B16893BC04BEA /* Pods_Diary.framework */; };
+		AC44C71B286EB7F600BA32FA /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC44C71A286EB7F600BA32FA /* Weather.swift */; };
 		AC50348928582BDE0068C2A0 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC50348828582BDE0068C2A0 /* ListTableViewCell.swift */; };
 		AC50348C28582C450068C2A0 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC50348B28582C450068C2A0 /* UIStackView+.swift */; };
 		AC7E277A2860027E00FB90D0 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7E27792860027E00FB90D0 /* AddViewController.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		1A6F4A49657B16893BC04BEA /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		644742BD92F229768ED4FCB4 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
+		AC44C71A286EB7F600BA32FA /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		AC50348828582BDE0068C2A0 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		AC50348B28582C450068C2A0 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		AC7E27792860027E00FB90D0 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				B3FE9B3A285853F60006A7AB /* Diary.swift */,
+				AC44C71A286EB7F600BA32FA /* Weather.swift */,
 				B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */,
 			);
 			path = Model;
@@ -303,6 +306,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				B3798840286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift in Sources */,
+				AC44C71B286EB7F600BA32FA /* Weather.swift in Sources */,
 				ACFA965628596909009DFD8F /* DiaryView.swift in Sources */,
 				B3FE9B39285820680006A7AB /* MainView.swift in Sources */,
 				B3FE9B3D2858890D0006A7AB /* DiaryViewController.swift in Sources */,
