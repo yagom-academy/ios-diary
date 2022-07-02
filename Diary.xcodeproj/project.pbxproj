@@ -12,6 +12,9 @@
 		AC50348C28582C450068C2A0 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC50348B28582C450068C2A0 /* UIStackView+.swift */; };
 		AC7E277A2860027E00FB90D0 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7E27792860027E00FB90D0 /* AddViewController.swift */; };
 		AC7E277C2860028500FB90D0 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7E277B2860028500FB90D0 /* EditViewController.swift */; };
+		ACAD5F82286FE7710065B7A6 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAD5F81286FE7710065B7A6 /* HTTPMethod.swift */; };
+		ACAD5F84286FE8220065B7A6 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAD5F83286FE8220065B7A6 /* APIable.swift */; };
+		ACAD5F86286FE8640065B7A6 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAD5F85286FE8640065B7A6 /* NetworkError.swift */; };
 		ACFA965628596909009DFD8F /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFA965528596909009DFD8F /* DiaryView.swift */; };
 		B32FEFA228600F5600F3A6B5 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA028600F5600F3A6B5 /* Model.xcdatamodeld */; };
 		B3427841286192F3004488E4 /* Notification.Name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3427840286192F3004488E4 /* Notification.Name+.swift */; };
@@ -41,6 +44,9 @@
 		AC50348B28582C450068C2A0 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		AC7E27792860027E00FB90D0 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		AC7E277B2860028500FB90D0 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		ACAD5F81286FE7710065B7A6 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		ACAD5F83286FE8220065B7A6 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
+		ACAD5F85286FE8640065B7A6 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		ACFA965528596909009DFD8F /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		B32FEFA128600F5600F3A6B5 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		B3427840286192F3004488E4 /* Notification.Name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Notification.Name+.swift"; path = "Diary/Controller/Notification.Name+.swift"; sourceTree = SOURCE_ROOT; };
@@ -99,6 +105,17 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		ACAD5F7F286FE7460065B7A6 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B3C41725286F2C7B0080EA8A /* NetworkManager.swift */,
+				ACAD5F83286FE8220065B7A6 /* APIable.swift */,
+				ACAD5F81286FE7710065B7A6 /* HTTPMethod.swift */,
+				ACAD5F85286FE8640065B7A6 /* NetworkError.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		B3FE9B3E28588A8B0006A7AB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,7 +142,7 @@
 			children = (
 				B3FE9B3A285853F60006A7AB /* Diary.swift */,
 				B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */,
-				B3C41725286F2C7B0080EA8A /* NetworkManager.swift */,
+				ACAD5F7F286FE7460065B7A6 /* Network */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -306,12 +323,15 @@
 				B3FB2B2B285C1EC6009A932C /* Date+.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				ACAD5F84286FE8220065B7A6 /* APIable.swift in Sources */,
 				B3798840286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift in Sources */,
 				ACFA965628596909009DFD8F /* DiaryView.swift in Sources */,
 				B3FE9B39285820680006A7AB /* MainView.swift in Sources */,
 				B3FE9B3D2858890D0006A7AB /* DiaryViewController.swift in Sources */,
+				ACAD5F86286FE8640065B7A6 /* NetworkError.swift in Sources */,
 				AC50348928582BDE0068C2A0 /* ListTableViewCell.swift in Sources */,
 				B32FEFA228600F5600F3A6B5 /* Model.xcdatamodeld in Sources */,
+				ACAD5F82286FE7710065B7A6 /* HTTPMethod.swift in Sources */,
 				B3D761702860131C00C4AE94 /* CoreDataManager.swift in Sources */,
 				B3FE9B3B285853F60006A7AB /* Diary.swift in Sources */,
 			);
