@@ -13,23 +13,7 @@ struct NetworkManager {
         
         switch apiAble.method {
         case .get:
-            var urlComponent = URLComponents(string: apiAble.url + apiAble.path)
-            
-            if let params = apiAble.params {
-                urlComponent?.queryItems = params.compactMap {
-                    URLQueryItem(name: $0.key, value: $0.value)
-                }
-            } else {
-                guard let iconID = apiAble.iconID else {
-                    return
-                }
-                
-                let iconParams = "\(iconID).png"
-                
-                urlComponent = URLComponents(string: apiAble.url + apiAble.path + iconParams)
-            }
-            
-            guard let url = urlComponent?.url else {
+            guard let url = makeURL(apiAble) else {
                 return
             }
             
@@ -62,5 +46,29 @@ struct NetworkManager {
         case .delete:
             print(#function)
         }
+    }
+    
+    private func makeURL(_ apiAble: APIable) -> URL? {
+        var urlComponent = URLComponents(string: apiAble.url + apiAble.path)
+        
+        if let params = apiAble.params {
+            urlComponent?.queryItems = params.compactMap {
+                URLQueryItem(name: $0.key, value: $0.value)
+            }
+        } else {
+            guard let iconID = apiAble.iconID else {
+                return nil
+            }
+            
+            let iconParams = "\(iconID).png"
+            
+            urlComponent = URLComponents(string: apiAble.url + apiAble.path + iconParams)
+        }
+        
+        guard let url = urlComponent?.url else {
+            return nil
+        }
+        
+        return url
     }
 }
