@@ -23,4 +23,24 @@ final class ParserTests: XCTestCase {
     // then
     XCTAssertEqual(title, expectedValue)
   }
+
+  func testDecode_Weather데이터를불러왔을때_올바르게decode가되어야한다() {
+    let promise = expectation(description: "NetworkServiceExpectation")
+
+    let networking = Networking(session: .shared)
+    let endpoint = APIEndpoint.weatherEndpoint(lat: 33.33, lon: 12.33)
+
+    networking.request(endpoint: endpoint) { result in
+      guard case let .success(data) = result else {
+        XCTFail()
+        return
+      }
+      let result = Parser.decode(WeatherResponse.self, data: data)
+      XCTAssertNotNil(result)
+
+      promise.fulfill()
+    }
+
+    wait(for: [promise], timeout: 5)
+  }
 }
