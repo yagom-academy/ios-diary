@@ -67,7 +67,8 @@ extension DetailViewController {
         do {
             try diaryViewModel.checkDiaryData(
                 title: detailView.titleField.text,
-                body: detailView.descriptionView.text
+                body: detailView.descriptionView.text,
+                icon: diaryData.weatherImage
             )
         } catch {
             showAlert(alertMessage: error.localizedDescription)

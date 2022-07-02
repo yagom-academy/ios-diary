@@ -45,9 +45,16 @@ final class ListCell: UICollectionViewListCell {
         label.font = .preferredFont(forTextStyle: .caption1)
         return label
     }()
+    
+    private lazy var weatherIconImageView: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFit
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
         
     private lazy var horizontalStackView: UIStackView = {
-        let view = UIStackView(arrangedSubviews: [dateLabel, descriptionLabel])
+        let view = UIStackView(arrangedSubviews: [dateLabel, weatherIconImageView ,descriptionLabel])
         view.axis = .horizontal
         view.alignment = .center
         view.distribution = .fill
@@ -84,6 +91,21 @@ extension ListCell {
         titleLabel.text = diaryModel.title
         descriptionLabel.text = diaryModel.body
         dateLabel.text = diaryModel.createdAt.formattedDate
+        updateWeatherIconImage(icon: diaryModel.weatherImage)
+    }
+    
+    private func updateWeatherIconImage(icon: String) {
+        let iconImageUseCase = IconImageUseCase(
+            network: Network(),
+            iconManager: IconManager(icon: icon)
+        )
+        iconImageUseCase.requestWeatherIconImage { [weak self] data in
+            DispatchQueue.main.async {
+                self?.weatherIconImageView.image = data
+            }
+        } errorHandler: { error in
+            print(error)
+        }
     }
     
     private func setSubviews() {
@@ -91,6 +113,7 @@ extension ListCell {
     }
     
     private func setConstraints() {
+        
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor,
@@ -110,14 +133,21 @@ extension ListCell {
             )
         ])
         
+        NSLayoutConstraint.activate([
+            weatherIconImageView.widthAnchor.constraint(equalTo: horizontalStackView.widthAnchor, multiplier: 0.1),
+            weatherIconImageView.heightAnchor.constraint(equalTo: weatherIconImageView.widthAnchor)
+        ])
+        
         dateLabel.setContentHuggingPriority(
-            .defaultLow,
+            .required,
             for: .horizontal
         )
         dateLabel.setContentCompressionResistancePriority(
             .defaultHigh,
             for: .horizontal
         )
+        weatherIconImageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        weatherIconImageView.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         descriptionLabel.setContentHuggingPriority(
             .defaultHigh,
             for: .horizontal

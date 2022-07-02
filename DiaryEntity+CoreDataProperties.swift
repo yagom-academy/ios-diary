@@ -24,6 +24,7 @@ extension DiaryEntity {
     @NSManaged public var createdAt: Date
     @NSManaged public var title: String?
     @NSManaged public var id: String
+    @NSManaged public var weatherImage: String
 
 }
 

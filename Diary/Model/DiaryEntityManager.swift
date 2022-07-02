@@ -36,11 +36,13 @@ final class DiaryEntityManager {
     }
     
     func create(diary: DiaryModel) throws {
+        
         let data = DiaryEntity(context: context)
         data.title = diary.title
         data.body = diary.body
         data.createdAt = diary.createdAt
         data.id = diary.id
+        data.weatherImage = diary.weatherImage
         try saveContext()
     }
     
@@ -59,7 +61,8 @@ final class DiaryEntityManager {
                 title: diaryEntity.title,
                 body: diaryEntity.body,
                 createdAt: diaryEntity.createdAt,
-                id: diaryEntity.id
+                id: diaryEntity.id,
+                weatherImage: diaryEntity.weatherImage
             )
         }
     }
@@ -76,6 +79,7 @@ final class DiaryEntityManager {
             diaryEntity.title = diary.title
             diaryEntity.body = diary.body
             diaryEntity.createdAt = diary.createdAt
+            diaryEntity.weatherImage = diary.weatherImage
         }
         try saveContext()
     }

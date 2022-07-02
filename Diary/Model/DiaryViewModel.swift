@@ -15,12 +15,13 @@ final class DiaryViewModel {
         self.diaryModel = diaryModel
     }
     
-    private func create(title: String, body: String) throws {
+    private func create(title: String, body: String, icon: String) throws {
         diaryModel = DiaryModel(
             title: title,
             body: body,
             createdAt: Date(),
-            id: UUID().uuidString
+            id: UUID().uuidString,
+            weatherImage: icon
         )
         guard let diary = diaryModel else {
             return
@@ -30,14 +31,17 @@ final class DiaryViewModel {
     
     private func update(title: String, body: String) throws {
         guard let createdAt = diaryModel?.createdAt,
-                let id = diaryModel?.id else {
+              let id = diaryModel?.id,
+              let weatherImage = diaryModel?.weatherImage else {
             return
         }
         diaryModel = DiaryModel(
             title: title,
             body: body,
             createdAt: createdAt,
-            id: id)
+            id: id,
+            weatherImage: weatherImage
+        )
         guard let diary = diaryModel else {
             return
         }
@@ -48,15 +52,15 @@ final class DiaryViewModel {
         try DiaryEntityManager.shared.delete(diary: diaryData)
     }
     
-    func checkDiaryData(title: String?, body: String?) throws {
-        guard let title = title, let body = body else {
+    func checkDiaryData(title: String?, body: String?, icon: String?) throws {
+        guard let title = title, let body = body, let icon = icon else {
             return
         }
         if title.isEmpty && body.isEmpty {
             return
         }
         if diaryModel == nil {
-            try create(title: title, body: body)
+            try create(title: title, body: body, icon: icon)
         } else {
             try update(title: title, body: body)
         }
