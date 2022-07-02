@@ -5,7 +5,7 @@ Core Data를 활용하여 로컬에 데이터를 저장하는 일기장 앱
 
 |[마리솔](https://github.com/marisol-develop)|[두기](https://github.com/doogie97)|
 |:-:|:-:|
-|![](https://i.imgur.com/D1eMxU3.png)|<img src="https://i.imgur.com/ItogH6r.png" width="380" height="380"/>
+|![](https://i.imgur.com/D1eMxU3.png)|<img src="https://i.imgur.com/ItogH6r.png" width="380" height="350"/>
 
 
 ## 📅 프로젝트 기간
@@ -25,6 +25,11 @@ Core Data를 활용하여 로컬에 데이터를 저장하는 일기장 앱
 | 6/22(수) | 일기 공유와 삭제 기능 구현 |
 | 6/23(목) | 개인 공부 |
 | 6/24(금) | STEP2 리팩터링 |
+| 6/27(월) | CoreData Migration과 API 통신 학습 |
+| 6/28(화) | STEP3 구현 |
+| 6/29(수) | STEP3 PR, Bonus Step 구현 (search 기능) |
+| 6/30(목) | 개인 공부 |
+| 7/1(금)~7/2(토) | STEP3 리팩터링 |
 
 ## 📱 실행 화면
 
@@ -40,9 +45,16 @@ Core Data를 활용하여 로컬에 데이터를 저장하는 일기장 앱
 |:-:|:-:|
 |![](https://i.imgur.com/j9lKUvv.gif)|![](https://i.imgur.com/UtSg01N.gif)|
 
-|7. Share(공유하기)|
+|7. Share(공유하기)|8. 위치정보로 날씨표시 기능|
+|:-:|:-:|
+|![](https://i.imgur.com/VRtuyP1.gif)|![](https://i.imgur.com/H3d2Ka7.gif)
+|
+
+|9. 검색 기능|
 |:-:|
-|![](https://i.imgur.com/VRtuyP1.gif)|
+|![](https://i.imgur.com/Z2xUZB6.gif)
+|
+
 
 ## 💡 트러블 슈팅
 
@@ -51,7 +63,7 @@ Core Data를 활용하여 로컬에 데이터를 저장하는 일기장 앱
 ![](https://i.imgur.com/tTYTlu3.png)
 테이블 뷰에서 cell을 추가한 뒤 hierarchy를 확인하면 위 사진과 같이 앞으로 점점 나오는 현상이 있었다.
 기능 요구서와 최대한 동일하게 구현하고 싶어서 아래코드와 같이 셀의 높이를 지정해줬었는데, 
-```swift=
+```swift
 if UIDevice.current.orientation.isLandscape {
     return UIScreen.main.bounds.width * 0.08
 } else {
@@ -66,32 +78,6 @@ if UIDevice.current.orientation.isLandscape {
 
 
 cell의 높이를 지정하지 않아도, cell 내부 컨텐츠의 크기에 따라 cell의 크기가 조정될 것이라고 생각해서 cell의 높이를 지정해주는 코드를 제거하였더니 노치 없는 디바이스에서 가로모드시 글자가 잘리는 현상과, 뷰 hierarchy에서 cell이 점점 나오는 현상 모두 해결되었다.
-
-
-### 📌 ListViewController -> DiaryViewController -> DiaryView로 데이터 전달
-
-view는 “정보를 보여주는 역할” 만 해야한다고 생각했다.
-
-그래서 ListViewController에서 cell을 클릭했을 때, 바로 diaryView에게 diary 정보를 넘기는 것이 아니라, ListViewController -> DiaryViewController -> DiaryView 순서로 Diary 데이터 전달 하고자 했다.
-
-![](https://i.imgur.com/6nkpd9W.png)
-```셀 터치시 DiaryViewController로 push 하면서 메서드를 호출```
-
-![](https://i.imgur.com/Zvvzfu3.png)
-
-![](https://i.imgur.com/ajSHN9K.png)
-```위에서 호출된 메서드는 바로 DiaryView의 메서드(뷰에 할당하는 메서드)를 호출```
-
-그렇게 하기 위해서 위와 같이 메서드를 통해 DiaryViewController에서 diary 데이터를 받고 diaryView에 그 데이터로 뷰를 그려주는 메서드를 만들어서 didSelectRowAt에서 호출했으나, 화면에 그 데이터를 표시하지 못하는 현상이 발생 했는데...
-
-이는 DiaryView가 DiaryViewController의 viewDidLoad가 아닌 메서드를 통해 각 뷰 요소들에게 할당해주는 방식 이어서, 
-즉, view가 로드되기 전에 뷰 요소들에게 diary요소들을 할당해주는 메서드를 호출해 주기 때문에 할당이 되지 않았던 것으로 추측하고 아래와 같이 로직을 변경했다.
-<img src="https://i.imgur.com/FxUVGUx.png" width="572" height="150"/>
-
-![](https://i.imgur.com/wsKw6Vl.png)
-
-
-위와 같이 DiaryViewController가 init 될 때 diary를 파라미터로 받고 viewDidLoad에서 뷰 요소들에게 할당해주는 방식으로 구현 하니 정상 작동 하였다.
 
 ### 📌 DiaryViewController상속을 통한 공통화
 `AddViewController`와 `EditViewController가` 동일한 뷰를 사용하고 있고, 공통으로 사용하는 메서드들이 있어서 `DiaryViewController`라는 부모 ViewController를 만들어서 자식 뷰가 상속 받도록 구현했다.
@@ -123,3 +109,43 @@ textView.text -> DiaryViewController의 diary 프로퍼티에 저장 -> 저장�
 그래서 저장된 `title`과 `body`는 list에 표시하기 위한 용도로만 사용하고 `text`라는 요소를 추가하여 일기화면에서는 사용자가 작성한 text 그대로를 보여줄 수 있게 했다.
 
 ![](https://i.imgur.com/ar8E2qe.png)
+
+### 📌 Network 통신 객체의 생성 여부
+이 프로젝트에서는 두 가지 경우 서버와 통신한다
+1. WeatherInfo를 서버로부터 받아올 때
+2. 1에서 얻은 WeatherInfo를 통해 WeatherIconImage를 서버로부터 받아올 때
+
+2가지 경우에서만 쓰이기 때문에 따로 객체를 생성하지 않고 메서드에서 직접 dataTask로 데이터를 받아왔었는데, 그렇게 하다보니 메서드의 내용이 길어지기도 하고, 반복되기도 했다. 그리고 무엇보다 나중을 위한 재사용성이 없기 때문에 따로 NetworkManager라는 네트워크 통신 객체를 생성해서 통신하게 해주었다. 그렇게 되다보니 코드가 훨씬 간결해졌고, 네트워크 통신이 실패했을 경우에 대한 처리도 가능해졌다. (네트워크 통신 실패하여 날씨 정보를 가져오지 못하더라도 일기가 저장될 수 있도록 처리했다)
+
+```swift
+private func setWeatherInfo() {
+        let weatherAPI = WeatherAPI(latitude: coordinate.latitude,
+                                    longitude: coordinate.longitude)
+
+        self.networkManager.request(with: weatherAPI) { result in
+            switch result {
+            case .success(let data):
+                self.parse(data)
+            case .failure(_):
+                self.saveDiary()
+        }
+    }
+}
+```
+
+### 📌 날씨 이미지 다운이 완료되기 전 일기가 저장되는 문제
+URLSession의 dataTask가 비동기 적으로 작동하다 보니 이미지 다운이 완료되기 전에 coredata에 일기가 저장되면서 날씨 이미지가 nil인 현상이 있었다
+
+이 부분을 해결해주고자
+```swift
+    private var iconImage: Data? {
+        didSet {
+            self.weather?.iconImage = iconImage
+            DispatchQueue.main.async {
+                self.setDiary()
+            }
+        }
+    }
+```
+
+iconImage라는 연산 프로퍼티를 만들어 didSet을 통해 최종적으로 이미지가 다운되어야 일기가 저장되도록 하였다
