@@ -49,9 +49,10 @@ final class CoreDataManager {
         diary.id = diaryData.id
         
         let weather = WeatherModel(context: context)
-        diary.weatherModel?.main = diaryData.weather?.main
-        diary.weatherModel?.iconID = diaryData.weather?.iconID
-        diary.weatherModel?.iconImage = diaryData.weather?.iconImage
+        weather.main = diaryData.weather?.main
+        weather.iconID = diaryData.weather?.iconID
+        weather.iconImage = diaryData.weather?.iconImage
+        
         diary.weatherModel = weather
         
         saveContext()
