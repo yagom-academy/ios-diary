@@ -13,7 +13,7 @@ final class RegisterViewController: UIViewController, ErrorAlertProtocol {
     private var diaryModel: DiaryModel?
     private lazy var detailView = DetailView(frame: view.frame)
     private let diaryViewModel = DiaryViewModel()
-//    private var icon: String?
+    private var icon: String?
 }
 
 // MARK: - View Life Cycle Method
@@ -62,7 +62,7 @@ extension RegisterViewController {
             try diaryViewModel.checkDiaryData(
                 title: detailView.titleField.text,
                 body: detailView.descriptionView.text,
-                icon: diaryModel?.weatherImage
+                icon: icon
             )
         } catch {
             showAlert(alertMessage: error.localizedDescription)
@@ -139,7 +139,7 @@ extension RegisterViewController: CLLocationManagerDelegate {
             )
             diaryRegisterUseCase.requestWeatherInformation { [weak self] data in
                 guard let icon = data.weather.first?.icon else { return }
-                self?.diaryModel?.weatherImage = icon
+                self?.icon = icon
             } errorHandler: { error in
                 print(error)
             }
