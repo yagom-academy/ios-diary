@@ -18,6 +18,7 @@ class DiaryViewController: UIViewController {
     var diary: Diary?
     
     private var locationManager: CLLocationManager?
+    private let networkManager = NetworkManager()
     private var weather: Weather?
     private var iconImage: Data? {
         didSet {
@@ -191,52 +192,30 @@ extension DiaryViewController {
     }
     
     private func setWeatherInfo() {
-        let apiKey = "783e209f3bc56998f3575fbe0168df43"
+        let weatherAPI = WeatherAPI(latitude: coordinate.latitude,
+                                    longitude: coordinate.longitude)
 
-        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appid=\(apiKey)") else {
-            self.setDiary()
-            return
+        self.networkManager.request(with: weatherAPI) { result in
+            switch result {
+            case .success(let data):
+                self.parse(data)
+            case .failure(_):
+                self.saveDiary()
+            }
         }
-        
-        let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                return
-            }
-            
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            self.parse(data)
-        }
-        
-        dataTask.resume()
     }
     
     private func setWeatherImage(_ iconID: String) {
-        guard let url = URL(string: "https://openweathermap.org/img/w/\(iconID).png") else { return }
+        let imageAPI = ImageAPI(iconID: iconID)
 
-        let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard error == nil else {
-                return
+        self.networkManager.request(with: imageAPI) { result in
+            switch result {
+            case .success(let data):
+                self.iconImage = data
+            case .failure(_):
+                self.saveDiary()
             }
-            
-            guard let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                return
-            }
-            
-            guard let data = data else {
-                return
-            }
-            
-            self.iconImage = data
         }
-        
-        dataTask.resume()
     }
     
     private func parse(_ data: Data) {
