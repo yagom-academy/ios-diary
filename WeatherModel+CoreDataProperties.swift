@@ -18,7 +18,6 @@ extension WeatherModel {
     @NSManaged public var iconID: String?
     @NSManaged public var iconImage: Data?
     @NSManaged public var main: String?
-    @NSManaged public var diaryModel: DiaryModel?
 
 }
 

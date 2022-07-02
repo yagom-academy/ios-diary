@@ -192,7 +192,8 @@ extension DiaryViewController {
     }
     
     private func setWeatherInfo() {
-        let weatherAPI = WeatherAPI(latitude: coordinate.latitude, longitude: coordinate.longitude)
+        let weatherAPI = WeatherAPI(latitude: coordinate.latitude,
+                                    longitude: coordinate.longitude)
 
         self.networkManager.request(with: weatherAPI) { result in
             switch result {
@@ -202,7 +203,6 @@ extension DiaryViewController {
                 self.saveDiary()
             }
         }
-        
     }
     
     private func setWeatherImage(_ iconID: String) {
