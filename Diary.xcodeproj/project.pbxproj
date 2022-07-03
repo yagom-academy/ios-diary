@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		748E249779223968DAB9D51A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8DF27F5B0E514DB780E811B /* Pods_Diary.framework */; };
 		B031059B286AE1460020AE3F /* PersistentStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = B031059A286AE1460020AE3F /* PersistentStorage.swift */; };
+		B0A34EA928716FC000B0D4C3 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A34EA828716FC000B0D4C3 /* LocationManager.swift */; };
 		B0A697EF286ECACC00FE9444 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0A697EE286ECACC00FE9444 /* NetworkError.swift */; };
 		B0AA891B286B25150034E16A /* Networking.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0AA891A286B25150034E16A /* Networking.swift */; };
 		B0B8459E28585AD7000775F3 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0B8459D28585AD7000775F3 /* Diary.swift */; };
@@ -54,6 +55,7 @@
 		1BD1610E1DCE872DDA67371B /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		8A2C8A2BC348BACFA721F636 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		B031059A286AE1460020AE3F /* PersistentStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentStorage.swift; sourceTree = "<group>"; };
+		B0A34EA828716FC000B0D4C3 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		B0A697EE286ECACC00FE9444 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		B0AA891A286B25150034E16A /* Networking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Networking.swift; sourceTree = "<group>"; };
 		B0B8459D28585AD7000775F3 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
@@ -206,6 +208,7 @@
 				E51F942A2863311C004623DA /* DiaryStorageManager.swift */,
 				E51F942E2865E771004623DA /* DiaryStorageNotification.swift */,
 				B031059A286AE1460020AE3F /* PersistentStorage.swift */,
+				B0A34EA828716FC000B0D4C3 /* LocationManager.swift */,
 				B0B8BE35285C75B30086190C /* Formatter.swift */,
 				E5AE00EE285C5C980046E430 /* Then.swift */,
 			);
@@ -436,6 +439,7 @@
 				B0A697EF286ECACC00FE9444 /* NetworkError.swift in Sources */,
 				E5A973E9286C42DD006EC84B /* DiaryMappingV1ToV2.xcmappingmodel in Sources */,
 				E5A973E4286C1B4A006EC84B /* APIEndpoint.swift in Sources */,
+				B0A34EA928716FC000B0D4C3 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
