@@ -6,21 +6,16 @@
 //
 
 import UIKit
-import CoreLocation
 
 final class DiaryAddViewController: DiaryBaseViewController {
   private let storageManger: DiaryStorageManager
-  private let locationManager: CLLocationManager
-  private let weatherService: WeatherService
-  private var weather: Weather?
+  private let locationManager: LocationManager
 
   init(storageManger: DiaryStorageManager) {
     self.storageManger = storageManger
-    self.locationManager = CLLocationManager()
-    self.weatherService = WeatherService(networking: .init(session: .shared))
+    self.locationManager = LocationManager()
     super.init(nibName: nil, bundle: nil)
     self.observeDidEnterBackgroundNotification()
-    self.initializeLocationManager()
   }
 
   required init?(coder: NSCoder) {
@@ -47,25 +42,10 @@ final class DiaryAddViewController: DiaryBaseViewController {
   }
 
   @objc private func createDiary() {
-    self.storageManger.createDiary(text: self.bodyTextView.text, weather: self.weather)
-  }
-
-  private func initializeLocationManager() {
-    self.locationManager.requestWhenInUseAuthorization()
-    self.locationManager.startUpdatingLocation()
-    self.locationManager.delegate = self
-  }
-}
-
-// MARK: - CLLocationManagerDelegate
-
-extension DiaryAddViewController: CLLocationManagerDelegate {
-  func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    guard let coordinate = locations.last?.coordinate else { return }
-
-    self.locationManager.stopUpdatingLocation()
-    self.weatherService.fetchWeather(lat: coordinate.latitude, lon: coordinate.longitude) { [weak self] weather in
-      self?.weather = weather
+    self.locationManager.fetchWeather { weather in
+      DispatchQueue.main.async {
+        self.storageManger.createDiary(text: self.bodyTextView.text, weather: weather)
+      }
     }
   }
 }
