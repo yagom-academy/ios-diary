@@ -2,7 +2,7 @@
 //  DiaryEntity+CoreDataProperties.swift
 //  Diary
 //
-//  Created by 김태훈 on 2022/06/23.
+//  Created by Donnie, OneTool on 2022/06/23.
 //
 //
 

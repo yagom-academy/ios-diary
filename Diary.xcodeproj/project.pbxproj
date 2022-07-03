@@ -110,12 +110,30 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		9CA2BB07287112E1000E59E9 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				9CABDBC5286E8B7800DA902F /* DiaryRegisterUseCase.swift */,
+				9CA4BE59286EBB56001A9160 /* IconImageUseCase.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		9CA2BB082871131B000E59E9 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9CABDBCE286EA00300DA902F /* CoordinateManager.swift */,
+				9CA4BE5B286EBBA5001A9160 /* IconManager.swift */,
+				DA71A83B2863554100655845 /* DiaryEntityManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
 		9CABDBC7286E998E00DA902F /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				9CABDBC8286E99A500DA902F /* Network.swift */,
 				9CABDBCA286E99D000DA902F /* URLSessionProtocol.swift */,
-				9CABDBCC286E9DC900DA902F /* NetworkError.swift */,
 				9CABDBD0286EA18D00DA902F /* OpenWeatherAPI.swift */,
 				9CABDBD2286EA5F500DA902F /* OpenWeatherModel.swift */,
 			);
@@ -162,7 +180,9 @@
 				9C8FA4F6285A22C5005DD4AF /* Extension */,
 				DAF0ADAF2860BEF2000909C9 /* Error */,
 				9CABDBC7286E998E00DA902F /* Network */,
+				9CA2BB07287112E1000E59E9 /* UseCase */,
 				DACAF14A2859ADBB0080CB0F /* ViewController */,
+				9CA2BB082871131B000E59E9 /* Manager */,
 				DACAF1492859ADAD0080CB0F /* View */,
 				DAC41D972859B08C00D3CD22 /* Model */,
 				DA44D14D286ACD2A00EFBF56 /* Protocol */,
@@ -194,7 +214,6 @@
 				DA71A8422863716700655845 /* DiaryEntity+CoreDataProperties.swift */,
 				DAC41D982859B0EE00D3CD22 /* DiaryModel.swift */,
 				DAF0ADAD2860BCAD000909C9 /* Parser.swift */,
-				DA71A83B2863554100655845 /* DiaryEntityManager.swift */,
 				9CABDBC1286D44B900DA902F /* DiaryViewModel.swift */,
 			);
 			path = Model;
@@ -223,10 +242,6 @@
 				C739AE28284DF28600741E8F /* MainViewController.swift */,
 				DACAF1432859AD6D0080CB0F /* DetailViewController.swift */,
 				DAF0ADAB285C1301000909C9 /* RegisterViewController.swift */,
-				9CABDBC5286E8B7800DA902F /* DiaryRegisterUseCase.swift */,
-				9CABDBCE286EA00300DA902F /* CoordinateManager.swift */,
-				9CA4BE59286EBB56001A9160 /* IconImageUseCase.swift */,
-				9CA4BE5B286EBBA5001A9160 /* IconManager.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -236,6 +251,7 @@
 			children = (
 				DAF0ADB02860BF07000909C9 /* DiaryError.swift */,
 				9CAD539D286A9F8700AF0B91 /* CoreDataError.swift */,
+				9CABDBCC286E9DC900DA902F /* NetworkError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";

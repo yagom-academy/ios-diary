@@ -1,5 +1,5 @@
 //
-//  Diary - ViewController.swift
+//  Diary - MainViewController.swift
 //  Created by Donnie, OneTool. 
 //  Copyright © yagom. All rights reserved.
 // 

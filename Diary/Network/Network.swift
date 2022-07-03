@@ -1,8 +1,8 @@
 //
-//  Networkable.swift
+//  Network.swift
 //  Diary
 //
-//  Created by SeoDongyeon on 2022/07/01.
+//  Created by Donnie, OneTool on 2022/07/01.
 //
 
 import Foundation

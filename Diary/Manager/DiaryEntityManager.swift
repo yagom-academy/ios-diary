@@ -1,5 +1,5 @@
 //
-//  PersistenceManager.swift
+//  DiaryEntityManager.swift
 //  Diary
 //
 //  Created by Donnie, OneTool on 2022/06/22.
