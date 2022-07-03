@@ -27,7 +27,7 @@ final class DiaryDetailViewController: DiaryBaseViewController {
   }
 
   private func initializeNavigationBar() {
-    self.title = Formatter.changeToString(from: self.diary.createdAt)
+    self.title = Formatter.changeToString(from: self.diary.createdAtTimeFrom1970)
     let ellipsisButton = UIBarButtonItem(
       image: UIImage(systemName: "ellipsis"),
       style: .plain,

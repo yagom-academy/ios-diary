@@ -39,8 +39,8 @@ final class DiaryStorageManager {
         uuid: entity.uuid,
         title: entity.title,
         body: entity.body,
-        createdAt: entity.createdAt,
-        weatherIcon: entity.weatherIcon
+        createdAtTimeFrom1970: entity.createdAt,
+        weatherIconID: entity.weatherIcon
       )
     }
   }

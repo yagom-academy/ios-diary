@@ -57,9 +57,9 @@ final class DiaryTableViewCell: UITableViewCell {
   func configureItem(_ diary: Diary) {
     self.titleLabel.text = diary.title
     self.bodyLabel.text = diary.body
-    self.dateLabel.text = Formatter.changeToString(from: diary.createdAt)
-    if let weatherIcon = diary.weatherIcon {
-      self.canceller = self.weatherImageView.setImage(iconID: weatherIcon)
+    self.dateLabel.text = Formatter.changeToString(from: diary.createdAtTimeFrom1970)
+    if let weatherIconID = diary.weatherIconID {
+      self.canceller = self.weatherImageView.setImage(iconID: weatherIconID)
       return
     }
     self.weatherImageView.image = UIImage(named: Constants.notExistWeatherImageName)
