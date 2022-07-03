@@ -57,13 +57,15 @@ final class DiaryAddViewController: DiaryBaseViewController {
   }
 }
 
+// MARK: - CLLocationManagerDelegate
+
 extension DiaryAddViewController: CLLocationManagerDelegate {
   func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-    if let coordinate = locations.last?.coordinate {
-      self.locationManager.stopUpdatingLocation()
-      self.weatherService.fetchWeather(lat: coordinate.latitude, lon: coordinate.longitude) { [weak self] weather in
-        self?.weather = weather
-      }
+    guard let coordinate = locations.last?.coordinate else { return }
+
+    self.locationManager.stopUpdatingLocation()
+    self.weatherService.fetchWeather(lat: coordinate.latitude, lon: coordinate.longitude) { [weak self] weather in
+      self?.weather = weather
     }
   }
 }
