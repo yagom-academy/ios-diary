@@ -16,9 +16,9 @@
 |:--:|:--:|:--:|
 |<img src="https://i.imgur.com/TdhIFVr.gif" width="100%">|<img src="https://i.imgur.com/80NxVga.gif" width="100%">|<img src="https://i.imgur.com/jNcOOVG.gif" width="100%">|
 
-|내용 업데이트|백그라운드 진입시 자동저장|
-|:--:|:--:|
-|<img src="https://i.imgur.com/63HulWh.gif" width="100%">|<img src="https://i.imgur.com/4MqRzE7.gif" width="100%">|
+|내용 업데이트|백그라운드 진입시 자동저장|날씨 아이콘 표시|
+|:--:|:--:|:--:|
+|<img src="https://i.imgur.com/63HulWh.gif" width="100%">|<img src="https://i.imgur.com/4MqRzE7.gif" width="100%">|<img src = "https://i.imgur.com/52PCeXX.gif" width = "100%"><br>|
 
 <br>
 
@@ -26,6 +26,7 @@
 
 [STEP 1](https://github.com/yagom-academy/ios-diary/pull/10)
 [STEP 2](https://github.com/yagom-academy/ios-diary/pull/21)
+[STEP 3](https://github.com/yagom-academy/ios-diary/pull/33)
 
 <br>
 
@@ -37,8 +38,9 @@
 <br>
 
 ## 🔑 키워드
-`CollectionView` `MVC` `Keyboard` `ContentInset` `Padding` `ScrollView` `StackView` `Json` `NavigationBar` `TimeInterval` `DateFormatter` `CoreData` `NotificationCenter` `CoreData(CRUD)` `Cell Swipe Action` `Activity View` `Action Sheet` `Alert` `subscript`
-<br>
+`CollectionView` `MVC` `Keyboard` `ContentInset` `Padding` `ScrollView` `StackView` `Json` `NavigationBar` `TimeInterval` `DateFormatter` `CoreData` `NotificationCenter` `CoreData(CRUD)` `Cell Swipe Action` `Activity View` `Action Sheet` `Alert` `subscript` `URL` `CoreLocation` `Network` `API` `ImageView` `Migration`
+
+<br> 
 
 ## 📑 구현내용
 ### [STEP 1]
@@ -58,6 +60,10 @@
 - `Keyboard`의 높이만큼 `ScrollView`에 `inset`을 주어 내용을 가리지 않도록 구현
 - `Array`를 확장하고 `subscript`를 활용하여 `index out of range` 오류처리 기능 구현
 
+### [STEP 3]
+- 사용자에게 위치정보 활용에 대한 권한을 받는 기능 구현
+- `URL`을 활용하여, 통신하여 위도, 경도 및 해당 지역 날씨에 해당하는 icon의 이미지를 넣어주는 기능 구현
+- CoreData Migration을 활용하여, Model 변경
 
 <br>
 
@@ -132,8 +138,27 @@ private var listLayout: UICollectionViewCompositionalLayout {
             object: nil
         )
 ```
-
 <br>
+
+### [STEP 3]
+- ViewModel과 Controller의 관계
+처리가 필요한 로직들은 대부분 ViewModel에서 처리해주고, Controller는 사용자에게 입력 받은 값만 넘겨주는 역할 이라는 것을 알았다. MVVM 패턴에 대해서 조금이나마 학습하게 되었다.
+
+- MVVM 구조
+
+<img src="https://i.imgur.com/za6oQgQ.png" width="60%">
+<br>
+>Model: 어플리케이션에서 사용되는 데이터와 그 데이터를 처리하는 부분
+View : 사용자에게 보여지는 UI
+View Model : View를 나타내주기 위한 Model이며, View를 나타내기 위한 데이터 처리를 하는 부분
+
+- MVVM 동작 순서
+> User의 Action -> View -> View Model -> Model -> View Model -> Data Binding -> UI
+
+- MVVM 특징
+> Command 패턴 + Data Binding 패턴을 사용하여 구현, View와 View Model 사이의 의존성을 없애고, View Model과 View의 관계를 1:n 관계로 만들었다. View와 View Model이 독립적이기 때문에, 모듈화가 가능하다. 하지만, View Model의 설계 난이도가 상당히 높다.
+>> [Design Pattern 커맨드 패턴이란](https://gmlwjd9405.github.io/2018/07/07/command-pattern.html)
+>> [Data Binding in MVVM on iOS](https://beenii.tistory.com/124)
 
 ## 🚀 trouble shooting
 
@@ -205,4 +230,26 @@ struct DiaryModel: Decodable {
 ![](https://i.imgur.com/aiC97M9.png)
 
 ---
+### [STEP 3]
 
+### 1. 프로퍼티로 icon 데이터를 저장하는 방식에 대해서
+- 현재 `RegisterViewController`에서 diaryModel에 데이터가 있는지 없는지에 대해서, 분기처리를 해주었습니다. 
+- 그로 인해서 icon의 데이터를 CoreData에 저장을 해준 후, 실행하게되면 데이터 유무를 체크해주는 로직에서 CoreData에 create만 진행하게 됩니다. 
+- 계속해서 CoreData 자원을 사용하게 됩니다. 그래서 직접적으로 CoreData의 DiaryData에 icon에 대한 정보를 저장해주었고, `RegisterViewController`에서 사용되는 diaryModel에는 데이터의 유무를 판단할 수 있는 분기처리용 로직을 유지되게 하였습니다.
+
+```swift
+private var icon: String?
+
+private func sendDiaryViewModel() {
+        do {
+            try diaryViewModel.checkDiaryData(
+                title: detailView.titleField.text,
+                body: detailView.descriptionView.text,
+                icon: icon
+            )
+        } catch {
+            showAlert(alertMessage: error.localizedDescription)
+        }
+    }
+}
+```

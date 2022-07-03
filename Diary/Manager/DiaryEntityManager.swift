@@ -1,5 +1,5 @@
 //
-//  PersistenceManager.swift
+//  DiaryEntityManager.swift
 //  Diary
 //
 //  Created by Donnie, OneTool on 2022/06/22.
@@ -35,43 +35,39 @@ final class DiaryEntityManager {
         }
     }
     
-    func create(diary: DiaryModel) {
-        let data = DiaryEntity(context: context)
+    func create(diary: DiaryModel) throws {
         
+        let data = DiaryEntity(context: context)
         data.title = diary.title
         data.body = diary.body
         data.createdAt = diary.createdAt
         data.id = diary.id
-
-        do {
-            try saveContext()
-        } catch CoreDataError.saveContextError {
-            print(CoreDataError.saveContextError.errorDescription)
-        } catch {
-            print("invalid error")
-        }
+        data.weatherImage = diary.weatherImage
+        try saveContext()
     }
     
     func fetch() throws -> [DiaryModel] {
         var diaryList = [DiaryEntity]()
+        
         do {
             let request = DiaryEntity.fetchRequest()
             diaryList = try context.fetch(request)
         } catch {
             throw CoreDataError.fetchError
         }
-        diaryList = diaryList.reversed()
-        return diaryList.map { diaryEntity in
+        
+        return diaryList.reversed().map { diaryEntity in
             DiaryModel(
                 title: diaryEntity.title,
                 body: diaryEntity.body,
                 createdAt: diaryEntity.createdAt,
-                id: diaryEntity.id
+                id: diaryEntity.id,
+                weatherImage: diaryEntity.weatherImage
             )
         }
     }
     
-    func update(diary: DiaryModel) {
+    func update(diary: DiaryModel) throws {
         let request = DiaryEntity.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", diary.id)
 
@@ -79,20 +75,13 @@ final class DiaryEntityManager {
         guard let diaryList = try? context.fetch(request) else {
             return
         }
-        
         if let diaryEntity = diaryList.first {
             diaryEntity.title = diary.title
             diaryEntity.body = diary.body
             diaryEntity.createdAt = diary.createdAt
+            diaryEntity.weatherImage = diary.weatherImage
         }
-        
-        do {
-            try saveContext()
-        } catch CoreDataError.saveContextError {
-            print(CoreDataError.saveContextError.errorDescription)
-        } catch {
-            print("invalid error")
-        }
+        try saveContext()
     }
     
     func delete(diary: DiaryModel) throws {
@@ -107,13 +96,6 @@ final class DiaryEntityManager {
         }  catch {
             throw CoreDataError.deleteError
         }
-
-        do {
-            try saveContext()
-        } catch CoreDataError.saveContextError {
-            print(CoreDataError.saveContextError.errorDescription)
-        } catch {
-            print("invalid error")
-        }
+        try saveContext()
     }
 }

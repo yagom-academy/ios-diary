@@ -6,15 +6,14 @@
 //
 
 import UIKit
+import CoreLocation
 
-fileprivate extension DiaryConstants {
-    static let emptyString = ""
-}
-
-final class RegisterViewController: UIViewController {
+final class RegisterViewController: UIViewController, ErrorAlertProtocol {
+    private let locationManager = CLLocationManager()
     private var diaryModel: DiaryModel?
     private lazy var detailView = DetailView(frame: view.frame)
-    private let diaryModelManger: DiaryModelManger = DiaryModelManger()
+    private let diaryViewModel = DiaryViewModel()
+    private var icon: String?
 }
 
 // MARK: - View Life Cycle Method
@@ -31,6 +30,7 @@ extension RegisterViewController {
         self.view.backgroundColor = .systemBackground
         registerDidEnterBackgroundNotification()
         registerKeyboardNotifications()
+        registerCoreLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -40,60 +40,13 @@ extension RegisterViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        checkDiaryData()
+        sendDiaryViewModel()
     }
 }
 
 // MARK: - Method
 
 extension RegisterViewController {
-    
-    private func createDiaryData() {
-        guard let title = detailView.titleField.text else {
-            return
-        }
-        guard let body = detailView.descriptionView.text else {
-            return
-        }
-        if title == DiaryConstants.emptyString && body == DiaryConstants.emptyString {
-            return
-        } else {
-            diaryModelManger.create(
-                title: title,
-                body: body,
-                createdAt: Date(),
-                id: UUID().uuidString
-            )
-        }
-    }
-    
-    private func updateDiaryData() {
-        guard let title = detailView.titleField.text,
-                let body = detailView.descriptionView.text else {
-            return
-        }
-        guard let diary = diaryModel else {
-            return
-        }
-        if title == DiaryConstants.emptyString && body == DiaryConstants.emptyString {
-            return
-        } else {
-            diaryModelManger.update(
-                    title: title,
-                    body: body,
-                    createdAt: Date(),
-                    id: diary.id
-            )
-        }
-    }
-    
-    private func checkDiaryData() {
-        if diaryModel == nil {
-            createDiaryData()
-        } else {
-            updateDiaryData()
-        }
-    }
     
     private func registerDidEnterBackgroundNotification() {
         NotificationCenter.default.addObserver(
@@ -103,6 +56,18 @@ extension RegisterViewController {
             object: nil
         )
     }
+    
+    private func sendDiaryViewModel() {
+        do {
+            try diaryViewModel.checkDiaryData(
+                title: detailView.titleField.text,
+                body: detailView.descriptionView.text,
+                icon: icon
+            )
+        } catch {
+            showAlert(alertMessage: error.localizedDescription)
+        }
+    }
 }
 
 // MARK: - Action Method
@@ -110,11 +75,81 @@ extension RegisterViewController {
 extension RegisterViewController {
     
     @objc private func didEnterBackground() {
-        checkDiaryData()
-    }
-    
-    @objc override func keyboardWillHide(notification: NSNotification) {
-        checkDiaryData()
+        sendDiaryViewModel()
     }
 }
 
+// MARK: - Keyboard Method
+
+extension RegisterViewController {
+    
+    func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (
+            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        )?.cgRectValue else { return }
+        detailView.mainScrollView.contentInset.bottom = keyboardSize.height
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        detailView.mainScrollView.contentInset.bottom = .zero
+        sendDiaryViewModel()
+    }
+}
+
+// MARK: - Core Location Method
+
+extension RegisterViewController: CLLocationManagerDelegate {
+    
+    private func registerCoreLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+    }
+    
+    func locationManager(
+        _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
+        if let location = locations.last {
+            locationManager.stopUpdatingLocation()
+            let latitude = Double(location.coordinate.latitude)
+            let longitude = Double(location.coordinate.longitude)
+            let diaryRegisterUseCase = DiaryRegisterUseCase(
+                network: Network(),
+                jsonDecoder: JSONDecoder(),
+                coordinateManager: CoordinateManager(
+                    latitude: latitude,
+                    longitude: longitude
+                )
+            )
+            diaryRegisterUseCase.requestWeatherInformation { [weak self] data in
+                guard let icon = data.weather.first?.icon else { return }
+                self?.icon = icon
+            } errorHandler: { error in
+                print(error)
+            }
+        }
+    }
+    
+    func locationManager(
+        _ manager: CLLocationManager,
+        didFailWithError error: Error
+    ) {
+        print("Error: \(error.localizedDescription)")
+    }
+}

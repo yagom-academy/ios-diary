@@ -21,12 +21,12 @@ fileprivate extension DiaryConstants {
 final class DetailViewController: UIViewController, Activitable, ErrorAlertProtocol {
     
     private lazy var detailView = DetailView(frame: view.frame)
-    private let diaryModelManger = DiaryModelManger()
-    private let diaryEntityManager = DiaryEntityManager()
-    private var diaryData: DiaryModel
+    private let diaryData: DiaryModel
+    private let diaryViewModel: DiaryViewModel
     
     init(diaryData: DiaryModel) {
         self.diaryData = diaryData
+        self.diaryViewModel = DiaryViewModel(diaryModel: diaryData)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,13 +55,25 @@ extension DetailViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        updateListData()
+        sendDiaryViewModel()
     }
 }
 
 // MARK: - Method
 
 extension DetailViewController {
+    
+    private func sendDiaryViewModel() {
+        do {
+            try diaryViewModel.checkDiaryData(
+                title: detailView.titleField.text,
+                body: detailView.descriptionView.text,
+                icon: diaryData.weatherImage
+            )
+        } catch {
+            showAlert(alertMessage: error.localizedDescription)
+        }
+    }
     
     private func setNavigationBarTitle() {
         navigationItem.title = diaryData.createdAt.formattedDate
@@ -77,19 +89,6 @@ extension DetailViewController {
         navigationItem.rightBarButtonItem = button
     }
     
-    private func updateListData() {
-        guard let title = detailView.titleField.text,
-                let body = detailView.descriptionView.text else {
-            return
-        }
-        diaryModelManger.update(
-            title: title,
-            body: body,
-            createdAt: diaryData.createdAt,
-            id: diaryData.id
-        )
-    }
-    
     private func registerDidEnterBackgroundNotification() {
         NotificationCenter.default.addObserver(
             self,
@@ -99,7 +98,7 @@ extension DetailViewController {
         )
     }
     
-    private func showAlert() {
+    private func showActionSheetAlert() {
         let alert = UIAlertController(
             title: DiaryConstants.actionSheetDeleteAlertTitle,
             message: DiaryConstants.actionSheetDeleteAlertMessage,
@@ -117,7 +116,7 @@ extension DetailViewController {
                 return
             }
             do {
-                try self?.diaryEntityManager.delete(diary: diaryData)
+                try self?.diaryViewModel.delete(diaryData: diaryData)
             } catch {
                 self?.showAlert(alertMessage: ("\(CoreDataError.deleteError.errorDescription)"))
             }
@@ -139,7 +138,6 @@ extension DetailViewController {
             message: nil,
             preferredStyle: .actionSheet
         )
-        
         let actionSheetShare = UIAlertAction(
             title: DiaryConstants.actionSheetShareTitle,
             style: .default
@@ -149,19 +147,16 @@ extension DetailViewController {
             }
             self?.activitySheet(activityItems: [diaryTitle])
         }
-        
         let actionSheetDelete = UIAlertAction(
             title: DiaryConstants.actionSheetDeleteTitle,
             style: .destructive
         ) { [weak self] _ in
-            self?.showAlert()
+            self?.showActionSheetAlert()
         }
-        
         let actionSheetCancel = UIAlertAction(
             title: DiaryConstants.actionSheetCancleTitle,
             style: .cancel
         )
-        
         actionSheet.addAction(actionSheetCancel)
         actionSheet.addAction(actionSheetShare)
         actionSheet.addAction(actionSheetDelete)
@@ -169,10 +164,38 @@ extension DetailViewController {
     }
     
     @objc private func didEnterBackground() {
-        updateListData()
+        sendDiaryViewModel()
+    }
+}
+
+// MARK: - Keyboard Method
+
+extension DetailViewController {
+    
+    func registerKeyboardNotifications() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
-    @objc override func keyboardWillHide(notification: NSNotification) {
-        updateListData()
+    @objc private func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardSize = (
+            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        )?.cgRectValue else { return }
+        detailView.mainScrollView.contentInset.bottom = keyboardSize.height
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        detailView.mainScrollView.contentInset.bottom = .zero
+        sendDiaryViewModel()
     }
 }

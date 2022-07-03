@@ -9,6 +9,16 @@
 /* Begin PBXBuildFile section */
 		8247A955A09A13051A5BF085 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 473B4CD940F65FF65B392F08 /* Pods_Diary.framework */; };
 		9C8FA4F8285A2329005DD4AF /* TimeInterval+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C8FA4F7285A2329005DD4AF /* TimeInterval+extension.swift */; };
+		9CA4BE5A286EBB56001A9160 /* IconImageUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA4BE59286EBB56001A9160 /* IconImageUseCase.swift */; };
+		9CA4BE5C286EBBA5001A9160 /* IconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA4BE5B286EBBA5001A9160 /* IconManager.swift */; };
+		9CABDBC2286D44B900DA902F /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CABDBC1286D44B900DA902F /* DiaryViewModel.swift */; };
+		9CABDBC6286E8B7900DA902F /* DiaryRegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CABDBC5286E8B7800DA902F /* DiaryRegisterUseCase.swift */; };
+		9CABDBC9286E99A500DA902F /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CABDBC8286E99A500DA902F /* Network.swift */; };
+		9CABDBCB286E99D000DA902F /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CABDBCA286E99D000DA902F /* URLSessionProtocol.swift */; };
+		9CABDBCD286E9DC900DA902F /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CABDBCC286E9DC900DA902F /* NetworkError.swift */; };
+		9CABDBCF286EA00300DA902F /* CoordinateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CABDBCE286EA00300DA902F /* CoordinateManager.swift */; };
+		9CABDBD1286EA18D00DA902F /* OpenWeatherAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CABDBD0286EA18D00DA902F /* OpenWeatherAPI.swift */; };
+		9CABDBD3286EA5F500DA902F /* OpenWeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CABDBD2286EA5F500DA902F /* OpenWeatherModel.swift */; };
 		9CAD539C286A9E0100AF0B91 /* ErrorAlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAD539B286A9E0100AF0B91 /* ErrorAlertProtocol.swift */; };
 		9CAD539E286A9F8700AF0B91 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAD539D286A9F8700AF0B91 /* CoreDataError.swift */; };
 		9CAE94E62865510100EF6262 /* DiaryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CAE94E52865510100EF6262 /* DiaryConstants.swift */; };
@@ -19,8 +29,6 @@
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		DA44D14F286ACD6000EFBF56 /* Activable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA44D14E286ACD6000EFBF56 /* Activable.swift */; };
-		DA44D151286BE7D100EFBF56 /* DiaryModelManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA44D150286BE7D100EFBF56 /* DiaryModelManager.swift */; };
-		DA44D153286BF89C00EFBF56 /* UIViewController+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA44D152286BF89C00EFBF56 /* UIViewController+extension.swift */; };
 		DA71A83C2863554100655845 /* DiaryEntityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA71A83B2863554100655845 /* DiaryEntityManager.swift */; };
 		DA71A8442863716700655845 /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA71A8422863716700655845 /* DiaryEntity+CoreDataProperties.swift */; };
 		DAC41D992859B0EE00D3CD22 /* DiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC41D982859B0EE00D3CD22 /* DiaryModel.swift */; };
@@ -38,6 +46,16 @@
 		473B4CD940F65FF65B392F08 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		806A4120895BAD8EABE40594 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		9C8FA4F7285A2329005DD4AF /* TimeInterval+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+extension.swift"; sourceTree = "<group>"; };
+		9CA4BE59286EBB56001A9160 /* IconImageUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconImageUseCase.swift; sourceTree = "<group>"; };
+		9CA4BE5B286EBBA5001A9160 /* IconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconManager.swift; sourceTree = "<group>"; };
+		9CABDBC1286D44B900DA902F /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
+		9CABDBC5286E8B7800DA902F /* DiaryRegisterUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRegisterUseCase.swift; sourceTree = "<group>"; };
+		9CABDBC8286E99A500DA902F /* Network.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
+		9CABDBCA286E99D000DA902F /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
+		9CABDBCC286E9DC900DA902F /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		9CABDBCE286EA00300DA902F /* CoordinateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateManager.swift; sourceTree = "<group>"; };
+		9CABDBD0286EA18D00DA902F /* OpenWeatherAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherAPI.swift; sourceTree = "<group>"; };
+		9CABDBD2286EA5F500DA902F /* OpenWeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherModel.swift; sourceTree = "<group>"; };
 		9CAD539B286A9E0100AF0B91 /* ErrorAlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertProtocol.swift; sourceTree = "<group>"; };
 		9CAD539D286A9F8700AF0B91 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		9CAE94E52865510100EF6262 /* DiaryConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryConstants.swift; sourceTree = "<group>"; };
@@ -50,8 +68,6 @@
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA44D14E286ACD6000EFBF56 /* Activable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activable.swift; sourceTree = "<group>"; };
-		DA44D150286BE7D100EFBF56 /* DiaryModelManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModelManager.swift; sourceTree = "<group>"; };
-		DA44D152286BF89C00EFBF56 /* UIViewController+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+extension.swift"; sourceTree = "<group>"; };
 		DA71A83B2863554100655845 /* DiaryEntityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntityManager.swift; sourceTree = "<group>"; };
 		DA71A8422863716700655845 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		DAC41D962859AFC000D3CD22 /* .swiftlint.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = .swiftlint.md; sourceTree = "<group>"; };
@@ -90,9 +106,38 @@
 			children = (
 				9C8FA4F7285A2329005DD4AF /* TimeInterval+extension.swift */,
 				DAF0ADB228616CEC000909C9 /* Array+extension.swift */,
-				DA44D152286BF89C00EFBF56 /* UIViewController+extension.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		9CA2BB07287112E1000E59E9 /* UseCase */ = {
+			isa = PBXGroup;
+			children = (
+				9CABDBC5286E8B7800DA902F /* DiaryRegisterUseCase.swift */,
+				9CA4BE59286EBB56001A9160 /* IconImageUseCase.swift */,
+			);
+			path = UseCase;
+			sourceTree = "<group>";
+		};
+		9CA2BB082871131B000E59E9 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				9CABDBCE286EA00300DA902F /* CoordinateManager.swift */,
+				9CA4BE5B286EBBA5001A9160 /* IconManager.swift */,
+				DA71A83B2863554100655845 /* DiaryEntityManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		9CABDBC7286E998E00DA902F /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				9CABDBC8286E99A500DA902F /* Network.swift */,
+				9CABDBCA286E99D000DA902F /* URLSessionProtocol.swift */,
+				9CABDBD0286EA18D00DA902F /* OpenWeatherAPI.swift */,
+				9CABDBD2286EA5F500DA902F /* OpenWeatherModel.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		9CAE94E4286550DF00EF6262 /* Enum */ = {
@@ -134,7 +179,10 @@
 				9CAE94E4286550DF00EF6262 /* Enum */,
 				9C8FA4F6285A22C5005DD4AF /* Extension */,
 				DAF0ADAF2860BEF2000909C9 /* Error */,
+				9CABDBC7286E998E00DA902F /* Network */,
+				9CA2BB07287112E1000E59E9 /* UseCase */,
 				DACAF14A2859ADBB0080CB0F /* ViewController */,
+				9CA2BB082871131B000E59E9 /* Manager */,
 				DACAF1492859ADAD0080CB0F /* View */,
 				DAC41D972859B08C00D3CD22 /* Model */,
 				DA44D14D286ACD2A00EFBF56 /* Protocol */,
@@ -166,8 +214,7 @@
 				DA71A8422863716700655845 /* DiaryEntity+CoreDataProperties.swift */,
 				DAC41D982859B0EE00D3CD22 /* DiaryModel.swift */,
 				DAF0ADAD2860BCAD000909C9 /* Parser.swift */,
-				DA71A83B2863554100655845 /* DiaryEntityManager.swift */,
-				DA44D150286BE7D100EFBF56 /* DiaryModelManager.swift */,
+				9CABDBC1286D44B900DA902F /* DiaryViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -204,6 +251,7 @@
 			children = (
 				DAF0ADB02860BF07000909C9 /* DiaryError.swift */,
 				9CAD539D286A9F8700AF0B91 /* CoreDataError.swift */,
+				9CABDBCC286E9DC900DA902F /* NetworkError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -305,25 +353,33 @@
 			buildActionMask = 2147483647;
 			files = (
 				9CAD539C286A9E0100AF0B91 /* ErrorAlertProtocol.swift in Sources */,
+				9CABDBD1286EA18D00DA902F /* OpenWeatherAPI.swift in Sources */,
 				DA71A8442863716700655845 /* DiaryEntity+CoreDataProperties.swift in Sources */,
-				DA44D153286BF89C00EFBF56 /* UIViewController+extension.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
+				9CABDBC2286D44B900DA902F /* DiaryViewModel.swift in Sources */,
 				DAF0ADAE2860BCAD000909C9 /* Parser.swift in Sources */,
+				9CA4BE5C286EBBA5001A9160 /* IconManager.swift in Sources */,
+				9CA4BE5A286EBB56001A9160 /* IconImageUseCase.swift in Sources */,
 				DA71A83C2863554100655845 /* DiaryEntityManager.swift in Sources */,
 				DA44D14F286ACD6000EFBF56 /* Activable.swift in Sources */,
+				9CABDBD3286EA5F500DA902F /* OpenWeatherModel.swift in Sources */,
 				9CAD539E286A9F8700AF0B91 /* CoreDataError.swift in Sources */,
 				DAF0ADB12860BF07000909C9 /* DiaryError.swift in Sources */,
+				9CABDBCD286E9DC900DA902F /* NetworkError.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				DAF0ADAC285C1301000909C9 /* RegisterViewController.swift in Sources */,
 				DACAF1482859AD9F0080CB0F /* DetailView.swift in Sources */,
-				DA44D151286BE7D100EFBF56 /* DiaryModelManager.swift in Sources */,
 				DACAF1442859AD6D0080CB0F /* DetailViewController.swift in Sources */,
 				DAC41D992859B0EE00D3CD22 /* DiaryModel.swift in Sources */,
+				9CABDBCF286EA00300DA902F /* CoordinateManager.swift in Sources */,
 				DAC41D9E2859B41B00D3CD22 /* ListCell.swift in Sources */,
 				9CAE94E62865510100EF6262 /* DiaryConstants.swift in Sources */,
 				9C8FA4F8285A2329005DD4AF /* TimeInterval+extension.swift in Sources */,
 				DAF0ADB328616CEC000909C9 /* Array+extension.swift in Sources */,
+				9CABDBCB286E99D000DA902F /* URLSessionProtocol.swift in Sources */,
+				9CABDBC9286E99A500DA902F /* Network.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				9CABDBC6286E8B7900DA902F /* DiaryRegisterUseCase.swift in Sources */,
 				C739AE2F284DF28600741E8F /* DiaryEntity.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
