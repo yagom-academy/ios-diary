@@ -8,6 +8,10 @@
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
+  private enum Constants {
+    static let notExistWeatherImageName = "no"
+  }
+
   static let identifier = "DiaryTableViewCell"
 
   private let titleLabel = UILabel().then {
@@ -58,7 +62,7 @@ final class DiaryTableViewCell: UITableViewCell {
       self.canceller = self.weatherImageView.setImage(iconID: weatherIcon)
       return
     }
-    self.weatherImageView.image = UIImage(named: "no")
+    self.weatherImageView.image = UIImage(named: Constants.notExistWeatherImageName)
   }
 
   private func initializeUI() {
