@@ -11,7 +11,7 @@ import CoreData
 final class DiaryStorageManager {
   private let persistentStorage = PersistentStorage(fileName: "Diary")
 
-  func createDiary(text: String) {
+  func createDiary(text: String, weather: Weather?) {
     var separatedText = text.components(separatedBy: "\n")
     let title = separatedText.first
     separatedText.removeFirst()
@@ -23,6 +23,8 @@ final class DiaryStorageManager {
       diaryEntity.setValue(body, forKey: "body")
       diaryEntity.setValue(Date().timeIntervalSince1970, forKey: "createdAt")
       diaryEntity.setValue(UUID().uuidString, forKey: "uuid")
+      diaryEntity.setValue(weather?.main, forKey: "weatherMain")
+      diaryEntity.setValue(weather?.icon, forKey: "weatherIcon")
 
       self.persistentStorage.saveContext()
       NotificationCenter.default.post(name: DiaryStorageNotification.diaryWasSaved, object: nil)
@@ -37,7 +39,8 @@ final class DiaryStorageManager {
         uuid: entity.uuid,
         title: entity.title,
         body: entity.body,
-        createdAt: entity.createdAt
+        createdAtTimeFrom1970: entity.createdAt,
+        weatherIconID: entity.weatherIcon
       )
     }
   }

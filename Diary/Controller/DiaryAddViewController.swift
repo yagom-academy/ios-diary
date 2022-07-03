@@ -9,9 +9,11 @@ import UIKit
 
 final class DiaryAddViewController: DiaryBaseViewController {
   private let storageManger: DiaryStorageManager
+  private let locationManager: LocationManager
 
   init(storageManger: DiaryStorageManager) {
     self.storageManger = storageManger
+    self.locationManager = LocationManager()
     super.init(nibName: nil, bundle: nil)
     self.observeDidEnterBackgroundNotification()
   }
@@ -40,6 +42,10 @@ final class DiaryAddViewController: DiaryBaseViewController {
   }
 
   @objc private func createDiary() {
-    self.storageManger.createDiary(text: self.bodyTextView.text)
+    self.locationManager.fetchWeather { weather in
+      DispatchQueue.main.async {
+        self.storageManger.createDiary(text: self.bodyTextView.text, weather: weather)
+      }
+    }
   }
 }
