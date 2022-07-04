@@ -41,16 +41,19 @@ final class CoreDataManager {
     }
     
     private func create(_ diaryData: Diary) {
-        guard let entity = entity else {
-            return
-        }
+        let diary = DiaryModel(context: context)
+        diary.title = diaryData.title
+        diary.body = diaryData.body
+        diary.text = diaryData.text
+        diary.createdAt = diaryData.createdAt
+        diary.id = diaryData.id
         
-        let diary = NSManagedObject(entity: entity, insertInto: context)
-        diary.setValue(diaryData.title, forKey: "title")
-        diary.setValue(diaryData.body, forKey: "body")
-        diary.setValue(diaryData.text, forKey: "text")
-        diary.setValue(diaryData.createdAt, forKey: "createdAt")
-        diary.setValue(diaryData.id, forKey: "id")
+        let weather = WeatherModel(context: context)
+        weather.main = diaryData.weather?.main
+        weather.iconID = diaryData.weather?.iconID
+        weather.iconImage = diaryData.weather?.iconImage
+        
+        diary.weatherModel = weather
         
         saveContext()
     }

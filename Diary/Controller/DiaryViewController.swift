@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 protocol DiaryViewControllerDelegate: AnyObject {
     func updateView()
@@ -16,9 +17,22 @@ class DiaryViewController: UIViewController {
     weak var delegate: DiaryViewControllerDelegate?
     var diary: Diary?
     
+    private var locationManager: CLLocationManager?
+    private let networkManager = NetworkManager()
+    private var weather: Weather?
+    private var iconImage: Data? {
+        didSet {
+            self.weather?.iconImage = iconImage
+            DispatchQueue.main.async {
+                self.setDiary()
+            }
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitialView()
+        setLocationManager()
     }
     
     private func setInitialView() {
@@ -34,6 +48,18 @@ class DiaryViewController: UIViewController {
         configureOptionButton()
     }
     
+    private func setLocationManager() {
+        if diary == nil {
+            locationManager = CLLocationManager()
+            guard let locationManager = locationManager else {
+                return
+            }
+            
+            locationManager.requestWhenInUseAuthorization()
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
     private func configureOptionButton() {
         let barButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
                                         style: .plain,
@@ -43,9 +69,43 @@ class DiaryViewController: UIViewController {
         self.navigationItem.setRightBarButton(barButton, animated: true)
     }
     
-    private func update(_ diaryData: Diary?) {
+    private func setDiary() {
+        var convertedTextArray = convertedTextArray()
+        diary = Diary(title: convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst(),
+                      body: convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0],
+                      text: diaryView.diaryTextView.text ?? "",
+                      createdAt: Date().timeIntervalSince1970,
+                      id: UUID(),
+                      weather: self.weather)
+        
+        update()
+    }
+    
+    private func editDiary() {
+        var convertedTextArray = convertedTextArray()
+        diary?.title = convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst()
+        diary?.body = convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0]
+        diary?.text = diaryView.diaryTextView.text ?? ""
+        
+        update()
+    }
+    
+    private func convertedTextArray() -> [String] {
+        let textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
+        let convertedTextArray: [String] = textArray.compactMap {
+            if !$0.trimmingCharacters(in: .whitespaces).isEmpty {
+                return $0.trimmingCharacters(in: .whitespaces)
+            }
+            
+            return nil
+        }
+        
+        return convertedTextArray
+    }
+    
+    private func update() {
         do {
-            guard let diaryData = diaryData else {
+            guard let diaryData = self.diary else {
                 return
             }
 
@@ -53,28 +113,8 @@ class DiaryViewController: UIViewController {
         } catch {
             showErrorAlert("업데이트에 실패했습니다")
         }
-    }
-    
-    private func setDiary() {
-        let textArray = diaryView.diaryTextView.text.components(separatedBy: "\n")
-        var convertedTextArray: [String] = textArray.compactMap {
-            if !$0.trimmingCharacters(in: .whitespaces).isEmpty {
-                return $0.trimmingCharacters(in: .whitespaces)
-            }
-            return nil
-        }
         
-        if diary == nil {
-            diary = Diary(title: convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst(),
-                          body: convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0],
-                          text: diaryView.diaryTextView.text ?? "",
-                          createdAt: Date().timeIntervalSince1970,
-                          id: UUID())
-        } else {
-            diary?.title = convertedTextArray.isEmpty ? "새로운 일기" : convertedTextArray.removeFirst()
-            diary?.body = convertedTextArray.isEmpty ? "본문 없음" : convertedTextArray[0]
-            diary?.text = diaryView.diaryTextView.text ?? ""
-        }
+        delegate?.updateView()
     }
     
     private func touchShareButton() {
@@ -112,9 +152,11 @@ class DiaryViewController: UIViewController {
         let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
             self.touchShareButton()
         }
+        
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.touchDeleteButton()
         }
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
 
         alert.addAction(shareAction)
@@ -125,8 +167,76 @@ class DiaryViewController: UIViewController {
     }
     
     @objc private func saveDiary() {
-        setDiary()
-        update(diary)
-        delegate?.updateView()
+        if diary == nil {
+            if locationManager?.authorizationStatus == .authorizedAlways || locationManager?.authorizationStatus == .authorizedWhenInUse {
+                setWeatherInfo()
+            } else {
+                setDiary()
+            }
+        } else {
+            editDiary()
+        }
+    }
+}
+
+// MARK: - weather info
+extension DiaryViewController {
+    var coordinate: (latitude: Double, longitude: Double) {
+        let coordinate = locationManager?.location?.coordinate
+        guard let latitude = coordinate?.latitude,
+              let longitude = coordinate?.longitude else {
+            return (0, 0)
+        }
+                
+        return (latitude, longitude)
+    }
+    
+    private func setWeatherInfo() {
+        let weatherAPI = WeatherAPI(latitude: coordinate.latitude,
+                                    longitude: coordinate.longitude)
+
+        self.networkManager.request(with: weatherAPI) { result in
+            switch result {
+            case .success(let data):
+                self.parse(data)
+            case .failure(_):
+                self.saveDiary()
+            }
+        }
+    }
+    
+    private func setWeatherImage(_ iconID: String) {
+        let imageAPI = ImageAPI(iconID: iconID)
+
+        self.networkManager.request(with: imageAPI) { result in
+            switch result {
+            case .success(let data):
+                self.iconImage = data
+            case .failure(_):
+                self.saveDiary()
+            }
+        }
+    }
+    
+    private func parse(_ data: Data) {
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any] else {
+            return
+        }
+        
+        guard let weather = json["weather"] as? [[String: Any]] else {
+            return
+        }
+        
+        guard let weatherData = weather.first else {
+            return
+        }
+        
+        guard let main = weatherData["main"] as? String,
+              let iconID = weatherData["icon"] as? String else {
+            return
+        }
+        
+        self.setWeatherImage(iconID)
+        self.weather = Weather(main: main, iconID: iconID)
     }
 }

@@ -8,16 +8,24 @@
 
 /* Begin PBXBuildFile section */
 		766AA509243A8B56BB950F37 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A6F4A49657B16893BC04BEA /* Pods_Diary.framework */; };
+		AC44C71B286EB7F600BA32FA /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC44C71A286EB7F600BA32FA /* Weather.swift */; };
 		AC50348928582BDE0068C2A0 /* ListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC50348828582BDE0068C2A0 /* ListTableViewCell.swift */; };
 		AC50348C28582C450068C2A0 /* UIStackView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC50348B28582C450068C2A0 /* UIStackView+.swift */; };
 		AC7E277A2860027E00FB90D0 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7E27792860027E00FB90D0 /* AddViewController.swift */; };
 		AC7E277C2860028500FB90D0 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7E277B2860028500FB90D0 /* EditViewController.swift */; };
+		ACAD5F82286FE7710065B7A6 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAD5F81286FE7710065B7A6 /* HTTPMethod.swift */; };
+		ACAD5F84286FE8220065B7A6 /* APIable.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAD5F83286FE8220065B7A6 /* APIable.swift */; };
+		ACAD5F86286FE8640065B7A6 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACAD5F85286FE8640065B7A6 /* NetworkError.swift */; };
 		ACFA965628596909009DFD8F /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFA965528596909009DFD8F /* DiaryView.swift */; };
 		B32FEFA228600F5600F3A6B5 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA028600F5600F3A6B5 /* Model.xcdatamodeld */; };
-		B32FEFA52860116500F3A6B5 /* DiaryModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */; };
-		B32FEFA62860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */; };
 		B3427841286192F3004488E4 /* Notification.Name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3427840286192F3004488E4 /* Notification.Name+.swift */; };
+		B379883A286AA88D005FA8D9 /* MappingModelVer1ToVer2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = B3798839286AA88D005FA8D9 /* MappingModelVer1ToVer2.xcmappingmodel */; };
+		B379883F286AA8BB005FA8D9 /* DiaryModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B379883B286AA8BB005FA8D9 /* DiaryModel+CoreDataClass.swift */; };
+		B3798840286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B379883C286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift */; };
+		B3798841286AA8BB005FA8D9 /* WeatherModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = B379883D286AA8BB005FA8D9 /* WeatherModel+CoreDataClass.swift */; };
+		B3798842286AA8BB005FA8D9 /* WeatherModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B379883E286AA8BB005FA8D9 /* WeatherModel+CoreDataProperties.swift */; };
 		B3940C7E2862BF1400EB2280 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3940C7D2862BF1400EB2280 /* UIViewController+.swift */; };
+		B3C41726286F2C7B0080EA8A /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3C41725286F2C7B0080EA8A /* NetworkManager.swift */; };
 		B3D761702860131C00C4AE94 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */; };
 		B3FB2B2B285C1EC6009A932C /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FB2B2A285C1EC6009A932C /* Date+.swift */; };
 		B3FE9B39285820680006A7AB /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3FE9B38285820680006A7AB /* MainView.swift */; };
@@ -33,16 +41,25 @@
 /* Begin PBXFileReference section */
 		1A6F4A49657B16893BC04BEA /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		644742BD92F229768ED4FCB4 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
+		AC44C71A286EB7F600BA32FA /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		AC50348828582BDE0068C2A0 /* ListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListTableViewCell.swift; sourceTree = "<group>"; };
 		AC50348B28582C450068C2A0 /* UIStackView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+.swift"; sourceTree = "<group>"; };
 		AC7E27792860027E00FB90D0 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		AC7E277B2860028500FB90D0 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
+		ACAD5F81286FE7710065B7A6 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		ACAD5F83286FE8220065B7A6 /* APIable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIable.swift; sourceTree = "<group>"; };
+		ACAD5F85286FE8640065B7A6 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		ACFA965528596909009DFD8F /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		B32FEFA128600F5600F3A6B5 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataClass.swift"; sourceTree = "<group>"; };
-		B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3427840286192F3004488E4 /* Notification.Name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Notification.Name+.swift"; path = "Diary/Controller/Notification.Name+.swift"; sourceTree = SOURCE_ROOT; };
+		B379881C286A8B9B005FA8D9 /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
+		B3798839286AA88D005FA8D9 /* MappingModelVer1ToVer2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelVer1ToVer2.xcmappingmodel; sourceTree = "<group>"; };
+		B379883B286AA8BB005FA8D9 /* DiaryModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B379883C286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		B379883D286AA8BB005FA8D9 /* WeatherModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		B379883E286AA8BB005FA8D9 /* WeatherModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3940C7D2862BF1400EB2280 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "UIViewController+.swift"; path = "Diary/Controller/UIViewController+.swift"; sourceTree = SOURCE_ROOT; };
+		B3C41725286F2C7B0080EA8A /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B3FB2B2A285C1EC6009A932C /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		B3FE9B38285820680006A7AB /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -90,6 +107,17 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		ACAD5F7F286FE7460065B7A6 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				B3C41725286F2C7B0080EA8A /* NetworkManager.swift */,
+				ACAD5F83286FE8220065B7A6 /* APIable.swift */,
+				ACAD5F81286FE7710065B7A6 /* HTTPMethod.swift */,
+				ACAD5F85286FE8640065B7A6 /* NetworkError.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		B3FE9B3E28588A8B0006A7AB /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -115,7 +143,9 @@
 			isa = PBXGroup;
 			children = (
 				B3FE9B3A285853F60006A7AB /* Diary.swift */,
+				AC44C71A286EB7F600BA32FA /* Weather.swift */,
 				B3D7616F2860131C00C4AE94 /* CoreDataManager.swift */,
+				ACAD5F7F286FE7460065B7A6 /* Network */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -123,8 +153,11 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
-				B32FEFA32860116500F3A6B5 /* DiaryModel+CoreDataClass.swift */,
-				B32FEFA42860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift */,
+				B379883B286AA8BB005FA8D9 /* DiaryModel+CoreDataClass.swift */,
+				B379883C286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift */,
+				B379883D286AA8BB005FA8D9 /* WeatherModel+CoreDataClass.swift */,
+				B379883E286AA8BB005FA8D9 /* WeatherModel+CoreDataProperties.swift */,
+				B3798839286AA88D005FA8D9 /* MappingModelVer1ToVer2.xcmappingmodel */,
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
 				66692EE6C238CE0BA38B6037 /* Pods */,
@@ -280,21 +313,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC7E277C2860028500FB90D0 /* EditViewController.swift in Sources */,
+				B379883A286AA88D005FA8D9 /* MappingModelVer1ToVer2.xcmappingmodel in Sources */,
+				B3798842286AA8BB005FA8D9 /* WeatherModel+CoreDataProperties.swift in Sources */,
 				B3427841286192F3004488E4 /* Notification.Name+.swift in Sources */,
+				B3C41726286F2C7B0080EA8A /* NetworkManager.swift in Sources */,
 				B3940C7E2862BF1400EB2280 /* UIViewController+.swift in Sources */,
-				B32FEFA52860116500F3A6B5 /* DiaryModel+CoreDataClass.swift in Sources */,
+				B3798841286AA8BB005FA8D9 /* WeatherModel+CoreDataClass.swift in Sources */,
 				AC50348C28582C450068C2A0 /* UIStackView+.swift in Sources */,
 				C739AE29284DF28600741E8F /* ListViewController.swift in Sources */,
 				AC7E277A2860027E00FB90D0 /* AddViewController.swift in Sources */,
+				B379883F286AA8BB005FA8D9 /* DiaryModel+CoreDataClass.swift in Sources */,
 				B3FB2B2B285C1EC6009A932C /* Date+.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
-				B32FEFA62860116500F3A6B5 /* DiaryModel+CoreDataProperties.swift in Sources */,
+				ACAD5F84286FE8220065B7A6 /* APIable.swift in Sources */,
+				B3798840286AA8BB005FA8D9 /* DiaryModel+CoreDataProperties.swift in Sources */,
+				AC44C71B286EB7F600BA32FA /* Weather.swift in Sources */,
 				ACFA965628596909009DFD8F /* DiaryView.swift in Sources */,
 				B3FE9B39285820680006A7AB /* MainView.swift in Sources */,
 				B3FE9B3D2858890D0006A7AB /* DiaryViewController.swift in Sources */,
+				ACAD5F86286FE8640065B7A6 /* NetworkError.swift in Sources */,
 				AC50348928582BDE0068C2A0 /* ListTableViewCell.swift in Sources */,
 				B32FEFA228600F5600F3A6B5 /* Model.xcdatamodeld in Sources */,
+				ACAD5F82286FE7710065B7A6 /* HTTPMethod.swift in Sources */,
 				B3D761702860131C00C4AE94 /* CoreDataManager.swift in Sources */,
 				B3FE9B3B285853F60006A7AB /* Diary.swift in Sources */,
 			);
@@ -515,9 +556,10 @@
 		B32FEFA028600F5600F3A6B5 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B379881C286A8B9B005FA8D9 /* Model 2.xcdatamodel */,
 				B32FEFA128600F5600F3A6B5 /* Model.xcdatamodel */,
 			);
-			currentVersion = B32FEFA128600F5600F3A6B5 /* Model.xcdatamodel */;
+			currentVersion = B379881C286A8B9B005FA8D9 /* Model 2.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
