@@ -21,7 +21,6 @@ final class MainViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        print("셀 생성 중 에러 생김")
     }
     
     private lazy var titleLabel: UILabel = {
@@ -40,6 +39,14 @@ final class MainViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "questionmark.circle")
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        return imageView
+    }()
+    
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
@@ -49,7 +56,7 @@ final class MainViewCell: UITableViewCell {
     }()
     
     private lazy var stackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [dateLabel, descriptionLabel])
+        let stackView = UIStackView(arrangedSubviews: [dateLabel, weatherImageView, descriptionLabel])
         contentView.addSubview(stackView)
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -66,7 +73,10 @@ final class MainViewCell: UITableViewCell {
             titleLabel.bottomAnchor.constraint(equalTo: stackView.topAnchor, constant: -Constant.lineInset),
             stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -Constant.lineInset),
             stackView.leftAnchor.constraint(equalTo: titleLabel.leftAnchor),
-            stackView.rightAnchor.constraint(equalTo: titleLabel.rightAnchor)
+            stackView.rightAnchor.constraint(equalTo: titleLabel.rightAnchor),
+
+            weatherImageView.widthAnchor.constraint(equalToConstant: 26),
+            weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.heightAnchor)
         ])
     }
     
@@ -74,9 +84,18 @@ final class MainViewCell: UITableViewCell {
         var bodies = data.body?.components(separatedBy: "\n")
         bodies?.removeFirst()
         let body = bodies?.reduce("") { $0 + " " + $1 }
-        
+        // icon
+//        if let icon = data.icon {
+//            weatherImageView.weatherImage(icon: icon)
+//        }
         titleLabel.text = data.title
         dateLabel.text = data.date?.toString ?? ""
         descriptionLabel.text = body
+    }
+    
+    func setWeatherImage(_ data: DiaryInfo) {
+            if let icon = data.icon {
+                weatherImageView.weatherImage(icon: icon)
+        }
     }
 }

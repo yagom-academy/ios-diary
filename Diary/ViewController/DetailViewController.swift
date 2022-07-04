@@ -21,10 +21,10 @@ final class DetailViewController: UIViewController {
     
     private var detailView: DetailViewable
     private var diaryData: DiaryInfo?
-    private var viewModel: TableViewModel<DiaryUseCase>
+    private var viewModel: DetailViewModel
     private var state: State = .update
      
-    init(view: DetailViewable, viewModel: TableViewModel<DiaryUseCase>) {
+    init(view: DetailViewable, viewModel: DetailViewModel) {
         self.detailView = view
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -33,6 +33,23 @@ final class DetailViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.text = diaryData?.date?.toString
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        return label
+    }()
+    
+    private lazy var titleImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "questionmark.circle")
+        
+        if let icon = diaryData?.icon {
+            imageView.weatherImage(icon: icon)
+        }
+        return imageView
+    }()
     
     override func loadView() {
         view = detailView
@@ -46,6 +63,11 @@ final class DetailViewController: UIViewController {
         }
         setNavigationSetting()
         (UIApplication.shared.delegate as? AppDelegate)?.saveDelegate = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -67,9 +89,7 @@ final class DetailViewController: UIViewController {
     private func saveData() {
         if state == .update {
             let editedDiary = detailView.exportDiaryText()
-            viewModel.update(data: editedDiary) { error in
-                self.alertMaker.makeErrorAlert(error: error)
-            }
+            viewModel.requireAction(.update(editedDiary))
         }
     }
 }
@@ -115,12 +135,26 @@ extension DetailViewController {
 // MARK: Navigation Method
 extension DetailViewController {
     private func setNavigationSetting() {
-        navigationItem.title = diaryData?.date?.toString
+        let stackView = UIStackView(arrangedSubviews: [titleImageView, titleLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .fill
+
+        navigationItem.titleView = stackView
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .action,
             target: self,
             action: #selector(rightBarbuttonClicked(_:))
         )
+    }
+    
+    func updateNavigationImage(with diaryInfo: DiaryInfo) {
+        guard let icon = diaryInfo.icon else {
+            return
+        }
+        titleImageView.weatherImage(icon: icon)
     }
     
     @objc private func rightBarbuttonClicked(_ sender: Any) {
@@ -138,12 +172,12 @@ extension DetailViewController {
             let cancleButton = UIAlertAction(title: "취소", style: .cancel)
             let deleteButton = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 self.state = .delete
-                    self.viewModel.delete(data: diaryData) { error in
-                        self.alertMaker.makeErrorAlert(error: error)
-                    }
+                self.viewModel.requireAction(.delete(diaryData))
                 self.navigationController?.popViewController(animated: true)
             }
-            self.alertMaker.makeAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", buttons: [cancleButton, deleteButton])
+            self.alertMaker.makeAlert(title: "진짜요?",
+                                      message: "정말로 삭제하시겠어요?",
+                                      buttons: [cancleButton, deleteButton])
         }
 
         alertMaker.makeActionSheet(buttons: [UIAlertAction(title: "Share",
@@ -151,13 +185,18 @@ extension DetailViewController {
                                                            handler: shareButtonHandler),
                                              UIAlertAction(title: "Delete",
                                                            style: .destructive,
-                                                           handler: deleteButtonHandler)]
-        )
+                                                           handler: deleteButtonHandler)])
     }
 }
 
 extension DetailViewController: SaveDelegate {
     func save() {
         saveData()
+    }
+}
+
+extension DetailViewController: DetailViewModelDelegate {
+    func errorHandler(_ error: Error) {
+        alertMaker.makeErrorAlert(error: error)
     }
 }

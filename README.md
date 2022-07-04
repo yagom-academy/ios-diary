@@ -3,8 +3,6 @@
 > 프로젝트 기간: 2022.06.13 ~ 2022.07.01 
 > 팀원: [우롱차](https://github.com/dnwhd0112), [Red](https://github.com/cherrishRed) 리뷰어: [웨더](https://github.com/SungPyo)
 
-## 목차 
-
 ## 프로젝트 소개 
 📔 일기장
 나만의 일기를 만들어 보세요!
@@ -14,7 +12,7 @@
 ## 타임라인
 - [x] 첫째주 : 화면구성, 키보드, Core Data CRUD 구현
 - [x] 둘째주 : Core Data를 이용한 기능 구현, TableView 세세한 동작구현, alert 구현 
-- [ ] 셋째주 : 
+- [x] 셋째주 : 네트워킹을 통하여 날씨정보 받아오기 및 이미지 삽입
 
 
 ## 프로젝트 구조
@@ -22,7 +20,7 @@
 ![](https://i.imgur.com/beEnYhe.png)
 
 ## 프로젝트 실행 화면
-![](https://i.imgur.com/tJfrO7x.gif)
+![](https://i.imgur.com/5TaQh6j.gif)
 
 ## 🚀 트러블 슈팅
 ### STEP1
@@ -164,7 +162,8 @@ final class DetailViewController: UIViewController {
 ```
 
 `😆해결`
-🛑 이부분 해결하고 다시 작성하기
+결국 다른 뷰모델을 만들어서 처리하였다. 유스케이스도 같이 만들어줬다. 분리한 이유는 뷰 모델에서 델리게이트 패턴을 사용하여 뷰컨에서의 동작을 받는대 두개의 뷰컨이 사용되면서 하나의 뷰모델에서 처리하기 곤란해졌다. 또한 두개를 사용하기에 최적화가 덜 되있었다. 이러한 이유로 다른 뷰모델을 만들어줬다.
+
 
 ### 유사한 로직의 통일, 분리 
 
@@ -178,8 +177,7 @@ data 를 삭제하고, 공유하는 `handler` 를 `MainViewController` 와 `Deta
 이 두 로직이 겹치는 부분이 많다고 생각되는데 같은 클로저를 공유해서 사용할 수 있는 방법이 있는지 궁금하다. 
 
 `😆해결`
-🛑 이부분 해결하고 다시 작성하기
-
+결국 다른 메서드라 그냥 다르게 처리해줬다.
 
 ### SceneDelegate, AppDelegate 활용
 `🤔문제`
@@ -199,7 +197,38 @@ func sceneDidEnterBackground(_ scene: UIScene) {
 ```
 
 `😆해결`
-🛑 이부분 어떤 로직을 선택했는지 고른뒤 다시 작성하기
+첫번째 방법을 선택하여 작성하였다. 두번째 방법은 결국 TopView를 가져와야 처리를 할 수 있다. 하지만 TopView를 제대로 가져올려면 분기처리를 해줘야한다. 하지만 우리는 꼼꼼한 분기처리를 하지않고 첫번째 방법을 선택하기로 했다.
+
+### STEP3
+* Rx 없이 MVVM 구조
+* Result 타입으로 변경 
+* UseCase 
+
+
+#### Rx 없이 MVVM 구조
+`🤔문제`
+처음에는 MVVM 패턴에 익숙하지 않아서 MVC 처럼
+MVVM 구조를 ViewController 가 ViewModel 의 프로퍼티를 직접 접근해서 호출하고 수정하는 방향으로 작성하였다.
+(파라미터로 핸들러를 받아서 핸들러를 ViewController 에서 호출하도록 수정하였다.)
+
+`😆해결`
+delegate로 Handler 들을 작성해 주어서 Handler 를 호출하는 주체가 ViewController 가 아닌 ViewModel 이 되게 하였다.
+
+# MVVM 을 쓰면서...
+
+## 클린 아키텍처를 참고
+계층 별로 기능을 나누고 추후 코드를 작성할때 어떤 구조로 구성해야될지 많은 도움이 된거같다. 
+우리 MVVM 구조에서 정한 규칙이 있다.
+1. 뷰모델에선 뷰와 관련된 코드를 쓰지않는다.(UIKit 을 임포트하지않는다.)
+2. 뷰모델에 접근할땐 인터페이스를 정해서 내부 함수가 드러나지 않게한다.
+3. 뷰 - 뷰모델 - 유스케이스 의 역할을 올바르게 분리한다. 
+
+## Result 타입으로 변경
+`🤔문제`
+CRUD 메서드를 throws 로 작성했는데 리뷰어께서 try catch 를 사용하지 않는 방법으로 수정해 보는 것이 어떻겠느냐 이야기 해주셨다.
+
+`😆해결`
+Result 타입을 사용해서 Success 와 Failure 한 객체를 받도록 설정했다.
 
 ## ✏️ 학습내용
 * CoreData

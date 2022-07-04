@@ -13,7 +13,11 @@ class DiaryCoreDataTest: XCTestCase {
     var diaryUseCase: DiaryUseCase!
     
     override func setUpWithError() throws {
-        diaryUseCase = DiaryUseCase(containerManager: DiaryContainerManager.shared)
+        diaryUseCase = DiaryUseCase(containerManager: DiaryContainerManager.shared,
+                                    weatherUseCase: WeatherDataUseCase(network: Network(),
+                                                                       jsonDecoder: JSONDecoder()
+                                                                      )
+        )
     }
 
     override func tearDownWithError() throws {
