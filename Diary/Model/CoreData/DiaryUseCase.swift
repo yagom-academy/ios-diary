@@ -8,18 +8,7 @@
 import CoreData
 import CoreLocation
 
-protocol CoreDataUseCase {
-    associatedtype Element: DataModelable
-    func create(element: Element) throws -> Element
-    func read() throws -> [Element]
-    func update(element: Element) throws
-    func asyncUpdate(element: Element,
-                     completionHandler: @escaping (Element) -> Void,
-                     errorHandler: @escaping (Error) -> Void)
-    func delete(element: Element) throws
-}
-
-final class DiaryUseCase: CoreDataUseCase {
+final class DiaryUseCase {
     private let containerManager: ContainerManagerable
     private let weatherUseCase: WeatherDataUseCase
     let context: NSManagedObjectContext
@@ -53,32 +42,35 @@ final class DiaryUseCase: CoreDataUseCase {
     }
     
     @discardableResult
-    func create(element: DiaryInfo) throws -> DiaryInfo {
+    func create(element: DiaryInfo) ->  Result<DiaryInfo, Error> {
         let key = UUID()
         
         guard let diaryEntity = diaryEntity,
               let diaryData = NSManagedObject(entity: diaryEntity, insertInto: context) as? DiaryData else {
-            throw CoreDataError.createError
+            return .failure(CoreDataError.createError)
         }
         
         diaryData.title = element.title
         diaryData.body = element.body
         diaryData.date = element.date
         diaryData.key = key
-        
-        try context.save()
+        do {
+            try context.save()
+        } catch {
+            return .failure(error)
+        }
         let diaryInfo = DiaryInfo(title: element.title, body: element.body, date: element.date, key: key)
 
-        return diaryInfo
+        return .success(diaryInfo)
     }
     
-    func read() throws -> [DiaryInfo] {
+    func read() -> Result<[DiaryInfo], Error> {
         let fetchRequest = DiaryData.fetchRequest()
         
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         
         guard let diarys = try? context.fetch(fetchRequest) else {
-            throw CoreDataError.readError
+            return .failure(CoreDataError.readError)
         }
         
         let diaryInfoArray = diarys.map { diary -> DiaryInfo in
@@ -90,59 +82,58 @@ final class DiaryUseCase: CoreDataUseCase {
                              icon: diary.icon)
         }
         
-        return diaryInfoArray
+        return .success(diaryInfoArray)
     }
     
-    func update(element: DiaryInfo) throws {
+    func update(element: DiaryInfo) -> Result<Void, Error> {
         guard let key = element.key else {
-            throw CoreDataError.updateError
+            return .failure(CoreDataError.updateError)
         }
-        
-        let diarys = try filterDiaryData(key: key)
-        
-        guard diarys.count > 0 else {
-            throw CoreDataError.updateError
+        do {
+            let diarys = try filterDiaryData(key: key)
+            guard diarys.count > 0 else {
+                return .failure(CoreDataError.updateError)
+            }
+            let diary = diarys[0]
+            diary.setValue(element.title, forKey: "title")
+            diary.setValue(element.body, forKey: "body")
+            try context.save()
+        } catch {
+            return .failure(error)
         }
-        
-        let diary = diarys[0]
-        diary.setValue(element.title, forKey: "title")
-        diary.setValue(element.body, forKey: "body")
-        try context.save()
+        return .success(Void())
     }
     
-    func delete(element: DiaryInfo) throws {
+    func delete(element: DiaryInfo) -> Result<Void, Error> {
         let request = DiaryData.fetchRequest()
         
         guard let uuidString = element.key?.uuidString else {
-            throw CoreDataError.deleteError
+            return .failure(CoreDataError.deleteError)
         }
         
-        let predicate = NSPredicate(format: "key = %@", uuidString)
-        request.predicate = predicate
-        let result = try context.fetch(request)
-        let resultArray = result as [DiaryData]
-        
-        guard resultArray.count > 0 else {
-            throw CoreDataError.deleteError
+        do {
+            let predicate = NSPredicate(format: "key = %@", uuidString)
+            request.predicate = predicate
+            let result = try context.fetch(request)
+            let resultArray = result as [DiaryData]
+            
+            guard resultArray.count > 0 else {
+                return .failure(CoreDataError.deleteError)
+            }
+            
+            context.delete(resultArray[0])
+            try context.save()
+        } catch {
+            return .failure(error)
         }
-        
-        context.delete(resultArray[0])
-        try context.save()
+        return .success(Void())
     }
     
     func asyncUpdate(element: DiaryInfo,
                      completionHandler: @escaping (DiaryInfo) -> Void,
                      errorHandler: @escaping (Error) -> Void) {
-        updateWeather(element: element,
-                      completionHandler: completionHandler,
-                      errorHandler: errorHandler)
-    }
-    
-    private func updateWeather(element: DiaryInfo,
-                               completionHandler: @escaping (DiaryInfo) -> Void,
-                               errorHandler: @escaping (Error) -> Void) {
         if let location = location {
-            weatherUseCase.requestWeatherData(location: location) { weatherDatas in
+            weatherUseCase.requestWeatherData(location: location) { (weatherDatas: WeatherData) in
                 do {
                     guard let weatherData = weatherDatas.weather.first else {
                         throw NetworkError.dataError

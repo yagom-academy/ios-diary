@@ -6,64 +6,99 @@
 //
 
 import UIKit
+protocol TableViewModelDelegate: AnyObject {
+    func createHandler(_ data: DiaryInfo)
+    func asyncUpdateHandler(_ data: DiaryInfo)
+    func errorHandler(_ error: Error)
+    func reloadData(_ datas: [DiaryInfo])
+}
 
-final class TableViewModel<U: CoreDataUseCase>: NSObject {
-    private var data: [U.Element] = []
-    private let useCase: U
-    var dataCount: Int {
+enum ViewModelAction {
+    case create
+    case loadData
+    case update(DiaryInfo)
+    case delete(DiaryInfo)
+    case asyncUpdate(DiaryInfo)
+}
+
+final class TableViewModel: NSObject {
+    private var data: [DiaryInfo] = []
+    let useCase: DiaryUseCase
+    var delegate: TableViewModelDelegate?
+    private var dataCount: Int {
         return data.count
     }
     
-    init(useCase: U) {
+    init(useCase: DiaryUseCase) {
         self.useCase = useCase
     }
     
-    func create(data: U.Element,
-                completionHandler: ((U.Element) -> Void)? = nil,
-                errorHandler: ((Error) -> Void)? = nil) {
-        do {
-            let result = try useCase.create(element: data)
-            completionHandler?(result)
-        } catch {
-            errorHandler?(error)
+    func requireAction(_ action: ViewModelAction) {
+        switch action {
+        case .create:
+            create()
+        case .loadData:
+            loadData()
+        case .update(let diaryInfo):
+            update(data: diaryInfo)
+        case .delete(let diaryInfo):
+            delete(data: diaryInfo)
+        case .asyncUpdate(let diaryInfo):
+            asyncUpdate(data: diaryInfo)
         }
     }
     
-    func loadData(errorHandler: ((Error) -> Void)? = nil) {
-        do {
-            let diaryDatas = try useCase.read()
+    private func create() {
+        let newDiary = DiaryInfo(title: "", body: "", date: Date(), key: nil)
+        let result = useCase.create(element: newDiary)
+        
+        switch result {
+        case .success(let diary):
+            delegate?.createHandler(diary)
+        case .failure(let error):
+            delegate?.errorHandler(error)
+        }
+    }
+    
+    private func loadData() {
+        let diaryDatas = useCase.read()
+        switch diaryDatas {
+        case .success(let diaryDatas):
             data = diaryDatas
-        } catch {
-            errorHandler?(error)
+            delegate?.reloadData(data)
+        case.failure(let error ):
+            delegate?.errorHandler(error)
         }
     }
     
-    func update(data: U.Element, errorHandler: ((Error) -> Void)? = nil) {
-        do {
-            try useCase.update(element: data)
-        } catch {
-            errorHandler?(error)
+    private func update(data: DiaryInfo) {
+        let result = useCase.update(element: data)
+        
+        switch result {
+        case .success:
+            return
+        case .failure(let error):
+            delegate?.errorHandler(error)
         }
     }
     
-    func delete(data: U.Element, errorHandler: ((Error) -> Void)? = nil) {
-        do {
-            try useCase.delete(element: data)
-        } catch {
-            errorHandler?(error)
+    private func delete(data: DiaryInfo) {
+        
+        let result = useCase.delete(element: data)
+        switch result {
+        case .success:
+            return
+        case .failure(let error):
+            delegate?.errorHandler(error)
         }
     }
     
-    func indexData(_ index: Int)-> U.Element? {
-        guard index < data.count else {
-            return nil
+    private func asyncUpdate(data: DiaryInfo) {
+        guard let delegate = delegate else {
+            return
         }
-        return data[index]
-    }
-    
-    func asyncUpdate(data: U.Element,
-                     completionHandler: @escaping (U.Element) -> Void,
-                     errorHandler: @escaping (Error) -> Void) {
-        useCase.asyncUpdate(element: data, completionHandler: completionHandler, errorHandler: errorHandler)
+        useCase.asyncUpdate(element: data,
+                            completionHandler: delegate.asyncUpdateHandler,
+                            errorHandler: delegate.errorHandler)
     }
 }

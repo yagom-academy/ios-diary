@@ -21,10 +21,10 @@ final class DetailViewController: UIViewController {
     
     private var detailView: DetailViewable
     private var diaryData: DiaryInfo?
-    private var viewModel: TableViewModel<DiaryUseCase>
+    private var viewModel: DetailViewModel
     private var state: State = .update
      
-    init(view: DetailViewable, viewModel: TableViewModel<DiaryUseCase>) {
+    init(view: DetailViewable, viewModel: DetailViewModel) {
         self.detailView = view
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -65,6 +65,11 @@ final class DetailViewController: UIViewController {
         (UIApplication.shared.delegate as? AppDelegate)?.saveDelegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.delegate = self
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         (UIApplication.shared.delegate as? AppDelegate)?.saveDelegate = nil
@@ -84,9 +89,7 @@ final class DetailViewController: UIViewController {
     private func saveData() {
         if state == .update {
             let editedDiary = detailView.exportDiaryText()
-            viewModel.update(data: editedDiary) { error in
-                self.alertMaker.makeErrorAlert(error: error)
-            }
+            viewModel.requireAction(.update(editedDiary))
         }
     }
 }
@@ -169,9 +172,7 @@ extension DetailViewController {
             let cancleButton = UIAlertAction(title: "취소", style: .cancel)
             let deleteButton = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 self.state = .delete
-                    self.viewModel.delete(data: diaryData) { error in
-                        self.alertMaker.makeErrorAlert(error: error)
-                    }
+                self.viewModel.requireAction(.delete(diaryData))
                 self.navigationController?.popViewController(animated: true)
             }
             self.alertMaker.makeAlert(title: "진짜요?",
@@ -191,5 +192,11 @@ extension DetailViewController {
 extension DetailViewController: SaveDelegate {
     func save() {
         saveData()
+    }
+}
+
+extension DetailViewController: DetailViewModelDelegate {
+    func errorHandler(_ error: Error) {
+        alertMaker.makeErrorAlert(error: error)
     }
 }

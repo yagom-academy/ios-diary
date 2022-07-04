@@ -32,6 +32,7 @@
 		DAD7F77528619BCB00F53652 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F77428619BCB00F53652 /* UIViewController+Extension.swift */; };
 		DAD7F7772861A06300F53652 /* UnknownError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD7F7762861A06300F53652 /* UnknownError.swift */; };
 		E1699D4465D99ED143EDAB01 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77EB35D5672E541D41E421E5 /* Pods_Diary.framework */; };
+		E1ADB4BB286DDF6100A5EA39 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1ADB4BA286DDF6100A5EA39 /* DetailViewModel.swift */; };
 		E1B7599028618BBF0058A316 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B7598F28618BBF0058A316 /* CoreDataError.swift */; };
 		E1B7599228618C840058A316 /* ErrorAlertProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1B7599128618C840058A316 /* ErrorAlertProtocol.swift */; };
 		E1BBB2A7286AD31D008914F5 /* Network.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1BBB2A6286AD31D008914F5 /* Network.swift */; };
@@ -87,6 +88,7 @@
 		DAD7F77428619BCB00F53652 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		DAD7F7762861A06300F53652 /* UnknownError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnknownError.swift; sourceTree = "<group>"; };
 		E103C5432869D1C80025128A /* Diary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary 2.xcdatamodel"; sourceTree = "<group>"; };
+		E1ADB4BA286DDF6100A5EA39 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		E1B7598F28618BBF0058A316 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		E1B7599128618C840058A316 /* ErrorAlertProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorAlertProtocol.swift; sourceTree = "<group>"; };
 		E1BBB2A6286AD31D008914F5 /* Network.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Network.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 			isa = PBXGroup;
 			children = (
 				DAD7F6A32858678900F53652 /* TableViewModel.swift */,
+				E1ADB4BA286DDF6100A5EA39 /* DetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -461,6 +464,7 @@
 				E1BBB2A7286AD31D008914F5 /* Network.swift in Sources */,
 				DAD7F6AA2858C78E00F53652 /* DetailViewController.swift in Sources */,
 				DAD7F7772861A06300F53652 /* UnknownError.swift in Sources */,
+				E1ADB4BB286DDF6100A5EA39 /* DetailViewModel.swift in Sources */,
 				E1B7599228618C840058A316 /* ErrorAlertProtocol.swift in Sources */,
 				DAD7F6A028585E1500F53652 /* DiaryDateFormatter.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
