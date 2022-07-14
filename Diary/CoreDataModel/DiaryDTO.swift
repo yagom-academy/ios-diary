@@ -13,6 +13,7 @@ struct DiaryDTO: Decodable, Hashable {
     var title: String
     var body: String
     let date: Date
+    var icon: String? = ""
     
     var dateString: String {
         return Formatter.setUpDate(from: date.timeIntervalSinceReferenceDate)
@@ -24,7 +25,7 @@ struct DiaryDTO: Decodable, Hashable {
         case date = "created_at"
     }
     
-    init(identifier: UUID? = nil, title: String, body: String, date: Date) {
+    init(identifier: UUID? = nil, title: String, body: String, date: Date, icon: String? = nil) {
         if let identifier = identifier {
             self.identifier = identifier
         }
@@ -32,6 +33,7 @@ struct DiaryDTO: Decodable, Hashable {
         self.title = title
         self.body = body
         self.date = date
+        self.icon = icon
     }
     
     mutating func editData(_ newData: DiaryDTO) {

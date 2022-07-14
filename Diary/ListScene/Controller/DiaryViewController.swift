@@ -5,35 +5,73 @@
 // 
 
 import UIKit
+import CoreLocation
+
+protocol DataSourceDelegate: AnyObject {
+    func updatePage()
+}
+
+extension DiaryViewController: DataSourceDelegate {
+    func updatePage() {
+        dataSource.setUpCoreData()
+    }
+}
 
 final class DiaryViewController: UIViewController, DiaryProtocol {
-    enum Const {
-        static let navigationTitle = "일기장"
-        static let registerButton = "+"
-    }
+    private lazy var tableView = DiaryTableView(delegate: self)
     
-    private let tableView = UITableView()
-    private var dataSource: UITableViewDiffableDataSource<Int, DiaryDTO>?
+    private lazy var dataSource = DiaryDataSource(tableView: tableView) {
+        tableView, indexPath, itemIdentifier in
+        return self.setUpDataSource(tableView: tableView,
+                                    indexPath: indexPath,
+                                    itemIdentifier: itemIdentifier)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         setUpView()
-        setUpNavigationController()
-        setUpTableView()
-        setUpTableViewLayout()
-        setUpDataSource()
+        navigationController?.setUpNavigationController(viewController: self)
+        
+        LocationManager.agree(viewController: self)
+        
+        #if DEBUG
+            dataSource.setUpSampleData()
+        #else
+            dataSource.setUpCoreData()
+        #endif
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        setUpCoreData()
+        DiaryDAO.shared.delegate = self
+    }
+    
+    private func setUpDataSource(tableView: UITableView, indexPath: IndexPath, itemIdentifier: DiaryDTO) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell {
+            cell.configure(data: itemIdentifier)
+            
+            return cell
+        }
+        
+        return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
     }
     
     private func setUpView() {
         view.backgroundColor = .systemBackground
+        
+        view.addSubview(tableView)
+        tableView.layout(view: view)
+    }
+}
+
+// MARK: - UINavigationController
+private extension UINavigationController {
+    private enum Const {
+        static let navigationTitle = "일기장"
+        static let registerButton = "+"
     }
     
-    private func setUpNavigationController() {
+    func setUpNavigationController(viewController: UIViewController) {
         func setUpRightItem() {
             let weight = UIFont.systemFont(ofSize: 35, weight: .light)
             let attributes = [NSAttributedString.Key.font: weight]
@@ -46,83 +84,25 @@ final class DiaryViewController: UIViewController, DiaryProtocol {
             
             registerButton.setTitleTextAttributes(attributes, for: .normal)
             
-            navigationItem.rightBarButtonItem = registerButton
+            viewController.navigationItem.rightBarButtonItem = registerButton
         }
         
-        navigationItem.title = Const.navigationTitle
+        viewController.navigationItem.title = Const.navigationTitle
         setUpRightItem()
     }
     
     @objc private func moveRegisterViewController() {
         let viewContoller = UpdateViewController()
         
-        navigationController?.pushViewController(viewContoller, animated: true)
-    }
-    
-    private func setUpTableView() {
-        tableView.register(DiaryCell.self)
-        tableView.register(UITableViewCell.self)
-        
-        tableView.delegate = self
-        
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    private func setUpTableViewLayout() {
-        view.addSubview(tableView)
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-    }
-    
-    private func setUpDataSource() {
-        dataSource = UITableViewDiffableDataSource<Int, DiaryDTO>(tableView: tableView) {
-            tableView, indexPath, itemIdentifier in
-            
-            if let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell {
-                cell.configure(data: itemIdentifier)
-                
-                return cell
-            }
-            
-            return tableView.dequeueReusableCell(withIdentifier: UITableViewCell.identifier, for: indexPath)
-        }
-    }
-    
-    private func setUpSampleData() {
-        guard let sampleData: [DiaryDTO] = AssetManager.get() else {
-            return
-        }
-        
-        setUpSanpshot(data: sampleData)
-    }
-    
-    private func setUpCoreData() {
-        guard let coreData = DiaryDAO.shared.read() else {
-            return
-        }
-        
-        setUpSanpshot(data: coreData)
-    }
-    
-    private func setUpSanpshot(data: [DiaryDTO]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, DiaryDTO>()
-        
-        snapshot.appendSections([.zero])
-        snapshot.appendItems(data)
-        
-        dataSource?.apply(snapshot)
+        pushViewController(viewContoller, animated: true)
     }
 }
 
+// MARK: - UITableViewDelegate
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? DiaryCell,
-              let diaryData = dataSource?.itemIdentifier(for: indexPath) else {
+              let diaryData = dataSource.itemIdentifier(for: indexPath) else {
             return
         }
         
@@ -133,10 +113,7 @@ extension DiaryViewController: UITableViewDelegate {
         navigationController?.pushViewController(viewContoller, animated: true)
     }
     
-    func tableView(
-        _ tableView: UITableView,
-        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
-    ) -> UISwipeActionsConfiguration? {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
         guard let cell = tableView.cellForRow(at: indexPath) as? DiaryCell else {
             return nil
@@ -147,7 +124,7 @@ extension DiaryViewController: UITableViewDelegate {
         func makeContextualAction() -> [UIContextualAction] {
             let deleteAction = makeAction(title: "Delete", style: .destructive) { [weak self] in
                 DiaryDAO.shared.delete(identifier: cellData.identifier?.uuidString)
-                self?.setUpCoreData()
+                self?.dataSource.setUpCoreData()
             }
             
             let cancelAction = makeAction(title: "Cancel", style: .cancel)
@@ -174,5 +151,20 @@ extension DiaryViewController: UITableViewDelegate {
         config.performsFirstActionWithFullSwipe = false
         
         return config
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+extension DiaryViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = manager.location?.coordinate else {
+            return
+        }
+        
+        Location.shared.configure(latitude: location.latitude, longitude: location.longitude)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        showAlert(title: "사용자의 위치를 가져올수 없습니다.")
     }
 }

@@ -29,6 +29,14 @@ final class DiaryCell: UITableViewCell {
         return label
     }()
     
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
     private let bodyLabel: UILabel = {
         let label = UILabel()
         
@@ -63,7 +71,7 @@ final class DiaryCell: UITableViewCell {
         contentView.addSubview(titleLabel)
         contentView.addSubview(informationStackView)
         
-        informationStackView.addArrangedSubviews(dateLabel, bodyLabel)
+        informationStackView.addArrangedSubviews(dateLabel, weatherImageView, bodyLabel)
     }
     
     private func setUpLayout() {
@@ -86,6 +94,11 @@ final class DiaryCell: UITableViewCell {
                 informationStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalInset),
                 informationStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalInset)
             ])
+            
+            NSLayoutConstraint.activate([
+                weatherImageView.heightAnchor.constraint(equalToConstant: 25),
+                weatherImageView.heightAnchor.constraint(equalTo: weatherImageView.widthAnchor)
+            ])
         }
         
         setUpTitleLayout()
@@ -101,5 +114,32 @@ final class DiaryCell: UITableViewCell {
         titleLabel.text = data.title
         dateLabel.text = data.dateString
         bodyLabel.text = data.body
+        
+        guard let icon = DiaryDAO.shared.search(identifier: data.identifier.uuidString)?.icon else {
+            return
+        }
+        
+        weatherImageView.setImage(icon: icon)
+    }
+}
+
+private extension UIImageView {
+    func setImage(icon: String) {
+        WeatherAPIManager.shared.getImage(icon: icon) { [weak self] data in
+            DispatchQueue.main.async {
+                self?.image = UIImage(data: data)
+            }
+        }
+    }
+}
+
+private extension WeatherAPIManager {
+    func getImage(icon: String, completion: @escaping (Data) -> Void) {
+        fetchData(url: EntryPoint.image(icon: icon).url) { data in
+            guard let data = try? data.get() else {
+                return
+            }
+            completion(data)
+        }
     }
 }

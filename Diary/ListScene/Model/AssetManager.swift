@@ -21,14 +21,14 @@ struct AssetManager {
     }
     
     static func get<T: Decodable>() -> [T]? {
-           guard let assetData = AssetManager.convert(fileName: Const.sample) else {
-               return nil
-           }
-           
-           guard let diaryData = T.parse(data: assetData) else {
-               return nil
-           }
-           
-           return diaryData
-       }
+        guard let assetData = AssetManager.convert(fileName: Const.sample) else {
+            return nil
+        }
+        
+        guard let diaryData = [T].parse(data: assetData) else {
+            return nil
+        }
+        
+        return diaryData
+    }
 }

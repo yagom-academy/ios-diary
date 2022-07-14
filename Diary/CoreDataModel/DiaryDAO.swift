@@ -12,6 +12,8 @@ final class DiaryDAO {
     static let shared = DiaryDAO()
     private init() { }
     
+    weak var delegate: DataSourceDelegate?
+    
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         
@@ -37,19 +39,45 @@ final class DiaryDAO {
     }
     
     private func create(userData: DiaryDTO?) {
+        func setUpCoreData(at userModel: NSManagedObject, textData: DiaryDTO, weatherData: WeatherDTO) {
+            let weatherDescription = weatherData.description
+            
+            userModel.setValue(textData.identifier, forKey: "identifier")
+            
+            userModel.setValue(textData.title, forKey: "title")
+            userModel.setValue(textData.date, forKey: "date")
+            userModel.setValue(textData.body, forKey: "body")
+            
+            userModel.setValue(weatherData.icon.first?.icon, forKey: "icon")
+            
+            userModel.setValue(weatherDescription.temperature, forKey: "temp")
+            userModel.setValue(weatherDescription.feelsLike, forKey: "feelsLike")
+            userModel.setValue(weatherDescription.minTemperature, forKey: "tempMin")
+            userModel.setValue(weatherDescription.maxTempaerature, forKey: "tempMax")
+            userModel.setValue(weatherDescription.pressure, forKey: "pressure")
+            userModel.setValue(weatherDescription.humidity, forKey: "humidity")
+        }
+        
         guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: viewContext),
-        let userData = userData else {
+              let userData = userData else {
             return
         }
         
         let userModel = NSManagedObject(entity: entity, insertInto: viewContext)
         
-        userModel.setValue(userData.identifier, forKey: "identifier")
-        userModel.setValue(userData.title, forKey: "title")
-        userModel.setValue(userData.date, forKey: "date")
-        userModel.setValue(userData.body, forKey: "body")
+        guard let (lat, lon) = Location.shared.getLocation() else {
+            return
+        }
         
-        save()
+        WeatherAPIManager.shared.fetchData(url: EntryPoint.weatherDescription(lat: lat, lon: lon).url) { [weak self] data in
+            guard let data = try? data.get(),
+                  let weather: WeatherDTO = data.convert() else {
+                return
+            }
+            
+            setUpCoreData(at: userModel, textData: userData, weatherData: weather)
+            self?.save()
+        }
     }
     
     private func save() {
@@ -59,6 +87,7 @@ final class DiaryDAO {
         
         do {
             try viewContext.save()
+            delegate?.updatePage()
         } catch let error {
             print("Error: \(error)")
         }
@@ -78,12 +107,34 @@ final class DiaryDAO {
             guard let identifier = $0.identifier,
                   let title = $0.title,
                   let body = $0.body,
-                  let date = $0.date else {
+                  let date = $0.date,
+                  let icon = $0.icon else {
                 return nil
             }
             
-            return DiaryDTO(identifier: identifier, title: title, body: body, date: date)
+            return DiaryDTO(identifier: identifier, title: title, body: body, date: date, icon: icon)
         }
+    }
+    
+    func search(identifier: String) -> DiaryDTO? {
+        guard let diary = fetch(identifier: identifier) else {
+            return nil
+        }
+        
+        return convert(diary: diary)?.first
+    }
+    
+    private func fetch(identifier: String) -> [Diary]? {
+        let request = Diary.fetchRequest()
+        let predicate = NSPredicate(format: "identifier == %@", identifier)
+        
+        request.predicate = predicate
+        
+        guard let diary = try? viewContext.fetch(request) else {
+            return nil
+        }
+        
+        return diary
     }
     
     private func update(userData: DiaryDTO?) {
@@ -116,19 +167,6 @@ final class DiaryDAO {
         return diary
     }
     
-    private func fetch(identifier: String) -> [Diary]? {
-        let request = Diary.fetchRequest()
-        let predicate = NSPredicate(format: "identifier == %@", identifier)
-        
-        request.predicate = predicate
-        
-        guard let diary = try? viewContext.fetch(request) else {
-            return nil
-        }
-        
-        return diary
-    }
-    
     func delete(identifier: String?) {
         guard let identifier = identifier,
               let diary = getObject(identifier: identifier) else {
@@ -141,5 +179,16 @@ final class DiaryDAO {
     private func deleteContext(object: NSManagedObject) {
         viewContext.delete(object)
         save()
+    }
+}
+
+// MARK: - Data
+private extension Data {
+    func convert<T: Decodable>() -> T? {
+        guard let diaryData = T.parse(data: self) else {
+            return nil
+        }
+        
+        return diaryData
     }
 }
