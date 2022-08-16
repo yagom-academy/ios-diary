@@ -1,3 +1,9 @@
+//
+//  Diary - SceneDelegate.swift
+//  Created by Finnn, 수꿍
+//  Copyright © yagom. All rights reserved.
+//
+
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {

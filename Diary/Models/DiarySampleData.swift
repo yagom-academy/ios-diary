@@ -2,7 +2,7 @@
 //  DiarySampleData.swift
 //  Diary
 //
-//  Created by 전민수 on 2022/08/16.
+//  Created by Finnn, 수꿍 on 2022/08/16.
 //
 
 import Foundation

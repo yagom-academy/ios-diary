@@ -1,6 +1,6 @@
 //
 //  Diary - AppDelegate.swift
-//  Created by yagom. 
+//  Created by Finnn, 수꿍 
 //  Copyright © yagom. All rights reserved.
 // 
 
