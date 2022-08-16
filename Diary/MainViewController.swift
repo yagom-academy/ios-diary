@@ -1,7 +1,6 @@
 //
 //  Diary - ViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
+//  Created by Kiwi, Brad. 
 // 
 
 import UIKit
@@ -13,6 +12,4 @@ class MainViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
 
-
 }
-

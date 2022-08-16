@@ -1,7 +1,6 @@
 //
 //  Diary - AppDelegate.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
+//  Created by Kiwi, Brad.
 // 
 
 import UIKit
