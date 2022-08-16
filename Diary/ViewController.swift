@@ -1,6 +1,6 @@
 //
 //  Diary - ViewController.swift
-//  Created by yagom. 
+//  Created by bonf, bard. 
 //  Copyright © yagom. All rights reserved.
 // 
 
