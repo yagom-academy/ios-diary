@@ -7,7 +7,12 @@
 import UIKit
 
 class MainViewController: UIViewController {
-    private var tableView = UITableView(frame: .zero)
+    private var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero)
+        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
+        return tableView
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
@@ -42,7 +47,7 @@ extension MainViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else { return UITableViewCell() }
         return cell
     }
 
