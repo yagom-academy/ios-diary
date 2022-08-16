@@ -17,7 +17,8 @@ struct JSONData {
         }
 
         do {
-            let data = try jsonDecoder.decode(T.self, from: dataAsset.data)
+            let data = try jsonDecoder.decode(T.self,
+                                              from: dataAsset.data)
             return data
         } catch(let error) {
             print(error)

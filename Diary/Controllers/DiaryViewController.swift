@@ -104,6 +104,6 @@ class DiaryViewController: UIViewController {
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print(indexPath)
+        
     }
 }
