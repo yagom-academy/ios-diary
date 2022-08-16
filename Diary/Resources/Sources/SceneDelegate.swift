@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
     
-        let initialViewController = ViewController()
+        let initialViewController = DiaryListViewController()
         let navigationController = UINavigationController(
             rootViewController: initialViewController
         )
