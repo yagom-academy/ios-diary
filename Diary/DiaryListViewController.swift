@@ -7,24 +7,40 @@
 import UIKit
 
 class DiaryListViewController: UIViewController {
-    var collectionView: UICollectionView?
-    var dataSource: UICollectionViewDiffableDataSource<Section, JSONModel>?
+    
+    // MARK: - properties
+    
+    private var collectionView: UICollectionView?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, JSONModel>?
+    
+    // MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
+        setupNavigationController()
         collectionView = setupCollectionView(frame: .zero,
                                              collectionViewLayout: setupLayout())
         setupDataSource()
         setupSnapshot(with: fetch())
     }
     
+    // MARK: - functions
+    
+    private func setupNavigationController() {
+        navigationItem.title = "일기장"
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: nil)
+    }
+    
     private func setupCollectionView(frame: CGRect, collectionViewLayout: UICollectionViewLayout) -> UICollectionView {
         let collectionView = UICollectionView(frame: frame, collectionViewLayout: collectionViewLayout)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(DiaryListCollectionViewCell.self,
-                                forCellWithReuseIdentifier: DiaryListCollectionViewCell.identifier)
+        
         view.addSubview(collectionView)
         setupCollectionViewConstraints(collectionView)
         
