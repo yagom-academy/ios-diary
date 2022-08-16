@@ -5,6 +5,7 @@ disabled_rules:
 - vertical_whitespace
 - unused_optional_binding
 - unused_closure_parameter
+- opening_brace
 
 included:
 excluded:
