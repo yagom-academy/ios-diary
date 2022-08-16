@@ -8,7 +8,6 @@ import UIKit
 
 class MainViewController: UIViewController {
     private var tableView = UITableView(frame: .zero)
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
@@ -20,7 +19,7 @@ class MainViewController: UIViewController {
         self.navigationItem.title = "일기장"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
     }
-    
+
     private func configureTableView() {
         self.view.addSubview(tableView)
         tableView.delegate = self
@@ -46,9 +45,8 @@ extension MainViewController: UITableViewDataSource {
         let cell = UITableViewCell()
         return cell
     }
-    
+
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 }
-
