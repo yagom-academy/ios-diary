@@ -10,6 +10,10 @@
 		20DF026528AB769F005AA6FA /* JSONData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026428AB769F005AA6FA /* JSONData.swift */; };
 		20DF026728AB7733005AA6FA /* DiarySampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026628AB7733005AA6FA /* DiarySampleData.swift */; };
 		20DF026928AB893F005AA6FA /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026828AB893F005AA6FA /* CustomCell.swift */; };
+		20DF026B28AB9F63005AA6FA /* DiaryContentsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026A28AB9F63005AA6FA /* DiaryContentsViewController.swift */; };
+		20DF026D28ABA01A005AA6FA /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026C28ABA01A005AA6FA /* DiaryView.swift */; };
+		20DF026F28ABA780005AA6FA /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026E28ABA780005AA6FA /* Date+Extension.swift */; };
+		20DF027128ABA80A005AA6FA /* DiaryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF027028ABA80A005AA6FA /* DiaryContentView.swift */; };
 		B478312A28AB815800CBB8DA /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = B478312928AB815800CBB8DA /* Section.swift */; };
 		B478312C28AB923100CBB8DA /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B478312B28AB923100CBB8DA /* Int+Extension.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
@@ -24,6 +28,10 @@
 		20DF026428AB769F005AA6FA /* JSONData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONData.swift; sourceTree = "<group>"; };
 		20DF026628AB7733005AA6FA /* DiarySampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySampleData.swift; sourceTree = "<group>"; };
 		20DF026828AB893F005AA6FA /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		20DF026A28AB9F63005AA6FA /* DiaryContentsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentsViewController.swift; sourceTree = "<group>"; };
+		20DF026C28ABA01A005AA6FA /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
+		20DF026E28ABA780005AA6FA /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		20DF027028ABA80A005AA6FA /* DiaryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentView.swift; sourceTree = "<group>"; };
 		B478312928AB815800CBB8DA /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		B478312B28AB923100CBB8DA /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -51,6 +59,8 @@
 			isa = PBXGroup;
 			children = (
 				20DF026828AB893F005AA6FA /* CustomCell.swift */,
+				20DF026C28ABA01A005AA6FA /* DiaryView.swift */,
+				20DF027028ABA80A005AA6FA /* DiaryContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -62,6 +72,7 @@
 				20DF026628AB7733005AA6FA /* DiarySampleData.swift */,
 				B478312928AB815800CBB8DA /* Section.swift */,
 				B478312B28AB923100CBB8DA /* Int+Extension.swift */,
+				20DF026E28ABA780005AA6FA /* Date+Extension.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -70,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* DiaryViewController.swift */,
+				20DF026A28AB9F63005AA6FA /* DiaryContentsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -181,9 +193,13 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				B478312A28AB815800CBB8DA /* Section.swift in Sources */,
 				20DF026728AB7733005AA6FA /* DiarySampleData.swift in Sources */,
+				20DF026F28ABA780005AA6FA /* Date+Extension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				20DF026D28ABA01A005AA6FA /* DiaryView.swift in Sources */,
+				20DF026B28AB9F63005AA6FA /* DiaryContentsViewController.swift in Sources */,
 				20DF026928AB893F005AA6FA /* CustomCell.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				20DF027128ABA80A005AA6FA /* DiaryContentView.swift in Sources */,
 				B478312C28AB923100CBB8DA /* Int+Extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
