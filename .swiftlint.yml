@@ -1,0 +1,11 @@
+disabled_rules:
+- line_length
+- trailing_whitespace
+- trailing_newline
+- vertical_whitespace
+- unused_optional_binding
+- unused_closure_parameter
+
+included:
+excluded:
+
