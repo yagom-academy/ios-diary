@@ -63,10 +63,9 @@ class DiaryViewController: UIViewController {
                 return nil
             }
             cell.titleLabel.text = item.title
-            cell.dateLabel.text = String(item.createdAt)
+            cell.dateLabel.text = item.createdAt.formatToStringDate()
             cell.contentLabel.text = item.body
             cell.accessoryType = .disclosureIndicator
-            
             
             return cell
         })
