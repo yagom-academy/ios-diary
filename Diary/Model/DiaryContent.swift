@@ -2,7 +2,7 @@
 //  DiaryContent.swift
 //  Diary
 //
-//  Created by Derrick kim on 2022/08/16.
+//  Created by Hugh, Derrick on 2022/08/16.
 //
 
 struct DiaryContent: Decodable {

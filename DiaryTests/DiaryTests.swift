@@ -2,7 +2,7 @@
 //  DiaryTests.swift
 //  DiaryTests
 //
-//  Created by dhoney96 on 2022/08/16.
+//  Created by Hugh, Derrick on 2022/08/16.
 //
 
 import XCTest
