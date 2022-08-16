@@ -8,17 +8,15 @@ import UIKit
 
 class DiaryListViewController: UIViewController {
     var collectionView: UICollectionView?
-    private let collectionViewCellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, String> { cell,indexPath,itemIdentifier in
-        
-    }
+    var dataSource: UICollectionViewDiffableDataSource<Section, JSONModel>?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
         collectionView = setupCollectionView(frame: .zero,
                                              collectionViewLayout: setupLayout())
-        collectionView?.backgroundColor = .orange
-        collectionView?.dataSource = self
-        collectionView?.delegate = self
+        setupDataSource()
+        setupSnapshot(with: fetch())
     }
     
     private func setupCollectionView(frame: CGRect, collectionViewLayout: UICollectionViewLayout) -> UICollectionView {
@@ -35,10 +33,10 @@ class DiaryListViewController: UIViewController {
     
     private func setupCollectionViewConstraints(_ collectionView: UICollectionView) {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
     
@@ -56,7 +54,7 @@ class DiaryListViewController: UIViewController {
         group.interItemSpacing = .fixed(10)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10
+        section.interGroupSpacing = 8
         section.contentInsets = NSDirectionalEdgeInsets(top: 10,
                                                         leading: 10,
                                                         bottom: 10,
@@ -65,22 +63,36 @@ class DiaryListViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-}
-
-extension DiaryListViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
-    }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueConfiguredReusableCell(using: collectionViewCellRegistration,
-                                                                      for: indexPath,
-                                                                      item: "cell")
+    private func fetch() -> [JSONModel] {
+        guard let data = NSDataAsset(name: "sample")?.data,
+              let decodedData = try? JSONDecoder().decode([JSONModel].self, from: data)
+        else { return [] }
         
-        return cell
+        return decodedData
     }
-}
-
-extension DiaryListViewController: UICollectionViewDelegate {
     
+    private func setupDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, JSONModel>
+        { (cell, indexPath, identifier) in
+            cell.setupCellProperties(with: identifier)
+        }
+        
+        guard let collectionView = collectionView else { return }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, JSONModel>(collectionView: collectionView)
+        { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+            
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                for: indexPath,
+                                                                item: identifier)
+        }
+    }
+    
+    private func setupSnapshot(with jsonModel: [JSONModel]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, JSONModel>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(jsonModel)
+        dataSource?.apply(snapshot)
+    }
 }

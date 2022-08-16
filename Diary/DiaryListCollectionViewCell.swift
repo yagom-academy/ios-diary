@@ -12,49 +12,43 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "cell"
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "titleLabel"
-        label.backgroundColor = .red
+        label.font = .preferredFont(forTextStyle: .title3)
         
         return label
     }()
     
-    let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "dateLabel"
-        label.backgroundColor = .blue
+        label.font = .preferredFont(forTextStyle: .body)
         
         return label
     }()
     
-    let previewLabel: UILabel = {
+    private let previewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.numberOfLines = 0
-        label.text = "previewLabel"
-        label.backgroundColor = .brown
+        label.font = .preferredFont(forTextStyle: .footnote)
         
         return label
     }()
     
-    let subtitleStackView: UIStackView = {
+    private let subtitleStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
         stackView.distribution = .fill
         stackView.spacing = 4
-        stackView.backgroundColor = .systemTeal
         
         return stackView
     }()
     
-    let accesoryImageView: UIImageView = {
+    private let accesoryImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = .systemPurple
         
         return imageView
     }()
@@ -76,6 +70,12 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
     }
     
     // MARK: - functions
+    
+    func setupCellProperties(with model: JSONModel) {
+        titleLabel.text = model.title
+        previewLabel.text = model.body
+        dateLabel.text = model.createdAt.convertToString()
+    }
     
     private func setupSubviews() {
         [dateLabel, previewLabel].forEach { subtitleStackView.addArrangedSubview($0) }
@@ -109,7 +109,8 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             accesoryImageView.topAnchor.constraint(equalTo: topAnchor),
             accesoryImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            accesoryImageView.trailingAnchor.constraint(equalTo: trailingAnchor)
+            accesoryImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            accesoryImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.16)
         ])
     }
 }
