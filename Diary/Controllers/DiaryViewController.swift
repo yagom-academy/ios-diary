@@ -9,53 +9,59 @@ import UIKit
 class DiaryViewController: UIViewController {
     
     // MARK: - Properties
-    
-    var tableView: UITableView?
+
     var dataSource: UITableViewDiffableDataSource<Section, DiarySampleData>?
     let diarySampleData: [DiarySampleData]? = JSONData.parse(name: "sample")
     
     // MARK: - Life Cycle
     
+    override func loadView() {
+        view = DiaryView()
+        view.backgroundColor = .white
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
-    
-        title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
-                                                            style: .plain,
-                                                            target: nil,
-                                                            action: #selector(plusButtonDidTapped))
-        
-        configureTableView()
+        configureNavigationItems()
+        configureDelegate()
         registerTableView()
         configureDataSource()
-        configureUI()
     }
 
     // MARK: - Methods
     
-    @objc private func plusButtonDidTapped() {
-        
+    private func configureNavigationItems() {
+        title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(plusButtonDidTapped))
     }
     
-    private func configureTableView() {
-        tableView = UITableView(frame: view.bounds,
-                                style: .plain)
-        tableView?.delegate = self
-        
-        guard let tableView = tableView else {
+    private func configureDelegate() {
+        guard let view = view as? DiaryView else {
             return
         }
         
-        view.addSubview(tableView)
+        view.tableView.delegate = self
+    }
+    
+    @objc private func plusButtonDidTapped() {
+        goToDiaryContentsViewController()
+    }
+    
+    private func goToDiaryContentsViewController() {
+        navigationController?.pushViewController(DiaryContentsViewController(), animated: true)
     }
     
     private func configureDataSource() {
-        guard let tableView = tableView,
+        guard let view = view as? DiaryView,
               let diarySampleData = self.diarySampleData else {
             return
         }
+        
+        let tableView = view.tableView
         
         dataSource = UITableViewDiffableDataSource<Section, DiarySampleData>(tableView: tableView, cellProvider: { tableView, indexPath, item in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell",
@@ -78,26 +84,14 @@ class DiaryViewController: UIViewController {
     }
     
     private func registerTableView() {
-        guard let tableView = tableView else {
+        guard let view = view as? DiaryView else {
             return
         }
         
+        let tableView = view.tableView
+        
         tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
         tableView.dataSource = dataSource
-    }
-    
-    private func configureUI() {
-        guard let tableView = tableView else {
-            return
-        }
-
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
     }
 }
 
