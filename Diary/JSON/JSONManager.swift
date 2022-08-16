@@ -1,14 +1,14 @@
 //
-//  NetworkingProvider.swift
+//  JSONManager.swift
 //  Diary
 //
-//  Created by dhoney96 on 2022/08/16.
+//  Created by Hugh, Derrick on 2022/08/16.
 //
 
 import UIKit
 
-struct NetworkingProvider {
-    func requestAndDecode<T: Decodable>(_ fileName: String, dataType: T.Type) -> Result<T, JSONError>? {
+struct JSONManager {
+    func checkFileAndDecode<T: Decodable>(dataType: T.Type, _ fileName: String) -> Result<T, JSONError>? {
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
         
@@ -16,7 +16,10 @@ struct NetworkingProvider {
             guard let asset = NSDataAsset.init(name: fileName) else {
                 return .failure(JSONError.noneFile)
             }
-            return .success(try jsonDecoder.decode(T.self, from: asset.data))
+            
+            let data = try jsonDecoder.decode(T.self, from: asset.data)
+            
+            return .success(data)
         } catch {
             return .failure(JSONError.decodingFailure)
         }

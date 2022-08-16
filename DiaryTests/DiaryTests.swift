@@ -9,11 +9,11 @@ import XCTest
 @testable import Diary
 
 class DiaryTests: XCTestCase {
-    var sut: NetworkingProvider?
+    var sut: JSONManager?
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = NetworkingProvider()
+        sut = JSONManager()
     }
 
     override func tearDownWithError() throws {
@@ -25,7 +25,7 @@ class DiaryTests: XCTestCase {
         //given
         let fileName = "diarySample"
         let expectation = "똘기떵이호치새초미자축인묘"
-        let decodedData = sut?.requestAndDecode(fileName, dataType: [DiaryContent].self)
+        let decodedData = sut?.checkFileAndDecode(dataType: [DiaryContent].self, fileName)
         
         //when
         switch decodedData {
@@ -42,7 +42,7 @@ class DiaryTests: XCTestCase {
         //given
         let fileName = "diary"
         let expectation = JSONError.noneFile
-        let decodedData = sut?.requestAndDecode(fileName, dataType: [DiaryContent].self)
+        let decodedData = sut?.checkFileAndDecode(dataType: [DiaryContent].self, fileName)
         
         //when
         switch decodedData {
@@ -58,13 +58,32 @@ class DiaryTests: XCTestCase {
         //given
         let fileName = "diarySample"
         let expectation = JSONError.decodingFailure
-        let decodedData = sut?.requestAndDecode(fileName, dataType: DiaryContent.self)
+        let decodedData = sut?.checkFileAndDecode(dataType: DiaryContent.self, fileName)
         
         //when
         switch decodedData {
         case .failure(let error):
             //then
             XCTAssertEqual(expectation, error)
+        default:
+            return
+        }
+    }
+    
+    func test_JSON파일을_호출할때_DiaryContent의_CreatedAt을_Date타입에서_String으로_반환() {
+        //given
+        let fileName = "diarySample"
+        let expectation = "2020년 12월 23일"
+        let decodedData = sut?.checkFileAndDecode(dataType: [DiaryContent].self, fileName)
+        
+        //when
+        switch decodedData {
+        case .success(let contents):
+            //then
+            let diaryService = DiaryService()
+            let result = diaryService.convertToDiaryDate(from: Double(contents[0].createdAt))
+            
+            XCTAssertEqual(expectation, result)
         default:
             return
         }
