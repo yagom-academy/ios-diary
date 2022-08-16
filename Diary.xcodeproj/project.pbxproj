@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		20DF026528AB769F005AA6FA /* JSONData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026428AB769F005AA6FA /* JSONData.swift */; };
 		20DF026728AB7733005AA6FA /* DiarySampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026628AB7733005AA6FA /* DiarySampleData.swift */; };
+		B478312A28AB815800CBB8DA /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = B478312928AB815800CBB8DA /* Section.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryViewController.swift */; };
@@ -20,6 +21,7 @@
 /* Begin PBXFileReference section */
 		20DF026428AB769F005AA6FA /* JSONData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONData.swift; sourceTree = "<group>"; };
 		20DF026628AB7733005AA6FA /* DiarySampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySampleData.swift; sourceTree = "<group>"; };
+		B478312928AB815800CBB8DA /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,6 +55,7 @@
 			children = (
 				20DF026428AB769F005AA6FA /* JSONData.swift */,
 				20DF026628AB7733005AA6FA /* DiarySampleData.swift */,
+				B478312928AB815800CBB8DA /* Section.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -170,6 +173,7 @@
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				20DF026528AB769F005AA6FA /* JSONData.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				B478312A28AB815800CBB8DA /* Section.swift in Sources */,
 				20DF026728AB7733005AA6FA /* DiarySampleData.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
