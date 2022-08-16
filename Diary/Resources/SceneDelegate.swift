@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
         
-        let mainViewContoroller = ViewController()
+        let mainViewContoroller = DiaryListViewController()
         let navigationController = UINavigationController(rootViewController: mainViewContoroller)
         
         window?.rootViewController = navigationController
