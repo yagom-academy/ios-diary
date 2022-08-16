@@ -47,8 +47,15 @@ class DiaryViewController: UIViewController {
         }
         
         dataSource = UITableViewDiffableDataSource<Section, DiarySampleData>(tableView: tableView, cellProvider: { tableView, indexPath, item in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell", for: indexPath)
-            cell.textLabel?.text = item.title
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell",
+                                                           for: indexPath) as? CustomCell else {
+                return nil
+            }
+            cell.titleLabel.text = item.title
+            cell.dateLabel.text = String(item.createdAt)
+            cell.contentLabel.text = item.body
+            cell.accessoryType = .disclosureIndicator
+            
             
             return cell
         })
@@ -65,7 +72,7 @@ class DiaryViewController: UIViewController {
             return
         }
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "CustomCell")
+        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
         tableView.dataSource = dataSource
     }
     
