@@ -20,6 +20,12 @@ class DiaryViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+    
+        title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
+                                                            style: .plain,
+                                                            target: nil,
+                                                            action: #selector(plusButtonDidTapped))
         
         configureTableView()
         registerTableView()
@@ -29,8 +35,13 @@ class DiaryViewController: UIViewController {
 
     // MARK: - Methods
     
+    @objc private func plusButtonDidTapped() {
+        
+    }
+    
     private func configureTableView() {
-        tableView = UITableView(frame: view.bounds, style: .plain)
+        tableView = UITableView(frame: view.bounds,
+                                style: .plain)
         tableView?.delegate = self
         
         guard let tableView = tableView else {
