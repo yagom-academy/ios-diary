@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		202EDC0428AB91DF00473267 /* JSONParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202EDC0328AB91DF00473267 /* JSONParser.swift */; };
+		202EDC0628AB93A000473267 /* JSONError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202EDC0528AB93A000473267 /* JSONError.swift */; };
+		202EDC0928AB98D600473267 /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202EDC0828AB98D600473267 /* ReuseIdentifying.swift */; };
 		205C613828AB852B00F0EA09 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 205C613728AB852B00F0EA09 /* Diary.swift */; };
 		8A321ACB28AB87E3007E7DDA /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A321ACA28AB87E3007E7DDA /* DiaryListCell.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
-		C739AE29284DF28600741E8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* ViewController.swift */; };
+		C739AE29284DF28600741E8F /* DiaryTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryTableViewController.swift */; };
 		C739AE2C284DF28600741E8F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE2A284DF28600741E8F /* Main.storyboard */; };
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
@@ -20,6 +23,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		202EDC0328AB91DF00473267 /* JSONParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONParser.swift; sourceTree = "<group>"; };
+		202EDC0528AB93A000473267 /* JSONError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONError.swift; sourceTree = "<group>"; };
+		202EDC0828AB98D600473267 /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		205C613628AB7D1400F0EA09 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		205C613728AB852B00F0EA09 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		27AA9694B250007E25AAAC5B /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
@@ -29,7 +35,7 @@
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		C739AE28284DF28600741E8F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		C739AE28284DF28600741E8F /* DiaryTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewController.swift; sourceTree = "<group>"; };
 		C739AE2B284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		C739AE2E284DF28600741E8F /* Diary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Diary.xcdatamodel; sourceTree = "<group>"; };
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -56,6 +62,25 @@
 				BC997311D4B24B5A8B958A9D /* Pods-Diary.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		202EDC0228AB919B00473267 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				202EDC0728AB95FF00473267 /* JSON */,
+				205C613728AB852B00F0EA09 /* Diary.swift */,
+				202EDC0828AB98D600473267 /* ReuseIdentifying.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		202EDC0728AB95FF00473267 /* JSON */ = {
+			isa = PBXGroup;
+			children = (
+				202EDC0328AB91DF00473267 /* JSONParser.swift */,
+				202EDC0528AB93A000473267 /* JSONError.swift */,
+			);
+			path = JSON;
 			sourceTree = "<group>";
 		};
 		8A321AC928AB879C007E7DDA /* View */ = {
@@ -88,16 +113,16 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				202EDC0228AB919B00473267 /* Model */,
 				8A321AC928AB879C007E7DDA /* View */,
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE28284DF28600741E8F /* ViewController.swift */,
+				C739AE28284DF28600741E8F /* DiaryTableViewController.swift */,
 				C739AE2A284DF28600741E8F /* Main.storyboard */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-				205C613728AB852B00F0EA09 /* Diary.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -226,11 +251,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C739AE29284DF28600741E8F /* ViewController.swift in Sources */,
+				C739AE29284DF28600741E8F /* DiaryTableViewController.swift in Sources */,
+				202EDC0928AB98D600473267 /* ReuseIdentifying.swift in Sources */,
 				205C613828AB852B00F0EA09 /* Diary.swift in Sources */,
+				202EDC0428AB91DF00473267 /* JSONParser.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				8A321ACB28AB87E3007E7DDA /* DiaryListCell.swift in Sources */,
+				202EDC0628AB93A000473267 /* JSONError.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

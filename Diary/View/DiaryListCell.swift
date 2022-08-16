@@ -54,24 +54,36 @@ class DiaryListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        addSubView()
         setConstraint()
-        verticalStackView.addArrangedSubview(titleLabel)
-        verticalStackView.addArrangedSubview(horizontalStackView)
-        horizontalStackView.addArrangedSubview(dateLabel)
-        horizontalStackView.addArrangedSubview(bodyLabel)
-        self.addSubview(verticalStackView)
     }
     
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func setConstraint() {
+}
+
+extension DiaryListCell: ReuseIdentifying {
+    private func setConstraint() {
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
             verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
+    }
+    
+    private func addSubView() {
+        verticalStackView.addArrangedSubview(titleLabel)
+        verticalStackView.addArrangedSubview(horizontalStackView)
+        horizontalStackView.addArrangedSubview(dateLabel)
+        horizontalStackView.addArrangedSubview(bodyLabel)
+        self.contentView.addSubview(verticalStackView)
+    }
+    
+    func configure(with data: Diary) {
+        self.titleLabel.text = data.title
+        self.bodyLabel.text = data.body
+        self.dateLabel.text = String(data.createdAt)
     }
 }
