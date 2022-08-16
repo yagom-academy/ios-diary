@@ -1,0 +1,7 @@
+excluded:
+    - Pods
+    - Diary/AppDelegate.swift
+    - Diary/SceneDelegate.swift
+disabled_rules:
+    - trailing_whitespace
+    - force_cast
