@@ -8,6 +8,7 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
+    // MARK: - view life cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -15,6 +16,8 @@ final class DiaryListViewController: UIViewController {
 
         configureNavigationBarItems()
     }
+
+    // MARK: - methods
 
     private func configureNavigationBarItems() {
         let plusButton = UIBarButtonItem(barButtonSystemItem: .add,
