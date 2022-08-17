@@ -10,7 +10,7 @@ import UIKit
 class DiaryTableViewCell: UITableViewCell {
     private let diaryTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title2)
+        label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .left
         
@@ -19,9 +19,10 @@ class DiaryTableViewCell: UITableViewCell {
     
     private let diaryDateLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = .preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return label
     }()
@@ -37,7 +38,7 @@ class DiaryTableViewCell: UITableViewCell {
     
     private let bottomHorizontalStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.alignment = .center
+        stackView.alignment = .fill
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.spacing = 5
@@ -48,7 +49,7 @@ class DiaryTableViewCell: UITableViewCell {
     
     private let entireVerticalStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.alignment = .center
+        stackView.alignment = .leading
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.spacing = 5
@@ -84,10 +85,10 @@ class DiaryTableViewCell: UITableViewCell {
         bottomHorizontalStackView.addArrangedSubview(diaryPreviewLabel)
         
         NSLayoutConstraint.activate([
-            entireVerticalStackView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
-            entireVerticalStackView.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor),
-            entireVerticalStackView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor),
-            entireVerticalStackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor)
+            entireVerticalStackView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 5),
+            entireVerticalStackView.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -15),
+            entireVerticalStackView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -5),
+            entireVerticalStackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 15)
         ])
     }
 }
