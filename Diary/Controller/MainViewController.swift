@@ -7,7 +7,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     
     private let sampleDiary: [SampleJson]? = JSONDecoder.decodedJson(jsonName: "sample")
     
@@ -33,7 +33,7 @@ class MainViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didAddDiaryButtonTapped))
     }
     
-    @objc func didAddDiaryButtonTapped() {
+    @objc private func didAddDiaryButtonTapped() {
     }
     
     private func configureTableView() {

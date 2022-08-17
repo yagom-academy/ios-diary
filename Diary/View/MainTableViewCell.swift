@@ -7,13 +7,22 @@
 
 import UIKit
 
-class MainTableViewCell: UITableViewCell {
+final class MainTableViewCell: UITableViewCell {
     
     static var identifier: String {
         return "MainTableViewCell"
     }
     
-    let diaryTitle: UILabel = {
+    private let dateFormatter: DateFormatter = {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        
+        return dateFormatter
+    }()
+    
+    private let diaryTitle: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .title2)
@@ -22,7 +31,7 @@ class MainTableViewCell: UITableViewCell {
         return label
     }()
     
-    let diaryBody: UILabel = {
+    private let diaryBody: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .caption1)
@@ -31,7 +40,7 @@ class MainTableViewCell: UITableViewCell {
         return label
     }()
 
-    let diaryDate: UILabel = {
+    private let diaryDate: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
@@ -91,9 +100,11 @@ class MainTableViewCell: UITableViewCell {
     }
     
     func fetchJsonData(data: SampleJson) {
+        let date = Date(timeIntervalSince1970: TimeInterval(data.createdAt))
+        let convertDate = dateFormatter.string(from: date)
         
         self.diaryTitle.text = data.title
-        self.diaryDate.text = data.createdAt.description
+        self.diaryDate.text = convertDate
         self.diaryBody.text = data.body
     }
 }
