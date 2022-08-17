@@ -44,9 +44,7 @@ class MainTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 5
-        stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
-        
+    
         return stackView
     }()
     
@@ -69,6 +67,9 @@ class MainTableViewCell: UITableViewCell {
     }
     
     private func configureViews() {
+        let compressionPriority = diaryBody.contentCompressionResistancePriority(for: .horizontal) + 1
+        diaryDate.setContentCompressionResistancePriority(compressionPriority, for: .horizontal)
+        
         self.contentView.addSubview(verticalStackView)
         
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
@@ -82,8 +83,8 @@ class MainTableViewCell: UITableViewCell {
         }
         
         NSLayoutConstraint.activate([
-            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
