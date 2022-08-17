@@ -89,4 +89,11 @@ class MainTableViewCell: UITableViewCell {
             verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
+    
+    func fetchJsonData(data: SampleJson) {
+        
+        self.diaryTitle.text = data.title
+        self.diaryDate.text = data.createdAt.description
+        self.diaryBody.text = data.body
+    }
 }

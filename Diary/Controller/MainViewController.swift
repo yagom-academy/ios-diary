@@ -62,10 +62,10 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
-        cell.diaryTitle.text = sampleDiary![indexPath.row].title
-        cell.diaryBody.text = sampleDiary![indexPath.row].body
-        cell.diaryDate.text = "2020년 10월 23일"
-        cell.accessoryType = .disclosureIndicator
+        
+        guard let sampleDiary = sampleDiary else { return UITableViewCell() }
+        
+        cell.fetchJsonData(data: sampleDiary[indexPath.row])
         return cell
     }
 }
