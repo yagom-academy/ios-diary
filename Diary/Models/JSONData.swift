@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 struct JSONData {
     static func parse<T: Decodable>(name: String) -> T? {

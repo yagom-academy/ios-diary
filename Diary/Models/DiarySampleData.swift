@@ -5,8 +5,6 @@
 //  Created by Finnn, 수꿍 on 2022/08/16.
 //
 
-import Foundation
-
 struct DiarySampleData: Decodable, Hashable {
     let title: String
     let body: String

@@ -24,7 +24,6 @@ class DiaryViewController: UIViewController {
         super.viewDidLoad()
         
         configureNavigationItems()
-        configureDelegate()
         registerTableView()
         configureDataSource()
     }
@@ -37,14 +36,6 @@ class DiaryViewController: UIViewController {
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(plusButtonDidTapped))
-    }
-    
-    private func configureDelegate() {
-        guard let view = view as? DiaryView else {
-            return
-        }
-        
-        view.tableView.delegate = self
     }
     
     @objc private func plusButtonDidTapped() {
