@@ -3,9 +3,9 @@ disabled_rules:
 - trailing_whitespace
 - trailing_newline
 - vertical_whitespace
-- unused_optional_binding
 - unused_closure_parameter
-
+- opening_brace
+- closure_parameter_position
 included:
 excluded:
 
