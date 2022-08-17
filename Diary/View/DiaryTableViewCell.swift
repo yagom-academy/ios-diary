@@ -2,7 +2,7 @@
 //  DiaryTableViewCell.swift
 //  Diary
 //
-//  Created by dhoney96 on 2022/08/17.
+//  Created by Hugh, Derrick on 2022/08/17.
 //
 
 import UIKit
@@ -54,6 +54,9 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
+    static let identifier = "DiaryTableViewCell"
+    private var diaryListViewModel: DiaryListViewModel?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         addSubView()
@@ -66,9 +69,11 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureUI(data: DiaryContent) {
-        diaryTitleLabel.text = data.title
-        dateLabel.text = data.createdAt.formattedDate
-        shortDescriptionLabel.text = data.body
+        diaryListViewModel = DiaryListViewModel(data: data)
+        
+        diaryTitleLabel.text = diaryListViewModel?.titleText
+        dateLabel.text = diaryListViewModel?.dateText
+        shortDescriptionLabel.text = diaryListViewModel?.shortDescriptionText
     }
     
     private func addSubView() {
@@ -94,9 +99,5 @@ final class DiaryTableViewCell: UITableViewCell {
         let standardPriority = shortDescriptionLabel.contentCompressionResistancePriority(for: .horizontal)
         
         dateLabel.setContentCompressionResistancePriority(standardPriority + 1, for: .horizontal)
-    }
-    
-    override func prepareForReuse() {
-        self.accessoryType = .disclosureIndicator
     }
 }
