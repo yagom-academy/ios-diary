@@ -8,17 +8,22 @@
 import UIKit
 
 class MainTableViewCell: UITableViewCell {
-    private let diaryTitle: UILabel = {
+    
+    static var identifier: String {
+        return "MainTableViewCell"
+    }
+    
+    let diaryTitle: UILabel = {
         let label = UILabel()
         return label
     }()
     
-    private let diaryBody: UILabel = {
+    let diaryBody: UILabel = {
         let label = UILabel()
         return label
     }()
 
-    private let diaryDate: UILabel = {
+    let diaryDate: UILabel = {
         let label = UILabel()
         return label
     }()
