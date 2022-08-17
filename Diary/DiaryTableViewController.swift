@@ -11,6 +11,7 @@ class DiaryTableViewController: UIViewController {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.rowHeight = 70
+        tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.reuseIdentifier)
         return tableView
     }()
     
@@ -18,12 +19,26 @@ class DiaryTableViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTableView()
+        configureNavigationItem()
+        fetchData()
+    }
+    
+    @objc private func addDiaryButtonDidTapped() {
+        
+    }
+    
+    private func configureNavigationItem() {
+        navigationItem.title = "일기장"
+        let addDiaryButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(addDiaryButtonDidTapped))
+        navigationItem.rightBarButtonItem = addDiaryButton
+    }
+    
+    private func configureTableView() {
         self.view.addSubview(diaryListTableView)
         setConstraint()
-        fetchData()
         diaryListTableView.dataSource = self
         diaryListTableView.delegate = self
-        diaryListTableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.reuseIdentifier)
     }
     
     private func setConstraint() {
@@ -46,7 +61,6 @@ class DiaryTableViewController: UIViewController {
             print("Unexpected Error")
         }
     }
-
 }
 
 extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
