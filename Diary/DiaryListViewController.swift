@@ -39,8 +39,6 @@ class DiaryListViewController: UIViewController {
     private func setupCollectionView(frame: CGRect, collectionViewLayout: UICollectionViewLayout) -> UICollectionView {
         let collectionView = UICollectionView(frame: frame, collectionViewLayout: collectionViewLayout)
         
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
         view.addSubview(collectionView)
         setupCollectionViewConstraints(collectionView)
         
@@ -48,6 +46,8 @@ class DiaryListViewController: UIViewController {
     }
     
     private func setupCollectionViewConstraints(_ collectionView: UICollectionView) {
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -58,11 +58,11 @@ class DiaryListViewController: UIViewController {
     
     private func setupLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
+                                              heightDimension: .absolute(44))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalHeight(0.1))
+                                               heightDimension: .absolute(44))
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitem: item,
                                                        count: 1)

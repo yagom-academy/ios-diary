@@ -12,6 +12,15 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "cell"
     
+    private let topLine: UIView = {
+        let line = UIView()
+        line.translatesAutoresizingMaskIntoConstraints = false
+        line.tintColor = .black
+        line.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
+        
+        return line
+    }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -46,11 +55,16 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
         return stackView
     }()
     
-    private let accesoryImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+    private let accessoryButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
         
-        return imageView
+        let buttonImage = UIImage(systemName: "chevron.right")
+        
+        button.setImage(buttonImage, for: .normal)
+        button.tintColor = .lightGray
+        
+        return button
     }()
     
     // MARK: - initializers
@@ -79,20 +93,29 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
     
     private func setupSubviews() {
         [dateLabel, previewLabel].forEach { subtitleStackView.addArrangedSubview($0) }
-        [titleLabel, subtitleStackView, accesoryImageView].forEach { self.addSubview($0) }
+        [topLine, titleLabel, subtitleStackView, accessoryButton].forEach { self.addSubview($0) }
     }
     
     private func setupConstraints() {
+        setupTopLineConstraints()
         setupTitleLabelConstraints()
         setupSubtitleStackViewConstraints()
-        setupAccesoryImageViewConstraints()
+        setupAccessoryImageViewConstraints()
+    }
+    
+    private func setupTopLineConstraints() {
+        NSLayoutConstraint.activate([
+            topLine.topAnchor.constraint(equalTo: topAnchor),
+            topLine.widthAnchor.constraint(equalTo: widthAnchor),
+            topLine.heightAnchor.constraint(equalToConstant: 1)
+        ])
     }
     
     private func setupTitleLabelConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.topAnchor.constraint(equalTo: topLine.bottomAnchor, constant: 8),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: accesoryImageView.leadingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: accessoryButton.leadingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: subtitleStackView.topAnchor)
         ])
     }
@@ -100,17 +123,17 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
     private func setupSubtitleStackViewConstraints() {
         NSLayoutConstraint.activate([
             subtitleStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            subtitleStackView.trailingAnchor.constraint(equalTo: accesoryImageView.leadingAnchor),
+            subtitleStackView.trailingAnchor.constraint(equalTo: accessoryButton.leadingAnchor),
             subtitleStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
-    private func setupAccesoryImageViewConstraints() {
+    private func setupAccessoryImageViewConstraints() {
         NSLayoutConstraint.activate([
-            accesoryImageView.topAnchor.constraint(equalTo: topAnchor),
-            accesoryImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            accesoryImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            accesoryImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.16)
+            accessoryButton.topAnchor.constraint(equalTo: topAnchor),
+            accessoryButton.bottomAnchor.constraint(equalTo: bottomAnchor),
+            accessoryButton.trailingAnchor.constraint(equalTo: trailingAnchor),
+            accessoryButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.16)
         ])
     }
 }
