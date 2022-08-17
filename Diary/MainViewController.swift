@@ -7,6 +7,13 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    private enum Section {
+        case main
+    }
+    
+    private typealias DiffableDataSource = UITableViewDiffableDataSource<Section, DiarySample>
+    private var dataSource: DiffableDataSource?
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, DiarySample>()
     private let diarySample: [DiarySample]? = JSONData.parse(name: "sample")
     private let diaryTableView: UITableView = {
         let tableView = UITableView()
@@ -23,6 +30,14 @@ class MainViewController: UIViewController {
         navigationItem.title = "일기장"
         view.addSubview(diaryTableView)
         setConstraint()
+        
+        guard let diarySample = diarySample else {
+            return
+        }
+
+        snapshot.appendSections([.main])
+        snapshot.appendItems(diarySample)
+        configureDataSource()
     }
     
     private func setConstraint() {
@@ -32,5 +47,19 @@ class MainViewController: UIViewController {
             diaryTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+    
+    private func configureDataSource() {
+        dataSource = DiffableDataSource(tableView: diaryTableView, cellProvider: { tableView, indexPath, itemIdentifier in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "DiaryTableViewCell", for: indexPath) as? DiaryTableViewCell else {
+                return nil
+            }
+            
+            cell.setCellComponents(item: itemIdentifier)
+            
+            return cell
+        })
+        
+        dataSource?.apply(snapshot)
     }
 }

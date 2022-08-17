@@ -68,6 +68,12 @@ class DiaryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setCellComponents(item: DiarySample) {
+        diaryTitleLabel.text = item.title
+        diaryDateLabel.text = String(item.createdAt)
+        diaryPreviewLabel.text = item.body
+    }
+    
     private func setConstraint() {
         contentView.addSubview(entireVerticalStackView)
         
