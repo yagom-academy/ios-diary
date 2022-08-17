@@ -10,7 +10,7 @@ import Foundation
 struct DiaryModel: Decodable {
     let title: String
     let body: String
-    let createdAt: Int
+    let createdAt: Double
     
     enum CodingKeys: String, CodingKey {
         case title

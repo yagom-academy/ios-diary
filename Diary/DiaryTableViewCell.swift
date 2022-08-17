@@ -48,6 +48,7 @@ class DiaryTableViewCell: UITableViewCell {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .fill
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -82,6 +83,6 @@ class DiaryTableViewCell: UITableViewCell {
     func setData(with model: DiaryModel) {
         titleLabel.text = model.title
         preViewLabel.text = model.body
-        dateLabel.text = String(model.createdAt) // DateFormatter로 ex) "2020년 12월 23일"
+        dateLabel.text = model.createdAt.translateToDate()
     }
 }
