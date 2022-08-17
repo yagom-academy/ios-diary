@@ -1,0 +1,13 @@
+disabled_rules: # Default Rules에서 비활성화할 규칙
+  - line_length
+  
+opt_in_rules:
+  # .count==0 보다는 .isEmpty를 사용하는 것이 좋습니다. https://realm.github.io/SwiftLint/empty_count.html
+  - empty_count
+  
+  # 빈 String 문자열과 비교하는 것 보다는 .isEmpty를 사용하는 것이 좋습니다. https://realm.github.io/SwiftLint/empty_string.html
+  - empty_string
+  
+excluded: # SwiftLint 검사에서 제외할 파일 경로
+  - Diary/AppDelegate.swift
+
