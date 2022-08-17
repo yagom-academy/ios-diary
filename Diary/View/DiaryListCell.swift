@@ -85,7 +85,16 @@ extension DiaryListCell: ReuseIdentifying {
     
     func configure(with data: Diary) {
         self.titleLabel.text = data.title
+        self.dateLabel.text = fetchDate(data: data.createdAt)
         self.bodyLabel.text = data.body
-        self.dateLabel.text = String(data.createdAt)
+    }
+    
+    private func fetchDate(data: Double) -> String {
+        let formatterDate = DateFormatter()
+        formatterDate.dateStyle = .long
+        formatterDate.timeStyle = .none
+        formatterDate.locale = Locale.current
+        
+        return formatterDate.string(from: Date(timeIntervalSince1970: data))
     }
 }
