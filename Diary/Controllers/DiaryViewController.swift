@@ -46,6 +46,18 @@ class DiaryViewController: UIViewController {
         navigationController?.pushViewController(DiaryContentsViewController(), animated: true)
     }
     
+    private func configureSnapshot() -> NSDiffableDataSourceSnapshot<Section, DiarySampleData>? {
+        guard let diarySampleData = diarySampleData else {
+            return nil
+        }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DiarySampleData>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(diarySampleData)
+        
+        return snapshot
+    }
+    
     private func configureDataSource() {
         guard let view = view as? DiaryView,
               let snapshot = configureSnapshot() else {
@@ -66,10 +78,6 @@ class DiaryViewController: UIViewController {
             
             return cell
         })
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DiarySampleData>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(diarySampleData)
         
         dataSource?.apply(snapshot)
     }
