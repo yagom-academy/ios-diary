@@ -10,6 +10,7 @@ class DiaryTableViewController: UIViewController {
     private let diaryListTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.rowHeight = 70
         return tableView
     }()
     
@@ -22,7 +23,6 @@ class DiaryTableViewController: UIViewController {
         fetchData()
         diaryListTableView.dataSource = self
         diaryListTableView.delegate = self
-        
         diaryListTableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.reuseIdentifier)
     }
     

@@ -19,16 +19,18 @@ class DiaryListCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let dateLabel = UILabel()
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
+        dateLabel.font = UIFont.preferredFont(forTextStyle: .body)
         dateLabel.adjustsFontForContentSizeCategory = true
+        dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         return dateLabel
     }()
     
     private let bodyLabel: UILabel = {
         let bodyLabel = UILabel()
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
-        bodyLabel.font = UIFont.preferredFont(forTextStyle: .caption2)
+        bodyLabel.font = UIFont.preferredFont(forTextStyle: .caption1)
         bodyLabel.adjustsFontForContentSizeCategory = true
+        
         return bodyLabel
     }()
     
@@ -46,8 +48,8 @@ class DiaryListCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.alignment = .leading
-        stackView.distribution = .equalSpacing
+        stackView.alignment = .fill
+        stackView.distribution = .fillProportionally
         stackView.spacing = 5
         return stackView
     }()
@@ -66,10 +68,10 @@ class DiaryListCell: UITableViewCell {
 extension DiaryListCell: ReuseIdentifying {
     private func setConstraint() {
         NSLayoutConstraint.activate([
-            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
         ])
     }
     
