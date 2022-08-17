@@ -11,7 +11,7 @@ class DiaryViewController: UIViewController {
     // MARK: - Properties
 
     var dataSource: UITableViewDiffableDataSource<Section, DiarySampleData>?
-    let diarySampleData: [DiarySampleData]? = JSONData.parse(name: "sample")
+    let diarySampleData: [DiarySampleData]? = JSONData.parse(name: AssetData.sample)
     
     // MARK: - Life Cycle
     
@@ -33,7 +33,7 @@ class DiaryViewController: UIViewController {
     
     private func configureNavigationItems() {
         title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: SystemImage.plus),
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(plusButtonDidTapped))
@@ -64,7 +64,7 @@ class DiaryViewController: UIViewController {
         let tableView = view.tableView
         
         dataSource = UITableViewDiffableDataSource<Section, DiarySampleData>(tableView: tableView, cellProvider: { tableView, indexPath, item in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "CustomCell",
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.identifier,
                                                            for: indexPath) as? CustomCell else {
                 return nil
             }

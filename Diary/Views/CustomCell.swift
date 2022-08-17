@@ -11,6 +11,8 @@ class CustomCell: UITableViewCell {
     
     // MARK: Properties
     
+    static let identifier = "CustomCell"
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
