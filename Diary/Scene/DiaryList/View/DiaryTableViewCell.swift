@@ -10,6 +10,8 @@ import UIKit
 final class DiaryTableViewCell: UITableViewCell {
     // MARK: - properties
 
+    static let reuseIdentifier = "DiaryTableViewCell"
+
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
