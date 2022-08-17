@@ -1,14 +1,12 @@
 //
-//  DiaryListViewModel.swift
+//  DiaryViewModel.swift
 //  Diary
 //  Created by Hugh,Derrick kim on 2022/08/17.
 //
 
 import Foundation
 
-final class DiaryListViewModel {
-    private let service = DiaryService()
-    
+final class DiaryViewModel {
     private let diaryContent: DiaryContent
     
     init(data: DiaryContent) {
@@ -24,6 +22,10 @@ final class DiaryListViewModel {
     }
     
     var dateText: String {
-        return service.convertToDiaryDate(from: diaryContent.createdAt)
+        return diaryContent.createdAt.formattedDate
+    }
+    
+    var longDescriptionText: String {
+        return diaryContent.title + "\n\n" + diaryContent.body
     }
 }
