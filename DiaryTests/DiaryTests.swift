@@ -81,7 +81,7 @@ class DiaryTests: XCTestCase {
         case .success(let contents):
             //then
             let diaryService = DiaryService()
-            let result = diaryService.convertToDiaryDate(from: Double(contents[0].createdAt))
+            let result = diaryService.convertToDiaryDate(from: contents[0].createdAt)
             
             XCTAssertEqual(expectation, result)
         default:
