@@ -14,6 +14,8 @@ class DiaryContentView: UIView {
     var textView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.keyboardDismissMode = .interactive
+        textView.alwaysBounceVertical = true
         
         return textView
     }()
