@@ -9,15 +9,15 @@ import UIKit
 
 class DiaryView: UIView {
     private lazy var diaryTextViewBottomConstraint = diaryTextView.bottomAnchor.constraint(
-            equalTo: safeAreaLayoutGuide.bottomAnchor
-        )
+        equalTo: safeAreaLayoutGuide.bottomAnchor
+    )
     
     let diaryTextView: UITextView = {
         let textView = UITextView()
-
+        
         return textView
     }()
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configureTextField()
@@ -32,20 +32,17 @@ class DiaryView: UIView {
         self.addSubview(diaryTextView)
         self.diaryTextView.translatesAutoresizingMaskIntoConstraints = false
         
-       
-        
         NSLayoutConstraint.activate([
             self.diaryTextView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            diaryTextViewBottomConstraint,
+            self.diaryTextViewBottomConstraint,
             self.diaryTextView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
             self.diaryTextView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
         ])
     }
     
     func changeTextViewBottomAutoLayout(_ keyboardHeight: CGFloat = 0) {
-        diaryTextViewBottomConstraint.isActive = false
-        diaryTextViewBottomConstraint = diaryTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -keyboardHeight)
-        diaryTextViewBottomConstraint.isActive = true
-            
-        }
+        self.diaryTextViewBottomConstraint.isActive = false
+        self.diaryTextViewBottomConstraint = diaryTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -keyboardHeight)
+        self.diaryTextViewBottomConstraint.isActive = true
+    }
 }

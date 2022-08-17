@@ -30,7 +30,7 @@ final class MainTableViewCell: UITableViewCell {
         
         return label
     }()
-
+    
     private let diaryDate: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
@@ -44,7 +44,7 @@ final class MainTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 5
-    
+        
         return stackView
     }()
     

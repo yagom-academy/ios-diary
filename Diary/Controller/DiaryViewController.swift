@@ -9,7 +9,7 @@ import UIKit
 
 class DiaryViewController: UIViewController {
     
-    let diaryView = DiaryView()
+    private let diaryView = DiaryView()
     
     override func loadView() {
         self.view = diaryView
@@ -19,13 +19,13 @@ class DiaryViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.setNavigationbar()
-        setViewGesture()
-        registerForKeyboardNotification()
+        self.setViewGesture()
+        self.registerForKeyboardNotification()
     }
-   
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        removeRegisterForKeyboardNotification()
+        self.removeRegisterForKeyboardNotification()
     }
     
     private func setNavigationbar() {
@@ -35,12 +35,12 @@ class DiaryViewController: UIViewController {
     
     private func setViewGesture() {
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDownAction))
-        view.addGestureRecognizer(tapGesture)
+        self.view.addGestureRecognizer(tapGesture)
     }
-
+    
     @objc func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
         self.view.endEditing(true)
-        diaryView.changeTextViewBottomAutoLayout()
+        self.diaryView.changeTextViewBottomAutoLayout()
     }
     
     private func registerForKeyboardNotification() {
@@ -48,10 +48,9 @@ class DiaryViewController: UIViewController {
                                                selector: #selector(keyBoardShow),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
-     }
+    }
     
     @objc private func keyBoardShow(notification: NSNotification) {
-    
         guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
             return
         }
@@ -60,7 +59,7 @@ class DiaryViewController: UIViewController {
         }
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
-    
+        
         diaryView.changeTextViewBottomAutoLayout(keyboardHeight)
     }
     
