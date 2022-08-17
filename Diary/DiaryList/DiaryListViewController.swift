@@ -7,39 +7,30 @@
 import UIKit
 
 class DiaryListViewController: UIViewController {
-    private var tableView: UITableView = {
-        let tableView = UITableView()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
-        return tableView
-    }()
+    private var diaryListView: DiaryListView?
     private var diaryModelList: [DiaryModel]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
         configureNavigationBar()
-        configureTableView()
         diaryModelList = JsonParser.fetchData()
+        setupDiaryListView()
+    }
+    
+    private func setupDiaryListView() {
+        self.view.backgroundColor = .systemBackground
+        diaryListView = DiaryListView(self)
+        diaryListView?.tableView.delegate = self
+        diaryListView?.tableView.dataSource = self
     }
     
     private func configureNavigationBar() {
-        self.navigationItem.title = "일기장"
+        self.navigationItem.title = NameSpace.diary
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                                  target: self,
                                                                  action: #selector(addButtonDidTapped))
     }
 
-    private func configureTableView() {
-        self.view.addSubview(tableView)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-    }
-    
     @objc func addButtonDidTapped() {
         self.navigationController?.pushViewController(DiaryViewController(), animated: true)
     }
@@ -56,8 +47,8 @@ extension DiaryListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier,
-                                                       for: indexPath) as? DiaryTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier,
+                                                       for: indexPath) as? DiaryListCell else { return UITableViewCell() }
         guard let diaryModelList = diaryModelList else { return UITableViewCell() }
         let diaryModel = diaryModelList[indexPath.row]
         cell.setData(with: diaryModel)
