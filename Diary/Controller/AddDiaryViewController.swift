@@ -8,8 +8,12 @@
 import UIKit
 
 class AddDiaryViewController: UIViewController {
-
+    private var addDiaryView = AddDiaryView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view = addDiaryView
+        
+        self.navigationItem.title = DateManager().fetchDate(data: Date().timeIntervalSince1970)
     }
 }
