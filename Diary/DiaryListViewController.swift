@@ -1,12 +1,12 @@
 //
-//  Diary - MainViewController.swift
+//  Diary - DiaryListViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-class MainViewController: UIViewController {
+class DiaryListViewController: UIViewController {
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +25,9 @@ class MainViewController: UIViewController {
     
     private func configureNavigationBar() {
         self.navigationItem.title = "일기장"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonDidTapped))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                                 target: self,
+                                                                 action: #selector(addButtonDidTapped))
     }
 
     private func configureTableView() {
@@ -39,22 +41,23 @@ class MainViewController: UIViewController {
     }
     
     @objc func addButtonDidTapped() {
-        
+        self.navigationController?.pushViewController(DiaryViewController(), animated: true)
     }
 }
 
-extension MainViewController: UITableViewDelegate {
+extension DiaryListViewController: UITableViewDelegate {
     
 }
 
-extension MainViewController: UITableViewDataSource {
+extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let diaryModelList = diaryModelList else { return 0 }
         return diaryModelList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else { return UITableViewCell() }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier,
+                                                       for: indexPath) as? DiaryTableViewCell else { return UITableViewCell() }
         guard let diaryModelList = diaryModelList else { return UITableViewCell() }
         let diaryModel = diaryModelList[indexPath.row]
         cell.setData(with: diaryModel)
