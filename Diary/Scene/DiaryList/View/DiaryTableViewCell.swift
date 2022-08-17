@@ -18,6 +18,7 @@ final class DiaryTableViewCell: UITableViewCell {
         stackView.alignment = .leading
         stackView.distribution = .fill
         stackView.axis = .vertical
+        stackView.spacing = 8
 
         return stackView
     }()
@@ -25,7 +26,7 @@ final class DiaryTableViewCell: UITableViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .title2)
+        label.font = .preferredFont(forTextStyle: .title3)
 
         return label
     }()
@@ -34,8 +35,9 @@ final class DiaryTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .fill
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         stackView.axis = .horizontal
+        stackView.spacing = 8
 
         return stackView
     }()
@@ -43,7 +45,8 @@ final class DiaryTableViewCell: UITableViewCell {
     let dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .body)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
 
         return label
     }()
@@ -51,7 +54,7 @@ final class DiaryTableViewCell: UITableViewCell {
     let bodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .preferredFont(forTextStyle: .footnote)
 
         return label
     }()
@@ -88,7 +91,7 @@ final class DiaryTableViewCell: UITableViewCell {
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: 10)
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
     }
 }

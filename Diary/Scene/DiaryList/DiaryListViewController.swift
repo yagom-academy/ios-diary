@@ -11,6 +11,7 @@ final class DiaryListViewController: UIViewController {
     // MARK: - properties
 
     private var tableView = UITableView()
+    private let dummyData = DummyData()
 
     // MARK: - view life cycle
 
@@ -62,11 +63,18 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        0
+        dummyData?.diaryItems?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.reuseIdentifier)
+                as? DiaryTableViewCell else { return UITableViewCell() }
+
+        cell.titleLabel.text = dummyData?.diaryItems?[indexPath.row].title
+        cell.dateLabel.text = dummyData?.diaryItems?[indexPath.row].createdAt.description
+        cell.bodyLabel.text = dummyData?.diaryItems?[indexPath.row].body
+
+        return cell
     }
 }
 
