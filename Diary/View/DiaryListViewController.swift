@@ -33,6 +33,7 @@ final class DiaryListViewController: UIViewController {
     private func setupDefault() {
         self.view.backgroundColor = .white
         self.view.addSubview(diaryListTableView)
+        self.diaryListTableView.delegate = self
         
         self.title = "일기장"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTappedAddButton))
@@ -86,5 +87,15 @@ final class DiaryListViewController: UIViewController {
         let addDiaryViewController = AddDiaryViewController()
         
         self.navigationController?.pushViewController(addDiaryViewController, animated: true)
+    }
+}
+
+// MARK: TableVeiwDelegate
+
+extension DiaryListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diaryContentViewController = DiaryContentViewController()
+        
+        self.navigationController?.pushViewController(diaryContentViewController, animated: true)
     }
 }
