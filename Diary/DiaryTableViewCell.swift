@@ -71,7 +71,7 @@ class DiaryTableViewCell: UITableViewCell {
     
     func setCellComponents(item: DiarySample) {
         diaryTitleLabel.text = item.title
-        diaryDateLabel.text = String(item.createdAt)
+        diaryDateLabel.text = format(data: item.createdAt)
         diaryPreviewLabel.text = item.body
     }
     
@@ -90,5 +90,15 @@ class DiaryTableViewCell: UITableViewCell {
             entireVerticalStackView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -5),
             entireVerticalStackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 15)
         ])
+    }
+    
+    private func format(data: Double) -> String {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .long
+        formatter.timeStyle = .none
+        formatter.locale = Locale.current
+
+        let date = formatter.string(from: Date(timeIntervalSince1970: data))
+        return date
     }
 }

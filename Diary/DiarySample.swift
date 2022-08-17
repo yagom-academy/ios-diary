@@ -12,7 +12,7 @@ struct DiarySample: Decodable, Hashable {
     
     let title: String
     let body: String
-    let createdAt: Int
+    let createdAt: Double
     
     enum CodingKeys: String, CodingKey {
         case title, body
