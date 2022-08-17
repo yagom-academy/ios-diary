@@ -13,6 +13,9 @@
 		C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryListViewController.swift */; };
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
+		FD8ED63628AC7CC000F631F2 /* DiaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8ED63528AC7CC000F631F2 /* DiaryItem.swift */; };
+		FD8ED63A28ACAAB800F631F2 /* TimeInterval+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8ED63928ACAAB800F631F2 /* TimeInterval+Extensions.swift */; };
+		FD8ED63D28ACB76300F631F2 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8ED63C28ACB76300F631F2 /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +27,9 @@
 		C739AE2E284DF28600741E8F /* Diary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Diary.xcdatamodel; sourceTree = "<group>"; };
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FD8ED63528AC7CC000F631F2 /* DiaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryItem.swift; sourceTree = "<group>"; };
+		FD8ED63928ACAAB800F631F2 /* TimeInterval+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extensions.swift"; sourceTree = "<group>"; };
+		FD8ED63C28ACB76300F631F2 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +71,8 @@
 		FD8ED62828AB79F400F631F2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FD8ED63528AC7CC000F631F2 /* DiaryItem.swift */,
+				FD8ED63C28ACB76300F631F2 /* DataManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -100,11 +108,28 @@
 		FD8ED62C28AB7A3600F631F2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FD8ED63728ACAA6600F631F2 /* Common */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 				FD8ED62B28AB7A1C00F631F2 /* Sources */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		FD8ED63728ACAA6600F631F2 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				FD8ED63828ACAA8300F631F2 /* Extensions */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		FD8ED63828ACAA8300F631F2 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FD8ED63928ACAAB800F631F2 /* TimeInterval+Extensions.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -177,9 +202,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
+				FD8ED63D28ACB76300F631F2 /* DataManager.swift in Sources */,
 				45DC613D28ABDA5500DB4D8D /* DiaryDetailViewController.swift in Sources */,
+				FD8ED63A28ACAAB800F631F2 /* TimeInterval+Extensions.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				FD8ED63628AC7CC000F631F2 /* DiaryItem.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

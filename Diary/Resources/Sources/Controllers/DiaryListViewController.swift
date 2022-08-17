@@ -8,6 +8,10 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
 
+    // MARK: - Properties
+    
+    private let dataManager = DataManager()
+    
     // MARK: - Life Cycles
 
     override func viewDidLoad() {
