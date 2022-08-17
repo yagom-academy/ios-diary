@@ -8,7 +8,7 @@
 import Foundation
 
 struct DiaryContent: Decodable, Hashable {
-    var id = UUID()
+    let id = UUID()
     let title: String
     let body: String
     let createdAt: Double
