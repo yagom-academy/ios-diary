@@ -15,16 +15,28 @@ class MainTableViewCell: UITableViewCell {
     
     let diaryTitle: UILabel = {
         let label = UILabel()
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: .title2)
+        label.numberOfLines = 1
+        
         return label
     }()
     
     let diaryBody: UILabel = {
         let label = UILabel()
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.numberOfLines = 1
+        
         return label
     }()
 
     let diaryDate: UILabel = {
         let label = UILabel()
+        label.adjustsFontForContentSizeCategory = true
+        label.font = .preferredFont(forTextStyle: .body)
+        label.numberOfLines = 1
+        
         return label
     }()
     
@@ -32,6 +44,8 @@ class MainTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 5
+        stackView.alignment = .fill
+        stackView.distribution = .equalSpacing
         
         return stackView
     }()

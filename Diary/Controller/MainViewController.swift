@@ -9,6 +9,8 @@ import UIKit
 
 class MainViewController: UIViewController {
     
+    private let sampleDiary: [SampleJson]? = JSONDecoder.decodedJson(jsonName: "sample")
+    
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
     }
@@ -52,16 +54,17 @@ class MainViewController: UIViewController {
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        guard let sampleDiary = sampleDiary else { return 0 }
+        return sampleDiary.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
-        cell.diaryTitle.text = "Title"
-        cell.diaryBody.text = "Body"
-        cell.diaryDate.text = "Data"
+        cell.diaryTitle.text = sampleDiary![indexPath.row].title
+        cell.diaryBody.text = sampleDiary![indexPath.row].body
+        cell.diaryDate.text = "2020년 10월 23일"
         cell.accessoryType = .disclosureIndicator
         return cell
     }
