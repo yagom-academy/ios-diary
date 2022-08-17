@@ -7,6 +7,7 @@
 import UIKit
 
 class MainViewController: UIViewController {
+    private let diarySample: [DiarySample]? = JSONData.parse(name: "sample")
     private let diaryTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: "DiaryTableViewCell")
