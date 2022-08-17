@@ -82,7 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				AFA8A10F28AC995B006B8FF3 /* DiaryView.swift */,
-				8F06109428ACC5BD004ACBC2 /* NameSpace.swift */,
 				AFA8A10D28AC96AA006B8FF3 /* DiaryViewController.swift */,
 			);
 			path = Diary;
@@ -93,6 +92,7 @@
 			children = (
 				AF845AC928AC7622001CA526 /* DiaryModel.swift */,
 				AF845ACB28AC7747001CA526 /* JsonParser.swift */,
+				8F06109428ACC5BD004ACBC2 /* NameSpace.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
