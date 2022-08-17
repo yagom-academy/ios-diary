@@ -7,8 +7,7 @@
 
 import UIKit
 
-class AddDiaryView: UIView {
-    
+final class AddDiaryView: UIView {
     private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -51,7 +50,7 @@ class AddDiaryView: UIView {
 }
 
 extension AddDiaryView {
-    func addSubView() {
+    private func addSubView() {
         self.addSubview(verticalStackView)
         verticalStackView.addArrangedSubview(titleTextField)
         verticalStackView.addArrangedSubview(bodyTextView)
@@ -66,6 +65,7 @@ extension AddDiaryView {
             verticalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
+    
     func adjustContentInset(height: CGFloat) {
         self.bodyTextView.contentInset.bottom = height
     }

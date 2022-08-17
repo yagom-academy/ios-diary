@@ -7,13 +7,16 @@
 
 import UIKit
 
-class AddDiaryViewController: UIViewController {
-    private var addDiaryView = AddDiaryView()
+final class AddDiaryViewController: UIViewController {
+    private let addDiaryView = AddDiaryView()
+    
+    override func loadView() {
+        super.loadView()
+        view = addDiaryView
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view = addDiaryView
-        
         addNotificationObserver()
         self.navigationItem.title = DateManager().fetchDate(data: Date().timeIntervalSince1970)
     }

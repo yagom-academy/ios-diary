@@ -6,7 +6,7 @@
 
 import UIKit
 
-class DiaryTableViewController: UIViewController {
+final class DiaryTableViewController: UIViewController {
     private let diaryListTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,7 +46,7 @@ class DiaryTableViewController: UIViewController {
         NSLayoutConstraint.activate([
             diaryListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             diaryListTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            diaryListTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            diaryListTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             diaryListTableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }

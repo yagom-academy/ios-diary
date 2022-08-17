@@ -7,6 +7,6 @@
 
 import UIKit
 
-class DiaryDetailView: UIView {
+final class DiaryDetailView: UIView {
     
 }
