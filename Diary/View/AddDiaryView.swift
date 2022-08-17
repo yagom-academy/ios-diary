@@ -66,6 +66,9 @@ extension AddDiaryView {
             verticalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
+    func adjustContentInset(height: CGFloat) {
+        self.bodyTextView.contentInset.bottom = height
+    }
 }
 
 extension UITextField {

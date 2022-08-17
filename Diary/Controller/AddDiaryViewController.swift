@@ -14,6 +14,23 @@ class AddDiaryViewController: UIViewController {
         super.viewDidLoad()
         view = addDiaryView
         
+        addNotificationObserver()
         self.navigationItem.title = DateManager().fetchDate(data: Date().timeIntervalSince1970)
+    }
+    
+    private func addNotificationObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        addDiaryView.adjustContentInset(height: keyboardFrame.size.height)
+    }
+    
+    @objc private func keyboardWillHide() {
+        addDiaryView.adjustContentInset(height: 0)
     }
 }
