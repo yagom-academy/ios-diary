@@ -13,15 +13,6 @@ final class MainTableViewCell: UITableViewCell {
         return "MainTableViewCell"
     }
     
-    private let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        
-        return dateFormatter
-    }()
-    
     private let diaryTitle: UILabel = {
         let label = UILabel()
         label.adjustsFontForContentSizeCategory = true
@@ -100,11 +91,10 @@ final class MainTableViewCell: UITableViewCell {
     }
     
     func fetchJsonData(data: SampleJson) {
-        let date = Date(timeIntervalSince1970: TimeInterval(data.createdAt))
-        let convertDate = dateFormatter.string(from: date)
+        let date = Date(timeIntervalSince1970: TimeInterval(data.createdAt)).formatted("yyyy년 MM월 dd일")
         
         self.diaryTitle.text = data.title
-        self.diaryDate.text = convertDate
+        self.diaryDate.text = date
         self.diaryBody.text = data.body
     }
 }

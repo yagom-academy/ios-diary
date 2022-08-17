@@ -29,11 +29,12 @@ final class MainViewController: UIViewController {
     }
     
     private func setNavigationbar() {
-        self.navigationController?.navigationBar.topItem?.title = "일기장"
+        self.navigationItem.title = "일기장"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didAddDiaryButtonTapped))
     }
     
     @objc private func didAddDiaryButtonTapped() {
+        navigationController?.pushViewController(DiaryViewController(), animated: true)
     }
     
     private func configureTableView() {
