@@ -12,5 +12,20 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
+
+        configureNavigationBarItems()
+    }
+
+    private func configureNavigationBarItems() {
+        let plusButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                         target: self,
+                                         action: #selector(tappedPlusButton))
+
+        self.navigationItem.rightBarButtonItem = plusButton
+        self.navigationItem.title = "일기장"
+    }
+
+    @objc private func tappedPlusButton() {
+        print("+ 버튼이 눌렸습니다.")
     }
 }

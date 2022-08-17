@@ -8,8 +8,8 @@
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
-    //MARK: - properties
-    
+    // MARK: - properties
+
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -54,8 +54,8 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
 
-    //MARK: - initializer
-    
+    // MARK: - initializer
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         commonInit()
@@ -66,8 +66,8 @@ final class DiaryTableViewCell: UITableViewCell {
         commonInit()
     }
 
-    //MARK: - methods
-    
+    // MARK: - methods
+
     private func commonInit() {
         configureView()
         configureViewLayouts()
