@@ -5,8 +5,11 @@
 //  Created by Hugh, Derrick on 2022/08/16.
 //
 
-struct DiaryContent: Decodable {
+import Foundation
+
+struct DiaryContent: Decodable, Hashable {
+    var id = UUID()
     let title: String
     let body: String
-    let createdAt: Int
+    let createdAt: Double
 }
