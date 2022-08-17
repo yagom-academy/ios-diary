@@ -2,14 +2,14 @@
 //  Double+Extensions.swift
 //  Diary
 //
-//  Created by minsson on 2022/08/17.
+//  Created by 민쏜, 보리사랑 on 2022/08/17.
 //
 
 import Foundation
 
 extension TimeInterval {
     
-    // MARK: Methods
+    // MARK: - Methods
     
     func localizedFormat() -> String {
         let formattedDate = Date(timeIntervalSince1970: self)
