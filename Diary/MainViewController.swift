@@ -8,16 +8,19 @@ import UIKit
 
 class MainViewController: UIViewController {
     private var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero)
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
         return tableView
     }()
+    private var diaryModelList: [DiaryModel]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         configureNavigationBar()
         configureTableView()
+        diaryModelList = JsonParser.fetchData()
     }
     
     private func configureNavigationBar() {
@@ -29,7 +32,10 @@ class MainViewController: UIViewController {
         self.view.addSubview(tableView)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.frame = self.view.bounds
+        tableView.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
     }
     
     @objc func addButtonDidTapped() {
@@ -43,11 +49,15 @@ extension MainViewController: UITableViewDelegate {
 
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        guard let diaryModelList = diaryModelList else { return 0 }
+        return diaryModelList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else { return UITableViewCell() }
+        guard let diaryModelList = diaryModelList else { return UITableViewCell() }
+        let diaryModel = diaryModelList[indexPath.row]
+        cell.setData(with: diaryModel)
         return cell
     }
 
