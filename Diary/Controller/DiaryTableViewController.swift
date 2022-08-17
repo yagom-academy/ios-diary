@@ -25,7 +25,8 @@ class DiaryTableViewController: UIViewController {
     }
     
     @objc private func addDiaryButtonDidTapped() {
-        
+        guard let addDiaryViewController = storyboard?.instantiateViewController(withIdentifier: "AddDiaryViewController") else { return }
+        self.navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
     
     private func configureNavigationItem() {
@@ -75,5 +76,10 @@ extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
         cell.configure(with: diaryEntity[indexPath.row])
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let diaryDetailViewController = storyboard?.instantiateViewController(withIdentifier: "DiaryDetailViewController") else { return }
+        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
