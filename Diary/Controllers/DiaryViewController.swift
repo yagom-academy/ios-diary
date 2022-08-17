@@ -43,7 +43,8 @@ class DiaryViewController: UIViewController {
     }
     
     private func goToDiaryContentsViewController() {
-        navigationController?.pushViewController(DiaryContentsViewController(), animated: true)
+        navigationController?.pushViewController(DiaryContentsViewController(),
+                                                 animated: true)
     }
     
     private func configureSnapshot() -> NSDiffableDataSourceSnapshot<Section, DiarySampleData>? {
