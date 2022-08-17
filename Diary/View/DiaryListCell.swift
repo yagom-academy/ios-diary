@@ -66,6 +66,14 @@ class DiaryListCell: UITableViewCell {
 }
 
 extension DiaryListCell: ReuseIdentifying {
+    private func addSubView() {
+        verticalStackView.addArrangedSubview(titleLabel)
+        verticalStackView.addArrangedSubview(horizontalStackView)
+        horizontalStackView.addArrangedSubview(dateLabel)
+        horizontalStackView.addArrangedSubview(bodyLabel)
+        self.contentView.addSubview(verticalStackView)
+    }
+    
     private func setConstraint() {
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
@@ -75,26 +83,9 @@ extension DiaryListCell: ReuseIdentifying {
         ])
     }
     
-    private func addSubView() {
-        verticalStackView.addArrangedSubview(titleLabel)
-        verticalStackView.addArrangedSubview(horizontalStackView)
-        horizontalStackView.addArrangedSubview(dateLabel)
-        horizontalStackView.addArrangedSubview(bodyLabel)
-        self.contentView.addSubview(verticalStackView)
-    }
-    
     func configure(with data: Diary) {
         self.titleLabel.text = data.title
-        self.dateLabel.text = fetchDate(data: data.createdAt)
+        self.dateLabel.text = DateManager().fetchDate(data: data.createdAt)
         self.bodyLabel.text = data.body
-    }
-    
-    private func fetchDate(data: Double) -> String {
-        let formatterDate = DateFormatter()
-        formatterDate.dateStyle = .long
-        formatterDate.timeStyle = .none
-        formatterDate.locale = Locale.current
-        
-        return formatterDate.string(from: Date(timeIntervalSince1970: data))
     }
 }
