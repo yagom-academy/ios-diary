@@ -11,7 +11,7 @@ struct DiaryTestData: Decodable {
     let title: String
     let body: String
     let createdAt: Int
-    
+
     private enum CodingKeys: String, CodingKey {
         case title, body
         case createdAt = "created_at"
