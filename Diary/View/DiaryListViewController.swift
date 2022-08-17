@@ -17,7 +17,7 @@ final class DiaryListViewController: UIViewController {
     
     private let diaryListTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -26,8 +26,8 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         setupDefault()
         configureLayout()
-        fetchData()
         configureDataSource()
+        fetchData()
     }
     
     private func setupDefault() {
@@ -39,24 +39,29 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, DiaryContent>(tableView: diaryListTableView,
-                                                                          cellProvider: { tableView, indexPath, content -> UITableViewCell? in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? DiaryTableViewCell else {
+        dataSource = UITableViewDiffableDataSource<Section, DiaryContent>(tableView: diaryListTableView, cellProvider: { tableView, indexPath, content -> UITableViewCell? in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
                 return UITableViewCell()
             }
 
             cell.configureUI(data: content)
+            cell.accessoryType = .disclosureIndicator
+
             return cell
         })
     }
     
     private func fetchData() {
-        let result = jsonManager.checkFileAndDecode(dataType: [DiaryContent].self, "diarySample")
+        let fileName = "diarySample"
+        let result = jsonManager.checkFileAndDecode(dataType: [DiaryContent].self, fileName)
+        
         switch result {
         case .success(let contents):
             updateDataSource(data: contents)
+        case .failure(_):
+            break
         default:
-            return
+            break
         }
     }
     
