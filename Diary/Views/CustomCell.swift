@@ -66,8 +66,8 @@ class CustomCell: UITableViewCell {
     // MARK: - UI
     
     private func configureUI() {
-        self.contentView.addSubview(titleLabel)
-        self.contentView.addSubview(stackView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(stackView)
         
         stackView.addArrangedSubview(dateLabel)
         stackView.addArrangedSubview(contentLabel)

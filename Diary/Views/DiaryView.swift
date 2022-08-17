@@ -29,10 +29,10 @@ class DiaryView: UIView {
     // MARK: - Methods
     
     private func configureTableView() {
-        tableView = UITableView(frame: self.bounds,
+        tableView = UITableView(frame: bounds,
                                 style: .plain)
         
-        self.addSubview(tableView)
+        addSubview(tableView)
     }
 
     

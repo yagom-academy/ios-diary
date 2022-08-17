@@ -34,7 +34,7 @@ class DiaryContentView: UIView {
     // MARK: - Methods
     
     private func configureTextView() {
-        self.addSubview(textView)
+        addSubview(textView)
     }
 
     

@@ -57,7 +57,7 @@ class DiaryViewController: UIViewController {
     
     private func configureDataSource() {
         guard let view = view as? DiaryView,
-              let diarySampleData = self.diarySampleData else {
+              let snapshot = configureSnapshot() else {
             return
         }
         
