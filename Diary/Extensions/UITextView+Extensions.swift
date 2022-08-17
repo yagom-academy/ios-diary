@@ -10,7 +10,7 @@ import UIKit
 extension UITextView {
     func focusTop() {
         let contentHeight = self.contentSize.height
-        let offSet = self.contentOffset.x
+        let offSet = self.contentOffset.y
         let contentOffset = contentHeight - offSet
         self.contentOffset = CGPoint(x: 0, y: -contentOffset)
     }

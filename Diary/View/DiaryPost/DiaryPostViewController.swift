@@ -15,5 +15,3 @@ final class DiaryPostViewController: UIViewController {
         self.title = Date().fetchCurrentDate
     }
 }
-
-
