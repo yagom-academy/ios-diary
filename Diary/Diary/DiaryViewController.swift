@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 class DiaryViewController: UIViewController {
     private var diaryView: DiaryView?

@@ -1,5 +1,5 @@
 //
-//  DiaryTableViewCell.swift
+//  DiaryListCell.swift
 //  Diary
 //
 //  Created by unchain, 웡빙 on 2022/08/16.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryTableViewCell: UITableViewCell {
+class DiaryListCell: UITableViewCell {
     static let identifier = "diaryCell"
     
     private let titleLabel: UILabel = {

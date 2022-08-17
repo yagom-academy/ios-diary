@@ -8,7 +8,7 @@
 import UIKit
 
 class DiaryView: UIView {
-    let placeHolder = "여기에 내용을 입력하세요"
+    let placeHolder = NameSpace.placeHolder
     lazy var diaryTextView: UITextView = {
         let textview = UITextView()
         textview.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +26,7 @@ class DiaryView: UIView {
     let closeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("닫기", for: .normal)
+        button.setTitle(NameSpace.close, for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .systemGray6
         return button
