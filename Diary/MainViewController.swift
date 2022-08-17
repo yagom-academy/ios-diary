@@ -9,6 +9,7 @@ import UIKit
 class MainViewController: UIViewController {
     private let diaryTableView: UITableView = {
         let tableView = UITableView()
+        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: "DiaryTableViewCell")
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
@@ -17,18 +18,18 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
   
-        self.view.backgroundColor = .white
-        self.navigationItem.title = "일기장"
-        self.view.addSubview(diaryTableView)
+        view.backgroundColor = .white
+        navigationItem.title = "일기장"
+        view.addSubview(diaryTableView)
         setConstraint()
     }
     
     private func setConstraint() {
         NSLayoutConstraint.activate([
-            diaryTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            diaryTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            diaryTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            diaryTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
+            diaryTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            diaryTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            diaryTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            diaryTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 }
