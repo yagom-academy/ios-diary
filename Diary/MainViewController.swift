@@ -23,11 +23,19 @@ class MainViewController: UIViewController {
         return tableView
     }()
     
+    private let addButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "plus"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
   
         view.backgroundColor = .white
         navigationItem.title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: addButton)
         view.addSubview(diaryTableView)
         setConstraint()
         
