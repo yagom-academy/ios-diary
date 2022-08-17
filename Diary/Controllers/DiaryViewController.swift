@@ -90,13 +90,8 @@ class DiaryViewController: UIViewController {
         
         let tableView = view.tableView
         
-        tableView.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
+        tableView.register(CustomCell.self,
+                           forCellReuseIdentifier: CustomCell.identifier)
         tableView.dataSource = dataSource
-    }
-}
-
-extension DiaryViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
     }
 }
