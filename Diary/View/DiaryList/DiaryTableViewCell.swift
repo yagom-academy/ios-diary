@@ -55,7 +55,7 @@ final class DiaryTableViewCell: UITableViewCell {
     }()
     
     static let identifier = "DiaryTableViewCell"
-    private var diaryListViewModel: DiaryListViewModel?
+    private var diaryListViewModel: DiaryViewModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -69,7 +69,7 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureUI(data: DiaryContent) {
-        diaryListViewModel = DiaryListViewModel(data: data)
+        diaryListViewModel = DiaryViewModel(data: data)
         
         diaryTitleLabel.text = diaryListViewModel?.titleText
         dateLabel.text = diaryListViewModel?.dateText
