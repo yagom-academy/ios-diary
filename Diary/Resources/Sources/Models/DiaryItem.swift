@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DiaryItem: Decodable {
+struct DiaryItem: Decodable, Hashable {
     
     // MARK: - Properties
     

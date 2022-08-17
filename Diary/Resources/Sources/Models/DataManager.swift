@@ -11,7 +11,7 @@ struct DataManager {
     
     // MARK: - Properties
     
-    let temporarySampleData = NSDataAsset.init(name: "sample")
+    let temporarySampleData = NSDataAsset.init(name: "sample modify")
     
     // MARK: - Methods
     
