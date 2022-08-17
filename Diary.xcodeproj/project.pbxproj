@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1863246B28ACC57100BAE36D /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1863246A28ACC57100BAE36D /* DiaryDetailViewController.swift */; };
+		1863246F28ACD66300BAE36D /* DataSendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1863246E28ACD66300BAE36D /* DataSendable.swift */; };
 		186D056C28ABC8D600A2734E /* JSONModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D056B28ABC8D600A2734E /* JSONModel.swift */; };
 		186D056F28ABE97900A2734E /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D056E28ABE97900A2734E /* Section.swift */; };
 		186D057228ABE9A200A2734E /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 186D057128ABE9A200A2734E /* Date+Extension.swift */; };
@@ -22,6 +24,8 @@
 
 /* Begin PBXFileReference section */
 		0CA844457287C7C117F46D54 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
+		1863246A28ACC57100BAE36D /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
+		1863246E28ACD66300BAE36D /* DataSendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSendable.swift; sourceTree = "<group>"; };
 		186D056B28ABC8D600A2734E /* JSONModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONModel.swift; sourceTree = "<group>"; };
 		186D056E28ABE97900A2734E /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		186D057128ABE9A200A2734E /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -51,6 +55,46 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1863246628ACC52B00BAE36D /* DiaryDetail */ = {
+			isa = PBXGroup;
+			children = (
+				1863246728ACC53200BAE36D /* Model */,
+				1863246828ACC53500BAE36D /* View */,
+				1863246928ACC53700BAE36D /* Controller */,
+			);
+			name = DiaryDetail;
+			sourceTree = "<group>";
+		};
+		1863246728ACC53200BAE36D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		1863246828ACC53500BAE36D /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		1863246928ACC53700BAE36D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1863246A28ACC57100BAE36D /* DiaryDetailViewController.swift */,
+			);
+			name = Controller;
+			sourceTree = "<group>";
+		};
+		1863246D28ACD64400BAE36D /* protocol */ = {
+			isa = PBXGroup;
+			children = (
+				1863246E28ACD66300BAE36D /* DataSendable.swift */,
+			);
+			path = protocol;
+			sourceTree = "<group>";
+		};
 		186D056D28ABE96A00A2734E /* Enum */ = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +150,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				1863246D28ACD64400BAE36D /* protocol */,
 				D7DC801028AB897F005F7D3B /* Scene */,
 				D7DC800F28AB896D005F7D3B /* Resources */,
 			);
@@ -128,6 +173,7 @@
 		D7DC801028AB897F005F7D3B /* Scene */ = {
 			isa = PBXGroup;
 			children = (
+				1863246628ACC52B00BAE36D /* DiaryDetail */,
 				D7DC801128AB8AFD005F7D3B /* DiaryList */,
 			);
 			name = Scene;
@@ -284,7 +330,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
+				1863246B28ACC57100BAE36D /* DiaryDetailViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				1863246F28ACD66300BAE36D /* DataSendable.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				186D057228ABE9A200A2734E /* Date+Extension.swift in Sources */,
 				186D056F28ABE97900A2734E /* Section.swift in Sources */,

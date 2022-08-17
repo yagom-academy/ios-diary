@@ -17,14 +17,19 @@ class DiaryListViewController: UIViewController {
         return imageView
     }()
     
-    private var collectionView: UICollectionView?
+    private var diaryCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, JSONModel>?
+    private var diaryDelegate: DataSendable?
+    private var diaryInfomation: [JSONModel] = []
     
     // MARK: - life cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        setupDataSource()
+        setupSnapshot(with: fetch())
+        diaryCollectionView?.delegate = self
     }
     
     // MARK: - functions
@@ -32,10 +37,8 @@ class DiaryListViewController: UIViewController {
     private func setupUI() {
         view.backgroundColor = .systemBackground
         setupNavigationController()
-        collectionView = setupCollectionView(frame: .zero,
+        diaryCollectionView = setupCollectionView(frame: .zero,
                                              collectionViewLayout: setupLayout())
-        setupDataSource()
-        setupSnapshot(with: fetch())
     }
     
     private func setupNavigationController() {
@@ -116,7 +119,16 @@ class DiaryListViewController: UIViewController {
         return decodedData
     }
     
-    fileprivate func extractedFunc(_ collectionView: UICollectionView, _ cellRegistration: UICollectionView.CellRegistration<DiaryListCollectionViewCell, JSONModel>) {
+    private func setupDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, JSONModel>
+        {
+            (cell, indexPath, identifier) in
+            cell.setupCellProperties(with: identifier)
+            self.diaryInfomation.append(identifier)
+        }
+        
+        guard let collectionView = diaryCollectionView else { return }
+        
         dataSource = UICollectionViewDiffableDataSource<Section, JSONModel>(collectionView: collectionView)
         {
             (collectionView, indexPath, identifier) -> UICollectionViewCell? in
@@ -125,18 +137,6 @@ class DiaryListViewController: UIViewController {
                                                                 for: indexPath,
                                                                 item: identifier)
         }
-    }
-    
-    private func setupDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, JSONModel>
-        {
-            (cell, indexPath, identifier) in
-            cell.setupCellProperties(with: identifier)
-        }
-        
-        guard let collectionView = collectionView else { return }
-        
-        extractedFunc(collectionView, cellRegistration)
     }
     
     private func setupSnapshot(with jsonModel: [JSONModel]) {
@@ -166,5 +166,14 @@ class DiaryListViewController: UIViewController {
             
             imageView.tintColor = .lightGray
         }
+    }
+}
+
+extension DiaryListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let diaryDetailViewController = DiaryDetailViewController()
+        diaryDelegate = diaryDetailViewController
+        self.diaryDelegate?.setupData(diaryInfomation[indexPath.row])
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
