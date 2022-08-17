@@ -9,6 +9,13 @@ import UIKit
 class DiaryListViewController: UIViewController {
     
     // MARK: - properties
+    private let imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(systemName: "moon.fill")
+        imageView.tintColor = .lightGray
+        
+        return imageView
+    }()
     
     private var collectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, JSONModel>?
@@ -17,6 +24,12 @@ class DiaryListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+    }
+    
+    // MARK: - functions
+    
+    private func setupUI() {
         view.backgroundColor = .systemBackground
         setupNavigationController()
         collectionView = setupCollectionView(frame: .zero,
@@ -25,19 +38,34 @@ class DiaryListViewController: UIViewController {
         setupSnapshot(with: fetch())
     }
     
-    // MARK: - functions
-    
     private func setupNavigationController() {
         navigationItem.title = "일기장"
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                             style: .plain,
                                                             target: self,
                                                             action: nil)
+        
+        setupAppearanceMode()
+    }
+    
+    private func setupAppearanceMode() {
+        let switchControl = UISwitch()
+        switchControl.onTintColor = .white
+        switchControl.setOn(false, animated: true)
+        switchControl.addTarget(self,
+                                action: #selector(switchValueDidChange(sender:)),
+                                for: .valueChanged)
+        
+        self.navigationItem.leftBarButtonItems =
+        [
+            UIBarButtonItem(customView: imageView),
+            UIBarButtonItem.init(customView: switchControl)
+        ]
     }
     
     private func setupCollectionView(frame: CGRect, collectionViewLayout: UICollectionViewLayout) -> UICollectionView {
-        let collectionView = UICollectionView(frame: frame, collectionViewLayout: collectionViewLayout)
+        let collectionView = UICollectionView(frame: frame,
+                                              collectionViewLayout: collectionViewLayout)
         
         view.addSubview(collectionView)
         setupCollectionViewConstraints(collectionView)
@@ -58,7 +86,7 @@ class DiaryListViewController: UIViewController {
     
     private func setupLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .absolute(44))
+                                              heightDimension: .estimated(44))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -88,16 +116,10 @@ class DiaryListViewController: UIViewController {
         return decodedData
     }
     
-    private func setupDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, JSONModel>
-        { (cell, indexPath, identifier) in
-            cell.setupCellProperties(with: identifier)
-        }
-        
-        guard let collectionView = collectionView else { return }
-        
+    fileprivate func extractedFunc(_ collectionView: UICollectionView, _ cellRegistration: UICollectionView.CellRegistration<DiaryListCollectionViewCell, JSONModel>) {
         dataSource = UICollectionViewDiffableDataSource<Section, JSONModel>(collectionView: collectionView)
-        { (collectionView, indexPath, identifier) -> UICollectionViewCell? in
+        {
+            (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                                 for: indexPath,
@@ -105,10 +127,44 @@ class DiaryListViewController: UIViewController {
         }
     }
     
+    private func setupDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, JSONModel>
+        {
+            (cell, indexPath, identifier) in
+            cell.setupCellProperties(with: identifier)
+        }
+        
+        guard let collectionView = collectionView else { return }
+        
+        extractedFunc(collectionView, cellRegistration)
+    }
+    
     private func setupSnapshot(with jsonModel: [JSONModel]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, JSONModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(jsonModel)
+        
         dataSource?.apply(snapshot)
+    }
+    
+    // MARK: - objc functions
+    
+    @objc func switchValueDidChange(sender: UISwitch) {
+        guard #available(iOS 13.0, *) else { return }
+        
+        let appDelegate = UIApplication.shared.windows.first
+        
+        if sender.isOn {
+            appDelegate?.overrideUserInterfaceStyle = .dark
+            sender.onTintColor = .lightGray
+            sender.thumbTintColor = .black
+            
+            imageView.tintColor = .systemYellow
+        } else {
+            appDelegate?.overrideUserInterfaceStyle = .light
+            sender.thumbTintColor = .white
+            
+            imageView.tintColor = .lightGray
+        }
     }
 }
