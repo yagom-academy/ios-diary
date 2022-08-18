@@ -6,6 +6,10 @@
 
 import UIKit
 
+enum Section {
+    case main
+}
+
 class DiaryViewController: UIViewController {
     
     // MARK: - Properties
