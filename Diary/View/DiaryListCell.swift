@@ -60,8 +60,10 @@ final class DiaryListCell: UITableViewCell {
         setConstraint()
     }
     
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        addSubView()
+        setConstraint()
     }
 }
 
