@@ -63,8 +63,6 @@ final class DiaryListViewController: UIViewController {
         case .success(let contents):
             diaryContents = contents
             updateDataSource(data: contents)
-        case .failure(_):
-            break
         default:
             break
         }
