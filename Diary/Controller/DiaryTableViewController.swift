@@ -61,6 +61,14 @@ final class DiaryTableViewController: UIViewController {
             print("Unexpected Error")
         }
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ManageDiarySegue" {
+            guard let manageViewController = segue.destination as? ManageDiaryViewController else { return }
+            guard let diary = sender as? Diary else { return }
+            manageViewController.getDiaryData(data: diary)
+        }
+    }
 }
 
 extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
@@ -78,7 +86,6 @@ extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diaryDetailViewController = storyboard?.instantiateViewController(withIdentifier: "DiaryDetailViewController") else { return }
-        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        self.performSegue(withIdentifier: "ManageDiarySegue", sender: diaryEntity[indexPath.row])
     }
 }

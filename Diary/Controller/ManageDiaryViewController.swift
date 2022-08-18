@@ -7,18 +7,34 @@
 
 import UIKit
 
+enum ViewMode {
+    case edit
+    case add
+}
+
 final class ManageDiaryViewController: UIViewController {
-    private let addDiaryView = ManageDiaryView()
+    private let manageDiaryView = ManageDiaryView()
+    private var viewMode: ViewMode = .add
     
     override func loadView() {
         super.loadView()
-        view = addDiaryView
+        view = manageDiaryView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         addNotificationObserver()
-        self.navigationItem.title = DateManager().formatted(date: Date())
+        
+        if viewMode == .add {
+            self.navigationItem.title = DateManager().formatted(date: Date())
+        }
+    }
+    
+    func getDiaryData(data: Diary) {
+        let content = data.title + "\n\n" + data.body
+        manageDiaryView.fetchBodyTextView(content)
+        viewMode = .edit
+        self.navigationItem.title = DateManager().formatted(date: Date(timeIntervalSince1970: data.createdAt))
     }
     
     private func addNotificationObserver() {
@@ -30,10 +46,10 @@ final class ManageDiaryViewController: UIViewController {
         guard let userInfo = notification.userInfo,
               let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
-        addDiaryView.adjustContentInset(height: keyboardFrame.size.height)
+        manageDiaryView.adjustContentInset(height: keyboardFrame.size.height)
     }
     
     @objc private func keyboardWillHide() {
-        addDiaryView.adjustContentInset(height: 0)
+        manageDiaryView.adjustContentInset(height: 0)
     }
 }

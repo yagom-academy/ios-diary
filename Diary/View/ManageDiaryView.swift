@@ -46,6 +46,11 @@ extension ManageDiaryView {
         ])
     }
     
+    func fetchBodyTextView(_ content: String) {
+        self.bodyTextView.text = content
+        self.bodyTextView.contentOffset.y = 0
+    }
+    
     func adjustContentInset(height: CGFloat) {
         self.bodyTextView.contentInset.bottom = height
     }
