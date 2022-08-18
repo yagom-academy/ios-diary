@@ -150,6 +150,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				186D057028ABE98F00A2734E /* Extension */,
 				1863246D28ACD64400BAE36D /* protocol */,
 				D7DC801028AB897F005F7D3B /* Scene */,
 				D7DC800F28AB896D005F7D3B /* Resources */,
@@ -173,8 +174,8 @@
 		D7DC801028AB897F005F7D3B /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				1863246628ACC52B00BAE36D /* DiaryDetail */,
 				D7DC801128AB8AFD005F7D3B /* DiaryList */,
+				1863246628ACC52B00BAE36D /* DiaryDetail */,
 			);
 			name = Scene;
 			sourceTree = "<group>";
@@ -208,7 +209,6 @@
 		D7DC801528AB8B45005F7D3B /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				186D057028ABE98F00A2734E /* Extension */,
 				186D056D28ABE96A00A2734E /* Enum */,
 				186D056B28ABC8D600A2734E /* JSONModel.swift */,
 			);

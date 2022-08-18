@@ -46,9 +46,17 @@ class DiaryListViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
                                                             style: .plain,
                                                             target: self,
-                                                            action: nil)
+                                                            action: #selector(rightBarButtonItemDidTap))
         
         setupAppearanceMode()
+    }
+    
+    @objc private func rightBarButtonItemDidTap() {
+        let diaryDetailViewController = DiaryDetailViewController()
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        
+        let date = Date()
+        diaryDetailViewController.navigationItem.title = date.convertToCurrentTime()
     }
     
     private func setupAppearanceMode() {
