@@ -30,7 +30,7 @@ class DiaryViewController: UIViewController {
         configureDataSource()
         configureDelgate()
     }
-
+    
     // MARK: - Methods
     
     private func parseDiaryData() {
@@ -62,12 +62,15 @@ class DiaryViewController: UIViewController {
             animated: true
         )
     }
+    
     private func configureNavigationItems() {
         title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: SystemImage.plus),
-                                                            style: .plain,
-                                                            target: self,
-                                                            action: #selector(plusButtonDidTapped))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: SystemImage.plus),
+            style: .plain,
+            target: self,
+            action: #selector(plusButtonDidTapped)
+        )
     }
     
     @objc private func plusButtonDidTapped() {
@@ -75,8 +78,49 @@ class DiaryViewController: UIViewController {
     }
     
     private func goToDiaryContentsViewController() {
-        navigationController?.pushViewController(DiaryContentsViewController(),
-                                                 animated: true)
+        navigationController?.pushViewController(
+            DiaryContentsViewController(),
+            animated: true
+        )
+    }
+    
+    private func registerTableView() {
+        let tableView = diaryView.tableView
+        
+        tableView.register(
+            CustomCell.self,
+            forCellReuseIdentifier: CustomCell.identifier
+        )
+        tableView.dataSource = dataSource
+    }
+    
+    private func configureDataSource() {
+        guard let snapshot = configureSnapshot() else {
+            return
+        }
+        
+        let tableView = diaryView.tableView
+        
+        dataSource = UITableViewDiffableDataSource<Section, DiarySampleData>(
+            tableView: tableView,
+            cellProvider: { tableView, indexPath, item in
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: CustomCell.identifier,
+                    for: indexPath
+                ) as? CustomCell else {
+                    return nil
+                }
+                
+                cell.titleLabel.text = item.title
+                cell.dateLabel.text = item.createdAt.formatToStringDate()
+                cell.contentLabel.text = item.body
+                cell.accessoryType = .disclosureIndicator
+                
+                return cell
+            }
+        )
+        
+        dataSource?.apply(snapshot)
     }
     
     private func configureSnapshot() -> NSDiffableDataSourceSnapshot<Section, DiarySampleData>? {
@@ -87,41 +131,10 @@ class DiaryViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DiarySampleData>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diarySampleData)
-        let tableView = diaryView.tableView
         
         return snapshot
     }
     
-    private func configureDataSource() {
-        guard let view = view as? DiaryView,
-              let snapshot = configureSnapshot() else {
-            return
-        }
-        
-        let tableView = diaryView.tableView
-        
-        dataSource = UITableViewDiffableDataSource<Section, DiarySampleData>(tableView: tableView, cellProvider: { tableView, indexPath, item in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.identifier,
-                                                           for: indexPath) as? CustomCell else {
-                return nil
-            }
-            cell.titleLabel.text = item.title
-            cell.dateLabel.text = item.createdAt.formatToStringDate()
-            cell.contentLabel.text = item.body
-            cell.accessoryType = .disclosureIndicator
-            
-            return cell
-        })
-        
-        dataSource?.apply(snapshot)
-    }
-    
-    private func configureSnapshot() -> NSDiffableDataSourceSnapshot<Section, DiarySampleData>? {
-        guard let diarySampleData = diarySampleData else {
-            return nil
-        }
-        
-        
     private func configureDelgate() {
         diaryView.tableView.delegate = self
     }
