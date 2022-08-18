@@ -2,7 +2,7 @@
 //  DiaryViewController.swift
 //  Diary
 //
-//  Created by Kiwon Song on 2022/08/17.
+//  Created by Kiwi, Brad. on 2022/08/17.
 //
 
 import UIKit
@@ -19,7 +19,6 @@ class DiaryViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.setNavigationbar()
-        self.setViewGesture()
         self.registerForKeyboardNotification()
     }
     
@@ -28,19 +27,25 @@ class DiaryViewController: UIViewController {
         self.removeRegisterForKeyboardNotification()
     }
     
+    @objc private func keyBoardShow(notification: NSNotification) {
+        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary,
+              let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+            return
+        }
+       
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        
+        self.diaryView.changeTextViewBottomAutoLayout(keyboardHeight)
+    }
+    
+    @objc private func keyBoardDownAction(_ sender: Notification) {
+        self.diaryView.changeTextViewBottomAutoLayout()
+    }
+    
     private func setNavigationbar() {
         let date = Date().formatted("yyyy년 MM월 dd일")
         self.navigationItem.title = date
-    }
-    
-    private func setViewGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(keyboardDownAction))
-        self.view.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc func keyboardDownAction(_ sender: UISwipeGestureRecognizer) {
-        self.view.endEditing(true)
-        self.diaryView.changeTextViewBottomAutoLayout()
     }
     
     private func registerForKeyboardNotification() {
@@ -48,24 +53,18 @@ class DiaryViewController: UIViewController {
                                                selector: #selector(keyBoardShow),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
-    }
-    
-    @objc private func keyBoardShow(notification: NSNotification) {
-        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
-            return
-        }
-        guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
-            return
-        }
-        let keyboardRectangle = keyboardFrame.cgRectValue
-        let keyboardHeight = keyboardRectangle.height
-        
-        diaryView.changeTextViewBottomAutoLayout(keyboardHeight)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyBoardDownAction),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     private func removeRegisterForKeyboardNotification() {
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillShowNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillHideNotification,
                                                   object: nil)
     }
 }

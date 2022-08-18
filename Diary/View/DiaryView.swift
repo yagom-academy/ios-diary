@@ -2,7 +2,7 @@
 //  DiaryView.swift
 //  Diary
 //
-//  Created by 허건 on 2022/08/17.
+//  Created by Kiwi, Brad. on 2022/08/17.
 //
 
 import UIKit
