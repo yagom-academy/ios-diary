@@ -33,8 +33,6 @@ final class DiaryDetailViewController: UIViewController {
         if textView.text == Design.emptyString {
             textView.text = Design.textViewPlaceHolder
             textView.textColor = .lightGray
-        } else {
-            textView.textColor = .black
         }
         
         textView.delegate = self
