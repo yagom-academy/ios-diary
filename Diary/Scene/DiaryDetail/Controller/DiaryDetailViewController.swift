@@ -30,7 +30,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func setupTextView() {
-        if textView.text == Design.emptyString {
+        if textView.text.isEmpty {
             textView.text = Design.textViewPlaceHolder
             textView.textColor = .lightGray
         }
@@ -69,7 +69,6 @@ extension DiaryDetailViewController: UITextViewDelegate {
 }
 
 private enum Design {
-    static let emptyString = ""
     static let textViewPlaceHolder = "내용을 입력해주세요"
     static let doubleLineBreak = "\n\n"
 }
