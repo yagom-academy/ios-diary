@@ -16,6 +16,8 @@ final class DiaryListViewController: UIViewController {
     
     private let dataManager = DataManager()
     
+    private var diaryListDiffableDataSource: UICollectionViewDiffableDataSource<Section, DiaryItem>?
+    
     private lazy var diaryCollectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: .zero,
@@ -24,8 +26,6 @@ final class DiaryListViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
-    
-    private var diaryListDiffableDataSource: UICollectionViewDiffableDataSource<Section, DiaryItem>?
     
     // MARK: - Life Cycles
     
@@ -43,6 +43,8 @@ final class DiaryListViewController: UIViewController {
 
 private extension DiaryListViewController {
     
+    // MARK: - Configuring UI
+    
     func configureRootViewUI() {
         view.backgroundColor = .systemBackground
         
@@ -54,9 +56,17 @@ private extension DiaryListViewController {
         )
     }
     
-    @objc func rightBarButtonDidTap() {
-        let diaryDetailViewController = DiaryDetailViewController()
-        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    func configureCollectionView() {
+        view.addSubview(diaryCollectionView)
+        
+        diaryCollectionView.delegate = self
+        
+        NSLayoutConstraint.activate([
+            diaryCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            diaryCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            diaryCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            diaryCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     func createListLayout() -> UICollectionViewLayout {
@@ -84,17 +94,26 @@ private extension DiaryListViewController {
         return layout
     }
     
-    func configureCollectionView() {
-        view.addSubview(diaryCollectionView)
-        
-        diaryCollectionView.delegate = self
-        
-        NSLayoutConstraint.activate([
-            diaryCollectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            diaryCollectionView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            diaryCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            diaryCollectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        ])
+    // MARK: - Configuring Model
+    
+    func fetchData() {
+        guard let parsedData = dataManager.parse(dataManager.temporarySampleData!.data, into: [DiaryItem].self) else {
+            return
+        }
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryItem>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(parsedData)
+        self.diaryListDiffableDataSource?.apply(snapshot)
+    }
+    
+    @objc func rightBarButtonDidTap() {
+        pushDiaryDetailViewController()
+    }
+    
+    func pushDiaryDetailViewController(with diaryItem: DiaryItem? = nil) {
+        let diaryDetailViewController = DiaryDetailViewController()
+        diaryDetailViewController.recieveData(diaryItem)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
     func configureDiaryListDataSource() {
@@ -112,20 +131,13 @@ private extension DiaryListViewController {
                 return diaryCell
             })
     }
-    
-    func fetchData() {
-        guard let parsedData = dataManager.parse(dataManager.temporarySampleData!.data, into: [DiaryItem].self) else {
-            return
-        }
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryItem>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(parsedData)
-        self.diaryListDiffableDataSource?.apply(snapshot)
-    }
 }
 
 // MARK: - DiaryListViewController Delegate
 
 extension DiaryListViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let diaryItem = diaryListDiffableDataSource?.itemIdentifier(for: indexPath)
+        pushDiaryDetailViewController(with: diaryItem)
+    }
 }

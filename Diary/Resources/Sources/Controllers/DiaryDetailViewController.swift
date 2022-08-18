@@ -11,7 +11,7 @@ final class DiaryDetailViewController: UIViewController {
     
     // MARK: - Properties
     
-    var diaryItem: DiaryItem?
+    private var diaryItem: DiaryItem?
     
     // MARK: - UI Components
 
@@ -32,13 +32,15 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        diaryItem = DiaryItem(title: "더미 데이터 타이틀입니다", body: "이곳은 더미데이터로 작성되어있습니다.", createdDate: 1231314111)
-        
+
         configureRootViewUI()
         addUIComponents()
         configureLayout()
-        setupDiaryDetailData()
+        dispalyDiaryDetailData()
+    }
+    
+    func recieveData(_ diaryItem: DiaryItem?) {
+        self.diaryItem = diaryItem
     }
 }
 
@@ -67,7 +69,7 @@ private extension DiaryDetailViewController {
         ])
     }
     
-    func setupDiaryDetailData() {
+    func dispalyDiaryDetailData() {
         guard let diaryItem = diaryItem else {
             return
         }
