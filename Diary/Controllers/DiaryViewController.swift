@@ -11,8 +11,8 @@ class DiaryViewController: UIViewController {
     // MARK: - Properties
 
     var dataSource: UITableViewDiffableDataSource<Section, DiarySampleData>?
-    let diarySampleData: [DiarySampleData]? = JSONData.parse(name: AssetData.sample)
     private let diaryView = DiaryListView()
+    private var diarySampleData: [DiarySampleData]?
     
     // MARK: - Life Cycle
     
@@ -24,6 +24,7 @@ class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        parseDiaryData()
         configureNavigationItems()
         registerTableView()
         configureDataSource()
@@ -32,6 +33,35 @@ class DiaryViewController: UIViewController {
 
     // MARK: - Methods
     
+    private func parseDiaryData() {
+        let parsedData: Result<[DiarySampleData], Error> = JSONData.parse(name: AssetData.sample)
+        switch parsedData {
+        case .success(let data):
+            diarySampleData = data
+        case .failure(let error):
+            presentErrorAlert(error)
+        }
+    }
+    
+    private func presentErrorAlert(_ error: (Error)) {
+        let errorAlert = UIAlertController(
+            title: "Error!",
+            message: error.localizedDescription,
+            preferredStyle: .alert
+        )
+        
+        let confirmAction = UIAlertAction(
+            title: "확인",
+            style: .default
+        )
+        
+        errorAlert.addAction(confirmAction)
+        
+        present(
+            errorAlert,
+            animated: true
+        )
+    }
     private func configureNavigationItems() {
         title = "일기장"
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: SystemImage.plus),

@@ -8,20 +8,19 @@
 import UIKit
 
 struct JSONData {
-    static func parse<T: Decodable>(name: String) -> T? {
+    static func parse<T: Decodable>(name: String) -> Result<T, Error> {
         let jsonDecoder: JSONDecoder = JSONDecoder()
 
         guard let dataAsset: NSDataAsset = NSDataAsset(name: name) else {
-            return nil
+            return .failure(ParsingError.invalidDataAsset)
         }
 
         do {
             let data = try jsonDecoder.decode(T.self,
                                               from: dataAsset.data)
-            return data
+            return .success(data)
         } catch(let error) {
-            print(error)
-            return nil
+            return .failure(error)
         }
     }
 }
