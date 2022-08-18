@@ -10,8 +10,8 @@ class DiaryViewController: UIViewController {
     
     // MARK: - Properties
 
-    var dataSource: UITableViewDiffableDataSource<Section, DiarySampleData>?
     private let diaryView = DiaryListView()
+    private var dataSource: UITableViewDiffableDataSource<Section, DiarySampleData>?
     private var diarySampleData: [DiarySampleData]?
     
     // MARK: - Life Cycle
