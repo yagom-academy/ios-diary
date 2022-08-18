@@ -33,7 +33,7 @@ final class DiaryListViewController: UIViewController {
                                          action: #selector(tappedPlusButton))
 
         navigationItem.rightBarButtonItem = plusButton
-        navigationItem.title = "일기장"
+        navigationItem.title = Design.navigationTitle
     }
 
     private func configureView() {
@@ -88,4 +88,8 @@ extension DiaryListViewController: UITableViewDelegate {
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
+}
+
+private enum Design {
+    static let navigationTitle = "일기장"
 }
