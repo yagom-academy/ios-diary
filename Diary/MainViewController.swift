@@ -39,6 +39,7 @@ class MainViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(diarySample)
         configureDataSource()
+        diaryTableView.delegate = self
     }
     
     @objc func touchAddButton() {
@@ -66,5 +67,12 @@ class MainViewController: UIViewController {
         })
         
         dataSource?.apply(snapshot)
+    }
+}
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diaryContent = snapshot.itemIdentifiers[indexPath.item]
+        navigationController?.pushViewController(DetailDiaryViewController(content: diaryContent), animated: true)
     }
 }
