@@ -44,7 +44,7 @@ final class DiaryListViewController: UIViewController {
 private extension DiaryListViewController {
     
     func configureRootViewUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
