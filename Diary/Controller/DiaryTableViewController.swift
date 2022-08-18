@@ -11,7 +11,7 @@ final class DiaryTableViewController: UIViewController {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.rowHeight = 70
-        tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.reuseIdentifier)
+        tableView.register(cellWithClass: DiaryListCell.self)
         return tableView
     }()
     
