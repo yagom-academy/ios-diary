@@ -8,12 +8,12 @@
 import Foundation
 
 struct DateManager {
-    func fetchDate(data: Double) -> String {
+    func formatted(date: Date) -> String {
         let formatterDate = DateFormatter()
         formatterDate.dateStyle = .long
         formatterDate.timeStyle = .none
         formatterDate.locale = Locale.current
         
-        return formatterDate.string(from: Date(timeIntervalSince1970: data))
+        return formatterDate.string(from: date)
     }
 }

@@ -18,7 +18,7 @@ final class AddDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addNotificationObserver()
-        self.navigationItem.title = DateManager().fetchDate(data: Date().timeIntervalSince1970)
+        self.navigationItem.title = DateManager().formatted(date: Date())
     }
     
     private func addNotificationObserver() {
