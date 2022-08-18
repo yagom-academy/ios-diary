@@ -11,14 +11,7 @@ class DiaryContentView: UIView {
 
     // MARK: Properties
     
-    var textView: UITextView = {
-        let textView = UITextView()
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.keyboardDismissMode = .interactive
-        textView.alwaysBounceVertical = true
-        
-        return textView
-    }()
+    var textView = UITextView()
     
     // MARK: - Initializer
     
@@ -36,6 +29,12 @@ class DiaryContentView: UIView {
     // MARK: - Methods
     
     private func configureTextView() {
+        textView = UITextView()
+        
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.keyboardDismissMode = .interactive
+        textView.alwaysBounceVertical = true
+        
         addSubview(textView)
     }
 
