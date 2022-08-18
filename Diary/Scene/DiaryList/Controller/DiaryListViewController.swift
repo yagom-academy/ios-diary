@@ -71,7 +71,7 @@ extension DiaryListViewController: UITableViewDataSource {
                 as? DiaryTableViewCell else { return UITableViewCell() }
 
         cell.titleLabel.text = dummyData?.diaryItems?[indexPath.row].title
-        cell.dateLabel.text = dummyData?.diaryItems?[indexPath.row].createdAt.description
+        cell.dateLabel.text = dummyData?.diaryItems?[indexPath.row].createdAt.convertDate()
         cell.bodyLabel.text = dummyData?.diaryItems?[indexPath.row].body
 
         return cell
