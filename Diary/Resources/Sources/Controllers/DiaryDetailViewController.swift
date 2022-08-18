@@ -19,14 +19,7 @@ final class DiaryDetailViewController: UIViewController {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.keyboardDismissMode = .interactive
-        
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.text =
-        """
-        이곳에 제목을 작성해주세요
-
-        이곳에 내용을 작성해주세요.
-        """
         return textView
     }()
     
@@ -79,7 +72,12 @@ private extension DiaryDetailViewController {
             return
         }
         
-        let textViewContent = "\(diaryItem.title)\n\n\(diaryItem.body)"
+        let textViewContent = """
+        \(diaryItem.title)
+        
+        \(diaryItem.body)
+        """
+        
         contentTextView.text = textViewContent
     }
     

@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     
-    enum Section {
+    private enum Section {
         case main
     }
     
