@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryContentsViewController: UIViewController {
+final class DiaryContentsViewController: UIViewController {
     
     // MARK: - Properties
     

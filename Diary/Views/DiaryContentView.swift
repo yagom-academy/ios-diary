@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryContentView: UIView {
+final class DiaryContentView: UIView {
 
     // MARK: Properties
     
