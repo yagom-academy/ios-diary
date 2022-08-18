@@ -33,6 +33,7 @@ class DetailDiaryViewController: UIViewController {
         setNavigationItemTitle()
         configureUI()
         setComponents()
+        registerForKeyboardNotification()
     }
     
     private func setNavigationItemTitle() {
@@ -53,12 +54,36 @@ class DetailDiaryViewController: UIViewController {
         ])
     }
     
-    func setComponents() {
+    private func setComponents() {
         guard let content = content else {
             return
         }
 
         textView.text = content.title + "\n\n" + content.body
         textView.contentOffset.y = 0
+    }
+
+    private func registerForKeyboardNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyBoardShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyBoardShow(notification: NSNotification) {
+        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
+            return
+        }
+        
+        guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+            return
+        }
+        
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        
+        textView.contentInset.bottom = keyboardHeight
     }
 }
