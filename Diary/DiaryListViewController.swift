@@ -11,7 +11,7 @@ final class DiaryListViewController: UIViewController {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "moon.fill")
+        imageView.image = UIImage(systemName: Design.moonImage)
         imageView.tintColor = .lightGray
         
         return imageView
@@ -42,8 +42,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupNavigationController() {
-        navigationItem.title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"),
+        navigationItem.title = Design.navigationTitle
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Design.plusButton),
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(rightBarButtonItemDidTap))
@@ -88,12 +88,10 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupLayout() -> UICollectionViewLayout {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .absolute(44))
+        let itemSize = Design.itemSize
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(44))
+        let groupSize = Design.groupSize
         let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
                                                        subitem: item,
                                                        count: 1)
@@ -101,18 +99,15 @@ final class DiaryListViewController: UIViewController {
         group.interItemSpacing = .fixed(10)
         
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 8
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10,
-                                                        leading: 10,
-                                                        bottom: 10,
-                                                        trailing: 10)
+        section.interGroupSpacing = Design.enumInterGroupSpacing
+        section.contentInsets = Design.enumContentInsets
         
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
     
     private func fetch() -> [JSONModel] {
-        guard let data = NSDataAsset(name: "sample")?.data,
+        guard let data = NSDataAsset(name: Design.NSDataAsset)?.data,
               let decodedData = try? JSONDecoder().decode([JSONModel].self, from: data)
         else { return [] }
         
@@ -186,4 +181,20 @@ extension DiaryListViewController: UICollectionViewDelegate {
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
+}
+
+private enum Design {
+    static let moonImage = "moon.fill"
+    static let navigationTitle = "일기장"
+    static let plusButton = "plus"
+    static let NSDataAsset = "sample"
+    static let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                 heightDimension: .absolute(44))
+    static let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                  heightDimension: .absolute(44))
+    static let enumInterGroupSpacing = 8.0
+    static let enumContentInsets = NSDirectionalEdgeInsets(top: 10,
+                                                           leading: 10,
+                                                           bottom: 10,
+                                                           trailing: 10)
 }

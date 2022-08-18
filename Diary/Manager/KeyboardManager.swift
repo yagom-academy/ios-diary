@@ -38,12 +38,9 @@ final class KeyboardManager {
     }
     
     private func setupUiToolbar() {
-        let keyboardToolbar = UIToolbar(frame: CGRect(x: 0,
-                                                      y: 0,
-                                                      width: 0,
-                                                      height: 44))
+        let keyboardToolbar = Design.keyboardTollbarFrame
         
-        let doneBarButton = UIBarButtonItem(title: "done",
+        let doneBarButton = UIBarButtonItem(title: Design.doneButtonTitle,
                                             style: .plain,
                                             target: self,
                                             action: #selector(endEditing))
@@ -78,3 +75,10 @@ final class KeyboardManager {
     }
 }
 
+private enum Design {
+    static let keyboardTollbarFrame = UIToolbar(frame: CGRect(x: 0,
+                                                              y: 0,
+                                                              width: 0,
+                                                              height: 44))
+    static let doneButtonTitle = "done"
+}

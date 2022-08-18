@@ -30,8 +30,8 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func setupTextView() {
-        if textView.text == "" {
-            textView.text = "내용을 입력해주세요"
+        if textView.text == Design.emptyString {
+            textView.text = Design.textViewPlaceHolder
             textView.textColor = .lightGray
         } else {
             textView.textColor = .black
@@ -50,13 +50,13 @@ extension DiaryDetailViewController: DataSendable {
         guard let diaryInformation = data as? JSONModel else { return }
         navigationItem.title = diaryInformation.createdAt.convert1970DateToString()
         
-        textView.text = diaryInformation.title + "\n\n" + diaryInformation.body
+        textView.text = diaryInformation.title + Design.doubleLineBreak + diaryInformation.body
     }
 }
 
 extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "내용을 입력해주세요" {
+        if textView.text == Design.textViewPlaceHolder {
             textView.text = nil
             textView.textColor = .black
         }
@@ -64,8 +64,14 @@ extension DiaryDetailViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.count == 0 {
-            textView.text = "내용을 입력해주세요"
+            textView.text = Design.textViewPlaceHolder
             textView.textColor = .lightGray
         }
     }
+}
+
+private enum Design {
+    static let emptyString = ""
+    static let textViewPlaceHolder = "내용을 입력해주세요"
+    static let doubleLineBreak = "\n\n"
 }
