@@ -137,7 +137,7 @@
 		18BE690B28AE5E9D000A9E82 /* DiaryRegistration */ = {
 			isa = PBXGroup;
 			children = (
-				18BE691628AE5EE7000A9E82 /* Model */,
+				D7CA152728AE61F300E1E3D1 /* Model */,
 				18BE691528AE5EE4000A9E82 /* View */,
 				18BE691428AE5EDF000A9E82 /* Controller */,
 			);
@@ -147,7 +147,7 @@
 		18BE690C28AE5EA7000A9E82 /* DiaryDetail */ = {
 			isa = PBXGroup;
 			children = (
-				18BE691328AE5ED6000A9E82 /* Model */,
+				D7CA152628AE619E00E1E3D1 /* Model */,
 				18BE691228AE5ED4000A9E82 /* View */,
 				18BE691128AE5ED1000A9E82 /* Controller */,
 			);
@@ -204,13 +204,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		18BE691328AE5ED6000A9E82 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		18BE691428AE5EDF000A9E82 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -225,13 +218,6 @@
 				1863247928AE0D4E00BAE36D /* DiaryRegistrationView.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		18BE691628AE5EE7000A9E82 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		18BE691728AE5F09000A9E82 /* Enum */ = {
@@ -276,6 +262,20 @@
 				C739AE21284DF28600741E8F /* Diary.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D7CA152628AE619E00E1E3D1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D7CA152728AE61F300E1E3D1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
