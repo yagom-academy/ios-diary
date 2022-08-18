@@ -19,6 +19,7 @@ class DetailDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationItem.title = DateFormatter().format(data: Date())
         self.view.addSubview(textView)
         configureUI()
         
