@@ -12,6 +12,7 @@ class DiaryViewController: UIViewController {
 
     var dataSource: UITableViewDiffableDataSource<Section, DiarySampleData>?
     let diarySampleData: [DiarySampleData]? = JSONData.parse(name: AssetData.sample)
+    private let diaryView = DiaryListView()
     
     // MARK: - Life Cycle
     
@@ -55,6 +56,7 @@ class DiaryViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DiarySampleData>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diarySampleData)
+        let tableView = diaryView.tableView
         
         return snapshot
     }
@@ -65,7 +67,7 @@ class DiaryViewController: UIViewController {
             return
         }
         
-        let tableView = view.tableView
+        let tableView = diaryView.tableView
         
         dataSource = UITableViewDiffableDataSource<Section, DiarySampleData>(tableView: tableView, cellProvider: { tableView, indexPath, item in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: CustomCell.identifier,
@@ -83,15 +85,11 @@ class DiaryViewController: UIViewController {
         dataSource?.apply(snapshot)
     }
     
-    private func registerTableView() {
-        guard let view = view as? DiaryView else {
-            return
+    private func configureSnapshot() -> NSDiffableDataSourceSnapshot<Section, DiarySampleData>? {
+        guard let diarySampleData = diarySampleData else {
+            return nil
         }
         
-        let tableView = view.tableView
         
-        tableView.register(CustomCell.self,
-                           forCellReuseIdentifier: CustomCell.identifier)
-        tableView.dataSource = dataSource
     }
 }

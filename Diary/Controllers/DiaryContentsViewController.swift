@@ -9,6 +9,10 @@ import UIKit
 
 class DiaryContentsViewController: UIViewController {
     
+    // MARK: - Properties
+    
+    private let diaryContentView = DiaryContentView()
+    
     // MARK: Life Cycle
     
     override func loadView() {
@@ -38,8 +42,7 @@ class DiaryContentsViewController: UIViewController {
     
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
-              let view = view as? DiaryContentView else {
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
             return
         }
         
@@ -48,18 +51,14 @@ class DiaryContentsViewController: UIViewController {
                                         bottom: keyboardFrame.size.height,
                                         right: 0.0)
         
-        view.textView.contentInset = contentInset
-        view.textView.scrollIndicatorInsets = contentInset
+        diaryContentView.textView.contentInset = contentInset
+        diaryContentView.textView.scrollIndicatorInsets = contentInset
     }
     
     @objc private func keyboardWillHide() {
-        guard let view = view as? DiaryContentView else {
-            return
-        }
-        
         let contentInset = UIEdgeInsets.zero
         
-        view.textView.contentInset = contentInset
-        view.textView.scrollIndicatorInsets = contentInset
+        diaryContentView.textView.contentInset = contentInset
+        diaryContentView.textView.scrollIndicatorInsets = contentInset
     }
 }
