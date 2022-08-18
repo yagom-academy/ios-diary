@@ -18,6 +18,8 @@ final class DiaryDetailViewController: UIViewController {
     private let contentTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.keyboardDismissMode = .interactive
+        
         textView.font = .preferredFont(forTextStyle: .body)
         textView.text =
         """
@@ -36,6 +38,9 @@ final class DiaryDetailViewController: UIViewController {
         configureRootViewUI()
         addUIComponents()
         configureLayout()
+        
+        setupKeyboardWillShowNoification()
+        
         dispalyDiaryDetailData()
     }
     
@@ -76,5 +81,25 @@ private extension DiaryDetailViewController {
         
         let textViewContent = "\(diaryItem.title)\n\n\(diaryItem.body)"
         contentTextView.text = textViewContent
+    }
+    
+    func setupKeyboardWillShowNoification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+    }
+    
+    @objc func keyboardWillShow(_ sender: Notification) {
+        let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        guard let keyboardFrame = keyboardFrame else {
+            return
+        }
+        
+        let keyboardHeight: CGFloat = keyboardFrame.cgRectValue.height + 50
+        
+        contentTextView.contentInset.bottom = keyboardHeight
     }
 }
