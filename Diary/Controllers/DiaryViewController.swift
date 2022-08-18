@@ -1,5 +1,5 @@
 //
-//  Diary - ViewController.swift
+//  Diary - DiaryListViewController.swift
 //  Created by Finnn, 수꿍 
 //  Copyright © yagom. All rights reserved.
 // 
@@ -146,7 +146,7 @@ class DiaryViewController: UIViewController {
 
 // MARK: - UITableViewDelegate
 
-extension DiaryViewController: UITableViewDelegate {
+extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(
             at: indexPath,
