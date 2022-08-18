@@ -95,7 +95,9 @@
 			children = (
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+				FD8ED63728ACAA6600F631F2 /* Common */,
 				FD8ED62828AB79F400F631F2 /* Models */,
+				FD8ED63E28ACF16800F631F2 /* Views */,
 				FD8ED62A28AB7A0400F631F2 /* Controllers */,
 			);
 			path = Sources;
@@ -104,8 +106,6 @@
 		FD8ED62C28AB7A3600F631F2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				FD8ED63E28ACF16800F631F2 /* Views */,
-				FD8ED63728ACAA6600F631F2 /* Common */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 				FD8ED62B28AB7A1C00F631F2 /* Sources */,
@@ -135,7 +135,8 @@
 			children = (
 				FD8ED63F28ACF17D00F631F2 /* DiaryListCollectionViewCell.swift */,
 			);
-			path = Views;
+			name = Views;
+			path = ../Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
