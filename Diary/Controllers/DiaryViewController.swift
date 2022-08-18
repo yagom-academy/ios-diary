@@ -27,6 +27,7 @@ class DiaryViewController: UIViewController {
         configureNavigationItems()
         registerTableView()
         configureDataSource()
+        configureDelgate()
     }
 
     // MARK: - Methods
@@ -91,5 +92,18 @@ class DiaryViewController: UIViewController {
         }
         
         
+    private func configureDelgate() {
+        diaryView.tableView.delegate = self
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension DiaryViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(
+            at: indexPath,
+            animated: true
+        )
     }
 }
