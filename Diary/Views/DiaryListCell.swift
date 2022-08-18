@@ -1,5 +1,5 @@
 //
-//  CustomCell.swift
+//  DiaryListCell.swift
 //  Diary
 //
 //  Created by Finnn, 수꿍 on 2022/08/16.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomCell: UITableViewCell {
+final class DiaryListCell: UITableViewCell {
     
     // MARK: Properties
     
