@@ -5,7 +5,7 @@
 //  Created by bonf, bard on 2022/08/18.
 //
 
-import UIKit
+import UIKit.UITextView
 
 class KeyboardManager {
     let textView: UITextView

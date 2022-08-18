@@ -32,10 +32,6 @@ class DiaryDetailViewController: UIViewController {
             textView.textColor = .black
         }
     }
-    
-    // MARK: - objc functions
-    
-    
 }
 
 // MARK: - extensions
@@ -43,7 +39,7 @@ class DiaryDetailViewController: UIViewController {
 extension DiaryDetailViewController: DataSendable {
     func setupData<T>(_ data: T) {
         guard let diaryInformation = data as? JSONModel else { return }
-        navigationItem.title = diaryInformation.createdAt.convertToString()
+        navigationItem.title = diaryInformation.createdAt.convert1970DateToString()
         
         textView.text = diaryInformation.title + "\n\n" + diaryInformation.body
     }
@@ -63,8 +59,4 @@ extension DiaryDetailViewController: UITextViewDelegate {
             textView.textColor = .lightGray
         }
     }
-}
-
-extension DiaryDetailViewController {
-    
 }

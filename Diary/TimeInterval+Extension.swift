@@ -1,5 +1,5 @@
 //
-//  Date+Extension.swift
+//  TimeInterval+Extension.swift
 //  Diary
 //
 //  Created by bonf, bard on 2022/08/17.
@@ -7,8 +7,8 @@
 
 import Foundation
 
-extension Date {
-    func convertToCurrentTime() -> String {
+extension TimeInterval {
+    func convert1970DateToString() -> String {
         let dateFormatter = DateFormatter()
         guard let locale = Locale.preferredLanguages.first else { return "" }
         
@@ -17,7 +17,8 @@ extension Date {
         dateFormatter.dateStyle = .long
         dateFormatter.locale = .init(identifier: locale)
         
-        let stringDate = dateFormatter.string(from: self)
+        let date = Date(timeIntervalSince1970: self)
+        let stringDate = dateFormatter.string(from: date)
         
         return stringDate
     }

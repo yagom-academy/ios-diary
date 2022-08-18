@@ -88,7 +88,7 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
     func setupCellProperties(with model: JSONModel) {
         titleLabel.text = model.title
         previewLabel.text = model.body
-        dateLabel.text = model.createdAt.convertToString()
+        dateLabel.text = model.createdAt.convert1970DateToString()
     }
     
     private func setupSubviews() {
