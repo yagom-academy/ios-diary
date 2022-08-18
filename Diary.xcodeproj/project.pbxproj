@@ -65,81 +65,68 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1863246628ACC52B00BAE36D /* DiaryDetail */ = {
+		18BE690228AE5E18000A9E82 /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				1863246728ACC53200BAE36D /* Model */,
-				1863246828ACC53500BAE36D /* View */,
-				1863246928ACC53700BAE36D /* Controller */,
+				18BE690928AE5E54000A9E82 /* Manager */,
+				18BE690828AE5E4A000A9E82 /* JSONModel */,
+				18BE690728AE5E47000A9E82 /* Extension */,
+				18BE690628AE5E42000A9E82 /* Protocol */,
+				18BE690528AE5E3E000A9E82 /* Scene */,
+				18BE690428AE5E37000A9E82 /* Resources */,
 			);
-			name = DiaryDetail;
+			path = Diary;
 			sourceTree = "<group>";
 		};
-		1863246728ACC53200BAE36D /* Model */ = {
+		18BE690428AE5E37000A9E82 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				C739AE24284DF28600741E8F /* AppDelegate.swift */,
+				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+				C739AE35284DF28600741E8F /* Info.plist */,
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+				C739AE30284DF28600741E8F /* Assets.xcassets */,
+				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 			);
-			name = Model;
+			path = Resources;
 			sourceTree = "<group>";
 		};
-		1863246828ACC53500BAE36D /* View */ = {
+		18BE690528AE5E3E000A9E82 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				1863247628AE0CAA00BAE36D /* DiaryDetailTextView.swift */,
+				18BE690D28AE5EAC000A9E82 /* DiaryList */,
+				18BE690C28AE5EA7000A9E82 /* DiaryDetail */,
+				18BE690B28AE5E9D000A9E82 /* DiaryRegistration */,
 			);
-			name = View;
+			path = Scene;
 			sourceTree = "<group>";
 		};
-		1863246928ACC53700BAE36D /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				1863246A28ACC57100BAE36D /* DiaryDetailViewController.swift */,
-			);
-			name = Controller;
-			sourceTree = "<group>";
-		};
-		1863246D28ACD64400BAE36D /* protocol */ = {
+		18BE690628AE5E42000A9E82 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				1863246E28ACD66300BAE36D /* DataSendable.swift */,
 			);
-			path = protocol;
+			path = Protocol;
 			sourceTree = "<group>";
 		};
-		1863247028AE087C00BAE36D /* DiaryRegistration */ = {
+		18BE690728AE5E47000A9E82 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				1863247328AE08AB00BAE36D /* Model */,
-				1863247228AE08A400BAE36D /* View */,
-				1863247128AE089E00BAE36D /* Controller */,
+				186D057128ABE9A200A2734E /* Date+Extension.swift */,
+				D7CA152228AE2AB300E1E3D1 /* TimeInterval+Extension.swift */,
 			);
-			name = DiaryRegistration;
+			path = Extension;
 			sourceTree = "<group>";
 		};
-		1863247128AE089E00BAE36D /* Controller */ = {
+		18BE690828AE5E4A000A9E82 /* JSONModel */ = {
 			isa = PBXGroup;
 			children = (
-				1863247428AE090700BAE36D /* DiaryRegistrationViewController.swift */,
+				186D056B28ABC8D600A2734E /* JSONModel.swift */,
 			);
-			name = Controller;
+			path = JSONModel;
 			sourceTree = "<group>";
 		};
-		1863247228AE08A400BAE36D /* View */ = {
-			isa = PBXGroup;
-			children = (
-				1863247928AE0D4E00BAE36D /* DiaryRegistrationView.swift */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		1863247328AE08AB00BAE36D /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
-		1863247B28AE1F8D00BAE36D /* Manager */ = {
+		18BE690928AE5E54000A9E82 /* Manager */ = {
 			isa = PBXGroup;
 			children = (
 				1863247C28AE1FF800BAE36D /* KeyboardManager.swift */,
@@ -147,21 +134,112 @@
 			path = Manager;
 			sourceTree = "<group>";
 		};
-		186D056D28ABE96A00A2734E /* Enum */ = {
+		18BE690B28AE5E9D000A9E82 /* DiaryRegistration */ = {
+			isa = PBXGroup;
+			children = (
+				18BE691628AE5EE7000A9E82 /* Model */,
+				18BE691528AE5EE4000A9E82 /* View */,
+				18BE691428AE5EDF000A9E82 /* Controller */,
+			);
+			path = DiaryRegistration;
+			sourceTree = "<group>";
+		};
+		18BE690C28AE5EA7000A9E82 /* DiaryDetail */ = {
+			isa = PBXGroup;
+			children = (
+				18BE691328AE5ED6000A9E82 /* Model */,
+				18BE691228AE5ED4000A9E82 /* View */,
+				18BE691128AE5ED1000A9E82 /* Controller */,
+			);
+			path = DiaryDetail;
+			sourceTree = "<group>";
+		};
+		18BE690D28AE5EAC000A9E82 /* DiaryList */ = {
+			isa = PBXGroup;
+			children = (
+				18BE691028AE5EC9000A9E82 /* Model */,
+				18BE690F28AE5EC4000A9E82 /* View */,
+				18BE690E28AE5EB6000A9E82 /* Controller */,
+			);
+			path = DiaryList;
+			sourceTree = "<group>";
+		};
+		18BE690E28AE5EB6000A9E82 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		18BE690F28AE5EC4000A9E82 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D7DC801628AB9F5B005F7D3B /* DiaryListCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		18BE691028AE5EC9000A9E82 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				18BE691728AE5F09000A9E82 /* Enum */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		18BE691128AE5ED1000A9E82 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1863246A28ACC57100BAE36D /* DiaryDetailViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		18BE691228AE5ED4000A9E82 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1863247628AE0CAA00BAE36D /* DiaryDetailTextView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		18BE691328AE5ED6000A9E82 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		18BE691428AE5EDF000A9E82 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				1863247428AE090700BAE36D /* DiaryRegistrationViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		18BE691528AE5EE4000A9E82 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				1863247928AE0D4E00BAE36D /* DiaryRegistrationView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		18BE691628AE5EE7000A9E82 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		18BE691728AE5F09000A9E82 /* Enum */ = {
 			isa = PBXGroup;
 			children = (
 				186D056E28ABE97900A2734E /* Section.swift */,
 			);
-			name = Enum;
-			sourceTree = "<group>";
-		};
-		186D057028ABE98F00A2734E /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				186D057128ABE9A200A2734E /* Date+Extension.swift */,
-				D7CA152228AE2AB300E1E3D1 /* TimeInterval+Extension.swift */,
-			);
-			name = Extension;
+			path = Enum;
 			sourceTree = "<group>";
 		};
 		5791F883B43DD88655770CA2 /* Pods */ = {
@@ -185,7 +263,7 @@
 			isa = PBXGroup;
 			children = (
 				D7DC800E28AB7C17005F7D3B /* .swiftlint.yml */,
-				C739AE23284DF28600741E8F /* Diary */,
+				18BE690228AE5E18000A9E82 /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
 				5791F883B43DD88655770CA2 /* Pods */,
 				68034A343BF8538C02A39C92 /* Frameworks */,
@@ -198,84 +276,6 @@
 				C739AE21284DF28600741E8F /* Diary.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		C739AE23284DF28600741E8F /* Diary */ = {
-			isa = PBXGroup;
-			children = (
-				1863247B28AE1F8D00BAE36D /* Manager */,
-				D7CA152428AE4DFA00E1E3D1 /* JSONModel */,
-				186D057028ABE98F00A2734E /* Extension */,
-				1863246D28ACD64400BAE36D /* protocol */,
-				D7DC801028AB897F005F7D3B /* Scene */,
-				D7DC800F28AB896D005F7D3B /* Resources */,
-			);
-			path = Diary;
-			sourceTree = "<group>";
-		};
-		D7CA152428AE4DFA00E1E3D1 /* JSONModel */ = {
-			isa = PBXGroup;
-			children = (
-				186D056B28ABC8D600A2734E /* JSONModel.swift */,
-			);
-			path = JSONModel;
-			sourceTree = "<group>";
-		};
-		D7DC800F28AB896D005F7D3B /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				C739AE24284DF28600741E8F /* AppDelegate.swift */,
-				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE35284DF28600741E8F /* Info.plist */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
-				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
-		D7DC801028AB897F005F7D3B /* Scene */ = {
-			isa = PBXGroup;
-			children = (
-				D7DC801128AB8AFD005F7D3B /* DiaryList */,
-				1863246628ACC52B00BAE36D /* DiaryDetail */,
-				1863247028AE087C00BAE36D /* DiaryRegistration */,
-			);
-			name = Scene;
-			sourceTree = "<group>";
-		};
-		D7DC801128AB8AFD005F7D3B /* DiaryList */ = {
-			isa = PBXGroup;
-			children = (
-				D7DC801528AB8B45005F7D3B /* Model */,
-				D7DC801328AB8B3B005F7D3B /* View */,
-				D7DC801228AB8B2A005F7D3B /* Controller */,
-			);
-			name = DiaryList;
-			sourceTree = "<group>";
-		};
-		D7DC801228AB8B2A005F7D3B /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
-			);
-			name = Controller;
-			sourceTree = "<group>";
-		};
-		D7DC801328AB8B3B005F7D3B /* View */ = {
-			isa = PBXGroup;
-			children = (
-				D7DC801628AB9F5B005F7D3B /* DiaryListCollectionViewCell.swift */,
-			);
-			name = View;
-			sourceTree = "<group>";
-		};
-		D7DC801528AB8B45005F7D3B /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				186D056D28ABE96A00A2734E /* Enum */,
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
