@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class AddDiaryViewController: UIViewController {
-    private let addDiaryView = AddDiaryView()
+final class ManageDiaryViewController: UIViewController {
+    private let addDiaryView = ManageDiaryView()
     
     override func loadView() {
         super.loadView()
