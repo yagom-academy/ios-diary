@@ -55,7 +55,7 @@ final class DiaryTableViewController: UIViewController {
         let jsonParser = JSONParser()
         
         do {
-            diaryEntity = try jsonParser.fetch()
+            diaryEntity = try jsonParser.fetch(name: "sample")
         } catch let error as JSONError {
             print(error.message)
         } catch {

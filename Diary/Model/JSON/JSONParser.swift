@@ -8,10 +8,10 @@
 import UIKit
 
 struct JSONParser {
-    func fetch() throws -> [Diary] {
+    func fetch(name: String) throws -> [Diary] {
         let decoder = JSONDecoder()
         
-        guard let sample = NSDataAsset.init(name: "sample") else {
+        guard let sample = NSDataAsset.init(name: name) else {
             throw JSONError.noneFile
         }
         
