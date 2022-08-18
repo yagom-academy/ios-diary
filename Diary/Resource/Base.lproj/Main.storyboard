@@ -36,6 +36,9 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" id="PV9-JZ-kAo"/>
+                    <connections>
+                        <segue destination="ZRB-l6-xCX" kind="show" identifier="AddDiarySegue" id="kjn-2Y-mvQ"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -51,6 +54,7 @@
                         <viewLayoutGuide key="safeArea" id="h8x-Bl-i2e"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="ylm-px-wzo"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c4z-8F-Pp3" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

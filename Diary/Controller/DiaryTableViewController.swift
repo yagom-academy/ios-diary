@@ -25,8 +25,7 @@ final class DiaryTableViewController: UIViewController {
     }
     
     @objc private func addDiaryButtonDidTapped() {
-        guard let addDiaryViewController = storyboard?.instantiateViewController(withIdentifier: "AddDiaryViewController") else { return }
-        self.navigationController?.pushViewController(addDiaryViewController, animated: true)
+        self.performSegue(withIdentifier: "AddDiarySegue", sender: self)
     }
     
     private func configureNavigationItem() {
