@@ -20,6 +20,7 @@ class DetailDiaryViewController: UIViewController {
     
     init(content: DiarySample? = nil) {
         super.init(nibName: nil, bundle: nil)
+        
         self.content = content
     }
     
@@ -39,12 +40,13 @@ class DetailDiaryViewController: UIViewController {
     private func setNavigationItemTitle() {
         let time = content?.createdAt ?? Date().timeIntervalSince1970
         let date = Date(timeIntervalSince1970: time)
+        
         navigationItem.title = DateFormatter().format(data: date)
     }
     
     private func configureUI() {
-        view.backgroundColor = .white
         self.view.addSubview(textView)
+        view.backgroundColor = .white
         
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

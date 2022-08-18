@@ -8,7 +8,6 @@
 import Foundation
 
 extension DateFormatter {
-    // diaryDateLabel.text = format(data: item.createdAt)
     func format(data: Date) -> String {
         self.dateStyle = .long
         self.timeStyle = .none

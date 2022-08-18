@@ -61,7 +61,7 @@ class MainViewController: UIViewController {
                 return nil
             }
             
-            cell.setCellComponents(item: itemIdentifier)
+            cell.setComponents(item: itemIdentifier)
             
             return cell
         })

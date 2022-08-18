@@ -69,7 +69,7 @@ class DiaryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCellComponents(item: DiarySample) {
+    func setComponents(item: DiarySample) {
         diaryTitleLabel.text = item.title
         diaryDateLabel.text = DateFormatter().format(data: Date(timeIntervalSince1970: item.createdAt))
         diaryPreviewLabel.text = item.body
