@@ -11,6 +11,7 @@
 		424D493928AC814300402693 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 424D493828AC814300402693 /* .swiftlint.yml */; };
 		424D493B28ACB9A900402693 /* DiarySample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424D493A28ACB9A900402693 /* DiarySample.swift */; };
 		424D493D28ACBAB900402693 /* JSONData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424D493C28ACBAB900402693 /* JSONData.swift */; };
+		424D493F28AD42DF00402693 /* DetailDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424D493E28AD42DF00402693 /* DetailDiaryViewController.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* MainViewController.swift */; };
@@ -24,6 +25,7 @@
 		424D493828AC814300402693 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		424D493A28ACB9A900402693 /* DiarySample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySample.swift; sourceTree = "<group>"; };
 		424D493C28ACBAB900402693 /* JSONData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONData.swift; sourceTree = "<group>"; };
+		424D493E28AD42DF00402693 /* DetailDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDiaryViewController.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			children = (
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+				424D493E28AD42DF00402693 /* DetailDiaryViewController.swift */,
 				C739AE28284DF28600741E8F /* MainViewController.swift */,
 				424D493C28ACBAB900402693 /* JSONData.swift */,
 				424D493A28ACB9A900402693 /* DiarySample.swift */,
@@ -177,6 +180,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				424D493D28ACBAB900402693 /* JSONData.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				424D493F28AD42DF00402693 /* DetailDiaryViewController.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				424D493B28ACB9A900402693 /* DiarySample.swift in Sources */,
 			);
