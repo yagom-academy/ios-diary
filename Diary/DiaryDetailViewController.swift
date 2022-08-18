@@ -7,30 +7,39 @@
 
 import UIKit
 
-class DiaryDetailViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController {
     // MARK: - properties
     
     private let textView = DiaryDetailTextView()
     private lazy var keyboardManager = KeyboardManager(textView)
     
+    // MARK: - life cycles
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.delegate = self
+        setupView()
+        setupTextView()
+    }
+    
+    // MARK: - functions
+
+    private func setupView() {
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
-        setupTextView()
-        textView.setupConstraints(with: view)
-        textView.layoutIfNeeded()
         keyboardManager.addNotificationObserver()
     }
     
-    func setupTextView() {
+    private func setupTextView() {
         if textView.text == "" {
             textView.text = "내용을 입력해주세요"
             textView.textColor = .lightGray
         } else {
             textView.textColor = .black
         }
+        
+        textView.delegate = self
+        textView.setupConstraints(with: view)
+        textView.layoutIfNeeded()
     }
 }
 

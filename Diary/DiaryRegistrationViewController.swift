@@ -7,13 +7,14 @@
 
 import UIKit
 
-class DiaryRegistrationViewController: UIViewController {
+final class DiaryRegistrationViewController: UIViewController {
     // MARK: - properties
     
     private let textView = DiaryRegistrationView()
     private lazy var keyboardManager = KeyboardManager(textView)
     
     // MARK: - life cycles
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
@@ -24,8 +25,10 @@ class DiaryRegistrationViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
+        
         textView.setupConstraints(with: view)
         textView.backgroundColor = .systemBackground
+        
         keyboardManager.addNotificationObserver()
     }
     

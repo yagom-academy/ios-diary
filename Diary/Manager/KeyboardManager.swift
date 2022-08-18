@@ -7,10 +7,12 @@
 
 import UIKit.UITextView
 
-class KeyboardManager {
-    let textView: UITextView
+final class KeyboardManager {
+    // MARK: - properties
+
+    private let textView: UITextView
     
-    // MARK: - initializer
+    // MARK: - initializers
     
     init(_ textView: UITextView) {
         self.textView = textView
@@ -25,6 +27,7 @@ class KeyboardManager {
                                                selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
@@ -35,12 +38,19 @@ class KeyboardManager {
     }
     
     private func setupUiToolbar() {
-        let keyboardToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: 0, height: 44))
+        let keyboardToolbar = UIToolbar(frame: CGRect(x: 0,
+                                                      y: 0,
+                                                      width: 0,
+                                                      height: 44))
+        
         let doneBarButton = UIBarButtonItem(title: "done",
                                             style: .plain,
                                             target: self,
                                             action: #selector(endEditing))
-        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
+        
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                            target: self,
+                                            action: nil)
         
         keyboardToolbar.items = [flexibleSpace, doneBarButton]
         keyboardToolbar.sizeToFit()
@@ -51,7 +61,7 @@ class KeyboardManager {
     
     // MARK: - objc functions
     
-    @objc func endEditing() {
+    @objc private func endEditing() {
         textView.resignFirstResponder()
     }
     

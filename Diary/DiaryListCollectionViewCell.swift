@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryListCollectionViewCell: UICollectionViewCell {
+final class DiaryListCollectionViewCell: UICollectionViewCell {
     // MARK: - properties
     
     static let identifier = "cell"
@@ -92,8 +92,11 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupSubviews() {
-        [dateLabel, previewLabel].forEach { subtitleStackView.addArrangedSubview($0) }
-        [topLine, titleLabel, subtitleStackView, accessoryButton].forEach { self.addSubview($0) }
+        [dateLabel, previewLabel]
+            .forEach { subtitleStackView.addArrangedSubview($0) }
+        
+        [topLine, titleLabel, subtitleStackView, accessoryButton]
+            .forEach { self.addSubview($0) }
     }
     
     private func setupConstraints() {

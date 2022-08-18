@@ -8,6 +8,8 @@
 import UIKit
 
 class DiaryDetailTextView: UITextView {
+    // MARK: - initializers
+
     override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         commonInit()
@@ -18,12 +20,8 @@ class DiaryDetailTextView: UITextView {
         commonInit()
     }
     
-    private func commonInit() {
-        translatesAutoresizingMaskIntoConstraints = false
-        font = UIFont.preferredFont(forTextStyle: .body)
-        scrollsToTop = true
-    }
-    
+    // MARK: - functions
+
     func setupConstraints(with superview: UIView) {
         let safeArea = superview.safeAreaLayoutGuide
         
@@ -33,5 +31,11 @@ class DiaryDetailTextView: UITextView {
             leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
+    }
+    
+    private func commonInit() {
+        translatesAutoresizingMaskIntoConstraints = false
+        font = UIFont.preferredFont(forTextStyle: .body)
+        scrollsToTop = true
     }
 }

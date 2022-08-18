@@ -6,8 +6,7 @@
 
 import UIKit
 
-class DiaryListViewController: UIViewController {
-    
+final class DiaryListViewController: UIViewController {
     // MARK: - properties
     
     private let imageView: UIImageView = {
@@ -23,23 +22,23 @@ class DiaryListViewController: UIViewController {
     private var diaryDelegate: DataSendable?
     private var diaryInfomation: [JSONModel] = []
     
-    // MARK: - life cycle
+    // MARK: - life cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
+        setupView()
         setupDataSource()
         setupSnapshot(with: fetch())
-        diaryCollectionView?.delegate = self
     }
     
     // MARK: - functions
     
-    private func setupUI() {
+    private func setupView() {
         view.backgroundColor = .systemBackground
         setupNavigationController()
         diaryCollectionView = setupCollectionView(frame: .zero,
                                              collectionViewLayout: setupLayout())
+        diaryCollectionView?.delegate = self
     }
     
     private func setupNavigationController() {
@@ -90,7 +89,7 @@ class DiaryListViewController: UIViewController {
     
     private func setupLayout() -> UICollectionViewLayout {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .estimated(44))
+                                              heightDimension: .absolute(44))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
@@ -181,8 +180,10 @@ class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
+        
         diaryDelegate = diaryDetailViewController
-        self.diaryDelegate?.setupData(diaryInfomation[indexPath.row])
+        diaryDelegate?.setupData(diaryInfomation[indexPath.row])
+        
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
