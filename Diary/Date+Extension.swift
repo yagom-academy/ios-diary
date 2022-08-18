@@ -10,12 +10,20 @@ import Foundation
 extension Date {
     func convertToString() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_kr")
-        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        guard let locale = Locale.preferredLanguages.first else { return "" }
         
-        let stringDate = dateFormatter.string(from: self)
+        dateFormatter.locale = Locale.current
+        dateFormatter.timeZone = .current
+        dateFormatter.dateStyle = .long
+        dateFormatter.locale = .init(identifier: locale)
+        
+        let date = Date(timeIntervalSince1970: 1608651333)
+        let stringDate = dateFormatter.string(from: date) 
         
         return stringDate
+    }
+    
+    func convertToCurrentTime() -> String {
+        return self.convertToString()
     }
 }
