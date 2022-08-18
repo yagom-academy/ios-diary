@@ -12,6 +12,6 @@ final class DiaryPostViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         
-        self.title = Date().fetchCurrentDate
+        self.title = Date().currentDate
     }
 }

@@ -8,7 +8,7 @@
 import Foundation
 
 extension Date {
-    var fetchCurrentDate: String {
+    var currentDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         dateFormatter.timeStyle = .none
