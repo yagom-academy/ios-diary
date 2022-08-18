@@ -54,4 +54,8 @@ extension ManageDiaryView {
     func adjustContentInset(height: CGFloat) {
         self.bodyTextView.contentInset.bottom = height
     }
+    
+    func focusBodyTextView() {
+        self.bodyTextView.becomeFirstResponder()
+    }
 }

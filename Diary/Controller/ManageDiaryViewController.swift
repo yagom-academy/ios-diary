@@ -24,9 +24,9 @@ final class ManageDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addNotificationObserver()
-        
         if viewMode == .add {
             self.navigationItem.title = DateManager().formatted(date: Date())
+            manageDiaryView.focusBodyTextView()
         }
     }
     
@@ -52,4 +52,5 @@ final class ManageDiaryViewController: UIViewController {
     @objc private func keyboardWillHide() {
         manageDiaryView.adjustContentInset(height: 0)
     }
+    
 }
