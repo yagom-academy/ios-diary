@@ -11,7 +11,7 @@ struct JSONModel: Decodable, Hashable {
     private let uuid = UUID()
     let title: String
     let body: String
-    let createdAt: Date
+    let createdAt: TimeInterval
     
     enum CodingKeys: String, CodingKey {
         case title

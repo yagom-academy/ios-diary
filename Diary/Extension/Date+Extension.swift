@@ -8,7 +8,7 @@
 import Foundation
 
 extension Date {
-    func convertToString() -> String {
+    func convertToCurrentTime() -> String {
         let dateFormatter = DateFormatter()
         guard let locale = Locale.preferredLanguages.first else { return "" }
         
@@ -17,13 +17,8 @@ extension Date {
         dateFormatter.dateStyle = .long
         dateFormatter.locale = .init(identifier: locale)
         
-        let date = Date(timeIntervalSince1970: 1608651333)
-        let stringDate = dateFormatter.string(from: date) 
+        let stringDate = dateFormatter.string(from: self)
         
         return stringDate
-    }
-    
-    func convertToCurrentTime() -> String {
-        return self.convertToString()
     }
 }

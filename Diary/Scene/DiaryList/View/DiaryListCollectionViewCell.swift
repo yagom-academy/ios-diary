@@ -7,16 +7,16 @@
 
 import UIKit
 
-class DiaryListCollectionViewCell: UICollectionViewCell {
+final class DiaryListCollectionViewCell: UICollectionViewCell {
     // MARK: - properties
     
-    static let identifier = "cell"
+    static let identifier = Design.cellIdentifier
     
     private let topLine: UIView = {
         let line = UIView()
         line.translatesAutoresizingMaskIntoConstraints = false
         line.tintColor = .black
-        line.backgroundColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
+        line.backgroundColor = Design.topLineColor
         
         return line
     }()
@@ -50,7 +50,7 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .center
         stackView.distribution = .fill
-        stackView.spacing = 4
+        stackView.spacing = Design.stackViewSpacing
         
         return stackView
     }()
@@ -59,7 +59,7 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         
-        let buttonImage = UIImage(systemName: "chevron.right")
+        let buttonImage = UIImage(systemName: Design.accessoryImageName)
         
         button.setImage(buttonImage, for: .normal)
         button.tintColor = .lightGray
@@ -88,12 +88,15 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
     func setupCellProperties(with model: JSONModel) {
         titleLabel.text = model.title
         previewLabel.text = model.body
-        dateLabel.text = model.createdAt.convertToString()
+        dateLabel.text = model.createdAt.convert1970DateToString()
     }
     
     private func setupSubviews() {
-        [dateLabel, previewLabel].forEach { subtitleStackView.addArrangedSubview($0) }
-        [topLine, titleLabel, subtitleStackView, accessoryButton].forEach { self.addSubview($0) }
+        [dateLabel, previewLabel]
+            .forEach { subtitleStackView.addArrangedSubview($0) }
+        
+        [topLine, titleLabel, subtitleStackView, accessoryButton]
+            .forEach { self.addSubview($0) }
     }
     
     private func setupConstraints() {
@@ -136,4 +139,11 @@ class DiaryListCollectionViewCell: UICollectionViewCell {
             accessoryButton.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.16)
         ])
     }
+}
+
+private enum Design {
+    static let cellIdentifier = "cell"
+    static let topLineColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
+    static let stackViewSpacing = 4.0
+    static let accessoryImageName = "chevron.right"
 }
