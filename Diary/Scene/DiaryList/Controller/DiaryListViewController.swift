@@ -56,7 +56,7 @@ final class DiaryListViewController: UIViewController {
     }
 
     @objc private func tappedPlusButton() {
-        print("+ 버튼이 눌렸습니다.")
+        navigationController?.pushViewController(DiaryRegisterViewController(), animated: true)
     }
 }
 
