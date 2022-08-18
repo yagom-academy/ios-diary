@@ -12,8 +12,8 @@ class DiaryContentsViewController: UIViewController {
     // MARK: Life Cycle
     
     override func loadView() {
-        view = DiaryContentView()
-        view.backgroundColor = .white
+        view = diaryContentView
+        view.backgroundColor = .systemBackground
     }
 
     override func viewDidLoad() {
