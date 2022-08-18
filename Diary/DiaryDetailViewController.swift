@@ -11,27 +11,17 @@ class DiaryDetailViewController: UIViewController {
     // MARK: - properties
     
     private let textView = DiaryDetailTextView()
+    private lazy var keyboardManager = KeyboardManager(textView)
     
     override func viewDidLoad() {
         super.viewDidLoad()
         textView.delegate = self
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
-        setupConstraints()
         setupTextView()
         textView.setupConstraints(with: view)
         textView.layoutIfNeeded()
-        addNotificationObserver()
-    }
-    
-    private func addNotificationObserver() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        keyboardManager.addNotificationObserver()
     }
     
     func setupTextView() {
@@ -43,28 +33,9 @@ class DiaryDetailViewController: UIViewController {
         }
     }
     
-    func setupConstraints() {
-        NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-        ])
-    }
-    
     // MARK: - objc functions
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
-        else { return }
-        
-        moveView(height: keyboardFrame.size.height)
-    }
     
-    @objc private func keyboardWillHide() {
-        moveView(height: 0)
-    }
 }
 
 // MARK: - extensions
@@ -95,7 +66,5 @@ extension DiaryDetailViewController: UITextViewDelegate {
 }
 
 extension DiaryDetailViewController {
-    func moveView(height: CGFloat) {
-        self.textView.contentInset.bottom = height
-    }
+    
 }
