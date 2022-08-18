@@ -1,0 +1,7 @@
+excluded:
+    - Pods
+    - Diary/Application/AppDelegate.swift
+    - Diary/Application/SceneDelegate.swift
+disabled_rules:
+    - trailing_whitespace
+    - line_length
