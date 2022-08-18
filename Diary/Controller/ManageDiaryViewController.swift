@@ -24,9 +24,15 @@ final class ManageDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addNotificationObserver()
+        configureAddViewMode()
+    }
+    
+    private func configureAddViewMode() {
         if viewMode == .add {
             self.navigationItem.title = DateManager().formatted(date: Date())
             manageDiaryView.focusBodyTextView()
+            let optionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(optionButtonDidTapped))
+            navigationItem.rightBarButtonItem = optionButton
         }
     }
     
@@ -40,6 +46,23 @@ final class ManageDiaryViewController: UIViewController {
     private func addNotificationObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func optionButtonDidTapped() {
+        let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        [shareAction, deleteAction, cancelAction].forEach {
+            optionAlert.addAction($0)
+        }
+        
+        self.present(optionAlert, animated: true)
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
