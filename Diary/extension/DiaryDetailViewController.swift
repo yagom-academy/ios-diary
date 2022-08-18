@@ -25,6 +25,12 @@ class DiaryDetailViewController: UIViewController {
         configureKeyboardNotification()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        removeRegisterForKeyboardNotification()
+    }
+    
     // MARK: - methods
     
     private func configureView() {
@@ -58,13 +64,13 @@ class DiaryDetailViewController: UIViewController {
                                                selector: #selector(keyboardDownAction),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
-        
     }
     
     private func removeRegisterForKeyboardNotification() {
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillShowNotification,
                                                   object: nil)
+        
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillHideNotification,
                                                   object: nil)
