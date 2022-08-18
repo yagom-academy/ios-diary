@@ -18,13 +18,12 @@ final class AddDiaryView: UIView {
         return stackView
     }()
     
-    private let titleTextField: UITextField = {
-        let textField = UITextField()
+    private let titleTextField: TextField = {
+        let textField = TextField()
         textField.adjustsFontForContentSizeCategory = true
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.preferredFont(forTextStyle: .body)
         textField.keyboardType = .default
-        textField.addLeftPadding()
         return textField
     }()
     
@@ -71,10 +70,19 @@ extension AddDiaryView {
     }
 }
 
-extension UITextField {
-    func addLeftPadding() {
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: self.frame.height))
-        self.leftView = paddingView
-        self.leftViewMode = ViewMode.always
-      }
+class TextField: UITextField {
+
+    let padding = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
+
+    override open func textRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override open func placeholderRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
+
+    override open func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return bounds.inset(by: padding)
+    }
 }
