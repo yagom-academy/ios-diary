@@ -10,14 +10,7 @@ import UIKit
 class DiaryDetailViewController: UIViewController {
     // MARK: - properties
     
-    private let textView: UITextView = {
-        let textView = UITextView()
-        textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.scrollsToTop = true
-        
-        return textView
-    }()
+    private let textView = DiaryDetailTextView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +19,7 @@ class DiaryDetailViewController: UIViewController {
         view.addSubview(textView)
         setupConstraints()
         setupTextView()
+        textView.setupConstraints(with: view)
         textView.layoutIfNeeded()
         addNotificationObserver()
     }

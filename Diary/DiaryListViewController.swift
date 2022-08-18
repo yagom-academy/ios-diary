@@ -9,6 +9,7 @@ import UIKit
 class DiaryListViewController: UIViewController {
     
     // MARK: - properties
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: "moon.fill")
@@ -49,14 +50,6 @@ class DiaryListViewController: UIViewController {
                                                             action: #selector(rightBarButtonItemDidTap))
         
         setupAppearanceMode()
-    }
-    
-    @objc private func rightBarButtonItemDidTap() {
-        let diaryDetailViewController = DiaryDetailViewController()
-        navigationController?.pushViewController(diaryDetailViewController, animated: true)
-        
-        let date = Date()
-        diaryDetailViewController.navigationItem.title = date.convertToCurrentTime()
     }
     
     private func setupAppearanceMode() {
@@ -174,6 +167,14 @@ class DiaryListViewController: UIViewController {
             
             imageView.tintColor = .lightGray
         }
+    }
+    
+    @objc private func rightBarButtonItemDidTap() {
+        let diaryRegistrationViewController = DiaryRegistrationViewController()
+        navigationController?.pushViewController(diaryRegistrationViewController, animated: true)
+        
+        let date = Date()
+        diaryRegistrationViewController.navigationItem.title = date.convertToCurrentTime()
     }
 }
 
