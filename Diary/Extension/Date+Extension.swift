@@ -8,7 +8,7 @@
 import Foundation
 
 extension Date {
-    func formatToStringDate() -> String? {
+    var localizedString: String? {
         guard let localeID = Locale.preferredLanguages.first,
               let deviceLocale = Locale(identifier: localeID).languageCode else { return nil }
         

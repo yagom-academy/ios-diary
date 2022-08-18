@@ -23,7 +23,7 @@ class DiaryContentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = Date().formatToStringDate()
+        title = Date().localizedString
         configureNotificationCenter()
     }
     
