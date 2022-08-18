@@ -36,6 +36,10 @@ final class DiaryDetailView: UIView {
         detailTextView.text = ofText
     }
     
+    func configureDetailTextViewInset(inset: CGFloat) {
+        detailTextView.contentInset.bottom = inset
+    }
+    
     private func commonInit() {
         configureView()
         configureViewLayouts()

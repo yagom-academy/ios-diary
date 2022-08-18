@@ -22,6 +22,7 @@ class DiaryDetailViewController: UIViewController {
         configureView()
         configureViewLayout()
         configureDetailViewItem()
+        configureKeyboardNotification()
     }
     
     // MARK: - methods
@@ -45,6 +46,45 @@ class DiaryDetailViewController: UIViewController {
               let body = diaryDetailData?.body else { return }
         
         diaryDetailView.configureDetailTextView(ofText: "\(title)\n\n\(body)")
+    }
+    
+    private func configureKeyboardNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyBoardShowAction),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardDownAction),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        
+    }
+    
+    private func removeRegisterForKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillShowNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillHideNotification,
+                                                  object: nil)
+    }
+    
+    @objc private func keyBoardShowAction(notification: NSNotification) {
+        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary,
+              let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue
+        else { return }
+        
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        
+        diaryDetailView.configureDetailTextViewInset(inset: keyboardHeight)
+    }
+    
+    @objc private func keyboardDownAction() {
+        view.endEditing(true)
+        
+        diaryDetailView.configureDetailTextViewInset(inset: 0)
     }
 }
 
