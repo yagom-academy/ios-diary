@@ -11,6 +11,7 @@ final class DiaryListViewController: UIViewController {
     // MARK: - properties
 
     private var tableView = UITableView()
+    private var dataSendableDelegate: DataSendable?
     private let dummyData = DummyData()
 
     // MARK: - view life cycle
@@ -79,4 +80,12 @@ extension DiaryListViewController: UITableViewDataSource {
 }
 
 extension DiaryListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diaryDetailViewController = DiaryDetailViewController()
+        
+        dataSendableDelegate = diaryDetailViewController
+        dataSendableDelegate?.dataTask(data: dummyData?.diaryItems?[indexPath.row])
+        
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
 }
