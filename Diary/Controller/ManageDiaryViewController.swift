@@ -8,8 +8,8 @@
 import UIKit
 
 enum ViewMode {
-    case edit
     case add
+    case edit
 }
 
 final class ManageDiaryViewController: UIViewController {
@@ -24,13 +24,16 @@ final class ManageDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         addNotificationObserver()
-        configureAddViewMode()
+        checkViewMode()
     }
     
-    private func configureAddViewMode() {
-        if viewMode == .add {
+    private func checkViewMode() {
+        switch viewMode {
+        case .add:
             self.navigationItem.title = DateManager().formatted(date: Date())
             manageDiaryView.focusBodyTextView()
+            
+        case .edit:
             let optionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(optionButtonDidTapped))
             navigationItem.rightBarButtonItem = optionButton
         }
