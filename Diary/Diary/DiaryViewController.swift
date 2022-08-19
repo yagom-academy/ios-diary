@@ -36,9 +36,19 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setupKeyboard() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisAppear), name: UIResponder.keyboardWillHideNotification, object: nil)
-        diaryView.closeButton.addTarget(self, action: #selector(hideKeyboard), for: .touchUpInside)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillAppear),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillDisAppear),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        diaryView.closeButton.addTarget(self,
+                                        action: #selector(hideKeyboard),
+                                        for: .touchUpInside)
+    }
+    
     }
     
     @objc func keyboardWillAppear(_ sender: Notification) {

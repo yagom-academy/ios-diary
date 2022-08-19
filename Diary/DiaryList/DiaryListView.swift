@@ -11,6 +11,7 @@ final class DiaryListView: UIView {
     // MARK: - Properties
     
     var tableView: UITableView = {
+    var diaryModels: [DiaryModel]?
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)

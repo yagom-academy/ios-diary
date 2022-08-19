@@ -14,14 +14,13 @@ struct JsonParser {
         }
         
         let decoder = JSONDecoder()
-        var diaryModel: [DiaryModel]?
+        var diaryModels: [DiaryModel]?
         do {
-            diaryModel = try decoder.decode([DiaryModel].self, from: filePath.data)
+            diaryModels = try decoder.decode([DiaryModel].self, from: filePath.data)
         } catch {
             switch error {
-            case DecodingError.typeMismatch(let type, let context):
-                let descriptionList = context.debugDescription.split(separator: " ")
-                print("타입이 \(type) 가 아닙니다. \(descriptionList[descriptionList.count - 2]) 타입을 사용 해주세요.")
+            case DecodingError.typeMismatch(_, let context):
+                print(context.debugDescription)
             case DecodingError.dataCorrupted(let context):
                 print(context.debugDescription)
             case DecodingError.valueNotFound(_, let context):
@@ -32,6 +31,6 @@ struct JsonParser {
                 break
             }
         }
-        return diaryModel
+        return diaryModels
     }
 }
