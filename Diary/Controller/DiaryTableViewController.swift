@@ -51,15 +51,12 @@ final class DiaryTableViewController: UIViewController {
     }
     
     private func fetchData() {
-        let jsonParser = JSONParser()
+        guard let diaryEntities = CoreDataManager.shared.fetchDiary() else { return }
         
-        do {
-            diaryItems = try jsonParser.fetch(name: "sample")
-        } catch let error as JSONError {
-            print(error.message)
-        } catch {
-            print("Unexpected Error")
+        diaryItems = diaryEntities.map {
+            DiaryItem(entity: $0)
         }
+        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

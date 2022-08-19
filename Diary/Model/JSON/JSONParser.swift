@@ -8,15 +8,15 @@
 import UIKit
 
 struct JSONParser {
-    func fetch(name: String) throws -> [DiaryItem] {
+    func fetch<T: Decodable>(name: String) throws -> [T] {
         let decoder = JSONDecoder()
-        
+
         guard let sample = NSDataAsset.init(name: name) else {
             throw JSONError.noneFile
         }
-        
+
         do {
-            let diaryList = try decoder.decode([DiaryItem].self, from: sample.data)
+            let diaryList = try decoder.decode([T].self, from: sample.data)
             return diaryList
         } catch {
             throw JSONError.decodingFailure

@@ -24,6 +24,7 @@ class CoreDataManager {
         diaryEntity.setValue(item.title, forKey: "title")
         diaryEntity.setValue(item.body, forKey: "body")
         diaryEntity.setValue(item.createdAt, forKey: "createdAt")
+        diaryEntity.setValue(item.id, forKey: "id")
         
         appDelegate.saveContext()
     }
