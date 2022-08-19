@@ -28,7 +28,6 @@ final class DiaryContentViewController: UIViewController {
     
     private func setupDefault() {
         self.view.backgroundColor = .white
-        self.view.addSubview(diaryDescriptionTextView)
         
         guard let diaryContent = diaryContent else {
             return
@@ -36,10 +35,11 @@ final class DiaryContentViewController: UIViewController {
         
         diaryViewModel = DiaryViewModel(data: diaryContent)
         self.title = diaryViewModel?.dateText
-        diaryDescriptionTextView.text = diaryViewModel?.longDescriptionText
     }
     
     private func configureTextView() {
+        self.view.addSubview(diaryDescriptionTextView)
+        
         NSLayoutConstraint.activate([
             diaryDescriptionTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             diaryDescriptionTextView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -47,6 +47,7 @@ final class DiaryContentViewController: UIViewController {
             diaryDescriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
+        diaryDescriptionTextView.text = diaryViewModel?.longDescriptionText
         diaryDescriptionTextView.focusTop()
     }
     

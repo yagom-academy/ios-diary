@@ -59,7 +59,6 @@ final class DiaryTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubView()
         configureLayout()
         setupDateLabel()
     }
@@ -76,7 +75,7 @@ final class DiaryTableViewCell: UITableViewCell {
         shortDescriptionLabel.text = diaryListViewModel?.shortDescriptionText
     }
     
-    private func addSubView() {
+    private func configureLayout() {
         self.contentView.addSubview(rootStackView)
         
         rootStackView.addArrangedSubview(diaryTitleLabel)
@@ -84,9 +83,7 @@ final class DiaryTableViewCell: UITableViewCell {
         
         dateAndDescriptionStackView.addArrangedSubview(dateLabel)
         dateAndDescriptionStackView.addArrangedSubview(shortDescriptionLabel)
-    }
-    
-    private func configureLayout() {
+        
         NSLayoutConstraint.activate([
             rootStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             rootStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
