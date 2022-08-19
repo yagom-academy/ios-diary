@@ -5,7 +5,6 @@
 //  Created by unchain, 웡빙 on 2022/08/17.
 //
 
-import Foundation
 import UIKit
 
 struct JsonParser {

@@ -6,9 +6,13 @@
 
 import UIKit
 
-class DiaryListViewController: UIViewController {
+final class DiaryListViewController: UIViewController {
+    // MARK: - Properties
+
     private var diaryListView: DiaryListView?
     private var diaryModelList: [DiaryModel]?
+
+    // MARK: - ViewLifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,10 +21,11 @@ class DiaryListViewController: UIViewController {
         setupDiaryListView()
     }
     
+    // MARK: - Methods
+
     private func setupDiaryListView() {
         self.view.backgroundColor = .systemBackground
         diaryListView = DiaryListView(self)
-        diaryListView?.tableView.delegate = self
         diaryListView?.tableView.dataSource = self
     }
     
@@ -34,10 +39,6 @@ class DiaryListViewController: UIViewController {
     @objc func addButtonDidTapped() {
         self.navigationController?.pushViewController(DiaryViewController(), animated: true)
     }
-}
-
-extension DiaryListViewController: UITableViewDelegate {
-    
 }
 
 extension DiaryListViewController: UITableViewDataSource {

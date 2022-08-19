@@ -7,7 +7,9 @@
 
 import UIKit
 
-class DiaryListCell: UITableViewCell {
+final class DiaryListCell: UITableViewCell {
+    // MARK: - Properties
+    
     static let identifier = "diaryCell"
     
     private let titleLabel: UILabel = {
@@ -52,6 +54,8 @@ class DiaryListCell: UITableViewCell {
         return stackView
     }()
     
+    // MARK: - Initializer
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setSubView()
@@ -63,6 +67,8 @@ class DiaryListCell: UITableViewCell {
         super.init(coder: coder)
     }
     
+    // MARK: - Methods
+
     private func setSubView() {
         self.contentView.addSubview(mainStackView)
         mainStackView.addArrangedSubview(titleLabel)

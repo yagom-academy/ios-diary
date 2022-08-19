@@ -7,8 +7,12 @@
 
 import UIKit
 
-class DiaryViewController: UIViewController {
+final class DiaryViewController: UIViewController {
+    // MARK: - Properties
+
     private var diaryView: DiaryView?
+
+    // MARK: - ViewLifeCycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +22,8 @@ class DiaryViewController: UIViewController {
         diaryView?.diaryTextView.delegate = self
     }
     
+    // MARK: - Methods
+
     private func setupInitialView() {
         self.view.backgroundColor = .systemBackground
         diaryView = DiaryView(self)

@@ -7,7 +7,9 @@
 
 import UIKit
 
-class DiaryView: UIView {
+final class DiaryView: UIView {
+    // MARK: - Properties
+    
     let placeHolder = NameSpace.placeHolder
     lazy var diaryTextView: UITextView = {
         let textview = UITextView()
@@ -19,7 +21,7 @@ class DiaryView: UIView {
         return textview
     }()
     
-    let accessoryView: UIView = {
+    private let accessoryView: UIView = {
         return UIView(frame: CGRect(x: 0.0, y: 0.0, width: UIScreen.main.bounds.width, height: 50))
     }()
     
@@ -32,6 +34,8 @@ class DiaryView: UIView {
         return button
     }()
     
+    // MARK: - Initializer
+
     init(_ rootViewController: UIViewController) {
         super.init(frame: .zero)
         setupSubviews(rootViewController)
@@ -42,6 +46,8 @@ class DiaryView: UIView {
         super.init(coder: coder)
     }
     
+    // MARK: - Methods
+
     private func setupSubviews(_ rootViewController: UIViewController) {
         rootViewController.view.addSubview(diaryTextView)
         accessoryView.addSubview(closeButton)

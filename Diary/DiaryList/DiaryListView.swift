@@ -7,8 +7,9 @@
 
 import UIKit
 
-class DiaryListView: UIView {
-
+final class DiaryListView: UIView {
+    // MARK: - Properties
+    
     var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -16,6 +17,8 @@ class DiaryListView: UIView {
         return tableView
     }()
 
+    // MARK: - Initializer
+    
     init(_ rootViewController: UIViewController) {
         super.init(frame: .zero)
         configureTableView(rootViewController)
@@ -25,6 +28,8 @@ class DiaryListView: UIView {
         super.init(coder: coder)
     }
     
+    // MARK: - Methods
+
     private func configureTableView(_ rootViewController: UIViewController) {
         rootViewController.view.addSubview(tableView)
 
