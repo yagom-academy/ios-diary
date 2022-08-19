@@ -17,7 +17,7 @@ final class DiaryListViewController: UIViewController {
     
     private let jsonManager = JSONManager()
     
-    private var dataSource: DataSource?
+    private lazy var dataSource = self.configureDataSource()
     
     private var diaryListViewModel: DiaryViewModel?
     
@@ -32,7 +32,6 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         setupDefault()
         configureLayout()
-        configureDataSource()
         fetchData()
     }
     
@@ -43,8 +42,8 @@ final class DiaryListViewController: UIViewController {
         self.title = "일기장"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTappedAddButton))
     }
-    
-    private func configureDataSource() {
+
+    private func configureDataSource() -> DataSource {
         dataSource = DataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, content -> UITableViewCell? in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
                 return UITableViewCell()
@@ -55,6 +54,8 @@ final class DiaryListViewController: UIViewController {
             
             return cell
         })
+        
+        return dataSource
     }
     
     private func fetchData() {
@@ -75,7 +76,7 @@ final class DiaryListViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(data)
         
-        dataSource?.apply(snapshot)
+        dataSource.apply(snapshot)
     }
     
     private func configureLayout() {
