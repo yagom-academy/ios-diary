@@ -39,7 +39,7 @@ final class ManageDiaryViewController: UIViewController {
         }
     }
     
-    func getDiaryData(data: Diary) {
+    func getDiaryData(data: DiaryItem) {
         let content = data.title + "\n\n" + data.body
         manageDiaryView.fetchBodyTextView(content)
         viewMode = .edit

@@ -8,7 +8,7 @@
 import UIKit
 
 struct JSONParser {
-    func fetch(name: String) throws -> [Diary] {
+    func fetch(name: String) throws -> [DiaryItem] {
         let decoder = JSONDecoder()
         
         guard let sample = NSDataAsset.init(name: name) else {
@@ -16,7 +16,7 @@ struct JSONParser {
         }
         
         do {
-            let diaryList = try decoder.decode([Diary].self, from: sample.data)
+            let diaryList = try decoder.decode([DiaryItem].self, from: sample.data)
             return diaryList
         } catch {
             throw JSONError.decodingFailure

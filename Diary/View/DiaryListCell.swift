@@ -85,7 +85,7 @@ extension DiaryListCell: ReuseIdentifying {
         ])
     }
     
-    func configure(with data: Diary) {
+    func configure(with data: DiaryItem) {
         self.titleLabel.text = data.title
         self.dateLabel.text = DateManager().formatted(date: Date(timeIntervalSince1970: data.createdAt))
         self.bodyLabel.text = data.body

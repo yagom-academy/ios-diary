@@ -15,7 +15,7 @@ final class DiaryTableViewController: UIViewController {
         return tableView
     }()
     
-    private var diaryEntity: [Diary] = []
+    private var diaryItems: [DiaryItem] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +54,7 @@ final class DiaryTableViewController: UIViewController {
         let jsonParser = JSONParser()
         
         do {
-            diaryEntity = try jsonParser.fetch(name: "sample")
+            diaryItems = try jsonParser.fetch(name: "sample")
         } catch let error as JSONError {
             print(error.message)
         } catch {
@@ -65,7 +65,7 @@ final class DiaryTableViewController: UIViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ManageDiarySegue" {
             guard let manageViewController = segue.destination as? ManageDiaryViewController else { return }
-            guard let diary = sender as? Diary else { return }
+            guard let diary = sender as? DiaryItem else { return }
             manageViewController.getDiaryData(data: diary)
         }
     }
@@ -73,19 +73,19 @@ final class DiaryTableViewController: UIViewController {
 
 extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryEntity.count
+        return diaryItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.diaryListTableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier, for: indexPath) as? DiaryListCell else { return UITableViewCell() }
         
         cell.accessoryType = .disclosureIndicator
-        cell.configure(with: diaryEntity[indexPath.row])
+        cell.configure(with: diaryItems[indexPath.row])
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.performSegue(withIdentifier: "ManageDiarySegue", sender: diaryEntity[indexPath.row])
+        self.performSegue(withIdentifier: "ManageDiarySegue", sender: diaryItems[indexPath.row])
     }
 }
