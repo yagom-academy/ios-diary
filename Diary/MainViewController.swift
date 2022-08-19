@@ -27,6 +27,8 @@ class MainViewController: UIViewController {
   
         configureView()
         configureDataSource()
+        configureSnapshot()
+        
         diaryTableView.delegate = self
     }
     
@@ -52,14 +54,6 @@ class MainViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        let diarySample: [DiarySample]? = JSONData.parse(name: "sample")
-        guard let diarySample = diarySample else {
-            return
-        }
-
-        snapshot.appendSections([.main])
-        snapshot.appendItems(diarySample)
-        
         dataSource = DiffableDataSource(tableView: diaryTableView, cellProvider: { tableView, indexPath, itemIdentifier in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "DiaryTableViewCell", for: indexPath) as? DiaryTableViewCell else {
                 return nil
@@ -69,6 +63,16 @@ class MainViewController: UIViewController {
             
             return cell
         })
+    }
+    
+    private func configureSnapshot() {
+        let diarySample: [DiarySample]? = JSONData.parse(name: "sample")
+        guard let diarySample = diarySample else {
+            return
+        }
+        
+        snapshot.appendSections([.main])
+        snapshot.appendItems(diarySample)
         
         dataSource?.apply(snapshot)
     }
