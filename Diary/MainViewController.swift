@@ -14,7 +14,6 @@ class MainViewController: UIViewController {
     private typealias DiffableDataSource = UITableViewDiffableDataSource<Section, DiarySample>
     private var dataSource: DiffableDataSource?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, DiarySample>()
-    private let diarySample: [DiarySample]? = JSONData.parse(name: "sample")
     private let diaryTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: "DiaryTableViewCell")
@@ -26,24 +25,21 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
   
-        view.backgroundColor = .white
-        navigationItem.title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(touchAddButton))
-        view.addSubview(diaryTableView)
-        setConstraint()
-        
-        guard let diarySample = diarySample else {
-            return
-        }
-
-        snapshot.appendSections([.main])
-        snapshot.appendItems(diarySample)
+        configureView()
         configureDataSource()
         diaryTableView.delegate = self
     }
     
     @objc func touchAddButton() {
         navigationController?.pushViewController(DetailDiaryViewController(), animated: true)
+    }
+    
+    private func configureView() {
+        view.backgroundColor = .white
+        navigationItem.title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(touchAddButton))
+        view.addSubview(diaryTableView)
+        setConstraint()
     }
     
     private func setConstraint() {
@@ -56,6 +52,14 @@ class MainViewController: UIViewController {
     }
     
     private func configureDataSource() {
+        let diarySample: [DiarySample]? = JSONData.parse(name: "sample")
+        guard let diarySample = diarySample else {
+            return
+        }
+
+        snapshot.appendSections([.main])
+        snapshot.appendItems(diarySample)
+        
         dataSource = DiffableDataSource(tableView: diaryTableView, cellProvider: { tableView, indexPath, itemIdentifier in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "DiaryTableViewCell", for: indexPath) as? DiaryTableViewCell else {
                 return nil
