@@ -33,7 +33,7 @@ final class DiaryListViewController: UIViewController {
                                          action: #selector(tappedPlusButton))
 
         navigationItem.rightBarButtonItem = plusButton
-        navigationItem.title = "일기장"
+        navigationItem.title = Design.navigationTitle
     }
 
     private func configureView() {
@@ -50,8 +50,8 @@ final class DiaryListViewController: UIViewController {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
         ])
     }
 
@@ -88,4 +88,8 @@ extension DiaryListViewController: UITableViewDelegate {
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
+}
+
+private enum Design {
+    static let navigationTitle = "일기장"
 }

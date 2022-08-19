@@ -12,7 +12,7 @@ final class DiaryTableViewCell: UITableViewCell {
 
     static let reuseIdentifier = "DiaryTableViewCell"
 
-    let mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .leading
@@ -31,7 +31,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
 
-    let subStackView: UIStackView = {
+    private let subStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .fill
