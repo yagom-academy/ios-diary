@@ -91,4 +91,11 @@ final class DiaryListCell: UITableViewCell {
         preViewLabel.text = model.body
         dateLabel.text = model.createdAt.translateToDate()
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = nil
+        preViewLabel.text = nil
+        dateLabel.text = nil
+    }
 }
