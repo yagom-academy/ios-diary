@@ -7,13 +7,13 @@
 import Foundation
 
 final class DiaryViewModel {
-    private let diaryContent: DiaryContent?
+    private var diaryContent: DiaryContent?
     
     init(data: DiaryContent) {
         self.diaryContent = data
     }
     
-    init() { }
+    init() {}
     
     var titleText: String? {
         guard let diaryContent = diaryContent else {
