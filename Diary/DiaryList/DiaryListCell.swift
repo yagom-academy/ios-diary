@@ -60,7 +60,7 @@ final class DiaryListCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setSubView()
         setConstraints()
-        self.accessoryType = .disclosureIndicator
+        accessoryType = .disclosureIndicator
     }
     
     required init?(coder: NSCoder) {
@@ -70,7 +70,7 @@ final class DiaryListCell: UITableViewCell {
     // MARK: - Methods
 
     private func setSubView() {
-        self.contentView.addSubview(mainStackView)
+        contentView.addSubview(mainStackView)
         mainStackView.addArrangedSubview(titleLabel)
         mainStackView.addArrangedSubview(horizontalStackView)
         horizontalStackView.addArrangedSubview(dateLabel)
@@ -79,10 +79,10 @@ final class DiaryListCell: UITableViewCell {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            self.mainStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
-            self.mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
-            self.mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            self.mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -5)
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
     }
     

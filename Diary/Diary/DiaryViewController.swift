@@ -25,13 +25,13 @@ final class DiaryViewController: UIViewController {
     // MARK: - Methods
 
     private func setupInitialView() {
-        self.view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemBackground
         diaryView = DiaryView(self)
     }
     
     private func setupNavigationTitle() {
         let now = Date()
-        self.navigationItem.title = now.timeIntervalSince1970.translateToDate()
+        navigationItem.title = now.timeIntervalSince1970.translateToDate()
     }
     
     private func setupKeyboard() {

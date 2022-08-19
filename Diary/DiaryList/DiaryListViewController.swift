@@ -24,20 +24,20 @@ final class DiaryListViewController: UIViewController {
     // MARK: - Methods
 
     private func setupDiaryListView() {
-        self.view.backgroundColor = .systemBackground
+        view.backgroundColor = .systemBackground
         diaryListView = DiaryListView(self)
         diaryListView?.tableView.dataSource = self
     }
     
     private func configureNavigationBar() {
-        self.navigationItem.title = NameSpace.diary
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+        navigationItem.title = NameSpace.diary
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                                  target: self,
                                                                  action: #selector(addButtonDidTapped))
     }
 
     @objc func addButtonDidTapped() {
-        self.navigationController?.pushViewController(DiaryViewController(), animated: true)
+        navigationController?.pushViewController(DiaryViewController(), animated: true)
     }
 }
 
