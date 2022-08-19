@@ -36,10 +36,10 @@ final class DiaryView: UIView {
     
     // MARK: - Initializer
 
-    init(_ rootViewController: UIViewController) {
-        super.init(frame: .zero)
-        setupSubviews(rootViewController)
-        setupConstraints(rootViewController)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupSubviews()
+        setupConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -48,23 +48,24 @@ final class DiaryView: UIView {
     
     // MARK: - Methods
 
-    private func setupSubviews(_ rootViewController: UIViewController) {
-        rootViewController.view.addSubview(diaryTextView)
+    private func setupSubviews() {
+        addSubview(diaryTextView)
         accessoryView.addSubview(closeButton)
     }
     
-    private func setupConstraints(_ rootViewController: UIViewController) {
-        NSLayoutConstraint.activate([
-            diaryTextView.topAnchor.constraint(equalTo: rootViewController.view.safeAreaLayoutGuide.topAnchor),
-            diaryTextView.bottomAnchor.constraint(equalTo: rootViewController.view.safeAreaLayoutGuide.bottomAnchor),
-            diaryTextView.leadingAnchor.constraint(equalTo: rootViewController.view.safeAreaLayoutGuide.leadingAnchor),
-            diaryTextView.trailingAnchor.constraint(equalTo: rootViewController.view.safeAreaLayoutGuide.trailingAnchor)
-        ])
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             closeButton.leadingAnchor.constraint(equalTo: accessoryView.leadingAnchor, constant: 350),
             closeButton.trailingAnchor.constraint(equalTo: accessoryView.trailingAnchor),
             closeButton.bottomAnchor.constraint(equalTo: accessoryView.bottomAnchor),
             closeButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+        
+        NSLayoutConstraint.activate([
+            diaryTextView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            diaryTextView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            diaryTextView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            diaryTextView.topAnchor.constraint(equalTo: self.topAnchor)
         ])
     }
 }

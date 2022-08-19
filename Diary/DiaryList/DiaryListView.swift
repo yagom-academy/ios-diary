@@ -19,9 +19,10 @@ final class DiaryListView: UIView {
 
     // MARK: - Initializer
     
-    init(_ rootViewController: UIViewController) {
-        super.init(frame: .zero)
-        configureTableView(rootViewController)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.addSubview(tableView)
+        setTableViewConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -29,13 +30,13 @@ final class DiaryListView: UIView {
     }
     
     // MARK: - Methods
-
-    private func configureTableView(_ rootViewController: UIViewController) {
-        rootViewController.view.addSubview(tableView)
-
-        tableView.topAnchor.constraint(equalTo: rootViewController.view.topAnchor).isActive = true
-        tableView.bottomAnchor.constraint(equalTo: rootViewController.view.bottomAnchor).isActive = true
-        tableView.leadingAnchor.constraint(equalTo: rootViewController.view.leadingAnchor).isActive = true
-        tableView.trailingAnchor.constraint(equalTo: rootViewController.view.trailingAnchor).isActive = true
+    
+    func setTableViewConstraints() {
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: self.topAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
     }
 }

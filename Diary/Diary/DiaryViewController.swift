@@ -10,7 +10,7 @@ import UIKit
 final class DiaryViewController: UIViewController {
     // MARK: - Properties
 
-    private var diaryView: DiaryView?
+    private let diaryView = DiaryView(frame: .zero)
 
     // MARK: - ViewLifeCycle
 
@@ -19,14 +19,15 @@ final class DiaryViewController: UIViewController {
         setupInitialView()
         setupNavigationTitle()
         setupKeyboard()
-        diaryView?.diaryTextView.delegate = self
     }
     
     // MARK: - Methods
 
     private func setupInitialView() {
         view.backgroundColor = .systemBackground
-        diaryView = DiaryView(self)
+        view.addSubview(diaryView)
+        diaryView.diaryTextView.delegate = self
+        setDiaryViewConstraint()
     }
     
     private func setupNavigationTitle() {
@@ -37,20 +38,20 @@ final class DiaryViewController: UIViewController {
     private func setupKeyboard() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillAppear), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillDisAppear), name: UIResponder.keyboardWillHideNotification, object: nil)
-        diaryView?.closeButton.addTarget(self, action: #selector(hideKeyboard), for: .touchUpInside)
+        diaryView.closeButton.addTarget(self, action: #selector(hideKeyboard), for: .touchUpInside)
     }
     
     @objc func keyboardWillAppear(_ sender: Notification) {
         guard let userInfo = sender.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         let contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardFrame.size.height, right: 0.0)
-        diaryView?.diaryTextView.contentInset = contentInset
-        diaryView?.diaryTextView.scrollIndicatorInsets = contentInset
+        diaryView.diaryTextView.contentInset = contentInset
+        diaryView.diaryTextView.scrollIndicatorInsets = contentInset
     }
     
     @objc func keyboardWillDisAppear(_ sender: Notification) {
         let contentInset = UIEdgeInsets.zero
-        diaryView?.diaryTextView.contentInset = contentInset
-        diaryView?.diaryTextView.scrollIndicatorInsets = contentInset
+        diaryView.diaryTextView.contentInset = contentInset
+        diaryView.diaryTextView.scrollIndicatorInsets = contentInset
     }
     
     @objc func hideKeyboard(_ sender: Any) {
@@ -67,7 +68,7 @@ extension DiaryViewController: UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == diaryView?.placeHolder {
+        if textView.text == diaryView.placeHolder {
             textView.text = nil
             textView.textColor = .black
         }
@@ -75,9 +76,18 @@ extension DiaryViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = diaryView?.placeHolder
+            textView.text = diaryView.placeHolder
             textView.textColor = .lightGray
         }
     }
     
+    func setDiaryViewConstraint() {
+        diaryView.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+        diaryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+        diaryView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        diaryView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+        diaryView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+    ])
+    }
 }

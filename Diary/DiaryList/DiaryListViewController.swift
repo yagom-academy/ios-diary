@@ -8,8 +8,8 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     // MARK: - Properties
-
-    private var diaryListView: DiaryListView?
+    
+    private let diaryListView = DiaryListView(frame: .zero)
     private var diaryModelList: [DiaryModel]?
 
     // MARK: - ViewLifeCycle
@@ -25,8 +25,8 @@ final class DiaryListViewController: UIViewController {
 
     private func setupDiaryListView() {
         view.backgroundColor = .systemBackground
-        diaryListView = DiaryListView(self)
-        diaryListView?.tableView.dataSource = self
+        diaryListView.tableView.dataSource = self
+        configureDiaryListView()
     }
     
     private func configureNavigationBar() {
@@ -58,5 +58,14 @@ extension DiaryListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
+    }
+    
+    private func configureDiaryListView() {
+        view.addSubview(diaryListView)
+        diaryListView.translatesAutoresizingMaskIntoConstraints = false
+        diaryListView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        diaryListView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        diaryListView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        diaryListView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
     }
 }
