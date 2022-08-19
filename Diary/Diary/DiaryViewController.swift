@@ -26,7 +26,6 @@ final class DiaryViewController: UIViewController {
     private func setupInitialView() {
         view.backgroundColor = .systemBackground
         view.addSubview(diaryView)
-        diaryView.diaryTextView.delegate = self
         setDiaryViewConstraint()
     }
     
@@ -49,6 +48,14 @@ final class DiaryViewController: UIViewController {
                                         for: .touchUpInside)
     }
     
+    private func setDiaryViewConstraint() {
+        diaryView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            diaryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            diaryView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            diaryView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            diaryView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+        ])
     }
     
     @objc func keyboardWillAppear(_ sender: Notification) {
@@ -66,38 +73,5 @@ final class DiaryViewController: UIViewController {
     
     @objc func hideKeyboard(_ sender: Any) {
         view.endEditing(true)
-    }
-}
-
-extension DiaryViewController: UITextViewDelegate {
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
-            textView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
-        }
-        return true
-    }
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == diaryView.placeHolder {
-            textView.text = nil
-            textView.textColor = .black
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = diaryView.placeHolder
-            textView.textColor = .lightGray
-        }
-    }
-    
-    func setDiaryViewConstraint() {
-        diaryView.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-        diaryView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-        diaryView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-        diaryView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-        diaryView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
-    ])
     }
 }

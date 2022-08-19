@@ -38,6 +38,7 @@ final class DiaryView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        diaryTextView.delegate = self
         setupSubviews()
         setupConstraints()
     }
@@ -67,5 +68,28 @@ final class DiaryView: UIView {
             diaryTextView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
             diaryTextView.topAnchor.constraint(equalTo: self.topAnchor)
         ])
+    }
+}
+
+extension DiaryView: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            textView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+        }
+        return true
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == placeHolder {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = placeHolder
+            textView.textColor = .lightGray
+        }
     }
 }
