@@ -102,7 +102,7 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryContentViewController = DiaryContentViewController()
-        diaryContentViewController.diaryContent = diaryContents[indexPath.row]
+        diaryContentViewController.diaryViewModel = DiaryViewModel(data: diaryContents[indexPath.row])
         self.navigationController?.pushViewController(diaryContentViewController, animated: true)
     }
 }

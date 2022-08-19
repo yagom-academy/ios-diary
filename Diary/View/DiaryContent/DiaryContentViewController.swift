@@ -15,8 +15,7 @@ final class DiaryContentViewController: UIViewController {
         return textView
     }()
     
-    var diaryContent: DiaryContent?
-    private var diaryViewModel: DiaryViewModel?
+    var diaryViewModel = DiaryViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,13 +27,7 @@ final class DiaryContentViewController: UIViewController {
     
     private func setupDefault() {
         self.view.backgroundColor = .white
-        
-        guard let diaryContent = diaryContent else {
-            return
-        }
-        
-        diaryViewModel = DiaryViewModel(data: diaryContent)
-        self.title = diaryViewModel?.dateText
+        self.title = diaryViewModel.dateText
     }
     
     private func configureTextView() {
@@ -47,7 +40,7 @@ final class DiaryContentViewController: UIViewController {
             diaryDescriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        diaryDescriptionTextView.text = diaryViewModel?.longDescriptionText
+        diaryDescriptionTextView.text = diaryViewModel.longDescriptionText
         diaryDescriptionTextView.focusTop()
     }
     

@@ -7,25 +7,43 @@
 import Foundation
 
 final class DiaryViewModel {
-    private let diaryContent: DiaryContent
+    private let diaryContent: DiaryContent?
     
     init(data: DiaryContent) {
         self.diaryContent = data
     }
     
-    var titleText: String {
+    init() { }
+    
+    var titleText: String? {
+        guard let diaryContent = diaryContent else {
+            return nil
+        }
+
         return diaryContent.title
     }
     
-    var shortDescriptionText: String {
+    var shortDescriptionText: String? {
+        guard let diaryContent = diaryContent else {
+            return nil
+        }
+        
         return diaryContent.body
     }
     
-    var dateText: String {
+    var dateText: String? {
+        guard let diaryContent = diaryContent else {
+            return nil
+        }
+        
         return diaryContent.createdAt.formattedDate
     }
     
-    var longDescriptionText: String {
+    var longDescriptionText: String? {
+        guard let diaryContent = diaryContent else {
+            return nil
+        }
+        
         return diaryContent.title + "\n\n" + diaryContent.body
     }
 }
