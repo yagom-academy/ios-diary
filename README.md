@@ -45,11 +45,10 @@
     - Step01 PR
     
 - 2022.08.18
-
+    - SwiftLint 설정
     
 - 2022.08.19
-
-
+    - Step01 리팩토링
 
 ## 💡 키워드
 
@@ -159,7 +158,7 @@ private func updateDataSource(data: [DiaryContent]) {
 - 데이터를 먼저 받아온 후 snapshot을 업데이트 하는 방식을 사용하였습니다.
     
     
-#### T1. TextView의 스크롤뷰 
+#### T2. TextView의 스크롤뷰 
     - Text View의 heigth가 클 경우 제목이 사라지는 현상 발생
 ```swift!
 extension UITextView {
@@ -171,10 +170,39 @@ extension UITextView {
     }
 }
 ```
+
+#### T3. 간접적으로 처리했던 비지니스 로직을 직접적으로 처리하도록 구현
+    (ViewController ↔️ ViewModel ( ↔️ Business logic object ))
+```Swift!
+final class DiaryViewModel {
+    private let jsonManager = JSONManager()
+    var diaryContents: [DiaryContent] {
+        guard let contents = fetchData() else {
+            return [DiaryContent]()
+        }
+
+        return contents
+    }
+
+
+    private func fetchData() -> [DiaryContent]? {
+        let fileName = "diarySample"
+        let result = jsonManager.checkFileAndDecode(dataType : [DiaryContent].self, fileName)
+
+        switch result {
+        case .success(let contents):
+            return contents
+        default:
+            return nil
+        }
+    }
+}
+```
+- ViewController 내에서 `fetchData()를 처리하였으나 ViewModel로 이동.
+    - 이유 : MVVM 패턴에서 ViewController는 비지니스 로직을 처리하면 안되기 때문.
     
 ## 📚 참고문서
 
 - [UITextView](https://developer.apple.com/documentation/uikit/uitextview)
 - [UITableViewDiffableDataSource](https://developer.apple.com/documentation/uikit/uitableviewdiffabledatasource)
 - [DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter)
-
