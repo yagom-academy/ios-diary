@@ -63,6 +63,7 @@ final class DiaryTableViewCell: UITableViewCell {
         setupDateLabel()
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
