@@ -12,6 +12,6 @@ target 'Diary' do
     # Pods for testing
   end
 
-pod 'SwiftLint'
+  pod 'SwiftLint'
 
 end
