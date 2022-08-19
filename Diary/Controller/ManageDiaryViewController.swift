@@ -15,6 +15,7 @@ enum ViewMode {
 final class ManageDiaryViewController: UIViewController {
     private let manageDiaryView = ManageDiaryView()
     private var viewMode: ViewMode = .add
+    private var id = UUID()
     
     override func loadView() {
         super.loadView()
@@ -27,25 +28,38 @@ final class ManageDiaryViewController: UIViewController {
         checkViewMode()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        if viewMode == .add {
+            saveDiary()
+        }
+    }
+    
+    func getDiaryData(data: DiaryItem) {
+        let content = data.title + data.body
+        manageDiaryView.fetchBodyTextView(content)
+        id = data.id
+        viewMode = .edit
+        self.navigationItem.title = DateManager().formatted(date: Date(timeIntervalSince1970: data.createdAt))
+    }
+    
     private func checkViewMode() {
         switch viewMode {
         case .add:
             self.navigationItem.title = DateManager().formatted(date: Date())
             manageDiaryView.focusBodyTextView()
-            
         case .edit:
             let optionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(optionButtonDidTapped))
             navigationItem.rightBarButtonItem = optionButton
         }
     }
     
-    func getDiaryData(data: DiaryItem) {
-        let content = data.title + "\n\n" + data.body
-        manageDiaryView.fetchBodyTextView(content)
-        viewMode = .edit
-        self.navigationItem.title = DateManager().formatted(date: Date(timeIntervalSince1970: data.createdAt))
+    private func saveDiary() {
+        guard let diary = manageDiaryView.convertDiaryItem(with: id) else { return }
+
+        CoreDataManager.shared.saveDiary(item: diary)
     }
-    
+
     private func addNotificationObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)

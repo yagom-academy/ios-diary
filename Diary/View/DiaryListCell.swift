@@ -86,8 +86,19 @@ extension DiaryListCell: ReuseIdentifying {
     }
     
     func configure(with data: DiaryItem) {
+        let body = data.body
+        var nextIndex = body.startIndex
+        
+        for str in body {
+            if str == "\n" {
+                nextIndex = body.index(after: nextIndex)
+            } else {
+                break
+            }
+        }
+        
         self.titleLabel.text = data.title
         self.dateLabel.text = DateManager().formatted(date: Date(timeIntervalSince1970: data.createdAt))
-        self.bodyLabel.text = data.body
+        self.bodyLabel.text = String(data.body[nextIndex..<data.body.endIndex])
     }
 }

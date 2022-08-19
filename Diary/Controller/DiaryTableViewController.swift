@@ -24,6 +24,12 @@ final class DiaryTableViewController: UIViewController {
         fetchData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchData()
+        diaryListTableView.reloadData()
+    }
+    
     @objc private func addDiaryButtonDidTapped() {
         self.performSegue(withIdentifier: "AddDiarySegue", sender: self)
     }
@@ -57,6 +63,7 @@ final class DiaryTableViewController: UIViewController {
             DiaryItem(entity: $0)
         }
         
+        diaryItems.reverse()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

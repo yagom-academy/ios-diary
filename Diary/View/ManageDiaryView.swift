@@ -58,4 +58,15 @@ extension ManageDiaryView {
     func focusBodyTextView() {
         self.bodyTextView.becomeFirstResponder()
     }
+    
+    func convertDiaryItem(with id: UUID) -> DiaryItem? {
+        guard let content = self.bodyTextView.text,
+              let firstLineIndex = content.firstIndex(of: "\n") else { return nil }
+        
+        let title = String(content[content.startIndex..<firstLineIndex])
+        let body = String(content[firstLineIndex..<content.endIndex])
+        let createdAt = Date().timeIntervalSince1970
+        
+        return DiaryItem(id: id, title: title, body: body, createdAt: createdAt)
+    }
 }
