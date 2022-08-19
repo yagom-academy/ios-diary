@@ -13,13 +13,10 @@ final class DiaryListViewController: UIViewController {
     enum Section {
         case main
     }
-    private var diaryContents = [DiaryContent]()
-    
-    private let jsonManager = JSONManager()
     
     private lazy var dataSource = self.configureDataSource()
     
-    private var diaryListViewModel: DiaryViewModel?
+    private var diaryListViewModel = DiaryViewModel()
     
     private let diaryListTableView: UITableView = {
         let tableView = UITableView()
@@ -32,7 +29,7 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         setupDefault()
         configureLayout()
-        fetchData()
+        updateDataSource(data: diaryListViewModel.diaryContents)
     }
     
     private func setupDefault() {
@@ -56,19 +53,6 @@ final class DiaryListViewController: UIViewController {
         })
         
         return dataSource
-    }
-    
-    private func fetchData() {
-        let fileName = "diarySample"
-        let result = jsonManager.checkFileAndDecode(dataType: [DiaryContent].self, fileName)
-        
-        switch result {
-        case .success(let contents):
-            diaryContents = contents
-            updateDataSource(data: contents)
-        default:
-            break
-        }
     }
     
     private func updateDataSource(data: [DiaryContent]) {
@@ -102,7 +86,8 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryContentViewController = DiaryContentViewController()
-        diaryContentViewController.diaryViewModel = DiaryViewModel(data: diaryContents[indexPath.row])
+        diaryContentViewController.diaryViewModel = DiaryViewModel(data: diaryListViewModel.diaryContents[indexPath.row])
+        
         self.navigationController?.pushViewController(diaryContentViewController, animated: true)
     }
 }

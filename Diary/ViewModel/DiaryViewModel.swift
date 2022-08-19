@@ -8,6 +8,7 @@ import Foundation
 
 final class DiaryViewModel {
     private var diaryContent: DiaryContent?
+    private let jsonManager = JSONManager()
     
     init(data: DiaryContent) {
         self.diaryContent = data
@@ -19,7 +20,7 @@ final class DiaryViewModel {
         guard let diaryContent = diaryContent else {
             return nil
         }
-
+        
         return diaryContent.title
     }
     
@@ -45,5 +46,26 @@ final class DiaryViewModel {
         }
         
         return diaryContent.title + "\n\n" + diaryContent.body
+    }
+    
+    var diaryContents: [DiaryContent] {
+        guard let contents = fetchData() else {
+            return [DiaryContent]()
+        }
+        
+        return contents
+    }
+    
+    
+    private func fetchData() -> [DiaryContent]? {
+        let fileName = "diarySample"
+        let result = jsonManager.checkFileAndDecode(dataType: [DiaryContent].self, fileName)
+        
+        switch result {
+        case .success(let contents):
+            return contents
+        default:
+            return nil
+        }
     }
 }
