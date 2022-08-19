@@ -67,6 +67,14 @@ final class DiaryTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        diaryTitleLabel.text = nil
+        dateLabel.text = nil
+        shortDescriptionLabel.text = nil
+    }
+    
     func configureUI(data: DiaryContent) {
         diaryListViewModel = DiaryViewModel(data: data)
         
