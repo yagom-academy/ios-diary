@@ -7,14 +7,17 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    private enum Section {
+    typealias DataSource = UITableViewDiffableDataSource<Section, DiaryContent>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DiaryContent>
+    
+    enum Section {
         case main
     }
     private var diaryContents = [DiaryContent]()
     
     private let jsonManager = JSONManager()
     
-    private var dataSource: UITableViewDiffableDataSource<Section, DiaryContent>?
+    private var dataSource: DataSource?
     
     private var diaryListViewModel: DiaryViewModel?
     
@@ -35,7 +38,6 @@ final class DiaryListViewController: UIViewController {
     
     private func setupDefault() {
         self.view.backgroundColor = .white
-        self.view.addSubview(diaryListTableView)
         self.diaryListTableView.delegate = self
         
         self.title = "일기장"
@@ -43,7 +45,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, DiaryContent>(tableView: diaryListTableView, cellProvider: { tableView, indexPath, content -> UITableViewCell? in
+        dataSource = DataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, content -> UITableViewCell? in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
                 return UITableViewCell()
             }
@@ -69,7 +71,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func updateDataSource(data: [DiaryContent]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryContent>()
+        var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(data)
         
@@ -77,6 +79,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureLayout() {
+        self.view.addSubview(diaryListTableView)
+        
         NSLayoutConstraint.activate([
             diaryListTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             diaryListTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
