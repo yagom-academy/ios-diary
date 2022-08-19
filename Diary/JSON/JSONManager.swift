@@ -8,8 +8,9 @@
 import UIKit
 
 struct JSONManager {
+    private var jsonDecoder = JSONDecoder()
+    
     func checkFileAndDecode<T: Decodable>(dataType: T.Type, _ fileName: String) -> Result<T, JSONError> {
-        let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
         
         do {
