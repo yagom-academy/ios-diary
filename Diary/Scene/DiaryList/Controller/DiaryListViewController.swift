@@ -9,8 +9,6 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     // MARK: - properties
     
-    
-    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: Design.moonImage)
