@@ -9,6 +9,8 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     // MARK: - properties
     
+    
+    
     private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(systemName: Design.moonImage)
@@ -20,7 +22,6 @@ final class DiaryListViewController: UIViewController {
     private var diaryCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, DiaryModel>?
     private var diaryInfomation: [DiaryModel] = []
-//    private var diaryList: [DiaryModel]
     
     // MARK: - life cycles
     
@@ -176,7 +177,7 @@ extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
         
-        diaryDetailViewController.setupData(diaryInfomation[indexPath.row])
+        diaryDetailViewController.setupData(diaryInfomation.get(index: indexPath.row))
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
