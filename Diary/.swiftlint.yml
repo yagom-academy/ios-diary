@@ -1,0 +1,19 @@
+disabled_rules:
+  - colon
+  - comma
+  - control_statement
+  - trailing_whitespace
+  - comment_spacing
+  - line_length
+  
+opt_in_rules:
+  - empty_count
+  - missing_docs
+included:
+  - Source
+excluded:
+  - Carthage
+  - Pods
+  - Source/ExcludedFolder
+  - Source/ExcludedFile.swift
+
