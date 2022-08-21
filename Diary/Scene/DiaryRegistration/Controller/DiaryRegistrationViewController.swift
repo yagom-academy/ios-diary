@@ -18,6 +18,7 @@ final class DiaryRegistrationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
+        keyboardManager.addNotificationObserver()
     }
     
     // MARK: - functions
@@ -28,8 +29,6 @@ final class DiaryRegistrationViewController: UIViewController {
         
         textView.setupConstraints(with: view)
         textView.backgroundColor = .systemBackground
-        
-        keyboardManager.addNotificationObserver()
     }
     
     private func setupNavigationController() {

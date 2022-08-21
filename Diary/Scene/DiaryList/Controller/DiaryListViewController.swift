@@ -18,9 +18,9 @@ final class DiaryListViewController: UIViewController {
     }()
     
     private var diaryCollectionView: UICollectionView?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, JSONModel>?
-    private var diaryDelegate: DataSendable?
-    private var diaryInfomation: [JSONModel] = []
+    private var dataSource: UICollectionViewDiffableDataSource<Section, DiaryModel>?
+    private var diaryInfomation: [DiaryModel] = []
+//    private var diaryList: [DiaryModel]
     
     // MARK: - life cycles
     
@@ -106,16 +106,16 @@ final class DiaryListViewController: UIViewController {
         return layout
     }
     
-    private func fetch() -> [JSONModel] {
+    private func fetch() -> [DiaryModel] {
         guard let data = NSDataAsset(name: Design.NSDataAsset)?.data,
-              let decodedData = try? JSONDecoder().decode([JSONModel].self, from: data)
+              let decodedData = try? JSONDecoder().decode([DiaryModel].self, from: data)
         else { return [] }
         
         return decodedData
     }
     
     private func setupDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, JSONModel>
+        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, DiaryModel>
         {
             (cell, indexPath, identifier) in
             cell.setupCellProperties(with: identifier)
@@ -124,7 +124,7 @@ final class DiaryListViewController: UIViewController {
         
         guard let collectionView = diaryCollectionView else { return }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, JSONModel>(collectionView: collectionView)
+        dataSource = UICollectionViewDiffableDataSource<Section, DiaryModel>(collectionView: collectionView)
         {
             (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             
@@ -134,8 +134,8 @@ final class DiaryListViewController: UIViewController {
         }
     }
     
-    private func setupSnapshot(with jsonModel: [JSONModel]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, JSONModel>()
+    private func setupSnapshot(with jsonModel: [DiaryModel]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(jsonModel)
         
@@ -176,8 +176,7 @@ extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
         
-        diaryDelegate = diaryDetailViewController
-        diaryDelegate?.setupData(diaryInfomation[indexPath.row])
+        diaryDetailViewController.setupData(diaryInfomation[indexPath.row])
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }

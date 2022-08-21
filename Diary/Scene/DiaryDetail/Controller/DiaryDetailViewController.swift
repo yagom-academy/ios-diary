@@ -19,6 +19,7 @@ final class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupTextView()
+        keyboardManager.addNotificationObserver()
     }
     
     // MARK: - functions
@@ -26,7 +27,6 @@ final class DiaryDetailViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
-        keyboardManager.addNotificationObserver()
     }
     
     private func setupTextView() {
@@ -47,7 +47,7 @@ final class DiaryDetailViewController: UIViewController {
 
 extension DiaryDetailViewController: DataSendable {
     func setupData<T>(_ data: T) {
-        guard let diaryInformation = data as? JSONModel else { return }
+        guard let diaryInformation = data as? DiaryModel else { return }
         navigationItem.title = diaryInformation.createdAt.convert1970DateToString()
         
         textView.text = diaryInformation.title + Design.doubleLineBreak + diaryInformation.body
