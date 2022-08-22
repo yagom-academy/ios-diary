@@ -28,13 +28,15 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        assertionFailure()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setNavigationItemTitle()
+        configureAttributes()
         configureLayout()
         configureTextView()
         registerForKeyboardNotification()
