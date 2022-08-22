@@ -18,7 +18,9 @@ final class CoreDataManager {
         }
     }
     static let shared = CoreDataManager()
-    private init() {}
+    private init() {
+        fetchDiaries()
+    }
     
     func saveDiary(with model: DiaryModel) {
         let newItem = Diary(context: context)
@@ -27,43 +29,42 @@ final class CoreDataManager {
         newItem.setValue(model.createdAt, forKey: "createdAt")
         do {
             try context.save()
+            fetchDiaries()
         } catch {
             print(error.localizedDescription)
         }
-    }
-    
-    func fetchDiaries() -> [Diary] {
-        var diaries: [Diary] = []
-        do {
-            diaries = try context.fetch(Diary.fetchRequest())
-        } catch {
-            print(error)
-        }
-        return diaries
     }
     
     func delete(diary: Diary) {
         context.delete(diary)
         do {
             try context.save()
+            fetchDiaries()
         } catch {
             print(error)
         }
     }
     
     func update(diary: DiaryModel, with indexPath: Int) {
-        let fetchData = fetchDiaries()
+        guard fetchedDiaries[indexPath].title != diary.title || fetchedDiaries[indexPath].body != diary.body || fetchedDiaries[indexPath].createdAt != diary.createdAt else { return }
         
-        guard fetchData[indexPath].title != diary.title || fetchData[indexPath].body != diary.body || fetchData[indexPath].createdAt != diary.createdAt else { return }
-        
-        fetchData[indexPath].title = diary.title
-        fetchData[indexPath].body = diary.body
-        fetchData[indexPath].createdAt = diary.createdAt
+        fetchedDiaries[indexPath].title = diary.title
+        fetchedDiaries[indexPath].body = diary.body
+        fetchedDiaries[indexPath].createdAt = diary.createdAt
         
         do {
             try context.save()
+            fetchDiaries()
         } catch {
             print(error.localizedDescription)
+        }
+    }
+    
+    private func fetchDiaries() {
+        do {
+            fetchedDiaries = try context.fetch(Diary.fetchRequest())
+        } catch {
+            print(error)
         }
     }
 }
