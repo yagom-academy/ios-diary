@@ -1,5 +1,5 @@
 //
-//  Diary - ViewController.swift
+//  Diary - DiaryListTableViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
@@ -28,7 +28,8 @@ final class DiaryListTableViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
   
-        configureView()
+        configureAttributes()
+        configureLayout()
         configureDataSource()
         configureSnapshot()
         
@@ -42,7 +43,7 @@ final class DiaryListTableViewController: UIViewController {
         )
     }
     
-    private func configureView() {
+    private func configureAttributes() {
         view.backgroundColor = .white
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
@@ -52,10 +53,9 @@ final class DiaryListTableViewController: UIViewController {
             action: #selector(touchAddButton)
         )
         view.addSubview(diaryTableView)
-        setConstraint()
     }
     
-    private func setConstraint() {
+    private func configureLayout() {
         NSLayoutConstraint.activate([
             diaryTableView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor

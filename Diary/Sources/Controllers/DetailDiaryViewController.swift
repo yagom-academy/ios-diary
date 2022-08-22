@@ -35,8 +35,8 @@ final class DetailDiaryViewController: UIViewController {
         super.viewDidLoad()
         
         setNavigationItemTitle()
-        configureUI()
-        setComponents()
+        configureLayout()
+        configureTextView()
         registerForKeyboardNotification()
     }
     
@@ -47,19 +47,29 @@ final class DetailDiaryViewController: UIViewController {
         navigationItem.title = DateFormatter().format(data: date)
     }
     
-    private func configureUI() {
-        self.view.addSubview(textView)
+    private func configureAttributes() {
+        view.addSubview(textView)
         view.backgroundColor = .white
-        
+    }
+    
+    private func configureLayout() {
         NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            textView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor
+            ),
+            textView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
+            ),
+            textView.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor
+            ),
+            textView.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor
+            )
         ])
     }
     
-    private func setComponents() {
+    private func configureTextView() {
         guard let content = content else {
             return
         }
