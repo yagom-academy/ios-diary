@@ -30,6 +30,7 @@ final class DiaryListViewController: UIViewController {
         setupDefault()
         configureLayout()
         updateDataSource(data: diaryListViewModel.diaryContents)
+        registerNotificationForTableView()
     }
     
     private func setupDefault() {
@@ -65,14 +66,15 @@ final class DiaryListViewController: UIViewController {
     
     private func configureLayout() {
         self.view.addSubview(diaryListTableView)
-        
+        diaryListTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+
         NSLayoutConstraint.activate([
             diaryListTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             diaryListTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             diaryListTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             diaryListTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        
+    }
         
     private func registerNotificationForTableView() {
         NotificationCenter.default.addObserver(self,
