@@ -32,7 +32,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setupNavigationbar() {
-        let date = Date().formatted("yyyy년 MM월 dd일")
+        let date = Date().dateFormatted()
         self.navigationItem.title = date
     }
     

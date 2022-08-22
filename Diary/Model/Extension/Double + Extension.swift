@@ -1,5 +1,5 @@
 //
-//  Date + Extension.swift
+//  Double + Extension.swift
 //  Diary
 //
 //  Created by Kiwi, Brad. on 2022/08/17.
@@ -7,13 +7,13 @@
 
 import Foundation
 
-extension Date {
-    func formatted(_ format: String) -> String {
+extension Double {
+    func dateFormatted() -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = format
+        formatter.dateFormat = "yyyy년 MM월 dd일"
         formatter.locale = Locale(identifier: "ko_KR")
         formatter.timeZone = TimeZone(abbreviation: "KST")
         
-        return formatter.string(from: self)
+        return formatter.string(from: Date(timeIntervalSince1970: TimeInterval(self)))
     }
 }

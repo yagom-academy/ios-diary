@@ -87,10 +87,8 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
     }
     
     func configureContent(data: SampleDiaryContent) {
-        let date = Date(timeIntervalSince1970: TimeInterval(data.createdAt)).formatted("yyyy년 MM월 dd일")
-        
         self.diaryTitle.text = data.title
-        self.diaryDate.text = date
+        self.diaryDate.text = data.createdAt.dateFormatted()
         self.diaryBody.text = data.body
     }
 }
