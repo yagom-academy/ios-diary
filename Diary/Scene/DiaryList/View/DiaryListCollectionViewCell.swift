@@ -83,7 +83,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - functions
     
-    func setupCellProperties(with model: DiaryModel) {
+    func setupCellProperties(with model: Diary) {
         titleLabel.text = model.title
         previewLabel.text = model.body
         dateLabel.text = model.createdAt.convert1970DateToString()

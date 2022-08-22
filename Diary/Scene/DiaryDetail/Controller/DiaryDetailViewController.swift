@@ -52,7 +52,7 @@ final class DiaryDetailViewController: UIViewController {
 
 extension DiaryDetailViewController: DataSendable {
     func setupData<T>(_ data: T) {
-        guard let diaryInformation = data as? DiaryModel else { return }
+        guard let diaryInformation = data as? Diary else { return }
         navigationItem.title = diaryInformation.createdAt.convert1970DateToString()
         
         textView.text = diaryInformation.title + Design.doubleLineBreak + diaryInformation.body

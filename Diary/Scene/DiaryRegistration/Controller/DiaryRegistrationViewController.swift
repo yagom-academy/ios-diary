@@ -29,11 +29,6 @@ final class DiaryRegistrationViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         keyboardManager.removeNotificationObserver()
-        let title = popTitle()
-        var diarys = Diarys()
-        let newDiary = DiaryModel(title: title, body: textView.text, createdAt: Date().timeIntervalSince1970)
-        
-        diarys.diary.append(newDiary)
     }
     
     // MARK: - functions

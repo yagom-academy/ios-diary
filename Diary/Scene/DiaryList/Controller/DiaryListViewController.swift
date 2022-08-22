@@ -18,9 +18,8 @@ final class DiaryListViewController: UIViewController {
     }()
     
     private var diaryCollectionView: UICollectionView?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, DiaryModel>?
-    private var diaryInfomation: [DiaryModel] = []
-    private var diaryData = Diarys()
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
+    private var diaryData = MockDiaryManager()
     
     // MARK: - life cycles
     
@@ -28,25 +27,19 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupDataSource()
-        
         receiveData()
-        setupSnapshot(with: diaryData.diary)
+        diaryData.fetch()
     }
     
     private func receiveData() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(onDidReceiveData(_:)),
-            name: .didReceiveData,
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onDidReceiveData(_:)),
+                                               name: .didReceiveData,
+                                               object: nil)
     }
     
     @objc private func onDidReceiveData(_ notification: Notification) {
-        if let data = notification.userInfo?["diary"] as? [DiaryModel] {
-            diaryInfomation = data
-            setupSnapshot(with: diaryInfomation)
-        }
+        setupSnapshot(with: diaryData.getDiary())
     }
     
     // MARK: - functions
@@ -55,7 +48,7 @@ final class DiaryListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setupNavigationController()
         diaryCollectionView = setupCollectionView(frame: .zero,
-                                             collectionViewLayout: setupLayout())
+                                                  collectionViewLayout: setupLayout())
         diaryCollectionView?.delegate = self
     }
     
@@ -123,10 +116,10 @@ final class DiaryListViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-   
+    
     
     private func setupDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, DiaryModel>
+        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, Diary>
         {
             (cell, indexPath, identifier) in
             cell.setupCellProperties(with: identifier)
@@ -134,7 +127,7 @@ final class DiaryListViewController: UIViewController {
         
         guard let collectionView = diaryCollectionView else { return }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, DiaryModel>(collectionView: collectionView)
+        dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView)
         {
             (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             
@@ -144,9 +137,8 @@ final class DiaryListViewController: UIViewController {
         }
     }
     
-    private func setupSnapshot(with jsonModel: [DiaryModel]) {
-        diaryInfomation = jsonModel
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryModel>()
+    private func setupSnapshot(with jsonModel: [Diary]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         snapshot.appendSections([.main])
         snapshot.appendItems(jsonModel)
         
@@ -187,7 +179,7 @@ extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
         
-        diaryDetailViewController.setupData(diaryInfomation.get(index: indexPath.row))
+        diaryDetailViewController.setupData(diaryData.getModel(by: indexPath))
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
