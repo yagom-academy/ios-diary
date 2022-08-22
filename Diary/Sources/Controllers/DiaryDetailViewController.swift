@@ -34,7 +34,7 @@ final class DiaryDetailViewController: UIViewController {
         
         setupKeyboardWillShowNoification()
         
-        displayDiaryDetailData()
+        setupContentViewData()
     }
     
     func receiveData(_ diaryItem: DiaryItem?) {
@@ -67,18 +67,25 @@ private extension DiaryDetailViewController {
         ])
     }
     
-    func displayDiaryDetailData() {
+    func setupContentViewData() {
+        let currentDiaryContent = createTextViewContent(diaryItem)
+        displayDiaryDetailData(with: currentDiaryContent)
+    }
+    
+    func displayDiaryDetailData(with textViewContent: String) {
+        contentTextView.text = textViewContent
+    }
+    
+    func createTextViewContent(_ diaryItem: DiaryItem?) -> String {
         guard let diaryItem = diaryItem else {
-            return
+            return ""
         }
         
-        let textViewContent = """
+        return """
         \(diaryItem.title)
         
         \(diaryItem.body)
         """
-        
-        contentTextView.text = textViewContent
     }
     
     func setupKeyboardWillShowNoification() {
