@@ -17,7 +17,7 @@ final class MainViewController: UIViewController {
     
     private let diaryItemTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.identifier)
+        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.reuseIdentifier)
         return tableView
     }()
     
@@ -60,7 +60,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.identifier, for: indexPath) as? MainTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
         

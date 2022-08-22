@@ -7,11 +7,7 @@
 
 import UIKit
 
-final class MainTableViewCell: UITableViewCell {
-    
-    static var identifier: String {
-        return "MainTableViewCell"
-    }
+final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
     
     private let diaryTitle: UILabel = {
         let label = UILabel()
