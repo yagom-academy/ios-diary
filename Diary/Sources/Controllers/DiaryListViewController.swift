@@ -8,8 +8,14 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     
+    // MARK: - Name Spaces
+    
     private enum Section {
         case main
+    }
+    
+    private enum LogicNameSpace {
+        static let diaryCellIdentifier = "DiaryListCell"
     }
     
     // MARK: - Properties
@@ -120,13 +126,16 @@ private extension DiaryListViewController {
     }
     
     func configureDiaryListDataSource() {
-        diaryCollectionView.register(DiaryListCollectionViewCell.self, forCellWithReuseIdentifier: "DiaryListCell")
+        diaryCollectionView.register(
+            DiaryListCollectionViewCell.self,
+            forCellWithReuseIdentifier: LogicNameSpace.diaryCellIdentifier
+        )
         
         self.diaryListDiffableDataSource = UICollectionViewDiffableDataSource<Section,DiaryItem>(
             collectionView: self.diaryCollectionView,
             cellProvider: { collectionView, indexPath, itemIdentifier in
                 guard let diaryCell = collectionView.dequeueReusableCell(
-                    withReuseIdentifier: "DiaryListCell",
+                    withReuseIdentifier: LogicNameSpace.diaryCellIdentifier,
                     for: indexPath) as? DiaryListCollectionViewCell else {
                     return UICollectionViewCell()
                 }
