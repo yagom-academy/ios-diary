@@ -37,7 +37,7 @@ final class DiaryDetailViewController: UIViewController {
         dispalyDiaryDetailData()
     }
     
-    func recieveData(_ diaryItem: DiaryItem?) {
+    func receiveData(_ diaryItem: DiaryItem?) {
         self.diaryItem = diaryItem
     }
 }
