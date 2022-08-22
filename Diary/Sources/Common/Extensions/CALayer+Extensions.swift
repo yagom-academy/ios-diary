@@ -17,35 +17,31 @@ extension CALayer {
             let border = CALayer()
             switch edge {
             case UIRectEdge.top:
-                border.frame = CGRect.init(
+                border.frame = CGRect(
                     x: 8,
                     y: 0,
                     width: frame.width - 16,
                     height: width)
-                break
             case UIRectEdge.bottom:
-                border.frame = CGRect.init(
+                border.frame = CGRect(
                     x: 8,
                     y: frame.height - width,
                     width: frame.width - 16,
                     height: width
                 )
-                break
             case UIRectEdge.left:
-                border.frame = CGRect.init(
+                border.frame = CGRect(
                     x: 0,
                     y: 0,
                     width: width,
                     height: frame.height
                 )
-                break
             case UIRectEdge.right:
-                border.frame = CGRect.init(
+                border.frame = CGRect(
                     x: frame.width - width,
                     y: 0, width: width,
                     height: frame.height
                 )
-                break
             default:
                 break
             }

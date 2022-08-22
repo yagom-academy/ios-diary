@@ -11,7 +11,7 @@ struct DiaryDataManager {
     
     // MARK: - Properties
     
-    let temporarySampleData = NSDataAsset.init(name: "sample modify")
+    let temporarySampleData = NSDataAsset(name: "sample modify")
     
     // MARK: - Methods
     
