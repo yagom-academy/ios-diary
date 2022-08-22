@@ -10,9 +10,9 @@ import UIKit
 final class DiaryListView: UIView {
     // MARK: - Properties
     
-    var diaryModels: [DiaryModel]?
+    var diaryModels: [Diary]?
     
-    private var tableView: UITableView = {
+    var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)

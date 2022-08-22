@@ -26,7 +26,7 @@ final class DiaryListViewController: UIViewController {
     // MARK: - Methods
 
     private func setupDiaryListView() {
-        diaryListView.diaryModels = JsonParser.fetchData()
+        diaryListView.diaryModels = CoreDataManager.shared.fetchedDiaries
         configureDiaryListView()
     }
     
@@ -48,5 +48,11 @@ final class DiaryListViewController: UIViewController {
 
     @objc func addButtonDidTapped() {
         navigationController?.pushViewController(DiaryViewController(), animated: true)
+        CoreDataManager.shared.saveDiary(with: DiaryModel(title: "test", body: "", createdAt: 1608651333))
+    }
+    
+    @objc func updateData() {
+        diaryListView.diaryModels = CoreDataManager.shared.fetchedDiaries
+        diaryListView.tableView.reloadData()
     }
 }
