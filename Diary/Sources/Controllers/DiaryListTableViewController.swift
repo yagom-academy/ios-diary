@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class DiaryTableViewController: UIViewController {
+final class DiaryListTableViewController: UIViewController {
     private enum Section {
         case main
     }
@@ -102,7 +102,7 @@ final class DiaryTableViewController: UIViewController {
     }
 }
 
-extension DiaryTableViewController: UITableViewDelegate {
+extension DiaryListTableViewController: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
