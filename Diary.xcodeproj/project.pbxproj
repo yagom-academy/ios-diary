@@ -10,6 +10,7 @@
 		054A35BC28ADFFFB00360FAD /* DateFormatter + Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A35BB28ADFFFB00360FAD /* DateFormatter + Extention.swift */; };
 		05902FAB28ACB2AC00D0C39F /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05902FAA28ACB2AC00D0C39F /* DiaryTableViewCell.swift */; };
 		05E6899728B3C46A0070E50B /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6899628B3C46A0070E50B /* ReuseIdentifying.swift */; };
+		05E6899928B3CCB10070E50B /* SendDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6899828B3CCB10070E50B /* SendDataDelegate.swift */; };
 		424D493928AC814300402693 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 424D493828AC814300402693 /* .swiftlint.yml */; };
 		424D493B28ACB9A900402693 /* DiarySample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424D493A28ACB9A900402693 /* DiarySample.swift */; };
 		424D493D28ACBAB900402693 /* JSONData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 424D493C28ACBAB900402693 /* JSONData.swift */; };
@@ -26,6 +27,7 @@
 		054A35BB28ADFFFB00360FAD /* DateFormatter + Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter + Extention.swift"; sourceTree = "<group>"; };
 		05902FAA28ACB2AC00D0C39F /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		05E6899628B3C46A0070E50B /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
+		05E6899828B3CCB10070E50B /* SendDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataDelegate.swift; sourceTree = "<group>"; };
 		424D493828AC814300402693 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		424D493A28ACB9A900402693 /* DiarySample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySample.swift; sourceTree = "<group>"; };
 		424D493C28ACBAB900402693 /* JSONData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONData.swift; sourceTree = "<group>"; };
@@ -55,6 +57,7 @@
 			isa = PBXGroup;
 			children = (
 				05E6899628B3C46A0070E50B /* ReuseIdentifying.swift */,
+				05E6899828B3CCB10070E50B /* SendDataDelegate.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				054A35BC28ADFFFB00360FAD /* DateFormatter + Extention.swift in Sources */,
 				05902FAB28ACB2AC00D0C39F /* DiaryTableViewCell.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				05E6899928B3CCB10070E50B /* SendDataDelegate.swift in Sources */,
 				424D493D28ACBAB900402693 /* JSONData.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				424D493F28AD42DF00402693 /* DetailDiaryViewController.swift in Sources */,

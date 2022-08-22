@@ -8,7 +8,7 @@
 import UIKit
 
 final class DetailDiaryViewController: UIViewController {
-    var content: DiarySample?
+    private var content: DiarySample?
     
     let textView: UITextView = {
         let textView = UITextView()
@@ -17,20 +17,6 @@ final class DetailDiaryViewController: UIViewController {
 
         return textView
     }()
-    
-    init(content: DiarySample? = nil) {
-        super.init(
-            nibName: nil,
-            bundle: nil
-        )
-        
-        self.content = content
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        assertionFailure()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -104,5 +90,11 @@ final class DetailDiaryViewController: UIViewController {
         let keyboardHeight = keyboardRectangle.height
         
         textView.contentInset.bottom = keyboardHeight
+    }
+}
+
+extension DetailDiaryViewController: SendDataDelegate {
+    func sendData<T>(_ data: T) {
+        content = data as? DiarySample
     }
 }

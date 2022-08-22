@@ -108,8 +108,12 @@ extension DiaryListTableViewController: UITableViewDelegate {
         didSelectRowAt indexPath: IndexPath
     ) {
         let diaryContent = snapshot.itemIdentifiers[indexPath.item]
+        let detailDiaryViewController = DetailDiaryViewController()
+        weak var sendDataDelegate: (SendDataDelegate)? = detailDiaryViewController
+        
+        sendDataDelegate?.sendData(diaryContent)
         navigationController?.pushViewController(
-            DetailDiaryViewController(content: diaryContent),
+            detailDiaryViewController,
             animated: true
         )
     }
