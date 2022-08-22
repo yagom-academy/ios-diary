@@ -116,5 +116,7 @@ extension DiaryListTableViewController: UITableViewDelegate {
             detailDiaryViewController,
             animated: true
         )
+        
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
