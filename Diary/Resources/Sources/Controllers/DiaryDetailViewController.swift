@@ -34,7 +34,7 @@ final class DiaryDetailViewController: UIViewController {
         
         setupKeyboardWillShowNoification()
         
-        dispalyDiaryDetailData()
+        displayDiaryDetailData()
     }
     
     func receiveData(_ diaryItem: DiaryItem?) {

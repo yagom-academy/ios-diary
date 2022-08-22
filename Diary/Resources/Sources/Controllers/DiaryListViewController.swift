@@ -14,7 +14,7 @@ final class DiaryListViewController: UIViewController {
     
     // MARK: - Properties
     
-    private let dataManager = DataManager()
+    private let diaryDataManager = DiaryDataManager()
     
     private var diaryListDiffableDataSource: UICollectionViewDiffableDataSource<Section, DiaryItem>?
     
@@ -97,7 +97,10 @@ private extension DiaryListViewController {
     // MARK: - Configuring Model
     
     func fetchData() {
-        guard let parsedData = dataManager.parse(dataManager.temporarySampleData!.data, into: [DiaryItem].self) else {
+        guard let parsedData = diaryDataManager.parse(
+            diaryDataManager.temporarySampleData!.data,
+            into: [DiaryItem].self
+        ) else {
             return
         }
         var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryItem>()
@@ -112,7 +115,7 @@ private extension DiaryListViewController {
     
     func pushDiaryDetailViewController(with diaryItem: DiaryItem? = nil) {
         let diaryDetailViewController = DiaryDetailViewController()
-        diaryDetailViewController.recieveData(diaryItem)
+        diaryDetailViewController.receiveData(diaryItem)
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     

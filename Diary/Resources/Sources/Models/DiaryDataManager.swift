@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct DataManager {
+struct DiaryDataManager {
     
     // MARK: - Properties
     
