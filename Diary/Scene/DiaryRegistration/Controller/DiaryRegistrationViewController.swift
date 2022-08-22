@@ -21,7 +21,33 @@ final class DiaryRegistrationViewController: UIViewController {
         keyboardManager.addNotificationObserver()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        NotificationCenter.default.post(name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        keyboardManager.removeNotificationObserver()
+        let title = popTitle()
+        var diarys = Diarys()
+        let newDiary = DiaryModel(title: title, body: textView.text, createdAt: Date().timeIntervalSince1970)
+        
+        diarys.diary.append(newDiary)
+    }
+    
     // MARK: - functions
+    
+    private func popTitle() -> String {
+        if textView.text == "" { return "" }
+        
+        let textSeparater = String(textView.text.split(separator: "\n")[0])
+        for _ in 0...textSeparater.count {
+            textView.text.removeFirst()
+        }
+        
+        return textSeparater
+    }
     
     private func setupView() {
         view.backgroundColor = .systemBackground

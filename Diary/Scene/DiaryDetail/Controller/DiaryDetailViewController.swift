@@ -24,7 +24,7 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        keyboardManager.removeNotificationObserer()
+        keyboardManager.removeNotificationObserver()
     }
     
     // MARK: - functions

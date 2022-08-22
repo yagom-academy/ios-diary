@@ -33,7 +33,7 @@ final class KeyboardManager {
                                                object: nil)
     }
     
-    func removeNotificationObserer() {
+    func removeNotificationObserver() {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
         
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)

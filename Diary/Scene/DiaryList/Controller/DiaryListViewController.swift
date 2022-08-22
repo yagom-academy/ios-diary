@@ -20,6 +20,7 @@ final class DiaryListViewController: UIViewController {
     private var diaryCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, DiaryModel>?
     private var diaryInfomation: [DiaryModel] = []
+    private var diaryData = Diarys()
     
     // MARK: - life cycles
     
@@ -27,7 +28,25 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupDataSource()
-        setupSnapshot(with: fetch())
+        
+        receiveData()
+        setupSnapshot(with: diaryData.diary)
+    }
+    
+    private func receiveData() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(onDidReceiveData(_:)),
+            name: .didReceiveData,
+            object: nil
+        )
+    }
+    
+    @objc private func onDidReceiveData(_ notification: Notification) {
+        if let data = notification.userInfo?["diary"] as? [DiaryModel] {
+            diaryInfomation = data
+            setupSnapshot(with: diaryInfomation)
+        }
     }
     
     // MARK: - functions
@@ -104,21 +123,13 @@ final class DiaryListViewController: UIViewController {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }
-    
-    private func fetch() -> [DiaryModel] {
-        guard let data = NSDataAsset(name: Design.NSDataAsset)?.data,
-              let decodedData = try? JSONDecoder().decode([DiaryModel].self, from: data)
-        else { return [] }
-        
-        return decodedData
-    }
+   
     
     private func setupDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, DiaryModel>
         {
             (cell, indexPath, identifier) in
             cell.setupCellProperties(with: identifier)
-            self.diaryInfomation.append(identifier)
         }
         
         guard let collectionView = diaryCollectionView else { return }
@@ -134,6 +145,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupSnapshot(with jsonModel: [DiaryModel]) {
+        diaryInfomation = jsonModel
         var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(jsonModel)
@@ -195,4 +207,8 @@ private enum Design {
                                                            leading: 10,
                                                            bottom: 10,
                                                            trailing: 10)
+}
+
+extension Notification.Name {
+    static let didReceiveData = Notification.Name("didReceiveData")
 }
