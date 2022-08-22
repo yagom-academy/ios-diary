@@ -39,23 +39,41 @@ class MainViewController: UIViewController {
     private func configureView() {
         view.backgroundColor = .white
         navigationItem.title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(touchAddButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "plus"),
+            style: .plain,
+            target: self,
+            action: #selector(touchAddButton)
+        )
         view.addSubview(diaryTableView)
         setConstraint()
     }
     
     private func setConstraint() {
         NSLayoutConstraint.activate([
-            diaryTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            diaryTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            diaryTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            diaryTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            diaryTableView.topAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.topAnchor
+            ),
+            diaryTableView.bottomAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.bottomAnchor
+            ),
+            diaryTableView.leadingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.leadingAnchor
+            ),
+            diaryTableView.trailingAnchor.constraint(
+                equalTo: view.safeAreaLayoutGuide.trailingAnchor
+            )
         ])
     }
     
     private func configureDataSource() {
-        dataSource = DiffableDataSource(tableView: diaryTableView, cellProvider: { tableView, indexPath, itemIdentifier in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "DiaryTableViewCell", for: indexPath) as? DiaryTableViewCell else {
+        dataSource = DiffableDataSource(
+            tableView: diaryTableView,
+            cellProvider: { tableView, indexPath, itemIdentifier in
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: "DiaryTableViewCell",
+                for: indexPath
+            ) as? DiaryTableViewCell else {
                 return nil
             }
             
@@ -79,8 +97,14 @@ class MainViewController: UIViewController {
 }
 
 extension MainViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
         let diaryContent = snapshot.itemIdentifiers[indexPath.item]
-        navigationController?.pushViewController(DetailDiaryViewController(content: diaryContent), animated: true)
+        navigationController?.pushViewController(
+            DetailDiaryViewController(content: diaryContent),
+            animated: true
+        )
     }
 }

@@ -22,7 +22,10 @@ class DiaryTableViewCell: UITableViewCell {
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(
+            .required,
+            for: .horizontal
+        )
         
         return label
     }()
@@ -58,8 +61,14 @@ class DiaryTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(
+        style: UITableViewCell.CellStyle,
+        reuseIdentifier: String?
+    ) {
+        super.init(
+            style: style,
+            reuseIdentifier: reuseIdentifier
+        )
         
         setConstraint()
         accessoryType = .disclosureIndicator
@@ -71,7 +80,9 @@ class DiaryTableViewCell: UITableViewCell {
     
     func setComponents(item: DiarySample) {
         diaryTitleLabel.text = item.title
-        diaryDateLabel.text = DateFormatter().format(data: Date(timeIntervalSince1970: item.createdAt))
+        diaryDateLabel.text = DateFormatter().format(
+            data: Date(timeIntervalSince1970: item.createdAt)
+        )
         diaryPreviewLabel.text = item.body
     }
     
@@ -85,10 +96,22 @@ class DiaryTableViewCell: UITableViewCell {
         bottomHorizontalStackView.addArrangedSubview(diaryPreviewLabel)
         
         NSLayoutConstraint.activate([
-            entireVerticalStackView.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor, constant: 5),
-            entireVerticalStackView.trailingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.trailingAnchor, constant: -15),
-            entireVerticalStackView.bottomAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.bottomAnchor, constant: -5),
-            entireVerticalStackView.leadingAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leadingAnchor, constant: 15)
+            entireVerticalStackView.topAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.topAnchor,
+                constant: 5
+            ),
+            entireVerticalStackView.trailingAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.trailingAnchor,
+                constant: -15
+            ),
+            entireVerticalStackView.bottomAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.bottomAnchor,
+                constant: -5
+            ),
+            entireVerticalStackView.leadingAnchor.constraint(
+                equalTo: contentView.safeAreaLayoutGuide.leadingAnchor,
+                constant: 15
+            )
         ])
     }
 }

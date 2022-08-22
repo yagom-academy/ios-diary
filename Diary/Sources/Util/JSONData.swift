@@ -15,7 +15,10 @@ struct JSONData {
             return nil
         }
         
-        let data = try? jsonDecoder.decode(T.self, from: dataAsset.data)
+        let data = try? jsonDecoder.decode(
+            T.self,
+            from: dataAsset.data
+        )
         
         return data
     }

@@ -19,7 +19,10 @@ class DetailDiaryViewController: UIViewController {
     }()
     
     init(content: DiarySample? = nil) {
-        super.init(nibName: nil, bundle: nil)
+        super.init(
+            nibName: nil,
+            bundle: nil
+        )
         
         self.content = content
     }
@@ -75,7 +78,7 @@ class DetailDiaryViewController: UIViewController {
     }
     
     @objc private func keyBoardShow(notification: NSNotification) {
-        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
+        guard let userInfo = notification.userInfo as? NSDictionary else {
             return
         }
         
