@@ -14,12 +14,14 @@ final class DiaryDetailView: UIView {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .preferredFont(forTextStyle: .body)
+        textView.keyboardDismissMode = .interactive
+        textView.alwaysBounceVertical = true
         
         return textView
     }()
-
+    
     // MARK: - initializer
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
@@ -31,7 +33,7 @@ final class DiaryDetailView: UIView {
     }
     
     // MARK: - methods
-
+    
     func configureDetailTextView(ofText: String?) {
         detailTextView.text = ofText
         detailTextView.contentOffset = CGPoint(x: 0, y: 0)
@@ -45,12 +47,12 @@ final class DiaryDetailView: UIView {
         configureView()
         configureViewLayouts()
     }
-
+    
     private func configureView() {
         addSubview(detailTextView)
         translatesAutoresizingMaskIntoConstraints = false
     }
-
+    
     private func configureViewLayouts() {
         NSLayoutConstraint.activate([
             detailTextView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
