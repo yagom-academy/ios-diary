@@ -82,7 +82,9 @@ final class DetailDiaryViewController: UIViewController {
             return
         }
         
-        guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+        guard let keyboardFrame = userInfo.value(
+            forKey: UIResponder.keyboardFrameEndUserInfoKey
+        ) as? NSValue else {
             return
         }
         

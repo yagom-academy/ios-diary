@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class MainViewController: UIViewController {
+final class DiaryTableViewController: UIViewController {
     private enum Section {
         case main
     }
@@ -16,7 +16,10 @@ final class MainViewController: UIViewController {
     private var snapshot = NSDiffableDataSourceSnapshot<Section, DiarySample>()
     private let diaryTableView: UITableView = {
         let tableView = UITableView()
-        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: "DiaryTableViewCell")
+        tableView.register(
+            DiaryTableViewCell.self,
+            forCellReuseIdentifier: "DiaryTableViewCell"
+        )
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
@@ -33,7 +36,10 @@ final class MainViewController: UIViewController {
     }
     
     @objc func touchAddButton() {
-        navigationController?.pushViewController(DetailDiaryViewController(), animated: true)
+        navigationController?.pushViewController(
+            DetailDiaryViewController(),
+            animated: true
+        )
     }
     
     private func configureView() {
@@ -96,7 +102,7 @@ final class MainViewController: UIViewController {
     }
 }
 
-extension MainViewController: UITableViewDelegate {
+extension DiaryTableViewController: UITableViewDelegate {
     func tableView(
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
