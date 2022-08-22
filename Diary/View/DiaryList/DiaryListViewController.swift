@@ -72,6 +72,24 @@ final class DiaryListViewController: UIViewController {
             diaryListTableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             diaryListTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
+        
+        
+    private func registerNotificationForTableView() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadTableView),
+                                               name: .diaryContent,
+                                               object: nil)
+    }
+    
+    @objc private func reloadTableView() {
+        DispatchQueue.main.async { [weak self] in
+            guard let data = self?.diaryListViewModel.diaryContents as? [DiaryContent] else {
+                return
+            }
+            
+            self?.updateDataSource(data: data)
+            self?.diaryListTableView.reloadData()
+        }
     }
     
     @objc private func didTappedAddButton() {
