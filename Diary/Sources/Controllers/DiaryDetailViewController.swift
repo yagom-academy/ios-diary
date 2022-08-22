@@ -98,13 +98,12 @@ private extension DiaryDetailViewController {
     }
     
     @objc func keyboardWillShow(_ sender: Notification) {
-        let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue
+        let keyboardFrame = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
         guard let keyboardFrame = keyboardFrame else {
             return
         }
         
-        let keyboardHeight: CGFloat = keyboardFrame.cgRectValue.height + 50
-        
+        let keyboardHeight: CGFloat = keyboardFrame.height + 50
         contentTextView.contentInset.bottom = keyboardHeight
     }
 }
