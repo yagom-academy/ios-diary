@@ -54,15 +54,15 @@ final class ManageDiaryViewController: UIViewController {
         }
     }
     
-    private func saveDiary() {
+    @objc func saveDiary() {
         guard let diary = manageDiaryView.convertDiaryItem(with: id) else { return }
-
         CoreDataManager.shared.saveDiary(item: diary)
     }
-
+    
     private func addNotificationObserver() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     @objc private func optionButtonDidTapped() {
@@ -91,6 +91,6 @@ final class ManageDiaryViewController: UIViewController {
     
     @objc private func keyboardWillHide() {
         manageDiaryView.adjustContentInset(height: 0)
+        saveDiary()
     }
-    
 }

@@ -15,6 +15,7 @@ final class ManageDiaryView: UIView {
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.keyboardType = .default
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        textView.keyboardDismissMode = .onDrag
         return textView
     }()
     
