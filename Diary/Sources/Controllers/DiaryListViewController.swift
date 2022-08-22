@@ -41,7 +41,7 @@ final class DiaryListViewController: UIViewController {
         configureRootViewUI()
         configureCollectionView()
         configureDiaryListDataSource()
-        fetchData()
+        fetchDiaryItemData()
     }
 }
 
@@ -102,13 +102,14 @@ private extension DiaryListViewController {
     
     // MARK: - Configuring Model
     
-    func fetchData() {
+    func fetchDiaryItemData() {
         guard let parsedData = diaryDataManager.parse(
             diaryDataManager.temporarySampleData!.data,
             into: [DiaryItem].self
         ) else {
             return
         }
+        
         var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems(parsedData)
