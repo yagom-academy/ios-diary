@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryView: UIView {
+final class DiaryView: UIView {
     private lazy var diaryTextViewBottomConstraint = diaryTextView.bottomAnchor.constraint(
         equalTo: safeAreaLayoutGuide.bottomAnchor
     )
@@ -42,7 +42,8 @@ class DiaryView: UIView {
     
     func changeTextViewBottomAutoLayout(_ keyboardHeight: CGFloat = 0) {
         self.diaryTextViewBottomConstraint.isActive = false
-        self.diaryTextViewBottomConstraint = diaryTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -keyboardHeight)
+        self.diaryTextViewBottomConstraint = diaryTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor,
+                                                                                   constant: -keyboardHeight)
         self.diaryTextViewBottomConstraint.isActive = true
     }
 }

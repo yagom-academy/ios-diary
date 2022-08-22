@@ -27,22 +27,6 @@ final class DiaryViewController: UIViewController {
         self.removeRegisterForKeyboardNotification()
     }
     
-    @objc private func keyBoardShow(notification: NSNotification) {
-        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary,
-              let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
-            return
-        }
-       
-        let keyboardRectangle = keyboardFrame.cgRectValue
-        let keyboardHeight = keyboardRectangle.height
-        
-        self.diaryView.changeTextViewBottomAutoLayout(keyboardHeight)
-    }
-    
-    @objc private func keyBoardDownAction(_ sender: Notification) {
-        self.diaryView.changeTextViewBottomAutoLayout()
-    }
-    
     private func setupNavigationbar() {
         let date = Date().formatted("yyyy년 MM월 dd일")
         self.navigationItem.title = date
@@ -66,5 +50,21 @@ final class DiaryViewController: UIViewController {
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillHideNotification,
                                                   object: nil)
+    }
+    
+    @objc private func keyBoardShow(notification: NSNotification) {
+        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary,
+              let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+            return
+        }
+       
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        let keyboardHeight = keyboardRectangle.height
+        
+        self.diaryView.changeTextViewBottomAutoLayout(keyboardHeight)
+    }
+    
+    @objc private func keyBoardDownAction(_ sender: Notification) {
+        self.diaryView.changeTextViewBottomAutoLayout()
     }
 }
