@@ -37,12 +37,25 @@ final class DiaryDetailViewController: UIViewController {
         setupContentViewData()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        removeKeyboardWillShowNoification()
+    }
+}
+
+extension DiaryDetailViewController {
+    
+    // MARK: - Methods
+    
     func receiveData(_ diaryItem: DiaryItem?) {
         self.diaryItem = diaryItem
     }
 }
 
 private extension DiaryDetailViewController {
+    
+    // MARK: - Private Methods
+    
+    // MARK: Configuring UI
     
     func configureRootViewUI() {
         self.view.backgroundColor = .systemBackground
@@ -67,6 +80,8 @@ private extension DiaryDetailViewController {
         ])
     }
     
+    // MARK: Configuring Model
+    
     func setupContentViewData() {
         let currentDiaryContent = createTextViewContent(diaryItem)
         displayDiaryDetailData(with: currentDiaryContent)
@@ -88,10 +103,20 @@ private extension DiaryDetailViewController {
         """
     }
     
+    // MARK: Setting Keyboard
+    
     func setupKeyboardWillShowNoification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow(_:)),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+    }
+    
+    func removeKeyboardWillShowNoification() {
+        NotificationCenter.default.removeObserver(
+            self,
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
