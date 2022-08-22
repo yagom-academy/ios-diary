@@ -67,7 +67,7 @@ private extension DiaryDetailViewController {
         ])
     }
     
-    func dispalyDiaryDetailData() {
+    func displayDiaryDetailData() {
         guard let diaryItem = diaryItem else {
             return
         }
