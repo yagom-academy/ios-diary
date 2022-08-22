@@ -11,7 +11,7 @@ class DiaryDetailViewController: UIViewController {
     // MARK: - properties
     
     private let diaryDetailView = DiaryDetailView()
-    private var diaryDetailData: DiaryTestData?
+    private var diaryDetailData: DiaryModel?
     
     // MARK: - view life cycle
     
@@ -98,6 +98,6 @@ class DiaryDetailViewController: UIViewController {
 
 extension DiaryDetailViewController: DataSendable {
     func dataTask<T>(data: T) {
-        diaryDetailData = data as? DiaryTestData
+        diaryDetailData = data as? DiaryModel
     }
 }

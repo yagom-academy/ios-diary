@@ -20,7 +20,7 @@ class DiaryTests: XCTestCase {
     func test_Json_데이터_디코딩이_되는지() {
         // given
         let data = NSDataAsset(name: "testSample")
-        guard let decodedData = try? JSONDecoder().decode(DiaryTestData.self,
+        guard let decodedData = try? JSONDecoder().decode(DiaryModel.self,
                                                           from: data?.data ?? Data()) else { return }
         let title = decodedData.title
 
