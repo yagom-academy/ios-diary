@@ -15,11 +15,8 @@ class CoreDataManager {
         
     }
     
-    func saveDiary(item: DiaryItem) {
+    func updateDiary(item: DiaryItem, with diaryEntity: DiaryEntity) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let context = appDelegate.persistentContainer.viewContext
-        
-        let diaryEntity = DiaryEntity(context: context)
         
         diaryEntity.setValue(item.title, forKey: "title")
         diaryEntity.setValue(item.body, forKey: "body")
@@ -40,5 +37,24 @@ class CoreDataManager {
             print(error.localizedDescription)
         }
         return nil
+    }
+    
+    func saveDiary(item: DiaryItem) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "DiaryEntity")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", item.id as CVarArg)
+        
+        do {
+            guard let diaryUpdate = try context.fetch(fetchRequest).last as? DiaryEntity else {
+                let diaryEntity = DiaryEntity(context: context)
+                updateDiary(item: item, with: diaryEntity)
+                return
+            }
+            updateDiary(item: item, with: diaryUpdate)
+            
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
