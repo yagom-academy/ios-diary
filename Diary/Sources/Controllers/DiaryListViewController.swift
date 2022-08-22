@@ -106,7 +106,7 @@ private extension DiaryListViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryItem>()
         snapshot.appendSections([.main])
         snapshot.appendItems(parsedData)
-        self.diaryListDiffableDataSource?.apply(snapshot)
+        diaryListDiffableDataSource?.apply(snapshot)
     }
     
     @objc func rightBarButtonDidTap() {
