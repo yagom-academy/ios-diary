@@ -21,16 +21,28 @@ final class CoreDataManager {
         })
         return container
     }()
-
+    
     // MARK: - Create
-    func saveContext() {
+    @discardableResult
+    func insertContext(data: DiaryContent) -> Bool {
         let context = persistentContainer.viewContext
-        if context.hasChanges {
+        let entity = NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context)
+        
+        if let entity = entity {
+            let managedObject = NSManagedObject(entity: entity, insertInto: context)
+            
+            managedObject.setValue(data.title, forKey: "title")
+            managedObject.setValue(data.body, forKey: "body")
+            managedObject.setValue(data.createdAt, forKey: "createdAt")
+            
             do {
                 try context.save()
+                return true
             } catch {
-                #warning("추후 개발")
+                return false
             }
+        } else {
+            return false
         }
     }
     
