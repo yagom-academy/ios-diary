@@ -7,13 +7,13 @@
 import UIKit
 import CoreData
 
-class CoreDataManager {
+final class CoreDataManager {
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private lazy var context = appDelegate.persistentContainer.viewContext
     static let shared = CoreDataManager()
     private init() {}
     
-    func createItem(with model: DiaryModel) {
+    func saveDiary(with model: DiaryModel) {
         let newItem = Diary(context: context)
         newItem.setValue(model.title, forKey: "title")
         newItem.setValue(model.body, forKey: "body")
@@ -25,22 +25,38 @@ class CoreDataManager {
         }
     }
     
-    func getAllItems() -> [Diary] {
-        var diarys: [Diary] = []
+    func fetchDiaries() -> [Diary] {
+        var diaries: [Diary] = []
         do {
-            diarys = try context.fetch(Diary.fetchRequest())
+            diaries = try context.fetch(Diary.fetchRequest())
         } catch {
             print(error)
         }
-        return diarys
+        return diaries
     }
     
-    func delete(item: Diary) {
-        context.delete(item)
+    func delete(diary: Diary) {
+        context.delete(diary)
         do {
             try context.save()
         } catch {
             print(error)
+        }
+    }
+    
+    func update(diary: DiaryModel, with indexPath: Int) {
+        let fetchData = fetchDiaries()
+        
+        guard fetchData[indexPath].title != diary.title || fetchData[indexPath].body != diary.body || fetchData[indexPath].createdAt != diary.createdAt else { return }
+        
+        fetchData[indexPath].title = diary.title
+        fetchData[indexPath].body = diary.body
+        fetchData[indexPath].createdAt = diary.createdAt
+        
+        do {
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }
