@@ -92,4 +92,12 @@ extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.performSegue(withIdentifier: "ManageDiarySegue", sender: diaryItems[indexPath.row])
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            CoreDataManager.shared.deleteDiary(id: diaryItems[indexPath.row].id)
+            fetchData()
+            diaryListTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }

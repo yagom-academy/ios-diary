@@ -30,9 +30,7 @@ final class ManageDiaryViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if viewMode == .add {
-            saveDiary()
-        }
+        saveDiary()
     }
     
     func getDiaryData(data: DiaryItem) {
@@ -71,7 +69,16 @@ final class ManageDiaryViewController: UIViewController {
             
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            let confirmAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+            let noAction = UIAlertAction(title: "취소", style: .cancel)
+            let yesAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                CoreDataManager.shared.deleteDiary(id: self.id)
+                self.navigationController?.popViewController(animated: true)
+            }
             
+            confirmAlert.addAction(noAction)
+            confirmAlert.addAction(yesAction)
+            self.present(confirmAlert, animated: true)
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
