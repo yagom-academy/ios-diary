@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryTableViewCell: UITableViewCell {
+final class DiaryTableViewCell: UITableViewCell {
     private let diaryTitleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
