@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryViewController: UIViewController {
+final class DiaryViewController: UIViewController {
     
     private let diaryView = DiaryView()
     
@@ -18,7 +18,7 @@ class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-        self.setNavigationbar()
+        self.setupNavigationbar()
         self.registerForKeyboardNotification()
     }
     
@@ -43,7 +43,7 @@ class DiaryViewController: UIViewController {
         self.diaryView.changeTextViewBottomAutoLayout()
     }
     
-    private func setNavigationbar() {
+    private func setupNavigationbar() {
         let date = Date().formatted("yyyy년 MM월 dd일")
         self.navigationItem.title = date
     }
