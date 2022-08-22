@@ -10,6 +10,13 @@ import CoreData
 final class CoreDataManager {
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private lazy var context = appDelegate.persistentContainer.viewContext
+    var fetchedDiaries: [Diary] = [] {
+        didSet {
+            if fetchedDiaries != oldValue {
+                NotificationCenter.default.post(name: .changeDiaries, object: nil)
+            }
+        }
+    }
     static let shared = CoreDataManager()
     private init() {}
     

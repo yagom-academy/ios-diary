@@ -17,6 +17,10 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         setupDiaryListView()
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateData),
+                                               name: .changeDiaries,
+                                               object: nil)
     }
     
     // MARK: - Methods
