@@ -11,9 +11,7 @@ import UIKit
 class CoreDataManager {
     static let shared = CoreDataManager()
     
-    private init() {
-        
-    }
+    private init() { }
     
     func updateDiary(item: DiaryItem, with diaryEntity: DiaryEntity) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
@@ -56,5 +54,21 @@ class CoreDataManager {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func deleteDiary(id: UUID) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "DiaryEntity")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+        
+        do {
+            guard let diaryDelete = try context.fetch(fetchRequest).last as? NSManagedObject else { return }
+            context.delete(diaryDelete)
+        } catch {
+            print(error.localizedDescription)
+        }
+       
+        appDelegate.saveContext()
     }
 }
