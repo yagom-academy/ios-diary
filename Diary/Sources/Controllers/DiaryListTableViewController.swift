@@ -36,13 +36,6 @@ final class DiaryListTableViewController: UIViewController {
         diaryTableView.delegate = self
     }
     
-    @objc func touchAddButton() {
-        navigationController?.pushViewController(
-            DetailDiaryViewController(),
-            animated: true
-        )
-    }
-    
     private func configureAttributes() {
         view.backgroundColor = .white
         navigationItem.title = "일기장"
@@ -53,6 +46,13 @@ final class DiaryListTableViewController: UIViewController {
             action: #selector(touchAddButton)
         )
         view.addSubview(diaryTableView)
+    }
+    
+    @objc func touchAddButton() {
+        navigationController?.pushViewController(
+            DetailDiaryViewController(),
+            animated: true
+        )
     }
     
     private func configureLayout() {
