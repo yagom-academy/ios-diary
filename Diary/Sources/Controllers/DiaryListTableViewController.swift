@@ -18,7 +18,7 @@ final class DiaryListTableViewController: UIViewController {
         let tableView = UITableView()
         tableView.register(
             DiaryTableViewCell.self,
-            forCellReuseIdentifier: "DiaryTableViewCell"
+            forCellReuseIdentifier: DiaryTableViewCell.reuseIdentifier
         )
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
