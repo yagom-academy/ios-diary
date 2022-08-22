@@ -86,7 +86,7 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
         ])
     }
     
-    func fetchJsonData(data: SampleJson) {
+    func configureContent(data: SampleDiaryContent) {
         let date = Date(timeIntervalSince1970: TimeInterval(data.createdAt)).formatted("yyyy년 MM월 dd일")
         
         self.diaryTitle.text = data.title

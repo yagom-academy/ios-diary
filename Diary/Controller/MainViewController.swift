@@ -9,7 +9,7 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    private let sampleDiary: [SampleJson]? = JSONDecoder.decodedJson(jsonName: "sample")
+    private let sampleDiary: [SampleDiaryContent]? = JSONDecoder.decodedJson(jsonName: "sample")
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
@@ -66,7 +66,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         
         guard let sampleDiary = sampleDiary else { return UITableViewCell() }
         
-        cell.fetchJsonData(data: sampleDiary[indexPath.row])
+        cell.configureContent(data: sampleDiary[indexPath.row])
         return cell
     }
 }

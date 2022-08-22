@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SampleJson: Decodable {
+struct SampleDiaryContent: Decodable {
     let title, body: String
     let createdAt: Int
 
