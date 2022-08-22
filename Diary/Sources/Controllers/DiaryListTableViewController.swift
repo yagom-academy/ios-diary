@@ -32,12 +32,11 @@ final class DiaryListTableViewController: UIViewController {
         configureLayout()
         configureDataSource()
         configureSnapshot()
-        
-        diaryTableView.delegate = self
     }
     
     private func configureAttributes() {
         view.backgroundColor = .white
+        view.addSubview(diaryTableView)
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "plus"),
@@ -45,7 +44,8 @@ final class DiaryListTableViewController: UIViewController {
             target: self,
             action: #selector(touchAddButton)
         )
-        view.addSubview(diaryTableView)
+        
+        diaryTableView.delegate = self
     }
     
     @objc func touchAddButton() {

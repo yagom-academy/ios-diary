@@ -78,7 +78,6 @@
 				05F9E60928B361D700FB130D /* Controllers */,
 				05F9E60828B361D000FB130D /* Views */,
 				05F9E60728B361C800FB130D /* Models */,
-				05F9E60528B361AE00FB130D /* Common */,
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
 			);
@@ -130,6 +129,7 @@
 		05F9E60A28B3630D00FB130D /* Util */ = {
 			isa = PBXGroup;
 			children = (
+				05F9E60528B361AE00FB130D /* Common */,
 				424D493C28ACBAB900402693 /* JSONData.swift */,
 			);
 			path = Util;

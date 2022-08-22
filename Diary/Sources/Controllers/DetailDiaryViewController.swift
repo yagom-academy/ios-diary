@@ -21,14 +21,14 @@ final class DetailDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNavigationItemTitle()
+        configureNavigationItemTitle()
         configureAttributes()
         configureLayout()
         configureTextView()
         registerForKeyboardNotification()
     }
     
-    private func setNavigationItemTitle() {
+    private func configureNavigationItemTitle() {
         let time = content?.createdAt ?? Date().timeIntervalSince1970
         let date = Date(timeIntervalSince1970: time)
         
