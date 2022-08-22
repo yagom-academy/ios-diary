@@ -68,6 +68,7 @@
 			children = (
 				C739AE35284DF28600741E8F /* Info.plist */,
 				FD8ED62C28AB7A3600F631F2 /* Resources */,
+				FD8ED62B28AB7A1C00F631F2 /* Sources */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -108,7 +109,6 @@
 			children = (
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-				FD8ED62B28AB7A1C00F631F2 /* Sources */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -135,8 +135,7 @@
 			children = (
 				FD8ED63F28ACF17D00F631F2 /* DiaryListCollectionViewCell.swift */,
 			);
-			name = Views;
-			path = ../Views;
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
