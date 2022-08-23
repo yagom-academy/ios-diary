@@ -12,6 +12,7 @@ final class DiaryContentsViewController: UIViewController {
     // MARK: - Properties
     
     private let diaryContentView = DiaryContentView()
+    private var creationDate: Date?
     var diary: Diary?
     var isEditingMemo: Bool = false
     
@@ -27,6 +28,8 @@ final class DiaryContentsViewController: UIViewController {
 
         configureUI()
         configureNotificationCenter()
+        configureCreationDate()
+    }
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
@@ -110,6 +113,15 @@ final class DiaryContentsViewController: UIViewController {
     @objc func resignActive() {
         handleCRUD()
     }
+    
+    private func configureCreationDate() {
+        guard let diary = diary else {
+            creationDate = Date()
+            return
+        }
+        creationDate = diary.createdAt
+    }
+    
     private func handleCRUD() {
         guard let (title, body) = extractTitleAndBody(),
               let creationDate = creationDate else {
