@@ -43,7 +43,9 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc func addButtonDidTapped() {
-        navigationController?.pushViewController(DiaryViewController(), animated: true)
+        let diaryViewController = DiaryViewController()
+        diaryViewController.mode = .create
+        navigationController?.pushViewController(diaryViewController, animated: true)
     }
 }
 
@@ -53,11 +55,13 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryViewController = DiaryViewController()
         let attributedString = setAttributedString(indexPath: indexPath.row)
-        
+
         diaryViewController.diaryView.diaryTextView.text = nil
         diaryViewController.diaryView.diaryTextView.textColor = .black
         diaryViewController.diaryView.diaryTextView.attributedText = attributedString
         
+        diaryViewController.indexPath = indexPath
+        diaryViewController.mode = .modify
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     

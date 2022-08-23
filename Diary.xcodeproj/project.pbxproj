@@ -17,6 +17,8 @@
 		AF845ACC28AC7747001CA526 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF845ACB28AC7747001CA526 /* JsonParser.swift */; };
 		AFA8A10E28AC96AA006B8FF3 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA8A10D28AC96AA006B8FF3 /* DiaryViewController.swift */; };
 		AFA8A11028AC995B006B8FF3 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA8A10F28AC995B006B8FF3 /* DiaryView.swift */; };
+		AFE5520028B4BEC000827024 /* PageMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE551FF28B4BEC000827024 /* PageMode.swift */; };
+		AFE5520228B4CCA000827024 /* Extension+Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE5520128B4CCA000827024 /* Extension+Notification.Name.swift */; };
 		AFFC3E6E28B34BD600532B16 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFC3E6C28B34BD600532B16 /* Diary+CoreDataProperties.swift */; };
 		AFFC3E6F28B34BD600532B16 /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFC3E6D28B34BD600532B16 /* Diary+CoreDataClass.swift */; };
 		AFFC3E7228B34D5F00532B16 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFC3E7128B34D5F00532B16 /* CoreDataManager.swift */; };
@@ -41,6 +43,8 @@
 		AF845ACB28AC7747001CA526 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
 		AFA8A10D28AC96AA006B8FF3 /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		AFA8A10F28AC995B006B8FF3 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
+		AFE551FF28B4BEC000827024 /* PageMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMode.swift; sourceTree = "<group>"; };
+		AFE5520128B4CCA000827024 /* Extension+Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Notification.Name.swift"; sourceTree = "<group>"; };
 		AFFC3E6C28B34BD600532B16 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AFFC3E6D28B34BD600532B16 /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AFFC3E7128B34D5F00532B16 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -99,6 +103,7 @@
 				AF845AC928AC7622001CA526 /* DiaryModel.swift */,
 				AF845ACB28AC7747001CA526 /* JsonParser.swift */,
 				8F06109428ACC5BD004ACBC2 /* NameSpace.swift */,
+				AFE551FF28B4BEC000827024 /* PageMode.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -107,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				8F06107928AC8995004ACBC2 /* TimeInterval+Extension.swift */,
+				AFE5520128B4CCA000827024 /* Extension+Notification.Name.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -289,11 +295,13 @@
 				AFFC3E7228B34D5F00532B16 /* CoreDataManager.swift in Sources */,
 				8F06109528ACC5BD004ACBC2 /* NameSpace.swift in Sources */,
 				AFFC3E6E28B34BD600532B16 /* Diary+CoreDataProperties.swift in Sources */,
+				AFE5520228B4CCA000827024 /* Extension+Notification.Name.swift in Sources */,
 				AF845ACA28AC7622001CA526 /* DiaryModel.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				8F06107A28AC8995004ACBC2 /* TimeInterval+Extension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				AFFC3E6F28B34BD600532B16 /* Diary+CoreDataClass.swift in Sources */,
+				AFE5520028B4BEC000827024 /* PageMode.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				AF845ACC28AC7747001CA526 /* JsonParser.swift in Sources */,
 				8F06109328ACC122004ACBC2 /* DiaryListView.swift in Sources */,
