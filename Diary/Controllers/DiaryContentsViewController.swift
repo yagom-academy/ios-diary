@@ -27,6 +27,10 @@ final class DiaryContentsViewController: UIViewController {
 
         configureUI()
         configureNotificationCenter()
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        handleCRUD()
     }
     
     // MARK: - Methods
@@ -59,14 +63,24 @@ final class DiaryContentsViewController: UIViewController {
     }
     
     private func configureNotificationCenter() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(resignActive),
+            name: UIApplication.willResignActiveNotification,
+            object: nil
+        )
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -89,6 +103,13 @@ final class DiaryContentsViewController: UIViewController {
         
         diaryContentView.textView.contentInset = contentInset
         diaryContentView.textView.scrollIndicatorInsets = contentInset
+        
+        handleCRUD()
+    }
+    
+    @objc func resignActive() {
+        handleCRUD()
+    }
     private func handleCRUD() {
         guard let (title, body) = extractTitleAndBody(),
               let creationDate = creationDate else {
