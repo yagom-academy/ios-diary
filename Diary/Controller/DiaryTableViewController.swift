@@ -92,12 +92,42 @@ extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.performSegue(withIdentifier: "ManageDiarySegue", sender: diaryItems[indexPath.row])
     }
-    
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            CoreDataManager.shared.deleteDiary(id: diaryItems[indexPath.row].id)
-            fetchData()
-            diaryListTableView.deleteRows(at: [indexPath], with: .fade)
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
+            let shareText = self.diaryItems[indexPath.row]
+            var shareObject = [Any]()
+            
+            shareObject.append(shareText.title + shareText.body)
+            
+            let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            
+            self.present(activityViewController, animated: true, completion: nil)
         }
+       
+        shareAction.backgroundColor = .systemBlue
+        
+        let deleteAction = UIContextualAction(style: .normal, title: "삭제") { _, _, _ in
+            self.deleteDiaryItem(indexPath: indexPath)
+        }
+        
+        deleteAction.backgroundColor = .systemRed
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+    
+    private func deleteDiaryItem(indexPath: IndexPath) {
+        let confirmAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let noAction = UIAlertAction(title: "취소", style: .cancel)
+        let yesAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            CoreDataManager.shared.deleteDiary(id: self.diaryItems[indexPath.row].id)
+            self.fetchData()
+            self.diaryListTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+        confirmAlert.addAction(noAction)
+        confirmAlert.addAction(yesAction)
+        self.present(confirmAlert, animated: true)
     }
 }
