@@ -52,10 +52,13 @@ final class DiaryListViewController: UIViewController {
         configureDelgate()
     }
     
-    // MARK: - Methods
-    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
+        dataSource?.apply(snapshot)
     }
+    
+    // MARK: - Methods
     
     private func configureNavigationItems() {
         title = NavigationItem.diaryTitle
@@ -128,9 +131,6 @@ final class DiaryListViewController: UIViewController {
         } catch {
             presentErrorAlert(error)
         }
-        
-        snapshot.appendSections([.main])
-        snapshot.appendItems(diaries)
     }
     
     private func configureDelgate() {
