@@ -132,9 +132,14 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(
-            at: indexPath,
-            animated: true
-        )
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let diary = dataSource?.itemIdentifier(for: indexPath)
+        let nextVC = DiaryContentsViewController()
+
+        nextVC.diary = diary
+        nextVC.isEditingMemo = true
+        
+        navigationController?.pushViewController(nextVC, animated: true)
     }
 }

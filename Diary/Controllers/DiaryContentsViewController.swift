@@ -12,6 +12,8 @@ final class DiaryContentsViewController: UIViewController {
     // MARK: - Properties
     
     private let diaryContentView = DiaryContentView()
+    var diary: Diary?
+    var isEditingMemo: Bool = false
     
     // MARK: Life Cycle
     
