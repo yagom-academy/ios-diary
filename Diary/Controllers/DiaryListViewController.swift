@@ -35,6 +35,12 @@ final class DiaryListViewController: UIViewController {
         
         return fetchResultsController
     }()
+    private var isFiltering: Bool {
+        let searchController = self.navigationItem.searchController
+        let isActive = searchController?.isActive ?? false
+        let isSearchBarHasText = searchController?.searchBar.text?.isEmpty == false
+        return isActive && isSearchBarHasText
+    }
     
     // MARK: - Life Cycle
     
@@ -50,6 +56,7 @@ final class DiaryListViewController: UIViewController {
         registerTableView()
         configureDataSource()
         configureDelgate()
+        configureSearchController()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -136,6 +143,13 @@ final class DiaryListViewController: UIViewController {
     private func configureDelgate() {
         diaryView.tableView.delegate = self
         fetchResultsController.delegate = self
+    private func configureSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = "메모 검색"
+        searchController.hidesNavigationBarDuringPresentation = false
+        self.navigationItem.searchController = searchController
+        self.navigationItem.hidesSearchBarWhenScrolling = false
     }
 }
 
@@ -183,5 +197,27 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
         default:
             break
         }
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+
+extension DiaryListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        snapshot.deleteAllItems()
+        
+        guard isFiltering,
+            let searchBarText = searchController.searchBar.text else {
+            configureFetchResultsController(from: fetchAllDiaryRequest())
+            configureSnapshot()
+            dataSource?.apply(snapshot)
+            return
+        }
+        
+        let fetchRequest = fetchDiaryRequest(from: searchBarText)
+        configureFetchResultsController(from: fetchRequest)
+        fetchResultsController?.delegate = self
+        configureSnapshot()
+        dataSource?.apply(snapshot)
     }
 }
