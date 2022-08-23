@@ -11,6 +11,7 @@
 		20534C2728B4B6BF00C5C66C /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20534C2528B4B6BF00C5C66C /* Diary+CoreDataProperties.swift */; };
 		20534C2A28B4B71400C5C66C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20534C2928B4B71400C5C66C /* CoreDataManager.swift */; };
 		20534C2C28B4BAA100C5C66C /* FetchingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20534C2B28B4BAA100C5C66C /* FetchingError.swift */; };
+		2098962828B4DB420011A2F9 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2098962728B4DB420011A2F9 /* UIViewController+Extension.swift */; };
 		209A338C28AE25AD007C7BB3 /* AssetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209A338B28AE25AD007C7BB3 /* AssetData.swift */; };
 		209A338E28AE35AD007C7BB3 /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209A338D28AE35AD007C7BB3 /* AlertMessage.swift */; };
 		209A339028AE3660007C7BB3 /* NavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209A338F28AE3660007C7BB3 /* NavigationItem.swift */; };
@@ -37,6 +38,7 @@
 		20534C2528B4B6BF00C5C66C /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		20534C2928B4B71400C5C66C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		20534C2B28B4BAA100C5C66C /* FetchingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingError.swift; sourceTree = "<group>"; };
+		2098962728B4DB420011A2F9 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		209A338B28AE25AD007C7BB3 /* AssetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetData.swift; sourceTree = "<group>"; };
 		209A338D28AE35AD007C7BB3 /* AlertMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessage.swift; sourceTree = "<group>"; };
 		209A338F28AE3660007C7BB3 /* NavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItem.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			children = (
 				20DF026E28ABA780005AA6FA /* Date+Extension.swift */,
 				B478312B28AB923100CBB8DA /* Int+Extension.swift */,
+				2098962728B4DB420011A2F9 /* UIViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 				20DF026F28ABA780005AA6FA /* Date+Extension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				20534C2628B4B6BF00C5C66C /* Diary+CoreDataClass.swift in Sources */,
+				2098962828B4DB420011A2F9 /* UIViewController+Extension.swift in Sources */,
 				20DF026D28ABA01A005AA6FA /* DiaryListView.swift in Sources */,
 				20DF026B28AB9F63005AA6FA /* DiaryContentsViewController.swift in Sources */,
 				209A338E28AE35AD007C7BB3 /* AlertMessage.swift in Sources */,

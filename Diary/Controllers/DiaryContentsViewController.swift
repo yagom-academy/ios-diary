@@ -15,6 +15,7 @@ final class DiaryContentsViewController: UIViewController {
     private var creationDate: Date?
     var diary: Diary?
     var isEditingMemo: Bool = false
+    var isDeleted: Bool = false
     
     // MARK: Life Cycle
     
@@ -30,6 +31,13 @@ final class DiaryContentsViewController: UIViewController {
         configureNotificationCenter()
         configureCreationDate()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        showKeyboard()
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
@@ -120,6 +128,12 @@ final class DiaryContentsViewController: UIViewController {
             return
         }
         creationDate = diary.createdAt
+    }
+    
+    private func showKeyboard() {
+        if isEditingMemo == false {
+            diaryContentView.textView.becomeFirstResponder()
+        }
     }
     
     private func handleCRUD() {
