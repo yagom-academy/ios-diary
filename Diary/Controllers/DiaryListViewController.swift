@@ -21,9 +21,13 @@ final class DiaryListViewController: UIViewController {
     private var fetchResultsController: NSFetchedResultsController<Diary>?
     
     private var isFiltering: Bool {
-        let searchController = self.navigationItem.searchController
-        let isActive = searchController?.isActive ?? false
-        let isSearchBarHasText = searchController?.searchBar.text?.isEmpty == false
+        guard let searchController = navigationItem.searchController else {
+            return false
+        }
+        
+        let isActive = searchController.isActive
+        let isSearchBarHasText = searchController.searchBar.text?.isEmpty == false
+        
         return isActive && isSearchBarHasText
     }
     
@@ -170,10 +174,9 @@ final class DiaryListViewController: UIViewController {
     private func configureSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "메모 검색"
-        searchController.hidesNavigationBarDuringPresentation = false
-        self.navigationItem.searchController = searchController
-        self.navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.searchBar.placeholder = "일기 검색"
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
     }
 }
 
