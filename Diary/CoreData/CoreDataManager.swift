@@ -10,16 +10,10 @@ import CoreData
 final class CoreDataManager {
     private let appDelegate = UIApplication.shared.delegate as! AppDelegate
     private lazy var context = appDelegate.persistentContainer.viewContext
-    var fetchedDiaries: [Diary] = [] {
-        didSet {
-            if fetchedDiaries != oldValue {
-                NotificationCenter.default.post(name: .changeDiaries, object: nil)
-            }
-        }
-    }
+    var fetchedDiaries: [Diary] = []
     static let shared = CoreDataManager()
     private init() {
-        fetchDiaries()
+        fetch()
     }
     
     func saveDiary(with model: DiaryModel) {
@@ -29,7 +23,7 @@ final class CoreDataManager {
         newItem.setValue(model.createdAt, forKey: "createdAt")
         do {
             try context.save()
-            fetchDiaries()
+            fetch()
         } catch {
             print(error.localizedDescription)
         }
@@ -39,7 +33,7 @@ final class CoreDataManager {
         context.delete(diary)
         do {
             try context.save()
-            fetchDiaries()
+            fetch()
         } catch {
             print(error)
         }
@@ -54,13 +48,13 @@ final class CoreDataManager {
         
         do {
             try context.save()
-            fetchDiaries()
+            fetch()
         } catch {
             print(error.localizedDescription)
         }
     }
     
-    private func fetchDiaries() {
+    private func fetch() {
         do {
             fetchedDiaries = try context.fetch(Diary.fetchRequest())
         } catch {

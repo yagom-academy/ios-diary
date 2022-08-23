@@ -16,19 +16,14 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-        setupDiaryListView()
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateData),
-                                               name: .changeDiaries,
-                                               object: nil)
-    }
-    
-    // MARK: - Methods
-
-    private func setupDiaryListView() {
-        diaryListView.diaryModels = CoreDataManager.shared.fetchedDiaries
         configureDiaryListView()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        diaryListView.tableView.reloadData()
+    }
+
+    // MARK: - Methods
     
     private func configureNavigationBar() {
         navigationItem.title = NameSpace.diary
@@ -49,10 +44,5 @@ final class DiaryListViewController: UIViewController {
     @objc func addButtonDidTapped() {
         navigationController?.pushViewController(DiaryViewController(), animated: true)
         CoreDataManager.shared.saveDiary(with: DiaryModel(title: "test", body: "", createdAt: 1608651333))
-    }
-    
-    @objc func updateData() {
-        diaryListView.diaryModels = CoreDataManager.shared.fetchedDiaries
-        diaryListView.tableView.reloadData()
     }
 }
