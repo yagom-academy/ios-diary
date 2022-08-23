@@ -10,8 +10,6 @@ import UIKit
 final class DiaryListCollectionViewCell: UICollectionViewCell {
     // MARK: - properties
     
-    static let identifier = Design.cellIdentifier
-    
     private let topLine: UIView = {
         let line = UIView()
         line.translatesAutoresizingMaskIntoConstraints = false
@@ -85,7 +83,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - functions
     
-    func setupCellProperties(with model: JSONModel) {
+    func setupCellProperties(with model: Diary) {
         titleLabel.text = model.title
         previewLabel.text = model.body
         dateLabel.text = model.createdAt.convert1970DateToString()
@@ -141,8 +139,9 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     }
 }
 
+extension DiaryListCollectionViewCell: ReuseIdentifiable { }
+
 private enum Design {
-    static let cellIdentifier = "cell"
     static let topLineColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.1)
     static let stackViewSpacing = 4.0
     static let accessoryImageName = "chevron.right"

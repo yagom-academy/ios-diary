@@ -10,7 +10,7 @@ import UIKit.UITextView
 final class KeyboardManager {
     // MARK: - properties
 
-    private let textView: UITextView
+    private weak var textView: UITextView?
     
     // MARK: - initializers
     
@@ -33,8 +33,14 @@ final class KeyboardManager {
                                                object: nil)
     }
     
+    func removeNotificationObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     private func moveView(height: CGFloat) {
-        textView.contentInset.bottom = height
+        textView?.contentInset.bottom = height
     }
     
     private func setupUiToolbar() {
@@ -53,13 +59,13 @@ final class KeyboardManager {
         keyboardToolbar.sizeToFit()
         keyboardToolbar.tintColor = UIColor.systemGray
         
-        textView.inputAccessoryView = keyboardToolbar
+        textView?.inputAccessoryView = keyboardToolbar
     }
     
     // MARK: - objc functions
     
     @objc private func endEditing() {
-        textView.resignFirstResponder()
+        textView?.resignFirstResponder()
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

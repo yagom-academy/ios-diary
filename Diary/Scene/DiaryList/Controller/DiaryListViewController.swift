@@ -18,9 +18,8 @@ final class DiaryListViewController: UIViewController {
     }()
     
     private var diaryCollectionView: UICollectionView?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, JSONModel>?
-    private var diaryDelegate: DataSendable?
-    private var diaryInfomation: [JSONModel] = []
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
+    private var diaryData = MockDiaryManager()
     
     // MARK: - life cycles
     
@@ -28,7 +27,25 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupDataSource()
-        setupSnapshot(with: fetch())
+        receiveData()
+        diaryData.fetch()
+    }
+    
+    private func receiveData() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onDidReceiveData(_:)),
+                                               name: .didReceiveData,
+                                               object: nil)
+    }
+    
+    @objc private func onDidReceiveData(_ notification: Notification) {
+        guard let diary = notification.object as? MockDiaryManager else{ return }
+
+        DispatchQueue.main.async {
+            self.setupDataSource()
+            self.setupSnapshot(with: diary.getDiary())
+        }
+        
     }
     
     // MARK: - functions
@@ -37,7 +54,7 @@ final class DiaryListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setupNavigationController()
         diaryCollectionView = setupCollectionView(frame: .zero,
-                                             collectionViewLayout: setupLayout())
+                                                  collectionViewLayout: setupLayout())
         diaryCollectionView?.delegate = self
     }
     
@@ -106,25 +123,17 @@ final class DiaryListViewController: UIViewController {
         return layout
     }
     
-    private func fetch() -> [JSONModel] {
-        guard let data = NSDataAsset(name: Design.NSDataAsset)?.data,
-              let decodedData = try? JSONDecoder().decode([JSONModel].self, from: data)
-        else { return [] }
-        
-        return decodedData
-    }
     
     private func setupDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, JSONModel>
+        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, Diary>
         {
             (cell, indexPath, identifier) in
             cell.setupCellProperties(with: identifier)
-            self.diaryInfomation.append(identifier)
         }
         
         guard let collectionView = diaryCollectionView else { return }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, JSONModel>(collectionView: collectionView)
+        dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView)
         {
             (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             
@@ -134,8 +143,8 @@ final class DiaryListViewController: UIViewController {
         }
     }
     
-    private func setupSnapshot(with jsonModel: [JSONModel]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, JSONModel>()
+    private func setupSnapshot(with jsonModel: [Diary]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         snapshot.appendSections([.main])
         snapshot.appendItems(jsonModel)
         
@@ -176,8 +185,7 @@ extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
         
-        diaryDelegate = diaryDetailViewController
-        diaryDelegate?.setupData(diaryInfomation[indexPath.row])
+        diaryDetailViewController.setupData(diaryData.getModel(by: indexPath))
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
@@ -197,4 +205,8 @@ private enum Design {
                                                            leading: 10,
                                                            bottom: 10,
                                                            trailing: 10)
+}
+
+extension Notification.Name {
+    static let didReceiveData = Notification.Name("didReceiveData")
 }
