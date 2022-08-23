@@ -59,6 +59,16 @@ final class DiaryContentsViewController: UIViewController {
         }
         
         title = diaryCreatedAt.localizedString
+    }
+    
+    private func configureRightBarButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: SystemImage.ellipsisCircle),
+            style: .plain,
+            target: self,
+            action: #selector(sharedAndDeleteButtonTapped)
+        )
+    }
     private func configureUI() {
         guard let diaryTitle = diary?.title,
               let diaryBody = diary?.body else {
