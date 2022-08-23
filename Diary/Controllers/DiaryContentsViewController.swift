@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryContentsViewController: UIViewController {
     
-    // MARK: - Properties
+    // MARK: Properties
     
     private let diaryContentView = DiaryContentView()
     private var creationDate: Date?
@@ -17,7 +17,7 @@ final class DiaryContentsViewController: UIViewController {
     var isEditingMemo: Bool = false
     var isDeleted: Bool = false
     
-    // MARK: Life Cycle
+    // MARK: - Life Cycle
     
     override func loadView() {
         view = diaryContentView
