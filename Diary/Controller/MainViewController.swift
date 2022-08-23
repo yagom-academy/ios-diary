@@ -8,8 +8,8 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-    
-    private let sampleDiary: [SampleDiaryContent]? = JSONDecoder.decodedJson(jsonName: "sample")
+        
+    let sampleDiary = DiaryManger()
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
@@ -26,6 +26,8 @@ final class MainViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         self.setNavigationbar()
         self.configureTableView()
+        self.registerDiaryNotification()
+        self.sampleDiary.loadData()
     }
     
     private func setNavigationbar() {
@@ -50,23 +52,31 @@ final class MainViewController: UIViewController {
             self.diaryItemTableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
         ])
     }
+    
+    private func registerDiaryNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateTableView),
+                                               name: .mockdataUpload,
+                                               object: nil)
+    }
+    
+    @objc private func updateTableView() {
+        self.diaryItemTableView.reloadData()
+    }
 }
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sampleDiary = sampleDiary else { return 0 }
-        return sampleDiary.count
+        return sampleDiary.sampleDiaryContent.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
-        
-        guard let sampleDiary = sampleDiary else { return UITableViewCell() }
-        
-        cell.configureContent(data: sampleDiary[indexPath.row])
+                
+        cell.configure(with: sampleDiary.sampleDiaryContent[indexPath.row])
         return cell
     }
 }

@@ -86,9 +86,9 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
         ])
     }
     
-    func configureContent(data: SampleDiaryContent) {
-        self.diaryTitle.text = data.title
-        self.diaryDate.text = data.createdAt.dateFormatted()
-        self.diaryBody.text = data.body
+    func configure(with content: SampleDiaryContent) {
+        self.diaryTitle.text = content.title
+        self.diaryDate.text = content.createdAt.dateFormatted()
+        self.diaryBody.text = content.body
     }
 }
