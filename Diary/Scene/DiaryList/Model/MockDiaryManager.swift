@@ -12,12 +12,16 @@ class MockDiaryManager {
     private var model = [Diary]() {
         didSet {
             NotificationCenter.default.post(name: .didReceiveData,
-                                            object: nil,
+                                            object: self,
                                             userInfo: nil)
         }
     }
     
     init() { }
+    
+    init(model: [Diary]) {
+        self.model = model
+    }
     
     func fetch() {
         guard let data = NSDataAsset(name: "sample")?.data,
@@ -39,6 +43,7 @@ class MockDiaryManager {
     }
     
     func update(with diary: Diary) {
-        self.model.append(diary)
+        fetch()
+        model.append(diary)
     }
 }

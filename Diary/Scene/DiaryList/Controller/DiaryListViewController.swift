@@ -39,7 +39,13 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func onDidReceiveData(_ notification: Notification) {
-        setupSnapshot(with: diaryData.getDiary())
+        guard let diary = notification.object as? MockDiaryManager else{ return }
+
+        DispatchQueue.main.async {
+            self.setupDataSource()
+            self.setupSnapshot(with: diary.getDiary())
+        }
+        
     }
     
     // MARK: - functions
