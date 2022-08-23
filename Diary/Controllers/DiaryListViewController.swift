@@ -115,8 +115,17 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureSnapshot() {
-        guard let diaries = CoreDataManager.shared.fetchAllDiary() else {
-            return
+        do {
+            try fetchResultsController.performFetch()
+            
+            guard let diaries = fetchResultsController.sections?.first?.objects as? [Diary] else {
+                return
+            }
+            
+            snapshot.appendSections([.main])
+            snapshot.appendItems(diaries)
+        } catch {
+            presentErrorAlert(error)
         }
         
         snapshot.appendSections([.main])
