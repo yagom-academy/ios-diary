@@ -11,9 +11,9 @@ final class DiaryListTableViewController: UIViewController {
         case main
     }
     
-    private typealias DiffableDataSource = UITableViewDiffableDataSource<Section, DiarySample>
+    private typealias DiffableDataSource = UITableViewDiffableDataSource<Section, DiaryContents>
     private var dataSource: DiffableDataSource?
-    private var snapshot = NSDiffableDataSourceSnapshot<Section, DiarySample>()
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryContents>()
     private let diaryTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(
@@ -24,6 +24,8 @@ final class DiaryListTableViewController: UIViewController {
         
         return tableView
     }()
+    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+    private var diaryContent = [DiaryContents]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +34,7 @@ final class DiaryListTableViewController: UIViewController {
         configureLayout()
         configureDataSource()
         configureSnapshot()
+        fetchDiaryContents()
     }
     
     private func configureAttributes() {
@@ -90,7 +93,7 @@ final class DiaryListTableViewController: UIViewController {
     }
     
     private func configureSnapshot() {
-        let diarySample: [DiarySample]? = JSONData.parse(name: "sample")
+        let diarySample: [DiaryContents]? = diaryContent
         guard let diarySample = diarySample else {
             return
         }
@@ -99,6 +102,21 @@ final class DiaryListTableViewController: UIViewController {
         snapshot.appendItems(diarySample)
         
         dataSource?.apply(snapshot)
+    }
+    
+    private func fetchDiaryContents() {
+        do {
+            guard let context = context else {
+                return
+            }
+            diaryContent = try context.fetch(DiaryContents.fetchRequest())
+            
+            DispatchQueue.main.async {
+                self.diaryTableView.reloadData()
+            } //
+        } catch {
+            print("error!!!")
+        }
     }
 }
 

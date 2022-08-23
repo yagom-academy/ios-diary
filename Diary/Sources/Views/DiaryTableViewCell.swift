@@ -79,7 +79,7 @@ final class DiaryTableViewCell: UITableViewCell, ReuseIdentifying {
         assertionFailure("init(coder:) has not been implemented")
     }
     
-    func setComponents(item: DiarySample) {
+    func setComponents(item: DiaryContents) {
         diaryTitleLabel.text = item.title
         diaryDateLabel.text = DateFormatter().format(
             data: Date(timeIntervalSince1970: item.createdAt)
