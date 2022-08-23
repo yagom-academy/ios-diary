@@ -46,6 +46,8 @@ final class DiaryListView: UIView {
     }
 }
 
+// MARK: - UITableViewDataSource
+
 extension DiaryListView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let diaryModelList = CoreDataManager.shared.fetchedDiaries

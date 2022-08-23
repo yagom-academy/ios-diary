@@ -10,7 +10,7 @@ import UIKit
 final class DiaryViewController: UIViewController {
     // MARK: - Properties
     
-    private let diaryView = DiaryView(frame: .zero)
+    let diaryView = DiaryView(frame: .zero)
     
     // MARK: - ViewLifeCycle
     

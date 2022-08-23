@@ -32,7 +32,6 @@ final class DiaryListCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
-//        label.textAlignment = .left
         return label
     }()
     
