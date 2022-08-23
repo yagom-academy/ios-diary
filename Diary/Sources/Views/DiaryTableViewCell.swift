@@ -71,7 +71,7 @@ final class DiaryTableViewCell: UITableViewCell, ReuseIdentifying {
         )
         
         setConstraint()
-        accessoryType = .disclosureIndicator
+        configureAccessoryType()
     }
     
     required init?(coder: NSCoder) {
@@ -114,5 +114,9 @@ final class DiaryTableViewCell: UITableViewCell, ReuseIdentifying {
                 constant: 15
             )
         ])
+    }
+    
+    private func configureAccessoryType() {
+        accessoryType = .disclosureIndicator
     }
 }
