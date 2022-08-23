@@ -86,7 +86,7 @@ final class DiaryListCell: UITableViewCell {
         ])
     }
     
-    func setData(with model: DiaryModel) {
+    func setData(with model: Diary) {
         titleLabel.text = model.title
         preViewLabel.text = model.body
         dateLabel.text = model.createdAt.translateToDate()

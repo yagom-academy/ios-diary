@@ -21,6 +21,10 @@ final class DiaryViewController: UIViewController {
         setupKeyboard()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        diaryView.diaryTextView.becomeFirstResponder()
+    }
+    
     // MARK: - Methods
 
     private func setupInitialView() {

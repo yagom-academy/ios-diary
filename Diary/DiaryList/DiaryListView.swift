@@ -9,10 +9,8 @@ import UIKit
 
 final class DiaryListView: UIView {
     // MARK: - Properties
-    
-    var diaryModels: [DiaryModel]?
-    
-    private var tableView: UITableView = {
+
+    var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
@@ -20,7 +18,7 @@ final class DiaryListView: UIView {
     }()
     
     // MARK: - Initializer
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         tableView.dataSource = self
@@ -33,7 +31,7 @@ final class DiaryListView: UIView {
     }
     
     // MARK: - Methods
-    
+
     private func setupSubviews() {
         self.addSubview(tableView)
     }
@@ -50,14 +48,14 @@ final class DiaryListView: UIView {
 
 extension DiaryListView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let diaryModelList = diaryModels else { return 0 }
+        let diaryModelList = CoreDataManager.shared.fetchedDiaries
         return diaryModelList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier,
                                                        for: indexPath) as? DiaryListCell else { return UITableViewCell() }
-        guard let diaryModelList = diaryModels else { return UITableViewCell() }
+        let diaryModelList = CoreDataManager.shared.fetchedDiaries
         let diaryModel = diaryModelList[indexPath.row]
         cell.setData(with: diaryModel)
         return cell
