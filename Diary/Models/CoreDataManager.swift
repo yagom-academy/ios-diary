@@ -30,6 +30,20 @@ class CoreDataManager {
         appDelegate.saveContext()
     }
 
+    func fetchAllDiary() -> [Diary]? {
+        let request = NSFetchRequest<Diary>(entityName: "Diary")
+        let sort = NSSortDescriptor(key: "createdAt", ascending: false)
+        request.sortDescriptors = [sort]
+        request.fetchBatchSize = 10
+        
+        guard let fetchedData =
+                try? persistentContainer.viewContext.fetch(request) else {
+            return nil
+        }
+        
+        return fetchedData
+    }
+    
     func fetchDiary(createdAt: Date) -> Diary? {
         let request = NSFetchRequest<Diary>(entityName: "Diary")
         request.predicate = NSPredicate(format: "createdAt = %@", createdAt as NSDate)
