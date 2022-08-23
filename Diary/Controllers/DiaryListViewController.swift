@@ -15,8 +15,8 @@ final class DiaryListViewController: UIViewController {
     // MARK: - Properties
 
     private let diaryView = DiaryListView()
-    private var dataSource: UITableViewDiffableDataSource<Section, DiarySampleData>?
-    private var diarySampleData: [DiarySampleData]?
+    private var dataSource: UITableViewDiffableDataSource<Section, Diary>?
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
     
     // MARK: - Life Cycle
     
@@ -28,7 +28,6 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        parseDiaryData()
         configureNavigationItems()
         registerTableView()
         configureDataSource()
@@ -36,16 +35,6 @@ final class DiaryListViewController: UIViewController {
     }
     
     // MARK: - Methods
-    
-    private func parseDiaryData() {
-        let parsedData: Result<[DiarySampleData], Error> = JSONData.parse(name: AssetData.sample)
-        switch parsedData {
-        case .success(let data):
-            diarySampleData = data
-        case .failure(let error):
-            presentErrorAlert(error)
-        }
-    }
     
     private func presentErrorAlert(_ error: (Error)) {
         let errorAlert = UIAlertController(
@@ -99,13 +88,11 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        guard let snapshot = configureSnapshot() else {
-            return
-        }
+        configureSnapshot()
         
         let tableView = diaryView.tableView
         
-        dataSource = UITableViewDiffableDataSource<Section, DiarySampleData>(
+        dataSource = UITableViewDiffableDataSource<Section, Diary>(
             tableView: tableView,
             cellProvider: { tableView, indexPath, item in
                 guard let cell = tableView.dequeueReusableCell(
@@ -116,7 +103,7 @@ final class DiaryListViewController: UIViewController {
                 }
                 
                 cell.titleLabel.text = item.title
-                cell.dateLabel.text = item.createdAt.localizedString
+                cell.dateLabel.text = item.createdAt?.localizedString
                 cell.contentLabel.text = item.body
                 cell.accessoryType = .disclosureIndicator
                 
@@ -127,16 +114,13 @@ final class DiaryListViewController: UIViewController {
         dataSource?.apply(snapshot)
     }
     
-    private func configureSnapshot() -> NSDiffableDataSourceSnapshot<Section, DiarySampleData>? {
-        guard let diarySampleData = diarySampleData else {
-            return nil
+    private func configureSnapshot() {
+        guard let diaries = CoreDataManager.shared.fetchAllDiary() else {
+            return
         }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DiarySampleData>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(diarySampleData)
-        
-        return snapshot
+        snapshot.appendItems(diaries)
     }
     
     private func configureDelgate() {
