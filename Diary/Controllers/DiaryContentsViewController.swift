@@ -27,6 +27,7 @@ final class DiaryContentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureNavigationItems()
         configureUI()
         configureNotificationCenter()
         configureCreationDate()
@@ -50,6 +51,13 @@ final class DiaryContentsViewController: UIViewController {
         guard let diaryTitle = diary?.title,
               let diaryBody = diary?.body,
               let diaryCreatedAt = diary?.createdAt else {
+    private func configureNavigationItems() {
+        configureNavigationTitle()
+        configureRightBarButtonItem()
+    }
+    
+    private func configureNavigationTitle() {
+        guard let diaryCreatedAt = diary?.createdAt else {
             title = Date().localizedString
             return
         }
