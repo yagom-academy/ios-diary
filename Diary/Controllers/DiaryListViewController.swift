@@ -108,7 +108,7 @@ final class DiaryListViewController: UIViewController {
                 
                 cell.titleLabel.text = item.title
                 cell.dateLabel.text = item.createdAt?.localizedString
-                cell.contentLabel.text = item.body
+                cell.bodyLabel.text = item.body
                 cell.accessoryType = .disclosureIndicator
                 
                 return cell
