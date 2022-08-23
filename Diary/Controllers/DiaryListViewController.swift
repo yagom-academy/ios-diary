@@ -13,8 +13,8 @@ enum Section {
 
 final class DiaryListViewController: UIViewController {
     
-    // MARK: - Properties
-
+    // MARK: Properties
+    
     private let diaryView = DiaryListView()
     private var dataSource: UITableViewDiffableDataSource<Section, Diary>?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
