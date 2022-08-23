@@ -89,5 +89,56 @@ final class DiaryContentsViewController: UIViewController {
         
         diaryContentView.textView.contentInset = contentInset
         diaryContentView.textView.scrollIndicatorInsets = contentInset
+    private func handleCRUD() {
+        guard let (title, body) = extractTitleAndBody(),
+              let creationDate = creationDate else {
+            return
+        }
+        
+        do {
+            try determineDataProcessingFor(title, body, creationDate)
+        } catch {
+            presentErrorAlert(error)
+        }
+    }
+    
+    private func extractTitleAndBody() -> (String, String)? {
+        guard diaryContentView.textView.text.isEmpty == false,
+            let diaryConentViewText = diaryContentView.textView.text,
+            diaryConentViewText.contains("\n") else {
+            return nil
+        }
+        
+        let lineBreakIndex = diaryConentViewText.firstIndex(of: "\n")
+        let firstLineBreakIndex = lineBreakIndex!.utf16Offset(in: diaryConentViewText)
+        
+        let titleRange = NSMakeRange(.zero, firstLineBreakIndex)
+        let title = (diaryConentViewText as NSString).substring(with: titleRange)
+        
+        let bodyRange = NSMakeRange(firstLineBreakIndex + 1, diaryConentViewText.count - title.count - 1)
+        let body = (diaryConentViewText as NSString).substring(with: bodyRange)
+        
+        return (title, body)
+    }
+    
+    private func determineDataProcessingFor(_ title: String, _ body: String, _ creationDate: Date) throws {
+        let fetchSuccess = CoreDataManager.shared.fetchDiary(createdAt: creationDate)
+        
+        switch (fetchSuccess, isDeleted) {
+        case (nil, false):
+            CoreDataManager.shared.saveDiary(
+                title: title,
+                body: body,
+                createdAt: creationDate
+            )
+        case (_, false):
+            try CoreDataManager.shared.update(
+                title: title,
+                body: body,
+                createdAt: creationDate
+            )
+        case (_, true):
+            try CoreDataManager.shared.delete(createdAt: creationDate)
+        }
     }
 }
