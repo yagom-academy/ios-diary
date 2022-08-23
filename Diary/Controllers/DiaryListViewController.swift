@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreData
 
 enum Section {
     case main
@@ -134,6 +135,7 @@ final class DiaryListViewController: UIViewController {
     
     private func configureDelgate() {
         diaryView.tableView.delegate = self
+        fetchResultsController.delegate = self
     }
 }
 
@@ -150,5 +152,33 @@ extension DiaryListViewController: UITableViewDelegate {
         nextVC.isEditingMemo = true
         
         navigationController?.pushViewController(nextVC, animated: true)
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension DiaryListViewController: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
+        guard let diary = anObject as? Diary else {
+            return
+        }
+        
+        switch type {
+        case .insert:
+            guard snapshot.numberOfItems != .zero,
+                  let newIndexPath = newIndexPath,
+                  let lastDiary = dataSource?.itemIdentifier(for: newIndexPath) else {
+                snapshot.appendItems([diary])
+                return
+            }
+            
+            snapshot.insertItems([diary], beforeItem: lastDiary)
+        case .delete:
+            snapshot.deleteItems([diary])
+            break
+        case .update:
+            snapshot.reloadSections([.main])
+            break
+        default:
+            break
+        }
     }
 }
