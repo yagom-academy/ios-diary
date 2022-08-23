@@ -18,23 +18,8 @@ final class DiaryListViewController: UIViewController {
     private let diaryView = DiaryListView()
     private var dataSource: UITableViewDiffableDataSource<Section, Diary>?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
-    private var fetchResultsController: NSFetchedResultsController<Diary> = {
-        let request = NSFetchRequest<Diary>(entityName: "Diary")
-        let sort = NSSortDescriptor(key: "createdAt", ascending: false)
-        request.sortDescriptors = [sort]
-        request.fetchBatchSize = 10
-        
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let viewContext = appDelegate.persistentContainer.viewContext
-        
-        let fetchResultsController = NSFetchedResultsController(
-            fetchRequest: request,
-            managedObjectContext: viewContext,
-            sectionNameKeyPath: nil,
-            cacheName: nil)
-        
-        return fetchResultsController
-    }()
+    private var fetchResultsController: NSFetchedResultsController<Diary>?
+    
     private var isFiltering: Bool {
         let searchController = self.navigationItem.searchController
         let isActive = searchController?.isActive ?? false
@@ -54,6 +39,8 @@ final class DiaryListViewController: UIViewController {
         
         configureNavigationItems()
         registerTableView()
+        configureFetchResultsController(from: fetchAllDiaryRequest())
+        configureSnapshot()
         configureDataSource()
         configureDelgate()
         configureSearchController()
@@ -95,12 +82,11 @@ final class DiaryListViewController: UIViewController {
             DiaryListCell.self,
             forCellReuseIdentifier: DiaryListCell.identifier
         )
+        
         tableView.dataSource = dataSource
     }
     
     private func configureDataSource() {
-        configureSnapshot()
-        
         let tableView = diaryView.tableView
         
         dataSource = UITableViewDiffableDataSource<Section, Diary>(
@@ -125,11 +111,47 @@ final class DiaryListViewController: UIViewController {
         dataSource?.apply(snapshot)
     }
     
+    private func configureFetchResultsController(from request: NSFetchRequest<Diary>) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        fetchResultsController = NSFetchedResultsController(
+            fetchRequest: request,
+            managedObjectContext: viewContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+    }
+    
+    private func fetchAllDiaryRequest() -> NSFetchRequest<Diary> {
+        let fetchRequest = NSFetchRequest<Diary>(entityName: "Diary")
+        let sort = NSSortDescriptor(key: "createdAt", ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.fetchBatchSize = 10
+        
+        return fetchRequest
+    }
+    
+    private func fetchDiaryRequest(from text: String) -> NSFetchRequest<Diary> {
+        let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
+        let titlePredicate = NSPredicate(format: "title CONTAINS[c] %@", text)
+        let bodyPredicate = NSPredicate(format: "body CONTAINS[c] %@", text)
+        let titleOrBodyPredicate = NSCompoundPredicate(
+            type: NSCompoundPredicate.LogicalType.or,
+            subpredicates: [titlePredicate, bodyPredicate]
+        )
+        
+        fetchRequest.predicate = titleOrBodyPredicate
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        
+        return fetchRequest
+    }
+    
     private func configureSnapshot() {
         do {
-            try fetchResultsController.performFetch()
+            try fetchResultsController?.performFetch()
             
-            guard let diaries = fetchResultsController.sections?.first?.objects as? [Diary] else {
+            guard let diaries = fetchResultsController?.fetchedObjects else {
                 return
             }
             
@@ -142,7 +164,9 @@ final class DiaryListViewController: UIViewController {
     
     private func configureDelgate() {
         diaryView.tableView.delegate = self
-        fetchResultsController.delegate = self
+        fetchResultsController?.delegate = self
+    }
+    
     private func configureSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -161,7 +185,7 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let diary = dataSource?.itemIdentifier(for: indexPath)
         let nextViewController = DiaryContentsViewController()
-
+        
         nextViewController.diary = diary
         nextViewController.isEditingMemo = true
         
