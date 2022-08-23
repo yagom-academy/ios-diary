@@ -17,6 +17,23 @@ final class DiaryListViewController: UIViewController {
     private let diaryView = DiaryListView()
     private var dataSource: UITableViewDiffableDataSource<Section, Diary>?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
+    private var fetchResultsController: NSFetchedResultsController<Diary> = {
+        let request = NSFetchRequest<Diary>(entityName: "Diary")
+        let sort = NSSortDescriptor(key: "createdAt", ascending: false)
+        request.sortDescriptors = [sort]
+        request.fetchBatchSize = 10
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        let fetchResultsController = NSFetchedResultsController(
+            fetchRequest: request,
+            managedObjectContext: viewContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil)
+        
+        return fetchResultsController
+    }()
     
     // MARK: - Life Cycle
     
