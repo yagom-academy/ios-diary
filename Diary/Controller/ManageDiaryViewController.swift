@@ -24,13 +24,9 @@ final class ManageDiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureBackButton()
         addNotificationObserver()
         checkViewMode()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        saveDiary()
     }
     
     func getDiaryData(data: DiaryItem) {
@@ -40,6 +36,23 @@ final class ManageDiaryViewController: UIViewController {
         viewMode = .edit
         self.navigationItem.title = DateManager().formatted(date: Date(timeIntervalSince1970: data.createdAt))
     }
+    
+    private func configureBackButton() {
+        let backBarButton = UIBarButtonItem(customView: backButton)
+        backButton.addTarget(self, action: #selector(backButtonDidTapped), for: .touchUpInside)
+        self.navigationItem.hidesBackButton = true
+        self.navigationItem.leftBarButtonItem = backBarButton
+    }
+    
+    private let backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        button.setTitle(" 일기장", for: .normal)
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.sizeToFit()
+
+        return button
+    }()
     
     private func checkViewMode() {
         switch viewMode {
@@ -52,9 +65,32 @@ final class ManageDiaryViewController: UIViewController {
         }
     }
     
-    @objc func saveDiary() {
-        guard let diary = manageDiaryView.convertDiaryItem(with: id) else { return }
+    @objc func backButtonDidTapped() {
+        guard let diary = manageDiaryView.convertDiaryItem(with: id) else {
+            checkSaveDiary()
+            return
+        }
+        
         CoreDataManager.shared.saveDiary(item: diary)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func saveDiary() {
+        guard let diary = manageDiaryView.convertDiaryItem(with: id) else { return}
+        CoreDataManager.shared.saveDiary(item: diary)
+    }
+    
+    private func checkSaveDiary() {
+        let noticeMessage = viewMode == .add ? "생성" : "변경"
+        let confirmAlert = UIAlertController(title: "Notice", message: "내용이 모두 입력되지 않아 \n일기장 \(noticeMessage)이 불가합니다. \n 그래도 나가시겠습니까?", preferredStyle: .alert)
+        let noAction = UIAlertAction(title: "취소", style: .cancel)
+        let yesAction = UIAlertAction(title: "나가기", style: .destructive) { _ in
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        confirmAlert.addAction(noAction)
+        confirmAlert.addAction(yesAction)
+        self.present(confirmAlert, animated: true)
     }
     
     private func addNotificationObserver() {
