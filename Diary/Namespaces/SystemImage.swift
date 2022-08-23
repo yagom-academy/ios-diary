@@ -7,4 +7,5 @@
 
 enum SystemImage {
     static let plus = "plus"
+    static let ellipsisCircle = "ellipsis.circle"
 }
