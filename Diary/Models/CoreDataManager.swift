@@ -9,7 +9,11 @@ import UIKit
 import CoreData
 
 final class CoreDataManager {
+    
+    // MARK: Properties
+    
     static let shared = CoreDataManager()
+    
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
     let persistentContainer: NSPersistentContainer = {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
@@ -17,9 +21,13 @@ final class CoreDataManager {
         return appDelegate.persistentContainer
     }()
     
+    // MARK: - Initializer
+    
     private init() {
         
     }
+    
+    // MARK: - Methods
 
     func saveDiary(title: String, body: String, createdAt: Date) {
         let diary = Diary(context: persistentContainer.viewContext)
