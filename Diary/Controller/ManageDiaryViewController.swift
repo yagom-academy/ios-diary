@@ -63,6 +63,18 @@ final class ManageDiaryViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(saveDiary), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
+    private func shareDiaryItem() {
+        guard let shareText = manageDiaryView.convertDiaryItem(with: id) else { return }
+        var shareObject = [Any]()
+        
+        shareObject.append(shareText.title + shareText.body)
+        
+        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+    
     private func deleteDiaryItem() {
         let confirmAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let noAction = UIAlertAction(title: "취소", style: .cancel)
@@ -75,10 +87,11 @@ final class ManageDiaryViewController: UIViewController {
         confirmAlert.addAction(yesAction)
         self.present(confirmAlert, animated: true)
     }
+    
     @objc private func optionButtonDidTapped() {
         let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
-            
+            self.shareDiaryItem()
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.deleteDiaryItem()
