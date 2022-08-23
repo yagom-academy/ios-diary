@@ -26,6 +26,7 @@ final class DiaryListTableViewController: UIViewController {
     }()
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     private var diaryContent = [DiaryContents]()
+    private let detailDiaryViewController = DetailDiaryViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,8 +34,9 @@ final class DiaryListTableViewController: UIViewController {
         configureAttributes()
         configureLayout()
         configureDataSource()
-        configureSnapshot()
-        fetchDiaryContents()
+        snapshot.appendSections([.main])
+        
+        createDiaryContents()
     }
     
     private func configureAttributes() {
@@ -98,7 +100,6 @@ final class DiaryListTableViewController: UIViewController {
             return
         }
         
-        snapshot.appendSections([.main])
         snapshot.appendItems(diarySample)
         
         dataSource?.apply(snapshot)
@@ -110,10 +111,29 @@ final class DiaryListTableViewController: UIViewController {
                 return
             }
             diaryContent = try context.fetch(DiaryContents.fetchRequest())
-            
-            DispatchQueue.main.async {
-                self.diaryTableView.reloadData()
-            } //
+            configureSnapshot()
+        } catch {
+            print("error!!!")
+        }
+    }
+    
+    private func createDiaryContents() {
+        guard let context = context else {
+            return
+        }
+
+        let diaryContents = DiaryContents(context: context)
+        let dummyData = "여기는 타이틀\n\n여기는 바디"
+       
+        let content = dummyData.components(separatedBy: "\n\n")
+        diaryContents.title = String(content[0])
+        diaryContents.body = String(content[1])
+        diaryContents.createdAt = Date().timeIntervalSince1970
+        diaryContents.id = UUID()
+        
+        do {
+            try context.save()
+            fetchDiaryContents()
         } catch {
             print("error!!!")
         }
@@ -126,7 +146,6 @@ extension DiaryListTableViewController: UITableViewDelegate {
         didSelectRowAt indexPath: IndexPath
     ) {
         let diaryContent = snapshot.itemIdentifiers[indexPath.item]
-        let detailDiaryViewController = DetailDiaryViewController()
         weak var sendDataDelegate: (SendDataDelegate)? = detailDiaryViewController
         
         sendDataDelegate?.sendData(diaryContent)
