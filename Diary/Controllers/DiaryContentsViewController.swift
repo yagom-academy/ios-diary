@@ -69,6 +69,75 @@ final class DiaryContentsViewController: UIViewController {
             action: #selector(sharedAndDeleteButtonTapped)
         )
     }
+    
+    @objc private func sharedAndDeleteButtonTapped() {
+        let actionSheet = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+
+        let shareAction = UIAlertAction(
+            title: "Share...",
+            style: .default
+        ) { [weak self] _ in
+            self?.presentActivityView()
+        }
+
+        let deleteAction = UIAlertAction(
+            title: "Delete",
+            style: .destructive
+        ) { [weak self] _ in
+            self?.presentDeleteAlert()
+        }
+
+        let cancelAction = UIAlertAction(
+            title: "Cancel",
+            style: .cancel
+        )
+
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+
+        present(actionSheet, animated: true)
+    }
+    
+    private func presentActivityView() {
+        let activityViewController = UIActivityViewController(
+            activityItems: [diaryContentView.textView.text as Any],
+            applicationActivities: nil
+        )
+        
+        present(activityViewController, animated: true)
+    }
+    
+    private func presentDeleteAlert() {
+        let alert = UIAlertController(
+            title: "진짜요?",
+            message: "정말로 삭제하시겠어요?",
+            preferredStyle: .alert
+        )
+        
+        let cancelAction = UIAlertAction(
+            title: "취소",
+            style: .cancel
+        )
+        
+        let deleteAction = UIAlertAction(
+            title: "삭제",
+            style: .destructive
+        ) { [weak self] _ in
+            self?.isDeleted = true
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        
+        present(alert, animated: true)
+    }
+    
     private func configureUI() {
         guard let diaryTitle = diary?.title,
               let diaryBody = diary?.body else {
