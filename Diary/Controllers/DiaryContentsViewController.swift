@@ -25,11 +25,38 @@ final class DiaryContentsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = Date().localizedString
+        configureUI()
         configureNotificationCenter()
     }
     
     // MARK: - Methods
+    
+    private func configureUI() {
+        guard let diaryTitle = diary?.title,
+              let diaryBody = diary?.body,
+              let diaryCreatedAt = diary?.createdAt else {
+            title = Date().localizedString
+            return
+        }
+        
+        title = diaryCreatedAt.localizedString
+        
+        let titleAttributedString = NSMutableAttributedString(
+            string: diaryTitle,
+            attributes: [.font: UIFont.preferredFont(forTextStyle: .title1)]
+        )
+        let lineBreakAttributedString = NSMutableAttributedString(string: "\n")
+        let bodyAttributedString = NSMutableAttributedString(
+            string: diaryBody,
+            attributes: [.font: UIFont.preferredFont(forTextStyle: .body)]
+        )
+        
+        let diaryContentText = NSMutableAttributedString()
+        diaryContentText.append(titleAttributedString)
+        diaryContentText.append(lineBreakAttributedString)
+        diaryContentText.append(bodyAttributedString)
+        diaryContentView.textView.attributedText = diaryContentText
+    }
     
     private func configureNotificationCenter() {
         NotificationCenter.default.addObserver(self,
