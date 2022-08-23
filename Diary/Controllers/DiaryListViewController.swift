@@ -146,12 +146,15 @@ extension DiaryListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         let diary = dataSource?.itemIdentifier(for: indexPath)
-        let nextVC = DiaryContentsViewController()
+        let nextViewController = DiaryContentsViewController()
 
-        nextVC.diary = diary
-        nextVC.isEditingMemo = true
+        nextViewController.diary = diary
+        nextViewController.isEditingMemo = true
         
-        navigationController?.pushViewController(nextVC, animated: true)
+        navigationController?.pushViewController(nextViewController, animated: true)
+    }
+}
+
 // MARK: - NSFetchedResultsControllerDelegate
 
 extension DiaryListViewController: NSFetchedResultsControllerDelegate {
