@@ -167,6 +167,56 @@ extension DiaryListViewController: UITableViewDelegate {
         
         navigationController?.pushViewController(nextViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        guard let diary = self.dataSource?.itemIdentifier(for: indexPath),
+              let title = diary.title,
+              let body = diary.body,
+              let creationDate = diary.createdAt else {
+            return nil
+        }
+        
+        let deleteAction = UIContextualAction(
+            style: .destructive,
+            title: "Delete"
+        ) { [weak self] action, view, completion in
+            self?.deleteDiary(createdAt: creationDate)
+        }
+        
+        let shareAction = UIContextualAction(
+            style: .normal,
+            title: "Share"
+        ) { [weak self] action, view, completion in
+            self?.shareDiary(title, body)
+            completion(true)
+        }
+        
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        shareAction.backgroundColor = .systemBlue
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        
+        let swipeActionCongifuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        swipeActionCongifuration.performsFirstActionWithFullSwipe = false
+        return swipeActionCongifuration
+    }
+    
+    private func deleteDiary(createdAt date: Date) {
+        do {
+            try CoreDataManager.shared.delete(createdAt: date)
+            dataSource?.apply(snapshot)
+        } catch {
+            presentErrorAlert(error)
+        }
+    }
+    
+    private func shareDiary(_ title: String, _ body: String) {
+        let activityViewController = UIActivityViewController(
+            activityItems: [title+"\n"+body],
+            applicationActivities: nil
+        )
+        self.present(activityViewController, animated: true)
+    }
 }
 
 // MARK: - NSFetchedResultsControllerDelegate
