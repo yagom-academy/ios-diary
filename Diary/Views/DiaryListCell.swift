@@ -27,6 +27,8 @@ final class DiaryListCell: UITableViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.setContentCompressionResistancePriority(.required,
                                                       for: .horizontal)
+        label.setContentHuggingPriority(.required,
+                                        for: .horizontal)
         
         return label
     }()
