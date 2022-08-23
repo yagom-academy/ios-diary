@@ -47,10 +47,6 @@ final class DiaryContentsViewController: UIViewController {
     
     // MARK: - Methods
     
-    private func configureUI() {
-        guard let diaryTitle = diary?.title,
-              let diaryBody = diary?.body,
-              let diaryCreatedAt = diary?.createdAt else {
     private func configureNavigationItems() {
         configureNavigationTitle()
         configureRightBarButtonItem()
@@ -63,6 +59,11 @@ final class DiaryContentsViewController: UIViewController {
         }
         
         title = diaryCreatedAt.localizedString
+    private func configureUI() {
+        guard let diaryTitle = diary?.title,
+              let diaryBody = diary?.body else {
+            return
+        }
         
         let titleAttributedString = NSMutableAttributedString(
             string: diaryTitle,
