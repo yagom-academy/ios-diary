@@ -19,7 +19,7 @@ final class DiaryListViewController: UIViewController {
     
     private var diaryCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
-    private var diaryData = MockDiaryManager()
+    private var diaryCoreData: CoreDataManager?
     
     // MARK: - life cycles
     
@@ -27,11 +27,16 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupDataSource()
-        receiveData()
-        diaryData.fetch()
+        addObserver()
+        diaryCoreData = CoreDataManager()
     }
     
-    private func receiveData() {
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+    }
+    
+    private func addObserver() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(onDidReceiveData(_:)),
                                                name: .didReceiveData,
@@ -39,11 +44,11 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func onDidReceiveData(_ notification: Notification) {
-        guard let diary = notification.object as? MockDiaryManager else{ return }
+//        guard let diary = notification.object as? MockDiaryManager else{ return }
 
         DispatchQueue.main.async {
             self.setupDataSource()
-            self.setupSnapshot(with: diary.getDiary())
+            self.setupSnapshot(with: (self.diaryCoreData?.fetch())!)
         }
         
     }
@@ -184,8 +189,8 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
-        
-        diaryDetailViewController.setupData(diaryData.getModel(by: indexPath))
+        let fetchedData = diaryCoreData!.fetch()
+        diaryDetailViewController.setupData(fetchedData[indexPath.row])
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }

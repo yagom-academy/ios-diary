@@ -12,7 +12,7 @@ final class DiaryRegistrationViewController: UIViewController {
     
     private let textView = DiaryRegistrationView()
     private lazy var keyboardManager = KeyboardManager(textView)
-    private let diaryData = MockDiaryManager()
+    private let diaryData = CoreDataManager()
     
     // MARK: - life cycles
     
@@ -29,15 +29,15 @@ final class DiaryRegistrationViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         keyboardManager.removeNotificationObserver()
-        updateDiary()
+        updateDiary(title: popTitle())
     }
     
     // MARK: - functions
         
-    func updateDiary() {
-        let newDiary = Diary(title: "Asdf", body: "sibal", createdAt: 0.0)
-
-        diaryData.update(with: newDiary)
+    private func updateDiary(title: String) {
+        let newDiary = Diary(title: title, body: textView.text, createdAt: Date().timeIntervalSince1970)
+        print(newDiary)
+        diaryData.create(myDiary: newDiary)
     }
     
     private func popTitle() -> String {
