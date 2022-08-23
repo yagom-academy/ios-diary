@@ -9,11 +9,11 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     // MARK: - Properties
-
+    
     private let diaryView = DiaryView(frame: .zero)
-
+    
     // MARK: - ViewLifeCycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupInitialView()
@@ -25,8 +25,26 @@ final class DiaryViewController: UIViewController {
         diaryView.diaryTextView.becomeFirstResponder()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        createDiary()
+    }
+    
     // MARK: - Methods
-
+    private func createDiary() {
+        guard diaryView.diaryTextView.text.isEmpty == false else { return }
+        let diaryModel = makeDiaryModel()
+        CoreDataManager.shared.createDiary(with: diaryModel)
+    }
+    
+    private func makeDiaryModel() -> DiaryModel {
+        let distinguishedTitleAndBody = diaryView.diaryTextView.text.split(separator: "\n", maxSplits: 1)
+        let title = distinguishedTitleAndBody[0]
+        let body = distinguishedTitleAndBody.count == 1 ? "" : distinguishedTitleAndBody[1]
+        let createdAt = Date().timeIntervalSince1970
+        return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
+    }
+    
     private func setupInitialView() {
         view.backgroundColor = .systemBackground
         view.addSubview(diaryView)

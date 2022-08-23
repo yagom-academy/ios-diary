@@ -43,6 +43,5 @@ final class DiaryListViewController: UIViewController {
 
     @objc func addButtonDidTapped() {
         navigationController?.pushViewController(DiaryViewController(), animated: true)
-        CoreDataManager.shared.saveDiary(with: DiaryModel(title: "test", body: "", createdAt: 1608651333))
     }
 }

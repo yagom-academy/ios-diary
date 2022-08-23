@@ -24,6 +24,7 @@ final class DiaryListCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(UILayoutPriority(300), for: .horizontal)
         return label
     }()
     
@@ -31,6 +32,7 @@ final class DiaryListCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
+//        label.textAlignment = .left
         return label
     }()
     
@@ -88,7 +90,7 @@ final class DiaryListCell: UITableViewCell {
     
     func setData(with model: Diary) {
         titleLabel.text = model.title
-        preViewLabel.text = model.body
+        preViewLabel.text = model.body?.replacingOccurrences(of: "\n", with: "")
         dateLabel.text = model.createdAt.translateToDate()
     }
     

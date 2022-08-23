@@ -16,7 +16,7 @@ final class CoreDataManager {
         fetch()
     }
     
-    func saveDiary(with model: DiaryModel) {
+    func createDiary(with model: DiaryModel) {
         let newItem = Diary(context: context)
         newItem.setValue(model.title, forKey: "title")
         newItem.setValue(model.body, forKey: "body")
