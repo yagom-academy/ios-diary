@@ -40,7 +40,7 @@ final class DiaryListViewController: UIViewController {
         self.title = "일기장"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTappedAddButton))
     }
-
+    
     private func configureDataSource() -> DataSource {
         dataSource = DataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, content -> UITableViewCell? in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
@@ -60,14 +60,14 @@ final class DiaryListViewController: UIViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(data)
-        
-        dataSource.apply(snapshot)
+    
+        dataSource.apply(snapshot, animatingDifferences: false, completion: nil)
     }
     
     private func configureLayout() {
         self.view.addSubview(diaryListTableView)
         diaryListTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-
+        
         NSLayoutConstraint.activate([
             diaryListTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
             diaryListTableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
@@ -75,7 +75,7 @@ final class DiaryListViewController: UIViewController {
             diaryListTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-        
+    
     private func registerNotificationForTableView() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(reloadTableView),
@@ -109,5 +109,15 @@ extension DiaryListViewController: UITableViewDelegate {
         diaryContentViewController.diaryViewModel = DiaryViewModel(data: diaryListViewModel.diaryContents[indexPath.row])
         
         self.navigationController?.pushViewController(diaryContentViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .normal, title: "삭제") { [weak self](UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            self?.diaryListViewModel.delete((self?.diaryListViewModel.diaryContents[indexPath.row].title)!)
+            success(true)
+        }
+        delete.backgroundColor = .systemRed
+
+        return UISwipeActionsConfiguration(actions:[delete])
     }
 }

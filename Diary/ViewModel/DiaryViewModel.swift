@@ -12,9 +12,8 @@ final class DiaryViewModel {
             NotificationCenter.default.post(name: .diaryContent, object: self)
         }
     }
-    
+
     private let coreDataManager = CoreDataManager()
-    private let manager = CoreDataManager()
 
     init(data: DiaryContent) {
         self.diaryContent = data
@@ -101,6 +100,9 @@ final class DiaryViewModel {
         coreDataManager.insertContext(data: diaryContent)
     }
     
+    func delete(_ title:String) {
+        self.diaryContent = nil
+        coreDataManager.deleteContext(title: title)
     }
 }
 
