@@ -78,9 +78,8 @@ extension DiaryListViewController {
     private func setAttributedString(indexPath: Int) -> NSMutableAttributedString {
         guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath].title,
               let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath].body else { return NSMutableAttributedString() }
-        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: diaryTitle, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: diaryTitle + "\n", attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
         
-        attributedString.append(NSMutableAttributedString(string: "\n"))
         attributedString.append(NSMutableAttributedString(string: diaryBody, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
         
         return attributedString
@@ -90,7 +89,10 @@ extension DiaryListViewController {
         let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
             let model = CoreDataManager.shared.fetchedDiaries
             let title = model[indexPath.row].title ?? "제목없음"
-            let activityViewController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
+            let diaryToShare: [Any] = [MyActivityItemSource(title: title, text: model[indexPath.row].body!)]
+            let activityViewController = UIActivityViewController(activityItems: diaryToShare, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.diaryListView
+            
             self.present(activityViewController, animated: true)
         }
         shareAction.image = UIImage(systemName: "person.crop.circle.badge.plus")

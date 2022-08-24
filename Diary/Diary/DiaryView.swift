@@ -70,7 +70,8 @@ final class DiaryView: UIView {
         ])
     }
 }
-// MARK: - UITableViewDelegate
+
+// MARK: - UITextViewDelegate
 
 extension DiaryView: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

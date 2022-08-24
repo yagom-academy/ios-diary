@@ -66,7 +66,10 @@ final class DiaryViewController: UIViewController {
         let model = makeDiaryModel()
         
         let share = UIAlertAction(title: "Share...", style: .default) { _ in
-            let activityViewController = UIActivityViewController(activityItems: [model.title], applicationActivities: nil)
+            let diaryToShare: [Any] = [MyActivityItemSource(title: model.title, text: model.body)]
+            let activityViewController = UIActivityViewController(activityItems: diaryToShare, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.diaryView
+            
             self.present(activityViewController, animated: true)
         }
         let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
