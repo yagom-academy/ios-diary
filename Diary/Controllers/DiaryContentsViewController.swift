@@ -78,21 +78,21 @@ final class DiaryContentsViewController: UIViewController {
         )
 
         let shareAction = UIAlertAction(
-            title: "Share...",
+            title: ActionSheet.shareActionTitle,
             style: .default
         ) { [weak self] _ in
             self?.presentActivityView()
         }
 
         let deleteAction = UIAlertAction(
-            title: "Delete",
+            title: ActionSheet.deleteActionTitle,
             style: .destructive
         ) { [weak self] _ in
             self?.presentDeleteAlert()
         }
 
         let cancelAction = UIAlertAction(
-            title: "Cancel",
+            title: ActionSheet.cancelActionTitle,
             style: .cancel
         )
 
@@ -114,18 +114,18 @@ final class DiaryContentsViewController: UIViewController {
     
     private func presentDeleteAlert() {
         let alert = UIAlertController(
-            title: "진짜요?",
-            message: "정말로 삭제하시겠어요?",
+            title: Alert.deleteAlertTitle,
+            message: Alert.deleteAlertMessage,
             preferredStyle: .alert
         )
         
         let cancelAction = UIAlertAction(
-            title: "취소",
+            title: Alert.cancelActionTitle,
             style: .cancel
         )
         
         let deleteAction = UIAlertAction(
-            title: "삭제",
+            title: Alert.deleteActionTitle,
             style: .destructive
         ) { [weak self] _ in
             self?.isDeleted = true
@@ -148,7 +148,8 @@ final class DiaryContentsViewController: UIViewController {
             string: diaryTitle,
             attributes: [.font: UIFont.preferredFont(forTextStyle: .title1)]
         )
-        let lineBreakAttributedString = NSMutableAttributedString(string: "\n")
+        
+        let lineBreakAttributedString = NSMutableAttributedString(string: String(NewLine.lineFeed))
         let bodyAttributedString = NSMutableAttributedString(
             string: diaryBody,
             attributes: [.font: UIFont.preferredFont(forTextStyle: .body)]
@@ -240,11 +241,11 @@ final class DiaryContentsViewController: UIViewController {
     private func extractTitleAndBody() -> (String, String)? {
         guard diaryContentView.textView.text.isEmpty == false,
             let diaryConentViewText = diaryContentView.textView.text,
-            diaryConentViewText.contains("\n") else {
+            diaryConentViewText.contains(NewLine.lineFeed) else {
             return nil
         }
         
-        let lineBreakIndex = diaryConentViewText.firstIndex(of: "\n")
+        let lineBreakIndex = diaryConentViewText.firstIndex(of: NewLine.lineFeed)
         let firstLineBreakIndex = lineBreakIndex!.utf16Offset(in: diaryConentViewText)
         
         let titleRange = NSMakeRange(.zero, firstLineBreakIndex)

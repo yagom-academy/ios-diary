@@ -137,16 +137,19 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchDiaryRequest(from text: String) -> NSFetchRequest<Diary> {
-        let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
-        let titlePredicate = NSPredicate(format: "title CONTAINS[c] %@", text)
-        let bodyPredicate = NSPredicate(format: "body CONTAINS[c] %@", text)
+        let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: DiaryCoreData.entityName)
+        let titlePredicate = NSPredicate(format: DiaryCoreData.Predicate.contatingTitle, text)
+        let bodyPredicate = NSPredicate(format: DiaryCoreData.Predicate.containingBody, text)
         let titleOrBodyPredicate = NSCompoundPredicate(
             type: NSCompoundPredicate.LogicalType.or,
             subpredicates: [titlePredicate, bodyPredicate]
         )
         
         fetchRequest.predicate = titleOrBodyPredicate
-        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "title", ascending: true)]
+        fetchRequest.sortDescriptors = [NSSortDescriptor(
+            key: DiaryCoreData.Key.createdAt,
+            ascending: true
+        )]
         
         return fetchRequest
     }
@@ -174,7 +177,7 @@ final class DiaryListViewController: UIViewController {
     private func configureSearchController() {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
-        searchController.searchBar.placeholder = "일기 검색"
+        searchController.searchBar.placeholder = SearchControllerItem.placeHolder
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
     }
@@ -206,22 +209,22 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let deleteAction = UIContextualAction(
             style: .destructive,
-            title: "Delete"
+            title: ActionSheet.deleteActionTitle
         ) { [weak self] action, view, completion in
             self?.deleteDiary(createdAt: creationDate)
         }
         
         let shareAction = UIContextualAction(
             style: .normal,
-            title: "Share"
+            title: ActionSheet.shareActionTitle
         ) { [weak self] action, view, completion in
             self?.shareDiary(title, body)
             completion(true)
         }
         
-        deleteAction.image = UIImage(systemName: "trash.fill")
+        deleteAction.image = UIImage(systemName: SystemImage.trash)
         shareAction.backgroundColor = .systemBlue
-        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        shareAction.image = UIImage(systemName: SystemImage.share)
         
         let swipeActionCongifuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         swipeActionCongifuration.performsFirstActionWithFullSwipe = false
@@ -239,7 +242,7 @@ extension DiaryListViewController: UITableViewDelegate {
     
     private func shareDiary(_ title: String, _ body: String) {
         let activityViewController = UIActivityViewController(
-            activityItems: [title+"\n"+body],
+            activityItems: [title + String(NewLine.lineFeed) + body],
             applicationActivities: nil
         )
         self.present(activityViewController, animated: true)

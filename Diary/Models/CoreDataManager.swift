@@ -31,16 +31,19 @@ final class CoreDataManager {
 
     func saveDiary(title: String, body: String, createdAt: Date) {
         let diary = Diary(context: persistentContainer.viewContext)
-        diary.setValue(title, forKey: "title")
-        diary.setValue(body, forKey: "body")
-        diary.setValue(createdAt, forKey: "createdAt")
+        diary.setValue(title, forKey: DiaryCoreData.Key.title)
+        diary.setValue(body, forKey: DiaryCoreData.Key.body)
+        diary.setValue(createdAt, forKey: DiaryCoreData.Key.createdAt)
 
         appDelegate.saveContext()
     }
 
     func fetchDiary(createdAt: Date) -> Diary? {
-        let request = NSFetchRequest<Diary>(entityName: "Diary")
-        request.predicate = NSPredicate(format: "createdAt = %@", createdAt as NSDate)
+        let request = NSFetchRequest<Diary>(entityName: DiaryCoreData.entityName)
+        request.predicate = NSPredicate(
+            format: DiaryCoreData.Predicate.creationDate,
+            createdAt as NSDate
+        )
         
         guard let fetchedData =
                 try? persistentContainer.viewContext.fetch(request).first else {
@@ -51,12 +54,15 @@ final class CoreDataManager {
     }
     
     func update(title: String, body: String, createdAt: Date) throws {
-        let request = NSFetchRequest<Diary>(entityName: "Diary")
-        request.predicate = NSPredicate(format: "createdAt = %@", createdAt as NSDate)
+        let fetchRequest = NSFetchRequest<Diary>(entityName: DiaryCoreData.entityName)
+        fetchRequest.predicate = NSPredicate(
+            format: DiaryCoreData.Predicate.creationDate,
+            createdAt as NSDate
+        )
         
         do {
             guard let diary =
-                    try persistentContainer.viewContext.fetch(request).first else {
+                    try persistentContainer.viewContext.fetch(fetchRequest).first else {
                 throw FetchingError.invalidFetchRequest
             }
             
@@ -69,8 +75,11 @@ final class CoreDataManager {
     }
     
     func delete(createdAt: Date) throws {
-        let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
-        fetchRequest.predicate = NSPredicate(format: "createdAt = %@", createdAt as NSDate)
+        let fetchRequest = NSFetchRequest<Diary>(entityName: DiaryCoreData.entityName)
+        fetchRequest.predicate = NSPredicate(
+            format: DiaryCoreData.Predicate.creationDate,
+            createdAt as NSDate
+        )
         
         do {
             guard let diary =

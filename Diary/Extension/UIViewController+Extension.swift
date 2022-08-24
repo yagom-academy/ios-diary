@@ -10,21 +10,18 @@ import UIKit
 extension UIViewController {
     func presentErrorAlert(_ error: (Error)) {
         let errorAlert = UIAlertController(
-            title: AlertMessage.errorAlertTitle,
+            title: Alert.errorAlertTitle,
             message: error.localizedDescription,
             preferredStyle: .alert
         )
         
         let confirmAction = UIAlertAction(
-            title: AlertMessage.confirmActionTitle,
+            title: Alert.confirmActionTitle,
             style: .default
         )
         
         errorAlert.addAction(confirmAction)
         
-        present(
-            errorAlert,
-            animated: true
-        )
+        present(errorAlert, animated: true)
     }
 }
