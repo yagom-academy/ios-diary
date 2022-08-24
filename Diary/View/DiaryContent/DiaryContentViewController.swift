@@ -21,10 +21,10 @@ final class DiaryContentViewController: UIViewController {
         super.viewDidLoad()
         
         setupDefault()
-        registerNotificationForKeyboard()
+        registerNotification()
         configureTextView()
     }
-    
+
     private func setupDefault() {
         self.view.backgroundColor = .white
         self.title = diaryViewModel.dateText
@@ -34,9 +34,23 @@ final class DiaryContentViewController: UIViewController {
                                                                          style: .plain,
                                                                          target: self,
                                                                          action: #selector(didTappedEllipsisButton))
+        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "일기장",
+                                                                style: .plain,
+                                                                target: self,
+                                                                action: #selector(didTappedBackButton))
     }
     
-    @objc func didTappedEllipsisButton() {
+    @objc private func didTappedBackButton() {
+        guard let content = diaryViewModel.diaryContent else {
+            return
+        }
+        
+        diaryViewModel.update(text: diaryDescriptionTextView.text, date: content.createdAt)
+        self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func didTappedEllipsisButton() {
         presentActionSheet()
     }
     
@@ -96,7 +110,7 @@ final class DiaryContentViewController: UIViewController {
         diaryDescriptionTextView.focusTop()
     }
     
-    private func registerNotificationForKeyboard() {
+    private func registerNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -107,6 +121,15 @@ final class DiaryContentViewController: UIViewController {
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(didEnterBackground),
+                                               name: UIApplication.didEnterBackgroundNotification,
+                                               object: nil)
+    }
+    
+    @objc private func didEnterBackground() {
+        diaryViewModel.update(text: diaryDescriptionTextView.text, date: diaryViewModel.diaryContent!.createdAt)
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

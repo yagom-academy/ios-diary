@@ -59,10 +59,10 @@ final class CoreDataManager {
     }
     
     //MARK: - Update
-    func updateContext(title: String, body: String) {
+    func updateContext(data: DiaryContent) {
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "DiaryEntity")
-        request.predicate = NSPredicate(format: "title = %@", title)
+        request.predicate = NSPredicate(format: "title = %@", data.title)
         
         do {
             let result = try context.fetch(request)
@@ -71,9 +71,9 @@ final class CoreDataManager {
                 return
             }
             
-            objectUpdate.setValue(title, forKey: "title")
-            objectUpdate.setValue(body, forKey: "body")
-            objectUpdate.setValue(Date.currentFormattedDate, forKey: "createdAt")
+            objectUpdate.setValue(data.title, forKey: "title")
+            objectUpdate.setValue(data.body, forKey: "body")
+            objectUpdate.setValue(data.createdAt, forKey: "createdAt")
             
             do {
                 try context.save()

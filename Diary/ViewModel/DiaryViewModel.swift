@@ -7,7 +7,7 @@
 import Foundation
 
 final class DiaryViewModel {
-    private var diaryContent: DiaryContent? {
+    var diaryContent: DiaryContent? {
         didSet {
             NotificationCenter.default.post(name: .diaryContent, object: self)
         }
@@ -87,7 +87,7 @@ final class DiaryViewModel {
             return
         }
         
-        let data = text.split(separator: "\n", maxSplits: 2).map{ String($0) }
+        let data = text.split(separator: "\n", maxSplits: 1).map{ String($0) }
         let title = data[0]
         let body = data.count == 1 ? "" : data[1]
 
@@ -103,6 +103,24 @@ final class DiaryViewModel {
     func delete(_ title:String) {
         self.diaryContent = nil
         coreDataManager.deleteContext(title: title)
+    }
+    
+    func update(text: String, date: Double) {
+        guard text != "" else {
+            return
+        }
+        
+        let data = text.split(separator: "\n", maxSplits: 1).map{ String($0) }
+        let title = data[0]
+        let body = data.count == 1 ? "" : data[1]
+
+        self.diaryContent = DiaryContent(title: title, body: body, createdAt: date)
+        
+        guard let diaryContent = diaryContent else {
+            return
+        }
+        
+        coreDataManager.updateContext(data: diaryContent)
     }
 }
 
