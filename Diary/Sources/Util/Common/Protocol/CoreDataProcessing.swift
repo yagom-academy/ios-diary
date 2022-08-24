@@ -5,14 +5,16 @@
 //  Created by yeton, hyeon2 on 2022/08/24.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
-protocol CoreDataProcessing {
-    var context: NSManagedObjectContext? { get set }
-}
+protocol CoreDataProcessing { }
 
 extension CoreDataProcessing {
+    var context: NSManagedObjectContext? { return
+        (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+    }
+    
     func getContents<T: NSFetchRequestResult>(_ request: NSFetchRequest<T>) -> [T]? {
         guard let context = context,
               let contents = try? context.fetch(request) else {
@@ -35,7 +37,6 @@ extension CoreDataProcessing {
         
         do {
             try context.save()
-            getContents(DiaryContents.fetchRequest())
         } catch {
             print("error!!!")
         }

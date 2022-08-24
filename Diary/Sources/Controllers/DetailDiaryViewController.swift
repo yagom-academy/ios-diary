@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailDiaryViewController: UIViewController {
+final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     private var content: DiarySample?
     
     let textView: UITextView = {
@@ -26,6 +26,10 @@ final class DetailDiaryViewController: UIViewController {
         configureLayout()
         configureTextView()
         registerForKeyboardNotification()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        create(text: textView.text)
     }
     
     private func configureNavigationItemTitle() {

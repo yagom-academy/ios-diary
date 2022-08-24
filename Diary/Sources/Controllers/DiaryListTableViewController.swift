@@ -24,7 +24,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
         
         return tableView
     }()
-    var context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+
     private let detailDiaryViewController = DetailDiaryViewController()
     
     override func viewDidLoad() {
