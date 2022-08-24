@@ -55,7 +55,7 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryViewController = DiaryViewController()
         let attributedString = setAttributedString(indexPath: indexPath.row)
-
+        
         diaryViewController.diaryView.diaryTextView.text = nil
         diaryViewController.diaryView.diaryTextView.textColor = .black
         diaryViewController.diaryView.diaryTextView.attributedText = attributedString
@@ -65,6 +65,16 @@ extension DiaryListViewController: UITableViewDelegate {
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shareAction = generateShareAction(with: indexPath)
+        let deleteAction = generateDeleteAction(with: indexPath, in: tableView)
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+}
+
+// MARK: - UITableViewDelegate Support Methods
+
+extension DiaryListViewController {
     private func setAttributedString(indexPath: Int) -> NSMutableAttributedString {
         guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath].title,
               let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath].body else { return NSMutableAttributedString() }
@@ -74,5 +84,29 @@ extension DiaryListViewController: UITableViewDelegate {
         attributedString.append(NSMutableAttributedString(string: diaryBody, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
         
         return attributedString
+    }
+    
+    func generateShareAction(with indexPath: IndexPath) -> UIContextualAction {
+        let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
+            let model = CoreDataManager.shared.fetchedDiaries
+            let title = model[indexPath.row].title ?? "제목없음"
+            let activityViewController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
+            self.present(activityViewController, animated: true)
+        }
+        shareAction.image = UIImage(systemName: "person.crop.circle.badge.plus")
+        shareAction.backgroundColor = .init(red: 80/255, green: 188/225, blue: 223/225, alpha: 1)
+        return shareAction
+    }
+    
+    func generateDeleteAction(with indexPath: IndexPath, in tableView: UITableView) -> UIContextualAction {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
+            let diary = CoreDataManager.shared.fetchedDiaries[indexPath.row]
+            CoreDataManager.shared.delete(diary: diary)
+            tableView.beginUpdates()
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.endUpdates()
+        }
+        deleteAction.image = UIImage(systemName: "trash")
+        return deleteAction
     }
 }
