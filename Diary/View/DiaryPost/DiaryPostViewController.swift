@@ -15,6 +15,8 @@ final class DiaryPostViewController: UIViewController {
         return textView
     }()
     
+    private let diaryViewModel = DiaryViewModel()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDefault()
@@ -31,6 +33,7 @@ final class DiaryPostViewController: UIViewController {
     
     @objc private func didTappedDoneButton() {
         diaryDescriptionTextView.resignFirstResponder()
+        diaryViewModel.assign(text: diaryDescriptionTextView.text, date: Date().timeIntervalSince1970)
     }
     
     private func configureTextView() {

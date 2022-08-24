@@ -83,9 +83,24 @@ final class DiaryViewModel {
         return diaryContentArray
     }
     
-    func assign(to data: DiaryContent) {
-        diaryContent = data
-        manager.insertContext(data: data)
+    func assign(text: String, date: Double) {
+        guard text != "" else {
+            return
+        }
+        
+        let data = text.split(separator: "\n", maxSplits: 2).map{ String($0) }
+        let title = data[0]
+        let body = data.count == 1 ? "" : data[1]
+
+        self.diaryContent = DiaryContent(title: title, body: body, createdAt: date)
+        
+        guard let diaryContent = diaryContent else {
+            return
+        }
+        
+        coreDataManager.insertContext(data: diaryContent)
+    }
+    
     }
 }
 
