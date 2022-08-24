@@ -19,7 +19,6 @@ final class DiaryListViewController: UIViewController {
     private var dataSource: UITableViewDiffableDataSource<Section, Diary>?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
     private var fetchResultsController: NSFetchedResultsController<Diary>?
-    
     private var isFiltering: Bool {
         guard let searchController = navigationItem.searchController else {
             return false
@@ -90,6 +89,27 @@ final class DiaryListViewController: UIViewController {
         tableView.dataSource = dataSource
     }
     
+    private func configureFetchResultsController(from request: NSFetchRequest<Diary>) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let viewContext = appDelegate.persistentContainer.viewContext
+        
+        fetchResultsController = NSFetchedResultsController(
+            fetchRequest: request,
+            managedObjectContext: viewContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+    }
+    
+    private func fetchAllDiaryRequest() -> NSFetchRequest<Diary> {
+        let fetchRequest = NSFetchRequest<Diary>(entityName: DiaryCoreData.entityName)
+        let sort = NSSortDescriptor(key: DiaryCoreData.Key.createdAt, ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.fetchBatchSize = 10
+        
+        return fetchRequest
+    }
+    
     private func configureDataSource() {
         let tableView = diaryView.tableView
         
@@ -113,27 +133,6 @@ final class DiaryListViewController: UIViewController {
         )
         
         dataSource?.apply(snapshot)
-    }
-    
-    private func configureFetchResultsController(from request: NSFetchRequest<Diary>) {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        let viewContext = appDelegate.persistentContainer.viewContext
-        
-        fetchResultsController = NSFetchedResultsController(
-            fetchRequest: request,
-            managedObjectContext: viewContext,
-            sectionNameKeyPath: nil,
-            cacheName: nil
-        )
-    }
-    
-    private func fetchAllDiaryRequest() -> NSFetchRequest<Diary> {
-        let fetchRequest = NSFetchRequest<Diary>(entityName: "Diary")
-        let sort = NSSortDescriptor(key: "createdAt", ascending: false)
-        fetchRequest.sortDescriptors = [sort]
-        fetchRequest.fetchBatchSize = 10
-        
-        return fetchRequest
     }
     
     private func fetchDiaryRequest(from text: String) -> NSFetchRequest<Diary> {
@@ -226,7 +225,10 @@ extension DiaryListViewController: UITableViewDelegate {
         shareAction.backgroundColor = .systemBlue
         shareAction.image = UIImage(systemName: SystemImage.share)
         
-        let swipeActionCongifuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        let swipeActionCongifuration = UISwipeActionsConfiguration(actions: [
+            deleteAction,
+            shareAction
+        ])
         swipeActionCongifuration.performsFirstActionWithFullSwipe = false
         return swipeActionCongifuration
     }
@@ -253,7 +255,6 @@ extension DiaryListViewController: UITableViewDelegate {
 
 extension DiaryListViewController: NSFetchedResultsControllerDelegate {
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
-        
         guard let diary = anObject as? Diary else {
             return
         }
@@ -270,10 +271,8 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
             snapshot.insertItems([diary], beforeItem: lastDiary)
         case .delete:
             snapshot.deleteItems([diary])
-            break
         case .update:
             snapshot.reloadSections([.main])
-            break
         default:
             break
         }

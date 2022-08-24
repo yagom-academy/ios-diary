@@ -189,10 +189,12 @@ final class DiaryContentsViewController: UIViewController {
             return
         }
         
-        let contentInset = UIEdgeInsets(top: 0.0,
-                                        left: 0.0,
-                                        bottom: keyboardFrame.size.height,
-                                        right: 0.0)
+        let contentInset = UIEdgeInsets(
+            top: 0.0,
+            left: 0.0,
+            bottom: keyboardFrame.size.height,
+            right: 0.0
+        )
         
         diaryContentView.textView.contentInset = contentInset
         diaryContentView.textView.scrollIndicatorInsets = contentInset
@@ -207,24 +209,6 @@ final class DiaryContentsViewController: UIViewController {
         handleCRUD()
     }
     
-    @objc func resignActive() {
-        handleCRUD()
-    }
-    
-    private func configureCreationDate() {
-        guard let diary = diary else {
-            creationDate = Date()
-            return
-        }
-        creationDate = diary.createdAt
-    }
-    
-    private func showKeyboard() {
-        if isEditingMemo == false {
-            diaryContentView.textView.becomeFirstResponder()
-        }
-    }
-    
     private func handleCRUD() {
         guard let (title, body) = extractTitleAndBody(),
               let creationDate = creationDate else {
@@ -232,7 +216,11 @@ final class DiaryContentsViewController: UIViewController {
         }
         
         do {
-            try determineDataProcessingFor(title, body, creationDate)
+            try determineDataProcessingFor(
+                title,
+                body,
+                creationDate
+            )
         } catch {
             presentErrorAlert(error)
         }
@@ -251,7 +239,10 @@ final class DiaryContentsViewController: UIViewController {
         let titleRange = NSMakeRange(.zero, firstLineBreakIndex)
         let title = (diaryConentViewText as NSString).substring(with: titleRange)
         
-        let bodyRange = NSMakeRange(firstLineBreakIndex + 1, diaryConentViewText.count - title.count - 1)
+        let bodyRange = NSMakeRange(
+            firstLineBreakIndex + 1,
+            diaryConentViewText.count - title.count - 1
+        )
         let body = (diaryConentViewText as NSString).substring(with: bodyRange)
         
         return (title, body)
@@ -275,6 +266,24 @@ final class DiaryContentsViewController: UIViewController {
             )
         case (_, true):
             try CoreDataManager.shared.delete(createdAt: creationDate)
+        }
+    }
+    
+    @objc func resignActive() {
+        handleCRUD()
+    }
+    
+    private func configureCreationDate() {
+        guard let diary = diary else {
+            creationDate = Date()
+            return
+        }
+        creationDate = diary.createdAt
+    }
+    
+    private func showKeyboard() {
+        if isEditingMemo == false {
+            diaryContentView.textView.becomeFirstResponder()
         }
     }
 }

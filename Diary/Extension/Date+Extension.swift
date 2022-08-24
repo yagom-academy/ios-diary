@@ -10,7 +10,9 @@ import Foundation
 extension Date {
     var localizedString: String? {
         guard let localeID = Locale.preferredLanguages.first,
-              let deviceLocale = Locale(identifier: localeID).languageCode else { return nil }
+              let deviceLocale = Locale(identifier: localeID).languageCode else {
+            return nil
+        }
         
         let dateFormatter = DateFormatter()
         
