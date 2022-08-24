@@ -53,12 +53,17 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath.row].title,
+              let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath.row].body else { return }
         let diaryViewController = DiaryViewController()
-        let attributedString = setAttributedString(indexPath: indexPath.row)
-        
         diaryViewController.diaryView.diaryTextView.text = nil
         diaryViewController.diaryView.diaryTextView.textColor = .black
-        diaryViewController.diaryView.diaryTextView.attributedText = attributedString
+        if diaryBody != "" {
+            let attributedString = setAttributedString(indexPath: indexPath.row)
+            diaryViewController.diaryView.diaryTextView.attributedText = attributedString
+        } else {
+            diaryViewController.diaryView.diaryTextView.text = diaryTitle
+        }
         
         diaryViewController.indexPath = indexPath
         diaryViewController.mode = .modify
@@ -75,11 +80,11 @@ extension DiaryListViewController: UITableViewDelegate {
 // MARK: - UITableViewDelegate Support Methods
 
 extension DiaryListViewController {
+    
     private func setAttributedString(indexPath: Int) -> NSMutableAttributedString {
         guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath].title,
               let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath].body else { return NSMutableAttributedString() }
-        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: diaryTitle + "\n", attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
-        
+        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: diaryTitle + "\n\n", attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
         attributedString.append(NSMutableAttributedString(string: diaryBody, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
         
         return attributedString

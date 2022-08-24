@@ -9,7 +9,14 @@ import UIKit
 
 final class DiaryView: UIView {
     // MARK: - Properties
-    
+    var realTimeTypingValue: String = "" {
+        didSet {
+            if oldValue == "\n" && realTimeTypingValue == "\n" {
+                isTwiceLineChange = true
+            }
+        }
+    }
+    var isTwiceLineChange: Bool = false
     let placeHolder = NameSpace.placeHolder
     lazy var diaryTextView: UITextView = {
         let textview = UITextView()
@@ -35,7 +42,7 @@ final class DiaryView: UIView {
     }()
     
     // MARK: - Initializer
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         diaryTextView.delegate = self
@@ -48,7 +55,7 @@ final class DiaryView: UIView {
     }
     
     // MARK: - Methods
-
+    
     private func setupSubviews() {
         addSubview(diaryTextView)
         accessoryView.addSubview(closeButton)
@@ -75,8 +82,10 @@ final class DiaryView: UIView {
 
 extension DiaryView: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
+        realTimeTypingValue = text
+        if isTwiceLineChange {
             textView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+            isTwiceLineChange = false
         }
         return true
     }

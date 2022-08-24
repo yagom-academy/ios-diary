@@ -134,17 +134,17 @@ extension DiaryViewController {
     }
     
     private func makeDiaryModel() -> DiaryModel {
-        let distinguishedTitleAndBody = diaryView.diaryTextView.text.split(separator: "\n", maxSplits: 1)
+        let distinguishedTitleAndBody = diaryView.diaryTextView.text.components(separatedBy: "\n\n")
         let createdAt = Date().timeIntervalSince1970
-        
-        guard distinguishedTitleAndBody.count != 0 else {
+        let filteredList = distinguishedTitleAndBody.filter { return $0 != "" && $0 != "\n" }
+        guard filteredList.isEmpty == false else {
             let title = "새로운일기장"
             let body = ""
             return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
         }
         
         let title = distinguishedTitleAndBody[0]
-        let body = distinguishedTitleAndBody.count == 1 ? "" : distinguishedTitleAndBody[1]
+        let body = distinguishedTitleAndBody.count == 1 ? "" : distinguishedTitleAndBody[1...distinguishedTitleAndBody.count-1].joined(separator: "\n\n")
         return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
     }
 }
