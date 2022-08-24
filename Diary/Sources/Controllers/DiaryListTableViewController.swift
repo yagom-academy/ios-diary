@@ -82,17 +82,17 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
         dataSource = DiffableDataSource(
             tableView: diaryTableView,
             cellProvider: { tableView, indexPath, itemIdentifier in
-            guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: "DiaryTableViewCell",
-                for: indexPath
-            ) as? DiaryTableViewCell else {
-                return nil
-            }
-            
-            cell.setComponents(item: itemIdentifier)
-            
-            return cell
-        })
+                guard let cell = tableView.dequeueReusableCell(
+                    withIdentifier: "DiaryTableViewCell",
+                    for: indexPath
+                ) as? DiaryTableViewCell else {
+                    return nil
+                }
+                
+                cell.setComponents(item: itemIdentifier)
+                
+                return cell
+            })
     }
     
     private func configureSnapshot() {
@@ -119,5 +119,23 @@ extension DiaryListTableViewController: UITableViewDelegate {
             detailDiaryViewController,
             animated: true
         )
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .normal, title: "Delete") { [self] _, _, _ in
+            let removableContent = self.snapshot.itemIdentifiers[indexPath.item]
+            
+            self.context?.delete(removableContent)
+            
+            do {
+                try self.context?.save()
+            } catch {
+                print(error)
+            }
+            
+            self.snapshot.deleteItems([removableContent])
+            self.dataSource?.apply(snapshot, animatingDifferences: true)
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
