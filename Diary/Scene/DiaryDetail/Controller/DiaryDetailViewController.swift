@@ -34,15 +34,27 @@ final class DiaryDetailViewController: UIViewController {
 
     private func updateDiary() {
         let diaryInfomation = textView.text.split(separator: "\n", maxSplits: 1)
-        let title = String(diaryInfomation[0])
-        let body = String(diaryInfomation[1])
+        guard let id = id else { return }
         
-        guard let id = id else {
+        if textView.text == "" {
+            diaryData.delete(id)
             return
         }
-
+        
+        let title = String(diaryInfomation[0])
+        let body = getBody(title: title)
+        
         let diary = Diary(uuid: id, title: title, body: body, createdAt: Date().timeIntervalSince1970)
+        
         diaryData.update(diary: diary)
+    }
+    
+    private func getBody(title: String) -> String {
+        guard var text = textView.text else { return "" }
+        for _ in 0..<title.count {
+            text.removeFirst()
+        }
+        return text
     }
     
     private func setupView() {

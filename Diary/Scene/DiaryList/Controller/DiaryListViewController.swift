@@ -48,6 +48,7 @@ final class DiaryListViewController: UIViewController {
             guard let self = self,
                   let fetchedData = self.diaryCoreData?.fetch(),
                   let diaryData = fetchedData as? [DiaryEntity] else { return }
+            
             self.setupDataSource()
             self.setupSnapshot(with: diaryData)
         }

@@ -65,9 +65,9 @@ class CoreDataManager {
         } catch { print(error) }
     }
     
-    func delete() {
+    func delete(_ id: UUID) {
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "DiaryEntity")
-//        fetchRequest.predicate = NSPredicate(format: "title = %@", title)
+        fetchRequest.predicate = NSPredicate(format: "uuid = %@", id as CVarArg)
         
         do {
             let test = try context.fetch(fetchRequest)

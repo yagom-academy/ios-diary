@@ -85,7 +85,8 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     
     func setupCellProperties(with model: DiaryEntity) {
         titleLabel.text = model.title
-        previewLabel.text = model.body
+        guard let body = model.body?.split(separator: "\n").first else { return }
+        previewLabel.text = String(body)
         dateLabel.text = model.createdAt.convert1970DateToString()
     }
     
