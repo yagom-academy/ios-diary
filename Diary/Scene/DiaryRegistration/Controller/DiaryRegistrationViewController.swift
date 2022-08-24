@@ -29,26 +29,17 @@ final class DiaryRegistrationViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         keyboardManager.removeNotificationObserver()
-        updateDiary(title: popTitle())
+        updateDiary()
     }
     
     // MARK: - functions
         
-    private func updateDiary(title: String) {
-        let newDiary = Diary(title: title, body: textView.text, createdAt: Date().timeIntervalSince1970)
-        print(newDiary)
+    private func updateDiary() {
+        let diaryInfomation = textView.text.split(separator: "\n", maxSplits: 1)
+        let title = String(diaryInfomation[0])
+        let body = String(diaryInfomation[1])
+        let newDiary = Diary(uuid: UUID(), title: title, body: body, createdAt: Date().timeIntervalSince1970)
         diaryData.create(myDiary: newDiary)
-    }
-    
-    private func popTitle() -> String {
-        if textView.text == "" { return "" }
-        
-        let textSeparater = String(textView.text.split(separator: "\n")[0])
-        for _ in 0...textSeparater.count {
-            textView.text.removeFirst()
-        }
-        
-        return textSeparater
     }
     
     private func setupView() {

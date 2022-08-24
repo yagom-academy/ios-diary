@@ -12,6 +12,8 @@ final class DiaryDetailViewController: UIViewController {
     
     private let textView = DiaryDetailTextView()
     private lazy var keyboardManager = KeyboardManager(textView)
+    private let diaryData = CoreDataManager()
+    private var id: UUID?
     
     // MARK: - life cycles
 
@@ -25,10 +27,24 @@ final class DiaryDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         keyboardManager.removeNotificationObserver()
+        updateDiary()
     }
     
     // MARK: - functions
 
+    private func updateDiary() {
+        let diaryInfomation = textView.text.split(separator: "\n", maxSplits: 1)
+        let title = String(diaryInfomation[0])
+        let body = String(diaryInfomation[1])
+        
+        guard let id = id else {
+            return
+        }
+
+        let diary = Diary(uuid: id, title: title, body: body, createdAt: Date().timeIntervalSince1970)
+        diaryData.update(diary: diary)
+    }
+    
     private func setupView() {
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
@@ -52,10 +68,12 @@ final class DiaryDetailViewController: UIViewController {
 
 extension DiaryDetailViewController: DataSendable {
     func setupData<T>(_ data: T) {
-        guard let diaryInformation = data as? Diary else { return }
+        guard let diaryInformation = data as? DiaryEntity,
+              let title = diaryInformation.title,
+              let body = diaryInformation.body else { return }
         navigationItem.title = diaryInformation.createdAt.convert1970DateToString()
-        
-        textView.text = diaryInformation.title + Design.doubleLineBreak + diaryInformation.body
+        id = diaryInformation.uuid ?? UUID()
+        textView.text = title + Design.lineBreak + body
     }
 }
 
@@ -78,5 +96,5 @@ extension DiaryDetailViewController: UITextViewDelegate {
 private enum Design {
     static let emptyString = ""
     static let textViewPlaceHolder = "내용을 입력해주세요"
-    static let doubleLineBreak = "\n\n"
+    static let lineBreak = "\n"
 }

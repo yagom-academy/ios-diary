@@ -18,7 +18,7 @@ final class DiaryListViewController: UIViewController {
     }()
     
     private var diaryCollectionView: UICollectionView?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, DiaryEntity>?
     private var diaryCoreData: CoreDataManager?
     
     // MARK: - life cycles
@@ -28,11 +28,11 @@ final class DiaryListViewController: UIViewController {
         setupView()
         setupDataSource()
         addObserver()
-        diaryCoreData = CoreDataManager()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        diaryCoreData = CoreDataManager()
         
     }
     
@@ -44,13 +44,13 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func onDidReceiveData(_ notification: Notification) {
-//        guard let diary = notification.object as? MockDiaryManager else{ return }
-
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self,
+                  let fetchedData = self.diaryCoreData?.fetch(),
+                  let diaryData = fetchedData as? [DiaryEntity] else { return }
             self.setupDataSource()
-            self.setupSnapshot(with: (self.diaryCoreData?.fetch())!)
+            self.setupSnapshot(with: diaryData)
         }
-        
     }
     
     // MARK: - functions
@@ -130,7 +130,7 @@ final class DiaryListViewController: UIViewController {
     
     
     private func setupDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, Diary>
+        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, DiaryEntity>
         {
             (cell, indexPath, identifier) in
             cell.setupCellProperties(with: identifier)
@@ -138,7 +138,7 @@ final class DiaryListViewController: UIViewController {
         
         guard let collectionView = diaryCollectionView else { return }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView)
+        dataSource = UICollectionViewDiffableDataSource<Section, DiaryEntity>(collectionView: collectionView)
         {
             (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             
@@ -148,8 +148,8 @@ final class DiaryListViewController: UIViewController {
         }
     }
     
-    private func setupSnapshot(with jsonModel: [Diary]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
+    private func setupSnapshot(with jsonModel: [DiaryEntity]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryEntity>()
         snapshot.appendSections([.main])
         snapshot.appendItems(jsonModel)
         
@@ -189,7 +189,8 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
-        let fetchedData = diaryCoreData!.fetch()
+        guard let diaryCoreData = diaryCoreData else { return }
+        let fetchedData = diaryCoreData.fetch()
         diaryDetailViewController.setupData(fetchedData[indexPath.row])
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
@@ -200,7 +201,6 @@ private enum Design {
     static let moonImage = "moon.fill"
     static let navigationTitle = "일기장"
     static let plusButton = "plus"
-    static let NSDataAsset = "sample"
     static let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                  heightDimension: .absolute(44))
     static let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
