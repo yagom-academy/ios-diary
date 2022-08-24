@@ -8,5 +8,5 @@
 import Foundation
 
 extension Notification.Name {
-    static let mockdataUpload = Notification.Name("mockdataUpload")
+    static let diaryModelDataDidChanged = Notification.Name("diaryModelDataDidChanged")
 }

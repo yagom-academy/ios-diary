@@ -9,7 +9,7 @@ import UIKit
 
 final class MainViewController: UIViewController {
         
-    let sampleDiary = DiaryManger()
+    let diaryManager = DiaryManager()
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
@@ -27,7 +27,7 @@ final class MainViewController: UIViewController {
         self.setNavigationbar()
         self.configureTableView()
         self.registerDiaryNotification()
-        self.sampleDiary.loadData()
+        self.diaryManager.loadData()
     }
     
     private func setNavigationbar() {
@@ -56,7 +56,7 @@ final class MainViewController: UIViewController {
     private func registerDiaryNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(updateTableView),
-                                               name: .mockdataUpload,
+                                               name: .diaryModelDataDidChanged,
                                                object: nil)
     }
     
@@ -68,7 +68,7 @@ final class MainViewController: UIViewController {
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sampleDiary.sampleDiaryContent.count
+        return diaryManager.count()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -76,7 +76,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
                 
-        cell.configure(with: sampleDiary.sampleDiaryContent[indexPath.row])
+        cell.configure(with: diaryManager.content(index: indexPath.row))
         return cell
     }
 }
