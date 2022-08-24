@@ -9,11 +9,8 @@ import Foundation
 
 protocol DBMangerable {
     func loadData()
-}
-
-class DBManager: DBMangerable {
-    
-    func loadData() { }
+    func count() -> Int
+    func content(index: Int) -> SampleDiaryContent
 }
 
 class StubDBManager: DBMangerable {
@@ -41,7 +38,7 @@ class StubDBManager: DBMangerable {
         return self.sampleDiaryContent.count
     }
     
-    func diaryContent(index: Int) -> SampleDiaryContent {
+    func content(index: Int) -> SampleDiaryContent {
         return self.sampleDiaryContent[index]
     }
 }

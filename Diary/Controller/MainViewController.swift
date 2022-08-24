@@ -9,7 +9,7 @@ import UIKit
 
 final class MainViewController: UIViewController {
         
-    let diaryManager = DiaryManager()
+    let diaryManager = DiaryManager(dbManager: StubDBManager())
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all

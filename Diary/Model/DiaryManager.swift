@@ -7,17 +7,21 @@
 
 class DiaryManager: DBMangerable {
     
-    let stubDBManager = StubDBManager()
+    let dbManager: DBMangerable
+    
+    init(dbManager: DBMangerable) {
+        self.dbManager = dbManager
+    }
     
     func loadData() {
-        self.stubDBManager.loadData()
+        self.dbManager.loadData()
     }
     
     func count() -> Int {
-        return self.stubDBManager.count()
+        return self.dbManager.count()
     }
     
     func content(index: Int) -> SampleDiaryContent {
-        return self.stubDBManager.diaryContent(index: index)
+        return self.dbManager.content(index: index)
     }
 }
