@@ -102,8 +102,10 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     private func setupDateLabel() {
-        let standardPriority = shortDescriptionLabel.contentCompressionResistancePriority(for: .horizontal)
+        let standardPriority = shortDescriptionLabel.contentHuggingPriority(for: .horizontal)
+        let standardCompressionPriority = shortDescriptionLabel.contentCompressionResistancePriority(for: .horizontal)
         
-        dateLabel.setContentCompressionResistancePriority(standardPriority + 1, for: .horizontal)
+        dateLabel.setContentHuggingPriority(standardPriority + 1, for: .horizontal)
+        dateLabel.setContentCompressionResistancePriority(standardCompressionPriority + 1, for: .horizontal)
     }
 }
