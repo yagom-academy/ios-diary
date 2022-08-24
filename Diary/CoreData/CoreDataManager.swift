@@ -40,7 +40,8 @@ final class CoreDataManager {
     }
     
     func update(diary: DiaryModel, with indexPath: Int) {
-        guard fetchedDiaries[indexPath].title != diary.title || fetchedDiaries[indexPath].body != diary.body else { return }
+        guard fetchedDiaries[indexPath].title != diary.title || fetchedDiaries[indexPath].body != diary.body,
+              fetchedDiaries.count - 1 >= indexPath else { return }
         
         fetchedDiaries[indexPath].title = diary.title
         fetchedDiaries[indexPath].body = diary.body

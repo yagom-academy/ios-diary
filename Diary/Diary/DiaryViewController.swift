@@ -18,8 +18,8 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationBar()
         setupInitialView()
-        setupNavigationTitle()
         setupKeyboard()
         setupNotification()
     }
@@ -36,15 +36,20 @@ final class DiaryViewController: UIViewController {
     
     // MARK: - UI Methods
     
+    private func configureNavigationBar() {
+        let now = Date()
+        navigationItem.title = now.timeIntervalSince1970.translateToDate()
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(showActionSheet))
+    }
+    
     private func setupInitialView() {
         view.backgroundColor = .systemBackground
         view.addSubview(diaryView)
         setDiaryViewConstraint()
-    }
-    
-    private func setupNavigationTitle() {
-        let now = Date()
-        navigationItem.title = now.timeIntervalSince1970.translateToDate()
     }
     
     private func setDiaryViewConstraint() {
@@ -55,6 +60,34 @@ final class DiaryViewController: UIViewController {
             diaryView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+    
+    @objc private func showActionSheet() {
+        let model = makeDiaryModel()
+        
+        let share = UIAlertAction(title: "Share...", style: .default) { _ in
+            let activityViewController = UIActivityViewController(activityItems: [model.title], applicationActivities: nil)
+            self.present(activityViewController, animated: true)
+        }
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            let cancel = UIAlertAction(title: "취소", style: .cancel)
+            let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+                guard let indexPath = self?.indexPath else { return }
+                CoreDataManager.shared.delete(diary: CoreDataManager.shared.fetchedDiaries[indexPath.row])
+                self?.navigationController?.popViewController(animated: true)
+            }
+            self.generateAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert, actions: [cancel, delete])
+        }
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        generateAlertController(title: nil, message: nil, style: .actionSheet, actions: [share, cancel, delete])
+    }
+    
+    private func generateAlertController(title: String?, message: String?, style: UIAlertController.Style, actions: [UIAlertAction]) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: style)
+        actions.forEach { action in
+            alert.addAction(action)
+        }
+        present(alert, animated: true)
     }
 }
 
