@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45222EAB28B5C1BF001907B4 /* DiaryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45222EA928B5C1BF001907B4 /* DiaryEntity+CoreDataClass.swift */; };
+		45222EAC28B5C1BF001907B4 /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45222EAA28B5C1BF001907B4 /* DiaryEntity+CoreDataProperties.swift */; };
+		45222EAE28B5C490001907B4 /* DiaryCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45222EAD28B5C490001907B4 /* DiaryCoreDataManager.swift */; };
 		45DC613D28ABDA5500DB4D8D /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DC613C28ABDA5500DB4D8D /* DiaryDetailViewController.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
@@ -21,6 +24,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		45222EA928B5C1BF001907B4 /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		45222EAA28B5C1BF001907B4 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		45222EAD28B5C490001907B4 /* DiaryCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCoreDataManager.swift; sourceTree = "<group>"; };
 		45DC613C28ABDA5500DB4D8D /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -47,6 +53,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		45222EAF28B5D21F001907B4 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				45222EA928B5C1BF001907B4 /* DiaryEntity+CoreDataClass.swift */,
+				45222EAA28B5C1BF001907B4 /* DiaryEntity+CoreDataProperties.swift */,
+				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
@@ -78,6 +94,7 @@
 			children = (
 				FD8ED63528AC7CC000F631F2 /* DiaryItem.swift */,
 				FD8ED63C28ACB76300F631F2 /* DiaryDataManager.swift */,
+				45222EAD28B5C490001907B4 /* DiaryCoreDataManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -108,7 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				45222EAF28B5D21F001907B4 /* CoreData */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -212,10 +229,13 @@
 				FD8ED63D28ACB76300F631F2 /* DiaryDataManager.swift in Sources */,
 				45DC613D28ABDA5500DB4D8D /* DiaryDetailViewController.swift in Sources */,
 				FD8ED63A28ACAAB800F631F2 /* TimeInterval+Extensions.swift in Sources */,
+				45222EAC28B5C1BF001907B4 /* DiaryEntity+CoreDataProperties.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				FD8ED64028ACF17D00F631F2 /* DiaryListCollectionViewCell.swift in Sources */,
 				FD8ED64228ACF46C00F631F2 /* CALayer+Extensions.swift in Sources */,
+				45222EAB28B5C1BF001907B4 /* DiaryEntity+CoreDataClass.swift in Sources */,
+				45222EAE28B5C490001907B4 /* DiaryCoreDataManager.swift in Sources */,
 				FD8ED63628AC7CC000F631F2 /* DiaryItem.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);
