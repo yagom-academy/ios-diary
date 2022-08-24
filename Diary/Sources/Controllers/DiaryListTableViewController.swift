@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class DiaryListTableViewController: UIViewController {
+final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     private enum Section {
         case main
     }
@@ -24,8 +24,7 @@ final class DiaryListTableViewController: UIViewController {
         
         return tableView
     }()
-    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
-    private var diaryContent = [DiaryContents]()
+    var context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     private let detailDiaryViewController = DetailDiaryViewController()
     
     override func viewDidLoad() {
@@ -35,8 +34,10 @@ final class DiaryListTableViewController: UIViewController {
         configureLayout()
         configureDataSource()
         snapshot.appendSections([.main])
-        
-        createDiaryContents()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        configureSnapshot()
     }
     
     private func configureAttributes() {
@@ -95,48 +96,13 @@ final class DiaryListTableViewController: UIViewController {
     }
     
     private func configureSnapshot() {
-        let diarySample: [DiaryContents]? = diaryContent
-        guard let diarySample = diarySample else {
+        guard let diarySample = getContents(DiaryContents.fetchRequest()) else {
             return
         }
         
         snapshot.appendItems(diarySample)
         
         dataSource?.apply(snapshot)
-    }
-    
-    private func fetchDiaryContents() {
-        do {
-            guard let context = context else {
-                return
-            }
-            diaryContent = try context.fetch(DiaryContents.fetchRequest())
-            configureSnapshot()
-        } catch {
-            print("error!!!")
-        }
-    }
-    
-    private func createDiaryContents() {
-        guard let context = context else {
-            return
-        }
-
-        let diaryContents = DiaryContents(context: context)
-        let dummyData = "여기는 타이틀\n\n여기는 바디"
-       
-        let content = dummyData.components(separatedBy: "\n\n")
-        diaryContents.title = String(content[0])
-        diaryContents.body = String(content[1])
-        diaryContents.createdAt = Date().timeIntervalSince1970
-        diaryContents.id = UUID()
-        
-        do {
-            try context.save()
-            fetchDiaryContents()
-        } catch {
-            print("error!!!")
-        }
     }
 }
 
