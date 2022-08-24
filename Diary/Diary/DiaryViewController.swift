@@ -35,7 +35,7 @@ final class DiaryViewController: UIViewController {
     }
     
     // MARK: - UI Methods
-
+    
     private func setupInitialView() {
         view.backgroundColor = .systemBackground
         view.addSubview(diaryView)
@@ -99,9 +99,16 @@ extension DiaryViewController {
     
     private func makeDiaryModel() -> DiaryModel {
         let distinguishedTitleAndBody = diaryView.diaryTextView.text.split(separator: "\n", maxSplits: 1)
+        let createdAt = Date().timeIntervalSince1970
+        
+        guard distinguishedTitleAndBody.count != 0 else {
+            let title = "새로운일기장"
+            let body = ""
+            return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
+        }
+        
         let title = distinguishedTitleAndBody[0]
         let body = distinguishedTitleAndBody.count == 1 ? "" : distinguishedTitleAndBody[1]
-        let createdAt = Date().timeIntervalSince1970
         return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
     }
 }
