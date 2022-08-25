@@ -8,8 +8,10 @@
 import UIKit
 import CoreData
 
-class CoreDataManager: DataManagable {
+final class CoreDataManager: DataManagable {
     typealias Model = Diary
+    
+    // MARK: - properties
     
     private let persistentContainer: NSPersistentContainer = {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
@@ -21,11 +23,15 @@ class CoreDataManager: DataManagable {
     
     lazy var context = persistentContainer.viewContext
     
+    // MARK: - initializers
+    
     init() {
         NotificationCenter.default.post(name: .didReceiveData,
                                                     object: self)
     }
 
+    // MARK: - functions
+    
     func create(model: Diary) {
         let diaryEntity = DiaryEntity(context: context)
         diaryEntity.setValue(model.title, forKey: "title")

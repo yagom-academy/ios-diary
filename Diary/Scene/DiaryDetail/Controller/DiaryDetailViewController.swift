@@ -32,6 +32,80 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     // MARK: - functions
+    
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+        view.addSubview(textView)
+    }
+    
+    private func setupNavigationBar() {
+        
+        let buttonImage = UIImage(systemName: Design.moreButtonImageName)
+        let rightBarButton = UIBarButtonItem(image: buttonImage,
+                                             style: .done,
+                                             target: self,
+                                             action: #selector(didTapRightBarButton))
+        navigationItem.rightBarButtonItem = rightBarButton
+    }
+    
+    private func setupActionSheet() {
+        let actionSheet = UIAlertController(title: nil,
+                                                message: nil,
+                                                preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: Design.actionSheetShareActionTitle, style: .default) { [weak self] _ in
+            self?.setupActivityView()
+        }
+        let deleteAction = UIAlertAction(title: Design.actionSheetDeleteActionTitle, style: .destructive) { [weak self] _ in
+            self?.setupDeleteAlertAction()
+        }
+        let cancelAction = UIAlertAction(title: Design.actionSheetCancelActionTitle, style: .cancel)
+                                                
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+                                                
+        present(actionSheet, animated: true)
+    }
+    
+    private func setupActivityView() {
+        let title = textView.text.split(separator: Design.textViewSeparator, maxSplits: 1)
+        
+        let activityViews = title[0]
+        let activityView = UIActivityViewController(activityItems: [activityViews],
+                                                    applicationActivities: nil)
+
+        present(activityView, animated: true)
+    }
+    
+    private func setupDeleteAlertAction() {
+        let cancelAlerController = UIAlertController(title: Design.cancelAlertControllerTitle,
+                                                     message: Design.cancelAlertControllerMessage,
+                                                     preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: Design.cancelActionTitle, style: .cancel)
+        let deleteAction = UIAlertAction(title: Design.deleteActionTitle, style: .destructive) { [weak self] _ in
+            self?.diaryData.delete(self?.id ?? UUID())
+            self?.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        cancelAlerController.addAction(cancelAction)
+        cancelAlerController.addAction(deleteAction)
+        
+        present(cancelAlerController, animated: true)
+    }
+    
+    private func setupTextView() {
+        if textView.text == Design.emptyString {
+            textView.text = Design.textViewPlaceHolder
+            textView.textColor = .lightGray
+        } else {
+            textView.textColor = .black
+        }
+        
+        textView.delegate = self
+        textView.setupConstraints(with: view)
+        textView.layoutIfNeeded()
+    }
 
     private func updateDiary() {
         let diaryInfomation = textView.text.split(separator: Design.textViewSeparator, maxSplits: 1)
@@ -61,80 +135,6 @@ final class DiaryDetailViewController: UIViewController {
         }
         
         return text
-    }
-    
-    private func setupView() {
-        view.backgroundColor = .systemBackground
-        view.addSubview(textView)
-    }
-    
-    private func setupNavigationBar() {
-        
-        let buttonImage = UIImage(systemName: Design.moreButtonImageName)
-        let rightBarButton = UIBarButtonItem(image: buttonImage,
-                                             style: .done,
-                                             target: self,
-                                             action: #selector(didTapRightBarButton))
-        navigationItem.rightBarButtonItem = rightBarButton
-    }
-    
-    private func setupActionSheet() {
-        let actionSheet = UIAlertController(title: nil,
-                                                message: nil,
-                                                preferredStyle: .actionSheet)
-        
-        let shareAction = UIAlertAction(title: Design.actionSheetShareActionTitle, style: .default) { _ in
-            self.setupActivityView()
-        }
-        let deleteAction = UIAlertAction(title: Design.actionSheetDeleteActionTitle, style: .destructive) { _ in
-            self.setupDeleteAlertAction()
-        }
-        let cancelAction = UIAlertAction(title: Design.actionSheetCancelActionTitle, style: .cancel)
-                                                
-        actionSheet.addAction(shareAction)
-        actionSheet.addAction(deleteAction)
-        actionSheet.addAction(cancelAction)
-                                                
-        present(actionSheet, animated: true)
-    }
-    
-    private func setupActivityView() {
-        let title = textView.text.split(separator: Design.textViewSeparator, maxSplits: 1)
-        
-        let activityViews = title[0]
-        let activityView = UIActivityViewController(activityItems: [activityViews],
-                                                    applicationActivities: nil)
-
-        present(activityView, animated: true)
-    }
-    
-    private func setupDeleteAlertAction() {
-        let cancelAlerController = UIAlertController(title: Design.cancelAlertControllerTitle,
-                                                     message: Design.cancelAlertControllerMessage,
-                                                     preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: Design.cancelActionTitle, style: .cancel)
-        let deleteAction = UIAlertAction(title: Design.deleteActionTitle, style: .destructive) { _ in
-            self.diaryData.delete(self.id ?? UUID())
-            self.navigationController?.popToRootViewController(animated: true)
-        }
-        
-        cancelAlerController.addAction(cancelAction)
-        cancelAlerController.addAction(deleteAction)
-        
-        present(cancelAlerController, animated: true)
-    }
-    
-    private func setupTextView() {
-        if textView.text == Design.emptyString {
-            textView.text = Design.textViewPlaceHolder
-            textView.textColor = .lightGray
-        } else {
-            textView.textColor = .black
-        }
-        
-        textView.delegate = self
-        textView.setupConstraints(with: view)
-        textView.layoutIfNeeded()
     }
     
     // MARK: - objc functions

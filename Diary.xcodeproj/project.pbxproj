@@ -150,6 +150,7 @@
 			children = (
 				1863247C28AE1FF800BAE36D /* KeyboardManager.swift */,
 				1889537B28B4C9DF00505607 /* CoreDataManager.swift */,
+				1869EDAE28B384530082AB42 /* MockDiaryManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -203,7 +204,6 @@
 		18BE691028AE5EC9000A9E82 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				1869EDAE28B384530082AB42 /* MockDiaryManager.swift */,
 				18BE691728AE5F09000A9E82 /* Enum */,
 			);
 			path = Model;

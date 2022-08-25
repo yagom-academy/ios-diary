@@ -8,9 +8,11 @@
 import Foundation
 import UIKit.NSDataAsset
 
-class MockDiaryManager: DataManagable {
+final class MockDiaryManager: DataManagable {
     typealias Model = Diary
     typealias ModelObject = Diary
+    
+    // MARK: - properites
     
     private var model = [Diary]() {
         didSet {
@@ -20,11 +22,15 @@ class MockDiaryManager: DataManagable {
         }
     }
     
+    // MARK: - initializers
+    
     init() { }
     
     init(model: [Diary]) {
         self.model = fetch()
     }
+    
+    // MARK: - functions
     
     func create(model: Diary) {
         
