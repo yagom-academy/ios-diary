@@ -14,12 +14,15 @@ final class DiaryContentViewController: UIViewController {
         textView.font = UIFont.preferredFont(forTextStyle: .caption1)
         return textView
     }()
-    
+        
+    private let ellipsisButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                 style: .plain,
+                                                 target: DiaryContentViewController.self,
+                                                 action: #selector(didTappedEllipsisButton))
     var diaryViewModel = DiaryViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupDefault()
         registerNotification()
         configureTextView()
@@ -28,26 +31,20 @@ final class DiaryContentViewController: UIViewController {
     private func setupDefault() {
         self.view.backgroundColor = .white
         self.title = diaryViewModel.dateText
-        
-        let rightButtonImage = UIImage(systemName: "ellipsis.circle")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightButtonImage,
-                                                                         style: .plain,
-                                                                         target: self,
-                                                                         action: #selector(didTappedEllipsisButton))
-        
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "일기장",
-                                                                style: .plain,
-                                                                target: self,
-                                                                action: #selector(didTappedBackButton))
+        diaryDescriptionTextView.delegate = self
+    
+        self.navigationItem.rightBarButtonItems = [ellipsisButton]
     }
     
-    @objc private func didTappedBackButton() {
+    @objc private func didTappedDoneButton() {
         guard let content = diaryViewModel.diaryContent else {
             return
         }
         
         diaryViewModel.update(text: diaryDescriptionTextView.text, date: content.createdAt)
-        self.navigationController?.popViewController(animated: true)
+        diaryDescriptionTextView.resignFirstResponder()
+        
+        self.navigationItem.rightBarButtonItems = [ellipsisButton]
     }
     
     @objc private func didTappedEllipsisButton() {
@@ -152,5 +149,16 @@ final class DiaryContentViewController: UIViewController {
         let contentInset = UIEdgeInsets.zero
         diaryDescriptionTextView.contentInset = contentInset
         diaryDescriptionTextView.scrollIndicatorInsets = contentInset
+    }
+}
+
+extension DiaryContentViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        let doneButton = UIBarButtonItem(title: "완료",
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(didTappedDoneButton))
+        
+        self.navigationItem.rightBarButtonItems = [doneButton,ellipsisButton]
     }
 }
