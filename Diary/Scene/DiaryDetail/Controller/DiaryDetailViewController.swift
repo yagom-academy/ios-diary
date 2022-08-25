@@ -11,7 +11,7 @@ class DiaryDetailViewController: UIViewController {
     // MARK: - properties
     
     private let diaryDetailView = DiaryDetailView()
-    private var diaryDetailData: DiaryModel?
+    var diaryDetailData: DiaryModel?
     
     // MARK: - view life cycle
     
@@ -23,6 +23,8 @@ class DiaryDetailViewController: UIViewController {
         configureViewLayout()
         configureDetailViewItem()
         configureKeyboardNotification()
+        
+        view.layoutIfNeeded()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -91,13 +93,5 @@ class DiaryDetailViewController: UIViewController {
         view.endEditing(true)
         
         diaryDetailView.configureDetailTextViewInset(inset: 0)
-    }
-}
-
-// MARK: - extension
-
-extension DiaryDetailViewController: DataSendable {
-    func dataTask<T>(data: T) {
-        diaryDetailData = data as? DiaryModel
     }
 }

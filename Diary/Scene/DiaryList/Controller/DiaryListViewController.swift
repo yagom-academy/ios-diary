@@ -11,8 +11,7 @@ final class DiaryListViewController: UIViewController {
     // MARK: - properties
 
     private var tableView = UITableView()
-    private var dataSendableDelegate: DataSendable?
-    private var diaryData: DiaryDataManagerProtocol? = MockData()
+    private var diaryData = DiaryDataManager().provider
 
     // MARK: - view life cycle
 
@@ -64,16 +63,16 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        diaryData?.diaryItems?.count ?? 0
+        diaryData.diaryItems?.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.reuseIdentifier)
                 as? DiaryTableViewCell else { return UITableViewCell() }
 
-        cell.titleLabel.text = diaryData?.diaryItems?[indexPath.row].title
-        cell.dateLabel.text = diaryData?.diaryItems?[indexPath.row].createdAt.convertDate()
-        cell.bodyLabel.text = diaryData?.diaryItems?[indexPath.row].body
+        cell.titleLabel.text = diaryData.diaryItems?[indexPath.row].title
+        cell.dateLabel.text = diaryData.diaryItems?[indexPath.row].createdAt.convertDate()
+        cell.bodyLabel.text = diaryData.diaryItems?[indexPath.row].body
 
         return cell
     }
@@ -82,9 +81,7 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
-        
-        dataSendableDelegate = diaryDetailViewController
-        dataSendableDelegate?.dataTask(data: diaryData?.diaryItems?[indexPath.row])
+        diaryDetailViewController.diaryDetailData = diaryData.diaryItems?[indexPath.row]
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
