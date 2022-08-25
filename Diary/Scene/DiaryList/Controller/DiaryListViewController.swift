@@ -36,24 +36,6 @@ final class DiaryListViewController: UIViewController {
         
     }
     
-    private func addObserver() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onDidReceiveData(_:)),
-                                               name: .didReceiveData,
-                                               object: nil)
-    }
-    
-    @objc private func onDidReceiveData(_ notification: Notification) {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self,
-                  let fetchedData = self.diaryCoreData?.fetch(),
-                  let diaryData = fetchedData as? [DiaryEntity] else { return }
-            
-            self.setupDataSource()
-            self.setupSnapshot(with: diaryData)
-        }
-    }
-    
     // MARK: - functions
     
     private func setupView() {
@@ -157,7 +139,25 @@ final class DiaryListViewController: UIViewController {
         dataSource?.apply(snapshot)
     }
     
+    private func addObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onDidReceiveData(_:)),
+                                               name: .didReceiveData,
+                                               object: nil)
+    }
+    
     // MARK: - objc functions
+    
+    @objc private func onDidReceiveData(_ notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self,
+                  let fetchedData = self.diaryCoreData?.fetch(),
+                  let diaryData = fetchedData as? [DiaryEntity] else { return }
+            
+            self.setupDataSource()
+            self.setupSnapshot(with: diaryData)
+        }
+    }
     
     @objc func switchValueDidChange(sender: UISwitch) {
         guard #available(iOS 13.0, *) else { return }
