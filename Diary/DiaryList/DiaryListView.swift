@@ -13,7 +13,7 @@ final class DiaryListView: UIView {
     var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
+        tableView.register(DiaryListCell.self, forCellReuseIdentifier: NameSpace.cellIdentifier)
         return tableView
     }()
     
@@ -21,9 +21,9 @@ final class DiaryListView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        tableView.dataSource = self
+        adaptDataSource()
         setupSubviews()
-        setTableViewConstraints()
+        setupTableViewConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -32,11 +32,15 @@ final class DiaryListView: UIView {
     
     // MARK: - Methods
 
+    private func adaptDataSource() {
+        tableView.dataSource = self
+    }
+    
     private func setupSubviews() {
         self.addSubview(tableView)
     }
     
-    private func setTableViewConstraints() {
+    private func setupTableViewConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: self.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
@@ -46,6 +50,8 @@ final class DiaryListView: UIView {
     }
 }
 
+// MARK: - UITableViewDataSource
+
 extension DiaryListView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let diaryModelList = CoreDataManager.shared.fetchedDiaries
@@ -53,15 +59,15 @@ extension DiaryListView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NameSpace.cellIdentifier,
                                                        for: indexPath) as? DiaryListCell else { return UITableViewCell() }
         let diaryModelList = CoreDataManager.shared.fetchedDiaries
         let diaryModel = diaryModelList[indexPath.row]
-        cell.setData(with: diaryModel)
+        cell.setupData(with: diaryModel)
         return cell
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return Number.sectionCount
     }
 }

@@ -10,7 +10,18 @@ import UIKit
 final class DiaryView: UIView {
     // MARK: - Properties
     
-    let placeHolder = NameSpace.placeHolder
+    private var isTwiceLineChange: Bool = false
+    private var realTimeTypingValue: String = NameSpace.whiteSpace {
+        didSet {
+            if oldValue == NameSpace.lineChange && realTimeTypingValue == NameSpace.lineChange {
+                isTwiceLineChange = true
+            }
+        }
+    }
+    private let placeHolder = NameSpace.placeHolder
+    
+    // MARK: - UIComponents
+    
     lazy var diaryTextView: UITextView = {
         let textview = UITextView()
         textview.translatesAutoresizingMaskIntoConstraints = false
@@ -35,10 +46,10 @@ final class DiaryView: UIView {
     }()
     
     // MARK: - Initializer
-
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        diaryTextView.delegate = self
+        adaptDelegate()
         setupSubviews()
         setupConstraints()
     }
@@ -48,7 +59,11 @@ final class DiaryView: UIView {
     }
     
     // MARK: - Methods
-
+    
+    private func adaptDelegate() {
+        diaryTextView.delegate = self
+    }
+    
     private func setupSubviews() {
         addSubview(diaryTextView)
         accessoryView.addSubview(closeButton)
@@ -71,10 +86,14 @@ final class DiaryView: UIView {
     }
 }
 
+// MARK: - UITextViewDelegate
+
 extension DiaryView: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n" {
+        realTimeTypingValue = text
+        if isTwiceLineChange {
             textView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+            isTwiceLineChange = false
         }
         return true
     }

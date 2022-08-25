@@ -8,19 +8,20 @@ import UIKit
 import CoreData
 
 final class CoreDataManager {
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private lazy var context = appDelegate.persistentContainer.viewContext
     var fetchedDiaries: [Diary] = []
     static let shared = CoreDataManager()
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private lazy var context = appDelegate.persistentContainer.viewContext
+    
     private init() {
         fetch()
     }
     
-    func saveDiary(with model: DiaryModel) {
+    func createDiary(with model: DiaryModel) {
         let newItem = Diary(context: context)
-        newItem.setValue(model.title, forKey: "title")
-        newItem.setValue(model.body, forKey: "body")
-        newItem.setValue(model.createdAt, forKey: "createdAt")
+        newItem.setValue(model.title, forKey: CoreDataKeys.title)
+        newItem.setValue(model.body, forKey: CoreDataKeys.body)
+        newItem.setValue(model.createdAt, forKey: CoreDataKeys.createdAt)
         do {
             try context.save()
             fetch()
@@ -35,16 +36,18 @@ final class CoreDataManager {
             try context.save()
             fetch()
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
     
-    func update(diary: DiaryModel, with indexPath: Int) {
-        guard fetchedDiaries[indexPath].title != diary.title || fetchedDiaries[indexPath].body != diary.body || fetchedDiaries[indexPath].createdAt != diary.createdAt else { return }
+    func update(diary: DiaryModel, with indexPath: IndexPath) {
+        guard let maxIndex = fetchedDiaries.indices.last else { return }
+        guard maxIndex >= indexPath.row else { return }
+        guard fetchedDiaries[indexPath.row].title != diary.title || fetchedDiaries[indexPath.row].body != diary.body else { return }
         
-        fetchedDiaries[indexPath].title = diary.title
-        fetchedDiaries[indexPath].body = diary.body
-        fetchedDiaries[indexPath].createdAt = diary.createdAt
+        fetchedDiaries[indexPath.row].title = diary.title
+        fetchedDiaries[indexPath.row].body = diary.body
+        fetchedDiaries[indexPath.row].createdAt = diary.createdAt
         
         do {
             try context.save()
@@ -58,7 +61,7 @@ final class CoreDataManager {
         do {
             fetchedDiaries = try context.fetch(Diary.fetchRequest())
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
 }
