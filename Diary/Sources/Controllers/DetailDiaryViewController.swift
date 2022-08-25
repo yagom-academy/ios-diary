@@ -25,19 +25,19 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         configureNavigationItemTitle()
         configureAttributes()
         configureLayout()
-        registerForKeyboardNotification()
+        registerForKeyboardShowNotification()
+        registerForKeyboardHideNotification()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         configureTextView()
+        textView.becomeFirstResponder()
+        textView.keyboardDismissMode = .interactive
+        textView.alwaysBounceVertical = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if !textView.text.isEmpty && isExist == false {
-            create(content: getProcessedContent())
-        } else if !textView.text.isEmpty && isExist == true {
-            update(entity: content ?? DiaryContents(), content: getProcessedContent())
-        }
+        textView.resignFirstResponder()
     }
     
     private func getProcessedContent() -> [String] {
@@ -95,7 +95,7 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         textView.contentOffset.y = 0
     }
 
-    private func registerForKeyboardNotification() {
+    private func registerForKeyboardShowNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyBoardShow),
@@ -119,6 +119,23 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         let keyboardHeight = keyboardRectangle.height
         
         textView.contentInset.bottom = keyboardHeight
+    }
+    
+    private func registerForKeyboardHideNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyBoardHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyBoardHide(notification: NSNotification) {
+        if !textView.text.isEmpty && isExist == false {
+            create(content: getProcessedContent())
+        } else if !textView.text.isEmpty && isExist == true {
+            update(entity: content ?? DiaryContents(), content: getProcessedContent())
+        }
     }
 }
 
