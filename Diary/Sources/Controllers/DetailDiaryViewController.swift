@@ -61,6 +61,29 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         let date = Date(timeIntervalSince1970: time)
         
         navigationItem.title = DateFormatter().format(data: date)
+        navigationItem.rightBarButtonItem = .init(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: nil,
+            action: #selector(showActionSheet)
+        )
+    }
+    
+    @objc private func showActionSheet(sender: AnyObject) {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+            guard let content = self.content else {
+                return
+            }
+            
+            self.delete(content)
+            self.navigationController?.popViewController(animated: true)
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionSheet, animated: true)
     }
     
     private func configureAttributes() {

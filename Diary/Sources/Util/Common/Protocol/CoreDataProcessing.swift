@@ -56,4 +56,18 @@ extension CoreDataProcessing {
             print("error!!!")
         }
     }
+    
+    func delete(_ data: DiaryContents) {
+        guard let context = context else {
+            return
+        }
+        
+        context.delete(data)
+        
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
+    }
 }
