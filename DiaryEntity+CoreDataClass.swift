@@ -1,8 +1,8 @@
 //
 //  DiaryEntity+CoreDataClass.swift
-//  
+//  Diary
 //
-//  Created by dhoney96 on 2022/08/22.
+//  Created by dhoney96 on 2022/08/25.
 //
 //
 

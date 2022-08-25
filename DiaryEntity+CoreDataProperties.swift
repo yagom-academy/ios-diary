@@ -1,8 +1,8 @@
 //
 //  DiaryEntity+CoreDataProperties.swift
-//  
+//  Diary
 //
-//  Created by dhoney96 on 2022/08/22.
+//  Created by dhoney96 on 2022/08/25.
 //
 //
 
@@ -16,8 +16,12 @@ extension DiaryEntity {
         return NSFetchRequest<DiaryEntity>(entityName: "DiaryEntity")
     }
 
-    @NSManaged public var createdAt: Double
     @NSManaged public var body: String?
+    @NSManaged public var createdAt: Double
     @NSManaged public var title: String?
+
+}
+
+extension DiaryEntity : Identifiable {
 
 }
