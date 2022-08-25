@@ -56,18 +56,21 @@ final class DiaryListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubView()
-        setConstraint()
+        commonInit()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        addSubView()
-        setConstraint()
+        commonInit()
     }
 }
 
 extension DiaryListCell: ReuseIdentifying {
+    private func commonInit() {
+        addSubView()
+        setupConstraint()
+    }
+    
     private func addSubView() {
         verticalStackView.addArrangedSubview(titleLabel)
         verticalStackView.addArrangedSubview(horizontalStackView)
@@ -76,7 +79,7 @@ extension DiaryListCell: ReuseIdentifying {
         self.contentView.addSubview(verticalStackView)
     }
     
-    private func setConstraint() {
+    private func setupConstraint() {
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),

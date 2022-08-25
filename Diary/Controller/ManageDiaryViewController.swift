@@ -76,7 +76,7 @@ final class ManageDiaryViewController: UIViewController {
     }
     
     @objc func saveDiary() {
-        guard let diary = manageDiaryView.convertDiaryItem(with: id) else { return}
+        guard let diary = manageDiaryView.convertDiaryItem(with: id) else { return }
         CoreDataManager.shared.saveDiary(item: diary)
     }
     

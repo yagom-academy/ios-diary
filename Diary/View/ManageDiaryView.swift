@@ -21,24 +21,26 @@ final class ManageDiaryView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        addSubView()
-        setConstraint()
+        commonInit()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        addSubView()
-        setConstraint()
+        commonInit()
     }
 }
 
 extension ManageDiaryView {
+    private func commonInit() {
+        addSubView()
+        setupConstraint()
+    }
     private func addSubView() {
         self.addSubview(bodyTextView)
         self.backgroundColor = .white
     }
     
-    private func setConstraint() {
+    private func setupConstraint() {
         NSLayoutConstraint.activate([
             bodyTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
             bodyTextView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),

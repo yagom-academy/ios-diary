@@ -42,12 +42,12 @@ final class DiaryTableViewController: UIViewController {
     
     private func configureTableView() {
         self.view.addSubview(diaryListTableView)
-        setConstraint()
+        setupConstraint()
         diaryListTableView.dataSource = self
         diaryListTableView.delegate = self
     }
     
-    private func setConstraint() {
+    private func setupConstraint() {
         NSLayoutConstraint.activate([
             diaryListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             diaryListTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
