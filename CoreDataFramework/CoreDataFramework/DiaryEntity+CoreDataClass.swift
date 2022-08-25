@@ -1,8 +1,8 @@
 //
 //  DiaryEntity+CoreDataClass.swift
-//  Diary
+//  CoreDataFramework
 //
-//  Created by Baek on 2022/08/19.
+//  Created by 백곰, 주디 on 2022/08/25.
 //
 //
 

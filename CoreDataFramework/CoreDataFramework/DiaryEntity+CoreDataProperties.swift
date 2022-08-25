@@ -1,8 +1,8 @@
 //
 //  DiaryEntity+CoreDataProperties.swift
-//  Diary
+//  CoreDataFramework
 //
-//  Created by Baek on 2022/08/19.
+//  Created by 백곰, 주디 on 2022/08/25.
 //
 //
 
@@ -15,10 +15,10 @@ extension DiaryEntity {
         return NSFetchRequest<DiaryEntity>(entityName: "DiaryEntity")
     }
 
-    @NSManaged public var id: UUID?
-    @NSManaged public var title: String?
+    @NSManaged public var id: UUID
+    @NSManaged public var title: String
+    @NSManaged public var body: String
     @NSManaged public var createdAt: Double
-    @NSManaged public var body: String?
 
 }
 

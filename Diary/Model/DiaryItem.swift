@@ -12,13 +12,6 @@ struct DiaryItem {
     let title: String
     let body: String
     let createdAt: Double
-        
-    init(entity: DiaryEntity) {
-        self.id = entity.id ?? UUID()
-        self.title = entity.title ?? ""
-        self.body = entity.body ?? ""
-        self.createdAt = entity.createdAt
-    }
     
     init(id: UUID, title: String, body: String, createdAt: Double) {
         self.id = id
