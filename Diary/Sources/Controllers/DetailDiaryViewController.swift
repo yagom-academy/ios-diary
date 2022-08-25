@@ -8,7 +8,7 @@
 import UIKit
 
 final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
-    private var content: DiarySample?
+    private var content: DiaryContents?
     
     let textView: UITextView = {
         let textView = UITextView()
@@ -24,12 +24,33 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         configureNavigationItemTitle()
         configureAttributes()
         configureLayout()
-        configureTextView()
         registerForKeyboardNotification()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        configureTextView()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
-        create(text: textView.text)
+        if !textView.text.isEmpty {
+            create(content: getProcessedContent())
+        }
+    }
+    
+    private func getProcessedContent() -> [String] {
+        var content = textView.text.components(separatedBy: "\n\n")
+        
+        if content.count >= 2 {
+            return content
+        }
+        
+        if content[0] == "\n" {
+            content[0] = " "
+        }
+        
+        content.append("")
+        
+        return content
     }
     
     private func configureNavigationItemTitle() {
@@ -62,11 +83,12 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     }
     
     private func configureTextView() {
-        guard let content = content else {
+        guard let title = content?.title,
+              let body = content?.body else {
             return
         }
 
-        textView.text = content.title + "\n\n" + content.body
+        textView.text = title + "\n\n" + body
         textView.contentOffset.y = 0
     }
 
@@ -99,6 +121,6 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
 
 extension DetailDiaryViewController: SendDataDelegate {
     func sendData<T>(_ data: T) {
-        content = data as? DiarySample
+        content = data as? DiaryContents
     }
 }

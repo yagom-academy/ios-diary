@@ -80,7 +80,7 @@ final class DiaryTableViewCell: UITableViewCell, ReuseIdentifying {
     }
     
     func setComponents(item: DiaryContents) {
-        diaryTitleLabel.text = item.title
+        diaryTitleLabel.text = item.title?.replacingOccurrences(of: "\n", with: "")
         diaryDateLabel.text = DateFormatter().format(
             data: Date(timeIntervalSince1970: item.createdAt)
         )

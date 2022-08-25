@@ -23,15 +23,14 @@ extension CoreDataProcessing {
         return contents
     }
     
-    func create(text: String) {
+    func create(content: [String]) {
         guard let context = context else {
             return
         }
+        
         let diaryContents = DiaryContents(context: context)
-       
-        let content = text.components(separatedBy: "\n\n")
-        diaryContents.title = String(content[0])
-        diaryContents.body = String(content[1])
+        diaryContents.title = content[0]
+        diaryContents.body = content[1]
         diaryContents.createdAt = Date().timeIntervalSince1970
         diaryContents.id = UUID()
         
