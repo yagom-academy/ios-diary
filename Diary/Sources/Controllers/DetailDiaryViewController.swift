@@ -8,8 +8,8 @@
 import UIKit
 
 final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
-    private var content: DiaryContents?
-    private var isExist: Bool = false
+    var content: DiaryContents?
+    var isExist: Bool = false
     
     let textView: UITextView = {
         let textView = UITextView()
@@ -40,7 +40,7 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         textView.resignFirstResponder()
     }
     
-    private func getProcessedContent() -> [String] {
+    func getProcessedContent() -> [String] {
         var content = textView.text.components(separatedBy: "\n\n")
         
         if content.count >= 2 {

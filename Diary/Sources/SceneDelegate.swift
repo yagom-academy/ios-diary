@@ -39,6 +39,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
+        guard let navigationViewController = window?.rootViewController as? UINavigationController else { return }
+        guard let diaryRegisterViewController =
+                navigationViewController.topViewController
+                as? DetailDiaryViewController else { return }
+
+        if !diaryRegisterViewController.textView.text.isEmpty && diaryRegisterViewController.isExist == false {
+            diaryRegisterViewController.create(content: diaryRegisterViewController.getProcessedContent())
+        } else if !diaryRegisterViewController.textView.text.isEmpty && diaryRegisterViewController.isExist == true {
+            diaryRegisterViewController.update(
+                entity: diaryRegisterViewController.content ?? DiaryContents(),
+                content: diaryRegisterViewController.getProcessedContent()
+            )
+        }
+        
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 }
