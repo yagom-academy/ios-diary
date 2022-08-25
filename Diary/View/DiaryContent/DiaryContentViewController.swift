@@ -87,7 +87,10 @@ final class DiaryContentViewController: UIViewController {
         let alertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
-            self?.diaryViewModel.delete((self?.diaryViewModel.titleText)!)
+            guard let titleText = self?.diaryViewModel.titleText else {
+                 return
+            }
+            self?.diaryViewModel.delete(titleText)
             self?.navigationController?.popViewController(animated: true)
         }
         
@@ -130,7 +133,11 @@ final class DiaryContentViewController: UIViewController {
     }
     
     @objc private func didEnterBackground() {
-        diaryViewModel.update(text: diaryDescriptionTextView.text, date: diaryViewModel.diaryContent!.createdAt)
+        guard let diaryContent = diaryViewModel.diaryContent else {
+            return
+        }
+        
+        diaryViewModel.update(text: diaryDescriptionTextView.text, date: diaryContent.createdAt)
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

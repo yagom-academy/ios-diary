@@ -112,7 +112,11 @@ extension DiaryListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: "삭제") { [weak self](UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            self?.diaryListViewModel.delete((self?.diaryListViewModel.diaryContents[indexPath.row].title)!)
+            guard let title = self?.diaryListViewModel.diaryContents[indexPath.row].title else {
+                return
+            }
+            
+            self?.diaryListViewModel.delete(title)
             success(true)
         }
         delete.backgroundColor = .systemRed

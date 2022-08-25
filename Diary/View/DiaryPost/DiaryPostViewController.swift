@@ -58,6 +58,15 @@ final class DiaryPostViewController: UIViewController {
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil)
+    }
+    
+    @objc private func didEnterBackground() {
+        diaryViewModel.assign(text: diaryDescriptionTextView.text, date: round(Date().timeIntervalSince1970))
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
