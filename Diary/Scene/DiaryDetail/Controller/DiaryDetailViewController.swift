@@ -23,6 +23,8 @@ class DiaryDetailViewController: UIViewController {
         configureViewLayout()
         configureDetailViewItem()
         configureKeyboardNotification()
+        
+        view.layoutIfNeeded()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

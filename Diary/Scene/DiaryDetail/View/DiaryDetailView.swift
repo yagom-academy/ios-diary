@@ -36,7 +36,6 @@ final class DiaryDetailView: UIView {
     
     func configureDetailTextView(ofText: String?) {
         detailTextView.text = ofText
-        detailTextView.contentOffset = CGPoint(x: 0, y: 0)
     }
     
     func configureDetailTextViewInset(inset: CGFloat) {
