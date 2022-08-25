@@ -94,21 +94,20 @@ extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
+        let shareAction = UIContextualAction(style: .normal, title: "공유") { [weak self]_, _, _ in
+            guard let self = self else { return }
             let shareText = self.diaryItems[indexPath.row]
-            var shareObject = [Any]()
-            
-            shareObject.append(shareText.title + shareText.body)
+            let shareObject: [String] = [shareText.title + shareText.body]
             
             let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
-            activityViewController.popoverPresentationController?.sourceView = self.view
             
-            self.present(activityViewController, animated: true, completion: nil)
+            self.present(activityViewController, animated: true)
         }
        
         shareAction.backgroundColor = .systemBlue
         
-        let deleteAction = UIContextualAction(style: .normal, title: "삭제") { _, _, _ in
+        let deleteAction = UIContextualAction(style: .normal, title: "삭제") { [weak self]_, _, _ in
+            guard let self = self else { return }
             self.deleteDiaryItem(indexPath: indexPath)
         }
         
@@ -120,7 +119,8 @@ extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
     private func deleteDiaryItem(indexPath: IndexPath) {
         let confirmAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let noAction = UIAlertAction(title: "취소", style: .cancel)
-        let yesAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let yesAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
             CoreDataManager.shared.deleteDiary(id: self.diaryItems[indexPath.row].id)
             self.fetchData()
             self.diaryListTableView.deleteRows(at: [indexPath], with: .fade)

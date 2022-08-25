@@ -84,7 +84,8 @@ final class ManageDiaryViewController: UIViewController {
         let noticeMessage = viewMode == .add ? "생성" : "변경"
         let confirmAlert = UIAlertController(title: "Notice", message: "내용이 모두 입력되지 않아 \n일기장 \(noticeMessage)이 불가합니다. \n 그래도 나가시겠습니까?", preferredStyle: .alert)
         let noAction = UIAlertAction(title: "취소", style: .cancel)
-        let yesAction = UIAlertAction(title: "나가기", style: .destructive) { _ in
+        let yesAction = UIAlertAction(title: "나가기", style: .destructive) { [weak self]_ in
+            guard let self = self else { return }
             self.navigationController?.popViewController(animated: true)
         }
         
@@ -101,22 +102,20 @@ final class ManageDiaryViewController: UIViewController {
     
     private func shareDiaryItem() {
         guard let shareText = manageDiaryView.convertDiaryItem(with: id) else { return }
-        var shareObject = [Any]()
-        
-        shareObject.append(shareText.title + shareText.body)
+        let shareObject: [String] = [shareText.title + shareText.body]
         
         let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
         
-        self.present(activityViewController, animated: true, completion: nil)
+        self.present(activityViewController, animated: true)
     }
     
     private func deleteDiaryItem() {
         let confirmAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let noAction = UIAlertAction(title: "취소", style: .cancel)
-        let yesAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let yesAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self]_ in
+            guard let self = self else { return }
             CoreDataManager.shared.deleteDiary(id: self.id)
-            self.navigationController?.popViewController(animated: true)
+            self.navigationController.popViewController(animated: true)
         }
         
         confirmAlert.addAction(noAction)
@@ -126,10 +125,12 @@ final class ManageDiaryViewController: UIViewController {
     
     @objc private func optionButtonDidTapped() {
         let optionAlert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self]_ in
+            guard let self = self else { return }
             self.shareDiaryItem()
         }
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self]_ in
+            guard let self = self else { return }
             self.deleteDiaryItem()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
