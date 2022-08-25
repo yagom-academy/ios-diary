@@ -71,13 +71,13 @@ final class ManageDiaryViewController: UIViewController {
             return
         }
         
-        CoreDataManager.shared.saveDiary(item: diary)
+        DiaryDataManager.shared.saveDiary(item: diary)
         self.navigationController?.popViewController(animated: true)
     }
     
     @objc func saveDiary() {
         guard let diary = manageDiaryView.convertDiaryItem(with: id) else { return }
-        CoreDataManager.shared.saveDiary(item: diary)
+        DiaryDataManager.shared.saveDiary(item: diary)
     }
     
     private func checkSaveDiary() {
@@ -114,8 +114,8 @@ final class ManageDiaryViewController: UIViewController {
         let noAction = UIAlertAction(title: "취소", style: .cancel)
         let yesAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self]_ in
             guard let self = self else { return }
-            CoreDataManager.shared.deleteDiary(id: self.id)
-            self.navigationController.popViewController(animated: true)
+            DiaryDataManager.shared.deleteDiary(id: self.id)
+            self.navigationController?.popViewController(animated: true)
         }
         
         confirmAlert.addAction(noAction)

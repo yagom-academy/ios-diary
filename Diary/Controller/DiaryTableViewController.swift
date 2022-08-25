@@ -57,13 +57,9 @@ final class DiaryTableViewController: UIViewController {
     }
     
     private func fetchData() {
-        guard let diaryEntities = CoreDataManager.shared.fetchDiary() else { return }
+        guard let diaryItems = DiaryDataManager.shared.fetchDiary() else { return }
         
-        diaryItems = diaryEntities.map {
-            DiaryItem(entity: $0)
-        }
-        
-        diaryItems.reverse()
+        self.diaryItems = diaryItems
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -121,7 +117,7 @@ extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
         let noAction = UIAlertAction(title: "취소", style: .cancel)
         let yesAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let self = self else { return }
-            CoreDataManager.shared.deleteDiary(id: self.diaryItems[indexPath.row].id)
+            DiaryDataManager.shared.deleteDiary(id: self.diaryItems[indexPath.row].id)
             self.fetchData()
             self.diaryListTableView.deleteRows(at: [indexPath], with: .fade)
         }
