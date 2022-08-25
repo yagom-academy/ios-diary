@@ -40,4 +40,20 @@ extension CoreDataProcessing {
             print("error!!!")
         }
     }
+    
+    func update(entity: DiaryContents, content: [String]) {
+        guard let context = context else {
+            return
+        }
+        
+        let diaryContents = entity
+        diaryContents.title = String(content[0])
+        diaryContents.body = content[1]
+        
+        do {
+            try context.save()
+        } catch {
+            print("error!!!")
+        }
+    }
 }

@@ -9,6 +9,7 @@ import UIKit
 
 final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     private var content: DiaryContents?
+    private var isExist: Bool = false
     
     let textView: UITextView = {
         let textView = UITextView()
@@ -32,8 +33,10 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        if !textView.text.isEmpty {
+        if !textView.text.isEmpty && isExist == false {
             create(content: getProcessedContent())
+        } else if !textView.text.isEmpty && isExist == true {
+            update(entity: content ?? DiaryContents(), content: getProcessedContent())
         }
     }
     
@@ -120,7 +123,8 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
 }
 
 extension DetailDiaryViewController: SendDataDelegate {
-    func sendData<T>(_ data: T) {
+    func sendData<T>(_ data: T, isExist: Bool) {
         content = data as? DiaryContents
+        self.isExist = isExist
     }
 }

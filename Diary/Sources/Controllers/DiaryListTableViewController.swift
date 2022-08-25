@@ -32,11 +32,11 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
   
         configureAttributes()
         configureLayout()
-        configureDataSource()
         snapshot.appendSections([.main])
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        configureDataSource()
         configureSnapshot()
     }
     
@@ -114,7 +114,7 @@ extension DiaryListTableViewController: UITableViewDelegate {
         let diaryContent = snapshot.itemIdentifiers[indexPath.item]
         weak var sendDataDelegate: (SendDataDelegate)? = detailDiaryViewController
         
-        sendDataDelegate?.sendData(diaryContent)
+        sendDataDelegate?.sendData(diaryContent, isExist: true)
         navigationController?.pushViewController(
             detailDiaryViewController,
             animated: true
