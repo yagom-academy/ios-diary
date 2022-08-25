@@ -8,8 +8,8 @@
 import LinkPresentation
 
 final class MyActivityItemSource: NSObject, UIActivityItemSource {
-    var title: String
-    var body: String
+    private var title: String
+    private var body: String
     
     init(title: String, text: String) {
         self.title = title
@@ -21,11 +21,13 @@ final class MyActivityItemSource: NSObject, UIActivityItemSource {
         return body
     }
     
-    func activityViewController(_ activityViewController: UIActivityViewController, itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
+    func activityViewController(_ activityViewController: UIActivityViewController,
+                                itemForActivityType activityType: UIActivity.ActivityType?) -> Any? {
         return body
     }
     
-    func activityViewController(_ activityViewController: UIActivityViewController, subjectForActivityType activityType: UIActivity.ActivityType?) -> String {
+    func activityViewController(_ activityViewController: UIActivityViewController,
+                                subjectForActivityType activityType: UIActivity.ActivityType?) -> String {
         return title
     }
 

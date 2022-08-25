@@ -18,7 +18,7 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationBar()
+        setupNavigationBar()
         setupInitialView()
         setupKeyboard()
         setupNotification()
@@ -36,10 +36,9 @@ final class DiaryViewController: UIViewController {
     
     // MARK: - UI Methods
     
-    private func configureNavigationBar() {
+    private func setupNavigationBar() {
         let now = Date()
         navigationItem.title = now.timeIntervalSince1970.translateToDate()
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
                                                             style: .plain,
                                                             target: self,
@@ -62,9 +61,16 @@ final class DiaryViewController: UIViewController {
         ])
     }
     
-    @objc private func showActionSheet() {
+    private func generateAlertController(title: String?, message: String?, style: UIAlertController.Style, actions: [UIAlertAction]) {
+        let alert = UIAlertController(title: title, message: message, preferredStyle: style)
+        actions.forEach { action in
+            alert.addAction(action)
+        }
+        present(alert, animated: true)
+    }
+    
+    private func generateShareAlertAction() -> UIAlertAction {
         let model = makeDiaryModel()
-        
         let share = UIAlertAction(title: "Share...", style: .default) { _ in
             let diaryToShare: [Any] = [MyActivityItemSource(title: model.title, text: model.body)]
             let activityViewController = UIActivityViewController(activityItems: diaryToShare, applicationActivities: nil)
@@ -72,6 +78,10 @@ final class DiaryViewController: UIViewController {
             
             self.present(activityViewController, animated: true)
         }
+        return share
+    }
+    
+    private func generateDeleteAlertAction() -> UIAlertAction {
         let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
             let cancel = UIAlertAction(title: "취소", style: .cancel)
             let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
@@ -81,16 +91,18 @@ final class DiaryViewController: UIViewController {
             }
             self.generateAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert, actions: [cancel, delete])
         }
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
-        generateAlertController(title: nil, message: nil, style: .actionSheet, actions: [share, cancel, delete])
+        return delete
     }
     
-    private func generateAlertController(title: String?, message: String?, style: UIAlertController.Style, actions: [UIAlertAction]) {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: style)
-        actions.forEach { action in
-            alert.addAction(action)
-        }
-        present(alert, animated: true)
+    private func generateCancelAlertAction() -> UIAlertAction {
+        return UIAlertAction(title: "Cancel", style: .cancel)
+    }
+    
+    @objc private func showActionSheet() {
+        let share = generateShareAlertAction()
+        let delete = generateDeleteAlertAction()
+        let cancel = generateCancelAlertAction()
+        generateAlertController(title: nil, message: nil, style: .actionSheet, actions: [share, cancel, delete])
     }
 }
 
@@ -127,12 +139,6 @@ extension DiaryViewController {
         }
     }
     
-    @objc private func updateDiary() {
-        guard let indexPath = indexPath else { return }
-        let diaryModel = makeDiaryModel()
-        CoreDataManager.shared.update(diary: diaryModel, with: indexPath.row)
-    }
-    
     private func makeDiaryModel() -> DiaryModel {
         let distinguishedTitleAndBody = diaryView.diaryTextView.text.components(separatedBy: "\n\n")
         let createdAt = Date().timeIntervalSince1970
@@ -146,6 +152,12 @@ extension DiaryViewController {
         let title = distinguishedTitleAndBody[0]
         let body = distinguishedTitleAndBody.count == 1 ? "" : distinguishedTitleAndBody[1...distinguishedTitleAndBody.count-1].joined(separator: "\n\n")
         return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
+    }
+    
+    @objc private func updateDiary() {
+        guard let indexPath = indexPath else { return }
+        let diaryModel = makeDiaryModel()
+        CoreDataManager.shared.update(diary: diaryModel, with: indexPath)
     }
 }
 

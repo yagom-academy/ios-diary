@@ -21,9 +21,9 @@ final class DiaryListView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        tableView.dataSource = self
+        adaptDataSource()
         setupSubviews()
-        setTableViewConstraints()
+        setupTableViewConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -32,11 +32,15 @@ final class DiaryListView: UIView {
     
     // MARK: - Methods
 
+    private func adaptDataSource() {
+        tableView.dataSource = self
+    }
+    
     private func setupSubviews() {
         self.addSubview(tableView)
     }
     
-    private func setTableViewConstraints() {
+    private func setupTableViewConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: self.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
@@ -59,7 +63,7 @@ extension DiaryListView: UITableViewDataSource {
                                                        for: indexPath) as? DiaryListCell else { return UITableViewCell() }
         let diaryModelList = CoreDataManager.shared.fetchedDiaries
         let diaryModel = diaryModelList[indexPath.row]
-        cell.setData(with: diaryModel)
+        cell.setupData(with: diaryModel)
         return cell
     }
 

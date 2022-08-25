@@ -15,9 +15,9 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureNavigationBar()
-        configureDiaryListView()
-        diaryListView.tableView.delegate = self
+        setupNavigationBar()
+        setupDiaryListView()
+        adaptDelegate()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -26,20 +26,26 @@ final class DiaryListViewController: UIViewController {
     
     // MARK: - Methods
     
-    private func configureNavigationBar() {
+    private func setupNavigationBar() {
         navigationItem.title = NameSpace.diary
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addButtonDidTapped))
     }
     
-    private func configureDiaryListView() {
+    private func setupDiaryListView() {
         view.addSubview(diaryListView)
         diaryListView.translatesAutoresizingMaskIntoConstraints = false
-        diaryListView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        diaryListView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        diaryListView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        diaryListView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            diaryListView.topAnchor.constraint(equalTo: view.topAnchor),
+            diaryListView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            diaryListView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            diaryListView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    private func adaptDelegate() {
+        diaryListView.tableView.delegate = self
     }
     
     @objc func addButtonDidTapped() {
@@ -53,20 +59,7 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath.row].title,
-              let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath.row].body else { return }
-        let diaryViewController = DiaryViewController()
-        diaryViewController.diaryView.diaryTextView.text = nil
-        diaryViewController.diaryView.diaryTextView.textColor = .black
-        if diaryBody != "" {
-            let attributedString = setAttributedString(indexPath: indexPath.row)
-            diaryViewController.diaryView.diaryTextView.attributedText = attributedString
-        } else {
-            diaryViewController.diaryView.diaryTextView.text = diaryTitle
-        }
-        
-        diaryViewController.indexPath = indexPath
-        diaryViewController.mode = .modify
+        let diaryViewController = generateViewController(with: indexPath)
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
@@ -81,11 +74,13 @@ extension DiaryListViewController: UITableViewDelegate {
 
 extension DiaryListViewController {
     
-    private func setAttributedString(indexPath: Int) -> NSMutableAttributedString {
-        guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath].title,
-              let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath].body else { return NSMutableAttributedString() }
-        let attributedString: NSMutableAttributedString = NSMutableAttributedString(string: diaryTitle + "\n\n", attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
-        attributedString.append(NSMutableAttributedString(string: diaryBody, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
+    private func setAttributedString(indexPath: IndexPath) -> NSMutableAttributedString {
+        guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath.row].title,
+              let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath.row].body else { return NSMutableAttributedString() }
+        let attributedString = NSMutableAttributedString(string: diaryTitle + "\n\n",
+                                                         attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
+        attributedString.append(NSMutableAttributedString(string: diaryBody,
+                                                          attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
         
         return attributedString
     }
@@ -115,5 +110,25 @@ extension DiaryListViewController {
         }
         deleteAction.image = UIImage(systemName: "trash")
         return deleteAction
+    }
+    
+    func generateViewController(with indexPath: IndexPath) -> UIViewController {
+        guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath.row].title,
+              let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath.row].body else { return UIViewController() }
+        
+        let diaryViewController = DiaryViewController()
+        diaryViewController.diaryView.diaryTextView.text = nil
+        diaryViewController.diaryView.diaryTextView.textColor = .black
+        diaryViewController.indexPath = indexPath
+        diaryViewController.mode = .modify
+        
+        if diaryBody != "" {
+            let attributedString = setAttributedString(indexPath: indexPath)
+            diaryViewController.diaryView.diaryTextView.attributedText = attributedString
+        } else {
+            diaryViewController.diaryView.diaryTextView.text = diaryTitle
+        }
+        
+        return diaryViewController
     }
 }

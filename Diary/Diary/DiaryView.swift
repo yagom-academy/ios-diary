@@ -9,15 +9,19 @@ import UIKit
 
 final class DiaryView: UIView {
     // MARK: - Properties
-    var realTimeTypingValue: String = "" {
+    
+    private var isTwiceLineChange: Bool = false
+    private var realTimeTypingValue: String = "" {
         didSet {
             if oldValue == "\n" && realTimeTypingValue == "\n" {
                 isTwiceLineChange = true
             }
         }
     }
-    var isTwiceLineChange: Bool = false
-    let placeHolder = NameSpace.placeHolder
+    private let placeHolder = NameSpace.placeHolder
+    
+    // MARK: - UIComponents
+    
     lazy var diaryTextView: UITextView = {
         let textview = UITextView()
         textview.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +49,7 @@ final class DiaryView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        diaryTextView.delegate = self
+        adaptDelegate()
         setupSubviews()
         setupConstraints()
     }
@@ -55,6 +59,10 @@ final class DiaryView: UIView {
     }
     
     // MARK: - Methods
+    
+    private func adaptDelegate() {
+        diaryTextView.delegate = self
+    }
     
     private func setupSubviews() {
         addSubview(diaryTextView)

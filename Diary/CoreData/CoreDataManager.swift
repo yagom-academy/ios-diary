@@ -8,10 +8,11 @@ import UIKit
 import CoreData
 
 final class CoreDataManager {
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private lazy var context = appDelegate.persistentContainer.viewContext
     var fetchedDiaries: [Diary] = []
     static let shared = CoreDataManager()
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private lazy var context = appDelegate.persistentContainer.viewContext
+    
     private init() {
         fetch()
     }
@@ -35,17 +36,17 @@ final class CoreDataManager {
             try context.save()
             fetch()
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
     
-    func update(diary: DiaryModel, with indexPath: Int) {
-        guard fetchedDiaries.count - 1 >= indexPath else { return }
-        guard fetchedDiaries[indexPath].title != diary.title || fetchedDiaries[indexPath].body != diary.body else { return }
+    func update(diary: DiaryModel, with indexPath: IndexPath) {
+        guard fetchedDiaries.count - 1 >= indexPath.row else { return }
+        guard fetchedDiaries[indexPath.row].title != diary.title || fetchedDiaries[indexPath.row].body != diary.body else { return }
         
-        fetchedDiaries[indexPath].title = diary.title
-        fetchedDiaries[indexPath].body = diary.body
-        fetchedDiaries[indexPath].createdAt = diary.createdAt
+        fetchedDiaries[indexPath.row].title = diary.title
+        fetchedDiaries[indexPath.row].body = diary.body
+        fetchedDiaries[indexPath.row].createdAt = diary.createdAt
         
         do {
             try context.save()
@@ -59,7 +60,7 @@ final class CoreDataManager {
         do {
             fetchedDiaries = try context.fetch(Diary.fetchRequest())
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
 }
