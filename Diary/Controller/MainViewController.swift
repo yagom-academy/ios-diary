@@ -8,7 +8,7 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-        
+    
     let diaryManager = DiaryManager(dbManager: StubDBManager())
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -75,8 +75,15 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
-                
+        
         cell.configure(with: diaryManager.content(index: indexPath.row))
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diaryDetailViewController = DiaryDetailViewController()
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        diaryDetailViewController.loadData(data: diaryManager.content(index: indexPath.row))
+    }
+    
 }
