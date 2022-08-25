@@ -100,6 +100,8 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
             return
         }
         
+        snapshot.deleteAllItems()
+        snapshot.appendSections([.main])
         snapshot.appendItems(diarySample)
         
         dataSource?.apply(snapshot)

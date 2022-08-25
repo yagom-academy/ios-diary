@@ -74,6 +74,17 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         
         actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: nil))
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+            self.showDeleteAlert()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionSheet, animated: true)
+    }
+    
+    private func showDeleteAlert() {
+        let action = UIAlertController(title: "진짜요?🥺", message: "정말로 삭제하시겠어요?🦦", preferredStyle: .alert)
+        action.addAction(UIAlertAction(title: "취소", style: .cancel))
+        action.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
             guard let content = self.content else {
                 return
             }
@@ -81,9 +92,8 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
             self.delete(content)
             self.navigationController?.popViewController(animated: true)
         }))
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
-        self.present(actionSheet, animated: true)
+
+        self.present(action, animated: true)
     }
     
     private func configureAttributes() {
