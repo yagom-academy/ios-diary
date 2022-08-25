@@ -111,13 +111,13 @@ final class DiaryViewModel {
         guard let diaryContent = diaryContent else {
             return
         }
+        
         coreDataManager.updateContext(data: diaryContent)
     }
     
     private func convertToDiaryContent(_ text: String, _ date: Double) -> DiaryContent {
         var data = text.split(separator: "\n", maxSplits: 2).map{ String($0) }
         let title = data.remove(at: 0)
-        
         let body = data.count == 1 ? "" : data.joined(separator: "\n")
         
         return DiaryContent(title: title, body: body, createdAt: date)

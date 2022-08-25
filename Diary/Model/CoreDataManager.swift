@@ -56,7 +56,6 @@ final class CoreDataManager {
     
     //MARK: - Update
     func updateContext(data: DiaryContent) {
-
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "DiaryEntity")
         request.predicate = NSPredicate(format: "createdAt = %@", "\(data.createdAt)")
