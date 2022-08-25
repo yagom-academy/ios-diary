@@ -13,6 +13,8 @@
 		726E90DB28AB7FFB00F0ACAB /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726E90D428AB7CEB00F0ACAB /* DiaryTests.swift */; };
 		728FBF4228AC78FC006DF83F /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728FBF4128AC78FC006DF83F /* DiaryTableViewCell.swift */; };
 		728FBF4428ACA2DD006DF83F /* DiaryPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 728FBF4328ACA2DD006DF83F /* DiaryPostViewController.swift */; };
+		729B2EB628B7728000315B22 /* DiaryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729B2EB528B7728000315B22 /* DiaryEntity+CoreDataClass.swift */; };
+		729B2EB828B7728600315B22 /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729B2EB728B7728600315B22 /* DiaryEntity+CoreDataProperties.swift */; };
 		729D0ACD28B34C85001EA58E /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729D0ACC28B34C85001EA58E /* CoreDataManager.swift */; };
 		90A5AE5328AB6E980072C1EE /* DiaryContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A5AE5228AB6E980072C1EE /* DiaryContent.swift */; };
 		90A5AE5C28AB89000072C1EE /* TimeInterval+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A5AE5B28AB89000072C1EE /* TimeInterval+Extensions.swift */; };
@@ -20,8 +22,6 @@
 		90A5AEA628ACB7810072C1EE /* DiaryContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A5AEA528ACB7810072C1EE /* DiaryContentViewController.swift */; };
 		90A5AEAA28ACCCE20072C1EE /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A5AEA928ACCCE20072C1EE /* UITextView+Extensions.swift */; };
 		90A5AEB028ACD8C90072C1EE /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90A5AEAF28ACD8C90072C1EE /* Date+Extensions.swift */; };
-		90CD349828B76AB9003917EA /* DiaryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CD349628B76AB9003917EA /* DiaryEntity+CoreDataClass.swift */; };
-		90CD349928B76AB9003917EA /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90CD349728B76AB9003917EA /* DiaryEntity+CoreDataProperties.swift */; };
 		90DABB8228AE687A0068BEC4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 90DABB8128AE687A0068BEC4 /* .swiftlint.yml */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
@@ -50,6 +50,8 @@
 		726E90D428AB7CEB00F0ACAB /* DiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTests.swift; sourceTree = "<group>"; };
 		728FBF4128AC78FC006DF83F /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		728FBF4328ACA2DD006DF83F /* DiaryPostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryPostViewController.swift; sourceTree = "<group>"; };
+		729B2EB528B7728000315B22 /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		729B2EB728B7728600315B22 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		729D0ACC28B34C85001EA58E /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		90A5AE5228AB6E980072C1EE /* DiaryContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContent.swift; sourceTree = "<group>"; };
 		90A5AE5B28AB89000072C1EE /* TimeInterval+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extensions.swift"; sourceTree = "<group>"; };
@@ -57,8 +59,6 @@
 		90A5AEA528ACB7810072C1EE /* DiaryContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentViewController.swift; sourceTree = "<group>"; };
 		90A5AEA928ACCCE20072C1EE /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
 		90A5AEAF28ACD8C90072C1EE /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
-		90CD349628B76AB9003917EA /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryEntity+CoreDataClass.swift"; path = "/Users/derrickkim/Documents/GitHub.nosync/Practice_For_iOS_Project/ios-diary/Diary/DiaryEntity+CoreDataClass.swift"; sourceTree = "<absolute>"; };
-		90CD349728B76AB9003917EA /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryEntity+CoreDataProperties.swift"; path = "/Users/derrickkim/Documents/GitHub.nosync/Practice_For_iOS_Project/ios-diary/Diary/DiaryEntity+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
 		90DABB8128AE687A0068BEC4 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		97E7FD1D1B68C98A824C2F08 /* Pods-DiaryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiaryTests.release.xcconfig"; path = "Target Support Files/Pods-DiaryTests/Pods-DiaryTests.release.xcconfig"; sourceTree = "<group>"; };
 		9B9D176F3FEC7D5119882DBB /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
@@ -225,9 +225,9 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				90CD349628B76AB9003917EA /* DiaryEntity+CoreDataClass.swift */,
-				90CD349728B76AB9003917EA /* DiaryEntity+CoreDataProperties.swift */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				729B2EB528B7728000315B22 /* DiaryEntity+CoreDataClass.swift */,
+				729B2EB728B7728600315B22 /* DiaryEntity+CoreDataProperties.swift */,
 				90DABB8128AE687A0068BEC4 /* .swiftlint.yml */,
 				90A5AE5428AB6F4B0072C1EE /* Application */,
 				90A5AEA228ACAF250072C1EE /* ViewModel */,
@@ -431,18 +431,18 @@
 				90A5AEAA28ACCCE20072C1EE /* UITextView+Extensions.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				729D0ACD28B34C85001EA58E /* CoreDataManager.swift in Sources */,
+				729B2EB628B7728000315B22 /* DiaryEntity+CoreDataClass.swift in Sources */,
 				728FBF4228AC78FC006DF83F /* DiaryTableViewCell.swift in Sources */,
 				726E90CD28AB786000F0ACAB /* JSONError.swift in Sources */,
 				90A5AE5328AB6E980072C1EE /* DiaryContent.swift in Sources */,
 				728FBF4428ACA2DD006DF83F /* DiaryPostViewController.swift in Sources */,
 				726E90CB28AB75C900F0ACAB /* JSONManager.swift in Sources */,
+				729B2EB828B7728600315B22 /* DiaryEntity+CoreDataProperties.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
-				90CD349828B76AB9003917EA /* DiaryEntity+CoreDataClass.swift in Sources */,
 				90A5AEB028ACD8C90072C1EE /* Date+Extensions.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				90A5AEA428ACAF350072C1EE /* DiaryViewModel.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
-				90CD349928B76AB9003917EA /* DiaryEntity+CoreDataProperties.swift in Sources */,
 				90A5AE5C28AB89000072C1EE /* TimeInterval+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
