@@ -2,12 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:/Users/derrickkim/Documents/GitHub.nosync/Practice_For_iOS_Project/ios-diary/Diary/DiaryEntity+CoreDataClass.swift">
-   </FileRef>
-   <FileRef
-      location = "group:/Users/derrickkim/Documents/GitHub.nosync/Practice_For_iOS_Project/ios-diary/Diary/DiaryEntity+CoreDataProperties.swift">
-   </FileRef>
-   <FileRef
       location = "group:Diary.xcodeproj">
    </FileRef>
    <FileRef
