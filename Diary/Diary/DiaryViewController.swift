@@ -167,7 +167,9 @@ extension DiaryViewController {
     }
     
     private func showUpKeyboard() {
-        diaryView.diaryTextView.becomeFirstResponder()
+        if mode == .create {
+            diaryView.diaryTextView.becomeFirstResponder()
+        }
     }
     
     @objc private func keyboardWillAppear(_ sender: Notification) {
