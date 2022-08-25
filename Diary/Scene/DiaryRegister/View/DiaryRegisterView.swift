@@ -34,10 +34,6 @@ final class DiaryRegisterView: UIView {
     
     // MARK: - methods
     
-    func configureDetailTextView(ofText: String?) {
-        registerTextView.text = ofText
-    }
-    
     func configureDetailTextViewInset(inset: CGFloat) {
         registerTextView.contentInset.bottom = inset
     }
