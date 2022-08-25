@@ -72,13 +72,29 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     @objc private func showActionSheet(sender: AnyObject) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: { _ in
+            self.showActivityView()
+        }))
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
             self.showDeleteAlert()
         }))
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         self.present(actionSheet, animated: true)
+    }
+    
+    private func showActivityView() {
+        guard let content = self.content,
+                let title = content.title else {
+            return
+        }
+        
+        let activityViewController = UIActivityViewController(
+            activityItems: [title],
+            applicationActivities: nil
+        )
+      
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
     private func showDeleteAlert() {

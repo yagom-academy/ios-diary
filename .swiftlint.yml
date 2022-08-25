@@ -10,3 +10,5 @@ opt_in_rules:
   
 excluded: # SwiftLint 검사에서 제외할 파일 경로
   - Diary/AppDelegate.swift
+
+line_length: 125
