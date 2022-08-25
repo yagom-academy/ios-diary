@@ -9,9 +9,7 @@ import UIKit
 
 final class DiaryListCell: UITableViewCell {
     // MARK: - Properties
-    
-    static let identifier = "diaryCell"
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +22,7 @@ final class DiaryListCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
-        label.setContentHuggingPriority(UILayoutPriority(300), for: .horizontal)
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
     }()
     
@@ -41,7 +39,7 @@ final class DiaryListCell: UITableViewCell {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .fill
-        stackView.spacing = 10
+        stackView.spacing = Number.spacing
         return stackView
     }()
     
@@ -51,7 +49,7 @@ final class DiaryListCell: UITableViewCell {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .fill
-        stackView.spacing = 10
+        stackView.spacing = Number.spacing
         return stackView
     }()
     
@@ -93,7 +91,7 @@ final class DiaryListCell: UITableViewCell {
     
     func setupData(with model: Diary) {
         titleLabel.text = model.title
-        preViewLabel.text = model.body?.replacingOccurrences(of: "\n", with: "")
+        preViewLabel.text = model.body?.replacingOccurrences(of: NameSpace.lineChange, with: NameSpace.whiteSpace)
         dateLabel.text = model.createdAt.translateToDate()
     }
     

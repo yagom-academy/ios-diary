@@ -77,7 +77,7 @@ extension DiaryListViewController {
     private func setAttributedString(indexPath: IndexPath) -> NSMutableAttributedString {
         guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath.row].title,
               let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath.row].body else { return NSMutableAttributedString() }
-        let attributedString = NSMutableAttributedString(string: diaryTitle + "\n\n",
+        let attributedString = NSMutableAttributedString(string: diaryTitle + NameSpace.twiceLineChange,
                                                          attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
         attributedString.append(NSMutableAttributedString(string: diaryBody,
                                                           attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
@@ -86,29 +86,29 @@ extension DiaryListViewController {
     }
     
     func generateShareAction(with indexPath: IndexPath) -> UIContextualAction {
-        let shareAction = UIContextualAction(style: .normal, title: "공유") { _, _, _ in
+        let shareAction = UIContextualAction(style: .normal, title: NameSpace.share) { _, _, _ in
             let model = CoreDataManager.shared.fetchedDiaries
-            let title = model[indexPath.row].title ?? "제목없음"
+            let title = model[indexPath.row].title ?? NameSpace.noneTitle
             let diaryToShare: [Any] = [MyActivityItemSource(title: title, text: model[indexPath.row].body!)]
             let activityViewController = UIActivityViewController(activityItems: diaryToShare, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.diaryListView
             
             self.present(activityViewController, animated: true)
         }
-        shareAction.image = UIImage(systemName: "person.crop.circle.badge.plus")
+        shareAction.image = UIImage(systemName: SystemName.shareIcon)
         shareAction.backgroundColor = .init(red: 80/255, green: 188/225, blue: 223/225, alpha: 1)
         return shareAction
     }
     
     func generateDeleteAction(with indexPath: IndexPath, in tableView: UITableView) -> UIContextualAction {
-        let deleteAction = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
+        let deleteAction = UIContextualAction(style: .destructive, title: NameSpace.delete) { _, _, _ in
             let diary = CoreDataManager.shared.fetchedDiaries[indexPath.row]
             CoreDataManager.shared.delete(diary: diary)
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.endUpdates()
         }
-        deleteAction.image = UIImage(systemName: "trash")
+        deleteAction.image = UIImage(systemName: SystemName.deleteIcon)
         return deleteAction
     }
     
@@ -122,7 +122,7 @@ extension DiaryListViewController {
         diaryViewController.indexPath = indexPath
         diaryViewController.mode = .modify
         
-        if diaryBody != "" {
+        if diaryBody != NameSpace.whiteSpace {
             let attributedString = setAttributedString(indexPath: indexPath)
             diaryViewController.diaryView.diaryTextView.attributedText = attributedString
         } else {

@@ -39,7 +39,7 @@ final class DiaryViewController: UIViewController {
     private func setupNavigationBar() {
         let now = Date()
         navigationItem.title = now.timeIntervalSince1970.translateToDate()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: SystemName.moreViewIcon),
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(showActionSheet))
@@ -71,7 +71,7 @@ final class DiaryViewController: UIViewController {
     
     private func generateShareAlertAction() -> UIAlertAction {
         let model = makeDiaryModel()
-        let share = UIAlertAction(title: "Share...", style: .default) { _ in
+        let share = UIAlertAction(title: NameSpace.shareActionTitle, style: .default) { _ in
             let diaryToShare: [Any] = [MyActivityItemSource(title: model.title, text: model.body)]
             let activityViewController = UIActivityViewController(activityItems: diaryToShare, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.diaryView
@@ -82,20 +82,20 @@ final class DiaryViewController: UIViewController {
     }
     
     private func generateDeleteAlertAction() -> UIAlertAction {
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            let cancel = UIAlertAction(title: "취소", style: .cancel)
-            let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+        let delete = UIAlertAction(title: NameSpace.deleteActionTitle, style: .destructive) { _ in
+            let cancel = UIAlertAction(title: NameSpace.cancel, style: .cancel)
+            let delete = UIAlertAction(title: NameSpace.delete, style: .destructive) { [weak self] _ in
                 guard let indexPath = self?.indexPath else { return }
                 CoreDataManager.shared.delete(diary: CoreDataManager.shared.fetchedDiaries[indexPath.row])
                 self?.navigationController?.popViewController(animated: true)
             }
-            self.generateAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert, actions: [cancel, delete])
+            self.generateAlertController(title: NameSpace.deleteAlertTitle, message: NameSpace.deleteAlertMessage, style: .alert, actions: [cancel, delete])
         }
         return delete
     }
     
     private func generateCancelAlertAction() -> UIAlertAction {
-        return UIAlertAction(title: "Cancel", style: .cancel)
+        return UIAlertAction(title: NameSpace.cancelActionTitle, style: .cancel)
     }
     
     @objc private func showActionSheet() {
@@ -140,17 +140,17 @@ extension DiaryViewController {
     }
     
     private func makeDiaryModel() -> DiaryModel {
-        let distinguishedTitleAndBody = diaryView.diaryTextView.text.components(separatedBy: "\n\n")
+        let distinguishedTitleAndBody = diaryView.diaryTextView.text.components(separatedBy: NameSpace.twiceLineChange)
         let createdAt = Date().timeIntervalSince1970
-        let filteredList = distinguishedTitleAndBody.filter { return $0 != "" && $0 != "\n" }
+        let filteredList = distinguishedTitleAndBody.filter { return $0 != NameSpace.whiteSpace && $0 != NameSpace.lineChange }
         guard filteredList.isEmpty == false else {
-            let title = "새로운일기장"
-            let body = ""
+            let title = NameSpace.newDiary
+            let body = NameSpace.whiteSpace
             return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
         }
         
         let title = distinguishedTitleAndBody[0]
-        let body = distinguishedTitleAndBody.count == 1 ? "" : distinguishedTitleAndBody[1...distinguishedTitleAndBody.count-1].joined(separator: "\n\n")
+        let body = distinguishedTitleAndBody.count == 1 ? NameSpace.whiteSpace : distinguishedTitleAndBody[1...distinguishedTitleAndBody.count-1].joined(separator: NameSpace.twiceLineChange)
         return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
     }
     
@@ -186,7 +186,7 @@ extension DiaryViewController {
     
     @objc private func keyboardWillAppear(_ sender: Notification) {
         guard let userInfo = sender.userInfo, let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        let contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardFrame.size.height, right: 0.0)
+        let contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: keyboardFrame.size.height, right: .zero)
         diaryView.diaryTextView.contentInset = contentInset
         diaryView.diaryTextView.scrollIndicatorInsets = contentInset
     }

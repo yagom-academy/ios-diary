@@ -19,9 +19,9 @@ final class CoreDataManager {
     
     func createDiary(with model: DiaryModel) {
         let newItem = Diary(context: context)
-        newItem.setValue(model.title, forKey: "title")
-        newItem.setValue(model.body, forKey: "body")
-        newItem.setValue(model.createdAt, forKey: "createdAt")
+        newItem.setValue(model.title, forKey: CoreDataKeys.title)
+        newItem.setValue(model.body, forKey: CoreDataKeys.body)
+        newItem.setValue(model.createdAt, forKey: CoreDataKeys.createdAt)
         do {
             try context.save()
             fetch()
@@ -41,7 +41,8 @@ final class CoreDataManager {
     }
     
     func update(diary: DiaryModel, with indexPath: IndexPath) {
-        guard fetchedDiaries.count - 1 >= indexPath.row else { return }
+        guard let maxIndex = fetchedDiaries.indices.last else { return }
+        guard maxIndex >= indexPath.row else { return }
         guard fetchedDiaries[indexPath.row].title != diary.title || fetchedDiaries[indexPath.row].body != diary.body else { return }
         
         fetchedDiaries[indexPath.row].title = diary.title

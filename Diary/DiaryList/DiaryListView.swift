@@ -13,7 +13,7 @@ final class DiaryListView: UIView {
     var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
+        tableView.register(DiaryListCell.self, forCellReuseIdentifier: NameSpace.cellIdentifier)
         return tableView
     }()
     
@@ -59,7 +59,7 @@ extension DiaryListView: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier,
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: NameSpace.cellIdentifier,
                                                        for: indexPath) as? DiaryListCell else { return UITableViewCell() }
         let diaryModelList = CoreDataManager.shared.fetchedDiaries
         let diaryModel = diaryModelList[indexPath.row]
@@ -68,6 +68,6 @@ extension DiaryListView: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return Number.sectionCount
     }
 }

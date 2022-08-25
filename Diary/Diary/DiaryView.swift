@@ -11,9 +11,9 @@ final class DiaryView: UIView {
     // MARK: - Properties
     
     private var isTwiceLineChange: Bool = false
-    private var realTimeTypingValue: String = "" {
+    private var realTimeTypingValue: String = NameSpace.whiteSpace {
         didSet {
-            if oldValue == "\n" && realTimeTypingValue == "\n" {
+            if oldValue == NameSpace.lineChange && realTimeTypingValue == NameSpace.lineChange {
                 isTwiceLineChange = true
             }
         }
