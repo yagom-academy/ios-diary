@@ -34,11 +34,7 @@ final class CoreDataManager {
             managedObject.setValue(data.body, forKey: "body")
             managedObject.setValue(data.createdAt, forKey: "createdAt")
             
-            do {
-                try context.save()
-            } catch {
-                #warning("추후 개발")
-            }
+            try? context.save()
         }
     }
     
@@ -59,26 +55,18 @@ final class CoreDataManager {
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "DiaryEntity")
         request.predicate = NSPredicate(format: "createdAt = %@", "\(data.createdAt)")
-  
-        do {
-            let result = try context.fetch(request)
-            
-            guard let objectUpdate = result[0] as? NSManagedObject else {
-                return
-            }
-            
-            objectUpdate.setValue(data.title, forKey: "title")
-            objectUpdate.setValue(data.body, forKey: "body")
-            objectUpdate.setValue(data.createdAt, forKey: "createdAt")
-            
-            do {
-                try context.save()
-            } catch {
-                #warning("추후 개발")
-            }
-        } catch {
-            #warning("추후 개발")
+        
+        let result = try? context.fetch(request)
+        
+        guard let objectUpdate = result?[0] as? NSManagedObject else {
+            return
         }
+        
+        objectUpdate.setValue(data.title, forKey: "title")
+        objectUpdate.setValue(data.body, forKey: "body")
+        objectUpdate.setValue(data.createdAt, forKey: "createdAt")
+        
+        try? context.save()
     }
     
     //MARK: - Delete
@@ -86,22 +74,14 @@ final class CoreDataManager {
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "DiaryEntity")
         request.predicate = NSPredicate(format: "title = %@", title)
+    
+        let result = try? context.fetch(request)
         
-        do {
-            let result = try context.fetch(request)
-            
-            guard let objectDelete = result[0] as? NSManagedObject else {
-                return
-            }
-            context.delete(objectDelete)
-            
-            do {
-                try context.save()
-            } catch {
-                #warning("추후 개발")
-            }
-        } catch {
-            #warning("추후 개발")
+        guard let objectDelete = result?[0] as? NSManagedObject else {
+            return
         }
+        context.delete(objectDelete)
+        
+        try? context.save()
     }
 }
