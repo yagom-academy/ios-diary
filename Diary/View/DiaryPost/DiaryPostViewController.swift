@@ -33,7 +33,7 @@ final class DiaryPostViewController: UIViewController {
     
     @objc private func didTappedDoneButton() {
         diaryDescriptionTextView.resignFirstResponder()
-        diaryViewModel.assign(text: diaryDescriptionTextView.text, date: Date().timeIntervalSince1970)
+        diaryViewModel.assign(text: diaryDescriptionTextView.text, date: round(Date().timeIntervalSince1970))
     }
     
     private func configureTextView() {

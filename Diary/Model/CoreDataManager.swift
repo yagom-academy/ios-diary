@@ -23,8 +23,7 @@ final class CoreDataManager {
     }()
     
     // MARK: - Create
-    @discardableResult
-    func insertContext(data: DiaryContent) -> Bool {
+    func insertContext(data: DiaryContent) {
         let context = persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context)
         
@@ -37,12 +36,9 @@ final class CoreDataManager {
             
             do {
                 try context.save()
-                return true
             } catch {
-                return false
+                #warning("추후 개발")
             }
-        } else {
-            return false
         }
     }
     
@@ -60,10 +56,11 @@ final class CoreDataManager {
     
     //MARK: - Update
     func updateContext(data: DiaryContent) {
+
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "DiaryEntity")
-        request.predicate = NSPredicate(format: "title = %@", data.title)
-        
+        request.predicate = NSPredicate(format: "createdAt = %@", "\(data.createdAt)")
+  
         do {
             let result = try context.fetch(request)
             

@@ -66,7 +66,6 @@ final class DiaryListViewController: UIViewController {
     
     private func configureLayout() {
         self.view.addSubview(diaryListTableView)
-        diaryListTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
         
         NSLayoutConstraint.activate([
             diaryListTableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
