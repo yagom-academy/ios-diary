@@ -89,7 +89,8 @@ extension DiaryListViewController {
         let shareAction = UIContextualAction(style: .normal, title: NameSpace.share) { _, _, _ in
             let model = CoreDataManager.shared.fetchedDiaries
             let title = model[indexPath.row].title ?? NameSpace.noneTitle
-            let diaryToShare: [Any] = [MyActivityItemSource(title: title, text: model[indexPath.row].body!)]
+            let body = model[indexPath.row].body ?? NameSpace.noneTitle
+            let diaryToShare: [Any] = [MyActivityItemSource(title: title, text: body)]
             let activityViewController = UIActivityViewController(activityItems: diaryToShare, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.diaryListView
             
