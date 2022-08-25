@@ -28,6 +28,7 @@
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
+		D7BC02FA28B67ECF003AB3B1 /* DataManagable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BC02F928B67ECF003AB3B1 /* DataManagable.swift */; };
 		D7CA152328AE2AB300E1E3D1 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA152228AE2AB300E1E3D1 /* TimeInterval+Extension.swift */; };
 		D7D37CB828B1F1B7004C31C7 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D37CB728B1F1B7004C31C7 /* ReuseIdentifiable.swift */; };
 		D7DC801728AB9F5B005F7D3B /* DiaryListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DC801628AB9F5B005F7D3B /* DiaryListCollectionViewCell.swift */; };
@@ -58,6 +59,7 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7BC02F928B67ECF003AB3B1 /* DataManagable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManagable.swift; sourceTree = "<group>"; };
 		D7CA152228AE2AB300E1E3D1 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
 		D7D37CB728B1F1B7004C31C7 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
 		D7DC800E28AB7C17005F7D3B /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			children = (
 				1863246E28ACD66300BAE36D /* DataSendable.swift */,
 				D7D37CB728B1F1B7004C31C7 /* ReuseIdentifiable.swift */,
+				D7BC02F928B67ECF003AB3B1 /* DataManagable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 				187A611628B2161100847F8B /* Array+Extension.swift in Sources */,
 				1863247528AE090700BAE36D /* DiaryRegistrationViewController.swift in Sources */,
 				1863247D28AE1FF800BAE36D /* KeyboardManager.swift in Sources */,
+				D7BC02FA28B67ECF003AB3B1 /* DataManagable.swift in Sources */,
 				186D057228ABE9A200A2734E /* Date+Extension.swift in Sources */,
 				186D056F28ABE97900A2734E /* Section.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,

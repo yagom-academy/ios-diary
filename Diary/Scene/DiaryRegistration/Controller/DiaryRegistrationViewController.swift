@@ -36,23 +36,28 @@ final class DiaryRegistrationViewController: UIViewController {
         
     private func updateDiary() {
         let diaryInfomation = textView.text.split(separator: "\n", maxSplits: 1)
-        if textView.text == "" {
+        
+        if diaryInfomation.isEmpty {
             return
         }
+        
         let title = String(diaryInfomation[0])
         let body = getBody(title: title)
         let newDiary = Diary(uuid: UUID(),
                              title: title,
                              body: body,
                              createdAt: Date().timeIntervalSince1970)
-        diaryData.create(myDiary: newDiary)
+        
+        diaryData.create(model: newDiary)
     }
     
     private func getBody(title: String) -> String {
         guard var text = textView.text else { return "" }
+        
         for _ in 0..<title.count {
             text.removeFirst()
         }
+        
         return text
     }
     
