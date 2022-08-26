@@ -13,6 +13,69 @@ final class DiaryUpdateViewController: UIViewController {
     
     private var diaryItem: DiaryItem?
     
+    private lazy var rightBarButtonActionSheet: UIAlertController = {
+        let rightBarButtonActionSheet = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        
+        let share = UIAlertAction(
+            title: "공유",
+            style: .default,
+            handler: { action in
+                // TODO: 공유 기능 추가
+            }
+        )
+        
+        let cancel = UIAlertAction(
+            title: "취소",
+            style: .cancel
+        )
+        
+        let delete = UIAlertAction(
+            title: "삭제",
+            style: .destructive,
+            handler: { action in
+                self.present(self.deleteAlert, animated: true)
+            }
+        )
+        
+        [share, cancel, delete].forEach {
+            rightBarButtonActionSheet.addAction($0)
+        }
+
+        return rightBarButtonActionSheet
+    }()
+    
+    private lazy var deleteAlert: UIAlertController = {
+        let deleteAlert = UIAlertController(
+            title: "정말 삭제할까요?",
+            message: "삭제 후 복구는 불가능합니다.",
+            preferredStyle: .alert
+        )
+
+        let cancel = UIAlertAction(
+            title: "취소",
+            style: .cancel
+        )
+        
+        let delete = UIAlertAction(
+            title: "삭제",
+            style: .destructive,
+            handler: { action in
+                self.deleteDiary()
+                self.navigationController?.popViewController(animated: true)
+            }
+        )
+        
+        [cancel, delete].forEach {
+            deleteAlert.addAction($0)
+        }
+
+        return deleteAlert
+    }()
+    
     // MARK: - UI Components
     
     private let contentTextView: UITextView = {
@@ -40,7 +103,7 @@ final class DiaryUpdateViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         removeKeyboardWillShowNoification()
         
-        saveDiaryEntity()
+        saveDiary()
     }
 }
 
@@ -82,7 +145,7 @@ private extension DiaryUpdateViewController {
         diaryItem?.body = data.body
     }
     
-    func saveDiaryEntity() {
+    func saveDiary() {
         convertTextToDiaryItem()
         
         guard let diaryItem = diaryItem else {
@@ -92,6 +155,15 @@ private extension DiaryUpdateViewController {
         DiaryCoreDataManager.shared.update(diaryItem: diaryItem)
     }
     
+    func deleteDiary() {
+        guard let diaryItem = diaryItem else {
+            return
+        }
+        
+        DiaryCoreDataManager.shared.delete(diaryItem: diaryItem)
+        self.diaryItem = nil
+    }
+    
     // MARK: Configuring UI
     
     func configureRootViewUI() {
@@ -99,9 +171,21 @@ private extension DiaryUpdateViewController {
         
         if let diaryItem = diaryItem {
             navigationItem.title = diaryItem.createdDate.localizedFormat()
-        } else {
-            navigationItem.title = Date().timeIntervalSince1970.localizedFormat()
         }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .action,
+            target: self,
+            action: #selector(rightBarButtonDidTap)
+        )
+    }
+    
+    @objc func rightBarButtonDidTap() {
+        showActionSheet()
+    }
+    
+    @objc private func showActionSheet() {
+        present(rightBarButtonActionSheet, animated: true)
     }
     
     func addUIComponents() {

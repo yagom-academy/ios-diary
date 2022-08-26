@@ -83,4 +83,22 @@ class DiaryCoreDataManager {
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
+    
+    func delete(diaryItem: DiaryItem) {
+        let diaryEntityUUID = diaryItem.uuid
+        
+        let request = NSFetchRequest<DiaryEntity>(entityName: "DiaryEntity")
+        request.predicate = NSPredicate(format: "uuid = %@", diaryEntityUUID.uuidString)
+    
+        do {
+            let diaryEntities = try context.fetch(request)
+            let diaryEntity = diaryEntities[0]
+            
+            context.delete(diaryEntity)
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
 }
