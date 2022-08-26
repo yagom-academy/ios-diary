@@ -2,13 +2,11 @@
 //  Diary+CoreDataProperties.swift
 //  Diary
 //
-//  Created by Finnn, 수꿍 on 2022/08/23.
+//  Created by Finnn, 수꿍 on 2022/08/26.
 //
 //
 
-import Foundation
 import CoreData
-
 
 extension Diary {
 
@@ -16,11 +14,8 @@ extension Diary {
         return NSFetchRequest<Diary>(entityName: DiaryCoreData.entityName)
     }
 
-    @NSManaged public var title: String?
     @NSManaged public var body: String?
     @NSManaged public var createdAt: Date?
-}
-
-extension Diary : Identifiable {
-
+    @NSManaged public var title: String?
+    @NSManaged public var id: UUID?
 }

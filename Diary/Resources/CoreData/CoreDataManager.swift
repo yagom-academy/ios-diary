@@ -14,12 +14,7 @@ final class CoreDataManager {
     
     static let shared = CoreDataManager()
     
-    let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    let persistentContainer: NSPersistentContainer = {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        return appDelegate.persistentContainer
-    }()
+    
     
     // MARK: - Initializer
     
@@ -29,28 +24,23 @@ final class CoreDataManager {
     
     // MARK: - Methods
 
-    func saveDiary(title: String, body: String, createdAt: Date) {
-        let diary = Diary(context: persistentContainer.viewContext)
+    func saveDiary(title: String, body: String, createdAt: Date) throws {
+        let diary = Diary(context: viewContext)
         diary.setValue(title, forKey: DiaryCoreData.Key.title)
         diary.setValue(body, forKey: DiaryCoreData.Key.body)
         diary.setValue(createdAt, forKey: DiaryCoreData.Key.createdAt)
 
-        appDelegate.saveContext()
     }
 
-    func fetchDiary(createdAt: Date) -> Diary? {
+    func fetchDiary(createdAt: Date) throws -> Diary {
         let request = NSFetchRequest<Diary>(entityName: DiaryCoreData.entityName)
         request.predicate = NSPredicate(
             format: DiaryCoreData.Predicate.creationDate,
             createdAt as NSDate
         )
         
-        guard let fetchedData =
-                try? persistentContainer.viewContext.fetch(request).first else {
-            return nil
-        }
         
-        return fetchedData
+        return diary
     }
     
     func update(title: String, body: String, createdAt: Date) throws {
@@ -60,18 +50,14 @@ final class CoreDataManager {
             createdAt as NSDate
         )
         
-        do {
-            guard let diary =
-                    try persistentContainer.viewContext.fetch(fetchRequest).first else {
-                throw FetchingError.invalidFetchRequest
-            }
-            
-            diary.title = title
-            diary.body = body
-            appDelegate.saveContext()
-        } catch {
-            throw error
+        guard let diary =
+                try viewContext.fetch(fetchRequest).first else {
+            throw FetchingError.invalidFetchRequest
         }
+        
+        diary.title = title
+        diary.body = body
+        
     }
     
     func delete(createdAt: Date) throws {
@@ -81,16 +67,8 @@ final class CoreDataManager {
             createdAt as NSDate
         )
         
-        do {
-            guard let diary =
-                    try persistentContainer.viewContext.fetch(fetchRequest).last else {
-                throw FetchingError.invalidFetchRequest
-            }
-            
-            persistentContainer.viewContext.delete(diary)
-            appDelegate.saveContext()
-        } catch {
-            throw error
-        }
+        
+        viewContext.delete(diary)
+        
     }
 }
