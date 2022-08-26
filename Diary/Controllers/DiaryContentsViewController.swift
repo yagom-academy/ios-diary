@@ -250,11 +250,11 @@ final class DiaryContentsViewController: UIViewController {
     }
     
     private func determineDataProcessingFor(_ title: String, _ body: String, _ creationDate: Date) throws {
-        let fetchSuccess = CoreDataManager.shared.fetchDiary(createdAt: creationDate)
+        let fetchSuccess = try? CoreDataManager.shared.fetchDiary(createdAt: creationDate)
         
         switch (fetchSuccess, isDeleted) {
         case (nil, false):
-            CoreDataManager.shared.saveDiary(
+            try CoreDataManager.shared.saveDiary(
                 title: title,
                 body: body,
                 createdAt: creationDate

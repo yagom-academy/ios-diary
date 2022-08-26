@@ -42,6 +42,10 @@ final class CoreDataManager {
             createdAt as NSDate
         )
         
+        guard let diary =
+                try viewContext.fetch(request).first else {
+            throw FetchingError.invalidFetchRequest
+        }
         
         return diary
     }
@@ -73,6 +77,10 @@ final class CoreDataManager {
             createdAt as NSDate
         )
         
+        guard let diary =
+                try viewContext.fetch(fetchRequest).last else {
+            throw FetchingError.invalidFetchRequest
+        }
         
         viewContext.delete(diary)
         
