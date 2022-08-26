@@ -30,22 +30,23 @@ final class CoreDataManager {
     
     // MARK: - Methods
 
-    func saveDiary(title: String, body: String, createdAt: Date) throws {
+    func saveDiary(title: String, body: String, createdAt: Date, id: UUID) throws {
         let diary = Diary(context: viewContext)
         diary.setValue(title, forKey: DiaryCoreData.Key.title)
         diary.setValue(body, forKey: DiaryCoreData.Key.body)
         diary.setValue(createdAt, forKey: DiaryCoreData.Key.createdAt)
+        diary.setValue(id, forKey: DiaryCoreData.Key.id)
 
         if viewContext.hasChanges {
             try viewContext.save()
         }
     }
-
-    func fetchDiary(createdAt: Date) throws -> Diary {
+    
+    func fetchDiary(using id: UUID) throws -> Diary {
         let request = NSFetchRequest<Diary>(entityName: DiaryCoreData.entityName)
         request.predicate = NSPredicate(
-            format: DiaryCoreData.Predicate.creationDate,
-            createdAt as NSDate
+            format: DiaryCoreData.Predicate.id,
+            id as CVarArg
         )
         
         guard let diary =
@@ -56,11 +57,11 @@ final class CoreDataManager {
         return diary
     }
     
-    func update(title: String, body: String, createdAt: Date) throws {
+    func update(title: String, body: String, id: UUID) throws {
         let fetchRequest = NSFetchRequest<Diary>(entityName: DiaryCoreData.entityName)
         fetchRequest.predicate = NSPredicate(
-            format: DiaryCoreData.Predicate.creationDate,
-            createdAt as NSDate
+            format: DiaryCoreData.Predicate.id,
+            id as CVarArg
         )
         
         guard let diary =
@@ -76,11 +77,11 @@ final class CoreDataManager {
         }
     }
     
-    func delete(createdAt: Date) throws {
+    func delete(using id: UUID) throws {
         let fetchRequest = NSFetchRequest<Diary>(entityName: DiaryCoreData.entityName)
         fetchRequest.predicate = NSPredicate(
-            format: DiaryCoreData.Predicate.creationDate,
-            createdAt as NSDate
+            format: DiaryCoreData.Predicate.id,
+            id as CVarArg
         )
         
         guard let diary =

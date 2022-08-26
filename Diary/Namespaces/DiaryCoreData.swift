@@ -12,10 +12,12 @@ enum DiaryCoreData {
         static let title = "title"
         static let body = "body"
         static let createdAt = "createdAt"
+        static let id = "id"
     }
     
     enum Predicate {
         static let creationDate = "createdAt = %@"
+        static let id = "id = %@"
         static let contatingTitle = "title CONTAINS[c] %@"
         static let containingBody = "body CONTAINS[c] %@"
     }

@@ -13,6 +13,7 @@ final class DiaryContentsViewController: UIViewController {
     
     private let diaryContentView = DiaryContentView()
     private var creationDate: Date?
+    private var id: UUID?
     var diary: Diary?
     var isEditingMemo: Bool = false
     var isDeleted: Bool = false
@@ -31,6 +32,7 @@ final class DiaryContentsViewController: UIViewController {
         configureUI()
         configureNotificationCenter()
         configureCreationDate()
+        configureID()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -212,7 +214,8 @@ final class DiaryContentsViewController: UIViewController {
     
     private func handleCRUD() {
         guard let (title, body) = extractTitleAndBody(),
-              let creationDate = creationDate else {
+              let creationDate = creationDate,
+              let id = id else {
             return
         }
         
@@ -220,7 +223,8 @@ final class DiaryContentsViewController: UIViewController {
             try determineDataProcessingFor(
                 title,
                 body,
-                creationDate
+                creationDate,
+                id
             )
         } catch {
             presentErrorAlert(error)
@@ -249,29 +253,30 @@ final class DiaryContentsViewController: UIViewController {
         return (title, body)
     }
     
-    private func determineDataProcessingFor(_ title: String, _ body: String, _ creationDate: Date) throws {
-        let fetchSuccess = try? CoreDataManager.shared.fetchDiary(createdAt: creationDate)
+    private func determineDataProcessingWith(_ title: String, _ body: String, _ creationDate: Date, _ id: UUID) throws {
+        let fetchSuccess = try? CoreDataManager.shared.fetchDiary(using: id)
         
         switch (fetchSuccess, isDeleted) {
         case (nil, false):
             try CoreDataManager.shared.saveDiary(
                 title: title,
                 body: body,
-                createdAt: creationDate
+                createdAt: creationDate,
+                id: id
             )
         case (_, false):
             try CoreDataManager.shared.update(
                 title: title,
                 body: body,
-                createdAt: creationDate
+                id: id
             )
         case (_, true):
-            try CoreDataManager.shared.delete(createdAt: creationDate)
+            try CoreDataManager.shared.delete(using: id)
         }
     }
     
     @objc func resignActive() {
-        handleCRUD()
+        renewCoreData()
     }
     
     private func configureCreationDate() {
@@ -280,6 +285,14 @@ final class DiaryContentsViewController: UIViewController {
             return
         }
         creationDate = diary.createdAt
+    }
+    
+    private func configureID() {
+        guard let diary = diary else {
+            id = UUID()
+            return
+        }
+        id = diary.id
     }
     
     private func showKeyboard() {

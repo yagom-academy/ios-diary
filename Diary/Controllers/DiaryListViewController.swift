@@ -204,7 +204,7 @@ extension DiaryListViewController: UITableViewDelegate {
         guard let diary = self.dataSource?.itemIdentifier(for: indexPath),
               let title = diary.title,
               let body = diary.body,
-              let creationDate = diary.createdAt else {
+              let id = diary.id else {
             return nil
         }
         
@@ -212,7 +212,7 @@ extension DiaryListViewController: UITableViewDelegate {
             style: .destructive,
             title: ActionSheet.deleteActionTitle
         ) { [weak self] action, view, completion in
-            self?.deleteDiary(createdAt: creationDate)
+            self?.deleteDiary(using: id)
         }
         
         let shareAction = UIContextualAction(
@@ -235,9 +235,9 @@ extension DiaryListViewController: UITableViewDelegate {
         return swipeActionCongifuration
     }
     
-    private func deleteDiary(createdAt date: Date) {
+    private func deleteDiary(using id: UUID) {
         do {
-            try CoreDataManager.shared.delete(createdAt: date)
+            try CoreDataManager.shared.delete(using: id)
             dataSource?.apply(snapshot)
         } catch {
             presentErrorAlert(error)
