@@ -37,25 +37,15 @@ class DiaryDetailViewController: UIViewController {
     
     // MARK: - methods
     
-    private func configureView() {
-        view.addSubview(diaryDetailView)
-        navigationItem.title = diaryDetailData?.createdAt.convertDate()
-    }
-    
-    private func configureViewLayout() {
-        NSLayoutConstraint.activate([
-            diaryDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            diaryDetailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            diaryDetailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            diaryDetailView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
-        ])
-    }
-    
-    private func configureDetailViewItem() {
-        guard let title = diaryDetailData?.title,
-              let body = diaryDetailData?.body else { return }
+    func saveDiaryData() {
+        let inputText = diaryDetailView.seperateText()
+        guard inputText.title != "" || inputText.body != "" else { return }
         
-        diaryDetailView.configureDetailTextView(ofText: "\(title)\n\n\(body)")
+        let diaryModel = DiaryModel(title: inputText.title,
+                                    body: inputText.body,
+                                    createdAt: diaryDetailData?.createdAt ?? Double())
+        
+        CoreDataManager.shared.update(diary: diaryModel)
     }
     
     private func configureKeyboardNotification() {
@@ -97,13 +87,13 @@ class DiaryDetailViewController: UIViewController {
     }
     
     private func deleteAlertActionDidTap() {
-        let alertController = UIAlertController(title: "진짜요?",
-                                                message: "정말로 삭제하시겠어요?🐒",
+        let alertController = UIAlertController(title: Design.alertControllerTitle,
+                                                message: Design.alertControllerMessage,
                                                 preferredStyle: .alert)
         
-        let cancelAlertAction = UIAlertAction(title: "취소",
+        let cancelAlertAction = UIAlertAction(title: Design.alertCancelAction,
                                               style: .cancel)
-        let deleteAlertAction = UIAlertAction(title: "삭제",
+        let deleteAlertAction = UIAlertAction(title: Design.alertDeleteAction,
                                               style: .destructive) { _ in self.deleteDiaryData() }
         
         alertController.addAction(cancelAlertAction)
@@ -120,28 +110,16 @@ class DiaryDetailViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func saveDiaryData() {
-        let inputText = diaryDetailView.seperateText()
-        
-        guard inputText.title != "" || inputText.body != "" else { return }
-        
-        let diaryModel = DiaryModel(title: inputText.title,
-                                    body: inputText.body,
-                                    createdAt: Double(Date().timeIntervalSince1970))
-        
-        CoreDataManager.shared.update(diary: diaryModel)
-    }
-    
     @objc private func rightBarButtonDidTap() {
         let alertController = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
         
-        let shareAlertAction = UIAlertAction(title: "Share...",
+        let shareAlertAction = UIAlertAction(title: Design.alertShareAction,
                                              style: .default) { _ in self.shareAlertActionDidTap() }
-        let deleteAlertAction = UIAlertAction(title: "Delete",
+        let deleteAlertAction = UIAlertAction(title: Design.alertDeleteAction,
                                               style: .destructive) { _ in self.deleteAlertActionDidTap() }
-        let cancelAlertAction = UIAlertAction(title: "Cancel",
+        let cancelAlertAction = UIAlertAction(title: Design.alertCancelAction,
                                               style: .cancel)
         
         alertController.addAction(shareAlertAction)
@@ -167,4 +145,35 @@ class DiaryDetailViewController: UIViewController {
         
         diaryDetailView.configureDetailTextViewInset(inset: 0)
     }
+    
+    private func configureView() {
+        view.addSubview(diaryDetailView)
+        navigationItem.title = diaryDetailData?.createdAt.convertDate()
+    }
+    
+    private func configureViewLayout() {
+        NSLayoutConstraint.activate([
+            diaryDetailView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            diaryDetailView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            diaryDetailView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            diaryDetailView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
+        ])
+    }
+    
+    private func configureDetailViewItem() {
+        guard let title = diaryDetailData?.title,
+              let body = diaryDetailData?.body else { return }
+        
+        diaryDetailView.configureDetailTextView(ofText: "\(title)\n\(body)")
+    }
+}
+
+// MARK: - Design
+
+private enum Design {
+    static let alertControllerTitle = "진짜요?"
+    static let alertControllerMessage = "정말로 삭제하시겠어요?🐒"
+    static let alertCancelAction = "취소"
+    static let alertDeleteAction = "삭제"
+    static let alertShareAction = "공유"
 }
