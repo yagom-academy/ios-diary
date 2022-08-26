@@ -31,6 +31,7 @@ class DiaryDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        saveDiaryData()
         removeRegisterForKeyboardNotification()
     }
     
@@ -119,6 +120,18 @@ class DiaryDetailViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    @objc func saveDiaryData() {
+        let inputText = diaryDetailView.seperateText()
+        
+        guard inputText.title != "" || inputText.body != "" else { return }
+        
+        let diaryModel = DiaryModel(title: inputText.title,
+                                    body: inputText.body,
+                                    createdAt: Double(Date().timeIntervalSince1970))
+        
+        CoreDataManager.shared.create(newDiary: diaryModel)
+    }
+    
     @objc private func rightBarButtonDidTap() {
         let alertController = UIAlertController(title: nil,
                                                 message: nil,
@@ -152,6 +165,7 @@ class DiaryDetailViewController: UIViewController {
     @objc private func keyboardDownAction() {
         view.endEditing(true)
         
+        saveDiaryData()
         diaryDetailView.configureDetailTextViewInset(inset: 0)
     }
 }
