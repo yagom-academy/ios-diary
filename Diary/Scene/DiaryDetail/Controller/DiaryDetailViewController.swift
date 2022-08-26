@@ -23,6 +23,7 @@ class DiaryDetailViewController: UIViewController {
         configureViewLayout()
         configureDetailViewItem()
         configureKeyboardNotification()
+        configureNavigationButton()
         
         view.layoutIfNeeded()
     }
@@ -76,6 +77,65 @@ class DiaryDetailViewController: UIViewController {
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillHideNotification,
                                                   object: nil)
+    }
+    
+    private func configureNavigationButton() {
+        let rightBarButton = UIBarButtonItem(barButtonSystemItem: .action,
+                                             target: self,
+                                             action: #selector(rightBarButtonDidTap))
+        
+        navigationItem.setRightBarButton(rightBarButton, animated: true)
+    }
+    
+    private func shareAlertActionDidTap() {
+        let title = diaryDetailData?.title
+        let activityViewController = UIActivityViewController(activityItems: [title as Any],
+                                                              applicationActivities: nil)
+        
+        present(activityViewController, animated: true)
+    }
+    
+    private func deleteAlertActionDidTap() {
+        let alertController = UIAlertController(title: "진짜요?",
+                                                message: "정말로 삭제하시겠어요?🐒",
+                                                preferredStyle: .alert)
+        
+        let cancelAlertAction = UIAlertAction(title: "취소",
+                                              style: .cancel)
+        let deleteAlertAction = UIAlertAction(title: "삭제",
+                                              style: .destructive) { _ in self.deleteDiaryData() }
+        
+        alertController.addAction(cancelAlertAction)
+        alertController.addAction(deleteAlertAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    private func deleteDiaryData() {
+        guard let createdAt = diaryDetailData?.createdAt else { return }
+        
+        CoreDataManager.shared.delete(createdAt: createdAt)
+        
+        navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func rightBarButtonDidTap() {
+        let alertController = UIAlertController(title: nil,
+                                                message: nil,
+                                                preferredStyle: .actionSheet)
+        
+        let shareAlertAction = UIAlertAction(title: "Share...",
+                                             style: .default) { _ in self.shareAlertActionDidTap() }
+        let deleteAlertAction = UIAlertAction(title: "Delete",
+                                              style: .destructive) { _ in self.deleteAlertActionDidTap() }
+        let cancelAlertAction = UIAlertAction(title: "Cancel",
+                                              style: .cancel)
+        
+        alertController.addAction(shareAlertAction)
+        alertController.addAction(deleteAlertAction)
+        alertController.addAction(cancelAlertAction)
+        
+        present(alertController, animated: true)
     }
     
     @objc private func keyBoardShowAction(notification: NSNotification) {
