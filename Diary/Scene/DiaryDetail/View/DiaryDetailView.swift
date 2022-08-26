@@ -42,6 +42,15 @@ final class DiaryDetailView: UIView {
         detailTextView.contentInset.bottom = inset
     }
     
+    func seperateText() -> (title: String, body: String) {
+        let title = detailTextView.text.components(separatedBy: "\n")[0]
+        let body = detailTextView.text.components(separatedBy: "\n")
+            .filter { $0 != title }
+            .joined(separator: "\n")
+        
+        return (title, body)
+    }
+    
     private func commonInit() {
         configureView()
         configureViewLayouts()
