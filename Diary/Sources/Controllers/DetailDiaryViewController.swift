@@ -173,13 +173,13 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     private func registerForKeyboardHideNotification() {
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(keyBoardHide),
+            selector: #selector(saveDiaryContents),
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
     }
     
-    @objc private func keyBoardHide(notification: NSNotification) {
+    @objc func saveDiaryContents() {
         if !textView.text.isEmpty && isExist == false {
             create(content: getProcessedContent())
         } else if !textView.text.isEmpty && isExist == true {

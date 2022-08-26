@@ -9,7 +9,10 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    let navigationController = UINavigationController(
+        rootViewController: DiaryListTableViewController()
+    )
+    
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
@@ -20,8 +23,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         window = UIWindow(windowScene: windowScene)
-        let mainViewController = DiaryListTableViewController()
-        let navigationController = UINavigationController(rootViewController: mainViewController)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
@@ -39,20 +40,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        guard let navigationViewController = window?.rootViewController as? UINavigationController else { return }
-        guard let diaryRegisterViewController =
-                navigationViewController.topViewController
-                as? DetailDiaryViewController else { return }
-
-        if !diaryRegisterViewController.textView.text.isEmpty && diaryRegisterViewController.isExist == false {
-            diaryRegisterViewController.create(content: diaryRegisterViewController.getProcessedContent())
-        } else if !diaryRegisterViewController.textView.text.isEmpty && diaryRegisterViewController.isExist == true {
-            diaryRegisterViewController.update(
-                entity: diaryRegisterViewController.content ?? DiaryContents(),
-                content: diaryRegisterViewController.getProcessedContent()
-            )
-        }
+        guard let detailDiaryViewController = navigationController.topViewController
+                as? DetailDiaryViewController else {
+                    return
+                }
         
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        detailDiaryViewController.saveDiaryContents()
     }
 }
