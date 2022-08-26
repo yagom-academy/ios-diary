@@ -110,6 +110,24 @@ final class DiaryListViewController: UIViewController {
         return fetchRequest
     }
     
+    private func fetchDiaryRequest(from text: String) -> NSFetchRequest<Diary> {
+        let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: DiaryCoreData.entityName)
+        let titlePredicate = NSPredicate(format: DiaryCoreData.Predicate.contatingTitle, text)
+        let bodyPredicate = NSPredicate(format: DiaryCoreData.Predicate.containingBody, text)
+        let titleOrBodyPredicate = NSCompoundPredicate(
+            type: NSCompoundPredicate.LogicalType.or,
+            subpredicates: [titlePredicate, bodyPredicate]
+        )
+        
+        fetchRequest.predicate = titleOrBodyPredicate
+        fetchRequest.sortDescriptors = [NSSortDescriptor(
+            key: DiaryCoreData.Key.createdAt,
+            ascending: true
+        )]
+        
+        return fetchRequest
+    }
+    
     private func configureDataSource() {
         let tableView = diaryView.tableView
         
@@ -133,24 +151,6 @@ final class DiaryListViewController: UIViewController {
         )
         
         dataSource?.apply(snapshot)
-    }
-    
-    private func fetchDiaryRequest(from text: String) -> NSFetchRequest<Diary> {
-        let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: DiaryCoreData.entityName)
-        let titlePredicate = NSPredicate(format: DiaryCoreData.Predicate.contatingTitle, text)
-        let bodyPredicate = NSPredicate(format: DiaryCoreData.Predicate.containingBody, text)
-        let titleOrBodyPredicate = NSCompoundPredicate(
-            type: NSCompoundPredicate.LogicalType.or,
-            subpredicates: [titlePredicate, bodyPredicate]
-        )
-        
-        fetchRequest.predicate = titleOrBodyPredicate
-        fetchRequest.sortDescriptors = [NSSortDescriptor(
-            key: DiaryCoreData.Key.createdAt,
-            ascending: true
-        )]
-        
-        return fetchRequest
     }
     
     private func configureSnapshot() {
