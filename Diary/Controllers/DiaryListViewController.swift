@@ -177,6 +177,8 @@ final class DiaryListViewController: UIViewController {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.searchBar.placeholder = SearchControllerItem.placeHolder
+        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.searchBar.backgroundColor = .white
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
     }
