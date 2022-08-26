@@ -160,6 +160,7 @@ final class DiaryContentsViewController: UIViewController {
         diaryContentText.append(lineBreakAttributedString)
         diaryContentText.append(bodyAttributedString)
         diaryContentView.textView.attributedText = diaryContentText
+        diaryContentView.textView.contentOffset.y = .zero
     }
     
     private func configureNotificationCenter() {
