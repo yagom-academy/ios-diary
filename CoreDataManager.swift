@@ -39,7 +39,6 @@ class CoreDataManager {
     
     func read() -> [DiaryModel]? {
         guard let fetchList = try? context?.fetch(Diary.fetchRequest()) as? [Diary]
-    
         else { return nil }
         
         var diaryList = [DiaryModel]()

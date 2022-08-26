@@ -132,12 +132,12 @@ extension DiaryListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteSwipeAction = UIContextualAction(style: .destructive, title: Design.alertDeleteAction, handler: { action, view, completionHaldler in
+        let deleteSwipeAction = UIContextualAction(style: .destructive, title: Design.alertDeleteAction, handler: { _, _, completionHaldler in
             self.deleteAlertActionDidTap(index: indexPath.row)
             completionHaldler(true)
         })
         
-        let shareSwipeAction = UIContextualAction(style: .normal, title: Design.alertShareAction, handler: { action, view, completionHaldler in
+        let shareSwipeAction = UIContextualAction(style: .normal, title: Design.alertShareAction, handler: { _, _, completionHaldler in
             self.shareAlertActionDidTap(index: indexPath.row)
             completionHaldler(true)
         })

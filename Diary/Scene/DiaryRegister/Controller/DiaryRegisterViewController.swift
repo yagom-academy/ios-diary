@@ -33,18 +33,16 @@ final class DiaryRegisterViewController: UIViewController {
 
     // MARK: - methods
     
-    private func configureView() {
-        view.addSubview(diaryRegisterView)
-        navigationItem.title = Double(Date().timeIntervalSince1970).convertDate()
-    }
-    
-    private func configureViewLayout() {
-        NSLayoutConstraint.activate([
-            diaryRegisterView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            diaryRegisterView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            diaryRegisterView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            diaryRegisterView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
-        ])
+    func saveDiaryData() {
+        let inputText = diaryRegisterView.seperateText()
+        
+        guard inputText.title != "" || inputText.body != "" else { return }
+        
+        let diaryModel = DiaryModel(title: inputText.title,
+                                    body: inputText.body,
+                                    createdAt: Double(Date().timeIntervalSince1970))
+        
+        CoreDataManager.shared.create(newDiary: diaryModel)
     }
     
     private func configureKeyboardNotification() {
@@ -86,16 +84,17 @@ final class DiaryRegisterViewController: UIViewController {
         diaryRegisterView.configureDetailTextViewInset(inset: 0)
     }
     
-    @objc func saveDiaryData() {
-        let inputText = diaryRegisterView.seperateText()
-        
-        guard inputText.title != "" || inputText.body != "" else { return }
-        
-        let diaryModel = DiaryModel(title: inputText.title,
-                                    body: inputText.body,
-                                    createdAt: Double(Date().timeIntervalSince1970))
-        
-        CoreDataManager.shared.create(newDiary: diaryModel)
+    private func configureView() {
+        view.addSubview(diaryRegisterView)
+        navigationItem.title = Double(Date().timeIntervalSince1970).convertDate()
+    }
+    
+    private func configureViewLayout() {
+        NSLayoutConstraint.activate([
+            diaryRegisterView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            diaryRegisterView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            diaryRegisterView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            diaryRegisterView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
+        ])
     }
 }
-
