@@ -15,14 +15,6 @@ extension CoreDataProcessing {
         (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     }
     
-    func getContents<T: NSFetchRequestResult>(_ request: NSFetchRequest<T>) -> [T]? {
-        guard let context = context,
-              let contents = try? context.fetch(request) else {
-                  return nil
-              }
-        return contents
-    }
-    
     func create(content: [String]) {
         guard let context = context else {
             return
