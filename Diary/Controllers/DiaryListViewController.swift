@@ -48,10 +48,11 @@ final class DiaryListViewController: UIViewController {
         configureDelgate()
         configureSearchController()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
+        navigationController?.navigationBar.sizeToFit()
         dataSource?.apply(snapshot)
     }
     
@@ -180,7 +181,6 @@ final class DiaryListViewController: UIViewController {
         searchController.obscuresBackgroundDuringPresentation = true
         searchController.searchBar.backgroundColor = .white
         navigationItem.searchController = searchController
-        navigationItem.hidesSearchBarWhenScrolling = false
     }
 }
 
