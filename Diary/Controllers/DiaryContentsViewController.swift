@@ -44,7 +44,7 @@ final class DiaryContentsViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        handleCRUD()
+        renewCoreData()
     }
     
     // MARK: - Methods
@@ -65,7 +65,7 @@ final class DiaryContentsViewController: UIViewController {
     
     private func configureRightBarButtonItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: SystemImage.ellipsisCircle),
+            image: SystemImage.ellipsisCircle,
             style: .plain,
             target: self,
             action: #selector(sharedAndDeleteButtonTapped)
@@ -209,10 +209,10 @@ final class DiaryContentsViewController: UIViewController {
         diaryContentView.textView.contentInset = contentInset
         diaryContentView.textView.scrollIndicatorInsets = contentInset
         
-        handleCRUD()
+        renewCoreData()
     }
     
-    private func handleCRUD() {
+    private func renewCoreData() {
         guard let (title, body) = extractTitleAndBody(),
               let creationDate = creationDate,
               let id = id else {
@@ -220,7 +220,7 @@ final class DiaryContentsViewController: UIViewController {
         }
         
         do {
-            try determineDataProcessingFor(
+            try determineDataProcessingWith(
                 title,
                 body,
                 creationDate,

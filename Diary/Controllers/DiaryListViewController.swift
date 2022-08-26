@@ -60,7 +60,7 @@ final class DiaryListViewController: UIViewController {
     private func configureNavigationItems() {
         title = NavigationItem.diaryTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: SystemImage.plus),
+            image: SystemImage.plus,
             style: .plain,
             target: self,
             action: #selector(plusButtonTapped)
@@ -223,9 +223,9 @@ extension DiaryListViewController: UITableViewDelegate {
             completion(true)
         }
         
-        deleteAction.image = UIImage(systemName: SystemImage.trash)
+        deleteAction.image = SystemImage.trash
         shareAction.backgroundColor = .systemBlue
-        shareAction.image = UIImage(systemName: SystemImage.share)
+        shareAction.image = SystemImage.share
         
         let swipeActionCongifuration = UISwipeActionsConfiguration(actions: [
             deleteAction,
