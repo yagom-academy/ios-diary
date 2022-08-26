@@ -27,11 +27,10 @@ final class DiaryRegisterViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        saveDiaryData()
         removeRegisterForKeyboardNotification()
     }
-    
-    
-    
+
     // MARK: - methods
     
     private func configureView() {
@@ -84,6 +83,20 @@ final class DiaryRegisterViewController: UIViewController {
     @objc private func keyboardDownAction() {
         view.endEditing(true)
         
+        saveDiaryData()
         diaryRegisterView.configureDetailTextViewInset(inset: 0)
     }
+    
+    @objc func saveDiaryData() {
+        let inputText = diaryRegisterView.seperateText()
+        
+        guard inputText.title != "" || inputText.body != "" else { return }
+        
+        let diaryModel = DiaryModel(title: inputText.title,
+                                    body: inputText.body,
+                                    createdAt: Double(Date().timeIntervalSince1970))
+        
+        CoreDataManager.shared.create(newDiary: diaryModel)
+    }
 }
+

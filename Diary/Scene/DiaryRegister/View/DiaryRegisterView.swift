@@ -38,6 +38,15 @@ final class DiaryRegisterView: UIView {
         registerTextView.contentInset.bottom = inset
     }
     
+    func seperateText() -> (title: String, body: String) {
+        let title = registerTextView.text.components(separatedBy: "\n")[0]
+        let body = registerTextView.text.components(separatedBy: "\n")
+            .filter { $0 != title }
+            .joined(separator: "\n")
+        
+        return (title, body)
+    }
+    
     func showKeyBoard() {
         registerTextView.becomeFirstResponder()
     }
