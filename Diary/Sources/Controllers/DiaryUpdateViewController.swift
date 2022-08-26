@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiaryDetailViewController: UIViewController {
+final class DiaryUpdateViewController: UIViewController {
     
     // MARK: - Properties
     
@@ -44,7 +44,7 @@ final class DiaryDetailViewController: UIViewController {
     }
 }
 
-extension DiaryDetailViewController {
+extension DiaryUpdateViewController {
     
     // MARK: - Methods
     
@@ -53,7 +53,7 @@ extension DiaryDetailViewController {
     }
 }
 
-private extension DiaryDetailViewController {
+private extension DiaryUpdateViewController {
     
     // MARK: - Private Methods
     
@@ -61,7 +61,6 @@ private extension DiaryDetailViewController {
     
     func splitTitleAndBody(from text: String) -> (title: String, body: String) {
         guard let firstSpaceIndex = text.firstIndex(of: "\n") else {
-            
             return (title: text, body: "")
         }
         

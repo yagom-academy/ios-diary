@@ -53,7 +53,6 @@ final class DiaryListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         applyDiaryEntitySnapshot()
     }
 }
@@ -123,12 +122,17 @@ private extension DiaryListViewController {
     }
     
     @objc func rightBarButtonDidTap() {
-        pushDiaryDetailViewController()
+        pushDiaryCreateViewController()
     }
     
     func pushDiaryDetailViewController(with diaryItem: DiaryItem? = nil) {
-        let diaryDetailViewController = DiaryDetailViewController()
+        let diaryDetailViewController = DiaryUpdateViewController()
         diaryDetailViewController.receiveData(diaryItem)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+    
+    func pushDiaryCreateViewController(with diaryItem: DiaryItem? = nil) {
+        let diaryDetailViewController = DiaryCreateViewController()
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
