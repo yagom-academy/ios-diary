@@ -25,16 +25,23 @@ final class DiaryListCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.setContentCompressionResistancePriority(.required,
-                                                      for: .horizontal)
+        label.setContentCompressionResistancePriority(
+            .required,
+            for: .horizontal
+        )
+        label.setContentHuggingPriority(
+            .required,
+            for: .horizontal
+        )
         
         return label
     }()
     
-    let contentLabel: UILabel = {
+    let bodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption2)
+        label.textAlignment = .left
         
         return label
     }()
@@ -53,8 +60,10 @@ final class DiaryListCell: UITableViewCell {
     // MARK: - Initializer
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style,
-                   reuseIdentifier: reuseIdentifier)
+        super.init(
+            style: style,
+            reuseIdentifier: reuseIdentifier
+        )
         
         configureUI()
     }
@@ -70,24 +79,38 @@ final class DiaryListCell: UITableViewCell {
         contentView.addSubview(stackView)
         
         stackView.addArrangedSubview(dateLabel)
-        stackView.addArrangedSubview(contentLabel)
+        stackView.addArrangedSubview(bodyLabel)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                            constant: 10),
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                constant: 10),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                 constant: -10),
+            titleLabel.topAnchor.constraint(
+                equalTo: contentView.topAnchor,
+                constant: 10
+            ),
+            titleLabel.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: 10
+            ),
+            titleLabel.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -10
+            ),
             
-            stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor,
-                                           constant: 10),
-            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                               constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                constant: -10),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                              constant: -10)
+            stackView.topAnchor.constraint(
+                equalTo: titleLabel.bottomAnchor,
+                constant: 10
+            ),
+            stackView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: 10
+            ),
+            stackView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -10
+            ),
+            stackView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -10
+            )
         ])
     }
 }

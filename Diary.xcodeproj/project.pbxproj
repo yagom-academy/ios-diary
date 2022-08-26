@@ -7,9 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		202E4EBB28B5E40800AE316D /* DiaryCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202E4EBA28B5E40800AE316D /* DiaryCoreData.swift */; };
+		202E4EBD28B5E75B00AE316D /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202E4EBC28B5E75B00AE316D /* ActionSheet.swift */; };
+		202E4EBF28B5EA9000AE316D /* NewLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202E4EBE28B5EA9000AE316D /* NewLine.swift */; };
+		202E4EC128B5ECD500AE316D /* SearchControllerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202E4EC028B5ECD500AE316D /* SearchControllerItem.swift */; };
+		20534C2A28B4B71400C5C66C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20534C2928B4B71400C5C66C /* CoreDataManager.swift */; };
+		20534C2C28B4BAA100C5C66C /* FetchingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20534C2B28B4BAA100C5C66C /* FetchingError.swift */; };
+		2098962828B4DB420011A2F9 /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2098962728B4DB420011A2F9 /* UIViewController+Extension.swift */; };
 		209A338C28AE25AD007C7BB3 /* AssetData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209A338B28AE25AD007C7BB3 /* AssetData.swift */; };
-		209A338E28AE35AD007C7BB3 /* AlertMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209A338D28AE35AD007C7BB3 /* AlertMessage.swift */; };
+		209A338E28AE35AD007C7BB3 /* Alert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209A338D28AE35AD007C7BB3 /* Alert.swift */; };
 		209A339028AE3660007C7BB3 /* NavigationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 209A338F28AE3660007C7BB3 /* NavigationItem.swift */; };
+		20D20EAF28B8A94700A6CACC /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D20EAD28B8A94700A6CACC /* Diary+CoreDataClass.swift */; };
+		20D20EB028B8A94700A6CACC /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D20EAE28B8A94700A6CACC /* Diary+CoreDataProperties.swift */; };
 		20DF026528AB769F005AA6FA /* JSONData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026428AB769F005AA6FA /* JSONData.swift */; };
 		20DF026728AB7733005AA6FA /* DiarySampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026628AB7733005AA6FA /* DiarySampleData.swift */; };
 		20DF026928AB893F005AA6FA /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20DF026828AB893F005AA6FA /* DiaryListCell.swift */; };
@@ -29,9 +38,18 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		202E4EBA28B5E40800AE316D /* DiaryCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCoreData.swift; sourceTree = "<group>"; };
+		202E4EBC28B5E75B00AE316D /* ActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
+		202E4EBE28B5EA9000AE316D /* NewLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLine.swift; sourceTree = "<group>"; };
+		202E4EC028B5ECD500AE316D /* SearchControllerItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchControllerItem.swift; sourceTree = "<group>"; };
+		20534C2928B4B71400C5C66C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		20534C2B28B4BAA100C5C66C /* FetchingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchingError.swift; sourceTree = "<group>"; };
+		2098962728B4DB420011A2F9 /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		209A338B28AE25AD007C7BB3 /* AssetData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetData.swift; sourceTree = "<group>"; };
-		209A338D28AE35AD007C7BB3 /* AlertMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessage.swift; sourceTree = "<group>"; };
+		209A338D28AE35AD007C7BB3 /* Alert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alert.swift; sourceTree = "<group>"; };
 		209A338F28AE3660007C7BB3 /* NavigationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationItem.swift; sourceTree = "<group>"; };
+		20D20EAD28B8A94700A6CACC /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
+		20D20EAE28B8A94700A6CACC /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		20DF026428AB769F005AA6FA /* JSONData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONData.swift; sourceTree = "<group>"; };
 		20DF026628AB7733005AA6FA /* DiarySampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySampleData.swift; sourceTree = "<group>"; };
 		20DF026828AB893F005AA6FA /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
@@ -63,11 +81,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		20534C2828B4B6E500C5C66C /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				20534C2928B4B71400C5C66C /* CoreDataManager.swift */,
+				20D20EAD28B8A94700A6CACC /* Diary+CoreDataClass.swift */,
+				20D20EAE28B8A94700A6CACC /* Diary+CoreDataProperties.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
 		209A338828AE22E2007C7BB3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+				20534C2828B4B6E500C5C66C /* CoreData */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 				C739AE35284DF28600741E8F /* Info.plist */,
@@ -79,10 +108,14 @@
 		209A338A28AE2575007C7BB3 /* Namespaces */ = {
 			isa = PBXGroup;
 			children = (
-				B42AD02428ACB226008933E3 /* SystemImage.swift */,
+				202E4EBC28B5E75B00AE316D /* ActionSheet.swift */,
+				209A338D28AE35AD007C7BB3 /* Alert.swift */,
 				209A338B28AE25AD007C7BB3 /* AssetData.swift */,
-				209A338D28AE35AD007C7BB3 /* AlertMessage.swift */,
+				202E4EBA28B5E40800AE316D /* DiaryCoreData.swift */,
 				209A338F28AE3660007C7BB3 /* NavigationItem.swift */,
+				202E4EBE28B5EA9000AE316D /* NewLine.swift */,
+				202E4EC028B5ECD500AE316D /* SearchControllerItem.swift */,
+				B42AD02428ACB226008933E3 /* SystemImage.swift */,
 			);
 			path = Namespaces;
 			sourceTree = "<group>";
@@ -91,8 +124,8 @@
 			isa = PBXGroup;
 			children = (
 				20DF026828AB893F005AA6FA /* DiaryListCell.swift */,
-				20DF027028ABA80A005AA6FA /* DiaryContentView.swift */,
 				20DF026C28ABA01A005AA6FA /* DiaryListView.swift */,
+				20DF027028ABA80A005AA6FA /* DiaryContentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -111,6 +144,7 @@
 			children = (
 				20DF026E28ABA780005AA6FA /* Date+Extension.swift */,
 				B478312B28AB923100CBB8DA /* Int+Extension.swift */,
+				2098962728B4DB420011A2F9 /* UIViewController+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -118,6 +152,7 @@
 		B47277CF28AE10CE000075CC /* Error */ = {
 			isa = PBXGroup;
 			children = (
+				20534C2B28B4BAA100C5C66C /* FetchingError.swift */,
 				B47277D028AE10DC000075CC /* ParsingError.swift */,
 			);
 			path = Error;
@@ -126,8 +161,8 @@
 		B478312628AB723500CBB8DA /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				20DF026A28AB9F63005AA6FA /* DiaryContentsViewController.swift */,
 				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
+				20DF026A28AB9F63005AA6FA /* DiaryContentsViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -235,19 +270,28 @@
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				20DF026528AB769F005AA6FA /* JSONData.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				20D20EAF28B8A94700A6CACC /* Diary+CoreDataClass.swift in Sources */,
+				202E4EBB28B5E40800AE316D /* DiaryCoreData.swift in Sources */,
+				202E4EC128B5ECD500AE316D /* SearchControllerItem.swift in Sources */,
 				209A338C28AE25AD007C7BB3 /* AssetData.swift in Sources */,
 				209A339028AE3660007C7BB3 /* NavigationItem.swift in Sources */,
+				20534C2C28B4BAA100C5C66C /* FetchingError.swift in Sources */,
 				B47277D128AE10DC000075CC /* ParsingError.swift in Sources */,
 				20DF026728AB7733005AA6FA /* DiarySampleData.swift in Sources */,
 				20DF026F28ABA780005AA6FA /* Date+Extension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				2098962828B4DB420011A2F9 /* UIViewController+Extension.swift in Sources */,
 				20DF026D28ABA01A005AA6FA /* DiaryListView.swift in Sources */,
 				20DF026B28AB9F63005AA6FA /* DiaryContentsViewController.swift in Sources */,
-				209A338E28AE35AD007C7BB3 /* AlertMessage.swift in Sources */,
+				209A338E28AE35AD007C7BB3 /* Alert.swift in Sources */,
+				20D20EB028B8A94700A6CACC /* Diary+CoreDataProperties.swift in Sources */,
 				20DF026928AB893F005AA6FA /* DiaryListCell.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				202E4EBD28B5E75B00AE316D /* ActionSheet.swift in Sources */,
 				20DF027128ABA80A005AA6FA /* DiaryContentView.swift in Sources */,
 				B478312C28AB923100CBB8DA /* Int+Extension.swift in Sources */,
+				202E4EBF28B5EA9000AE316D /* NewLine.swift in Sources */,
+				20534C2A28B4B71400C5C66C /* CoreDataManager.swift in Sources */,
 				B42AD02528ACB226008933E3 /* SystemImage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

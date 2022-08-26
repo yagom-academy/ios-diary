@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreData
 
 enum Section {
     case main
@@ -12,11 +13,22 @@ enum Section {
 
 final class DiaryListViewController: UIViewController {
     
-    // MARK: - Properties
-
+    // MARK: Properties
+    
     private let diaryView = DiaryListView()
-    private var dataSource: UITableViewDiffableDataSource<Section, DiarySampleData>?
-    private var diarySampleData: [DiarySampleData]?
+    private var dataSource: UITableViewDiffableDataSource<Section, Diary>?
+    private var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
+    private var fetchResultsController: NSFetchedResultsController<Diary>?
+    private var isFiltering: Bool {
+        guard let searchController = navigationItem.searchController else {
+            return false
+        }
+        
+        let isActive = searchController.isActive
+        let isSearchBarHasText = searchController.searchBar.text?.isEmpty == false
+        
+        return isActive && isSearchBarHasText
+    }
     
     // MARK: - Life Cycle
     
@@ -28,49 +40,28 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        parseDiaryData()
         configureNavigationItems()
         registerTableView()
+        configureFetchResultsController(from: fetchAllDiaryRequest())
+        configureSnapshot()
         configureDataSource()
         configureDelgate()
+        configureSearchController()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        navigationController?.navigationBar.sizeToFit()
+        dataSource?.apply(snapshot)
     }
     
     // MARK: - Methods
     
-    private func parseDiaryData() {
-        let parsedData: Result<[DiarySampleData], Error> = JSONData.parse(name: AssetData.sample)
-        switch parsedData {
-        case .success(let data):
-            diarySampleData = data
-        case .failure(let error):
-            presentErrorAlert(error)
-        }
-    }
-    
-    private func presentErrorAlert(_ error: (Error)) {
-        let errorAlert = UIAlertController(
-            title: AlertMessage.errorAlertTitle,
-            message: error.localizedDescription,
-            preferredStyle: .alert
-        )
-        
-        let confirmAction = UIAlertAction(
-            title: AlertMessage.confirmActionTitle,
-            style: .default
-        )
-        
-        errorAlert.addAction(confirmAction)
-        
-        present(
-            errorAlert,
-            animated: true
-        )
-    }
-    
     private func configureNavigationItems() {
         title = NavigationItem.diaryTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: SystemImage.plus),
+            image: SystemImage.plus,
             style: .plain,
             target: self,
             action: #selector(plusButtonTapped)
@@ -95,17 +86,53 @@ final class DiaryListViewController: UIViewController {
             DiaryListCell.self,
             forCellReuseIdentifier: DiaryListCell.identifier
         )
+        
         tableView.dataSource = dataSource
     }
     
-    private func configureDataSource() {
-        guard let snapshot = configureSnapshot() else {
-            return
-        }
+    private func configureFetchResultsController(from request: NSFetchRequest<Diary>) {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let viewContext = appDelegate.persistentContainer.viewContext
         
+        fetchResultsController = NSFetchedResultsController(
+            fetchRequest: request,
+            managedObjectContext: viewContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+    }
+    
+    private func fetchAllDiaryRequest() -> NSFetchRequest<Diary> {
+        let fetchRequest = NSFetchRequest<Diary>(entityName: DiaryCoreData.entityName)
+        let sort = NSSortDescriptor(key: DiaryCoreData.Key.createdAt, ascending: false)
+        fetchRequest.sortDescriptors = [sort]
+        fetchRequest.fetchBatchSize = 10
+        
+        return fetchRequest
+    }
+    
+    private func fetchDiaryRequest(from text: String) -> NSFetchRequest<Diary> {
+        let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: DiaryCoreData.entityName)
+        let titlePredicate = NSPredicate(format: DiaryCoreData.Predicate.contatingTitle, text)
+        let bodyPredicate = NSPredicate(format: DiaryCoreData.Predicate.containingBody, text)
+        let titleOrBodyPredicate = NSCompoundPredicate(
+            type: NSCompoundPredicate.LogicalType.or,
+            subpredicates: [titlePredicate, bodyPredicate]
+        )
+        
+        fetchRequest.predicate = titleOrBodyPredicate
+        fetchRequest.sortDescriptors = [NSSortDescriptor(
+            key: DiaryCoreData.Key.createdAt,
+            ascending: true
+        )]
+        
+        return fetchRequest
+    }
+    
+    private func configureDataSource() {
         let tableView = diaryView.tableView
         
-        dataSource = UITableViewDiffableDataSource<Section, DiarySampleData>(
+        dataSource = UITableViewDiffableDataSource<Section, Diary>(
             tableView: tableView,
             cellProvider: { tableView, indexPath, item in
                 guard let cell = tableView.dequeueReusableCell(
@@ -116,8 +143,8 @@ final class DiaryListViewController: UIViewController {
                 }
                 
                 cell.titleLabel.text = item.title
-                cell.dateLabel.text = item.createdAt.localizedString
-                cell.contentLabel.text = item.body
+                cell.dateLabel.text = item.createdAt?.localizedString
+                cell.bodyLabel.text = item.body
                 cell.accessoryType = .disclosureIndicator
                 
                 return cell
@@ -127,20 +154,33 @@ final class DiaryListViewController: UIViewController {
         dataSource?.apply(snapshot)
     }
     
-    private func configureSnapshot() -> NSDiffableDataSourceSnapshot<Section, DiarySampleData>? {
-        guard let diarySampleData = diarySampleData else {
-            return nil
+    private func configureSnapshot() {
+        do {
+            try fetchResultsController?.performFetch()
+            
+            guard let diaries = fetchResultsController?.fetchedObjects else {
+                return
+            }
+            
+            snapshot.appendSections([.main])
+            snapshot.appendItems(diaries)
+        } catch {
+            presentErrorAlert(error)
         }
-        
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DiarySampleData>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(diarySampleData)
-        
-        return snapshot
     }
     
     private func configureDelgate() {
         diaryView.tableView.delegate = self
+        fetchResultsController?.delegate = self
+    }
+    
+    private func configureSearchController() {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.placeholder = SearchControllerItem.placeHolder
+        searchController.obscuresBackgroundDuringPresentation = true
+        searchController.searchBar.backgroundColor = .white
+        navigationItem.searchController = searchController
     }
 }
 
@@ -148,9 +188,117 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(
-            at: indexPath,
-            animated: true
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        let diary = dataSource?.itemIdentifier(for: indexPath)
+        let nextViewController = DiaryContentsViewController()
+        
+        nextViewController.diary = diary
+        nextViewController.isEditingMemo = true
+        
+        navigationController?.pushViewController(nextViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        guard let diary = self.dataSource?.itemIdentifier(for: indexPath),
+              let title = diary.title,
+              let body = diary.body,
+              let id = diary.id else {
+            return nil
+        }
+        
+        let deleteAction = UIContextualAction(
+            style: .destructive,
+            title: ActionSheet.deleteActionTitle
+        ) { [weak self] action, view, completion in
+            self?.deleteDiary(using: id)
+        }
+        
+        let shareAction = UIContextualAction(
+            style: .normal,
+            title: ActionSheet.shareActionTitle
+        ) { [weak self] action, view, completion in
+            self?.shareDiary(title, body)
+            completion(true)
+        }
+        
+        deleteAction.image = SystemImage.trash
+        shareAction.backgroundColor = .systemBlue
+        shareAction.image = SystemImage.share
+        
+        let swipeActionCongifuration = UISwipeActionsConfiguration(actions: [
+            deleteAction,
+            shareAction
+        ])
+        swipeActionCongifuration.performsFirstActionWithFullSwipe = false
+        return swipeActionCongifuration
+    }
+    
+    private func deleteDiary(using id: UUID) {
+        do {
+            try CoreDataManager.shared.delete(using: id)
+            dataSource?.apply(snapshot)
+        } catch {
+            presentErrorAlert(error)
+        }
+    }
+    
+    private func shareDiary(_ title: String, _ body: String) {
+        let activityViewController = UIActivityViewController(
+            activityItems: [title + String(NewLine.lineFeed) + body],
+            applicationActivities: nil
         )
+        self.present(activityViewController, animated: true)
+    }
+}
+
+// MARK: - NSFetchedResultsControllerDelegate
+
+extension DiaryListViewController: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        guard let diary = anObject as? Diary else {
+            return
+        }
+        
+        switch type {
+        case .insert:
+            guard snapshot.numberOfItems != .zero,
+                  let newIndexPath = newIndexPath,
+                  let lastDiary = dataSource?.itemIdentifier(for: newIndexPath) else {
+                snapshot.appendItems([diary])
+                return
+            }
+            
+            snapshot.insertItems([diary], beforeItem: lastDiary)
+        case .delete:
+            snapshot.deleteItems([diary])
+        case .update:
+            snapshot.reloadSections([.main])
+        default:
+            break
+        }
+    }
+}
+
+// MARK: - UISearchResultsUpdating
+
+extension DiaryListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        snapshot.deleteAllItems()
+        
+        guard isFiltering,
+            let searchBarText = searchController.searchBar.text else {
+            configureFetchResultsController(from: fetchAllDiaryRequest())
+            configureSnapshot()
+            dataSource?.apply(snapshot)
+            return
+        }
+        
+        let fetchRequest = fetchDiaryRequest(from: searchBarText)
+        configureFetchResultsController(from: fetchRequest)
+        fetchResultsController?.delegate = self
+        configureSnapshot()
+        dataSource?.apply(snapshot)
     }
 }
