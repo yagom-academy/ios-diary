@@ -12,8 +12,8 @@ final class DiaryDetailViewController: UIViewController {
     
     private let textView = DiaryDetailTextView()
     private lazy var keyboardManager = KeyboardManager(textView)
-    private let diaryData = CoreDataManager()
-    private var id: UUID?
+    private let diaryCoreData = DiaryCoreDataManager()
+    private var diary: Diary?
     
     // MARK: - life cycles
 
@@ -84,7 +84,9 @@ final class DiaryDetailViewController: UIViewController {
                                                      preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: Design.cancelActionTitle, style: .cancel)
         let deleteAction = UIAlertAction(title: Design.deleteActionTitle, style: .destructive) { [weak self] _ in
-            self?.diaryData.delete(self?.id ?? UUID())
+            guard let diary = self?.diary else { return }
+
+            self?.diaryCoreData.delete(diary)
             self?.navigationController?.popToRootViewController(animated: true)
         }
         
@@ -109,22 +111,22 @@ final class DiaryDetailViewController: UIViewController {
 
     private func updateDiary() {
         let diaryInfomation = textView.text.split(separator: Design.textViewSeparator, maxSplits: 1)
-        guard let id = id else { return }
         
-        if diaryInfomation.isEmpty {
-            diaryData.delete(id)
-            return
-        }
-        
-        let title = String(diaryInfomation[0])
+        let title = String(diaryInfomation.get(index: 0) ?? "")
         let body = getBody(title: title)
+        guard let uuid = diary?.uuid else { return }
         
-        let diary = Diary(uuid: id,
+        let diary = Diary(uuid: uuid,
                           title: title,
                           body: body,
                           createdAt: Date().timeIntervalSince1970)
         
-        diaryData.update(model: diary)
+        if diaryInfomation.isEmpty {
+            diaryCoreData.delete(diary)
+            return
+        }
+        
+        diaryCoreData.update(diary)
     }
     
     private func getBody(title: String) -> String {
@@ -148,13 +150,11 @@ final class DiaryDetailViewController: UIViewController {
 
 extension DiaryDetailViewController: DataSendable {
     func setupData<T>(_ data: T) {
-        guard let diaryInformation = data as? DiaryEntity,
-              let title = diaryInformation.title,
-              let body = diaryInformation.body else { return }
+        guard let diaryInformation = data as? Diary else { return }
         
         navigationItem.title = diaryInformation.createdAt.convert1970DateToString()
-        id = diaryInformation.uuid ?? UUID()
-        textView.text = title + Design.lineBreak + body
+        diary = diaryInformation
+        textView.text = diaryInformation.title + Design.lineBreak + diaryInformation.body
     }
 }
 

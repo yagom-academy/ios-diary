@@ -9,16 +9,7 @@ import UIKit
 
 final class DiaryListCollectionViewCell: UICollectionViewCell {
     // MARK: - properties
-    
-    private let topLine: UIView = {
-        let line = UIView()
-        line.translatesAutoresizingMaskIntoConstraints = false
-        line.tintColor = .black
-        line.backgroundColor = Design.topLineColor
-        
-        return line
-    }()
-    
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -83,9 +74,9 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     
     // MARK: - functions
     
-    func setupCellProperties(with model: DiaryEntity) {
+    func setupCellProperties(with model: Diary) {
         titleLabel.text = model.title
-        guard let body = model.body?.split(separator: "\n").first else { return }
+        guard let body = model.body.split(separator: "\n").first else { return }
         previewLabel.text = String(body)
         dateLabel.text = model.createdAt.convert1970DateToString()
     }
@@ -94,28 +85,19 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
         [dateLabel, previewLabel]
             .forEach { subtitleStackView.addArrangedSubview($0) }
         
-        [topLine, titleLabel, subtitleStackView, accessoryButton]
+        [titleLabel, subtitleStackView, accessoryButton]
             .forEach { self.addSubview($0) }
     }
     
     private func setupConstraints() {
-        setupTopLineConstraints()
         setupTitleLabelConstraints()
         setupSubtitleStackViewConstraints()
         setupAccessoryImageViewConstraints()
     }
     
-    private func setupTopLineConstraints() {
-        NSLayoutConstraint.activate([
-            topLine.topAnchor.constraint(equalTo: topAnchor),
-            topLine.widthAnchor.constraint(equalTo: widthAnchor),
-            topLine.heightAnchor.constraint(equalToConstant: 1)
-        ])
-    }
-    
     private func setupTitleLabelConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topLine.bottomAnchor, constant: 8),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: accessoryButton.leadingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: subtitleStackView.topAnchor)

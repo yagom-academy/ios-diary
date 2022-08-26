@@ -1,8 +1,8 @@
 //
 //  Diary - DiaryListViewController.swift
-//  Created by bonf, bard. 
+//  Created by bonf, bard.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
@@ -18,8 +18,8 @@ final class DiaryListViewController: UIViewController {
     }()
     
     private var diaryCollectionView: UICollectionView?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, DiaryEntity>?
-    private var diaryCoreData: CoreDataManager?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
+    private var diaryCoreData: DiaryCoreDataManager?
     
     // MARK: - life cycles
     
@@ -32,8 +32,7 @@ final class DiaryListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        diaryCoreData = CoreDataManager()
-        
+        diaryCoreData = DiaryCoreDataManager()
     }
     
     // MARK: - functions
@@ -93,27 +92,57 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupLayout() -> UICollectionViewLayout {
-        let itemSize = Design.itemSize
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = Design.groupSize
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitem: item,
-                                                       count: 1)
-        
-        group.interItemSpacing = .fixed(10)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = Design.enumInterGroupSpacing
-        section.contentInsets = Design.enumContentInsets
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .sidebarPlain)
+
+        listConfiguration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+          guard let self = self else { return nil }
+            
+          let deleteActionHandler: UIContextualAction.Handler = { action, view, completion in
+
+              completion(true)
+              guard var diaryList = self.diaryCoreData?.diaryList else { return }
+              self.diaryCoreData?.delete(diaryList[indexPath.row])
+              diaryList.remove(at: indexPath.row)
+              self.diaryCoreData?.fetch()
+              
+              DispatchQueue.main.async {
+                  
+                  
+                  self.setupDataSource()
+                  self.setupSnapshot(with: diaryList)
+              }
+              
+          }
+            
+            let deleteAction = UIContextualAction(style: .normal,
+                                                 title: nil,
+                                                 handler: deleteActionHandler)
+            deleteAction.image = UIImage(systemName: "trash")
+            deleteAction.backgroundColor = .systemRed
+            
+            
+            let shareAction = UIContextualAction(style: .normal,
+                                                 title: nil) { action, view, competion in
+                competion(true)
+                let item = self.diaryCoreData?.diaryList.get(index: indexPath.row)
+                
+                let shareActivitView = UIActivityViewController(activityItems: [item as Any], applicationActivities: nil)
+                self.present(shareActivitView, animated: true)
+            }
+            
+            shareAction.backgroundColor = .systemBlue
+            shareAction.image = UIImage(systemName: "square.and.arrow.up")
+            
+            return UISwipeActionsConfiguration(actions: [shareAction, deleteAction])
+        }
+        let listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
+
+        return listLayout
     }
     
     
     private func setupDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, DiaryEntity>
+        let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, Diary>
         {
             (cell, indexPath, identifier) in
             cell.setupCellProperties(with: identifier)
@@ -121,7 +150,7 @@ final class DiaryListViewController: UIViewController {
         
         guard let collectionView = diaryCollectionView else { return }
         
-        dataSource = UICollectionViewDiffableDataSource<Section, DiaryEntity>(collectionView: collectionView)
+        dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView)
         {
             (collectionView, indexPath, identifier) -> UICollectionViewCell? in
             
@@ -131,10 +160,10 @@ final class DiaryListViewController: UIViewController {
         }
     }
     
-    private func setupSnapshot(with jsonModel: [DiaryEntity]) {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryEntity>()
+    private func setupSnapshot(with model: [Diary]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(jsonModel)
+        snapshot.appendItems(model)
         
         dataSource?.apply(snapshot)
     }
@@ -150,12 +179,8 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func onDidReceiveData(_ notification: Notification) {
         DispatchQueue.main.async { [weak self] in
-            guard let self = self,
-                  let fetchedData = self.diaryCoreData?.fetch(),
-                  let diaryData = fetchedData as? [DiaryEntity] else { return }
-            
-            self.setupDataSource()
-            self.setupSnapshot(with: diaryData)
+            self?.setupDataSource()
+            self?.setupSnapshot(with: self?.diaryCoreData?.diaryList ?? [])
         }
     }
     
@@ -191,8 +216,8 @@ extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
         guard let diaryCoreData = diaryCoreData else { return }
-        let fetchedData = diaryCoreData.fetch()
-        diaryDetailViewController.setupData(fetchedData[indexPath.row])
+        
+        diaryDetailViewController.setupData(diaryCoreData.diaryList[indexPath.row])
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }

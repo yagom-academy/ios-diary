@@ -8,10 +8,7 @@
 import Foundation
 import UIKit.NSDataAsset
 
-final class MockDiaryManager: DataManagable {
-    typealias Model = Diary
-    typealias ModelObject = Diary
-    
+final class MockDiaryManager: DiaryManagable {
     // MARK: - properites
     
     private var model = [Diary]() {
@@ -22,26 +19,27 @@ final class MockDiaryManager: DataManagable {
         }
     }
     
+    var diaryList: [Diary] = []
+    var newDiary: Diary?
+    
     // MARK: - initializers
     
-    init() { }
-    
-    init(model: [Diary]) {
-        self.model = fetch()
+    init() {
+        fetch()
     }
     
     // MARK: - functions
     
-    func create(model: Diary) {
-        
-    }
-    
-    func fetch() -> [Diary] {
+    func fetch() {
         guard let data = NSDataAsset(name: "sample")?.data,
               let decodedData = try? JSONDecoder().decode([Diary].self, from: data)
-        else { return [] }
+        else { return }
         
-        return decodedData
+        diaryList = decodedData
+    }
+    
+    func create(_ model: Diary) {
+        newDiary = model
     }
     
     func getModel(by indexPath: IndexPath) -> Diary {
@@ -51,13 +49,12 @@ final class MockDiaryManager: DataManagable {
         return model
     }
     
-    func update(model diary: Diary) {
-        
+    func update(_ diary: Diary) {
         model.append(diary)
     }
     
-    func delete(_ id: UUID) {
-        model = model.filter { $0.uuid != id }
+    func delete(_ diary: Diary) {
+        model.removeFirst()
     }
     
     func deleteAll() {
