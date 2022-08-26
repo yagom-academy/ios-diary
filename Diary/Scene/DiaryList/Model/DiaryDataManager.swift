@@ -6,5 +6,5 @@
 //
 
 struct DiaryDataManager {
-    let provider: DiaryDataManagerProtocol = MockData()
+    let provider: DiaryDataManagerProtocol = DiaryData()
 }
