@@ -96,13 +96,14 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     }
     
     private func configureSnapshot() {
-        guard let diarySample = getContents(DiaryContents.fetchRequest()) else {
-            return
+        guard let context = context,
+              let diaryContents = try? context.fetch(DiaryContents.fetchRequest()) else {
+                  return
         }
-        
+
         snapshot.deleteAllItems()
         snapshot.appendSections([.main])
-        snapshot.appendItems(diarySample)
+        snapshot.appendItems(diaryContents)
         
         dataSource?.apply(snapshot)
     }
