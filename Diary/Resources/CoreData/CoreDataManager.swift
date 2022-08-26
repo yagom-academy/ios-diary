@@ -14,6 +14,12 @@ final class CoreDataManager {
     
     static let shared = CoreDataManager()
     
+    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
+    private let viewContext: NSManagedObjectContext = {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        return appDelegate.persistentContainer.viewContext
+    }()
     
     
     // MARK: - Initializer
