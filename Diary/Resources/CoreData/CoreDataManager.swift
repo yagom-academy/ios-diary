@@ -30,6 +30,9 @@ final class CoreDataManager {
         diary.setValue(body, forKey: DiaryCoreData.Key.body)
         diary.setValue(createdAt, forKey: DiaryCoreData.Key.createdAt)
 
+        if viewContext.hasChanges {
+            try viewContext.save()
+        }
     }
 
     func fetchDiary(createdAt: Date) throws -> Diary {
@@ -58,6 +61,9 @@ final class CoreDataManager {
         diary.title = title
         diary.body = body
         
+        if viewContext.hasChanges {
+            try viewContext.save()
+        }
     }
     
     func delete(createdAt: Date) throws {
@@ -70,5 +76,8 @@ final class CoreDataManager {
         
         viewContext.delete(diary)
         
+        if viewContext.hasChanges {
+            try viewContext.save()
+        }
     }
 }
