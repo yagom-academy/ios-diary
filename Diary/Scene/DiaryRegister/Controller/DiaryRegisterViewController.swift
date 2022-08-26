@@ -83,7 +83,6 @@ final class DiaryRegisterViewController: UIViewController {
     @objc private func keyboardDownAction() {
         view.endEditing(true)
         
-        saveDiaryData()
         diaryRegisterView.configureDetailTextViewInset(inset: 0)
     }
     
