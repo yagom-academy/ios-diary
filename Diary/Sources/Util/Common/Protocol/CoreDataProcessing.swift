@@ -11,11 +11,14 @@ import CoreData
 protocol CoreDataProcessing { }
 
 extension CoreDataProcessing {
-    var context: NSManagedObjectContext? { return
+    var context: NSManagedObjectContext? {
         (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     }
     
-    func create(content: [String]) {
+    func create(
+        content: [String],
+        errorHandler: @escaping (CoreDataError) -> Void
+    ) {
         guard let context = context else {
             return
         }
@@ -27,32 +30,40 @@ extension CoreDataProcessing {
         diaryContents.id = UUID()
         
         do {
-            try context.save()
+            try saveContext()
+        } catch CoreDataError.noContext {
+            errorHandler(CoreDataError.noContext)
+        } catch CoreDataError.failedToSave {
+            errorHandler(CoreDataError.failedToSave)
         } catch {
-            print("error!!!")
+            errorHandler(CoreDataError.unknown)
         }
     }
     
     func update(
         entity: DiaryContents,
-        content: [String]
+        content: [String],
+        errorHandler: @escaping (CoreDataError) -> Void
     ) {
-        guard let context = context else {
-            return
-        }
-        
         let diaryContents = entity
         diaryContents.title = String(content[0])
         diaryContents.body = content[1]
         
         do {
-            try context.save()
+            try saveContext()
+        } catch CoreDataError.noContext {
+            errorHandler(CoreDataError.noContext)
+        } catch CoreDataError.failedToSave {
+            errorHandler(CoreDataError.failedToSave)
         } catch {
-            print("error!!!")
+            errorHandler(CoreDataError.unknown)
         }
     }
     
-    func delete(_ data: DiaryContents) {
+    func delete(
+        _ data: DiaryContents,
+        errorHandler: @escaping (CoreDataError) -> Void
+    ) {
         guard let context = context else {
             return
         }
@@ -60,9 +71,23 @@ extension CoreDataProcessing {
         context.delete(data)
         
         do {
-            try context.save()
+            try saveContext()
+        } catch CoreDataError.noContext {
+            errorHandler(CoreDataError.noContext)
+        } catch CoreDataError.failedToSave {
+            errorHandler(CoreDataError.failedToSave)
         } catch {
-            print(error)
+            errorHandler(CoreDataError.unknown)
+        }
+    }
+
+    private func saveContext() throws {
+        guard let context = context else {
+            throw CoreDataError.noContext
+        }
+
+        guard (try? context.save()) != nil else {
+            throw CoreDataError.failedToSave
         }
     }
 }

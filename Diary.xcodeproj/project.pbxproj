@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05656CFA28B8740F00B10BC9 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05656CF928B8740F00B10BC9 /* CoreDataError.swift */; };
 		05902FAB28ACB2AC00D0C39F /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05902FAA28ACB2AC00D0C39F /* DiaryTableViewCell.swift */; };
 		05E6899728B3C46A0070E50B /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6899628B3C46A0070E50B /* ReuseIdentifying.swift */; };
 		05E6899928B3CCB10070E50B /* SendDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6899828B3CCB10070E50B /* SendDataDelegate.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		05656CF928B8740F00B10BC9 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		05902FAA28ACB2AC00D0C39F /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		05E6899628B3C46A0070E50B /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		05E6899828B3CCB10070E50B /* SendDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataDelegate.swift; sourceTree = "<group>"; };
@@ -57,6 +59,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		05656CFB28B8741200B10BC9 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				05656CF928B8740F00B10BC9 /* CoreDataError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		05E6899528B3C43E0070E50B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +102,7 @@
 		05F9E60528B361AE00FB130D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				05656CFB28B8741200B10BC9 /* Error */,
 				05E6899528B3C43E0070E50B /* Protocol */,
 			);
 			path = Common;
@@ -267,6 +278,7 @@
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				424D493B28ACB9A900402693 /* DiarySample.swift in Sources */,
 				05E6899728B3C46A0070E50B /* ReuseIdentifying.swift in Sources */,
+				05656CFA28B8740F00B10BC9 /* CoreDataError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

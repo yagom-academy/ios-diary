@@ -110,8 +110,8 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     private func showActivityView() {
         guard let content = self.content,
               let title = content.title else {
-                  return
-              }
+            return
+        }
         
         let activityViewController = UIActivityViewController(
             activityItems: [title],
@@ -179,8 +179,8 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     private func configureTextView() {
         guard let title = content?.title,
               let body = content?.body else {
-                  return
-              }
+            return
+        }
         
         textView.text = title + "\n\n" + body
         textView.contentOffset.y = 0
@@ -189,13 +189,13 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     private func registerForKeyboardShowNotification() {
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(keyBoardShow),
+            selector: #selector(showKeyBoard),
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
     }
     
-    @objc private func keyBoardShow(notification: NSNotification) {
+    @objc private func showKeyBoard(notification: NSNotification) {
         guard let userInfo = notification.userInfo as? NSDictionary else {
             return
         }
@@ -223,13 +223,40 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     
     @objc func saveDiaryContents() {
         if textView.text.isEmpty == false && isExist == false {
-            create(content: getProcessedContent())
+            create(content: getProcessedContent()) { error in
+                DispatchQueue.main.async {
+                    self.showErrorAlert(error: error)
+                }
+            }
         } else if textView.text.isEmpty == false && isExist == true {
             update(
                 entity: content ?? DiaryContents(),
-                content: getProcessedContent()
-            )
+                content: getProcessedContent(),
+                errorHandler: { error in
+                    DispatchQueue.main.async {
+                        self.showErrorAlert(error: error)
+                    }
+                })
         }
+    }
+    
+    private func showErrorAlert(error: CoreDataError) {
+        let alertController = UIAlertController(
+            title: "⚠️",
+            message: error.errorMessage,
+            preferredStyle: .alert
+        )
+        let okButton = UIAlertAction(
+            title: "확인",
+            style: .default,
+            handler: nil
+        )
+        alertController.addAction(okButton)
+        
+        self.present(
+            alertController,
+            animated: true
+        )
     }
 }
 
