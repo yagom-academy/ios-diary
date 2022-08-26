@@ -229,6 +229,7 @@
  그리고 `DetialViewController`에서 `uuid`값을 변수로 두어 `delete()`, `update()`를 실행할 때 현재 `uuid`를 넣어주어 같은 `uuid`일 경우 기능이 실행되도록 구현하였습니다.
 <br>
 ---
+
 ## [1️⃣ Step1_Wiki](https://github.com/bar-d/ios-diary/wiki/1%EF%B8%8F⃣-Step1_Wiki)
 ## [2️⃣ Step2_Wiki](https://github.com/bar-d/ios-diary/wiki/2%EF%B8%8F⃣-Step2_Wiki)
 ## [3️⃣ Step3_Wiki](https://github.com/bar-d/ios-diary/wiki/Step3)
