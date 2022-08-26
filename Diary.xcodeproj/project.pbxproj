@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		054A35BC28ADFFFB00360FAD /* DateFormatter + Extention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054A35BB28ADFFFB00360FAD /* DateFormatter + Extention.swift */; };
 		05902FAB28ACB2AC00D0C39F /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05902FAA28ACB2AC00D0C39F /* DiaryTableViewCell.swift */; };
 		05E6899728B3C46A0070E50B /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6899628B3C46A0070E50B /* ReuseIdentifying.swift */; };
 		05E6899928B3CCB10070E50B /* SendDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6899828B3CCB10070E50B /* SendDataDelegate.swift */; };
@@ -27,7 +26,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		054A35BB28ADFFFB00360FAD /* DateFormatter + Extention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter + Extention.swift"; sourceTree = "<group>"; };
 		05902FAA28ACB2AC00D0C39F /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		05E6899628B3C46A0070E50B /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		05E6899828B3CCB10070E50B /* SendDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataDelegate.swift; sourceTree = "<group>"; };
@@ -95,17 +93,8 @@
 			isa = PBXGroup;
 			children = (
 				05E6899528B3C43E0070E50B /* Protocol */,
-				05F9E60628B361B900FB130D /* Extension */,
 			);
 			path = Common;
-			sourceTree = "<group>";
-		};
-		05F9E60628B361B900FB130D /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				054A35BB28ADFFFB00360FAD /* DateFormatter + Extention.swift */,
-			);
-			path = Extension;
 			sourceTree = "<group>";
 		};
 		05F9E60728B361C800FB130D /* Models */ = {
@@ -268,7 +257,6 @@
 				C739AE29284DF28600741E8F /* DiaryListTableViewController.swift in Sources */,
 				05E97FBB28B4BD1E00DC0800 /* DiaryContents+CoreDataProperties.swift in Sources */,
 				05E97FBA28B4BD1E00DC0800 /* DiaryContents+CoreDataClass.swift in Sources */,
-				054A35BC28ADFFFB00360FAD /* DateFormatter + Extention.swift in Sources */,
 				05902FAB28ACB2AC00D0C39F /* DiaryTableViewCell.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				05E6899928B3CCB10070E50B /* SendDataDelegate.swift in Sources */,
