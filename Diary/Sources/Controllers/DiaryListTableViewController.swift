@@ -83,7 +83,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
             tableView: diaryTableView,
             cellProvider: { tableView, indexPath, itemIdentifier in
                 guard let cell = tableView.dequeueReusableCell(
-                    withIdentifier: "DiaryTableViewCell",
+                    withIdentifier: DiaryTableViewCell.reuseIdentifier,
                     for: indexPath
                 ) as? DiaryTableViewCell else {
                     return nil
