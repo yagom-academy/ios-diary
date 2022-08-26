@@ -232,9 +232,12 @@ final class DiaryContentsViewController: UIViewController {
     }
     
     private func extractTitleAndBody() -> (String, String)? {
+        guard let diaryConentViewText = diaryContentView.textView.text,
+              diaryConentViewText.contains(NewLine.lineFeed) else {
+            return (diaryContentView.textView.text, DiaryCoreData.emptyBody)
+        }
+        
         guard diaryContentView.textView.text.isEmpty == false,
-            let diaryConentViewText = diaryContentView.textView.text,
-            diaryConentViewText.contains(NewLine.lineFeed),
             let lineBreakIndex = diaryConentViewText.firstIndex(of: NewLine.lineFeed)else {
             return nil
         }
