@@ -73,36 +73,39 @@ final class DiaryContentsViewController: UIViewController {
     }
     
     @objc private func sharedAndDeleteButtonTapped() {
+        let actionSheet = configureActionSheet()
+        
+        present(actionSheet, animated: true)
+    }
+    
+    private func configureActionSheet() -> UIAlertController {
         let actionSheet = UIAlertController(
             title: nil,
             message: nil,
             preferredStyle: .actionSheet
         )
-
+        
+        actionSheet.addAction(configureShareAction())
+        actionSheet.addAction(configureDeleteAction(
+            title: ActionSheet.deleteActionTitle,
+            completion: { [weak self] in
+                self?.presentDeleteAlert()
+            })
+        )
+        actionSheet.addAction(configureCancelAction(title: ActionSheet.cancelActionTitle))
+        
+        return actionSheet
+    }
+    
+    private func configureShareAction() -> UIAlertAction {
         let shareAction = UIAlertAction(
             title: ActionSheet.shareActionTitle,
             style: .default
         ) { [weak self] _ in
             self?.presentActivityView()
         }
-
-        let deleteAction = UIAlertAction(
-            title: ActionSheet.deleteActionTitle,
-            style: .destructive
-        ) { [weak self] _ in
-            self?.presentDeleteAlert()
-        }
-
-        let cancelAction = UIAlertAction(
-            title: ActionSheet.cancelActionTitle,
-            style: .cancel
-        )
-
-        actionSheet.addAction(shareAction)
-        actionSheet.addAction(deleteAction)
-        actionSheet.addAction(cancelAction)
-
-        present(actionSheet, animated: true)
+        
+        return shareAction
     }
     
     private func presentActivityView() {
@@ -114,30 +117,49 @@ final class DiaryContentsViewController: UIViewController {
         present(activityViewController, animated: true)
     }
     
+    private func configureDeleteAction(title: String, completion: @escaping () -> Void) -> UIAlertAction {
+        let deleteAction = UIAlertAction(
+            title: title,
+            style: .destructive
+        ) { _ in
+            completion()
+        }
+        
+        return deleteAction
+    }
+    
     private func presentDeleteAlert() {
+        let deleteAlert = configureDeleteAlert()
+        
+        present(deleteAlert, animated: true)
+    }
+    
+    private func configureDeleteAlert() -> UIAlertController {
         let alert = UIAlertController(
             title: Alert.deleteAlertTitle,
             message: Alert.deleteAlertMessage,
             preferredStyle: .alert
         )
         
+        alert.addAction(configureCancelAction(title: Alert.cancelActionTitle))
+        alert.addAction(configureDeleteAction(
+            title: Alert.deleteActionTitle,
+            completion: { [weak self] in
+                self?.isDeleted = true
+                self?.navigationController?.popViewController(animated: true)
+            })
+        )
+        
+        return alert
+    }
+    
+    private func configureCancelAction(title: String) -> UIAlertAction {
         let cancelAction = UIAlertAction(
-            title: Alert.cancelActionTitle,
+            title: title,
             style: .cancel
         )
         
-        let deleteAction = UIAlertAction(
-            title: Alert.deleteActionTitle,
-            style: .destructive
-        ) { [weak self] _ in
-            self?.isDeleted = true
-            self?.navigationController?.popViewController(animated: true)
-        }
-        
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-        
-        present(alert, animated: true)
+        return cancelAction
     }
     
     private func configureUI() {
