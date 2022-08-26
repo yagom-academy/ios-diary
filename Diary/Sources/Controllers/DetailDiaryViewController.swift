@@ -15,7 +15,7 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return textView
     }()
     
@@ -60,7 +60,12 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         let time = content?.createdAt ?? Date().timeIntervalSince1970
         let date = Date(timeIntervalSince1970: time)
         
-        navigationItem.title = DateFormatter().format(data: date)
+        navigationItem.title = DateFormatter.localizedString(
+            from: date,
+            dateStyle: .long,
+            timeStyle: .none
+        )
+        
         navigationItem.rightBarButtonItem = .init(
             image: UIImage(systemName: "ellipsis.circle"),
             style: .plain,
@@ -70,46 +75,83 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     }
     
     @objc private func showActionSheet(sender: AnyObject) {
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let actionSheet = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
         
-        actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: { _ in
-            self.showActivityView()
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-            self.showDeleteAlert()
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(
+            title: "Share",
+            style: .default,
+            handler: { _ in
+                self.showActivityView()
+            }))
         
-        self.present(actionSheet, animated: true)
+        actionSheet.addAction(UIAlertAction(
+            title: "Delete",
+            style: .destructive,
+            handler: { _ in
+                self.showDeleteAlert()
+            }))
+        
+        actionSheet.addAction(UIAlertAction(
+            title: "Cancel",
+            style: .cancel,
+            handler: nil
+        ))
+        
+        self.present(
+            actionSheet,
+            animated: true
+        )
     }
     
     private func showActivityView() {
         guard let content = self.content,
-                let title = content.title else {
-            return
-        }
+              let title = content.title else {
+                  return
+              }
         
         let activityViewController = UIActivityViewController(
             activityItems: [title],
             applicationActivities: nil
         )
-      
-        self.present(activityViewController, animated: true, completion: nil)
+        
+        self.present(
+            activityViewController,
+            animated: true,
+            completion: nil
+        )
     }
     
     private func showDeleteAlert() {
-        let action = UIAlertController(title: "진짜요?🥺", message: "정말로 삭제하시겠어요?🦦", preferredStyle: .alert)
-        action.addAction(UIAlertAction(title: "취소", style: .cancel))
-        action.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
-            guard let content = self.content else {
-                return
-            }
-            
-            self.delete(content)
-            self.navigationController?.popViewController(animated: true)
-        }))
-
-        self.present(action, animated: true)
+        let action = UIAlertController(
+            title: "진짜요?🥺",
+            message: "정말로 삭제하시겠어요?🦦",
+            preferredStyle: .alert
+        )
+        
+        action.addAction(UIAlertAction(
+            title: "취소",
+            style: .cancel
+        ))
+        action.addAction(UIAlertAction(
+            title: "삭제",
+            style: .destructive,
+            handler: { _ in
+                guard let content = self.content else {
+                    return
+                }
+                
+                self.delete(content)
+                self.navigationController?.popViewController(animated: true)
+            }))
+        
+        self.present(
+            action,
+            animated: true
+        )
     }
     
     private func configureAttributes() {
@@ -137,13 +179,13 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     private func configureTextView() {
         guard let title = content?.title,
               let body = content?.body else {
-            return
-        }
-
+                  return
+              }
+        
         textView.text = title + "\n\n" + body
         textView.contentOffset.y = 0
     }
-
+    
     private func registerForKeyboardShowNotification() {
         NotificationCenter.default.addObserver(
             self,
@@ -180,16 +222,22 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     }
     
     @objc func saveDiaryContents() {
-        if !textView.text.isEmpty && isExist == false {
+        if textView.text.isEmpty == false && isExist == false {
             create(content: getProcessedContent())
-        } else if !textView.text.isEmpty && isExist == true {
-            update(entity: content ?? DiaryContents(), content: getProcessedContent())
+        } else if textView.text.isEmpty == false && isExist == true {
+            update(
+                entity: content ?? DiaryContents(),
+                content: getProcessedContent()
+            )
         }
     }
 }
 
 extension DetailDiaryViewController: SendDataDelegate {
-    func sendData<T>(_ data: T, isExist: Bool) {
+    func sendData<T>(
+        _ data: T,
+        isExist: Bool
+    ) {
         content = data as? DiaryContents
         self.isExist = isExist
     }

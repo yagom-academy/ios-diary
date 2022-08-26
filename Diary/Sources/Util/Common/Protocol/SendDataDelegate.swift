@@ -6,5 +6,8 @@
 //
 
 protocol SendDataDelegate: AnyObject {
-    func sendData<T>(_ data: T, isExist: Bool)
+    func sendData<T>(
+        _ data: T,
+        isExist: Bool
+    )
 }

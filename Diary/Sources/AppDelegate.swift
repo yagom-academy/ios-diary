@@ -15,9 +15,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     ) -> Bool {
         return true
     }
-
+    
     // MARK: UISceneSession Lifecycle
-
+    
     func application(
         _ application: UIApplication,
         configurationForConnecting connectingSceneSession: UISceneSession,
@@ -28,27 +28,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             sessionRole: connectingSceneSession.role
         )
     }
-
+    
     func application(
         _ application: UIApplication,
         didDiscardSceneSessions sceneSessions: Set<UISceneSession>
     ) { }
-
+    
     // MARK: - Core Data stack
-
+    
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores(
             completionHandler: { (_, error) in
-            if let error = error as NSError? {
-                assertionFailure("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
+                if let error = error as NSError? {
+                    assertionFailure("Unresolved error \(error), \(error.userInfo)")
+                }
+            })
         return container
     }()
-
+    
     // MARK: - Core Data Saving support
-
+    
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {

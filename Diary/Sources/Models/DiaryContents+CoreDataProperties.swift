@@ -22,6 +22,4 @@ extension DiaryContents {
 
 }
 
-extension DiaryContents: Identifiable {
-
-}
+extension DiaryContents: Identifiable { }

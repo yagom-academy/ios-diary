@@ -10,6 +10,4 @@ import Foundation
 import CoreData
 
 @objc(DiaryContents)
-public class DiaryContents: NSManagedObject {
-
-}
+public class DiaryContents: NSManagedObject { }

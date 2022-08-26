@@ -33,7 +33,10 @@ extension CoreDataProcessing {
         }
     }
     
-    func update(entity: DiaryContents, content: [String]) {
+    func update(
+        entity: DiaryContents,
+        content: [String]
+    ) {
         guard let context = context else {
             return
         }

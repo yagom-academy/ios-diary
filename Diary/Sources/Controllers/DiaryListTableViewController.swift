@@ -117,7 +117,11 @@ extension DiaryListTableViewController: UITableViewDelegate {
         let diaryContent = snapshot.itemIdentifiers[indexPath.item]
         weak var sendDataDelegate: (SendDataDelegate)? = detailDiaryViewController
         
-        sendDataDelegate?.sendData(diaryContent, isExist: true)
+        sendDataDelegate?.sendData(
+            diaryContent,
+            isExist: true
+        )
+        
         navigationController?.pushViewController(
             detailDiaryViewController,
             animated: true
@@ -128,12 +132,18 @@ extension DiaryListTableViewController: UITableViewDelegate {
         _ tableView: UITableView,
         leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .normal, title: "Delete") { [self] _, _, _ in
+        let deleteAction = UIContextualAction(
+            style: .normal,
+            title: "Delete"
+        ) { [self] _, _, _ in
             let removableContent = self.snapshot.itemIdentifiers[indexPath.item]
             
             self.delete(removableContent)
             self.snapshot.deleteItems([removableContent])
-            self.dataSource?.apply(snapshot, animatingDifferences: true)
+            self.dataSource?.apply(
+                snapshot,
+                animatingDifferences: true
+            )
         }
         return UISwipeActionsConfiguration(actions: [deleteAction])
     }
