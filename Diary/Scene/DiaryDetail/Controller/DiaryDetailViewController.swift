@@ -37,8 +37,15 @@ class DiaryDetailViewController: UIViewController {
     
     // MARK: - methods
     
+    func saveDiaryData() {
+        let inputText = diaryDetailView.seperateText()
+        guard inputText.title != "" || inputText.body != "" else { return }
         
-        diaryDetailView.configureDetailTextView(ofText: "\(title)\n\n\(body)")
+        let diaryModel = DiaryModel(title: inputText.title,
+                                    body: inputText.body,
+                                    createdAt: diaryDetailData?.createdAt ?? Double())
+        
+        CoreDataManager.shared.update(diary: diaryModel)
     }
     
     private func configureKeyboardNotification() {
