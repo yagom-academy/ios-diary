@@ -129,7 +129,7 @@ class DiaryDetailViewController: UIViewController {
                                     body: inputText.body,
                                     createdAt: Double(Date().timeIntervalSince1970))
         
-        CoreDataManager.shared.create(newDiary: diaryModel)
+        CoreDataManager.shared.update(diary: diaryModel)
     }
     
     @objc private func rightBarButtonDidTap() {
@@ -165,7 +165,6 @@ class DiaryDetailViewController: UIViewController {
     @objc private func keyboardDownAction() {
         view.endEditing(true)
         
-        saveDiaryData()
         diaryDetailView.configureDetailTextViewInset(inset: 0)
     }
 }
