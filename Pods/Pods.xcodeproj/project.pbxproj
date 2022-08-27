@@ -38,6 +38,7 @@
 		19DE7212F35C78A673D6477BA6CEAC2A /* Pods-Diary-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Diary-umbrella.h"; sourceTree = "<group>"; };
 		265D739AF741CF836D39D207D2C2EDE5 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		2E9F08608B8CE4E23C232C8395DE1D73 /* Pods-Diary-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Diary-dummy.m"; sourceTree = "<group>"; };
+		37EBF40E28B9B31C003DA9B1 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Diary.framework; path = "/Users/NAMU/Documents/Yagom/ios-diary/Pods/../build/Debug-iphoneos/Pods_Diary.framework"; sourceTree = "<absolute>"; };
 		3E9672C16ADD0ADF8116C4CEFDC7496B /* Pods-Diary-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Diary-Info.plist"; sourceTree = "<group>"; };
 		3EC0124719FE8EF5FDDD72C26F8A2F57 /* SwiftLint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.debug.xcconfig; sourceTree = "<group>"; };
 		47D8831BB94EC6B924653BD7DECCED8A /* Pods-Diary.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Diary.modulemap"; sourceTree = "<group>"; };
@@ -45,7 +46,6 @@
 		7EAB1DA481EDDC005A251D3A5E6BE4CD /* SwiftLint.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftLint.release.xcconfig; sourceTree = "<group>"; };
 		982010C5B6E494CA0DB1297E322FC900 /* Pods-Diary-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Diary-acknowledgements.markdown"; sourceTree = "<group>"; };
 		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		A96125BBD2DEF0B8F60A2D8F4EA9FC50 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Diary.framework; path = "/Users/NAMU/Documents/Yagom/ios-diary/Pods/../build/Debug-iphoneos/Pods_Diary.framework"; sourceTree = "<absolute>"; };
 		ABF16B16FE7DE4E56B49FC2D6C7CA936 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -149,7 +149,7 @@
 			);
 			name = "Pods-Diary";
 			productName = Pods_Diary;
-			productReference = A96125BBD2DEF0B8F60A2D8F4EA9FC50 /* Pods_Diary.framework */;
+			productReference = 37EBF40E28B9B31C003DA9B1 /* Pods_Diary.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
