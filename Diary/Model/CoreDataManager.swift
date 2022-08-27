@@ -63,7 +63,7 @@ final class CoreDataManager: DataManageLogic {
     func update(data: DiaryContent) throws {
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "DiaryEntity")
-        request.predicate = NSPredicate(format: "createdAt = %@", "\(data.createdAt)")
+        request.predicate = NSPredicate(format: "createdAt = %@", data.createdAt as CVarArg)
         
         guard let result = try? context.fetch(request),
               let objectUpdate = result[0] as? NSManagedObject else {
@@ -81,7 +81,7 @@ final class CoreDataManager: DataManageLogic {
     func remove(date: Date) throws {
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "DiaryEntity")
-        request.predicate = NSPredicate(format: "createdAt = %@", "\(date)")
+        request.predicate = NSPredicate(format: "createdAt = %@", date as CVarArg)
     
         guard let result = try? context.fetch(request),
               let objectDelete = result[0] as? NSManagedObject else {
