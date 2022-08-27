@@ -246,9 +246,11 @@
 - 해결방법
     - text 설정 후 TextView의 Offset을 초기화 해주는 방법으로 문제를 해결하였습니다.
 <br>
-    ```swift
-    detailTextView.contentOffset = CGPoint(x: 0, y: 0)
-    ```
+
+```swift
+detailTextView.contentOffset = CGPoint(x: 0, y: 0)
+```
+    
 |문제화면|해결화면|
 |:---:|:---:|
 | <img src = "https://i.imgur.com/mwBowzi.png" width="300" height="600">| <img src = "https://i.imgur.com/fhq9Ewg.png" width="300" height="600"> |
