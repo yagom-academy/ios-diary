@@ -16,7 +16,7 @@ final class DiaryListViewController: UIViewController {
     
     private lazy var dataSource = self.configureDataSource()
     
-    private var diaryListViewModel = DiaryContentViewModel()
+    private var diaryViewModel = DiaryContentViewModel()
     
     private let diaryListTableView: UITableView = {
         let tableView = UITableView()
@@ -34,18 +34,18 @@ final class DiaryListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        diaryListViewModel.fetch()
+        diaryViewModel.fetch()
     }
     
     func initializeViewModel() {
-        guard let data = diaryListViewModel.diaryContents else {
+        guard let data = diaryViewModel.diaryContents else {
             return
         }
         updateDataSource(data: data)
         
-        diaryListViewModel.reloadTableViewClosure = { [weak self] in
+        diaryViewModel.reloadTableViewClosure = { [weak self] in
             DispatchQueue.main.async {
-                guard let data = self?.diaryListViewModel.diaryContents else {
+                guard let data = self?.diaryViewModel.diaryContents else {
                     return
                 }
                 
@@ -62,7 +62,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureDataSource() -> DataSource {
-        dataSource = DataSource(tableView: diaryListTableView, cellProvider: { [weak self] tableView, indexPath, content -> UITableViewCell? in
+        dataSource = DataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, content -> UITableViewCell? in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
                 return UITableViewCell()
             }
@@ -97,6 +97,7 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func didTappedAddButton() {
         let addDiaryViewController = DiaryPostViewController()
+        addDiaryViewController.diaryViewModel = diaryViewModel
         
         self.navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
@@ -106,19 +107,25 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let data = diaryViewModel.diaryContents?[indexPath.row] else {
+            return
+        }
+        diaryViewModel.createdAt = data.createdAt
         let diaryContentViewController = DiaryContentViewController()
-//        diaryContentViewController.diaryViewModel = DiaryViewModel(data: diaryListViewModel.diaryContents[indexPath.row])
+        diaryContentViewController.diaryViewModel = diaryViewModel
+        
+        diaryContentViewController.configureUI(data: data)
         
         self.navigationController?.pushViewController(diaryContentViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: "삭제") { [weak self](UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-//            guard let date = self?.diaryListViewModel.diaryContents[indexPath.row].createdAt else {
-//                return
-//            }
-            
-//            self?.diaryListViewModel.remove(date: date)
+            guard let date = self?.diaryViewModel.diaryContents?[indexPath.row].createdAt else {
+                return
+            }
+            self?.diaryViewModel.createdAt = date
+            self?.diaryViewModel.remove()
             success(true)
         }
         delete.backgroundColor = .systemRed
