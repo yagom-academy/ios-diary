@@ -8,79 +8,88 @@
 import Foundation
 import CoreData
 
-final class CoreDataManager {
+final class CoreDataManager: DataManageLogic {
     // MARK: - Core Data stack
 
     lazy private var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
+        container.loadPersistentStores(completionHandler: { (_, _) in
         })
         return container
     }()
     
     // MARK: - Create
-    func insertContext(data: DiaryContent) {
+    func save(data: DiaryContent) throws {
         let context = persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context)
         
-        if let entity = entity {
-            let managedObject = NSManagedObject(entity: entity, insertInto: context)
-            
-            managedObject.setValue(data.title, forKey: "title")
-            managedObject.setValue(data.body, forKey: "body")
-            managedObject.setValue(data.createdAt, forKey: "createdAt")
-            
-            try? context.save()
+        guard let entity = entity else {
+            throw CoreDataError.noneEntity
         }
+        
+        let managedObject = NSManagedObject(entity: entity, insertInto: context)
+        
+        managedObject.setValue(data.title, forKey: "title")
+        managedObject.setValue(data.body, forKey: "body")
+        managedObject.setValue(data.createdAt, forKey: "createdAt")
+        
+        try context.save()
     }
     
     // MARK: - READ
-    func fetchContext() -> [NSManagedObject]? {
+    func fetch() throws -> [DiaryContent] {
         let context = persistentContainer.viewContext
         let request = NSFetchRequest<NSManagedObject>(entityName: "DiaryEntity")
         
         let sort = NSSortDescriptor(key: "createdAt", ascending: false)
         request.sortDescriptors = [sort]
         
-        let result = try? context.fetch(request)
-        return result
+        guard let result = try context.fetch(request) as? [DiaryEntity] else {
+            throw CoreDataError.fetchFailure
+        }
+        
+        let data = result.compactMap { data -> DiaryContent? in
+            guard let title = data.title,
+                  let body = data.body,
+                  let createdAt = data.createdAt else { return nil }
+            
+            return DiaryContent(title: title, body: body, createdAt: createdAt)
+        }
+        
+        return data
     }
     
     //MARK: - Update
-    func updateContext(data: DiaryContent) {
+    func update(data: DiaryContent) throws {
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "DiaryEntity")
         request.predicate = NSPredicate(format: "createdAt = %@", "\(data.createdAt)")
         
-        let result = try? context.fetch(request)
-        
-        guard let objectUpdate = result?[0] as? NSManagedObject else {
-            return
+        guard let result = try? context.fetch(request),
+              let objectUpdate = result[0] as? NSManagedObject else {
+            throw CoreDataError.fetchFailure
         }
         
         objectUpdate.setValue(data.title, forKey: "title")
         objectUpdate.setValue(data.body, forKey: "body")
         objectUpdate.setValue(data.createdAt, forKey: "createdAt")
         
-        try? context.save()
+        try context.save()
     }
     
     //MARK: - Delete
-    func deleteContext(title: String) {
+    func remove(date: Date) throws {
         let context = persistentContainer.viewContext
         let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: "DiaryEntity")
-        request.predicate = NSPredicate(format: "title = %@", title)
+        request.predicate = NSPredicate(format: "createdAt = %@", "\(date)")
     
-        let result = try? context.fetch(request)
-        
-        guard let objectDelete = result?[0] as? NSManagedObject else {
-            return
+        guard let result = try? context.fetch(request),
+              let objectDelete = result[0] as? NSManagedObject else {
+            throw CoreDataError.fetchFailure
         }
+        
         context.delete(objectDelete)
         
-        try? context.save()
+        try context.save()
     }
 }
