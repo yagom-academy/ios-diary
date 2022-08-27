@@ -8,12 +8,12 @@
 import Foundation
 
 extension TimeInterval {
-    var formattedDate: String {
+    var formattedDate: String? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         
         guard let language = Locale.preferredLanguages.first else {
-            return ""
+            return nil
         }
         dateFormatter.locale = Locale(identifier: language)
         

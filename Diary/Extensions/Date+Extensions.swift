@@ -8,14 +8,14 @@
 import Foundation
 
 extension Date {
-    static var currentFormattedDate: String {
+    static var currentFormattedDate: String? {
         let date = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         dateFormatter.timeStyle = .none
         
         guard let language = Locale.preferredLanguages.first else {
-            return ""
+            return nil
         }
         dateFormatter.locale = Locale(identifier: language)
         
