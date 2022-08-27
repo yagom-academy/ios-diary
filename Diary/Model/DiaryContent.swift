@@ -11,5 +11,5 @@ struct DiaryContent: Decodable, Hashable {
     let id = UUID()
     let title: String
     let body: String
-    let createdAt: Double
+    let createdAt: Date
 }

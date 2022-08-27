@@ -21,4 +21,16 @@ extension Date {
         
         return dateFormatter.string(from: date)
     }
+    
+    var formattedDate: String? {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        
+        guard let language = Locale.preferredLanguages.first else {
+            return nil
+        }
+        dateFormatter.locale = Locale(identifier: language)
+        
+        return dateFormatter.string(from: self)
+    }
 }

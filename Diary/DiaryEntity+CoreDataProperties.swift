@@ -17,7 +17,7 @@ extension DiaryEntity {
     }
 
     @NSManaged public var body: String?
-    @NSManaged public var createdAt: Double
+    @NSManaged public var createdAt: Date?
     @NSManaged public var title: String?
 
 }
