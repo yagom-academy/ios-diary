@@ -15,7 +15,7 @@ final class DiaryContentViewController: UIViewController {
         return textView
     }()
         
-    var diaryViewModel = DiaryViewModel()
+//    var diaryViewModel = DiaryViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,7 @@ final class DiaryContentViewController: UIViewController {
 
     private func setupDefault() {
         self.view.backgroundColor = .white
-        self.title = diaryViewModel.dateText
+//        self.title = diaryViewModel.dateText
     
         let doneButton = UIBarButtonItem(title: "완료",
                                             style: .plain,
@@ -43,12 +43,12 @@ final class DiaryContentViewController: UIViewController {
     }
     
     @objc private func didTappedDoneButton() {
-        guard let content = diaryViewModel.diaryContent else {
-            return
-        }
-        
-        diaryViewModel.update(text: diaryDescriptionTextView.text, date: content.createdAt)
-        diaryDescriptionTextView.resignFirstResponder()
+//        guard let content = diaryViewModel.diaryContent else {
+//            return
+//        }
+//
+//        diaryViewModel.update(text: diaryDescriptionTextView.text, date: content.createdAt)
+//        diaryDescriptionTextView.resignFirstResponder()
     }
     
     @objc private func didTappedEllipsisButton() {
@@ -87,10 +87,10 @@ final class DiaryContentViewController: UIViewController {
         let alertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
-            guard let titleText = self?.diaryViewModel.titleText else {
-                 return
-            }
-            self?.diaryViewModel.delete(titleText)
+//            guard let titleText = self?.diaryViewModel.titleText else {
+//                 return
+//            }
+//            self?.diaryViewModel.delete(titleText)
             self?.navigationController?.popViewController(animated: true)
         }
         
@@ -110,7 +110,7 @@ final class DiaryContentViewController: UIViewController {
             diaryDescriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        diaryDescriptionTextView.text = diaryViewModel.longDescriptionText
+//        diaryDescriptionTextView.text = diaryViewModel.longDescriptionText
         diaryDescriptionTextView.focusTop()
     }
     
@@ -133,11 +133,11 @@ final class DiaryContentViewController: UIViewController {
     }
     
     @objc private func didEnterBackground() {
-        guard let diaryContent = diaryViewModel.diaryContent else {
-            return
-        }
-        
-        diaryViewModel.update(text: diaryDescriptionTextView.text, date: diaryContent.createdAt)
+//        guard let diaryContent = diaryViewModel.diaryContent else {
+//            return
+//        }
+//        
+//        diaryViewModel.update(text: diaryDescriptionTextView.text, date: diaryContent.createdAt)
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

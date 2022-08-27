@@ -15,13 +15,16 @@ final class DiaryPostViewController: UIViewController {
         return textView
     }()
     
-    private let diaryViewModel = DiaryViewModel()
+//    private let diaryViewModel: DiaryContentViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDefault()
         configureTextView()
         registerNotificationForKeyboard()
+        let viewModel = DiaryContentViewModel()
+    
+        viewModel.save(DiaryContent(title: "제목", body: "내용", createdAt: Date()))
     }
     
     private func setupDefault() {
@@ -33,7 +36,7 @@ final class DiaryPostViewController: UIViewController {
     
     @objc private func didTappedDoneButton() {
         diaryDescriptionTextView.resignFirstResponder()
-        diaryViewModel.assign(text: diaryDescriptionTextView.text, date: round(Date().timeIntervalSince1970))
+//        diaryViewModel.assign(text: diaryDescriptionTextView.text, date: round(Date().timeIntervalSince1970))
     }
     
     private func configureTextView() {
@@ -66,7 +69,7 @@ final class DiaryPostViewController: UIViewController {
     }
     
     @objc private func didEnterBackground() {
-        diaryViewModel.assign(text: diaryDescriptionTextView.text, date: round(Date().timeIntervalSince1970))
+//        diaryViewModel.assign(text: diaryDescriptionTextView.text, date: round(Date().timeIntervalSince1970))
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
