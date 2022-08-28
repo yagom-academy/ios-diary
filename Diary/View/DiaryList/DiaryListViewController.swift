@@ -16,7 +16,7 @@ final class DiaryListViewController: UIViewController {
     
     private lazy var dataSource = self.configureDataSource()
     
-    private var diaryListViewModel = DiaryViewModel()
+    private var diaryViewModel = DiaryContentViewModel()
     
     private let diaryListTableView: UITableView = {
         let tableView = UITableView()
@@ -29,9 +29,30 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         setupDefault()
         configureLayout()
-        updateDataSource(data: diaryListViewModel.diaryContents)
+        initializeViewModel()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        diaryViewModel.fetch()
+    }
+    
+    func initializeViewModel() {
+        guard let data = diaryViewModel.diaryContents else {
+            return
+        }
+        updateDataSource(data: data)
+        
+        diaryViewModel.reloadTableViewClosure = { [weak self] in
+            DispatchQueue.main.async {
+                guard let data = self?.diaryViewModel.diaryContents else {
+                    return
+                }
+                
+                self?.updateDataSource(data: data)
+            }
+        }
+    }
     private func setupDefault() {
         self.view.backgroundColor = .white
         self.diaryListTableView.delegate = self
@@ -39,7 +60,7 @@ final class DiaryListViewController: UIViewController {
         self.title = "일기장"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTappedAddButton))
     }
-
+    
     private func configureDataSource() -> DataSource {
         dataSource = DataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, content -> UITableViewCell? in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
@@ -59,8 +80,8 @@ final class DiaryListViewController: UIViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([.main])
         snapshot.appendItems(data)
-        
-        dataSource.apply(snapshot)
+    
+        dataSource.apply(snapshot, animatingDifferences: false, completion: nil)
     }
     
     private func configureLayout() {
@@ -76,6 +97,7 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func didTappedAddButton() {
         let addDiaryViewController = DiaryPostViewController()
+        addDiaryViewController.diaryViewModel = diaryViewModel
         
         self.navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
@@ -85,9 +107,29 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let data = diaryViewModel.diaryContents?[indexPath.row] else {
+            return
+        }
+        diaryViewModel.createdAt = data.createdAt
         let diaryContentViewController = DiaryContentViewController()
-        diaryContentViewController.diaryViewModel = DiaryViewModel(data: diaryListViewModel.diaryContents[indexPath.row])
+        diaryContentViewController.diaryViewModel = diaryViewModel
+        
+        diaryContentViewController.configureUI(data: data)
         
         self.navigationController?.pushViewController(diaryContentViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .normal, title: "삭제") { [weak self](UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            guard let date = self?.diaryViewModel.diaryContents?[indexPath.row].createdAt else {
+                return
+            }
+            self?.diaryViewModel.createdAt = date
+            self?.diaryViewModel.remove()
+            success(true)
+        }
+        delete.backgroundColor = .systemRed
+
+        return UISwipeActionsConfiguration(actions:[delete])
     }
 }

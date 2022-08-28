@@ -55,7 +55,6 @@ final class DiaryTableViewCell: UITableViewCell {
     }()
     
     static let identifier = "DiaryTableViewCell"
-    private var diaryListViewModel: DiaryViewModel?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -77,11 +76,9 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureUI(data: DiaryContent) {
-        diaryListViewModel = DiaryViewModel(data: data)
-        
-        diaryTitleLabel.text = diaryListViewModel?.titleText
-        dateLabel.text = diaryListViewModel?.dateText
-        shortDescriptionLabel.text = diaryListViewModel?.shortDescriptionText
+        diaryTitleLabel.text = data.title
+        dateLabel.text = data.createdAt.formattedDate
+        shortDescriptionLabel.text = data.body
     }
     
     private func configureLayout() {
@@ -102,8 +99,10 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     private func setupDateLabel() {
-        let standardPriority = shortDescriptionLabel.contentCompressionResistancePriority(for: .horizontal)
+        let standardPriority = shortDescriptionLabel.contentHuggingPriority(for: .horizontal)
+        let standardCompressionPriority = shortDescriptionLabel.contentCompressionResistancePriority(for: .horizontal)
         
-        dateLabel.setContentCompressionResistancePriority(standardPriority + 1, for: .horizontal)
+        dateLabel.setContentHuggingPriority(standardPriority + 1, for: .horizontal)
+        dateLabel.setContentCompressionResistancePriority(standardCompressionPriority + 1, for: .horizontal)
     }
 }

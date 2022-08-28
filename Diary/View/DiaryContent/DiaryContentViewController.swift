@@ -14,20 +14,86 @@ final class DiaryContentViewController: UIViewController {
         textView.font = UIFont.preferredFont(forTextStyle: .caption1)
         return textView
     }()
-    
-    var diaryViewModel = DiaryViewModel()
+        
+    var diaryViewModel: DiaryContentViewModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupDefault()
-        registerNotificationForKeyboard()
+        registerNotification()
         configureTextView()
     }
-    
+
     private func setupDefault() {
         self.view.backgroundColor = .white
-        self.title = diaryViewModel.dateText
+        let doneButton = UIBarButtonItem(title: "완료",
+                                            style: .plain,
+                                            target: self,
+                                            action: #selector(didTappedDoneButton))
+        
+        let ellipsisButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                     style: .plain,
+                                                     target: self,
+                                                     action: #selector(didTappedEllipsisButton))
+        
+        self.navigationItem.rightBarButtonItems = [doneButton,ellipsisButton]
+
+    }
+    
+    func configureUI(data: DiaryContent) {
+        self.title = data.createdAt.formattedDate
+        self.diaryDescriptionTextView.text = data.title + Const.doubleNextLineString + data.body
+    }
+    
+    @objc private func didTappedDoneButton() {
+        diaryViewModel?.update(diaryDescriptionTextView.text)
+        diaryDescriptionTextView.resignFirstResponder()
+    }
+    
+    @objc private func didTappedEllipsisButton() {
+        presentActionSheet()
+    }
+    
+    private func presentActionSheet() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self]_ in
+            self?.presentActivityView()
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self]_ in
+            self?.presentDeleteAlert()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(shareAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        alertController.modalPresentationStyle = .overFullScreen
+        
+        present(alertController, animated: true, completion: nil)
+    }
+    
+    private func presentActivityView() {
+        guard let sharingText = diaryDescriptionTextView.text else {
+            return
+        }
+        
+        let activityViewController = UIActivityViewController(activityItems: [sharingText], applicationActivities: nil)
+        present(activityViewController, animated: true, completion: nil)
+    }
+    
+    private func presentDeleteAlert() {
+        let alertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.diaryViewModel?.remove()
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     private func configureTextView() {
@@ -40,11 +106,10 @@ final class DiaryContentViewController: UIViewController {
             diaryDescriptionTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
-        diaryDescriptionTextView.text = diaryViewModel.longDescriptionText
         diaryDescriptionTextView.focusTop()
     }
     
-    private func registerNotificationForKeyboard() {
+    private func registerNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -55,6 +120,15 @@ final class DiaryContentViewController: UIViewController {
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil)
+    }
+    
+    @objc private func didEnterBackground() {
+        diaryViewModel?.update(diaryDescriptionTextView.text)
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
