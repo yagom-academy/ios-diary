@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		05656CFA28B8740F00B10BC9 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05656CF928B8740F00B10BC9 /* CoreDataError.swift */; };
+		058CF5DC28BB78F90042E758 /* UIViewController + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058CF5DB28BB78F90042E758 /* UIViewController + extension.swift */; };
 		05902FAB28ACB2AC00D0C39F /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05902FAA28ACB2AC00D0C39F /* DiaryTableViewCell.swift */; };
 		05E6899728B3C46A0070E50B /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6899628B3C46A0070E50B /* ReuseIdentifying.swift */; };
 		05E6899928B3CCB10070E50B /* SendDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E6899828B3CCB10070E50B /* SendDataDelegate.swift */; };
@@ -28,6 +29,7 @@
 
 /* Begin PBXFileReference section */
 		05656CF928B8740F00B10BC9 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
+		058CF5DB28BB78F90042E758 /* UIViewController + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + extension.swift"; sourceTree = "<group>"; };
 		05902FAA28ACB2AC00D0C39F /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		05E6899628B3C46A0070E50B /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
 		05E6899828B3CCB10070E50B /* SendDataDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendDataDelegate.swift; sourceTree = "<group>"; };
@@ -67,6 +69,14 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		058CF5DA28BB78DC0042E758 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				058CF5DB28BB78F90042E758 /* UIViewController + extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		05E6899528B3C43E0070E50B /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -102,6 +112,7 @@
 		05F9E60528B361AE00FB130D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				058CF5DA28BB78DC0042E758 /* Extension */,
 				05656CFB28B8741200B10BC9 /* Error */,
 				05E6899528B3C43E0070E50B /* Protocol */,
 			);
@@ -279,6 +290,7 @@
 				424D493B28ACB9A900402693 /* DiarySample.swift in Sources */,
 				05E6899728B3C46A0070E50B /* ReuseIdentifying.swift in Sources */,
 				05656CFA28B8740F00B10BC9 /* CoreDataError.swift in Sources */,
+				058CF5DC28BB78F90042E758 /* UIViewController + extension.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

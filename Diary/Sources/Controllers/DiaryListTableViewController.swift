@@ -138,7 +138,11 @@ extension DiaryListTableViewController: UITableViewDelegate {
         ) { [self] _, _, _ in
             let removableContent = self.snapshot.itemIdentifiers[indexPath.item]
             
-            self.delete(removableContent)
+            self.delete(removableContent) { error in
+                DispatchQueue.main.async {
+                    self.showErrorAlert(error: error)
+                }
+            }
             self.snapshot.deleteItems([removableContent])
             self.dataSource?.apply(
                 snapshot,

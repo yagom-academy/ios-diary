@@ -144,7 +144,11 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
                     return
                 }
                 
-                self.delete(content)
+                self.delete(content) { error in
+                    DispatchQueue.main.async {
+                        self.showErrorAlert(error: error)
+                    }
+                }
                 self.navigationController?.popViewController(animated: true)
             }))
         
@@ -238,25 +242,6 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
                     }
                 })
         }
-    }
-    
-    private func showErrorAlert(error: CoreDataError) {
-        let alertController = UIAlertController(
-            title: "⚠️",
-            message: error.errorMessage,
-            preferredStyle: .alert
-        )
-        let okButton = UIAlertAction(
-            title: "확인",
-            style: .default,
-            handler: nil
-        )
-        alertController.addAction(okButton)
-        
-        self.present(
-            alertController,
-            animated: true
-        )
     }
 }
 
