@@ -22,6 +22,7 @@ class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.diaryDetailView.diaryTextView.delegate = self
+        setNavigationbar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -36,6 +37,14 @@ class DiaryDetailViewController: UIViewController {
     
     func getIndexNumber(index: Int) {
         self.index = index
+    }
+    
+    private func setNavigationbar() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapRightBarButton))
+    }
+    
+    @objc func didTapRightBarButton() {
+        
     }
     
     private func registerForKeyboardNotification() {
@@ -57,7 +66,7 @@ class DiaryDetailViewController: UIViewController {
                                                   name: UIResponder.keyboardWillHideNotification,
                                                   object: nil)
     }
-   
+    
     private func updateDiaryData() {
         guard let itemTitle = itemTitle,
               let itemBody = itemBody,
