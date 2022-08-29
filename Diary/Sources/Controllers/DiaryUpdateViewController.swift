@@ -24,7 +24,15 @@ final class DiaryUpdateViewController: UIViewController {
             title: "공유",
             style: .default,
             handler: { action in
-                // TODO: 공유 기능 추가
+                self.convertTextToDiaryItem()
+                
+                let sharedDiaryItem = self.createTextViewContent()
+                
+                let activitiViewController = UIActivityViewController(
+                    activityItems: [sharedDiaryItem],
+                    applicationActivities: nil
+                )
+                self.present(activitiViewController, animated: true)
             }
         )
         
@@ -126,7 +134,6 @@ private extension DiaryUpdateViewController {
         guard let firstSpaceIndex = text.firstIndex(of: "\n") else {
             return (title: text, body: "")
         }
-        
         let lastIndex = text.endIndex
         
         let titleSubstring = text[..<firstSpaceIndex]
@@ -134,9 +141,10 @@ private extension DiaryUpdateViewController {
         
         let title = String(titleSubstring)
         let body = String(bodySubstring)
-        
+
         return (title: title, body: body)
     }
+
     
     func convertTextToDiaryItem() {
         let data = splitTitleAndBody(from: contentTextView.text)
@@ -204,7 +212,7 @@ private extension DiaryUpdateViewController {
     // MARK: Configuring Model
     
     func setupContentViewData() {
-        let currentDiaryContent = createTextViewContent(diaryItem)
+        let currentDiaryContent = createTextViewContent()
         displayDiaryDetailData(with: currentDiaryContent)
     }
     
@@ -212,15 +220,13 @@ private extension DiaryUpdateViewController {
         contentTextView.text = textViewContent
     }
     
-    func createTextViewContent(_ diaryItem: DiaryItem?) -> String {
+    func createTextViewContent() -> String {
         guard let diaryItem = diaryItem else {
             return ""
         }
         
         return """
-        \(diaryItem.title)
-        
-        \(diaryItem.body)
+        \(diaryItem.title)\(diaryItem.body)
         """
     }
     
