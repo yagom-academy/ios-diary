@@ -7,7 +7,7 @@
 
 import Foundation
 
-class StubDBManager: DBMangerable {
+final class StubDBManager: DBMangerable {
     
     private var sampleDiaryContent = [DiaryContent]() {
         didSet {

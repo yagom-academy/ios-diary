@@ -7,7 +7,8 @@
 
 import UIKit
 
-class DiaryDetailViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController {
+    
     private let diaryDetailView = DiaryDetailView()
     private let coreDataManager = CoreDataManager.shared
     private var itemTitle: String?
@@ -22,7 +23,7 @@ class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.diaryDetailView.diaryTextView.delegate = self
-        setNavigationbar()
+        self.setNavigationbar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,7 +41,10 @@ class DiaryDetailViewController: UIViewController {
     }
     
     private func setNavigationbar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapRightBarButton))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(didTapRightBarButton))
     }
 
     @objc private func didTapRightBarButton() {
@@ -55,7 +59,7 @@ class DiaryDetailViewController: UIViewController {
         self.cancelAlertAction(sheet)
         self.sharedAlertAction(sheet)
         self.deleteAlertAction(sheet, index)
-        present(sheet, animated: true)
+        self.present(sheet, animated: true)
     }
     
     private func cancelAlertAction(_ sheet: UIAlertController) {
@@ -70,10 +74,9 @@ class DiaryDetailViewController: UIViewController {
         
         sheet.addAction(UIAlertAction(title: "Shared..", style: .default, handler: { _ in
             let shareObject = [itemTitle + ("\n") + itemBody]
-            
             let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
-            activityViewController.popoverPresentationController?.sourceView = self.view
             
+            activityViewController.popoverPresentationController?.sourceView = self.view
             self.present(activityViewController, animated: true, completion: nil)
         }))
     }
@@ -88,7 +91,6 @@ class DiaryDetailViewController: UIViewController {
                 
             }))
             alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
-                
                 self.coreDataManager.deleteDiary(id: self.coreDataManager.fetchDiaryEntity()[index].id)
                 self.navigationController?.popViewController(animated: true)
             }))
@@ -123,11 +125,11 @@ class DiaryDetailViewController: UIViewController {
               let index = index else {
             return
         }
+        
         coreDataManager.updateData(item: DiaryContent(id: coreDataManager.fetchDiaryEntity()[index].id,
                                                       title: itemTitle,
                                                       body: itemBody,
                                                       createdAt: Date().timeIntervalSince1970))
-        
     }
     
     @objc private func keyBoardShow(notification: NSNotification) {
@@ -151,7 +153,7 @@ class DiaryDetailViewController: UIViewController {
         self.navigationItem.title = data.createdAt.dateFormatted()
         self.itemTitle = data.title
         self.itemBody = data.body
-        diaryDetailView.configure(with: data)
+        self.diaryDetailView.configure(with: data)
     }
 }
 

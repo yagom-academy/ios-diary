@@ -24,7 +24,7 @@ final class DiaryViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         self.setupNavigationbar()
         self.diaryView.diaryTextView.delegate = self
-        enterBackground()
+        self.enterBackground()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -88,14 +88,14 @@ final class DiaryViewController: UIViewController {
     
     @objc private func keyBoardDownAction(_ sender: Notification) {
         self.diaryView.changeTextViewBottomAutoLayout()
-        saveDiaryData()
+        self.saveDiaryData()
     }
     
     private func enterBackground() {
         NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification,
                                                object: nil,
                                                queue: .main) { [self] notification in
-            saveDiaryData()
+            self.saveDiaryData()
         }
     }
 }

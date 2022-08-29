@@ -99,6 +99,33 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		4DC62C5028BCF714000892A3 /* DataManager */ = {
+			isa = PBXGroup;
+			children = (
+				4DC62C5128BCF721000892A3 /* Protocol */,
+				A3B3390628B521A300637774 /* DiaryManager.swift */,
+				A3FC7A5C28B75226002CC893 /* CoreDataManager.swift */,
+				A3FC7A5A28B751C7002CC893 /* StubDBManager.swift */,
+			);
+			path = DataManager;
+			sourceTree = "<group>";
+		};
+		4DC62C5128BCF721000892A3 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				A3939F3A28B4A4F3007010B4 /* DBMangerable.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		4DC62C5228BCF736000892A3 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				A3939F2928B3561A007010B4 /* ReuseIdentifying.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
 		4DED67FE28ABAEE0005E5A71 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,7 +139,7 @@
 		4DED680128AC7727005E5A71 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				A3939F2928B3561A007010B4 /* ReuseIdentifying.swift */,
+				4DC62C5228BCF736000892A3 /* Protocol */,
 				4DED680228AC777B005E5A71 /* MainTableViewCell.swift */,
 				A3AE109628ACB67000323D24 /* DiaryView.swift */,
 				4D614CC128B7492700AB5F8A /* DiaryDetailView.swift */,
@@ -123,10 +150,7 @@
 		A3AE108928AB874100323D24 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				A3B3390628B521A300637774 /* DiaryManager.swift */,
-				A3FC7A5C28B75226002CC893 /* CoreDataManager.swift */,
-				A3FC7A5A28B751C7002CC893 /* StubDBManager.swift */,
-				A3939F3A28B4A4F3007010B4 /* DBMangerable.swift */,
+				4DC62C5028BCF714000892A3 /* DataManager */,
 				A3FC7A5928B75172002CC893 /* CoreData */,
 				4D614C9428B3C0B500AB5F8A /* Extension */,
 				A3AE108D28AB88F300323D24 /* Json */,

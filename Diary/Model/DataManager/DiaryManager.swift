@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DiaryManager: DBMangerable {
+final class DiaryManager: DBMangerable {
     
     let dbManager: DBMangerable
     

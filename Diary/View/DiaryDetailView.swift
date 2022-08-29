@@ -7,7 +7,8 @@
 
 import UIKit
 
-class DiaryDetailView: UIView {
+final class DiaryDetailView: UIView {
+    
     private lazy var diaryTextViewBottomConstraint = diaryTextView.bottomAnchor.constraint(
         equalTo: safeAreaLayoutGuide.bottomAnchor
     )

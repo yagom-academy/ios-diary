@@ -9,7 +9,7 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    let diaryManager = DiaryManager()
+    private let diaryManager = DiaryManager()
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
@@ -83,6 +83,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        
         diaryDetailViewController.loadData(data: diaryManager.content(index: indexPath.row))
         diaryDetailViewController.getIndexNumber(index: indexPath.row)
     }
@@ -90,7 +91,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let shareAction = UIContextualAction(style: .normal, title: "공유") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             success(true)
-            
             let shareText = self.diaryManager.fetchDiaryEntity()[indexPath.row]
             let shareObject = [shareText.title + ("\n") + shareText.body]
             let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
@@ -110,7 +110,6 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
                 
             }))
             alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
-                
                 self.diaryManager.deleteDiary(id: self.diaryManager.fetchDiaryEntity()[indexPath.row].id)
             }))
             
