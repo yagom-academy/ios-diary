@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreLocation
 
 final class DiaryListViewController: UIViewController {
     typealias DataSource = UITableViewDiffableDataSource<Section, DiaryContent>
@@ -38,6 +39,7 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDefault()
+        setupCoreLocation()
         configureLayout()
         initializeViewModel()
     }
@@ -63,6 +65,7 @@ final class DiaryListViewController: UIViewController {
             }
         }
     }
+    
     private func setupDefault() {
         self.view.backgroundColor = .white
         self.diaryListTableView.delegate = self
@@ -71,6 +74,13 @@ final class DiaryListViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTappedAddButton))
     }
     
+    private func setupCoreLocation() {
+        let locationManager = CLLocationManager()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        locationManager.requestWhenInUseAuthorization()
+    }
+        
     private func configureDataSource() -> DataSource {
         dataSource = DataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, content -> UITableViewCell? in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
@@ -104,7 +114,7 @@ final class DiaryListViewController: UIViewController {
             diaryListTableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-    
+        
     @objc private func didTappedAddButton() {
         let addDiaryViewController = DiaryPostViewController()
         addDiaryViewController.diaryViewModel = diaryViewModel 
