@@ -57,7 +57,7 @@ final class DiaryTableViewController: UIViewController {
     }
     
     private func fetchData() {
-        guard let diaryItems = DiaryDataManager.shared.fetchDiary() else { return }
+        guard let diaryItems = DiaryDataManager.shared.fetchData() else { return }
         
         self.diaryItems = diaryItems
     }
