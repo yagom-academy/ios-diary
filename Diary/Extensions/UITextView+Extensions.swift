@@ -2,7 +2,7 @@
 //  UITextView+Extensions.swift
 //  Diary
 //
-//  Created by Derrick kim on 2022/08/17.
+//  Created by Hugh, Derrick on 2022/08/17.
 //
 
 import UIKit
