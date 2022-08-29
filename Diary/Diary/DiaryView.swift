@@ -8,6 +8,12 @@
 import UIKit
 
 final class DiaryView: UIView {
+    // MARK: - NameSpace
+
+    private enum DiaryNameSpace {
+        static let close = "닫기"
+    }
+
     // MARK: - Properties
     
     private var isTwiceLineChange: Bool = false
@@ -39,7 +45,7 @@ final class DiaryView: UIView {
     let closeButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(NameSpace.close, for: .normal)
+        button.setTitle(DiaryNameSpace.close, for: .normal)
         button.setTitleColor(UIColor.black, for: .normal)
         button.backgroundColor = .systemGray6
         return button

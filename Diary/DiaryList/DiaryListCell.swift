@@ -39,7 +39,7 @@ final class DiaryListCell: UITableViewCell {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .fill
-        stackView.spacing = Number.spacing
+        stackView.spacing = 10
         return stackView
     }()
     
@@ -49,7 +49,7 @@ final class DiaryListCell: UITableViewCell {
         stackView.axis = .horizontal
         stackView.distribution = .fill
         stackView.alignment = .fill
-        stackView.spacing = Number.spacing
+        stackView.spacing = 10
         return stackView
     }()
     

@@ -68,6 +68,6 @@ extension DiaryListView: UITableViewDataSource {
     }
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return Number.sectionCount
+        return 1
     }
 }

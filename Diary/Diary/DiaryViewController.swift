@@ -8,11 +8,23 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
+    // MARK: - NameSpace
+
+    private enum AlertMassage {
+        static let shareActionTitle = "share..."
+        static let deleteActionTitle = "Delete"
+        static let cancel = "취소"
+        static let deleteAlertTitle = "진짜요?"
+        static let deleteAlertMessage = "정말로 삭제하시겠어요?"
+        static let cancelActionTitle = "Cancel"
+        static let newDiary = "새로운일기장"
+    }
+
     // MARK: - Properties
     
     let diaryView = DiaryView(frame: .zero)
     var coreDataDiary: Diary?
-    var mode: PageMode?
+    var mode: PageMode? = .create
     
     // MARK: - ViewLifeCycle
     
@@ -72,31 +84,31 @@ final class DiaryViewController: UIViewController {
     
     private func generateShareAlertAction() -> UIAlertAction {
         let model = makeDiaryModel()
-        let share = UIAlertAction(title: NameSpace.shareActionTitle, style: .default) { _ in
+        let share = UIAlertAction(title: AlertMassage.shareActionTitle, style: .default) { [weak self] _ in
             let diaryToShare: [Any] = [MyActivityItemSource(title: model.title, text: model.body)]
             let activityViewController = UIActivityViewController(activityItems: diaryToShare, applicationActivities: nil)
-            activityViewController.popoverPresentationController?.sourceView = self.diaryView
+            activityViewController.popoverPresentationController?.sourceView = self?.diaryView
             
-            self.present(activityViewController, animated: true)
+            self?.present(activityViewController, animated: true)
         }
         return share
     }
     
     private func generateDeleteAlertAction() -> UIAlertAction {
-        let delete = UIAlertAction(title: NameSpace.deleteActionTitle, style: .destructive) { _ in
-            guard let coreDataDiary = self.coreDataDiary else { return }
-            let cancel = UIAlertAction(title: NameSpace.cancel, style: .cancel)
+        let delete = UIAlertAction(title: AlertMassage.deleteActionTitle, style: .destructive) { [weak self] _ in
+            guard let coreDataDiary = self?.coreDataDiary else { return }
+            let cancel = UIAlertAction(title: AlertMassage.cancel, style: .cancel)
             let delete = UIAlertAction(title: NameSpace.delete, style: .destructive) { [weak self] _ in
                 CoreDataManager.shared.delete(diary: coreDataDiary)
                 self?.navigationController?.popViewController(animated: true)
             }
-            self.generateAlertController(title: NameSpace.deleteAlertTitle, message: NameSpace.deleteAlertMessage, style: .alert, actions: [cancel, delete])
+            self?.generateAlertController(title: AlertMassage.deleteAlertTitle, message: AlertMassage.deleteAlertMessage, style: .alert, actions: [cancel, delete])
         }
         return delete
     }
     
     private func generateCancelAlertAction() -> UIAlertAction {
-        return UIAlertAction(title: NameSpace.cancelActionTitle, style: .cancel)
+        return UIAlertAction(title: AlertMassage.cancelActionTitle, style: .cancel)
     }
     
     @objc private func showActionSheet() {
@@ -145,7 +157,7 @@ extension DiaryViewController {
         let createdAt = Date().timeIntervalSince1970
         let filteredList = distinguishedTitleAndBody.filter { return $0 != NameSpace.whiteSpace && $0 != NameSpace.lineChange }
         guard filteredList.isEmpty == false else {
-            let title = NameSpace.newDiary
+            let title = AlertMassage.newDiary
             let body = NameSpace.whiteSpace
             return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
         }
