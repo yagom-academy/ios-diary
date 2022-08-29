@@ -75,8 +75,10 @@ final class DiaryViewController: UIViewController {
     }
     
     func saveDiaryData() {
-        coreDataManager.updateData(item: DiaryContent(id: self.id, title: itemTitle ?? "",
-                                                      body: itemBody ?? "",
+        guard let itemTitle = itemTitle, let itemBody = itemBody else { return }
+
+        coreDataManager.updateData(item: DiaryContent(id: self.id, title: itemTitle,
+                                                      body: itemBody,
                                                       createdAt: Date().timeIntervalSince1970))
     }
     
