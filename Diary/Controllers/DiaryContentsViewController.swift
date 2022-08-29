@@ -41,7 +41,6 @@ final class DiaryContentsViewController: UIViewController {
         configureMainAndIcon()
         configureLocationManager()
         
-        locationManager.startUpdatingLocation()
         locationManager.requestLocation()
     }
     
@@ -378,7 +377,7 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
         
         print(location.latitude)
         print(location.longitude)
-        manager.stopUpdatingLocation()
+        
         
         guard let diary = diary else {
             WeatherDataAPIManager(latitude: location.latitude, longitude: location.longitude)?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { result in
@@ -404,7 +403,6 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
        if let error = error as? CLError, error.code == .denied {
           
-          manager.stopUpdatingLocation()
           return
        }
     }
