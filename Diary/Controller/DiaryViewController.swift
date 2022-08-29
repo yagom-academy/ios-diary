@@ -13,6 +13,7 @@ final class DiaryViewController: UIViewController {
     private let coreDataManager = CoreDataManager.shared
     private var itemTitle: String?
     private var itemBody: String?
+    private var id = UUID()
     
     override func loadView() {
         self.view = diaryView
@@ -23,6 +24,7 @@ final class DiaryViewController: UIViewController {
         self.view.backgroundColor = .systemBackground
         self.setupNavigationbar()
         self.diaryView.diaryTextView.delegate = self
+        enterBackground()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -65,18 +67,30 @@ final class DiaryViewController: UIViewController {
               let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
             return
         }
-       
+        
         let keyboardRectangle = keyboardFrame.cgRectValue
         let keyboardHeight = keyboardRectangle.height
         
         self.diaryView.changeTextViewBottomAutoLayout(keyboardHeight)
     }
     
+    func saveDiaryData() {
+        coreDataManager.updateData(item: DiaryContent(id: self.id, title: itemTitle ?? "",
+                                                      body: itemBody ?? "",
+                                                      createdAt: Date().timeIntervalSince1970))
+    }
+    
     @objc private func keyBoardDownAction(_ sender: Notification) {
         self.diaryView.changeTextViewBottomAutoLayout()
-        coreDataManager.saveDiary(model: DiaryContent(title: itemTitle ?? "",
-                                                    body: itemBody ?? "",
-                                                    createdAt: Date().timeIntervalSince1970))
+        saveDiaryData()
+    }
+    
+    private func enterBackground() {
+        NotificationCenter.default.addObserver(forName: UIApplication.didEnterBackgroundNotification,
+                                               object: nil,
+                                               queue: .main) { [self] notification in
+            saveDiaryData()
+        }
     }
 }
 

@@ -9,6 +9,9 @@ import UIKit
 
 class DiaryDetailViewController: UIViewController {
     private let diaryDetailView = DiaryDetailView()
+    private let coreDataManager = CoreDataManager.shared
+    private var itemTitle: String?
+    private var itemBody: String?
     
     override func loadView() {
         self.view = diaryDetailView
@@ -17,7 +20,7 @@ class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
-
+        self.diaryDetailView.diaryTextView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -49,6 +52,10 @@ class DiaryDetailViewController: UIViewController {
                                                   name: UIResponder.keyboardWillHideNotification,
                                                   object: nil)
     }
+   
+    func saveDiaryData() {
+        
+    }
     
     @objc private func keyBoardShow(notification: NSNotification) {
         guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary,
@@ -64,10 +71,23 @@ class DiaryDetailViewController: UIViewController {
     
     @objc private func keyBoardDownAction(_ sender: Notification) {
         self.diaryDetailView.changeTextViewBottomAutoLayout()
+        saveDiaryData()
     }
     
     func loadData(data: DiaryContent) {
         self.navigationItem.title = data.createdAt.dateFormatted()
         diaryDetailView.configure(with: data)
+    }
+}
+
+extension DiaryDetailViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let diaryText = textView.text.components(separatedBy: "\n")
+        let title = diaryText.first
+        let body = diaryText[diaryText.startIndex + 1..<diaryText.endIndex].joined(separator: "")
+        
+        self.itemTitle = title
+        self.itemBody = body
     }
 }

@@ -31,7 +31,7 @@ final class CoreDataManager {
             diary.setValue(model.title, forKey: "title")
             diary.setValue(model.body, forKey: "body")
             diary.setValue(model.createdAt, forKey: "createdAt")
-            
+            print(model.id)
             do {
                 try context.save()
                 self.diary = fetchDiaryEntity()
@@ -84,7 +84,7 @@ final class CoreDataManager {
         if let context = context {
             let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: self.modelName)
             request.predicate = NSPredicate(format: "id = %@", item.id as CVarArg )
-            
+            print(item.id)
             do {
                 if let fetchedDiary = try context.fetch(request).first as? Diary {
                     
@@ -95,6 +95,8 @@ final class CoreDataManager {
                     
                     try context.save()
                     self.diary = fetchDiaryEntity()
+                } else {
+                    saveDiary(model: DiaryContent(id: item.id, title: item.title, body: item.body, createdAt: item.createdAt))
                 }
             } catch {
                 print(error.localizedDescription)
