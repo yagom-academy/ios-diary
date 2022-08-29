@@ -12,7 +12,7 @@ final class DiaryRegistrationViewController: UIViewController {
     
     private let textView = DiaryRegistrationView()
     private lazy var keyboardManager = KeyboardManager(textView)
-    private let diaryCoreData = DiaryCoreDataManager()
+    private let diaryCoreManager = DiaryCoreDataManager(with: .shared)
     
     // MARK: - life cycles
     
@@ -48,7 +48,7 @@ final class DiaryRegistrationViewController: UIViewController {
                              body: body,
                              createdAt: Date().timeIntervalSince1970)
         
-        diaryCoreData.create(newDiary)
+        diaryCoreManager.create(newDiary)
     }
     
     private func getBody(title: String) -> String {

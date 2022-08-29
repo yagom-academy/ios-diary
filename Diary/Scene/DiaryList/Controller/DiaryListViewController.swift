@@ -19,7 +19,7 @@ final class DiaryListViewController: UIViewController {
     
     private var diaryCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
-    private var diaryCoreData: DiaryCoreDataManager?
+    private var diaryCoreManager: DiaryCoreDataManager?
     
     // MARK: - life cycles
     
@@ -32,7 +32,8 @@ final class DiaryListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        diaryCoreData = DiaryCoreDataManager()
+        diaryCoreManager = DiaryCoreDataManager(with: .shared)
+        diaryCoreManager?.fetch()
     }
     
     // MARK: - functions
@@ -100,18 +101,8 @@ final class DiaryListViewController: UIViewController {
           let deleteActionHandler: UIContextualAction.Handler = { action, view, completion in
 
               completion(true)
-              guard var diaryList = self.diaryCoreData?.diaryList else { return }
-              self.diaryCoreData?.delete(diaryList[indexPath.row])
-              diaryList.remove(at: indexPath.row)
-              self.diaryCoreData?.fetch()
-              
-              DispatchQueue.main.async {
-                  
-                  
-                  self.setupDataSource()
-                  self.setupSnapshot(with: diaryList)
-              }
-              
+              guard let diaryList = self.diaryCoreManager?.diaryList else { return }
+              self.diaryCoreManager?.delete(diaryList[indexPath.row])
           }
             
             let deleteAction = UIContextualAction(style: .normal,
@@ -124,7 +115,7 @@ final class DiaryListViewController: UIViewController {
             let shareAction = UIContextualAction(style: .normal,
                                                  title: nil) { action, view, competion in
                 competion(true)
-                let item = self.diaryCoreData?.diaryList.get(index: indexPath.row)
+                let item = self.diaryCoreManager?.diaryList.get(index: indexPath.row)
                 
                 let shareActivitView = UIActivityViewController(activityItems: [item as Any], applicationActivities: nil)
                 self.present(shareActivitView, animated: true)
@@ -153,7 +144,6 @@ final class DiaryListViewController: UIViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView)
         {
             (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                                 for: indexPath,
                                                                 item: identifier)
@@ -180,7 +170,7 @@ final class DiaryListViewController: UIViewController {
     @objc private func onDidReceiveData(_ notification: Notification) {
         DispatchQueue.main.async { [weak self] in
             self?.setupDataSource()
-            self?.setupSnapshot(with: self?.diaryCoreData?.diaryList ?? [])
+            self?.setupSnapshot(with: self?.diaryCoreManager?.diaryList ?? [])
         }
     }
     
@@ -215,7 +205,7 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
-        guard let diaryCoreData = diaryCoreData else { return }
+        guard let diaryCoreData = diaryCoreManager else { return }
         
         diaryDetailViewController.setupData(diaryCoreData.diaryList[indexPath.row])
         

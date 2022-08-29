@@ -12,7 +12,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private let textView = DiaryDetailTextView()
     private lazy var keyboardManager = KeyboardManager(textView)
-    private let diaryCoreData = DiaryCoreDataManager()
+    private let diaryCoreManager = DiaryCoreDataManager(with: .shared)
     private var diary: Diary?
     
     // MARK: - life cycles
@@ -48,7 +48,7 @@ final class DiaryDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem = rightBarButton
     }
     
-    private func setupActionSheet() {
+    private func presentActionSheet() {
         let actionSheet = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
@@ -86,7 +86,7 @@ final class DiaryDetailViewController: UIViewController {
         let deleteAction = UIAlertAction(title: Design.deleteActionTitle, style: .destructive) { [weak self] _ in
             guard let diary = self?.diary else { return }
 
-            self?.diaryCoreData.delete(diary)
+            self?.diaryCoreManager.delete(diary)
             self?.navigationController?.popToRootViewController(animated: true)
         }
         
@@ -122,11 +122,11 @@ final class DiaryDetailViewController: UIViewController {
                           createdAt: Date().timeIntervalSince1970)
         
         if diaryInfomation.isEmpty {
-            diaryCoreData.delete(diary)
+            diaryCoreManager.delete(diary)
             return
         }
         
-        diaryCoreData.update(diary)
+        diaryCoreManager.update(diary)
     }
     
     private func getBody(title: String) -> String {
@@ -142,7 +142,7 @@ final class DiaryDetailViewController: UIViewController {
     // MARK: - objc functions
     
     @objc private func didTapRightBarButton() {
-        setupActionSheet()
+        presentActionSheet()
     }
 }
 
