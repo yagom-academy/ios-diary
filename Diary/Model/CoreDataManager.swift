@@ -14,7 +14,7 @@ final class CoreDataManager {
     
     private init() {}
     
-    private var diaryContent = [DiaryContent]() {
+    private var diary = [Diary]() {
         didSet {
             NotificationCenter.default.post(name: .diaryModelDataDidChanged,
                                             object: self)
@@ -41,6 +41,7 @@ final class CoreDataManager {
     }
     
     func fetchDiary() -> [DiaryContent] {
+        var diaryContent: [DiaryContent] = []
         
         if let context = context {
             let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
@@ -57,7 +58,7 @@ final class CoreDataManager {
                 print(error.localizedDescription)
             }
         }
-        return self.diaryContent
+        return diaryContent
     }
     
     func deleteDiary(id: UUID) {
@@ -99,7 +100,6 @@ final class CoreDataManager {
     }
     
     func fetchDiaryEntity() -> [Diary] {
-        var diary: [Diary] = []
         if let context = context {
             let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
             let dateOrder = NSSortDescriptor(key: "createdAt", ascending: false)
@@ -113,13 +113,13 @@ final class CoreDataManager {
                 print(error.localizedDescription)
             }
         }
-        return diary
+        return self.diary
     }
 }
 
 extension CoreDataManager: DBMangerable {
     func loadData() {
-        self.diaryContent = fetchDiary()
+        self.diary = fetchDiaryEntity()
     }
     
     func updateData(item: DiaryContent) {
@@ -127,14 +127,14 @@ extension CoreDataManager: DBMangerable {
     }
     
     func getData() -> [DiaryContent] {
-        return self.diaryContent
+        return fetchDiary()
     }
     
     func count() -> Int {
-        return self.diaryContent.count
+        return self.diary.count
     }
     
     func content(index: Int) -> DiaryContent {
-        return self.diaryContent[index]
+        return fetchDiary()[index]
     }
 }

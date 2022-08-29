@@ -28,7 +28,7 @@ final class MainViewController: UIViewController {
         self.configureTableView()
         self.registerDiaryNotification()
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.diaryManager.loadData()
