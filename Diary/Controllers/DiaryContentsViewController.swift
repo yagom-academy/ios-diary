@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryContentsViewController: UIViewController {
     
@@ -16,6 +17,7 @@ final class DiaryContentsViewController: UIViewController {
     private var id: UUID?
     private var main: String?
     private var icon: String?
+    private let locationManager = CLLocationManager()
     
     var diary: Diary?
     var isEditingMemo: Bool = false
@@ -37,6 +39,10 @@ final class DiaryContentsViewController: UIViewController {
         configureCreationDate()
         configureID()
         configureMainAndIcon()
+        configureLocationManager()
+        
+        locationManager.startUpdatingLocation()
+        locationManager.requestLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -327,8 +333,55 @@ final class DiaryContentsViewController: UIViewController {
     
     private func configureMainAndIcon() {
         
+//        guard let diary = diary else {
+//            locationManager.requestLocation()
+//
+//            WeatherDataAPIManager(latitude: 37.58677858803961, longitude: 126.99607690004846)?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { result in
+//                switch result {
+//                case .success(let data):
+//                    guard let firstWeatherData = data.weather.first else {
+//                        return
+//                    }
+//                    self.main = firstWeatherData.main
+//                    self.icon = firstWeatherData.icon
+//                case .failure(let error):
+//                    self.presentErrorAlert(error)
+//                }
+//            }
+//
+//            return
+//        }
+//
+//        main = diary.main
+//        icon = diary.icon
+    }
+    
+    private func showKeyboard() {
+        if isEditingMemo == false {
+            diaryContentView.textView.becomeFirstResponder()
+        }
+    }
+    
+    private func configureLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+
+extension DiaryContentsViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first?.coordinate else {
+            return
+        }
+        
+        print(location.latitude)
+        print(location.longitude)
+        manager.stopUpdatingLocation()
+        
         guard let diary = diary else {
-            WeatherDataAPIManager(latitude: 37.58677858803961, longitude: 126.99607690004846)?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { result in
+            WeatherDataAPIManager(latitude: location.latitude, longitude: location.longitude)?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { result in
                 switch result {
                 case .success(let data):
                     guard let firstWeatherData = data.weather.first else {
@@ -348,9 +401,11 @@ final class DiaryContentsViewController: UIViewController {
         icon = diary.icon
     }
     
-    private func showKeyboard() {
-        if isEditingMemo == false {
-            diaryContentView.textView.becomeFirstResponder()
-        }
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+       if let error = error as? CLError, error.code == .denied {
+          
+          manager.stopUpdatingLocation()
+          return
+       }
     }
 }
