@@ -9,6 +9,11 @@ import Foundation
 
 protocol DBMangerable {
     func loadData()
+    func saveDiary(model: DiaryContent)
+    func updateData(item: DiaryContent)
+    func deleteDiary(id: UUID)
+    func getData() -> [DiaryContent]
     func count() -> Int
-    func content(index: Int) -> SampleDiaryContent
+    func content(index: Int) -> DiaryContent
+    func fetchDiaryEntity() -> [Diary]
 }

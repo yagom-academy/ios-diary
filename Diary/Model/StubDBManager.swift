@@ -8,8 +8,8 @@
 import Foundation
 
 class StubDBManager: DBMangerable {
-        
-    private var sampleDiaryContent = [SampleDiaryContent]() {
+    
+    private var sampleDiaryContent = [DiaryContent]() {
         didSet {
             NotificationCenter.default.post(name: .diaryModelDataDidChanged,
                                             object: self)
@@ -17,22 +17,27 @@ class StubDBManager: DBMangerable {
     }
     
     func loadData() {
-        guard let data: [SampleDiaryContent]? = JSONDecoder.decodedJson(jsonName: "sample"),
-              let data = data else {
-            return
-        }
+        guard let data: [DiaryContent]? = JSONDecoder.decodedJson(jsonName: "sample"),
+              let data = data else { return }
         self.sampleDiaryContent = data
     }
     
-    func updateData() -> [SampleDiaryContent] {
-        return sampleDiaryContent
+    func getData() -> [DiaryContent] {
+        return self.sampleDiaryContent
     }
     
     func count() -> Int {
         return self.sampleDiaryContent.count
     }
     
-    func content(index: Int) -> SampleDiaryContent {
+    func content(index: Int) -> DiaryContent {
         return self.sampleDiaryContent[index]
+    }
+    
+    func saveDiary(model: DiaryContent) { }
+    func deleteDiary(id: UUID) { }
+    func updateData(item: DiaryContent) { }
+    func fetchDiaryEntity() -> [Diary] {
+        return [Diary]()
     }
 }

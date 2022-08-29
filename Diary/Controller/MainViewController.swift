@@ -28,6 +28,7 @@ final class MainViewController: UIViewController {
         self.configureTableView()
         self.registerDiaryNotification()
         self.diaryManager.loadData()
+
     }
     
     private func setNavigationbar() {

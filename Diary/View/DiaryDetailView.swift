@@ -2,7 +2,7 @@
 //  DiaryDetailView.swift
 //  Diary
 //
-//  Created by Kiwon Song on 2022/08/25.
+//  Created by Kiwi, Brad on 2022/08/25.
 //
 
 import UIKit
@@ -47,7 +47,7 @@ class DiaryDetailView: UIView {
         self.diaryTextViewBottomConstraint.isActive = true
     }
     
-    func configure(with content: SampleDiaryContent) {
+    func configure(with content: DiaryContent) {
         self.diaryTextView.text = content.title + "\n"
         self.diaryTextView.text += content.body
     }

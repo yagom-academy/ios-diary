@@ -2,7 +2,7 @@
 //  DiaryDetailViewController.swift
 //  Diary
 //
-//  Created by Kiwon Song on 2022/08/25.
+//  Created by Kiwi, Brad on 2022/08/25.
 //
 
 import UIKit
@@ -66,7 +66,7 @@ class DiaryDetailViewController: UIViewController {
         self.diaryDetailView.changeTextViewBottomAutoLayout()
     }
     
-    func loadData(data: SampleDiaryContent) {
+    func loadData(data: DiaryContent) {
         self.navigationItem.title = data.createdAt.dateFormatted()
         diaryDetailView.configure(with: data)
     }
