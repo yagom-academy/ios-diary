@@ -11,15 +11,15 @@ final class DiaryCoreDataManager: DiaryManagable {
     // MARK: - properties
     
     var diaryList: [Diary] = []
-    private var persistentContainerManager = PersistentContainerManager.shared
     
+    private let persistentContainerManager: PersistentContainerManager
     
     // MARK: - initializers
     
-    init() {
+    init(with persistentContainerManager: PersistentContainerManager) {
+        self.persistentContainerManager = persistentContainerManager
         NotificationCenter.default.post(name: .didReceiveData,
                                                     object: self)
-        fetch()
     }
 
     // MARK: - functions
@@ -32,19 +32,20 @@ final class DiaryCoreDataManager: DiaryManagable {
         fetchedRequest.sortDescriptors = [sort]
         let diarys = persistentContainerManager.fetch(request: fetchedRequest)
         
-        diarys.forEach { diary in
+        diaryList = diarys.map { diary in
             guard let uuid = diary.uuid,
                   let title = diary.title,
                   let body = diary.body
-            else { return }
-            
-            
-            let newDiary = Diary(uuid: uuid,
-                                 title: title,
-                                 body: body,
-                                 createdAt: diary.createdAt)
-            
-            diaryList.append(newDiary)
+            else {
+                return Diary(uuid: UUID(),
+                             title: "",
+                             body: "",
+                             createdAt: 0.0)
+            }
+            return Diary(uuid: uuid,
+                         title: title,
+                         body: body,
+                         createdAt: diary.createdAt)
         }
     }
     
@@ -55,9 +56,7 @@ final class DiaryCoreDataManager: DiaryManagable {
                                      "uuid": diary.uuid]
         
         persistentContainerManager.create(entityName: String(describing: DiaryEntity.self),
-                                          values: values)
-        self.fetch()
-        
+                                          values: values)        
     }
     
     func update(_ diary: Diary) {
@@ -76,7 +75,6 @@ final class DiaryCoreDataManager: DiaryManagable {
                                      "createdAt": diary.createdAt]
         
         persistentContainerManager.update(object: newDiary, values: values)
-        fetch()
     }
     
     func delete(_ diary: Diary) {
@@ -90,8 +88,11 @@ final class DiaryCoreDataManager: DiaryManagable {
         
         guard let newDiary = diarys.first else { return }
         
+        diaryList = diaryList.filter {
+            diary != $0
+        }
+        
         persistentContainerManager.delete(object: newDiary)
-        fetch()
     }
 }
 

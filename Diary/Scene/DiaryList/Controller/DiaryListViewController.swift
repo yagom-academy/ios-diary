@@ -32,7 +32,7 @@ final class DiaryListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        diaryCoreManager = DiaryCoreDataManager()
+        diaryCoreManager = DiaryCoreDataManager(with: .shared)
     }
     
     // MARK: - functions
@@ -100,18 +100,14 @@ final class DiaryListViewController: UIViewController {
           let deleteActionHandler: UIContextualAction.Handler = { action, view, completion in
 
               completion(true)
-              guard var diaryList = self.diaryCoreManager?.diaryList else { return }
+              guard let diaryList = self.diaryCoreManager?.diaryList else { return }
               self.diaryCoreManager?.delete(diaryList[indexPath.row])
-              diaryList.remove(at: indexPath.row)
-              self.diaryCoreManager?.fetch()
               
               DispatchQueue.main.async {
-                  
-                  
                   self.setupDataSource()
+                  guard let diaryList = self.diaryCoreManager?.diaryList else { return }
                   self.setupSnapshot(with: diaryList)
               }
-              
           }
             
             let deleteAction = UIContextualAction(style: .normal,
@@ -180,6 +176,7 @@ final class DiaryListViewController: UIViewController {
     @objc private func onDidReceiveData(_ notification: Notification) {
         DispatchQueue.main.async { [weak self] in
             self?.setupDataSource()
+            self?.diaryCoreManager?.fetch()
             self?.setupSnapshot(with: self?.diaryCoreManager?.diaryList ?? [])
         }
     }

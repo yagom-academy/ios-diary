@@ -12,7 +12,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private let textView = DiaryDetailTextView()
     private lazy var keyboardManager = KeyboardManager(textView)
-    private let diaryCoreManager = DiaryCoreDataManager()
+    private let diaryCoreManager = DiaryCoreDataManager(with: .shared)
     private var diary: Diary?
     
     // MARK: - life cycles
