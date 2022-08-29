@@ -30,6 +30,8 @@ final class DiaryListViewController: UIViewController {
         return isActive && isSearchBarHasText
     }
     
+    private var iconImages: [UIImage] = []
+    
     // MARK: - Life Cycle
     
     override func loadView() {
@@ -145,6 +147,10 @@ final class DiaryListViewController: UIViewController {
                 cell.titleLabel.text = item.title
                 cell.dateLabel.text = item.createdAt.localizedString
                 cell.bodyLabel.text = item.body
+                if self.iconImages.count > indexPath.row {
+                    cell.weatherIconImageView.image = self.iconImages[indexPath.row]
+                }
+                
                 cell.accessoryType = .disclosureIndicator
                 
                 return cell
@@ -160,6 +166,21 @@ final class DiaryListViewController: UIViewController {
             
             guard let diaries = fetchResultsController?.fetchedObjects else {
                 return
+            }
+            
+            diaries.forEach {
+                guard let weatherImageAPIManager = WeatherImageAPIManager(icon: $0.icon) else {
+                    return
+                }
+                
+                weatherImageAPIManager.requestImage(id: $0.id) { result in
+                    switch result {
+                    case .success(let image):
+                        self.iconImages.append(image)
+                    case .failure(let error):
+                        self.presentErrorAlert(error)
+                    }
+                }
             }
             
             snapshot.appendSections([.main])
@@ -260,14 +281,23 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
         
         switch type {
         case .insert:
-            guard snapshot.numberOfItems != .zero,
-                  let newIndexPath = newIndexPath,
-                  let lastDiary = dataSource?.itemIdentifier(for: newIndexPath) else {
-                snapshot.appendItems([diary])
-                return
+            WeatherImageAPIManager(icon: diary.icon)?.requestImage(id: diary.id) { result in
+                switch result {
+                case .success(let image):
+                    self.iconImages.append(image)
+                case .failure(let error):
+                    self.presentErrorAlert(error)
+                }
+                
+                guard self.snapshot.numberOfItems != .zero,
+                      let newIndexPath = newIndexPath,
+                      let lastDiary = self.dataSource?.itemIdentifier(for: newIndexPath) else {
+                    self.snapshot.appendItems([diary])
+                    return
+                }
+                
+                self.snapshot.insertItems([diary], beforeItem: lastDiary)
             }
-            
-            snapshot.insertItems([diary], beforeItem: lastDiary)
         case .delete:
             snapshot.deleteItems([diary])
         case .update:
