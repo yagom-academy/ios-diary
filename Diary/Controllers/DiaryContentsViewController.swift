@@ -14,6 +14,9 @@ final class DiaryContentsViewController: UIViewController {
     private let diaryContentView = DiaryContentView()
     private var creationDate: Date?
     private var id: UUID?
+    private var main: String?
+    private var icon: String?
+    
     var diary: Diary?
     var isEditingMemo: Bool = false
     var isDeleted: Bool = false
@@ -33,6 +36,7 @@ final class DiaryContentsViewController: UIViewController {
         configureNotificationCenter()
         configureCreationDate()
         configureID()
+        configureMainAndIcon()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -237,7 +241,9 @@ final class DiaryContentsViewController: UIViewController {
     private func renewCoreData() {
         guard let (title, body) = extractTitleAndBody(),
               let creationDate = creationDate,
-              let id = id else {
+              let id = id,
+              let main = main,
+              let icon = icon else {
             return
         }
         
@@ -246,7 +252,9 @@ final class DiaryContentsViewController: UIViewController {
                 title,
                 body,
                 creationDate,
-                id
+                id,
+                main,
+                icon
             )
         } catch {
             presentErrorAlert(error)
@@ -278,7 +286,7 @@ final class DiaryContentsViewController: UIViewController {
         return (title, body)
     }
     
-    private func determineDataProcessingWith(_ title: String, _ body: String, _ creationDate: Date, _ id: UUID) throws {
+    private func determineDataProcessingWith(_ title: String, _ body: String, _ creationDate: Date, _ id: UUID, _ main: String, _ icon: String) throws {
         let fetchSuccess = try? CoreDataManager.shared.fetchDiary(using: id)
         
         switch (fetchSuccess, isDeleted) {
@@ -287,7 +295,9 @@ final class DiaryContentsViewController: UIViewController {
                 title: title,
                 body: body,
                 createdAt: creationDate,
-                id: id
+                id: id,
+                main: main,
+                icon: icon
             )
         case (_, false):
             try CoreDataManager.shared.update(
@@ -318,6 +328,29 @@ final class DiaryContentsViewController: UIViewController {
             return
         }
         id = diary.id
+    }
+    
+    private func configureMainAndIcon() {
+        
+        guard let diary = diary else {
+            WeatherDataAPIManager(latitude: 37.58677858803961, longitude: 126.99607690004846)?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { result in
+                switch result {
+                case .success(let data):
+                    guard let firstWeatherData = data.weather.first else {
+                        return
+                    }
+                    self.main = firstWeatherData.main
+                    self.icon = firstWeatherData.icon
+                case .failure(let error):
+                    self.presentErrorAlert(error)
+                }
+            }
+            
+            return
+        }
+        
+        main = diary.main
+        icon = diary.icon
     }
     
     private func showKeyboard() {

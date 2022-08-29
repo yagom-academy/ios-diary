@@ -39,7 +39,7 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configureNavigationItems()
         registerTableView()
         configureFetchResultsController(from: fetchAllDiaryRequest())
@@ -143,7 +143,7 @@ final class DiaryListViewController: UIViewController {
                 }
                 
                 cell.titleLabel.text = item.title
-                cell.dateLabel.text = item.createdAt?.localizedString
+                cell.dateLabel.text = item.createdAt.localizedString
                 cell.bodyLabel.text = item.body
                 cell.accessoryType = .disclosureIndicator
                 
@@ -201,10 +201,7 @@ extension DiaryListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         
-        guard let diary = self.dataSource?.itemIdentifier(for: indexPath),
-              let title = diary.title,
-              let body = diary.body,
-              let id = diary.id else {
+        guard let diary = self.dataSource?.itemIdentifier(for: indexPath) else {
             return nil
         }
         
@@ -212,14 +209,14 @@ extension DiaryListViewController: UITableViewDelegate {
             style: .destructive,
             title: ActionSheet.deleteActionTitle
         ) { [weak self] action, view, completion in
-            self?.deleteDiary(using: id)
+            self?.deleteDiary(using: diary.id)
         }
         
         let shareAction = UIContextualAction(
             style: .normal,
             title: ActionSheet.shareActionTitle
         ) { [weak self] action, view, completion in
-            self?.shareDiary(title, body)
+            self?.shareDiary(diary.title, diary.body)
             completion(true)
         }
         
