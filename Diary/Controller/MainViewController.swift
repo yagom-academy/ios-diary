@@ -102,8 +102,19 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         
         let deleteAction = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             success(true)
+            let alert = UIAlertController(title: "진짜요?",
+                                          message: "정말로 삭제하시겠어요?",
+                                          preferredStyle: .alert)
             
-            self.diaryManager.deleteDiary(id: self.diaryManager.fetchDiaryEntity()[indexPath.row].id)
+            alert.addAction(UIAlertAction(title: "취소", style: .default, handler: { _ in
+                
+            }))
+            alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
+                
+                self.diaryManager.deleteDiary(id: self.diaryManager.fetchDiaryEntity()[indexPath.row].id)
+            }))
+            
+            self.present(alert, animated: true)
         }
         
         deleteAction.backgroundColor = .systemRed
