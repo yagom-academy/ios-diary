@@ -6,20 +6,9 @@
 //
 
 import UIKit
-import CoreData
 
 final class DiaryCoreDataManager: DiaryManagable {
     // MARK: - properties
-    
-    private let persistentContainer: NSPersistentContainer = {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate
-        else { return NSPersistentContainer() }
-        let container = appDelegate.persistentContainer
-        
-        return container
-    }()
-    
-    lazy var context = persistentContainer.viewContext
     
     var diaryList: [Diary] = []
     private var persistentContainerManager = PersistentContainerManager.shared
