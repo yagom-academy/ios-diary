@@ -38,7 +38,6 @@ final class DiaryContentsViewController: UIViewController {
         configureNotificationCenter()
         configureCreationDate()
         configureID()
-        configureMainAndIcon()
         configureLocationManager()
         
         locationManager.requestLocation()
@@ -330,31 +329,6 @@ final class DiaryContentsViewController: UIViewController {
         id = diary.id
     }
     
-    private func configureMainAndIcon() {
-        
-//        guard let diary = diary else {
-//            locationManager.requestLocation()
-//
-//            WeatherDataAPIManager(latitude: 37.58677858803961, longitude: 126.99607690004846)?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { result in
-//                switch result {
-//                case .success(let data):
-//                    guard let firstWeatherData = data.weather.first else {
-//                        return
-//                    }
-//                    self.main = firstWeatherData.main
-//                    self.icon = firstWeatherData.icon
-//                case .failure(let error):
-//                    self.presentErrorAlert(error)
-//                }
-//            }
-//
-//            return
-//        }
-//
-//        main = diary.main
-//        icon = diary.icon
-    }
-    
     private func showKeyboard() {
         if isEditingMemo == false {
             diaryContentView.textView.becomeFirstResponder()
@@ -374,11 +348,7 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
         guard let location = locations.first?.coordinate else {
             return
         }
-        
-        print(location.latitude)
-        print(location.longitude)
-        
-        
+
         guard let diary = diary else {
             WeatherDataAPIManager(latitude: location.latitude, longitude: location.longitude)?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { result in
                 switch result {
