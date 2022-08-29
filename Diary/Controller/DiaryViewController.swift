@@ -85,10 +85,9 @@ extension DiaryViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         let diaryText = textView.text.components(separatedBy: "\n")
         let title = diaryText.first
-        let body = diaryText[diaryText.startIndex..<diaryText.endIndex].joined(separator: "")
+        let body = diaryText[diaryText.startIndex + 1..<diaryText.endIndex].joined(separator: "")
         
         self.itemTitle = title
         self.itemBody = body
-        print(itemTitle, itemBody)
     }
 }

@@ -27,10 +27,6 @@ final class MainViewController: UIViewController {
         self.setNavigationbar()
         self.configureTableView()
         self.registerDiaryNotification()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
         self.diaryManager.loadData()
     }
     
@@ -90,4 +86,13 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         diaryDetailViewController.loadData(data: diaryManager.content(index: indexPath.row))
     }
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+         let deleteAction = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+             success(true)
+             self.diaryManager.deleteDiary(id: self.diaryManager.fetchDiaryEntity()[indexPath.row].id)
+         }
+        
+         deleteAction.backgroundColor = .systemRed
+         return UISwipeActionsConfiguration(actions: [deleteAction])
+     }
 }

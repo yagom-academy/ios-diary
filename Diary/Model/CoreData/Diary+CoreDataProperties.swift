@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension Diary {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Diary> {
@@ -22,6 +21,6 @@ extension Diary {
     @NSManaged public var id: UUID?
 }
 
-extension Diary : Identifiable {
+extension Diary: Identifiable {
 
 }

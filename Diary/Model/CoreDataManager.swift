@@ -34,6 +34,7 @@ final class CoreDataManager {
             
             do {
                 try context.save()
+                self.diary = fetchDiaryEntity()
             } catch {
                 print(error.localizedDescription)
             }
@@ -71,6 +72,7 @@ final class CoreDataManager {
             do {
                 guard let diaryDelete = try context.fetch(request).first as? NSManagedObject else { return }
                 context.delete(diaryDelete)
+                self.diary = fetchDiaryEntity()
             } catch {
                 print(error.localizedDescription)
             }
@@ -92,6 +94,7 @@ final class CoreDataManager {
                     fetchedDiary.setValue(item.id, forKey: "id")
                     
                     try context.save()
+                    self.diary = fetchDiaryEntity()
                 }
             } catch {
                 print(error.localizedDescription)
