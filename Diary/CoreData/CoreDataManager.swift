@@ -10,14 +10,21 @@ import CoreData
 final class CoreDataManager {
     var fetchedDiaries: [Diary] = []
     static let shared = CoreDataManager()
-    private let appDelegate = UIApplication.shared.delegate as! AppDelegate
-    private lazy var context = appDelegate.persistentContainer.viewContext
-    
+    private lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "Diary")
+        container.loadPersistentStores(completionHandler: { (_, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
+    private lazy var context = persistentContainer.viewContext
     private init() {
         fetch()
     }
     
-    func createDiary(with model: DiaryModel) {
+    func create(with model: DiaryModel) {
         let newItem = Diary(context: context)
         newItem.setValue(model.title, forKey: CoreDataKeys.title)
         newItem.setValue(model.body, forKey: CoreDataKeys.body)
@@ -40,14 +47,11 @@ final class CoreDataManager {
         }
     }
     
-    func update(diary: DiaryModel, with indexPath: IndexPath) {
-        guard let maxIndex = fetchedDiaries.indices.last else { return }
-        guard maxIndex >= indexPath.row else { return }
-        guard fetchedDiaries[indexPath.row].title != diary.title || fetchedDiaries[indexPath.row].body != diary.body else { return }
-        
-        fetchedDiaries[indexPath.row].title = diary.title
-        fetchedDiaries[indexPath.row].body = diary.body
-        fetchedDiaries[indexPath.row].createdAt = diary.createdAt
+    func update(diary: Diary, with diaryModel: DiaryModel) {
+        guard diary.title != diaryModel.title || diary.body != diaryModel.body else { return }
+        diary.title = diaryModel.title
+        diary.body = diaryModel.body
+        diary.createdAt = diaryModel.createdAt
         
         do {
             try context.save()
