@@ -8,7 +8,19 @@
 import Foundation
 
 final class DiaryContentViewModel: DiaryViewModelLogic {
+    private var dataManager: DataManageLogic?
+    private var apiManager: APIManager?
+    private var weather: Weather? {
+        didSet {
+            self.requestUIImage?(weather!.icon)
+        }
+    }
+    
     var createdAt: Date?
+    
+    var reloadTableViewClosure: (()->())?
+    var showAlertClosure: (()->())?
+    var requestUIImage: ((String) -> ())?
     
     var diaryContents: [DiaryContent]? {
         didSet{
@@ -21,10 +33,6 @@ final class DiaryContentViewModel: DiaryViewModelLogic {
             self.showAlertClosure?()
         }
     }
-    
-    var reloadTableViewClosure: (()->())?
-    var showAlertClosure: (()->())?
-    private var dataManager: DataManageLogic?
     
     init() {
         dataManager = CoreDataManager()
@@ -50,6 +58,21 @@ final class DiaryContentViewModel: DiaryViewModelLogic {
         } catch {
             self.alertMessage = CoreDataError.noneEntity.message
         }
+    }
+    
+    func fetchWeatherData() {
+        apiManager?.requestAndDecode(dataType: CurrentWeather.self, completion: { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.weather = data.weather.first
+            case .failure(let error):
+                self?.alertMessage = error.description
+            }
+        })
+    }
+    
+    func requestLocation(_ latitude: Double, with longitude: Double) {
+        apiManager = APIManager(url: API.baseURL, latitude: latitude, longitude: longitude)
     }
     
     func update(_ text: String) {

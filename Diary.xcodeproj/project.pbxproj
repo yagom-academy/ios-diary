@@ -33,6 +33,8 @@
 		90DABB8228AE687A0068BEC4 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 90DABB8128AE687A0068BEC4 /* .swiftlint.yml */; };
 		90DED76A28BC89D3000BE228 /* SpyDiaryContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DED76928BC89D3000BE228 /* SpyDiaryContentViewModel.swift */; };
 		90DED77428BCD092000BE228 /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DED77328BCD092000BE228 /* APIManager.swift */; };
+		90DED77628BCE7B5000BE228 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DED77528BCE7B5000BE228 /* API.swift */; };
+		90DED77828BCEB4B000BE228 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DED77728BCEB4B000BE228 /* UIImage+Extensions.swift */; };
 		90FD09D728BA2A420047BF5D /* DiaryContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FD09D628BA2A420047BF5D /* DiaryContentViewModel.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
@@ -89,6 +91,8 @@
 		90DABB8128AE687A0068BEC4 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		90DED76928BC89D3000BE228 /* SpyDiaryContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpyDiaryContentViewModel.swift; sourceTree = "<group>"; };
 		90DED77328BCD092000BE228 /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		90DED77528BCE7B5000BE228 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
+		90DED77728BCEB4B000BE228 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		90FD09D628BA2A420047BF5D /* DiaryContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentViewModel.swift; sourceTree = "<group>"; };
 		97E7FD1D1B68C98A824C2F08 /* Pods-DiaryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiaryTests.release.xcconfig"; path = "Target Support Files/Pods-DiaryTests/Pods-DiaryTests.release.xcconfig"; sourceTree = "<group>"; };
 		9B9D176F3FEC7D5119882DBB /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
@@ -212,6 +216,7 @@
 			children = (
 				90A5AEAF28ACD8C90072C1EE /* Date+Extensions.swift */,
 				90A5AEA928ACCCE20072C1EE /* UITextView+Extensions.swift */,
+				90DED77728BCEB4B000BE228 /* UIImage+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -276,6 +281,7 @@
 				7256A8AB28BCE69B0040A8D0 /* GETProtocol.swift */,
 				7256A8AD28BCE6C70040A8D0 /* APIError.swift */,
 				7256A8AF28BCE6DD0040A8D0 /* APIConfiguration.swift */,
+				90DED77528BCE7B5000BE228 /* API.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -546,12 +552,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				90DED77828BCEB4B000BE228 /* UIImage+Extensions.swift in Sources */,
 				90A5AEA628ACB7810072C1EE /* DiaryContentViewController.swift in Sources */,
 				90A5AEAA28ACCCE20072C1EE /* UITextView+Extensions.swift in Sources */,
 				90FD09D728BA2A420047BF5D /* DiaryContentViewModel.swift in Sources */,
 				72B5F55C28BA50ED00DED8AE /* DiaryViewModelLogic.swift in Sources */,
 				7256A8A828BCD2E00040A8D0 /* CurrentWeather.swift in Sources */,
 				90DED77428BCD092000BE228 /* APIManager.swift in Sources */,
+				90DED77628BCE7B5000BE228 /* API.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				729D0ACD28B34C85001EA58E /* CoreDataManager.swift in Sources */,
 				729B2EB628B7728000315B22 /* DiaryEntity+CoreDataClass.swift in Sources */,

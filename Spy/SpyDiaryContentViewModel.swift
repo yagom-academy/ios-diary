@@ -13,7 +13,8 @@ final class SpyDiaryContentViewModel: DiaryViewModelLogic {
     var alertMessage: String?
     var reloadTableViewClosure: (() -> ())?
     var showAlertClosure: (() -> ())?
-
+    var requestUIImage: ((String) -> ())?
+    
     var saveCalled: Int = 0
     var fetchCalled: Int = 0
     var updateCalled: Int = 0
@@ -37,6 +38,14 @@ final class SpyDiaryContentViewModel: DiaryViewModelLogic {
     func remove() {
         removeCalled += 1
         diaryContents?.removeLast()
+    }
+    
+    func fetchWeatherData() {
+        
+    }
+    
+    func requestLocation(_ latitude: Double, with longitude: Double) {
+        
     }
     
     private func convertToDiaryContent(_ text: String, _ date: Date) -> DiaryContent {

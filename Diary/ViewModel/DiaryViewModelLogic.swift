@@ -12,10 +12,13 @@ protocol DiaryViewModelLogic {
     func fetch()
     func update(_ text: String)
     func remove()
+    func fetchWeatherData()
+    func requestLocation(_ latitude: Double, with longitude: Double)
     
     var diaryContents: [DiaryContent]? { get set }
     var createdAt: Date? { get set }
     var alertMessage: String? { get set }
     var reloadTableViewClosure: (()->())? { get set }
     var showAlertClosure: (()->())? { get set }
+    var requestUIImage: ((String) -> ())? { get set }
 }
