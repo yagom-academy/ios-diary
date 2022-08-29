@@ -2,7 +2,7 @@
 //  Date + Extension.swift
 //  Diary
 //
-//  Created by Kiwon Song on 2022/08/22.
+//  Created by Kiwi, Brad. on 2022/08/22.
 //
 
 import Foundation
