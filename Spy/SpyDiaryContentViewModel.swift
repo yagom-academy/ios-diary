@@ -9,21 +9,14 @@ import Foundation
 
 final class SpyDiaryContentViewModel: DiaryViewModelLogic {
     var createdAt: Date?
-    
     var diaryContents: [DiaryContent]?
-    
     var alertMessage: String?
-    
     var reloadTableViewClosure: (() -> ())?
-    
     var showAlertClosure: (() -> ())?
-            
+
     var saveCalled: Int = 0
-    
     var fetchCalled: Int = 0
-    
     var updateCalled: Int = 0
-    
     var removeCalled: Int = 0
     
     func save(_ text: String, _ date: Date) {
