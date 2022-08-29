@@ -14,6 +14,8 @@ enum DiaryCoreData {
         static let body = "body"
         static let createdAt = "createdAt"
         static let id = "id"
+        static let main = "main"
+        static let icon = "icon"
     }
     
     enum Predicate {
