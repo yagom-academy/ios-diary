@@ -15,7 +15,7 @@ final class DiaryPostViewController: UIViewController {
         return textView
     }()
     
-    var diaryViewModel: DiaryContentViewModel?
+    var diaryViewModel: DiaryViewModelLogic?
     
     override func viewDidLoad() {
         super.viewDidLoad()

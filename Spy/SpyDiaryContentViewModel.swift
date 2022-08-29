@@ -8,8 +8,16 @@
 import Foundation
 
 final class SpyDiaryContentViewModel: DiaryViewModelLogic {
-    var spyDiaryContents = [DiaryContent]()
+    var createdAt: Date?
     
+    var diaryContents: [DiaryContent]?
+    
+    var alertMessage: String?
+    
+    var reloadTableViewClosure: (() -> ())?
+    
+    var showAlertClosure: (() -> ())?
+            
     var saveCalled: Int = 0
     
     var fetchCalled: Int = 0
@@ -18,12 +26,10 @@ final class SpyDiaryContentViewModel: DiaryViewModelLogic {
     
     var removeCalled: Int = 0
     
-    var createdAt = Date()
-    
     func save(_ text: String, _ date: Date) {
         saveCalled += 1
         
-        spyDiaryContents.append(convertToDiaryContent(text, date))
+        diaryContents?.append(convertToDiaryContent(text, date))
     }
     
     func fetch() {
@@ -32,12 +38,12 @@ final class SpyDiaryContentViewModel: DiaryViewModelLogic {
     
     func update(_ text: String) {
         updateCalled += 1
-        spyDiaryContents.append(convertToDiaryContent(text, createdAt))
+        diaryContents?.append(convertToDiaryContent(text, createdAt!))
     }
     
     func remove() {
         removeCalled += 1
-        spyDiaryContents.removeLast()
+        diaryContents?.removeLast()
     }
     
     private func convertToDiaryContent(_ text: String, _ date: Date) -> DiaryContent {
