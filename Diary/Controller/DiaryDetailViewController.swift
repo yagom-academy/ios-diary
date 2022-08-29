@@ -42,9 +42,57 @@ class DiaryDetailViewController: UIViewController {
     private func setNavigationbar() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(didTapRightBarButton))
     }
-    
-    @objc func didTapRightBarButton() {
+
+    @objc private func didTapRightBarButton() {
+        guard let index = self.index else {
+            return
+        }
+
+        let sheet = UIAlertController(title: .none,
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
         
+        self.cancelAlertAction(sheet)
+        self.sharedAlertAction(sheet)
+        self.deleteAlertAction(sheet, index)
+        present(sheet, animated: true)
+    }
+    
+    private func cancelAlertAction(_ sheet: UIAlertController) {
+        sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+    }
+    
+    private func sharedAlertAction(_ sheet: UIAlertController) {
+        sheet.addAction(UIAlertAction(title: "Shared..", style: .default, handler: { _ in
+            let shareObject = [UIActivity.ActivityType.airDrop,
+                               UIActivity.ActivityType.message,
+                               UIActivity.ActivityType.mail,
+                               UIActivity.ActivityType.addToReadingList]
+            
+            let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            
+            self.present(activityViewController, animated: true, completion: nil)
+        }))
+    }
+    
+    private func deleteAlertAction(_ sheet: UIAlertController, _ index: Int) {
+        sheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+            let alert = UIAlertController(title: "진짜요?",
+                                          message: "정말로 삭제하시겠어요?",
+                                          preferredStyle: .alert)
+            
+            alert.addAction(UIAlertAction(title: "취소", style: .default, handler: { _ in
+                
+            }))
+            alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
+                
+                self.coreDataManager.deleteDiary(id: self.coreDataManager.fetchDiaryEntity()[index].id)
+                self.navigationController?.popViewController(animated: true)
+            }))
+            
+            self.present(alert, animated: true)
+        }))
     }
     
     private func registerForKeyboardNotification() {
