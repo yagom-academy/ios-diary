@@ -5,6 +5,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryListViewController: UIViewController {
     // MARK: - properties
@@ -20,7 +21,7 @@ final class DiaryListViewController: UIViewController {
     private var diaryCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
     private var diaryCoreManager: DiaryCoreDataManager?
-    
+    let locationManager = CLLocationManager()
     // MARK: - life cycles
     
     override func viewDidLoad() {
@@ -28,6 +29,13 @@ final class DiaryListViewController: UIViewController {
         setupView()
         setupDataSource()
         addObserver()
+        
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -210,6 +218,16 @@ extension DiaryListViewController: UICollectionViewDelegate {
         diaryDetailViewController.setupData(diaryCoreData.diaryList[indexPath.row])
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+}
+
+extension DiaryListViewController: CLLocationManagerDelegate {
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print(manager.location)
     }
 }
 

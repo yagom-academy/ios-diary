@@ -26,6 +26,14 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+
+        return imageView
+    }()
+    
     private let previewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -61,6 +69,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
+        setupWeatherImageView()
     }
     
     required init?(coder: NSCoder) {
@@ -76,17 +85,30 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     
     func setupCellProperties(with model: Diary) {
         titleLabel.text = model.title
+        dateLabel.text = model.createdAt.convert1970DateToString()
         guard let body = model.body.split(separator: "\n").first else { return }
         previewLabel.text = String(body)
-        dateLabel.text = model.createdAt.convert1970DateToString()
+        
     }
     
     private func setupSubviews() {
-        [dateLabel, previewLabel]
+        [dateLabel, weatherImageView, previewLabel]
             .forEach { subtitleStackView.addArrangedSubview($0) }
         
         [titleLabel, subtitleStackView, accessoryButton]
             .forEach { self.addSubview($0) }
+    }
+    
+    func setupWeatherImageView() {
+        guard let url = URL(string: "https://openweathermap.org/img/wn/10d@2x.png") else { return }
+        guard let data = try? Data(contentsOf: url) else { return }
+        
+        weatherImageView.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor).isActive = true
+        dateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        weatherImageView.widthAnchor.constraint(equalTo: subtitleStackView.widthAnchor, multiplier: 0.1).isActive = true
+        weatherImageView.image = UIImage(data: data)
+        
     }
     
     private func setupConstraints() {
