@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		202516FD28BCEE750047796C /* GPSError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202516FC28BCEE750047796C /* GPSError.swift */; };
 		202E4EBB28B5E40800AE316D /* DiaryCoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202E4EBA28B5E40800AE316D /* DiaryCoreData.swift */; };
 		202E4EBD28B5E75B00AE316D /* ActionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202E4EBC28B5E75B00AE316D /* ActionSheet.swift */; };
 		202E4EBF28B5EA9000AE316D /* NewLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 202E4EBE28B5EA9000AE316D /* NewLine.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		202516FC28BCEE750047796C /* GPSError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPSError.swift; sourceTree = "<group>"; };
 		202E4EBA28B5E40800AE316D /* DiaryCoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCoreData.swift; sourceTree = "<group>"; };
 		202E4EBC28B5E75B00AE316D /* ActionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheet.swift; sourceTree = "<group>"; };
 		202E4EBE28B5EA9000AE316D /* NewLine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewLine.swift; sourceTree = "<group>"; };
@@ -184,6 +186,7 @@
 			isa = PBXGroup;
 			children = (
 				B4CE5B0728BCAA4E00E3A1D1 /* APIError.swift */,
+				202516FC28BCEE750047796C /* GPSError.swift */,
 				20534C2B28B4BAA100C5C66C /* FetchingError.swift */,
 				B47277D028AE10DC000075CC /* ParsingError.swift */,
 			);
@@ -348,6 +351,7 @@
 				20DF026D28ABA01A005AA6FA /* DiaryListView.swift in Sources */,
 				B45EAB7628B9E6240066F2E8 /* WeatherImageAPIManager.swift in Sources */,
 				B4CE5B0E28BCAABB00E3A1D1 /* URLComponentsBuilder.swift in Sources */,
+				202516FD28BCEE750047796C /* GPSError.swift in Sources */,
 				B4CE5B1828BCABD500E3A1D1 /* GETProtocol.swift in Sources */,
 				20DF026B28AB9F63005AA6FA /* DiaryContentsViewController.swift in Sources */,
 				209A338E28AE35AD007C7BB3 /* Alert.swift in Sources */,
