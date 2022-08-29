@@ -9,7 +9,7 @@ import UIKit
 
 final class MainViewController: UIViewController {
     
-    let diaryManager = DiaryManager(dbManager: StubDBManager())
+    let diaryManager = DiaryManager()
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
@@ -27,8 +27,11 @@ final class MainViewController: UIViewController {
         self.setNavigationbar()
         self.configureTableView()
         self.registerDiaryNotification()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         self.diaryManager.loadData()
-
     }
     
     private func setNavigationbar() {

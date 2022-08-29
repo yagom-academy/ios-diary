@@ -10,6 +10,9 @@ import UIKit
 final class DiaryViewController: UIViewController {
     
     private let diaryView = DiaryView()
+    private let coreDataManager = CoreDataManager.shared
+    private var itemTitle: String?
+    private var itemBody: String?
     
     override func loadView() {
         self.view = diaryView
@@ -19,6 +22,7 @@ final class DiaryViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.setupNavigationbar()
+        self.diaryView.diaryTextView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -70,5 +74,21 @@ final class DiaryViewController: UIViewController {
     
     @objc private func keyBoardDownAction(_ sender: Notification) {
         self.diaryView.changeTextViewBottomAutoLayout()
+        coreDataManager.saveDiary(model: DiaryContent(title: itemTitle ?? "",
+                                                    body: itemBody ?? "",
+                                                    createdAt: Date().timeIntervalSince1970))
+    }
+}
+
+extension DiaryViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let diaryText = textView.text.components(separatedBy: "\n")
+        let title = diaryText.first
+        let body = diaryText[diaryText.startIndex..<diaryText.endIndex].joined(separator: "")
+        
+        self.itemTitle = title
+        self.itemBody = body
+        print(itemTitle, itemBody)
     }
 }

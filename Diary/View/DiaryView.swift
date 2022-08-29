@@ -12,7 +12,7 @@ final class DiaryView: UIView {
         equalTo: safeAreaLayoutGuide.bottomAnchor
     )
     
-    private let diaryTextView: UITextView = {
+    let diaryTextView: UITextView = {
         let textView = UITextView()
         
         return textView
