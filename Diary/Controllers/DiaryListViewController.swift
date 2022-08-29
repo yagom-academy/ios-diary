@@ -29,7 +29,6 @@ final class DiaryListViewController: UIViewController {
         
         return isActive && isSearchBarHasText
     }
-    
     private var iconImages: [UIImage] = []
     
     // MARK: - Life Cycle
@@ -285,19 +284,22 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
                 switch result {
                 case .success(let image):
                     self.iconImages.append(image)
+                    DispatchQueue.main.async {
+                        self.diaryView.tableView.reloadData()
+                    }
                 case .failure(let error):
                     self.presentErrorAlert(error)
                 }
-                
-                guard self.snapshot.numberOfItems != .zero,
-                      let newIndexPath = newIndexPath,
-                      let lastDiary = self.dataSource?.itemIdentifier(for: newIndexPath) else {
-                    self.snapshot.appendItems([diary])
-                    return
-                }
-                
-                self.snapshot.insertItems([diary], beforeItem: lastDiary)
             }
+            
+            guard self.snapshot.numberOfItems != .zero,
+                  let newIndexPath = newIndexPath,
+                  let lastDiary = self.dataSource?.itemIdentifier(for: newIndexPath) else {
+                self.snapshot.appendItems([diary])
+                return
+            }
+            
+            self.snapshot.insertItems([diary], beforeItem: lastDiary)
         case .delete:
             snapshot.deleteItems([diary])
         case .update:

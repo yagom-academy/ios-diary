@@ -262,28 +262,23 @@ final class DiaryContentsViewController: UIViewController {
     }
     
     private func extractTitleAndBody() -> (String, String)? {
-        guard let diaryConentViewText = diaryContentView.textView.text,
-              diaryConentViewText.contains(NewLine.lineFeed) else {
-            return (diaryContentView.textView.text, DiaryCoreData.emptyBody)
-        }
-        
-        guard diaryContentView.textView.text.isEmpty == false,
-            let lineBreakIndex = diaryConentViewText.firstIndex(of: NewLine.lineFeed)else {
+        guard let diaryConentViewText = diaryContentView.textView.text else {
             return nil
         }
         
-        let firstLineBreakIndex = lineBreakIndex.utf16Offset(in: diaryConentViewText)
+        let splitedText = diaryConentViewText.split(separator: NewLine.lineFeed)
         
-        let titleRange = NSMakeRange(.zero, firstLineBreakIndex)
-        let title = (diaryConentViewText as NSString).substring(with: titleRange)
+        guard let title = splitedText.first else {
+            return nil
+        }
         
-        let bodyRange = NSMakeRange(
-            firstLineBreakIndex + 1,
-            diaryConentViewText.count - title.count - 1
-        )
-        let body = (diaryConentViewText as NSString).substring(with: bodyRange)
-        
-        return (title, body)
+        guard splitedText.count > 1 else {
+            return (String(title), DiaryCoreData.emptyBody)
+        }
+
+        let body = diaryConentViewText[splitedText[1].startIndex...]
+
+        return (String(title), String(body))
     }
     
     private func determineDataProcessingWith(_ title: String, _ body: String, _ creationDate: Date, _ id: UUID, _ main: String, _ icon: String) throws {
