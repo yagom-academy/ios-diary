@@ -10,7 +10,12 @@ import UIKit
 final class DiaryCoreDataManager: DiaryManagable {
     // MARK: - properties
     
-    var diaryList: [Diary] = []
+    var diaryList: [Diary] = [] {
+        didSet {
+            NotificationCenter.default.post(name: .didReceiveData,
+                                                        object: self)
+        }
+    }
     
     private let persistentContainerManager: PersistentContainerManager
     
@@ -18,8 +23,6 @@ final class DiaryCoreDataManager: DiaryManagable {
     
     init(with persistentContainerManager: PersistentContainerManager) {
         self.persistentContainerManager = persistentContainerManager
-        NotificationCenter.default.post(name: .didReceiveData,
-                                                    object: self)
     }
 
     // MARK: - functions
