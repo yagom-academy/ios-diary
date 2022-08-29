@@ -40,7 +40,9 @@ final class DiaryContentsViewController: UIViewController {
         configureID()
         configureLocationManager()
         
-        locationManager.requestLocation()
+        if locationManager.authorizationStatus == .authorizedWhenInUse {
+            locationManager.requestLocation()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -344,6 +346,10 @@ final class DiaryContentsViewController: UIViewController {
 // MARK: - CLLocationManagerDelegate
 
 extension DiaryContentsViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        locationManager.requestLocation()
+    }
+    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.first?.coordinate else {
             return
@@ -371,9 +377,10 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-       if let error = error as? CLError, error.code == .denied {
-          
-          return
-       }
+        if let error = error as? CLError, error.code == .denied {
+            
+            presentErrorAlert(GPSError.noAuthorization)
+            return
+        }
     }
 }
