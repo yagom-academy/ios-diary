@@ -84,6 +84,26 @@ final class DiaryView: UIView {
             diaryTextView.topAnchor.constraint(equalTo: self.topAnchor)
         ])
     }
+    
+    private func setAttributedString(with diaryTitle: String, and diaryBody: String) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: diaryTitle + NameSpace.twiceLineChange,
+                                                         attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
+        attributedString.append(NSMutableAttributedString(string: diaryBody,
+                                                          attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
+        return attributedString
+    }
+
+    func setupData(with model: Diary?) {
+        guard let diaryTitle = model?.title,
+              let diaryBody = model?.body else { return }
+        if diaryBody != NameSpace.whiteSpace {
+            let attributedString = setAttributedString(with: diaryTitle, and: diaryBody)
+            diaryTextView.attributedText = attributedString
+        } else {
+            diaryTextView.textColor = nil
+            diaryTextView.text = diaryTitle
+        }
+    }
 }
 
 // MARK: - UITextViewDelegate

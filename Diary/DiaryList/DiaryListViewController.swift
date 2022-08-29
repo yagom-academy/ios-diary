@@ -72,18 +72,7 @@ extension DiaryListViewController: UITableViewDelegate {
 
 // MARK: - UITableViewDelegate Support Methods
 
-extension DiaryListViewController {
-    
-    private func setAttributedString(indexPath: IndexPath) -> NSMutableAttributedString {
-        guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath.row].title,
-              let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath.row].body else { return NSMutableAttributedString() }
-        let attributedString = NSMutableAttributedString(string: diaryTitle + NameSpace.twiceLineChange,
-                                                         attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
-        attributedString.append(NSMutableAttributedString(string: diaryBody,
-                                                          attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
-        
-        return attributedString
-    }
+private extension DiaryListViewController {
     
     func generateShareAction(with indexPath: IndexPath) -> UIContextualAction {
         let shareAction = UIContextualAction(style: .normal, title: NameSpace.share) { _, _, _ in
@@ -114,22 +103,9 @@ extension DiaryListViewController {
     }
     
     func generateViewController(with indexPath: IndexPath) -> UIViewController {
-        guard let diaryTitle = CoreDataManager.shared.fetchedDiaries[indexPath.row].title,
-              let diaryBody = CoreDataManager.shared.fetchedDiaries[indexPath.row].body else { return UIViewController() }
-        
         let diaryViewController = DiaryViewController()
-        diaryViewController.diaryView.diaryTextView.text = nil
-        diaryViewController.diaryView.diaryTextView.textColor = .black
-        diaryViewController.indexPath = indexPath
+        diaryViewController.coreDataDiary = CoreDataManager.shared.fetchedDiaries[indexPath.row]
         diaryViewController.mode = .modify
-        
-        if diaryBody != NameSpace.whiteSpace {
-            let attributedString = setAttributedString(indexPath: indexPath)
-            diaryViewController.diaryView.diaryTextView.attributedText = attributedString
-        } else {
-            diaryViewController.diaryView.diaryTextView.text = diaryTitle
-        }
-        
         return diaryViewController
     }
 }

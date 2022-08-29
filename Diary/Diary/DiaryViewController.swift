@@ -11,7 +11,7 @@ final class DiaryViewController: UIViewController {
     // MARK: - Properties
     
     let diaryView = DiaryView(frame: .zero)
-    var indexPath: IndexPath?
+    var coreDataDiary: Diary?
     var mode: PageMode?
     
     // MARK: - ViewLifeCycle
@@ -49,6 +49,7 @@ final class DiaryViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(diaryView)
         setDiaryViewConstraint()
+        diaryView.setupData(with: coreDataDiary)
     }
     
     private func setDiaryViewConstraint() {
@@ -83,10 +84,10 @@ final class DiaryViewController: UIViewController {
     
     private func generateDeleteAlertAction() -> UIAlertAction {
         let delete = UIAlertAction(title: NameSpace.deleteActionTitle, style: .destructive) { _ in
+            guard let coreDataDiary = self.coreDataDiary else { return }
             let cancel = UIAlertAction(title: NameSpace.cancel, style: .cancel)
             let delete = UIAlertAction(title: NameSpace.delete, style: .destructive) { [weak self] _ in
-                guard let indexPath = self?.indexPath else { return }
-                CoreDataManager.shared.delete(diary: CoreDataManager.shared.fetchedDiaries[indexPath.row])
+                CoreDataManager.shared.delete(diary: coreDataDiary)
                 self?.navigationController?.popViewController(animated: true)
             }
             self.generateAlertController(title: NameSpace.deleteAlertTitle, message: NameSpace.deleteAlertMessage, style: .alert, actions: [cancel, delete])
@@ -127,13 +128,13 @@ extension DiaryViewController {
     private func createDiary() {
         guard diaryView.diaryTextView.text.isEmpty == false else { return }
         let diaryModel = makeDiaryModel()
-        CoreDataManager.shared.createDiary(with: diaryModel)
+        CoreDataManager.shared.create(with: diaryModel)
     }
     
     private func modifyDiary() {
-        guard let indexPath = indexPath else { return }
+        guard let coreDataDiary = coreDataDiary else { return }
         if diaryView.diaryTextView.text.isEmpty || diaryView.diaryTextView.text == NameSpace.placeHolder {
-            CoreDataManager.shared.delete(diary: CoreDataManager.shared.fetchedDiaries[indexPath.row])
+            CoreDataManager.shared.delete(diary: coreDataDiary)
         } else {
             updateDiary()
         }
@@ -155,9 +156,9 @@ extension DiaryViewController {
     }
     
     @objc private func updateDiary() {
-        guard let indexPath = indexPath else { return }
+        guard let coreDataDiary = coreDataDiary else { return }
         let diaryModel = makeDiaryModel()
-        CoreDataManager.shared.update(diary: diaryModel, with: indexPath)
+        CoreDataManager.shared.update(diary: coreDataDiary, with: diaryModel)
     }
 }
 
