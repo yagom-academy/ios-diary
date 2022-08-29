@@ -10,7 +10,7 @@ import UIKit
 final class DiaryCoreDataManager: DiaryManagable {
     // MARK: - properties
     
-    var diaryList: [Diary] = [] {
+    private(set) var diaryList: [Diary] = [] {
         didSet {
             NotificationCenter.default.post(name: .didReceiveData,
                                                         object: self)
