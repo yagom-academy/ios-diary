@@ -79,6 +79,13 @@ final class DiaryListViewController: UIViewController {
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         locationManager.requestWhenInUseAuthorization()
+        
+        guard let latitude = locationManager.location?.coordinate.latitude,
+              let longitude = locationManager.location?.coordinate.longitude else {
+            return
+        }
+        
+        diaryViewModel?.requestLocation(latitude, with: longitude)
     }
         
     private func configureDataSource() -> DataSource {
