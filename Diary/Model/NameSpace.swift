@@ -5,8 +5,6 @@
 //  Created by unchain, 웡빙 on 2022/08/17.
 //
 
-import CoreGraphics
-
 enum NameSpace {
     static let delete = "삭제"
     static let placeHolder = "여기에 내용을 입력하세요"
