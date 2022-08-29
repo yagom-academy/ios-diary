@@ -8,12 +8,13 @@
 import Foundation
 
 struct Diary: Decodable, Hashable {
-    private let uuid = UUID()
+    let uuid: UUID
     let title: String
     let body: String
     let createdAt: TimeInterval
     
     enum CodingKeys: String, CodingKey {
+        case uuid
         case title
         case body
         case createdAt = "created_at"

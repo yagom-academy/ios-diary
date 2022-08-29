@@ -1,8 +1,8 @@
 //
 //  Diary - DiaryListViewController.swift
-//  Created by bonf, bard. 
+//  Created by bonf, bard.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
@@ -19,7 +19,7 @@ final class DiaryListViewController: UIViewController {
     
     private var diaryCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
-    private var diaryData = MockDiaryManager()
+    private var diaryCoreManager: DiaryCoreDataManager?
     
     // MARK: - life cycles
     
@@ -27,25 +27,13 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupDataSource()
-        receiveData()
-        diaryData.fetch()
+        addObserver()
     }
     
-    private func receiveData() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(onDidReceiveData(_:)),
-                                               name: .didReceiveData,
-                                               object: nil)
-    }
-    
-    @objc private func onDidReceiveData(_ notification: Notification) {
-        guard let diary = notification.object as? MockDiaryManager else{ return }
-
-        DispatchQueue.main.async {
-            self.setupDataSource()
-            self.setupSnapshot(with: diary.getDiary())
-        }
-        
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        diaryCoreManager = DiaryCoreDataManager(with: .shared)
+        diaryCoreManager?.fetch()
     }
     
     // MARK: - functions
@@ -105,22 +93,42 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupLayout() -> UICollectionViewLayout {
-        let itemSize = Design.itemSize
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = Design.groupSize
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitem: item,
-                                                       count: 1)
-        
-        group.interItemSpacing = .fixed(10)
-        
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = Design.enumInterGroupSpacing
-        section.contentInsets = Design.enumContentInsets
-        
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
+        var listConfiguration = UICollectionLayoutListConfiguration(appearance: .sidebarPlain)
+
+        listConfiguration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+          guard let self = self else { return nil }
+            
+          let deleteActionHandler: UIContextualAction.Handler = { action, view, completion in
+
+              completion(true)
+              guard let diaryList = self.diaryCoreManager?.diaryList else { return }
+              self.diaryCoreManager?.delete(diaryList[indexPath.row])
+          }
+            
+            let deleteAction = UIContextualAction(style: .normal,
+                                                 title: nil,
+                                                 handler: deleteActionHandler)
+            deleteAction.image = UIImage(systemName: "trash")
+            deleteAction.backgroundColor = .systemRed
+            
+            
+            let shareAction = UIContextualAction(style: .normal,
+                                                 title: nil) { action, view, competion in
+                competion(true)
+                let item = self.diaryCoreManager?.diaryList.get(index: indexPath.row)
+                
+                let shareActivitView = UIActivityViewController(activityItems: [item as Any], applicationActivities: nil)
+                self.present(shareActivitView, animated: true)
+            }
+            
+            shareAction.backgroundColor = .systemBlue
+            shareAction.image = UIImage(systemName: "square.and.arrow.up")
+            
+            return UISwipeActionsConfiguration(actions: [shareAction, deleteAction])
+        }
+        let listLayout = UICollectionViewCompositionalLayout.list(using: listConfiguration)
+
+        return listLayout
     }
     
     
@@ -136,22 +144,35 @@ final class DiaryListViewController: UIViewController {
         dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView)
         {
             (collectionView, indexPath, identifier) -> UICollectionViewCell? in
-            
             return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                                 for: indexPath,
                                                                 item: identifier)
         }
     }
     
-    private func setupSnapshot(with jsonModel: [Diary]) {
+    private func setupSnapshot(with model: [Diary]) {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(jsonModel)
+        snapshot.appendItems(model)
         
         dataSource?.apply(snapshot)
     }
     
+    private func addObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(onDidReceiveData(_:)),
+                                               name: .didReceiveData,
+                                               object: nil)
+    }
+    
     // MARK: - objc functions
+    
+    @objc private func onDidReceiveData(_ notification: Notification) {
+        DispatchQueue.main.async { [weak self] in
+            self?.setupDataSource()
+            self?.setupSnapshot(with: self?.diaryCoreManager?.diaryList ?? [])
+        }
+    }
     
     @objc func switchValueDidChange(sender: UISwitch) {
         guard #available(iOS 13.0, *) else { return }
@@ -184,8 +205,9 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
+        guard let diaryCoreData = diaryCoreManager else { return }
         
-        diaryDetailViewController.setupData(diaryData.getModel(by: indexPath))
+        diaryDetailViewController.setupData(diaryCoreData.diaryList[indexPath.row])
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
@@ -195,7 +217,6 @@ private enum Design {
     static let moonImage = "moon.fill"
     static let navigationTitle = "일기장"
     static let plusButton = "plus"
-    static let NSDataAsset = "sample"
     static let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                                  heightDimension: .absolute(44))
     static let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),

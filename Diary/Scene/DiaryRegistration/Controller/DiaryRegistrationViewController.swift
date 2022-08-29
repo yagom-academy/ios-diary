@@ -12,7 +12,7 @@ final class DiaryRegistrationViewController: UIViewController {
     
     private let textView = DiaryRegistrationView()
     private lazy var keyboardManager = KeyboardManager(textView)
-    private let diaryData = MockDiaryManager()
+    private let diaryCoreManager = DiaryCoreDataManager(with: .shared)
     
     // MARK: - life cycles
     
@@ -34,21 +34,31 @@ final class DiaryRegistrationViewController: UIViewController {
     
     // MARK: - functions
         
-    func updateDiary() {
-        let newDiary = Diary(title: "Asdf", body: "sibal", createdAt: 0.0)
-
-        diaryData.update(with: newDiary)
-    }
-    
-    private func popTitle() -> String {
-        if textView.text == "" { return "" }
+    private func updateDiary() {
+        let diaryInfomation = textView.text.split(separator: "\n", maxSplits: 1)
         
-        let textSeparater = String(textView.text.split(separator: "\n")[0])
-        for _ in 0...textSeparater.count {
-            textView.text.removeFirst()
+        if diaryInfomation.isEmpty {
+            return
         }
         
-        return textSeparater
+        let title = String(diaryInfomation[0])
+        let body = getBody(title: title)
+        let newDiary = Diary(uuid: UUID(),
+                             title: title,
+                             body: body,
+                             createdAt: Date().timeIntervalSince1970)
+        
+        diaryCoreManager.create(newDiary)
+    }
+    
+    private func getBody(title: String) -> String {
+        guard var text = textView.text else { return "" }
+        
+        for _ in 0..<title.count {
+            text.removeFirst()
+        }
+        
+        return text
     }
     
     private func setupView() {

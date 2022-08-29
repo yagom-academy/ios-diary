@@ -8,7 +8,9 @@
 import Foundation
 import UIKit.NSDataAsset
 
-class MockDiaryManager {
+final class MockDiaryManager: DiaryManagable {
+    // MARK: - properites
+    
     private var model = [Diary]() {
         didSet {
             NotificationCenter.default.post(name: .didReceiveData,
@@ -17,33 +19,45 @@ class MockDiaryManager {
         }
     }
     
-    init() { }
+    var diaryList: [Diary] = []
+    var newDiary: Diary?
     
-    init(model: [Diary]) {
-        self.model = model
+    // MARK: - initializers
+    
+    init() {
+        fetch()
     }
+    
+    // MARK: - functions
     
     func fetch() {
         guard let data = NSDataAsset(name: "sample")?.data,
               let decodedData = try? JSONDecoder().decode([Diary].self, from: data)
         else { return }
         
-        self.model = decodedData
+        diaryList = decodedData
     }
     
-    func getDiary() -> [Diary] {
-        return model
+    func create(_ model: Diary) {
+        newDiary = model
     }
     
     func getModel(by indexPath: IndexPath) -> Diary {
         guard let model = model.get(index: indexPath.row)
-        else { return Diary(title: "", body: "", createdAt: 0.0) }
+        else { return Diary(uuid: UUID(), title: "", body: "", createdAt: 0.0) }
         
         return model
     }
     
-    func update(with diary: Diary) {
-        fetch()
+    func update(_ diary: Diary) {
         model.append(diary)
+    }
+    
+    func delete(_ diary: Diary) {
+        model.removeFirst()
+    }
+    
+    func deleteAll() {
+        model.removeAll()
     }
 }
