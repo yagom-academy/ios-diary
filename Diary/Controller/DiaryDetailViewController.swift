@@ -63,11 +63,13 @@ class DiaryDetailViewController: UIViewController {
     }
     
     private func sharedAlertAction(_ sheet: UIAlertController) {
+        guard let itemTitle = itemTitle,
+              let itemBody = itemBody else {
+            return
+        }
+        
         sheet.addAction(UIAlertAction(title: "Shared..", style: .default, handler: { _ in
-            let shareObject = [UIActivity.ActivityType.airDrop,
-                               UIActivity.ActivityType.message,
-                               UIActivity.ActivityType.mail,
-                               UIActivity.ActivityType.addToReadingList]
+            let shareObject = [itemTitle + ("\n") + itemBody]
             
             let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
             activityViewController.popoverPresentationController?.sourceView = self.view
@@ -147,6 +149,8 @@ class DiaryDetailViewController: UIViewController {
     
     func loadData(data: DiaryContent) {
         self.navigationItem.title = data.createdAt.dateFormatted()
+        self.itemTitle = data.title
+        self.itemBody = data.body
         diaryDetailView.configure(with: data)
     }
 }

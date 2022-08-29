@@ -88,12 +88,26 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-         let deleteAction = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-             success(true)
-             self.diaryManager.deleteDiary(id: self.diaryManager.fetchDiaryEntity()[indexPath.row].id)
-         }
+        let shareAction = UIContextualAction(style: .normal, title: "공유") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            success(true)
+            
+            let shareText = self.diaryManager.fetchDiaryEntity()[indexPath.row]
+            let shareObject = [shareText.title + ("\n") + shareText.body]
+            let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+            
+            self.present(activityViewController, animated: true)
+        }
         
-         deleteAction.backgroundColor = .systemRed
-         return UISwipeActionsConfiguration(actions: [deleteAction])
-     }
+        shareAction.backgroundColor = .systemBlue
+        
+        let deleteAction = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            success(true)
+            
+            self.diaryManager.deleteDiary(id: self.diaryManager.fetchDiaryEntity()[indexPath.row].id)
+        }
+        
+        deleteAction.backgroundColor = .systemRed
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
 }
