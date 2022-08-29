@@ -74,10 +74,14 @@ final class DiaryViewController: UIViewController {
         self.diaryView.changeTextViewBottomAutoLayout(keyboardHeight)
     }
     
-    func saveDiaryData() {
-        guard let itemTitle = itemTitle, let itemBody = itemBody else { return }
-
-        coreDataManager.updateData(item: DiaryContent(id: self.id, title: itemTitle,
+    private func saveDiaryData() {
+        guard let itemTitle = itemTitle,
+              let itemBody = itemBody else {
+            return
+        }
+        
+        coreDataManager.updateData(item: DiaryContent(id: self.id,
+                                                      title: itemTitle,
                                                       body: itemBody,
                                                       createdAt: Date().timeIntervalSince1970))
     }

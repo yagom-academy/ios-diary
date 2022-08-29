@@ -12,6 +12,7 @@ class DiaryDetailViewController: UIViewController {
     private let coreDataManager = CoreDataManager.shared
     private var itemTitle: String?
     private var itemBody: String?
+    private var index: Int?
     
     override func loadView() {
         self.view = diaryDetailView
@@ -31,6 +32,10 @@ class DiaryDetailViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.removeRegisterForKeyboardNotification()
+    }
+    
+    func getIndexNumber(index: Int) {
+        self.index = index
     }
     
     private func registerForKeyboardNotification() {
@@ -53,7 +58,16 @@ class DiaryDetailViewController: UIViewController {
                                                   object: nil)
     }
    
-    func saveDiaryData() {
+    private func updateDiaryData() {
+        guard let itemTitle = itemTitle,
+              let itemBody = itemBody,
+              let index = index else {
+            return
+        }
+        coreDataManager.updateData(item: DiaryContent(id: coreDataManager.fetchDiaryEntity()[index].id,
+                                                      title: itemTitle,
+                                                      body: itemBody,
+                                                      createdAt: Date().timeIntervalSince1970))
         
     }
     
@@ -71,7 +85,7 @@ class DiaryDetailViewController: UIViewController {
     
     @objc private func keyBoardDownAction(_ sender: Notification) {
         self.diaryDetailView.changeTextViewBottomAutoLayout()
-        saveDiaryData()
+        self.updateDiaryData()
     }
     
     func loadData(data: DiaryContent) {

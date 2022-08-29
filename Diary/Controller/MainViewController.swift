@@ -84,6 +84,7 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         let diaryDetailViewController = DiaryDetailViewController()
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
         diaryDetailViewController.loadData(data: diaryManager.content(index: indexPath.row))
+        diaryDetailViewController.getIndexNumber(index: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
