@@ -10,17 +10,11 @@ import Foundation
 final class DiaryContentViewModel: DiaryViewModelLogic {
     private var dataManager: DataManageLogic?
     private var apiManager: APIManager?
-    private var weather: Weather? {
-        didSet {
-            self.requestUIImage?(weather!.icon)
-        }
-    }
     
+    private var iconURL: String?
     var createdAt: Date?
-    
     var reloadTableViewClosure: (()->())?
     var showAlertClosure: (()->())?
-    var requestUIImage: ((String) -> ())?
     
     var diaryContents: [DiaryContent]? {
         didSet{

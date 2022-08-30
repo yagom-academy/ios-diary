@@ -11,4 +11,6 @@ enum API {
     static let longitude = "lon"
     static let appID = "appid"
     static let baseURL = "https://api.openweathermap.org/data/2.5/weather?"
+    static let baseIconURL = "http://openweathermap.org/img/wn/"
+    static let imageScale = "@2x.png"
 }

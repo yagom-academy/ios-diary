@@ -64,6 +64,8 @@ final class DiaryListViewController: UIViewController {
                 self?.updateDataSource(data: data)
             }
         }
+        
+        diaryViewModel?.fetchWeatherData()
     }
     
     private func setupDefault() {

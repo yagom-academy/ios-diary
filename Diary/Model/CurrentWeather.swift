@@ -15,4 +15,8 @@ struct Weather: Decodable {
     let id: Int
     let main: String
     let icon: String
+    
+    var iconURL: String {
+        return API.baseIconURL + icon + API.imageScale
+    }
 }
