@@ -19,6 +19,7 @@ Core Data를 활용한 일기장 어플 프로젝트 입니다
 - [📝 기능설명](#-기능설명)
 - [🚀 TroubleShooting](#-TroubleShooting)
     - [🚀 STEP 1](#-STEP-1)
+    - [🚀 STEP 2](#-STEP-2)
 
 
 ## 🧑🏻‍💻🧑🏻‍💻 개발자 소개
