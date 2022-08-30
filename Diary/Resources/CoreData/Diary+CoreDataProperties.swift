@@ -6,7 +6,7 @@
 //
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 
@@ -22,5 +22,6 @@ extension Diary {
     @NSManaged public var id: UUID
     @NSManaged public var main: String
     @NSManaged public var title: String
+    @NSManaged public var image: UIImage
     
 }

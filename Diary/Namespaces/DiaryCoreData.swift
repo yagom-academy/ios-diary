@@ -16,6 +16,7 @@ enum DiaryCoreData {
         static let id = "id"
         static let main = "main"
         static let icon = "icon"
+        static let image = "image"
     }
     
     enum Predicate {
