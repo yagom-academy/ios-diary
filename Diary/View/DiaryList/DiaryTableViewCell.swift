@@ -19,7 +19,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private let dateAndDescriptionStackView: UIStackView = {
+    private let secondaryStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -36,6 +36,13 @@ final class DiaryTableViewCell: UITableViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .title3, compatibleWith: nil)
         
         return label
+    }()
+    
+    private let weatherIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
     
     private let dateLabel: UILabel = {
@@ -69,15 +76,16 @@ final class DiaryTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        
         diaryTitleLabel.text = nil
         dateLabel.text = nil
+        weatherIconImageView.image = nil
         shortDescriptionLabel.text = nil
     }
     
     func configureUI(data: DiaryContent) {
         diaryTitleLabel.text = data.title
         dateLabel.text = data.createdAt.formattedDate
+        weatherIconImageView.fetch(url: data.iconURL)
         shortDescriptionLabel.text = data.body
     }
     
@@ -85,16 +93,19 @@ final class DiaryTableViewCell: UITableViewCell {
         self.contentView.addSubview(rootStackView)
         
         rootStackView.addArrangedSubview(diaryTitleLabel)
-        rootStackView.addArrangedSubview(dateAndDescriptionStackView)
+        rootStackView.addArrangedSubview(secondaryStackView)
         
-        dateAndDescriptionStackView.addArrangedSubview(dateLabel)
-        dateAndDescriptionStackView.addArrangedSubview(shortDescriptionLabel)
+        secondaryStackView.addArrangedSubview(dateLabel)
+        secondaryStackView.addArrangedSubview(weatherIconImageView)
+        secondaryStackView.addArrangedSubview(shortDescriptionLabel)
         
         NSLayoutConstraint.activate([
             rootStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
             rootStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
             rootStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            rootStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            rootStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor),
+            
+            weatherIconImageView.widthAnchor.constraint(equalTo: secondaryStackView.widthAnchor, multiplier: 0.1)
         ])
     }
     

@@ -1,5 +1,5 @@
 //
-//  UIImage+Extensions.swift
+//  UIImageView+Extensions.swift
 //  Diary
 //
 //  Created by Hugh, Derrick on 2022/08/29.
@@ -7,12 +7,10 @@
 
 import UIKit
 
-extension UIImage {
-    static func fetch(url: String) -> UIImage? {
-        var uiImage: UIImage?
-        
+extension UIImageView {
+    func fetch(url: String) {
         guard let url = URL(string: url) else {
-            return nil
+            return
         }
         
         URLSession.shared.dataTask(with: url) { data, response, error in
@@ -30,9 +28,9 @@ extension UIImage {
                 return
             }
             
-            uiImage = image
+            DispatchQueue.main.async {
+                self.image = image
+            }
         }.resume()
-        
-        return uiImage
     }
 }
