@@ -30,7 +30,7 @@ final class CoreDataManager {
     
     // MARK: - Methods
 
-    func saveDiary(title: String, body: String, createdAt: Date, id: UUID, main: String, icon: String) throws {
+    func saveDiary(title: String, body: String, createdAt: Date, id: UUID, main: String, icon: String, image: UIImage) throws {
         let diary = Diary(context: viewContext)
         diary.setValue(title, forKey: DiaryCoreData.Key.title)
         diary.setValue(body, forKey: DiaryCoreData.Key.body)
@@ -38,6 +38,7 @@ final class CoreDataManager {
         diary.setValue(id, forKey: DiaryCoreData.Key.id)
         diary.setValue(main, forKey: DiaryCoreData.Key.main)
         diary.setValue(icon, forKey: DiaryCoreData.Key.icon)
+        diary.setValue(image, forKey: DiaryCoreData.Key.image)
 
         if viewContext.hasChanges {
             try viewContext.save()

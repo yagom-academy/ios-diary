@@ -5,10 +5,11 @@
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="icon" attributeType="String"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="image" attributeType="Transformable" valueTransformerName="" customClassName="UIImage"/>
         <attribute name="main" attributeType="String"/>
         <attribute name="title" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Diary" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="Diary" positionX="-63" positionY="-18" width="128" height="134"/>
     </elements>
 </model>
