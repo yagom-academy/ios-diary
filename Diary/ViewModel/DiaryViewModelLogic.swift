@@ -14,6 +14,7 @@ protocol DiaryViewModelLogic {
     func remove()
     func fetchWeatherData()
     func requestLocation(_ latitude: Double, with longitude: Double)
+    func filterData(text: String)
     
     var diaryContents: [DiaryContent]? { get set }
     var createdAt: Date? { get set }

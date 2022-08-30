@@ -57,6 +57,22 @@ final class DiaryContentViewModel: DiaryViewModelLogic {
         }
     }
     
+    func filterData(text: String) {
+        let filter = diaryContents?.filter { (data: DiaryContent) -> Bool in
+            return data.title.uppercased().contains((text.uppercased()))
+        }
+        
+        guard let filteredData = filter else {
+            return
+        }
+        
+        if filteredData.isEmpty {
+            fetch()
+        } else {
+            diaryContents = filteredData
+        }
+    }
+    
     func fetchWeatherData() {
         apiManager?.requestAndDecode(dataType: CurrentWeather.self, completion: { [weak self] result in
             switch result {

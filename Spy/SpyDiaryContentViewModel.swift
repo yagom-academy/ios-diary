@@ -44,4 +44,8 @@ final class SpyDiaryContentViewModel: DiaryViewModelLogic {
     func requestLocation(_ latitude: Double, with longitude: Double) {
         
     }
+    
+    func filterData(text: String) {
+        
+    }
 }

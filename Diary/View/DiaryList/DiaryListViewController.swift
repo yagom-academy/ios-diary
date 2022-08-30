@@ -25,7 +25,12 @@ final class DiaryListViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
+
+    private var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        return searchController
+    }()
+
     init(viewModel: DiaryViewModelLogic) {
         self.diaryViewModel = viewModel
         super.init(nibName: nil, bundle: nil)
@@ -72,6 +77,11 @@ final class DiaryListViewController: UIViewController {
         self.view.backgroundColor = .white
         self.diaryListTableView.delegate = self
         
+        diaryListTableView.tableHeaderView = self.searchController.searchBar
+        searchController.searchResultsUpdater = self
+        searchController.searchBar.delegate = self
+        searchController.delegate = self
+
         self.title = "일기장"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTappedAddButton))
     }
@@ -160,5 +170,16 @@ extension DiaryListViewController: UITableViewDelegate {
         delete.backgroundColor = .systemRed
 
         return UISwipeActionsConfiguration(actions:[delete])
+    }
+}
+
+extension DiaryListViewController: UISearchBarDelegate, UISearchResultsUpdating, UISearchControllerDelegate {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text else {
+            return
+        }
+        
+        diaryViewModel?.filterData(text: text)
+        diaryListTableView.reloadData()
     }
 }
