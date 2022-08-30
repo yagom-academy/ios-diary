@@ -8,6 +8,17 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
+    // MARK: - Design
+
+    private enum Design {
+        static let navigationTitle = "일기장"
+        static let alertControllerTitle = "진짜요?"
+        static let alertControllerMessage = "정말로 삭제하시겠어요?🐒"
+        static let alertCancelAction = "취소"
+        static let alertDeleteAction = "삭제"
+        static let alertShareAction = "공유"
+    }
+    
     // MARK: - properties
 
     private var tableView = UITableView()
@@ -144,15 +155,4 @@ extension DiaryListViewController: UITableViewDelegate {
         
         return UISwipeActionsConfiguration(actions: [deleteSwipeAction, shareSwipeAction])
     }
-}
-
-// MARK: - Design
-
-private enum Design {
-    static let navigationTitle = "일기장"
-    static let alertControllerTitle = "진짜요?"
-    static let alertControllerMessage = "정말로 삭제하시겠어요?🐒"
-    static let alertCancelAction = "취소"
-    static let alertDeleteAction = "삭제"
-    static let alertShareAction = "공유"
 }

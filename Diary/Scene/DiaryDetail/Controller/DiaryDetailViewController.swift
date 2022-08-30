@@ -8,6 +8,16 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
+    // MARK: - Design
+
+    private enum Design {
+        static let alertControllerTitle = "진짜요?"
+        static let alertControllerMessage = "정말로 삭제하시겠어요?🐒"
+        static let alertCancelAction = "취소"
+        static let alertDeleteAction = "삭제"
+        static let alertShareAction = "공유"
+    }
+    
     // MARK: - properties
     
     private let diaryDetailView = DiaryDetailView()
@@ -166,14 +176,4 @@ final class DiaryDetailViewController: UIViewController {
         
         diaryDetailView.configureDetailTextView(ofText: "\(title)\n\(body)")
     }
-}
-
-// MARK: - Design
-
-private enum Design {
-    static let alertControllerTitle = "진짜요?"
-    static let alertControllerMessage = "정말로 삭제하시겠어요?🐒"
-    static let alertCancelAction = "취소"
-    static let alertDeleteAction = "삭제"
-    static let alertShareAction = "공유"
 }
