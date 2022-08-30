@@ -46,6 +46,8 @@ final class DiaryUpdateViewController: DiaryEditableViewController {
             style: .destructive,
             handler: { action in
                 self.present(self.deleteAlert, animated: true)
+                self.deleteDiary()
+                self.navigationController?.popViewController(animated: true)
             }
         )
         
@@ -170,7 +172,6 @@ private extension DiaryUpdateViewController {
         present(rightBarButtonActionSheet, animated: true)
     }
 
-        
     // MARK: Configuring Model
     
     func setupContentViewData() {

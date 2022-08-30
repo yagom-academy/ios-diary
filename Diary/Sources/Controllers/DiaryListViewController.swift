@@ -41,6 +41,8 @@ final class DiaryListViewController: UIViewController {
         return diaryCoreData
     }
     
+
+    
     // MARK: - Life Cycles
     
     override func viewDidLoad() {
@@ -88,6 +90,52 @@ private extension DiaryListViewController {
     }
     
     func createListLayout() -> UICollectionViewLayout {
+        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        
+        configuration.trailingSwipeActionsConfigurationProvider = { index in
+            let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
+                let sharedDiaryItem = self.createTextViewContent(diaryItem: self.diaryCoreData[index.row])
+                let activitiViewController = UIActivityViewController(
+                    activityItems: [sharedDiaryItem],
+                    applicationActivities: nil
+                )
+                self.present(activitiViewController, animated: true)
+            }
+            
+            let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+                let deleteAlert: UIAlertController = {
+                    let deleteAlert = UIAlertController(
+                        title: "정말 삭제할까요?",
+                        message: "삭제 후 복구는 불가능합니다.",
+                        preferredStyle: .alert
+                    )
+
+                    let cancel = UIAlertAction(
+                        title: "취소",
+                        style: .cancel
+                    )
+                    
+                    let delete = UIAlertAction(
+                        title: "삭제",
+                        style: .destructive,
+                        handler: { action in
+                            DiaryCoreDataManager.shared.delete(diaryItem: self.diaryCoreData[index.row])
+                            self.applyDiaryEntitySnapshot()
+                        }
+                    )
+                    
+                    [cancel, delete].forEach {
+                        deleteAlert.addAction($0)
+                    }
+
+                    return deleteAlert
+                }()
+                
+                self.present(deleteAlert, animated: true)
+            }
+            
+            return UISwipeActionsConfiguration(actions: [shareAction, deleteAction])
+        }
         
         let layout = UICollectionViewCompositionalLayout.list(
             using: configuration
@@ -97,6 +145,14 @@ private extension DiaryListViewController {
     }
     
     // MARK: - Configuring Model
+    
+    func createTextViewContent(diaryItem: DiaryItem) -> String {
+        return """
+        \(diaryItem.title)
+        
+        \(diaryItem.body)
+        """
+    }
     
     func applyDiaryEntitySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryItem>()
