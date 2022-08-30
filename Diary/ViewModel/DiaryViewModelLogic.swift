@@ -20,5 +20,4 @@ protocol DiaryViewModelLogic {
     var alertMessage: String? { get set }
     var reloadTableViewClosure: (()->())? { get set }
     var showAlertClosure: (()->())? { get set }
-    var requestUIImage: ((String) -> ())? { get set }
 }

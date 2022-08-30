@@ -13,7 +13,7 @@ final class SpyDiaryContentViewModel: DiaryViewModelLogic {
     var alertMessage: String?
     var reloadTableViewClosure: (() -> ())?
     var showAlertClosure: (() -> ())?
-    var requestUIImage: ((String) -> ())?
+    var fetchIconURL: ((String) -> ())?
     
     var saveCalled: Int = 0
     var fetchCalled: Int = 0
@@ -22,8 +22,6 @@ final class SpyDiaryContentViewModel: DiaryViewModelLogic {
     
     func save(_ text: String, _ date: Date) {
         saveCalled += 1
-        
-        diaryContents?.append(convertToDiaryContent(text, date))
     }
     
     func fetch() {
@@ -32,7 +30,6 @@ final class SpyDiaryContentViewModel: DiaryViewModelLogic {
     
     func update(_ text: String) {
         updateCalled += 1
-        diaryContents?.append(convertToDiaryContent(text, createdAt!))
     }
     
     func remove() {
@@ -46,13 +43,5 @@ final class SpyDiaryContentViewModel: DiaryViewModelLogic {
     
     func requestLocation(_ latitude: Double, with longitude: Double) {
         
-    }
-    
-    private func convertToDiaryContent(_ text: String, _ date: Date) -> DiaryContent {
-        var data = text.split(separator: Character(Const.nextLineString), maxSplits: 2).map{ String($0) }
-        let title = data.remove(at: 0)
-        let body = data.count >= 1 ? data.joined(separator: String(Const.nextLineString)) : Const.emptyString
-        
-        return DiaryContent(title: title, body: body, createdAt: date)
     }
 }
