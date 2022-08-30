@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		20FB2ED628B74F9700358670 /* CoreDataFramework.docc in Sources */ = {isa = PBXBuildFile; fileRef = 20FB2ED528B74F9700358670 /* CoreDataFramework.docc */; };
 		20FB2ED728B74F9700358670 /* CoreDataFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = 20FB2ED428B74F9700358670 /* CoreDataFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		20FB2EDF28B74FE100358670 /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 20FB2EDD28B74FE100358670 /* Diary.xcdatamodeld */; };
-		20FB2EE228B7504300358670 /* DiaryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FB2EE028B7504300358670 /* DiaryEntity+CoreDataClass.swift */; };
-		20FB2EE328B7504300358670 /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FB2EE128B7504300358670 /* DiaryEntity+CoreDataProperties.swift */; };
 		20FB2EE528B7507100358670 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FB2EE428B7507100358670 /* CoreDataManager.swift */; };
 /* End PBXBuildFile section */
 
@@ -19,9 +16,6 @@
 		20FB2ED128B74F9700358670 /* CoreDataFramework.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = CoreDataFramework.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		20FB2ED428B74F9700358670 /* CoreDataFramework.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CoreDataFramework.h; sourceTree = "<group>"; };
 		20FB2ED528B74F9700358670 /* CoreDataFramework.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = CoreDataFramework.docc; sourceTree = "<group>"; };
-		20FB2EDE28B74FE100358670 /* Diary.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Diary.xcdatamodel; sourceTree = "<group>"; };
-		20FB2EE028B7504300358670 /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryEntity+CoreDataClass.swift"; path = "CoreDataFramework/DiaryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
-		20FB2EE128B7504300358670 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryEntity+CoreDataProperties.swift"; path = "CoreDataFramework/DiaryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		20FB2EE428B7507100358670 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -39,8 +33,6 @@
 		20FB2EC728B74F9700358670 = {
 			isa = PBXGroup;
 			children = (
-				20FB2EE028B7504300358670 /* DiaryEntity+CoreDataClass.swift */,
-				20FB2EE128B7504300358670 /* DiaryEntity+CoreDataProperties.swift */,
 				20FB2ED328B74F9700358670 /* CoreDataFramework */,
 				20FB2ED228B74F9700358670 /* Products */,
 			);
@@ -59,7 +51,6 @@
 			children = (
 				20FB2ED428B74F9700358670 /* CoreDataFramework.h */,
 				20FB2ED528B74F9700358670 /* CoreDataFramework.docc */,
-				20FB2EDD28B74FE100358670 /* Diary.xcdatamodeld */,
 				20FB2EE428B7507100358670 /* CoreDataManager.swift */,
 			);
 			path = CoreDataFramework;
@@ -144,11 +135,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				20FB2EE328B7504300358670 /* DiaryEntity+CoreDataProperties.swift in Sources */,
-				20FB2EE228B7504300358670 /* DiaryEntity+CoreDataClass.swift in Sources */,
 				20FB2ED628B74F9700358670 /* CoreDataFramework.docc in Sources */,
 				20FB2EE528B7507100358670 /* CoreDataManager.swift in Sources */,
-				20FB2EDF28B74FE100358670 /* Diary.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,19 +339,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		20FB2EDD28B74FE100358670 /* Diary.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				20FB2EDE28B74FE100358670 /* Diary.xcdatamodel */,
-			);
-			currentVersion = 20FB2EDE28B74FE100358670 /* Diary.xcdatamodel */;
-			path = Diary.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = 20FB2EC828B74F9700358670 /* Project object */;
 }

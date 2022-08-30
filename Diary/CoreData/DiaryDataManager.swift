@@ -7,51 +7,39 @@
 
 import UIKit
 import CoreDataFramework
+import CoreData
 
 class DiaryDataManager {
     static let shared = DiaryDataManager()
     
     private init() { }
     
-    func fetchDiary() -> [DiaryItem]? {
-        guard let diaryEntities = CoreDataManager.shared.fetchDiary() else { return nil }
-        
-        var diaryItems = diaryEntities.compactMap {
-            DiaryItem(id: $0.id, title: $0.title, body: $0.body, createdAt: $0.createdAt)
-        }
-        
-        diaryItems.reverse()
-        
-        return diaryItems
-    }
-
     func saveDiary(item: DiaryItem) {
-        //CoreDataManager.shared.saveDiary(id: item.id, title: item.title, body: item.body, createdAt: item.createdAt)
-        let sampleModel = SampleModel(entityName: "DiaryEntity", sampleData: ["id": item.id, "title": item.title, "body": item.body,
-                                                                       "createdAt": item.createdAt])
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "DiaryEntity")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", item.id as CVarArg)
         
-        CoreDataManager.shared.save(sample: sampleModel)
+        let sampleModel = SaveModel(entityName: "DiaryEntity",
+                                      sampleData: ["id": item.id, "title": item.title, "body": item.body, "createdAt": item.createdAt])
+        
+        CoreDataManager.shared.save(model: sampleModel, request: fetchRequest)
     }
 
     func deleteDiary(id: UUID) {
-        CoreDataManager.shared.deleteDiary(id: id)
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "DiaryEntity")
+        fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+
+        CoreDataManager.shared.delete(fetchRequest)
     }
     
     func fetchData() -> [DiaryItem]? {
         guard let data = CoreDataManager.shared.fetch(DiaryEntity.fetchRequest()) else { return nil }
         
-//        var diaryItems = data.compactMap {
-//            DiaryItem(id: $0.id, title: $0.title, body: $0.body, createdAt: $0.createdAt)
-//        }
-        
-        var emptyarr: [DiaryItem] = []
-        
-        for diaryitems2 in data {
-            emptyarr.append(DiaryItem(id: diaryitems2.id, title: diaryitems2.title, body: diaryitems2.body, createdAt: diaryitems2.createdAt))
+        var diaryItems = data.compactMap {
+            DiaryItem(id: $0.id, title: $0.title, body: $0.body, createdAt: $0.createdAt)
         }
         
-        emptyarr.reverse()
+        diaryItems.sort(by: { $0.createdAt > $1.createdAt })
         
-        return emptyarr
+        return diaryItems
     }
 }

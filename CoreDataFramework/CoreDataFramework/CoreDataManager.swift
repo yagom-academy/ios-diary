@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-public struct SampleModel {
+public struct SaveModel {
     let entityName: String
     let sampleData: [String: Any]
     
@@ -31,17 +31,7 @@ public class CoreDataManager {
         })
         return container
     }()
-    
-    public func fetchDiary() -> [DiaryEntity]? {
-        do {
-            let diary = try persistentContainer.viewContext.fetch(DiaryEntity.fetchRequest())
-            return diary
-        } catch {
-            print(error.localizedDescription)
-        }
-        return nil
-    }
-    
+
     private func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -54,48 +44,6 @@ public class CoreDataManager {
         }
     }
     
-    private func updateDiary(id: UUID, title: String, body: String, createdAt: Double, with diaryEntity: DiaryEntity) {
-        diaryEntity.setValue(title, forKey: "title")
-        diaryEntity.setValue(body, forKey: "body")
-        diaryEntity.setValue(createdAt, forKey: "createdAt")
-        diaryEntity.setValue(id, forKey: "id")
-        
-        saveContext()
-    }
-    
-    public func saveDiary(id: UUID, title: String, body: String, createdAt: Double) {
-        let context = persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "DiaryEntity")
-        fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
-        
-        do {
-            guard let diaryUpdate = try context.fetch(fetchRequest).last as? DiaryEntity else {
-                let diaryEntity = DiaryEntity(context: context)
-                updateDiary(id: id, title: title, body: body, createdAt: createdAt, with: diaryEntity)
-                return
-            }
-            
-            updateDiary(id: id, title: title, body: body, createdAt: createdAt, with: diaryUpdate)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    public func deleteDiary(id: UUID) {
-        let context = persistentContainer.viewContext
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "DiaryEntity")
-        fetchRequest.predicate = NSPredicate(format: "id = %@", id as CVarArg)
-        
-        do {
-            guard let diaryDelete = try context.fetch(fetchRequest).last as? NSManagedObject else { return }
-            context.delete(diaryDelete)
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        saveContext()
-    }
-    
     public func fetch<T>(_ request: NSFetchRequest<T>) -> [T]? {
         do {
             let result = try persistentContainer.viewContext.fetch(request)
@@ -106,32 +54,37 @@ public class CoreDataManager {
         return nil
     }
     
-    public func save(sample: SampleModel) {
+    public func save(model: SaveModel, request: NSFetchRequest<NSFetchRequestResult>) {
         let context = persistentContainer.viewContext
-        let entity = NSEntityDescription.insertNewObject(forEntityName: sample.entityName, into: context)
         
-        entity.setValuesForKeys(sample.sampleData)
-        
-//        for data in sample.sampleData {
-//                    entity.setValue(data.value, forKey: data.key)
-//        }
-//
-        saveContext()
-    }
-    
-    public func update(_ object: NSManagedObject) {
         do {
-            try object.managedObjectContext?.save()
+            guard let object = try context.fetch(request).last as? NSManagedObject else {
+                let entity = NSEntityDescription.insertNewObject(forEntityName: model.entityName, into: context)
+                entity.setValuesForKeys(model.sampleData)
+                return
+            }
+            
+            object.setValuesForKeys(model.sampleData)
         } catch {
             print(error.localizedDescription)
         }
+
         saveContext()
     }
-    
-    public func delete(_ object: NSManagedObject) throws {
-        let context = persistentContainer.viewContext
-        context.delete(object)
         
+    public func delete(_ request: NSFetchRequest<NSFetchRequestResult>) {
+        let context = persistentContainer.viewContext
+        
+        do {
+            guard let objects = try context.fetch(request) as? [NSManagedObject] else { return }
+            
+            objects.forEach {
+                context.delete($0)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+
         saveContext()
     }
 }
