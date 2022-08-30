@@ -13,6 +13,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .title3)
         
         return label
@@ -21,7 +22,9 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
         
         return label
     }()
@@ -29,6 +32,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
         imageView.contentMode = .scaleAspectFit
 
         return imageView
@@ -37,6 +41,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     private let previewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .footnote)
         
         return label
@@ -103,12 +108,14 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
         guard let url = URL(string: "https://openweathermap.org/img/wn/10d@2x.png") else { return }
         guard let data = try? Data(contentsOf: url) else { return }
         
-        weatherImageView.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor).isActive = true
-        dateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        
-        weatherImageView.widthAnchor.constraint(equalTo: subtitleStackView.widthAnchor, multiplier: 0.1).isActive = true
-        weatherImageView.image = UIImage(data: data)
-        
+        DispatchQueue.main.async {
+            self.weatherImageView.leadingAnchor.constraint(equalTo: self.dateLabel.trailingAnchor).isActive = true
+            self.dateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+            
+            self.weatherImageView.widthAnchor.constraint(equalTo: self.subtitleStackView.widthAnchor, multiplier: 0.1).isActive = true
+            
+            self.weatherImageView.image = UIImage(data: data)
+        }
     }
     
     private func setupConstraints() {
@@ -119,7 +126,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     
     private func setupTitleLabelConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor),
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             titleLabel.trailingAnchor.constraint(equalTo: accessoryButton.leadingAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: subtitleStackView.topAnchor)
@@ -130,7 +137,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             subtitleStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
             subtitleStackView.trailingAnchor.constraint(equalTo: accessoryButton.leadingAnchor),
-            subtitleStackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            subtitleStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     

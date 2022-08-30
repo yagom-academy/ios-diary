@@ -36,6 +36,8 @@
 		D7C5F22228BCEFC300EC90CF /* NetworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C5F21A28BCEF4600EC90CF /* NetworkTests.swift */; };
 		D7C5F22528BCF01D00EC90CF /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C5F22428BCF01D00EC90CF /* Weather.swift */; };
 		D7C5F22A28BCF74A00EC90CF /* DiaryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryListViewController.swift */; };
+		D7C5F22E28BD2EC200EC90CF /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C5F22D28BD2EC200EC90CF /* MockSession.swift */; };
+		D7C5F23428BD3BEA00EC90CF /* MockData.json in Resources */ = {isa = PBXBuildFile; fileRef = D7C5F23328BD3BEA00EC90CF /* MockData.json */; };
 		D7CA152328AE2AB300E1E3D1 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7CA152228AE2AB300E1E3D1 /* TimeInterval+Extension.swift */; };
 		D7D37CB828B1F1B7004C31C7 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7D37CB728B1F1B7004C31C7 /* ReuseIdentifiable.swift */; };
 		D7DC801728AB9F5B005F7D3B /* DiaryListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7DC801628AB9F5B005F7D3B /* DiaryListCollectionViewCell.swift */; };
@@ -85,6 +87,8 @@
 		D7C5F21828BCEF4600EC90CF /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D7C5F21A28BCEF4600EC90CF /* NetworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkTests.swift; sourceTree = "<group>"; };
 		D7C5F22428BCF01D00EC90CF /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		D7C5F22D28BD2EC200EC90CF /* MockSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
+		D7C5F23328BD3BEA00EC90CF /* MockData.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = MockData.json; sourceTree = "<group>"; };
 		D7CA152228AE2AB300E1E3D1 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
 		D7D37CB728B1F1B7004C31C7 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
 		D7DC800E28AB7C17005F7D3B /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -173,6 +177,7 @@
 			children = (
 				186D056B28ABC8D600A2734E /* Diary.swift */,
 				D7C5F22428BCF01D00EC90CF /* Weather.swift */,
+				D7C5F23328BD3BEA00EC90CF /* MockData.json */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -352,9 +357,18 @@
 		D7C5F21928BCEF4600EC90CF /* DiaryTests */ = {
 			isa = PBXGroup;
 			children = (
+				D7C5F22C28BD2EAE00EC90CF /* TestDouble */,
 				D7C5F21A28BCEF4600EC90CF /* NetworkTests.swift */,
 			);
 			path = DiaryTests;
+			sourceTree = "<group>";
+		};
+		D7C5F22C28BD2EAE00EC90CF /* TestDouble */ = {
+			isa = PBXGroup;
+			children = (
+				D7C5F22D28BD2EC200EC90CF /* MockSession.swift */,
+			);
+			path = TestDouble;
 			sourceTree = "<group>";
 		};
 		D7CA152628AE619E00E1E3D1 /* Model */ = {
@@ -456,6 +470,7 @@
 			files = (
 				C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */,
 				C739AE31284DF28600741E8F /* Assets.xcassets in Resources */,
+				D7C5F23428BD3BEA00EC90CF /* MockData.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,6 +565,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7C5F22E28BD2EC200EC90CF /* MockSession.swift in Sources */,
 				D7C5F22228BCEFC300EC90CF /* NetworkTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

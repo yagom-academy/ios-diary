@@ -82,7 +82,6 @@ final class DiaryListViewController: UIViewController {
     private func setupCollectionView(frame: CGRect, collectionViewLayout: UICollectionViewLayout) -> UICollectionView {
         let collectionView = UICollectionView(frame: frame,
                                               collectionViewLayout: collectionViewLayout)
-        
         view.addSubview(collectionView)
         setupCollectionViewConstraints(collectionView)
         
@@ -102,6 +101,7 @@ final class DiaryListViewController: UIViewController {
     
     private func setupLayout() -> UICollectionViewLayout {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .sidebarPlain)
+        
 
         listConfiguration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
           guard let self = self else { return nil }
