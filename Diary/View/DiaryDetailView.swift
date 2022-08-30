@@ -12,8 +12,6 @@ final class DiaryDetailView: UIView {
     private lazy var diaryTextViewBottomConstraint = diaryTextView.bottomAnchor.constraint(
         equalTo: safeAreaLayoutGuide.bottomAnchor
     )
-    private var itemTitle: String?
-    private var itemBody: String?
     
     let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -51,16 +49,16 @@ final class DiaryDetailView: UIView {
     }
     
     func configure(with content: DiaryContent) {
-        self.itemTitle = content.title
-        self.itemBody = content.body
+        let title = content.title
+        let body = content.body
         
-        self.diaryTextView.attributedText = setAttributedString()
+        self.diaryTextView.attributedText = setAttributedString(with: title, and: body)
     }
  
-    private func setAttributedString() -> NSMutableAttributedString {
-        let attributedString = NSMutableAttributedString(string: self.itemTitle ?? "",
+    private func setAttributedString(with title: String, and body: String) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: title,
                                                          attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
-        attributedString.append(NSMutableAttributedString(string: "\n\n" + (self.itemBody ?? ""),
+        attributedString.append(NSMutableAttributedString(string: "\n" + body,
                                                           attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
         return attributedString
     }

@@ -11,6 +11,14 @@ final class DiaryViewController: UIViewController {
     
     private let diaryView = DiaryView()
     private let coreDataManager = CoreDataManager.shared
+    private var islineChanged = false
+    private var realTimeTypingValue: String = " " {
+        didSet {
+            if realTimeTypingValue == "\n" {
+                islineChanged = true
+            }
+        }
+    }
     private var itemTitle: String?
     private var itemBody: String?
     private var id = UUID()
@@ -104,10 +112,21 @@ extension DiaryViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         let diaryText = textView.text.components(separatedBy: "\n")
-        let title = diaryText.first
         let body = diaryText[diaryText.startIndex + 1..<diaryText.endIndex].joined(separator: "")
+        
+        guard let title = diaryText.first else { return }
         
         self.itemTitle = title
         self.itemBody = body
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        realTimeTypingValue = text
+        if islineChanged {
+            diaryView.diaryTextView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+        } else {
+            diaryView.diaryTextView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
+        }
+        return true
     }
 }

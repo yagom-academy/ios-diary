@@ -11,6 +11,14 @@ final class DiaryDetailViewController: UIViewController {
     
     private let diaryDetailView = DiaryDetailView()
     private let coreDataManager = CoreDataManager.shared
+    private var islineChanged = false
+    private var realTimeTypingValue: String = "" {
+        didSet {
+            if realTimeTypingValue == "\n" {
+                islineChanged = true
+            }
+        }
+    }
     private var itemTitle: String?
     private var itemBody: String?
     private var index: Int?
@@ -46,12 +54,12 @@ final class DiaryDetailViewController: UIViewController {
                                                                  target: self,
                                                                  action: #selector(didTapRightBarButton))
     }
-
+    
     @objc private func didTapRightBarButton() {
         guard let index = self.index else {
             return
         }
-
+        
         let sheet = UIAlertController(title: .none,
                                       message: nil,
                                       preferredStyle: .actionSheet)
@@ -166,5 +174,13 @@ extension DiaryDetailViewController: UITextViewDelegate {
         
         self.itemTitle = title
         self.itemBody = body
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        realTimeTypingValue = text
+        if islineChanged {
+            diaryDetailView.diaryTextView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
+        }
+        return true
     }
 }
