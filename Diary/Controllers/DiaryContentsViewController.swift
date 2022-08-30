@@ -22,6 +22,7 @@ final class DiaryContentsViewController: UIViewController {
     var diary: Diary?
     var isEditingMemo: Bool = false
     var isDeleted: Bool = false
+    var isFetching: Bool = false
     
     // MARK: - Life Cycle
     
@@ -29,10 +30,10 @@ final class DiaryContentsViewController: UIViewController {
         view = diaryContentView
         view.backgroundColor = .systemBackground
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureNavigationItems()
         configureUI()
         configureNotificationCenter()
@@ -245,25 +246,30 @@ final class DiaryContentsViewController: UIViewController {
     }
     
     private func renewCoreData() {
-        guard let (title, body) = extractTitleAndBody(),
-              let creationDate = creationDate,
-              let id = id,
-              let main = main,
-              let icon = icon else {
-            return
-        }
-        
-        do {
-            try determineDataProcessingWith(
-                title,
-                body,
-                creationDate,
-                id,
-                main,
-                icon
-            )
-        } catch {
-            presentErrorAlert(error)
+        if isFetching == false {
+            isFetching = true
+            
+            guard let (title, body) = extractTitleAndBody(),
+                  let creationDate = creationDate,
+                  let id = id,
+                  let main = main,
+                  let icon = icon else {
+                self.isFetching = false
+                return
+            }
+            
+            do {
+                try determineDataProcessingWith(
+                    title,
+                    body,
+                    creationDate,
+                    id,
+                    main,
+                    icon
+                )
+            } catch {
+                presentErrorAlert(error)
+            }
         }
     }
     
@@ -281,9 +287,9 @@ final class DiaryContentsViewController: UIViewController {
         guard splitedText.count > 1 else {
             return (String(title), DiaryCoreData.emptyBody)
         }
-
+        
         let body = diaryConentViewText[splitedText[1].startIndex...]
-
+        
         return (String(title), String(body))
     }
     
@@ -292,22 +298,37 @@ final class DiaryContentsViewController: UIViewController {
         
         switch (fetchSuccess, isDeleted) {
         case (nil, false):
-            try CoreDataManager.shared.saveDiary(
-                title: title,
-                body: body,
-                createdAt: creationDate,
-                id: id,
-                main: main,
-                icon: icon
-            )
+            WeatherImageAPIManager(icon: icon)?.requestImage(id: id) { result in
+                switch result {
+                case .success(let image):
+                    do {
+                        try CoreDataManager.shared.saveDiary(
+                            title: title,
+                            body: body,
+                            createdAt: creationDate,
+                            id: id,
+                            main: main,
+                            icon: icon,
+                            image: image
+                        )
+                    } catch {
+                        print(error)
+                    }
+                case .failure(let error):
+                    self.presentErrorAlert(error)
+                }
+                self.isFetching = false
+            }
         case (_, false):
             try CoreDataManager.shared.update(
                 title: title,
                 body: body,
                 id: id
             )
+            self.isFetching = false
         case (_, true):
             try CoreDataManager.shared.delete(using: id)
+            self.isFetching = false
         }
     }
     
@@ -354,7 +375,7 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
         guard let location = locations.first?.coordinate else {
             return
         }
-
+        
         guard let diary = diary else {
             WeatherDataAPIManager(latitude: location.latitude, longitude: location.longitude)?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { result in
                 switch result {
