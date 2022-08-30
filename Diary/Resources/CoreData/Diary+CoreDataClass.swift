@@ -2,11 +2,10 @@
 //  Diary+CoreDataClass.swift
 //  Diary
 //
-//  Created by LeeChiheon on 2022/08/29.
+//  Created by Finnn, 수꿍 on 2022/08/29.
 //
 //
 
-import Foundation
 import CoreData
 
 @objc(Diary)

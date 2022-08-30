@@ -29,7 +29,6 @@ final class DiaryListViewController: UIViewController {
         
         return isActive && isSearchBarHasText
     }
-    private var iconImages: [UIImage] = []
     
     // MARK: - Life Cycle
     
@@ -54,7 +53,6 @@ final class DiaryListViewController: UIViewController {
         super.viewDidAppear(animated)
         
         navigationController?.navigationBar.sizeToFit()
-        dataSource?.apply(snapshot)
     }
     
     // MARK: - Methods
@@ -114,8 +112,14 @@ final class DiaryListViewController: UIViewController {
     
     private func fetchDiaryRequest(from text: String) -> NSFetchRequest<Diary> {
         let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: DiaryCoreData.entityName)
-        let titlePredicate = NSPredicate(format: DiaryCoreData.Predicate.contatingTitle, text)
-        let bodyPredicate = NSPredicate(format: DiaryCoreData.Predicate.containingBody, text)
+        let titlePredicate = NSPredicate(
+            format: DiaryCoreData.Predicate.contatingTitle,
+            text
+        )
+        let bodyPredicate = NSPredicate(
+            format: DiaryCoreData.Predicate.containingBody,
+            text
+        )
         let titleOrBodyPredicate = NSCompoundPredicate(
             type: NSCompoundPredicate.LogicalType.or,
             subpredicates: [titlePredicate, bodyPredicate]
@@ -153,7 +157,6 @@ final class DiaryListViewController: UIViewController {
                 return cell
             }
         )
-        
         dataSource?.apply(snapshot)
     }
     
@@ -163,21 +166,6 @@ final class DiaryListViewController: UIViewController {
             
             guard let diaries = fetchResultsController?.fetchedObjects else {
                 return
-            }
-            
-            diaries.forEach {
-                guard let weatherImageAPIManager = WeatherImageAPIManager(icon: $0.icon) else {
-                    return
-                }
-                
-                weatherImageAPIManager.requestImage(id: $0.id) { result in
-                    switch result {
-                    case .success(let image):
-                        self.iconImages.append(image)
-                    case .failure(let error):
-                        self.presentErrorAlert(error)
-                    }
-                }
             }
             
             snapshot.appendSections([.main])
@@ -210,7 +198,6 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let diary = dataSource?.itemIdentifier(for: indexPath)
         let nextViewController = DiaryContentsViewController()
-        
         nextViewController.diary = diary
         nextViewController.isEditingMemo = true
         
@@ -218,7 +205,6 @@ extension DiaryListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
         guard let diary = self.dataSource?.itemIdentifier(for: indexPath) else {
             return nil
         }
@@ -247,6 +233,7 @@ extension DiaryListViewController: UITableViewDelegate {
             shareAction
         ])
         swipeActionCongifuration.performsFirstActionWithFullSwipe = false
+        
         return swipeActionCongifuration
     }
     
@@ -278,15 +265,16 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
         
         switch type {
         case .insert:
-            guard self.snapshot.numberOfItems != .zero,
+            guard snapshot.numberOfItems != .zero,
                   let newIndexPath = newIndexPath,
                   let lastDiary = self.dataSource?.itemIdentifier(for: newIndexPath) else {
-                self.snapshot.appendItems([diary])
+                snapshot.appendItems([diary])
                 dataSource?.apply(snapshot)
+                
                 return
             }
             
-            self.snapshot.insertItems([diary], beforeItem: lastDiary)
+            snapshot.insertItems([diary], beforeItem: lastDiary)
         case .delete:
             snapshot.deleteItems([diary])
         case .update:
@@ -309,6 +297,7 @@ extension DiaryListViewController: UISearchResultsUpdating {
             configureFetchResultsController(from: fetchAllDiaryRequest())
             configureSnapshot()
             dataSource?.apply(snapshot)
+            
             return
         }
         

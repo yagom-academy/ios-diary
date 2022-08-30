@@ -2,16 +2,14 @@
 //  Diary+CoreDataProperties.swift
 //  Diary
 //
-//  Created by LeeChiheon on 2022/08/29.
+//  Created by Finnn, 수꿍 on 2022/08/29.
 //
 //
 
 import UIKit
 import CoreData
 
-
 extension Diary {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Diary> {
         return NSFetchRequest<Diary>(entityName: "Diary")
     }
@@ -23,5 +21,4 @@ extension Diary {
     @NSManaged public var main: String
     @NSManaged public var title: String
     @NSManaged public var image: UIImage
-    
 }

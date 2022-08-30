@@ -18,11 +18,11 @@ final class DiaryContentsViewController: UIViewController {
     private var main: String?
     private var icon: String?
     private let locationManager = CLLocationManager()
+    private var isDeleted: Bool = false
+    private var isFetching: Bool = false
     
     var diary: Diary?
     var isEditingMemo: Bool = false
-    var isDeleted: Bool = false
-    var isFetching: Bool = false
     
     // MARK: - Life Cycle
     
@@ -40,10 +40,7 @@ final class DiaryContentsViewController: UIViewController {
         configureCreationDate()
         configureID()
         configureLocationManager()
-        
-        if locationManager.authorizationStatus == .authorizedWhenInUse {
-            locationManager.requestLocation()
-        }
+        requestCurrentLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -298,7 +295,7 @@ final class DiaryContentsViewController: UIViewController {
         
         switch (fetchSuccess, isDeleted) {
         case (nil, false):
-            WeatherImageAPIManager(icon: icon)?.requestImage(id: id) { result in
+            WeatherImageAPIManager(icon: icon)?.requestImage(id: id) { [weak self] result in
                 switch result {
                 case .success(let image):
                     do {
@@ -312,12 +309,12 @@ final class DiaryContentsViewController: UIViewController {
                             image: image
                         )
                     } catch {
-                        print(error)
+                        self?.presentErrorAlert(error)
                     }
                 case .failure(let error):
-                    self.presentErrorAlert(error)
+                    self?.presentErrorAlert(error)
                 }
-                self.isFetching = false
+                self?.isFetching = false
             }
         case (_, false):
             try CoreDataManager.shared.update(
@@ -325,10 +322,12 @@ final class DiaryContentsViewController: UIViewController {
                 body: body,
                 id: id
             )
-            self.isFetching = false
+            
+            isFetching = false
         case (_, true):
             try CoreDataManager.shared.delete(using: id)
-            self.isFetching = false
+            
+            isFetching = false
         }
     }
     
@@ -339,16 +338,20 @@ final class DiaryContentsViewController: UIViewController {
     private func configureCreationDate() {
         guard let diary = diary else {
             creationDate = Date()
+            
             return
         }
+        
         creationDate = diary.createdAt
     }
     
     private func configureID() {
         guard let diary = diary else {
             id = UUID()
+            
             return
         }
+        
         id = diary.id
     }
     
@@ -361,6 +364,12 @@ final class DiaryContentsViewController: UIViewController {
     private func configureLocationManager() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+    }
+    
+    private func requestCurrentLocation() {
+        if locationManager.authorizationStatus == .authorizedWhenInUse {
+            locationManager.requestLocation()
+        }
     }
 }
 
@@ -377,16 +386,19 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
         }
         
         guard let diary = diary else {
-            WeatherDataAPIManager(latitude: location.latitude, longitude: location.longitude)?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { result in
+            WeatherDataAPIManager(
+                latitude: location.latitude,
+                longitude: location.longitude
+            )?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { [weak self] result in
                 switch result {
                 case .success(let data):
                     guard let firstWeatherData = data.weather.first else {
                         return
                     }
-                    self.main = firstWeatherData.main
-                    self.icon = firstWeatherData.icon
+                    self?.main = firstWeatherData.main
+                    self?.icon = firstWeatherData.icon
                 case .failure(let error):
-                    self.presentErrorAlert(error)
+                    self?.presentErrorAlert(error)
                 }
             }
             
@@ -398,9 +410,10 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        if let error = error as? CLError, error.code == .denied {
-            
+        if let error = error as? CLError,
+            error.code == .denied {
             presentErrorAlert(GPSError.noAuthorization)
+            
             return
         }
     }

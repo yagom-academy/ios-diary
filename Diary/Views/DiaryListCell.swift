@@ -91,10 +91,8 @@ final class DiaryListCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             weatherIconImageView.heightAnchor.constraint(equalToConstant: 28),
-            weatherIconImageView.widthAnchor.constraint(equalTo: weatherIconImageView.heightAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
+            weatherIconImageView.widthAnchor.constraint(equalTo: weatherIconImageView.heightAnchor),
+
             titleLabel.topAnchor.constraint(
                 equalTo: contentView.topAnchor,
                 constant: 10

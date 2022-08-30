@@ -164,9 +164,9 @@
 		20DF026328AB75B1005AA6FA /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				B45EAB7728B9E7BB0066F2E8 /* WeatherDataEntity.swift */,
 				20DF026628AB7733005AA6FA /* DiarySampleData.swift */,
 				20DF026428AB769F005AA6FA /* JSONData.swift */,
+				B45EAB7728B9E7BB0066F2E8 /* WeatherDataEntity.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
