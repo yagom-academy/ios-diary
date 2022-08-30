@@ -146,9 +146,7 @@ final class DiaryListViewController: UIViewController {
                 cell.titleLabel.text = item.title
                 cell.dateLabel.text = item.createdAt.localizedString
                 cell.bodyLabel.text = item.body
-                if self.iconImages.count > indexPath.row {
-                    cell.weatherIconImageView.image = self.iconImages[indexPath.row]
-                }
+                cell.weatherIconImageView.image = item.image
                 
                 cell.accessoryType = .disclosureIndicator
                 
@@ -280,22 +278,11 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
         
         switch type {
         case .insert:
-            WeatherImageAPIManager(icon: diary.icon)?.requestImage(id: diary.id) { result in
-                switch result {
-                case .success(let image):
-                    self.iconImages.append(image)
-                    DispatchQueue.main.async {
-                        self.diaryView.tableView.reloadData()
-                    }
-                case .failure(let error):
-                    self.presentErrorAlert(error)
-                }
-            }
-            
             guard self.snapshot.numberOfItems != .zero,
                   let newIndexPath = newIndexPath,
                   let lastDiary = self.dataSource?.itemIdentifier(for: newIndexPath) else {
                 self.snapshot.appendItems([diary])
+                dataSource?.apply(snapshot)
                 return
             }
             
@@ -307,6 +294,7 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
         default:
             break
         }
+        dataSource?.apply(snapshot)
     }
 }
 
