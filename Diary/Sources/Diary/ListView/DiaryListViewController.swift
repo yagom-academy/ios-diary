@@ -41,8 +41,6 @@ final class DiaryListViewController: UIViewController {
         return diaryCoreData
     }
     
-
-    
     // MARK: - Life Cycles
     
     override func viewDidLoad() {
@@ -94,7 +92,7 @@ private extension DiaryListViewController {
         
         configuration.trailingSwipeActionsConfigurationProvider = { index in
             let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
-                let sharedDiaryItem = self.createTextViewContent(diaryItem: self.diaryCoreData[index.row])
+                let sharedDiaryItem = self.createTextViewContent(from: self.diaryCoreData[index.row])
                 let activitiViewController = UIActivityViewController(
                     activityItems: [sharedDiaryItem],
                     applicationActivities: nil
@@ -137,16 +135,14 @@ private extension DiaryListViewController {
             return UISwipeActionsConfiguration(actions: [shareAction, deleteAction])
         }
         
-        let layout = UICollectionViewCompositionalLayout.list(
-            using: configuration
-        )
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         
         return layout
     }
     
     // MARK: - Configuring Model
     
-    func createTextViewContent(diaryItem: DiaryItem) -> String {
+    func createTextViewContent(from diaryItem: DiaryItem) -> String {
         return """
         \(diaryItem.title)
         
@@ -165,13 +161,12 @@ private extension DiaryListViewController {
         pushDiaryCreateViewController()
     }
     
-    func pushDiaryDetailViewController(with diaryItem: DiaryItem? = nil) {
-        let diaryDetailViewController = DiaryUpdateViewController()
-        diaryDetailViewController.receiveData(diaryItem)
+    func pushDiaryUpdateViewController(with diaryItem: DiaryItem) {
+        let diaryDetailViewController = DiaryUpdateViewController(with: diaryItem)
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
-    func pushDiaryCreateViewController(with diaryItem: DiaryItem? = nil) {
+    func pushDiaryCreateViewController() {
         let diaryDetailViewController = DiaryCreateViewController()
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
@@ -200,7 +195,9 @@ private extension DiaryListViewController {
 
 extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let diaryItem = diaryListDiffableDataSource?.itemIdentifier(for: indexPath)
-        pushDiaryDetailViewController(with: diaryItem)
+        guard let diaryItem = diaryListDiffableDataSource?.itemIdentifier(for: indexPath) else {
+            return
+        }
+        pushDiaryUpdateViewController(with: diaryItem)
     }
 }

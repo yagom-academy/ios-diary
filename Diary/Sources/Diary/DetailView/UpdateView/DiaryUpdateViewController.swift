@@ -11,7 +11,17 @@ final class DiaryUpdateViewController: DiaryEditableViewController {
     
     // MARK: - Properties
     
-    private var diaryItem: DiaryItem?
+    private var diaryItem: DiaryItem
+    private var isNotDeleted = true
+    
+    init(with diaryItem: DiaryItem) {
+        self.diaryItem = diaryItem
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private lazy var rightBarButtonActionSheet: UIAlertController = {
         let rightBarButtonActionSheet = UIAlertController(
@@ -46,15 +56,13 @@ final class DiaryUpdateViewController: DiaryEditableViewController {
             style: .destructive,
             handler: { action in
                 self.present(self.deleteAlert, animated: true)
-                self.deleteDiary()
-                self.navigationController?.popViewController(animated: true)
             }
         )
         
         [share, cancel, delete].forEach {
             rightBarButtonActionSheet.addAction($0)
         }
-
+        
         return rightBarButtonActionSheet
     }()
     
@@ -64,7 +72,7 @@ final class DiaryUpdateViewController: DiaryEditableViewController {
             message: "삭제 후 복구는 불가능합니다.",
             preferredStyle: .alert
         )
-
+        
         let cancel = UIAlertAction(
             title: "취소",
             style: .cancel
@@ -82,7 +90,7 @@ final class DiaryUpdateViewController: DiaryEditableViewController {
         [cancel, delete].forEach {
             deleteAlert.addAction($0)
         }
-
+        
         return deleteAlert
     }()
     
@@ -107,15 +115,6 @@ final class DiaryUpdateViewController: DiaryEditableViewController {
     }
 }
 
-extension DiaryUpdateViewController {
-    
-    // MARK: - Methods
-    
-    func receiveData(_ diaryItem: DiaryItem?) {
-        self.diaryItem = diaryItem
-    }
-}
-
 private extension DiaryUpdateViewController {
     
     // MARK: - Private Methods
@@ -125,27 +124,20 @@ private extension DiaryUpdateViewController {
     func convertTextToDiaryItem() {
         let data = splitTitleAndBody(from: contentTextView.text)
         
-        diaryItem?.title = data.title
-        diaryItem?.body = data.body
+        diaryItem.title = data.title
+        diaryItem.body = data.body
     }
     
     func saveDiary() {
-        convertTextToDiaryItem()
-        
-        guard let diaryItem = diaryItem else {
-            return
+        if isNotDeleted {
+            convertTextToDiaryItem()
+            DiaryCoreDataManager.shared.update(diaryItem: diaryItem)
         }
-        
-        DiaryCoreDataManager.shared.update(diaryItem: diaryItem)
     }
     
     func deleteDiary() {
-        guard let diaryItem = diaryItem else {
-            return
-        }
-        
         DiaryCoreDataManager.shared.delete(diaryItem: diaryItem)
-        self.diaryItem = nil
+        isNotDeleted = false
     }
     
     // MARK: Configuring UI
@@ -153,10 +145,7 @@ private extension DiaryUpdateViewController {
     func configureRootViewUI() {
         self.view.backgroundColor = .systemBackground
         
-        if let diaryItem = diaryItem {
-            navigationItem.title = diaryItem.createdDate.localizedFormat()
-        }
-        
+        navigationItem.title = diaryItem.createdDate.localizedFormat()
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .action,
             target: self,
@@ -171,7 +160,7 @@ private extension DiaryUpdateViewController {
     @objc private func showActionSheet() {
         present(rightBarButtonActionSheet, animated: true)
     }
-
+    
     // MARK: Configuring Model
     
     func setupContentViewData() {
@@ -184,10 +173,6 @@ private extension DiaryUpdateViewController {
     }
     
     func createTextViewContent() -> String {
-        guard let diaryItem = diaryItem else {
-            return ""
-        }
-        
         return """
         \(diaryItem.title)
         
