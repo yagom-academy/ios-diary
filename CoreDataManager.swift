@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 import UIKit.UIApplication
 
-class CoreDataManager {
+final class CoreDataManager {
     static let shared = CoreDataManager()
     
     private var appDelegate: AppDelegate? {

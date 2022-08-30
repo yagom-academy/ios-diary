@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryDetailViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController {
     // MARK: - properties
     
     private let diaryDetailView = DiaryDetailView()
