@@ -12,4 +12,5 @@ struct DiaryContent: Decodable, Hashable {
     let title: String
     let body: String
     let createdAt: Date
+    let iconURL: String
 }
