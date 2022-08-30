@@ -36,6 +36,7 @@ final class DiaryRegisterView: UIView {
     
     func configureDetailTextViewInset(inset: CGFloat) {
         registerTextView.contentInset.bottom = inset
+        registerTextView.verticalScrollIndicatorInsets.bottom = inset
     }
     
     func seperateText() -> (title: String, body: String) {
