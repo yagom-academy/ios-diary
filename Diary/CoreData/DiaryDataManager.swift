@@ -9,7 +9,7 @@ import UIKit
 import CoreDataFramework
 import CoreData
 
-class DiaryDataManager {
+class DiaryDataManager: DataManageable {    
     static let shared = DiaryDataManager()
     
     private init() { }
@@ -31,7 +31,7 @@ class DiaryDataManager {
         CoreDataManager.shared.delete(fetchRequest)
     }
     
-    func fetchData() -> [DiaryItem]? {
+    func fetchDiary() -> [DiaryItem]? {
         guard let data = CoreDataManager.shared.fetch(DiaryEntity.fetchRequest()) else { return nil }
         
         var diaryItems = data.compactMap {

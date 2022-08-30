@@ -16,17 +16,18 @@ final class DiaryTableViewController: UIViewController {
     }()
     
     private var diaryItems: [DiaryItem] = []
+    private let dataManager = DiaryDataManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
         configureNavigationItem()
-        fetchData()
+        fetchData(manager: dataManager)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        fetchData()
+        fetchData(manager: dataManager)
         diaryListTableView.reloadData()
     }
     
@@ -56,8 +57,8 @@ final class DiaryTableViewController: UIViewController {
         ])
     }
     
-    private func fetchData() {
-        guard let diaryItems = DiaryDataManager.shared.fetchData() else { return }
+    private func fetchData(manager: DataManageable) {
+        guard let diaryItems = manager.fetchDiary() else { return }
         
         self.diaryItems = diaryItems
     }
@@ -118,7 +119,7 @@ extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
         let yesAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let self = self else { return }
             DiaryDataManager.shared.deleteDiary(id: self.diaryItems[indexPath.row].id)
-            self.fetchData()
+            self.fetchData(manager: self.dataManager)
             self.diaryListTableView.deleteRows(at: [indexPath], with: .fade)
         }
         
