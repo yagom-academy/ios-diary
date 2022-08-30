@@ -69,7 +69,6 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     
         addUIComponents()
         configureLayout()
-        configureCellAttributes()
     }
 
     required init?(coder: NSCoder) {
@@ -88,14 +87,6 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
 // MARK: - Private Methods
 
 private extension DiaryListCollectionViewCell {
-
-    func configureCellAttributes() {
-        contentView.layer.addBorder(
-            [.top, .bottom],
-            color: UIColor.systemGray4,
-            width: 0.17
-        )
-    }
 
     func addUIComponents() {
         contentView.addSubview(labelsVerticalStackView)

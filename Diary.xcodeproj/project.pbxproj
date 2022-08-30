@@ -21,7 +21,6 @@
 		FD8ED63A28ACAAB800F631F2 /* TimeInterval+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8ED63928ACAAB800F631F2 /* TimeInterval+Extensions.swift */; };
 		FD8ED63D28ACB76300F631F2 /* DiaryDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8ED63C28ACB76300F631F2 /* DiaryDataManager.swift */; };
 		FD8ED64028ACF17D00F631F2 /* DiaryListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8ED63F28ACF17D00F631F2 /* DiaryListCollectionViewCell.swift */; };
-		FD8ED64228ACF46C00F631F2 /* CALayer+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD8ED64128ACF46C00F631F2 /* CALayer+Extensions.swift */; };
 		FDD7CD9128BD192400B235E2 /* DiaryEditableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDD7CD9028BD192400B235E2 /* DiaryEditableViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -42,7 +41,6 @@
 		FD8ED63928ACAAB800F631F2 /* TimeInterval+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extensions.swift"; sourceTree = "<group>"; };
 		FD8ED63C28ACB76300F631F2 /* DiaryDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDataManager.swift; sourceTree = "<group>"; };
 		FD8ED63F28ACF17D00F631F2 /* DiaryListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCollectionViewCell.swift; sourceTree = "<group>"; };
-		FD8ED64128ACF46C00F631F2 /* CALayer+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CALayer+Extensions.swift"; sourceTree = "<group>"; };
 		FDD7CD9028BD192400B235E2 /* DiaryEditableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEditableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -180,7 +178,6 @@
 			isa = PBXGroup;
 			children = (
 				FD8ED63928ACAAB800F631F2 /* TimeInterval+Extensions.swift */,
-				FD8ED64128ACF46C00F631F2 /* CALayer+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -265,7 +262,6 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				FD8ED64028ACF17D00F631F2 /* DiaryListCollectionViewCell.swift in Sources */,
 				FDD7CD9128BD192400B235E2 /* DiaryEditableViewController.swift in Sources */,
-				FD8ED64228ACF46C00F631F2 /* CALayer+Extensions.swift in Sources */,
 				45222EAB28B5C1BF001907B4 /* DiaryEntity+CoreDataClass.swift in Sources */,
 				45222EAE28B5C490001907B4 /* DiaryCoreDataManager.swift in Sources */,
 				FD8ED63628AC7CC000F631F2 /* DiaryItem.swift in Sources */,
