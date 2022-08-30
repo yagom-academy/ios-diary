@@ -1,11 +1,11 @@
 //
-//  Diary.swift
+//  JSONDiary.swift
 //  Diary
 //
-//  Created by 백곰, 주디 on 2022/08/16.
+//  Created by 백곰, 주디 on 2022/08/30.
 //
 
-struct Diary: Decodable {
+struct JSONDiary: Decodable {
     let title: String
     let body: String
     let createdAt: Double

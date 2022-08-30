@@ -15,18 +15,24 @@ final class DiaryTableViewController: UIViewController {
         return tableView
     }()
     
-    private var diaryEntity: [Diary] = []
+    private var diaryItems: [DiaryItem] = []
+    private let dataManager = DiaryDataManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
         configureNavigationItem()
-        fetchData()
+        fetchData(manager: dataManager)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        fetchData(manager: dataManager)
+        diaryListTableView.reloadData()
     }
     
     @objc private func addDiaryButtonDidTapped() {
-        guard let addDiaryViewController = storyboard?.instantiateViewController(withIdentifier: "AddDiaryViewController") else { return }
-        self.navigationController?.pushViewController(addDiaryViewController, animated: true)
+        self.performSegue(withIdentifier: "AddDiarySegue", sender: self)
     }
     
     private func configureNavigationItem() {
@@ -37,12 +43,12 @@ final class DiaryTableViewController: UIViewController {
     
     private func configureTableView() {
         self.view.addSubview(diaryListTableView)
-        setConstraint()
+        setupConstraint()
         diaryListTableView.dataSource = self
         diaryListTableView.delegate = self
     }
     
-    private func setConstraint() {
+    private func setupConstraint() {
         NSLayoutConstraint.activate([
             diaryListTableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             diaryListTableView.topAnchor.constraint(equalTo: self.view.topAnchor),
@@ -51,35 +57,74 @@ final class DiaryTableViewController: UIViewController {
         ])
     }
     
-    private func fetchData() {
-        let jsonParser = JSONParser()
+    private func fetchData(manager: DataManageable) {
+        guard let diaryItems = manager.fetchDiary() else { return }
         
-        do {
-            diaryEntity = try jsonParser.fetch(name: "sample")
-        } catch let error as JSONError {
-            print(error.message)
-        } catch {
-            print("Unexpected Error")
+        self.diaryItems = diaryItems
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ManageDiarySegue" {
+            guard let manageViewController = segue.destination as? ManageDiaryViewController else { return }
+            guard let diary = sender as? DiaryItem else { return }
+            manageViewController.getDiaryData(data: diary)
         }
     }
 }
 
 extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryEntity.count
+        return diaryItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = self.diaryListTableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier, for: indexPath) as? DiaryListCell else { return UITableViewCell() }
         
         cell.accessoryType = .disclosureIndicator
-        cell.configure(with: diaryEntity[indexPath.row])
+        cell.configure(with: diaryItems[indexPath.row])
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diaryDetailViewController = storyboard?.instantiateViewController(withIdentifier: "DiaryDetailViewController") else { return }
-        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        self.performSegue(withIdentifier: "ManageDiarySegue", sender: diaryItems[indexPath.row])
+    }
+
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shareAction = UIContextualAction(style: .normal, title: "공유") { [weak self]_, _, _ in
+            guard let self = self else { return }
+            let shareText = self.diaryItems[indexPath.row]
+            let shareObject: [String] = [shareText.title + shareText.body]
+            
+            let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+            
+            self.present(activityViewController, animated: true)
+        }
+       
+        shareAction.backgroundColor = .systemBlue
+        
+        let deleteAction = UIContextualAction(style: .normal, title: "삭제") { [weak self]_, _, _ in
+            guard let self = self else { return }
+            self.deleteDiaryItem(indexPath: indexPath)
+        }
+        
+        deleteAction.backgroundColor = .systemRed
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+    
+    private func deleteDiaryItem(indexPath: IndexPath) {
+        let confirmAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let noAction = UIAlertAction(title: "취소", style: .cancel)
+        let yesAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            guard let self = self else { return }
+            DiaryDataManager.shared.deleteDiary(id: self.diaryItems[indexPath.row].id)
+            self.fetchData(manager: self.dataManager)
+            self.diaryListTableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+        confirmAlert.addAction(noAction)
+        confirmAlert.addAction(yesAction)
+        self.present(confirmAlert, animated: true)
     }
 }

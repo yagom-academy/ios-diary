@@ -56,16 +56,21 @@ final class DiaryListCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        addSubView()
-        setConstraint()
+        commonInit()
     }
     
-    required init(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        commonInit()
     }
 }
 
 extension DiaryListCell: ReuseIdentifying {
+    private func commonInit() {
+        addSubView()
+        setupConstraint()
+    }
+    
     private func addSubView() {
         verticalStackView.addArrangedSubview(titleLabel)
         verticalStackView.addArrangedSubview(horizontalStackView)
@@ -74,7 +79,7 @@ extension DiaryListCell: ReuseIdentifying {
         self.contentView.addSubview(verticalStackView)
     }
     
-    private func setConstraint() {
+    private func setupConstraint() {
         NSLayoutConstraint.activate([
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
@@ -83,9 +88,20 @@ extension DiaryListCell: ReuseIdentifying {
         ])
     }
     
-    func configure(with data: Diary) {
+    func configure(with data: DiaryItem) {
+        let body = data.body
+        var nextIndex = body.startIndex
+        
+        for str in body {
+            if str == "\n" {
+                nextIndex = body.index(after: nextIndex)
+            } else {
+                break
+            }
+        }
+        
         self.titleLabel.text = data.title
         self.dateLabel.text = DateManager().formatted(date: Date(timeIntervalSince1970: data.createdAt))
-        self.bodyLabel.text = data.body
+        self.bodyLabel.text = String(data.body[nextIndex..<data.body.endIndex])
     }
 }
