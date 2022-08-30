@@ -60,7 +60,6 @@ final class DiaryListViewController: UIViewController {
         let alertController = UIAlertController(title: Design.alertControllerTitle,
                                                 message: Design.alertControllerMessage,
                                                 preferredStyle: .alert)
-        
         let cancelAlertAction = UIAlertAction(title: Design.alertCancelAction,
                                               style: .cancel)
         let deleteAlertAction = UIAlertAction(title: Design.alertDeleteAction,
@@ -76,7 +75,6 @@ final class DiaryListViewController: UIViewController {
         guard let createdAt = diaryData?.diaryItems?[index].createdAt else { return }
         
         CoreDataManager.shared.delete(createdAt: createdAt)
-
         reloadView()
     }
     
@@ -147,7 +145,6 @@ extension DiaryListViewController: UITableViewDelegate {
             self.deleteAlertActionDidTap(index: indexPath.row)
             completionHaldler(true)
         })
-        
         let shareSwipeAction = UIContextualAction(style: .normal, title: Design.alertShareAction, handler: { _, _, completionHaldler in
             self.shareAlertActionDidTap(index: indexPath.row)
             completionHaldler(true)

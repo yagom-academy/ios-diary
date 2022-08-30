@@ -34,7 +34,6 @@ final class DiaryDetailViewController: UIViewController {
         configureDetailViewItem()
         configureKeyboardNotification()
         configureNavigationButton()
-        
         view.layoutIfNeeded()
     }
     
@@ -63,7 +62,6 @@ final class DiaryDetailViewController: UIViewController {
                                                selector: #selector(keyBoardShowAction),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardDownAction),
                                                name: UIResponder.keyboardWillHideNotification,
@@ -74,7 +72,6 @@ final class DiaryDetailViewController: UIViewController {
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillShowNotification,
                                                   object: nil)
-        
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillHideNotification,
                                                   object: nil)
@@ -100,7 +97,6 @@ final class DiaryDetailViewController: UIViewController {
         let alertController = UIAlertController(title: Design.alertControllerTitle,
                                                 message: Design.alertControllerMessage,
                                                 preferredStyle: .alert)
-        
         let cancelAlertAction = UIAlertAction(title: Design.alertCancelAction,
                                               style: .cancel)
         let deleteAlertAction = UIAlertAction(title: Design.alertDeleteAction,
@@ -116,7 +112,6 @@ final class DiaryDetailViewController: UIViewController {
         guard let createdAt = diaryDetailData?.createdAt else { return }
         
         CoreDataManager.shared.delete(createdAt: createdAt)
-        
         navigationController?.popViewController(animated: true)
     }
     
@@ -124,7 +119,6 @@ final class DiaryDetailViewController: UIViewController {
         let alertController = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
-        
         let shareAlertAction = UIAlertAction(title: Design.alertShareAction,
                                              style: .default) { _ in self.shareAlertActionDidTap() }
         let deleteAlertAction = UIAlertAction(title: Design.alertDeleteAction,
@@ -152,7 +146,6 @@ final class DiaryDetailViewController: UIViewController {
     
     @objc private func keyboardDownAction() {
         view.endEditing(true)
-        
         diaryDetailView.configureDetailTextViewInset(inset: 0)
     }
     

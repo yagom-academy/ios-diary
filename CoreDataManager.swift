@@ -10,6 +10,17 @@ import CoreData
 import UIKit.UIApplication
 
 final class CoreDataManager {
+    // MARK: - Design
+
+    private enum NameSpace {
+        static let entityName = "Diary"
+        static let titleKeyName = "title"
+        static let bodyKeyName = "body"
+        static let createdAtKeyName = "createdAt"
+    }
+    
+    // MARK: - properties
+
     static let shared = CoreDataManager()
     
     private var appDelegate: AppDelegate? {
@@ -24,6 +35,8 @@ final class CoreDataManager {
     
     private init() {}
     
+    // MARK: - methods
+
     func create(newDiary: DiaryModel) {
         guard let context = context,
               let entity = NSEntityDescription.entity(forEntityName: NameSpace.entityName, in: context)
@@ -68,14 +81,6 @@ final class CoreDataManager {
         else { return }
         
         context?.delete(diaryData)
-        
         appDelegate?.saveContext()
     }
-}
-
-private enum NameSpace {
-    static let entityName = "Diary"
-    static let titleKeyName = "title"
-    static let bodyKeyName = "body"
-    static let createdAtKeyName = "createdAt"
 }

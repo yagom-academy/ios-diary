@@ -35,7 +35,6 @@ final class DiaryRegisterViewController: UIViewController {
     
     func saveDiaryData() {
         let inputText = diaryRegisterView.seperateText()
-        
         guard inputText.title != "" || inputText.body != "" else { return }
         
         let diaryModel = DiaryModel(title: inputText.title,
@@ -50,7 +49,6 @@ final class DiaryRegisterViewController: UIViewController {
                                                selector: #selector(keyBoardShowAction),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardDownAction),
                                                name: UIResponder.keyboardWillHideNotification,
@@ -61,7 +59,6 @@ final class DiaryRegisterViewController: UIViewController {
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillShowNotification,
                                                   object: nil)
-        
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillHideNotification,
                                                   object: nil)
@@ -80,7 +77,6 @@ final class DiaryRegisterViewController: UIViewController {
     
     @objc private func keyboardDownAction() {
         view.endEditing(true)
-        
         diaryRegisterView.configureDetailTextViewInset(inset: 0)
     }
     
