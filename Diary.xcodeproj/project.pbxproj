@@ -82,8 +82,8 @@
 		72B5F55528B9FFDC00DED8AE /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		72B5F55B28BA50ED00DED8AE /* DiaryViewModelLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModelLogic.swift; sourceTree = "<group>"; };
 		72B5F55D28BA513400DED8AE /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
-		72B768E628BDA50C000D23B4 /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		72B768E728BDA50C000D23B4 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		72B768E628BDA50C000D23B4 /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryEntity+CoreDataClass.swift"; path = "Diary/Entity/DiaryEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		72B768E728BDA50C000D23B4 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryEntity+CoreDataProperties.swift"; path = "Diary/Entity/DiaryEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		90A5AE5228AB6E980072C1EE /* DiaryContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContent.swift; sourceTree = "<group>"; };
 		90A5AEA528ACB7810072C1EE /* DiaryContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentViewController.swift; sourceTree = "<group>"; };
 		90A5AEA928ACCCE20072C1EE /* UITextView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Extensions.swift"; sourceTree = "<group>"; };
@@ -148,6 +148,7 @@
 		7256A89F28BC9FEB0040A8D0 /* DiaryContentViewModelTest */ = {
 			isa = PBXGroup;
 			children = (
+				90DED76828BC89A0000BE228 /* Spy */,
 				7256A8A028BC9FEB0040A8D0 /* DiaryContentViewModelTest.swift */,
 			);
 			path = DiaryContentViewModelTest;
@@ -183,10 +184,6 @@
 			isa = PBXGroup;
 			children = (
 				90A5AE5228AB6E980072C1EE /* DiaryContent.swift */,
-				729D0ACC28B34C85001EA58E /* CoreDataManager.swift */,
-				7213597A28B9F3BB00D33413 /* DataManageLogic.swift */,
-				72B5F55528B9FFDC00DED8AE /* CoreDataError.swift */,
-				7256A8A728BCD2E00040A8D0 /* CurrentWeather.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -268,7 +265,6 @@
 			isa = PBXGroup;
 			children = (
 				90DED76D28BCA922000BE228 /* API */,
-				726E90C928AB75A700F0ACAB /* DummyJSON */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -286,11 +282,40 @@
 			path = API;
 			sourceTree = "<group>";
 		};
+		90DED77928BDE198000BE228 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				90DED77A28BDE1BA000BE228 /* CoreData */,
+				726E90C928AB75A700F0ACAB /* DummyJSON */,
+				90DED76B28BCA902000BE228 /* Network */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		90DED77A28BDE1BA000BE228 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				729D0ACC28B34C85001EA58E /* CoreDataManager.swift */,
+				7213597A28B9F3BB00D33413 /* DataManageLogic.swift */,
+				72B5F55528B9FFDC00DED8AE /* CoreDataError.swift */,
+			);
+			path = CoreData;
+			sourceTree = "<group>";
+		};
+		90DED77B28BDE1D6000BE228 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				72B768E628BDA50C000D23B4 /* DiaryEntity+CoreDataClass.swift */,
+				72B768E728BDA50C000D23B4 /* DiaryEntity+CoreDataProperties.swift */,
+				7256A8A728BCD2E00040A8D0 /* CurrentWeather.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
 				C739AE23284DF28600741E8F /* Diary */,
-				90DED76828BC89A0000BE228 /* Spy */,
 				726E90D328AB7CEB00F0ACAB /* DiaryTests */,
 				7256A89F28BC9FEB0040A8D0 /* DiaryContentViewModelTest */,
 				C739AE22284DF28600741E8F /* Products */,
@@ -312,15 +337,14 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				72B768E628BDA50C000D23B4 /* DiaryEntity+CoreDataClass.swift */,
-				72B768E728BDA50C000D23B4 /* DiaryEntity+CoreDataProperties.swift */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 				90DABB8128AE687A0068BEC4 /* .swiftlint.yml */,
-				90DED76B28BCA902000BE228 /* Network */,
 				90A5AE5428AB6F4B0072C1EE /* Application */,
 				90A5AEA228ACAF250072C1EE /* ViewModel */,
 				90A5AE5728AB86240072C1EE /* View */,
 				90A5AE5528AB6F580072C1EE /* Model */,
+				90DED77B28BDE1D6000BE228 /* Entity */,
+				90DED77928BDE198000BE228 /* Repository */,
 				90A5AE5A28AB88F00072C1EE /* Extensions */,
 				90A5AE5628AB6F600072C1EE /* Resources */,
 			);
