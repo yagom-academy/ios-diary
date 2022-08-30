@@ -7,7 +7,17 @@
 
 import UIKit
 
-class DiaryDetailViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController {
+    // MARK: - Design
+
+    private enum Design {
+        static let alertControllerTitle = "진짜요?"
+        static let alertControllerMessage = "정말로 삭제하시겠어요?🐒"
+        static let alertCancelAction = "취소"
+        static let alertDeleteAction = "삭제"
+        static let alertShareAction = "공유"
+    }
+    
     // MARK: - properties
     
     private let diaryDetailView = DiaryDetailView()
@@ -24,7 +34,6 @@ class DiaryDetailViewController: UIViewController {
         configureDetailViewItem()
         configureKeyboardNotification()
         configureNavigationButton()
-        
         view.layoutIfNeeded()
     }
     
@@ -53,7 +62,6 @@ class DiaryDetailViewController: UIViewController {
                                                selector: #selector(keyBoardShowAction),
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardDownAction),
                                                name: UIResponder.keyboardWillHideNotification,
@@ -64,7 +72,6 @@ class DiaryDetailViewController: UIViewController {
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillShowNotification,
                                                   object: nil)
-        
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillHideNotification,
                                                   object: nil)
@@ -90,7 +97,6 @@ class DiaryDetailViewController: UIViewController {
         let alertController = UIAlertController(title: Design.alertControllerTitle,
                                                 message: Design.alertControllerMessage,
                                                 preferredStyle: .alert)
-        
         let cancelAlertAction = UIAlertAction(title: Design.alertCancelAction,
                                               style: .cancel)
         let deleteAlertAction = UIAlertAction(title: Design.alertDeleteAction,
@@ -106,7 +112,6 @@ class DiaryDetailViewController: UIViewController {
         guard let createdAt = diaryDetailData?.createdAt else { return }
         
         CoreDataManager.shared.delete(createdAt: createdAt)
-        
         navigationController?.popViewController(animated: true)
     }
     
@@ -114,7 +119,6 @@ class DiaryDetailViewController: UIViewController {
         let alertController = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
-        
         let shareAlertAction = UIAlertAction(title: Design.alertShareAction,
                                              style: .default) { _ in self.shareAlertActionDidTap() }
         let deleteAlertAction = UIAlertAction(title: Design.alertDeleteAction,
@@ -142,7 +146,6 @@ class DiaryDetailViewController: UIViewController {
     
     @objc private func keyboardDownAction() {
         view.endEditing(true)
-        
         diaryDetailView.configureDetailTextViewInset(inset: 0)
     }
     
@@ -166,14 +169,4 @@ class DiaryDetailViewController: UIViewController {
         
         diaryDetailView.configureDetailTextView(ofText: "\(title)\n\(body)")
     }
-}
-
-// MARK: - Design
-
-private enum Design {
-    static let alertControllerTitle = "진짜요?"
-    static let alertControllerMessage = "정말로 삭제하시겠어요?🐒"
-    static let alertCancelAction = "취소"
-    static let alertDeleteAction = "삭제"
-    static let alertShareAction = "공유"
 }

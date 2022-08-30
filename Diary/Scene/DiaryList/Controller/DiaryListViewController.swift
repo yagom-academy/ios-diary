@@ -8,6 +8,17 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
+    // MARK: - Design
+
+    private enum Design {
+        static let navigationTitle = "일기장"
+        static let alertControllerTitle = "진짜요?"
+        static let alertControllerMessage = "정말로 삭제하시겠어요?🐒"
+        static let alertCancelAction = "취소"
+        static let alertDeleteAction = "삭제"
+        static let alertShareAction = "공유"
+    }
+    
     // MARK: - properties
 
     private var tableView = UITableView()
@@ -49,7 +60,6 @@ final class DiaryListViewController: UIViewController {
         let alertController = UIAlertController(title: Design.alertControllerTitle,
                                                 message: Design.alertControllerMessage,
                                                 preferredStyle: .alert)
-        
         let cancelAlertAction = UIAlertAction(title: Design.alertCancelAction,
                                               style: .cancel)
         let deleteAlertAction = UIAlertAction(title: Design.alertDeleteAction,
@@ -65,7 +75,6 @@ final class DiaryListViewController: UIViewController {
         guard let createdAt = diaryData?.diaryItems?[index].createdAt else { return }
         
         CoreDataManager.shared.delete(createdAt: createdAt)
-
         reloadView()
     }
     
@@ -136,7 +145,6 @@ extension DiaryListViewController: UITableViewDelegate {
             self.deleteAlertActionDidTap(index: indexPath.row)
             completionHaldler(true)
         })
-        
         let shareSwipeAction = UIContextualAction(style: .normal, title: Design.alertShareAction, handler: { _, _, completionHaldler in
             self.shareAlertActionDidTap(index: indexPath.row)
             completionHaldler(true)
@@ -144,15 +152,4 @@ extension DiaryListViewController: UITableViewDelegate {
         
         return UISwipeActionsConfiguration(actions: [deleteSwipeAction, shareSwipeAction])
     }
-}
-
-// MARK: - Design
-
-private enum Design {
-    static let navigationTitle = "일기장"
-    static let alertControllerTitle = "진짜요?"
-    static let alertControllerMessage = "정말로 삭제하시겠어요?🐒"
-    static let alertCancelAction = "취소"
-    static let alertDeleteAction = "삭제"
-    static let alertShareAction = "공유"
 }

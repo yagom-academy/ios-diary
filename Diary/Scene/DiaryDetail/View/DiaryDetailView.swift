@@ -40,6 +40,7 @@ final class DiaryDetailView: UIView {
     
     func configureDetailTextViewInset(inset: CGFloat) {
         detailTextView.contentInset.bottom = inset
+        detailTextView.verticalScrollIndicatorInsets.bottom = inset
     }
     
     func seperateText() -> (title: String, body: String) {
