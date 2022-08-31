@@ -26,6 +26,15 @@ final class DiaryListCell: UITableViewCell {
         return label
     }()
     
+    private let weatherIcon: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.textColor = .green
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        return label
+    }()
+    
     private let preViewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -77,6 +86,7 @@ final class DiaryListCell: UITableViewCell {
         mainStackView.addArrangedSubview(titleLabel)
         mainStackView.addArrangedSubview(horizontalStackView)
         horizontalStackView.addArrangedSubview(dateLabel)
+        horizontalStackView.addArrangedSubview(weatherIcon)
         horizontalStackView.addArrangedSubview(preViewLabel)
     }
     
@@ -93,6 +103,7 @@ final class DiaryListCell: UITableViewCell {
         titleLabel.text = model.title
         preViewLabel.text = model.body?.replacingOccurrences(of: NameSpace.lineChange, with: NameSpace.whiteSpace)
         dateLabel.text = model.createdAt.translateToDate()
+        weatherIcon.text = model.weatherIcon
     }
     
     override func prepareForReuse() {

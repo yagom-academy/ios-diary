@@ -26,6 +26,7 @@ final class DiaryListViewController: UIViewController {
         setupNavigationBar()
         setupDiaryListView()
         adaptDelegate()
+        CoreDataManager.shared.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,6 +70,7 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryViewController = generateViewController(with: indexPath.row)
         navigationController?.pushViewController(diaryViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -116,5 +118,13 @@ private extension DiaryListViewController {
         diaryViewController.diary = CoreDataManager.shared.reversedDiaries[indexPath]
         diaryViewController.mode = .modify
         return diaryViewController
+    }
+}
+
+// MARK: - CoreDataManagerDelegate
+
+extension DiaryListViewController: CoreDataManagerDelegate {
+    func didUpdateCoredata() {
+        self.diaryListView.tableView.reloadData()
     }
 }
