@@ -33,4 +33,15 @@ struct JsonParser {
         }
         return diaryModels
     }
+    
+    static func fetch(_ data: Data) -> WeatherModel? {
+        let decoder = JSONDecoder()
+        var weatherModel: WeatherModel?
+        do {
+            weatherModel = try decoder.decode(WeatherModel.self, from: data)
+        } catch {
+            print(error.localizedDescription)
+        }
+        return weatherModel
+    }
 }
