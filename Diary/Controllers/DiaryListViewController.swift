@@ -205,7 +205,7 @@ extension DiaryListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let diary = self.dataSource?.itemIdentifier(for: indexPath) else {
+        guard let diary = dataSource?.itemIdentifier(for: indexPath) else {
             return nil
         }
         
@@ -251,7 +251,7 @@ extension DiaryListViewController: UITableViewDelegate {
             activityItems: [title + String(NewLine.lineFeed) + body],
             applicationActivities: nil
         )
-        self.present(activityViewController, animated: true)
+        present(activityViewController, animated: true)
     }
 }
 
@@ -267,7 +267,7 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
         case .insert:
             guard snapshot.numberOfItems != .zero,
                   let newIndexPath = newIndexPath,
-                  let lastDiary = self.dataSource?.itemIdentifier(for: newIndexPath) else {
+                  let lastDiary = dataSource?.itemIdentifier(for: newIndexPath) else {
                 snapshot.appendItems([diary])
                 dataSource?.apply(snapshot)
                 

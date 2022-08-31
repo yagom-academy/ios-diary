@@ -251,7 +251,7 @@ final class DiaryContentsViewController: UIViewController {
                   let id = id,
                   let main = main,
                   let icon = icon else {
-                self.isFetching = false
+                isFetching = false
                 return
             }
             
