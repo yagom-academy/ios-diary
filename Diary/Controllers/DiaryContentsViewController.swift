@@ -20,6 +20,7 @@ final class DiaryContentsViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private var isDeleted: Bool = false
     private var isFetching: Bool = false
+    private var isHavingError: Bool = false
     
     var diary: Diary?
     var isEditingMemo: Bool = false
@@ -47,12 +48,6 @@ final class DiaryContentsViewController: UIViewController {
         super.viewWillAppear(animated)
         
         showKeyboard()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        renewCoreData()
     }
     
     // MARK: - Methods
@@ -84,6 +79,16 @@ final class DiaryContentsViewController: UIViewController {
         let actionSheet = configureActionSheet()
         
         present(actionSheet, animated: true)
+    }
+    
+    @objc private func popButtonTapped() {
+        renewCoreData()
+        if isHavingError == false {
+            navigationController?.popViewController(animated: true)
+        } else {
+            presentErrorAlert(GPSError.noLocation)
+            isFetching = false
+        }
     }
     
     private func configureActionSheet() -> UIAlertController {
@@ -248,14 +253,19 @@ final class DiaryContentsViewController: UIViewController {
             
             guard let (title, body) = extractTitleAndBody(),
                   let creationDate = creationDate,
-                  let id = id,
-                  let main = main,
-                  let icon = icon else {
+                  let id = id else {
                 isFetching = false
-                presentErrorAlert(GPSError.noLocation)
-                navigationController?.popViewController(animated: true)
+                
                 return
             }
+            
+            guard let main = main,
+                  let icon = icon else {
+                isHavingError = true
+                return
+            }
+            
+            isHavingError = false
             
             do {
                 try determineDataProcessingWith(
@@ -391,14 +401,20 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
             WeatherDataAPIManager(
                 latitude: location.latitude,
                 longitude: location.longitude
-            )?.requestAndDecodeWeather(dataType: WeatherDataEntity.self)  { [weak self] result in
+            )?.requestAndDecodeWeather(dataType: WeatherDataEntity.self) { [weak self] result in
                 switch result {
                 case .success(let data):
-                    guard let firstWeatherData = data.weather.first else {
-                        return
+                    DispatchQueue.main.async {
+                        self?.presentSuccessAlert()
+                        self?.isHavingError = false
+                        self?.isFetching = false
+                        
+                        guard let firstWeatherData = data.weather.first else {
+                            return
+                        }
+                        self?.main = firstWeatherData.main
+                        self?.icon = firstWeatherData.icon
                     }
-                    self?.main = firstWeatherData.main
-                    self?.icon = firstWeatherData.icon
                 case .failure(let error):
                     self?.presentErrorAlert(error)
                 }
