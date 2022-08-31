@@ -26,13 +26,12 @@ final class DiaryListCell: UITableViewCell {
         return label
     }()
     
-    private let weatherIcon: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.textColor = .green
-        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        return label
+    private let weatherIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        return imageView
     }()
     
     private let preViewLabel: UILabel = {
@@ -100,10 +99,11 @@ final class DiaryListCell: UITableViewCell {
     }
     
     func setupData(with model: Diary) {
+        guard let modelIcon = model.weatherIcon else { return }
         titleLabel.text = model.title
         preViewLabel.text = model.body?.replacingOccurrences(of: NameSpace.lineChange, with: NameSpace.whiteSpace)
         dateLabel.text = model.createdAt.translateToDate()
-        weatherIcon.text = model.weatherIcon
+        weatherIcon.requestWeatherImage(iconId: modelIcon)
     }
     
     override func prepareForReuse() {
@@ -111,5 +111,6 @@ final class DiaryListCell: UITableViewCell {
         titleLabel.text = nil
         preViewLabel.text = nil
         dateLabel.text = nil
+        weatherIcon.image = nil
     }
 }
