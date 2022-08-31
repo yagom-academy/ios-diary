@@ -16,6 +16,8 @@
 		20967B2328B768C900DCACA1 /* CoreDataFramework.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 20967B2128B768C200DCACA1 /* CoreDataFramework.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		20AE6C9B28BDAA49004814ED /* DataManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE6C9A28BDAA49004814ED /* DataManageable.swift */; };
 		20AE6C9D28BDAE15004814ED /* JSONDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20AE6C9C28BDAE15004814ED /* JSONDiary.swift */; };
+		20CE4DA428BF395500D8F846 /* WetherDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE4DA328BF395500D8F846 /* WetherDecoder.swift */; };
+		20CE4DA728BF4E7900D8F846 /* NavigationTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20CE4DA628BF4E7900D8F846 /* NavigationTitleView.swift */; };
 		20D2C7EF28AE072100AC3334 /* View + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D2C7EE28AE072100AC3334 /* View + Extension.swift */; };
 		20FB2EE828B7542500358670 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 841EAF1BD75AA89276F01ABA /* Pods_Diary.framework */; };
 		20FB2EE928B7542500358670 /* Pods_Diary.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 841EAF1BD75AA89276F01ABA /* Pods_Diary.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -72,6 +74,8 @@
 		20967B1C28B768C200DCACA1 /* CoreDataFramework.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CoreDataFramework.xcodeproj; path = CoreDataFramework/CoreDataFramework.xcodeproj; sourceTree = "<group>"; };
 		20AE6C9A28BDAA49004814ED /* DataManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManageable.swift; sourceTree = "<group>"; };
 		20AE6C9C28BDAE15004814ED /* JSONDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDiary.swift; sourceTree = "<group>"; };
+		20CE4DA328BF395500D8F846 /* WetherDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WetherDecoder.swift; sourceTree = "<group>"; };
+		20CE4DA628BF4E7900D8F846 /* NavigationTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationTitleView.swift; sourceTree = "<group>"; };
 		20D2C7EE28AE072100AC3334 /* View + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View + Extension.swift"; sourceTree = "<group>"; };
 		27AA9694B250007E25AAAC5B /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		841EAF1BD75AA89276F01ABA /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -198,6 +202,7 @@
 			children = (
 				8A321ACA28AB87E3007E7DDA /* DiaryListCell.swift */,
 				8A321ACE28AC89A5007E7DDA /* ManageDiaryView.swift */,
+				20CE4DA628BF4E7900D8F846 /* NavigationTitleView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -223,6 +228,7 @@
 			children = (
 				8AFBE24D28BF2EC4003F2A50 /* Weather.swift */,
 				8AFBE25428BF349C003F2A50 /* WeatherError.swift */,
+				20CE4DA328BF395500D8F846 /* WetherDecoder.swift */,
 			);
 			path = Weather;
 			sourceTree = "<group>";
@@ -410,10 +416,12 @@
 				8AAF707928BCB09500A6A669 /* DiaryEntity+CoreDataProperties.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryTableViewController.swift in Sources */,
 				202EDC0928AB98D600473267 /* ReuseIdentifying.swift in Sources */,
+				20CE4DA728BF4E7900D8F846 /* NavigationTitleView.swift in Sources */,
 				205C613828AB852B00F0EA09 /* DiaryItem.swift in Sources */,
 				8AAF707828BCB09500A6A669 /* DiaryEntity+CoreDataClass.swift in Sources */,
 				8AFBE25228BF315E003F2A50 /* WeatherSessionManager.swift in Sources */,
 				20AE6C9B28BDAA49004814ED /* DataManageable.swift in Sources */,
+				20CE4DA428BF395500D8F846 /* WetherDecoder.swift in Sources */,
 				8AAF706E28BCAAE000A6A669 /* Model.xcdatamodeld in Sources */,
 				202EDC0E28AC851C00473267 /* ManageDiaryViewController.swift in Sources */,
 				8AFBE24E28BF2EC4003F2A50 /* Weather.swift in Sources */,

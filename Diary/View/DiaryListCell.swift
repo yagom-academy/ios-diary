@@ -25,6 +25,13 @@ final class DiaryListCell: UITableViewCell {
         return dateLabel
     }()
     
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleToFill
+        return imageView
+    }()
+    
     private let bodyLabel: UILabel = {
         let bodyLabel = UILabel()
         bodyLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -75,6 +82,7 @@ extension DiaryListCell: ReuseIdentifying {
         verticalStackView.addArrangedSubview(titleLabel)
         verticalStackView.addArrangedSubview(horizontalStackView)
         horizontalStackView.addArrangedSubview(dateLabel)
+        horizontalStackView.addArrangedSubview(weatherImageView)
         horizontalStackView.addArrangedSubview(bodyLabel)
         self.contentView.addSubview(verticalStackView)
     }

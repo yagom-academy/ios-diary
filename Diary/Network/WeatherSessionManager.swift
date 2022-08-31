@@ -8,19 +8,8 @@
 import Foundation
 
 struct WeatherSessionManager {
-    
-    func requestWeatherInfomation(at city: String, completion: @escaping (Result<Data, WeatherError>) -> Void ) {
-        let apiKey = "143bbe85021307632d1ce316ce1b9963"
-        let wheatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid="
-        guard let url = URL(string: wheatherUrl + apiKey) else {
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        
-        let task = URLSession.shared.dataTask(with: request) { (data, response, _) in
-            
+    private func dataTask(request: URLRequest, completion: @escaping (Result<Data, WeatherError>) -> Void) {
+        URLSession.shared.dataTask(with: request) { (data, response, _) in
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
                 return completion(.failure(WeatherError.failResponse))
@@ -29,7 +18,27 @@ struct WeatherSessionManager {
             if let data = data {
                 completion(.success(data))
             }
+        }.resume()
+    }
+    
+    func requestWeatherInfomation(at city: String, completion: @escaping (Result<Data, WeatherError>) -> Void) {
+        let apiKey = "143bbe85021307632d1ce316ce1b9963"
+        let wheatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid="
+        guard let url = URL(string: wheatherUrl + apiKey) else {
+            return
         }
-        task.resume()
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        dataTask(request: request, completion: completion)
+    }
+    
+    func requestWeatherIcon(_ icon: String, completion: @escaping (Result<Data, WeatherError>) -> Void) {
+        let iconURL = "https://openweathermap.org/img/wn/\(icon).png"
+        guard let url = URL(string: iconURL) else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        
+        dataTask(request: request, completion: completion)
     }
 }

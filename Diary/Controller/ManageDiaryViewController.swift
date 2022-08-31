@@ -16,6 +16,8 @@ final class ManageDiaryViewController: UIViewController {
     private let manageDiaryView = ManageDiaryView()
     private var viewMode: ViewMode = .add
     private var id = UUID()
+    private var weatherIcon = UIImage()
+    private let navigationView = NavigationTitleView()
     
     override func loadView() {
         super.loadView()
@@ -57,11 +59,38 @@ final class ManageDiaryViewController: UIViewController {
     private func checkViewMode() {
         switch viewMode {
         case .add:
-            self.navigationItem.title = DateManager().formatted(date: Date())
+            fetchWeather()
             manageDiaryView.focusBodyTextView()
         case .edit:
             let optionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(optionButtonDidTapped))
             navigationItem.rightBarButtonItem = optionButton
+        }
+    }
+    
+    private func fetchWeather() {
+        WeatherSessionManager().requestWeatherInfomation(at: "Seoul") { response in
+            switch response {
+            case .success(let data):
+                guard let weatherInfo = WeatherDecoder().fetchWeather(data: data)?.weather.first else { return }
+                self.fetchWeatherIcon(by: weatherInfo)
+            case .failure(let error):
+                print(error)
+            }
+        }
+    }
+    
+    private func fetchWeatherIcon(by info: WeatherInfo) {
+        WeatherSessionManager().requestWeatherIcon(info.icon) { response in
+            switch response {
+            case .success(let data):
+                guard let imageData = UIImage(data: data) else { return }
+                DispatchQueue.main.async {
+                    self.navigationView.configure(title: DateManager().formatted(date: Date()), icon: imageData)
+                    self.navigationItem.titleView = self.navigationView
+                }
+            case .failure(let error):
+                print(error)
+            }
         }
     }
     

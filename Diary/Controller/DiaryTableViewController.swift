@@ -23,19 +23,6 @@ final class DiaryTableViewController: UIViewController {
         configureTableView()
         configureNavigationItem()
         fetchData(manager: dataManager)
-        fetchWeather()
-    }
-    
-    func fetchWeather() {
-        let weather = WeatherSessionManager()
-        weather.requestWeatherInfomation(at: "Seoul") { (response) in
-            switch response {
-            case .success(let data):
-                print(data)
-            case .failure(let data):
-                print(data)
-            }
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
