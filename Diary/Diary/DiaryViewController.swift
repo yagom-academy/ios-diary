@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryViewController: UIViewController {
     // MARK: - NameSpace
-
+    
     private enum AlertMassage {
         static let shareActionTitle = "share..."
         static let deleteActionTitle = "Delete"
@@ -19,9 +20,10 @@ final class DiaryViewController: UIViewController {
         static let cancelActionTitle = "Cancel"
         static let newDiary = "새로운일기장"
     }
-
+    
     // MARK: - Properties
     
+    let locationManager = CLLocationManager()
     let diaryView = DiaryView(frame: .zero)
     var diary: Diary?
     var mode: PageMode = .create
@@ -34,6 +36,7 @@ final class DiaryViewController: UIViewController {
         setupInitialView()
         setupKeyboard()
         setupNotification()
+        setupLocationManager()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -105,9 +108,9 @@ final class DiaryViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             }
             self.generateAlertController(title: AlertMassage.deleteAlertTitle,
-                                          message: AlertMassage.deleteAlertMessage,
-                                          style: .alert,
-                                          actions: [cancel, delete])
+                                         message: AlertMassage.deleteAlertMessage,
+                                         style: .alert,
+                                         actions: [cancel, delete])
         }
         return delete
     }
@@ -137,8 +140,6 @@ extension DiaryViewController {
             createDiary()
         case .modify:
             modifyDiary()
-        default:
-            return
         }
     }
     
@@ -218,5 +219,27 @@ extension DiaryViewController {
     @objc private func hideKeyboard(_ sender: Any) {
         view.endEditing(true)
         updateDiary()
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+
+extension DiaryViewController: CLLocationManagerDelegate {
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestAlwaysAuthorization()
+        locationManager.startUpdatingLocation()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let coordinate = locations.last?.coordinate {
+            locationManager.stopUpdatingLocation()
+            print(coordinate.latitude)
+            print(coordinate.longitude)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
     }
 }
