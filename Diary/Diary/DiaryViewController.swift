@@ -23,8 +23,8 @@ final class DiaryViewController: UIViewController {
     // MARK: - Properties
     
     let diaryView = DiaryView(frame: .zero)
-    var coreDataDiary: Diary?
-    var mode: PageMode? = .create
+    var diary: Diary?
+    var mode: PageMode = .create
     
     // MARK: - ViewLifeCycle
     
@@ -61,7 +61,7 @@ final class DiaryViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(diaryView)
         setDiaryViewConstraint()
-        diaryView.setupData(with: coreDataDiary)
+        diaryView.setupData(with: diary)
     }
     
     private func setDiaryViewConstraint() {
@@ -85,24 +85,29 @@ final class DiaryViewController: UIViewController {
     private func generateShareAlertAction() -> UIAlertAction {
         let model = makeDiaryModel()
         let share = UIAlertAction(title: AlertMassage.shareActionTitle, style: .default) { [weak self] _ in
-            let diaryToShare: [Any] = [MyActivityItemSource(title: model.title, text: model.body)]
+            guard let self = self else { return }
+            let diaryToShare: [MyActivityItemSource] = [MyActivityItemSource(title: model.title, text: model.body)]
             let activityViewController = UIActivityViewController(activityItems: diaryToShare, applicationActivities: nil)
-            activityViewController.popoverPresentationController?.sourceView = self?.diaryView
+            activityViewController.popoverPresentationController?.sourceView = self.diaryView
             
-            self?.present(activityViewController, animated: true)
+            self.present(activityViewController, animated: true)
         }
         return share
     }
     
     private func generateDeleteAlertAction() -> UIAlertAction {
         let delete = UIAlertAction(title: AlertMassage.deleteActionTitle, style: .destructive) { [weak self] _ in
-            guard let coreDataDiary = self?.coreDataDiary else { return }
+            guard let self = self, let coreDataDiary = self.diary else { return }
             let cancel = UIAlertAction(title: AlertMassage.cancel, style: .cancel)
             let delete = UIAlertAction(title: NameSpace.delete, style: .destructive) { [weak self] _ in
+                guard let self = self else { return }
                 CoreDataManager.shared.delete(diary: coreDataDiary)
-                self?.navigationController?.popViewController(animated: true)
+                self.navigationController?.popViewController(animated: true)
             }
-            self?.generateAlertController(title: AlertMassage.deleteAlertTitle, message: AlertMassage.deleteAlertMessage, style: .alert, actions: [cancel, delete])
+            self.generateAlertController(title: AlertMassage.deleteAlertTitle,
+                                          message: AlertMassage.deleteAlertMessage,
+                                          style: .alert,
+                                          actions: [cancel, delete])
         }
         return delete
     }
@@ -144,7 +149,7 @@ extension DiaryViewController {
     }
     
     private func modifyDiary() {
-        guard let coreDataDiary = coreDataDiary else { return }
+        guard let coreDataDiary = diary else { return }
         if diaryView.diaryTextView.text.isEmpty || diaryView.diaryTextView.text == NameSpace.placeHolder {
             CoreDataManager.shared.delete(diary: coreDataDiary)
         } else {
@@ -168,7 +173,7 @@ extension DiaryViewController {
     }
     
     @objc private func updateDiary() {
-        guard let coreDataDiary = coreDataDiary else { return }
+        guard let coreDataDiary = diary else { return }
         let diaryModel = makeDiaryModel()
         CoreDataManager.shared.update(diary: coreDataDiary, with: diaryModel)
     }

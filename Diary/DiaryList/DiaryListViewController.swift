@@ -84,14 +84,15 @@ private extension DiaryListViewController {
     
     func generateShareAction(with indexPath: Int) -> UIContextualAction {
         let shareAction = UIContextualAction(style: .normal, title: DiaryListNameSpace.share) { [weak self] _, _, _ in
+            guard let self = self else { return }
             let model = CoreDataManager.shared.fetchedDiaries
             let title = model[indexPath].title ?? DiaryListNameSpace.noneTitle
             let body = model[indexPath].body ?? DiaryListNameSpace.noneTitle
-            let diaryToShare: [Any] = [MyActivityItemSource(title: title, text: body)]
+            let diaryToShare: [MyActivityItemSource] = [MyActivityItemSource(title: title, text: body)]
             let activityViewController = UIActivityViewController(activityItems: diaryToShare, applicationActivities: nil)
-            activityViewController.popoverPresentationController?.sourceView = self?.diaryListView
+            activityViewController.popoverPresentationController?.sourceView = self.diaryListView
             
-            self?.present(activityViewController, animated: true)
+            self.present(activityViewController, animated: true)
         }
         shareAction.image = UIImage(systemName: SystemName.shareIcon)
         shareAction.backgroundColor = .init(red: 80/255, green: 188/225, blue: 223/225, alpha: 1)
@@ -112,7 +113,7 @@ private extension DiaryListViewController {
     
     func generateViewController(with indexPath: Int) -> UIViewController {
         let diaryViewController = DiaryViewController()
-        diaryViewController.coreDataDiary = CoreDataManager.shared.fetchedDiaries[indexPath]
+        diaryViewController.diary = CoreDataManager.shared.fetchedDiaries[indexPath]
         diaryViewController.mode = .modify
         return diaryViewController
     }
