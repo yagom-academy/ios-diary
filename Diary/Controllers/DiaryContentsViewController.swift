@@ -252,6 +252,8 @@ final class DiaryContentsViewController: UIViewController {
                   let main = main,
                   let icon = icon else {
                 isFetching = false
+                presentErrorAlert(GPSError.noLocation)
+                navigationController?.popViewController(animated: true)
                 return
             }
             

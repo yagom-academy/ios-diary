@@ -8,12 +8,15 @@
 import Foundation
 
 enum GPSError: Error, LocalizedError {
-    case noAuthorization   
+    case noAuthorization
+    case noLocation
     
     var errorDescription: String? {
         switch self {
         case .noAuthorization:
             return NSLocalizedString("There is no authorization to fetch GPS", comment: "GPS Error")
+        case .noLocation:
+            return NSLocalizedString("There is no location data", comment: "Location Error")
         }
     }
 }
