@@ -383,7 +383,7 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.first?.coordinate else {
+        guard let location = locations.last?.coordinate else {
             return
         }
         
