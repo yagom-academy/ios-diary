@@ -23,6 +23,19 @@ final class DiaryTableViewController: UIViewController {
         configureTableView()
         configureNavigationItem()
         fetchData(manager: dataManager)
+        fetchWeather()
+    }
+    
+    func fetchWeather() {
+        let weather = WeatherSessionManager()
+        weather.requestWeatherInfomation(at: "Seoul") { (response) in
+            switch response {
+            case .success(let data):
+                print(data)
+            case .failure(let data):
+                print(data)
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -89,7 +102,7 @@ extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.performSegue(withIdentifier: "ManageDiarySegue", sender: diaryItems[indexPath.row])
     }
-
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let shareAction = UIContextualAction(style: .normal, title: "공유") { [weak self]_, _, _ in
             guard let self = self else { return }
@@ -100,7 +113,7 @@ extension DiaryTableViewController: UITableViewDataSource, UITableViewDelegate {
             
             self.present(activityViewController, animated: true)
         }
-       
+        
         shareAction.backgroundColor = .systemBlue
         
         let deleteAction = UIContextualAction(style: .normal, title: "삭제") { [weak self]_, _, _ in
