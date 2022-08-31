@@ -24,4 +24,21 @@ extension UIViewController {
         
         present(errorAlert, animated: true)
     }
+    
+    func presentSuccessAlert() {
+        let successAlert = UIAlertController(
+            title: Alert.successAlertTitle,
+            message: Alert.successAlertMessage,
+            preferredStyle: .alert
+        )
+        
+        let confirmAction = UIAlertAction(
+            title: Alert.confirmActionTitle,
+            style: .default
+        )
+        
+        successAlert.addAction(confirmAction)
+        
+        present(successAlert, animated: true)
+    }
 }

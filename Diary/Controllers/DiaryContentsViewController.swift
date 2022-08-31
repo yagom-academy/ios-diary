@@ -73,6 +73,13 @@ final class DiaryContentsViewController: UIViewController {
             target: self,
             action: #selector(sharedAndDeleteButtonTapped)
         )
+        
+        let button = UIButton()
+        button.setImage(SystemImage.leftChevron, for: .normal)
+        button.setTitle(NavigationItem.diaryTitle, for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.addTarget(self, action: #selector(popButtonTapped), for: .allEvents)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
     }
     
     @objc private func sharedAndDeleteButtonTapped() {
