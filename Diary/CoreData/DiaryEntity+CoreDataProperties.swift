@@ -16,6 +16,7 @@ extension DiaryEntity {
     @NSManaged public var createdAt: Double
     @NSManaged public var title: String?
     @NSManaged public var uuid: UUID?
+    @NSManaged public var icon: String
     
     // MARK: - functions
     

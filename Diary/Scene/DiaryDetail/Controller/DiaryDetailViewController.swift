@@ -114,12 +114,14 @@ final class DiaryDetailViewController: UIViewController {
         
         let title = String(diaryInfomation.get(index: 0) ?? "")
         let body = getBody(title: title)
-        guard let uuid = diary?.uuid else { return }
+        guard let uuid = diary?.uuid,
+              let icon = diary?.icon else { return }
         
         let diary = Diary(uuid: uuid,
                           title: title,
                           body: body,
-                          createdAt: Date().timeIntervalSince1970)
+                          createdAt: Date().timeIntervalSince1970,
+                          icon: icon)
         
         if diaryInfomation.isEmpty {
             diaryCoreManager.delete(diary)

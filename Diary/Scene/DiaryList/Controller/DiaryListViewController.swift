@@ -21,21 +21,21 @@ final class DiaryListViewController: UIViewController {
     private var diaryCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
     private var diaryCoreManager: DiaryCoreDataManager?
-    let locationManager = CLLocationManager()
+    private let locationManager = CLLocationManager()
+    private var icon: String?
+    
     // MARK: - life cycles
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupView()
-        setupDataSource()
-        addObserver()
-        
-        
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
         
+        setupView()
+        setupDataSource()
+        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -118,7 +118,6 @@ final class DiaryListViewController: UIViewController {
                                                  handler: deleteActionHandler)
             deleteAction.image = UIImage(systemName: "trash")
             deleteAction.backgroundColor = .systemRed
-            
             
             let shareAction = UIContextualAction(style: .normal,
                                                  title: nil) { action, view, competion in
@@ -203,6 +202,8 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func rightBarButtonItemDidTap() {
         let diaryRegistrationViewController = DiaryRegistrationViewController()
+        guard let icon = icon else { return }
+        diaryRegistrationViewController.setupDiary(icon: icon)
         navigationController?.pushViewController(diaryRegistrationViewController, animated: true)
         
         let date = Date()
@@ -219,15 +220,32 @@ extension DiaryListViewController: UICollectionViewDelegate {
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
+    
+    private func requestWeather(_ locValue: CLLocationCoordinate2D) {
+        let weatherRequest = WeatherRequest(method: .get,
+                                   baseURL: URLHost.openWeather.url,
+                                   query: [URLQueryItem(name: "lat", value: "\(locValue.latitude)"),
+                                           URLQueryItem(name: "lon", value: "\(locValue.longitude)"),
+                                           URLQueryItem(name: "appid", value: "63722b736b97508775be46f7cf76cb85")],
+                                   path: URLAdditionalPath.weather)
+        let weatherSession = WeatherURLSession()
+        
+        weatherSession.dataTask(with: weatherRequest) { (result: Result<WeatherModel, Error>) in
+            switch result {
+            case .success(let success):
+                self.icon = success.weather.last?.icon
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+    }
 }
 
 extension DiaryListViewController: CLLocationManagerDelegate {
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-    }
-    
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print(manager.location)
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        
+        requestWeather(locValue)
     }
 }
 
@@ -235,15 +253,6 @@ private enum Design {
     static let moonImage = "moon.fill"
     static let navigationTitle = "일기장"
     static let plusButton = "plus"
-    static let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                 heightDimension: .absolute(44))
-    static let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .absolute(44))
-    static let enumInterGroupSpacing = 8.0
-    static let enumContentInsets = NSDirectionalEdgeInsets(top: 10,
-                                                           leading: 10,
-                                                           bottom: 10,
-                                                           trailing: 10)
 }
 
 extension Notification.Name {

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1848B2EA28BDEC0E0030E664 /* Diary1.0To2.0.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1848B2E928BDEC0E0030E664 /* Diary1.0To2.0.xcmappingmodel */; };
+		1848B2F028BE55270030E664 /* WeatherRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1848B2EF28BE55270030E664 /* WeatherRequest.swift */; };
 		1863246B28ACC57100BAE36D /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1863246A28ACC57100BAE36D /* DiaryDetailViewController.swift */; };
 		1863246F28ACD66300BAE36D /* DataSendable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1863246E28ACD66300BAE36D /* DataSendable.swift */; };
 		1863247528AE090700BAE36D /* DiaryRegistrationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1863247428AE090700BAE36D /* DiaryRegistrationViewController.swift */; };
@@ -55,6 +57,9 @@
 
 /* Begin PBXFileReference section */
 		0CA844457287C7C117F46D54 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
+		1848B2E828BDEA550030E664 /* Diary 2.0.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary 2.0.xcdatamodel"; sourceTree = "<group>"; };
+		1848B2E928BDEC0E0030E664 /* Diary1.0To2.0.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = Diary1.0To2.0.xcmappingmodel; sourceTree = "<group>"; };
+		1848B2EF28BE55270030E664 /* WeatherRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherRequest.swift; sourceTree = "<group>"; };
 		1863246A28ACC57100BAE36D /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		1863246E28ACD66300BAE36D /* DataSendable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataSendable.swift; sourceTree = "<group>"; };
 		1863247428AE090700BAE36D /* DiaryRegistrationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRegistrationViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +144,7 @@
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				1848B2E928BDEC0E0030E664 /* Diary1.0To2.0.xcmappingmodel */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -350,6 +356,7 @@
 				D7C5F20C28BCA16500EC90CF /* APIRequest.swift */,
 				D7C5F21028BCE9A700EC90CF /* WeatherURLSession.swift */,
 				D7C5F21228BCEAB000EC90CF /* NetworkError.swift */,
+				1848B2EF28BE55270030E664 /* WeatherRequest.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -536,6 +543,7 @@
 				D7CA152328AE2AB300E1E3D1 /* TimeInterval+Extension.swift in Sources */,
 				1889537928B476A600505607 /* DiaryEntity+CoreDataClass.swift in Sources */,
 				D7C5F20428B8FE3000EC90CF /* PersistentContainerManager.swift in Sources */,
+				1848B2EA28BDEC0E0030E664 /* Diary1.0To2.0.xcmappingmodel in Sources */,
 				1869EDAF28B384530082AB42 /* MockDiaryManager.swift in Sources */,
 				D7C5F22528BCF01D00EC90CF /* Weather.swift in Sources */,
 				1863247A28AE0D4E00BAE36D /* DiaryRegistrationView.swift in Sources */,
@@ -548,6 +556,7 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				D7C5F22A28BCF74A00EC90CF /* DiaryListViewController.swift in Sources */,
 				1889537C28B4C9DF00505607 /* DiaryCoreDataManager.swift in Sources */,
+				1848B2F028BE55270030E664 /* WeatherRequest.swift in Sources */,
 				187A611628B2161100847F8B /* Array+Extension.swift in Sources */,
 				1863247528AE090700BAE36D /* DiaryRegistrationViewController.swift in Sources */,
 				1863247D28AE1FF800BAE36D /* KeyboardManager.swift in Sources */,
@@ -838,9 +847,10 @@
 		C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				1848B2E828BDEA550030E664 /* Diary 2.0.xcdatamodel */,
 				C739AE2E284DF28600741E8F /* Diary.xcdatamodel */,
 			);
-			currentVersion = C739AE2E284DF28600741E8F /* Diary.xcdatamodel */;
+			currentVersion = 1848B2E828BDEA550030E664 /* Diary 2.0.xcdatamodel */;
 			path = Diary.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

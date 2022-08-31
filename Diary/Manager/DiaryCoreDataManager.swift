@@ -43,12 +43,14 @@ final class DiaryCoreDataManager: DiaryManagable {
                 return Diary(uuid: UUID(),
                              title: "",
                              body: "",
-                             createdAt: 0.0)
+                             createdAt: 0.0,
+                             icon: "")
             }
             return Diary(uuid: uuid,
                          title: title,
                          body: body,
-                         createdAt: diary.createdAt)
+                         createdAt: diary.createdAt,
+                         icon: diary.icon)
         }
     }
     
@@ -56,7 +58,8 @@ final class DiaryCoreDataManager: DiaryManagable {
         let values: [String: Any] = ["title": diary.title,
                                      "body": diary.body,
                                      "createdAt": diary.createdAt,
-                                     "uuid": diary.uuid]
+                                     "uuid": diary.uuid,
+                                     "icon": diary.icon]
         
         persistentContainerManager.create(entityName: String(describing: DiaryEntity.self),
                                           values: values)        

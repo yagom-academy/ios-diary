@@ -66,7 +66,7 @@ protocol APIRequest {
 
 extension APIRequest {
     var url: URL? {
-        var component = URLComponents(string: self.baseURL)
+        var component = URLComponents(string: "\(self.baseURL)" + "\(self.path.value)")
         component?.queryItems = query
         
         return component?.url

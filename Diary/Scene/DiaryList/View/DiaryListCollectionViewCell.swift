@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryListCollectionViewCell: UICollectionViewCell {
     // MARK: - properties
-
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +34,7 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.adjustsImageSizeForAccessibilityContentSizeCategory = true
         imageView.contentMode = .scaleAspectFit
-
+        
         return imageView
     }()
     
@@ -74,7 +74,6 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         commonInit()
-        setupWeatherImageView()
     }
     
     required init?(coder: NSCoder) {
@@ -91,9 +90,9 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     func setupCellProperties(with model: Diary) {
         titleLabel.text = model.title
         dateLabel.text = model.createdAt.convert1970DateToString()
+        setupWeatherImageView(icon: model.icon)
         guard let body = model.body.split(separator: "\n").first else { return }
         previewLabel.text = String(body)
-        
     }
     
     private func setupSubviews() {
@@ -104,8 +103,8 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
             .forEach { self.addSubview($0) }
     }
     
-    func setupWeatherImageView() {
-        guard let url = URL(string: "https://openweathermap.org/img/wn/10d@2x.png") else { return }
+    private func setupWeatherImageView(icon: String) {
+        guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") else { return }
         guard let data = try? Data(contentsOf: url) else { return }
         
         DispatchQueue.main.async {
