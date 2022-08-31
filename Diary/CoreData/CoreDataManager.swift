@@ -9,6 +9,9 @@ import CoreData
 
 final class CoreDataManager {
     var fetchedDiaries: [Diary] = []
+    var reversedDiaries: [Diary] {
+        fetchedDiaries.reversed()
+    }
     static let shared = CoreDataManager()
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")

@@ -167,7 +167,7 @@ extension DiaryViewController {
             return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
         }
         
-        let title = distinguishedTitleAndBody[0]
+        let title = distinguishedTitleAndBody[0] == NameSpace.whiteSpace ? " " : distinguishedTitleAndBody[0]
         let body = distinguishedTitleAndBody.count == 1 ? NameSpace.whiteSpace : distinguishedTitleAndBody[1...distinguishedTitleAndBody.count-1].joined(separator: NameSpace.twiceLineChange)
         return DiaryModel(title: String(title), body: String(body), createdAt: createdAt)
     }

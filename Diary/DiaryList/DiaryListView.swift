@@ -54,14 +54,14 @@ final class DiaryListView: UIView {
 
 extension DiaryListView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let diaryModelList = CoreDataManager.shared.fetchedDiaries
+        let diaryModelList = CoreDataManager.shared.reversedDiaries
         return diaryModelList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: NameSpace.cellIdentifier,
                                                        for: indexPath) as? DiaryListCell else { return UITableViewCell() }
-        let diaryModelList = CoreDataManager.shared.fetchedDiaries
+        let diaryModelList = CoreDataManager.shared.reversedDiaries
         let diaryModel = diaryModelList[indexPath.row]
         cell.setupData(with: diaryModel)
         return cell
