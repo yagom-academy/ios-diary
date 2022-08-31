@@ -125,6 +125,8 @@ private extension DiaryListViewController {
 
 extension DiaryListViewController: CoreDataManagerDelegate {
     func didUpdateCoredata() {
-        self.diaryListView.tableView.reloadData()
+        self.diaryListView.tableView.beginUpdates()
+        self.diaryListView.tableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .fade)
+        self.diaryListView.tableView.endUpdates()
     }
 }
