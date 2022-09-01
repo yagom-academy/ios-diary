@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiaryRegisterViewController: UIViewController {
+final class DiaryRegisterViewController: DataTaskViewController {
     // MARK: - properties
     
     private let diaryRegisterView = DiaryRegisterView()
@@ -27,44 +27,21 @@ final class DiaryRegisterViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        saveDiaryData()
+        saveData()
         removeRegisterForKeyboardNotification()
     }
 
     // MARK: - methods
     
-    func saveDiaryData() {
+    func saveData() {
         let inputText = diaryRegisterView.seperateText()
-        guard inputText.title != "" || inputText.body != "" else { return }
-        
-        let diaryModel = DiaryModel(title: inputText.title,
-                                    body: inputText.body,
-                                    createdAt: Double(Date().timeIntervalSince1970))
-        
-        CoreDataManager.shared.create(newDiary: diaryModel)
+        saveDiaryData(title: inputText.title,
+                      body: inputText.body,
+                      createdAt: Double(Date().timeIntervalSince1970),
+                      isExist: false)
     }
     
-    private func configureKeyboardNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyBoardShowAction),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardDownAction),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-    }
-    
-    private func removeRegisterForKeyboardNotification() {
-        NotificationCenter.default.removeObserver(self,
-                                                  name: UIResponder.keyboardWillShowNotification,
-                                                  object: nil)
-        NotificationCenter.default.removeObserver(self,
-                                                  name: UIResponder.keyboardWillHideNotification,
-                                                  object: nil)
-    }
-    
-    @objc private func keyBoardShowAction(notification: NSNotification) {
+    @objc override func keyBoardShowAction(notification: NSNotification) {
         guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary,
               let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue
         else { return }
@@ -75,7 +52,7 @@ final class DiaryRegisterViewController: UIViewController {
         diaryRegisterView.configureDetailTextViewInset(inset: keyboardHeight)
     }
     
-    @objc private func keyboardDownAction() {
+    @objc override func keyboardDownAction() {
         view.endEditing(true)
         diaryRegisterView.configureDetailTextViewInset(inset: 0)
     }
