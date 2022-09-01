@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreLocation
 
 final class DiaryTableViewController: UIViewController {
     private let diaryListTableView: UITableView = {
@@ -17,12 +18,14 @@ final class DiaryTableViewController: UIViewController {
     
     private var diaryItems: [DiaryItem] = []
     private let dataManager = DiaryDataManager.shared
+    private let locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
         configureNavigationItem()
         fetchData(manager: dataManager)
+        requestLocationAuthorization()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -33,6 +36,10 @@ final class DiaryTableViewController: UIViewController {
     
     @objc private func addDiaryButtonDidTapped() {
         self.performSegue(withIdentifier: "AddDiarySegue", sender: self)
+    }
+    
+    private func requestLocationAuthorization() {
+        locationManager.requestWhenInUseAuthorization()
     }
     
     private func configureNavigationItem() {
@@ -68,6 +75,11 @@ final class DiaryTableViewController: UIViewController {
             guard let manageViewController = segue.destination as? ManageDiaryViewController else { return }
             guard let diary = sender as? DiaryItem else { return }
             manageViewController.getDiaryData(data: diary)
+        }
+        
+        if segue.identifier == "AddDiarySegue" {
+            guard let manageViewController = segue.destination as? ManageDiaryViewController else { return }
+            manageViewController.locationManager = locationManager
         }
     }
 }

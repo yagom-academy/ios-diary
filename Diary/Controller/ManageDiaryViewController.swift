@@ -6,19 +6,21 @@
 //
 
 import UIKit
+import CoreLocation
 
 enum ViewMode {
     case add
     case edit
 }
 
-final class ManageDiaryViewController: UIViewController {
+final class ManageDiaryViewController: UIViewController, CLLocationManagerDelegate {
     private let manageDiaryView = ManageDiaryView()
     private var viewMode: ViewMode = .add
     private var id = UUID()
     private var weatherIcon = Data()
     private var diaryCreatedDate: Double = 0
     private let navigationView = NavigationTitleView()
+    var locationManager: CLLocationManager?
     
     private let backButton: UIButton = {
         let button = UIButton()
@@ -65,7 +67,7 @@ final class ManageDiaryViewController: UIViewController {
     private func checkViewMode() {
         switch viewMode {
         case .add:
-            fetchWeather()
+            configureLocation()
             diaryCreatedDate = Date().timeIntervalSince1970
             manageDiaryView.focusBodyTextView()
         case .edit:
@@ -74,8 +76,19 @@ final class ManageDiaryViewController: UIViewController {
         }
     }
     
-    private func fetchWeather() {
-        WeatherSessionManager().requestWeatherInfomation(at: "Seoul") { response in
+    private func configureLocation() {
+        guard let locationManager = locationManager else { return }
+        
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+        
+        guard let coordinate = locationManager.location?.coordinate else { return }
+        fetchWeather(coordinate: coordinate)
+    }
+    
+    private func fetchWeather(coordinate: CLLocationCoordinate2D) {
+        WeatherSessionManager().requestWeatherInfomation(at: coordinate) { response in
             switch response {
             case .success(let data):
                 guard let weatherInfo = WeatherDecoder().fetchWeather(data: data)?.weather.first else { return }

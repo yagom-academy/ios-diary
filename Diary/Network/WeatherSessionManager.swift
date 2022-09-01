@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct WeatherSessionManager {
     private func dataTask(request: URLRequest, completion: @escaping (Result<Data, WeatherError>) -> Void) {
@@ -21,9 +22,9 @@ struct WeatherSessionManager {
         }.resume()
     }
     
-    func requestWeatherInfomation(at city: String, completion: @escaping (Result<Data, WeatherError>) -> Void) {
+    func requestWeatherInfomation(at coordinate: CLLocationCoordinate2D, completion: @escaping (Result<Data, WeatherError>) -> Void) {
         let apiKey = "143bbe85021307632d1ce316ce1b9963"
-        let wheatherUrl = "https://api.openweathermap.org/data/2.5/weather?q=\(city)&appid="
+        let wheatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=\(coordinate.latitude)&lon=\(coordinate.longitude)&appid="
         guard let url = URL(string: wheatherUrl + apiKey) else {
             return
         }

@@ -37,7 +37,7 @@ extension ManageDiaryView {
     }
     private func addSubView() {
         self.addSubview(bodyTextView)
-        self.backgroundColor = .white
+        self.backgroundColor = .systemBackground
     }
     
     private func setupConstraint() {
