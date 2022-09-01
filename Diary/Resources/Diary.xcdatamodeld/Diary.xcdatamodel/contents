@@ -3,10 +3,13 @@
     <entity name="Diary" representedClassName="Diary" syncable="YES">
         <attribute name="body" attributeType="String"/>
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" attributeType="String"/>
+        <attribute name="weatherIcon" optional="YES" attributeType="String"/>
+        <attribute name="weatherIconImage" optional="YES" attributeType="Transformable" valueTransformerName="" customClassName="UIImage"/>
+        <attribute name="weatherMainData" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Diary" positionX="-63" positionY="-18" width="128" height="89"/>
+        <element name="Diary" positionX="-63" positionY="-18" width="128" height="134"/>
     </elements>
 </model>

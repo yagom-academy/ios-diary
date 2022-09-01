@@ -12,4 +12,5 @@ enum SystemImage {
     static let ellipsisCircle = UIImage(systemName: "ellipsis.circle")
     static let trash = UIImage(systemName: "trash.fill")
     static let share = UIImage(systemName: "square.and.arrow.up")
+    static let leftChevron = UIImage(systemName: "chevron.left")
 }

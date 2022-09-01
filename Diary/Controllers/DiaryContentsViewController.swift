@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryContentsViewController: UIViewController {
     
@@ -14,9 +15,14 @@ final class DiaryContentsViewController: UIViewController {
     private let diaryContentView = DiaryContentView()
     private var creationDate: Date?
     private var id: UUID?
+    private var weatherMainData: String?
+    private var weatherIcon: String?
+    private let locationManager = CLLocationManager()
+    private var isDeleted: Bool = false
+    private var isFetching: Bool = false
+    
     var diary: Diary?
     var isEditingMemo: Bool = false
-    var isDeleted: Bool = false
     
     // MARK: - Life Cycle
     
@@ -24,27 +30,23 @@ final class DiaryContentsViewController: UIViewController {
         view = diaryContentView
         view.backgroundColor = .systemBackground
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureNavigationItems()
         configureUI()
         configureNotificationCenter()
         configureCreationDate()
         configureID()
+        configureLocationManager()
+        requestCurrentLocation()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         showKeyboard()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        
-        renewCoreData()
     }
     
     // MARK: - Methods
@@ -70,12 +72,24 @@ final class DiaryContentsViewController: UIViewController {
             target: self,
             action: #selector(sharedAndDeleteButtonTapped)
         )
+        
+        let button = UIButton()
+        button.setImage(SystemImage.leftChevron, for: .normal)
+        button.setTitle(NavigationItem.diaryTitle, for: .normal)
+        button.setTitleColor(.systemBlue, for: .normal)
+        button.addTarget(self, action: #selector(popButtonTapped), for: .allEvents)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: button)
     }
     
     @objc private func sharedAndDeleteButtonTapped() {
         let actionSheet = configureActionSheet()
         
         present(actionSheet, animated: true)
+    }
+    
+    @objc private func popButtonTapped() {
+        renewCoreData()
+        navigationController?.popViewController(animated: true)
     }
     
     private func configureActionSheet() -> UIAlertController {
@@ -235,68 +249,115 @@ final class DiaryContentsViewController: UIViewController {
     }
     
     private func renewCoreData() {
-        guard let (title, body) = extractTitleAndBody(),
-              let creationDate = creationDate,
-              let id = id else {
-            return
-        }
-        
-        do {
-            try determineDataProcessingWith(
-                title,
-                body,
-                creationDate,
-                id
-            )
-        } catch {
-            presentErrorAlert(error)
+        if !isFetching {
+            isFetching.toggle()
+            
+            guard let (title, body) = extractTitleAndBody(),
+                  let creationDate = creationDate,
+                  let id = id else {
+                isFetching.toggle()
+                
+                return
+            }
+
+            do {
+                try determineDataProcessingWith(
+                    title: title,
+                    body: body,
+                    creationDate: creationDate,
+                    id: id,
+                    weatherMainData: weatherMainData,
+                    weatherIcon: weatherIcon
+                )
+            } catch {
+                presentErrorAlert(error)
+            }
         }
     }
     
     private func extractTitleAndBody() -> (String, String)? {
-        guard let diaryConentViewText = diaryContentView.textView.text,
-              diaryConentViewText.contains(NewLine.lineFeed) else {
-            return (diaryContentView.textView.text, DiaryCoreData.emptyBody)
-        }
-        
-        guard diaryContentView.textView.text.isEmpty == false,
-            let lineBreakIndex = diaryConentViewText.firstIndex(of: NewLine.lineFeed)else {
+        guard let diaryConentViewText = diaryContentView.textView.text else {
             return nil
         }
         
-        let firstLineBreakIndex = lineBreakIndex.utf16Offset(in: diaryConentViewText)
+        let splitedText = diaryConentViewText.split(separator: NewLine.lineFeed)
         
-        let titleRange = NSMakeRange(.zero, firstLineBreakIndex)
-        let title = (diaryConentViewText as NSString).substring(with: titleRange)
+        guard let title = splitedText.first else {
+            return nil
+        }
         
-        let bodyRange = NSMakeRange(
-            firstLineBreakIndex + 1,
-            diaryConentViewText.count - title.count - 1
-        )
-        let body = (diaryConentViewText as NSString).substring(with: bodyRange)
+        guard splitedText.count > 1 else {
+            return (String(title + DiaryCoreData.whiteSpace), DiaryCoreData.emptyBody)
+        }
         
-        return (title, body)
+        let body = diaryConentViewText[splitedText[1].startIndex...]
+        
+        return (String(title + DiaryCoreData.whiteSpace), String(body))
     }
     
-    private func determineDataProcessingWith(_ title: String, _ body: String, _ creationDate: Date, _ id: UUID) throws {
+    private func determineDataProcessingWith(
+        title: String,
+        body: String,
+        creationDate: Date,
+        id: UUID,
+        weatherMainData: String?,
+        weatherIcon: String?
+    ) throws {
         let fetchSuccess = try? CoreDataManager.shared.fetchDiary(using: id)
         
         switch (fetchSuccess, isDeleted) {
         case (nil, false):
-            try CoreDataManager.shared.saveDiary(
-                title: title,
-                body: body,
-                createdAt: creationDate,
-                id: id
-            )
+            guard let weatherIcon = weatherIcon else {
+                do {
+                    try CoreDataManager.shared.saveDiary(
+                        title: title,
+                        body: body,
+                        createdAt: creationDate,
+                        id: id,
+                        weatherMainData: nil,
+                        weatherIcon: nil,
+                        weatherIconImage: nil
+                    )
+                } catch {
+                    presentErrorAlert(error)
+                }
+                
+                return
+            }
+            
+            WeatherImageAPIManager(icon: weatherIcon)?.requestImage(id: id) { [weak self] result in
+                switch result {
+                case .success(let image):
+                    do {
+                        try CoreDataManager.shared.saveDiary(
+                            title: title,
+                            body: body,
+                            createdAt: creationDate,
+                            id: id,
+                            weatherMainData: weatherMainData,
+                            weatherIcon: weatherIcon,
+                            weatherIconImage: image
+                        )
+                    } catch {
+                        self?.presentErrorAlert(error)
+                    }
+                case .failure(let error):
+                    self?.presentErrorAlert(error)
+                }
+                self?.isFetching = false
+            }
         case (_, false):
             try CoreDataManager.shared.update(
                 title: title,
                 body: body,
                 id: id
             )
+            
+            isFetching = false
         case (_, true):
             try CoreDataManager.shared.delete(using: id)
+            
+            isFetching = false
         }
     }
     
@@ -307,22 +368,88 @@ final class DiaryContentsViewController: UIViewController {
     private func configureCreationDate() {
         guard let diary = diary else {
             creationDate = Date()
+            
             return
         }
+        
         creationDate = diary.createdAt
     }
     
     private func configureID() {
         guard let diary = diary else {
             id = UUID()
+            
             return
         }
+        
         id = diary.id
     }
     
     private func showKeyboard() {
         if isEditingMemo == false {
             diaryContentView.textView.becomeFirstResponder()
+        }
+    }
+    
+    private func configureLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    private func requestCurrentLocation() {
+        if locationManager.authorizationStatus == .authorizedWhenInUse {
+            locationManager.requestLocation()
+        }
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+
+extension DiaryContentsViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        locationManager.requestLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last?.coordinate else {
+            return
+        }
+        
+        guard let diary = diary else {
+            WeatherDataAPIManager(
+                latitude: location.latitude,
+                longitude: location.longitude
+            )?.requestWeather(dataType: WeatherDataEntity.self) { [weak self] result in
+                switch result {
+                case .success(let data):
+                    DispatchQueue.main.async {
+                        self?.presentSuccessAlert()
+                        self?.isFetching = false
+                        
+                        guard let firstWeatherData = data.weather.first else {
+                            return
+                        }
+                        self?.weatherMainData = firstWeatherData.main
+                        self?.weatherIcon = firstWeatherData.icon
+                    }
+                case .failure(let error):
+                    self?.presentErrorAlert(error)
+                }
+            }
+            
+            return
+        }
+        
+        weatherMainData = diary.weatherMainData
+        weatherIcon = diary.weatherIcon
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        if let error = error as? CLError,
+            error.code == .denied {
+            presentErrorAlert(GPSError.noAuthorization)
+            
+            return
         }
     }
 }

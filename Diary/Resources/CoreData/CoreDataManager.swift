@@ -30,12 +30,15 @@ final class CoreDataManager {
     
     // MARK: - Methods
 
-    func saveDiary(title: String, body: String, createdAt: Date, id: UUID) throws {
+    func saveDiary(title: String, body: String, createdAt: Date, id: UUID, weatherMainData: String?, weatherIcon: String?, weatherIconImage: UIImage?) throws {
         let diary = Diary(context: viewContext)
         diary.setValue(title, forKey: DiaryCoreData.Key.title)
         diary.setValue(body, forKey: DiaryCoreData.Key.body)
         diary.setValue(createdAt, forKey: DiaryCoreData.Key.createdAt)
         diary.setValue(id, forKey: DiaryCoreData.Key.id)
+        diary.setValue(weatherMainData, forKey: DiaryCoreData.Key.weatherMainData)
+        diary.setValue(weatherIcon, forKey: DiaryCoreData.Key.weatherIcon)
+        diary.setValue(weatherIconImage, forKey: DiaryCoreData.Key.weatherIconImage)
 
         if viewContext.hasChanges {
             try viewContext.save()

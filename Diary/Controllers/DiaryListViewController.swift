@@ -39,7 +39,7 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configureNavigationItems()
         registerTableView()
         configureFetchResultsController(from: fetchAllDiaryRequest())
@@ -53,7 +53,6 @@ final class DiaryListViewController: UIViewController {
         super.viewDidAppear(animated)
         
         navigationController?.navigationBar.sizeToFit()
-        dataSource?.apply(snapshot)
     }
     
     // MARK: - Methods
@@ -113,8 +112,14 @@ final class DiaryListViewController: UIViewController {
     
     private func fetchDiaryRequest(from text: String) -> NSFetchRequest<Diary> {
         let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: DiaryCoreData.entityName)
-        let titlePredicate = NSPredicate(format: DiaryCoreData.Predicate.contatingTitle, text)
-        let bodyPredicate = NSPredicate(format: DiaryCoreData.Predicate.containingBody, text)
+        let titlePredicate = NSPredicate(
+            format: DiaryCoreData.Predicate.contatingTitle,
+            text
+        )
+        let bodyPredicate = NSPredicate(
+            format: DiaryCoreData.Predicate.containingBody,
+            text
+        )
         let titleOrBodyPredicate = NSCompoundPredicate(
             type: NSCompoundPredicate.LogicalType.or,
             subpredicates: [titlePredicate, bodyPredicate]
@@ -143,14 +148,15 @@ final class DiaryListViewController: UIViewController {
                 }
                 
                 cell.titleLabel.text = item.title
-                cell.dateLabel.text = item.createdAt?.localizedString
+                cell.dateLabel.text = item.createdAt.localizedString
                 cell.bodyLabel.text = item.body
+                cell.weatherIconImageView.image = item.weatherIconImage
+                
                 cell.accessoryType = .disclosureIndicator
                 
                 return cell
             }
         )
-        
         dataSource?.apply(snapshot)
     }
     
@@ -192,7 +198,6 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let diary = dataSource?.itemIdentifier(for: indexPath)
         let nextViewController = DiaryContentsViewController()
-        
         nextViewController.diary = diary
         nextViewController.isEditingMemo = true
         
@@ -200,11 +205,7 @@ extension DiaryListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        guard let diary = self.dataSource?.itemIdentifier(for: indexPath),
-              let title = diary.title,
-              let body = diary.body,
-              let id = diary.id else {
+        guard let diary = dataSource?.itemIdentifier(for: indexPath) else {
             return nil
         }
         
@@ -212,14 +213,14 @@ extension DiaryListViewController: UITableViewDelegate {
             style: .destructive,
             title: ActionSheet.deleteActionTitle
         ) { [weak self] action, view, completion in
-            self?.deleteDiary(using: id)
+            self?.deleteDiary(using: diary.id)
         }
         
         let shareAction = UIContextualAction(
             style: .normal,
             title: ActionSheet.shareActionTitle
         ) { [weak self] action, view, completion in
-            self?.shareDiary(title, body)
+            self?.shareDiary(diary.title, diary.body)
             completion(true)
         }
         
@@ -232,6 +233,7 @@ extension DiaryListViewController: UITableViewDelegate {
             shareAction
         ])
         swipeActionCongifuration.performsFirstActionWithFullSwipe = false
+        
         return swipeActionCongifuration
     }
     
@@ -249,7 +251,8 @@ extension DiaryListViewController: UITableViewDelegate {
             activityItems: [title + String(NewLine.lineFeed) + body],
             applicationActivities: nil
         )
-        self.present(activityViewController, animated: true)
+        
+        present(activityViewController, animated: true)
     }
 }
 
@@ -267,6 +270,8 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
                   let newIndexPath = newIndexPath,
                   let lastDiary = dataSource?.itemIdentifier(for: newIndexPath) else {
                 snapshot.appendItems([diary])
+                dataSource?.apply(snapshot)
+                
                 return
             }
             
@@ -278,6 +283,8 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
         default:
             break
         }
+        
+        dataSource?.apply(snapshot)
     }
 }
 
@@ -292,6 +299,7 @@ extension DiaryListViewController: UISearchResultsUpdating {
             configureFetchResultsController(from: fetchAllDiaryRequest())
             configureSnapshot()
             dataSource?.apply(snapshot)
+            
             return
         }
         

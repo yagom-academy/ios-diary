@@ -8,12 +8,16 @@
 enum DiaryCoreData {
     static let entityName = "Diary"
     static let emptyBody = ""
+    static let whiteSpace = " "
 
     enum Key {
         static let title = "title"
         static let body = "body"
         static let createdAt = "createdAt"
         static let id = "id"
+        static let weatherMainData = "weatherMainData"
+        static let weatherIcon = "weatherIcon"
+        static let weatherIconImage = "weatherIconImage"
     }
     
     enum Predicate {
