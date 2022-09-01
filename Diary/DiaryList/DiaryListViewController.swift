@@ -87,7 +87,7 @@ private extension DiaryListViewController {
     func generateShareAction(with indexPath: Int) -> UIContextualAction {
         let shareAction = UIContextualAction(style: .normal, title: DiaryListNameSpace.share) { [weak self] _, _, _ in
             guard let self = self else { return }
-            let model = CoreDataManager.shared.reversedDiaries
+            let model = CoreDataManager.shared.fetchedDiaries
             let title = model[indexPath].title ?? DiaryListNameSpace.noneTitle
             let body = model[indexPath].body ?? DiaryListNameSpace.noneTitle
             let diaryToShare: [MyActivityItemSource] = [MyActivityItemSource(title: title, text: body)]
@@ -103,7 +103,7 @@ private extension DiaryListViewController {
     
     func generateDeleteAction(with indexPath: IndexPath, in tableView: UITableView) -> UIContextualAction {
         let deleteAction = UIContextualAction(style: .destructive, title: NameSpace.delete) { _, _, _ in
-            let diary = CoreDataManager.shared.reversedDiaries[indexPath.row]
+            let diary = CoreDataManager.shared.fetchedDiaries[indexPath.row]
             CoreDataManager.shared.delete(diary: diary)
             tableView.beginUpdates()
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -115,8 +115,7 @@ private extension DiaryListViewController {
     
     func generateViewController(with indexPath: Int) -> UIViewController {
         let diaryViewController = DiaryViewController()
-        diaryViewController.diary = CoreDataManager.shared.reversedDiaries[indexPath]
-        diaryViewController.mode = .modify
+        diaryViewController.diary = CoreDataManager.shared.fetchedDiaries[indexPath]
         return diaryViewController
     }
 }
@@ -124,9 +123,13 @@ private extension DiaryListViewController {
 // MARK: - CoreDataManagerDelegate
 
 extension DiaryListViewController: CoreDataManagerDelegate {
-    func didUpdateCoredata() {
-        self.diaryListView.tableView.beginUpdates()
-        self.diaryListView.tableView.insertRows(at: [IndexPath.init(row: 0, section: 0)], with: .fade)
-        self.diaryListView.tableView.endUpdates()
+    func didUpdateCoreData() {
+        self.diaryListView.tableView.reloadData()
+    }
+    
+    func didCreateCoreData() {
+        self.diaryListView.tableView.performBatchUpdates {
+            self.diaryListView.tableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
+        }
     }
 }
