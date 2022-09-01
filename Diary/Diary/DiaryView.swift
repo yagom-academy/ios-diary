@@ -132,7 +132,7 @@ extension DiaryView: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        if textView.text.isEmpty {
             textView.text = placeHolder
             textView.textColor = .lightGray
         }
