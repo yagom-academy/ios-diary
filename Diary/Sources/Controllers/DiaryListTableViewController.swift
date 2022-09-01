@@ -119,22 +119,26 @@ extension DiaryListTableViewController: UITableViewDelegate {
     
     func tableView(
         _ tableView: UITableView,
-        leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(
             style: .normal,
             title: "Delete"
-        ) { [self] _, _, _ in
-            let removableContent = dataManager.snapshot.itemIdentifiers[indexPath.item]
+        ) { [weak self] _, _, _ in
+            guard let self = self else {
+                return
+            }
+            
+            let removableContent = self.dataManager.snapshot.itemIdentifiers[indexPath.item]
             
             self.delete(removableContent) { error in
                 DispatchQueue.main.async {
                     self.showErrorAlert(error: error)
                 }
             }
-            dataManager.snapshot.deleteItems([removableContent])
-            dataManager.dataSource?.apply(
-                dataManager.snapshot,
+            self.dataManager.snapshot.deleteItems([removableContent])
+            self.dataManager.dataSource?.apply(
+                self.dataManager.snapshot,
                 animatingDifferences: true
             )
         }
