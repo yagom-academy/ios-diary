@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherImageAPIManager: GETProtocol {
+struct WeatherImageAPIManager: Getable {
     var configuration: APIConfiguration
     var urlComponents: URLComponents
     

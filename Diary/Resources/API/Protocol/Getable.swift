@@ -1,5 +1,5 @@
 //
-//  GETProtocol.swift
+//  Getable.swift
 //  Diary
 //
 //  Created by Finnn, 수꿍 on 2022/08/29.
@@ -7,10 +7,10 @@
 
 import UIKit
 
-protocol GETProtocol: APIProtocol { }
+protocol Getable: API { }
 
-extension GETProtocol {
-    func requestAndDecodeWeather<T: Decodable>(using client: APIClient = APIClient.shared,
+extension Getable {
+    func requestWeather<T: Decodable>(using client: APIClient = APIClient.shared,
                                                dataType: T.Type,
                                                completion: @escaping (Result<T, APIError>) -> Void) {
         
@@ -27,8 +27,8 @@ extension GETProtocol {
                 } catch {
                     completion(.failure(.failedToDecode))
                 }
-            case .failure(_):
-                completion(.failure(.emptyData))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
@@ -57,8 +57,8 @@ extension GETProtocol {
                 }
                 iconImageCache.setObject(image, forKey: id)
                 completion(.success(image))
-            case .failure(_):
-                completion(.failure(.emptyData))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
