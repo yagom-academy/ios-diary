@@ -142,8 +142,9 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
         action.addAction(UIAlertAction(
             title: "삭제",
             style: .destructive,
-            handler: { _ in
-                guard let content = self.content else {
+            handler: { [weak self] _ in
+                guard let self = self,
+                      let content = self.content else {
                     return
                 }
                 
