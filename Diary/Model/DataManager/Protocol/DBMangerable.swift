@@ -12,7 +12,7 @@ protocol DBMangerable {
     func saveDiary(model: DiaryContent)
     func updateData(item: DiaryContent)
     func deleteDiary(id: UUID)
-    func getData() -> [DiaryContent]
+    func diaryContent() -> [DiaryContent]
     func count() -> Int
     func content(index: Int) -> DiaryContent
     func fetchDiaryEntity() -> [Diary]

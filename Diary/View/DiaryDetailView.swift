@@ -52,10 +52,10 @@ final class DiaryDetailView: UIView {
         let title = content.title
         let body = content.body
         
-        self.diaryTextView.attributedText = setAttributedString(with: title, and: body)
+        self.diaryTextView.attributedText = attributedString(with: title, and: body)
     }
  
-    private func setAttributedString(with title: String, and body: String) -> NSMutableAttributedString {
+    private func attributedString(with title: String, and body: String) -> NSMutableAttributedString {
         let attributedString = NSMutableAttributedString(string: title,
                                                          attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
         attributedString.append(NSMutableAttributedString(string: "\n" + body,

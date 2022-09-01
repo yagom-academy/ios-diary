@@ -55,7 +55,7 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         accessoryType = .disclosureIndicator
-        configureViews()
+        self.configureViews()
     }
     
     required init?(coder: NSCoder) {

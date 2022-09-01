@@ -121,7 +121,7 @@ extension DiaryViewController: UITextViewDelegate {
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        realTimeTypingValue = text
+        self.realTimeTypingValue = text
         if islineChanged {
             diaryView.diaryTextView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
         } else {

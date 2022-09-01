@@ -22,7 +22,7 @@ final class StubDBManager: DBMangerable {
         self.sampleDiaryContent = data
     }
     
-    func getData() -> [DiaryContent] {
+    func diaryContent() -> [DiaryContent] {
         return self.sampleDiaryContent
     }
     

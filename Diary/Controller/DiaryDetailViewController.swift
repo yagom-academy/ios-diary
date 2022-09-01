@@ -31,7 +31,7 @@ final class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.diaryDetailView.diaryTextView.delegate = self
-        self.setNavigationbar()
+        self.setupNavigationbar()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -44,11 +44,11 @@ final class DiaryDetailViewController: UIViewController {
         self.removeRegisterForKeyboardNotification()
     }
     
-    func getIndexNumber(index: Int) {
+    func setIndexNumber(index: Int) {
         self.index = index
     }
     
-    private func setNavigationbar() {
+    private func setupNavigationbar() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
                                                                  style: .plain,
                                                                  target: self,
@@ -157,7 +157,7 @@ final class DiaryDetailViewController: UIViewController {
         self.updateDiaryData()
     }
     
-    func loadData(data: DiaryContent) {
+    func setData(data: DiaryContent) {
         self.navigationItem.title = data.createdAt.dateFormatted()
         self.itemTitle = data.title
         self.itemBody = data.body

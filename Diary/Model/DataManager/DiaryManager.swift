@@ -16,11 +16,11 @@ final class DiaryManager: DBMangerable {
     }
     
     func loadData() {
-        return self.dbManager.loadData()
+        self.dbManager.loadData()
     }
     
-    func getData() -> [DiaryContent] {
-       return self.dbManager.getData()
+    func diaryContent() -> [DiaryContent] {
+       return self.dbManager.diaryContent()
     }
     
     func count() -> Int {

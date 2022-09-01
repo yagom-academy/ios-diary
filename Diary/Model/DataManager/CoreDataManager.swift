@@ -129,7 +129,7 @@ extension CoreDataManager: DBMangerable {
         updateDiary(item: item)
     }
     
-    func getData() -> [DiaryContent] {
+    func diaryContent() -> [DiaryContent] {
         return fetchDiary()
     }
     
