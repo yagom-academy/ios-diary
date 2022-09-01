@@ -68,8 +68,7 @@ extension ManageDiaryView {
         
         let title = String(content[content.startIndex..<firstLineIndex])
         let body = String(content[firstLineIndex..<content.endIndex])
-        let createdAt = Date().timeIntervalSince1970
         
-        return DiaryItem(id: id, title: title, body: body, createdAt: createdAt, icon: icon)
+        return DiaryItem(id: id, title: title, body: body, createdAt: createdData, icon: icon)
     }
 }

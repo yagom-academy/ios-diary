@@ -20,6 +20,16 @@ final class ManageDiaryViewController: UIViewController {
     private var diaryCreatedDate: Double = 0
     private let navigationView = NavigationTitleView()
     
+    private let backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
+        button.setTitle(" 일기장", for: .normal)
+        button.setTitleColor(UIColor.systemBlue, for: .normal)
+        button.sizeToFit()
+
+        return button
+    }()
+    
     override func loadView() {
         super.loadView()
         view = manageDiaryView
@@ -52,20 +62,11 @@ final class ManageDiaryViewController: UIViewController {
         self.navigationItem.leftBarButtonItem = backBarButton
     }
     
-    private let backButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "chevron.backward"), for: .normal)
-        button.setTitle(" 일기장", for: .normal)
-        button.setTitleColor(UIColor.systemBlue, for: .normal)
-        button.sizeToFit()
-
-        return button
-    }()
-    
     private func checkViewMode() {
         switch viewMode {
         case .add:
             fetchWeather()
+            diaryCreatedDate = Date().timeIntervalSince1970
             manageDiaryView.focusBodyTextView()
         case .edit:
             let optionButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(optionButtonDidTapped))
