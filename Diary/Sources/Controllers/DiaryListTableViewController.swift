@@ -7,13 +7,6 @@
 import UIKit
 
 final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
-    private enum Section {
-        case main
-    }
-
-    private typealias DiffableDataSource = UITableViewDiffableDataSource<Section, DiaryContents>
-    private var dataSource: DiffableDataSource?
-    private var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryContents>()
     private let diaryTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(
@@ -38,9 +31,8 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-    
-        snapshot.reloadItems(getDiaryContent())
-        dataSource?.apply(snapshot)
+
+        dataManager.dataSource?.apply(dataManager.snapshot)
     }
     
     private func configureAttributes() {
@@ -83,7 +75,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     }
     
     private func configureDataSource() {
-        dataSource = DiffableDataSource(
+        dataManager.dataSource = UITableViewDiffableDataSource<Section, DiaryContents>(
             tableView: diaryTableView,
             cellProvider: { tableView, indexPath, itemIdentifier in
                 guard let cell = tableView.dequeueReusableCell(
@@ -100,17 +92,8 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     }
 
     private func configureSnapshot() {
-        snapshot.appendSections([.main])
-        snapshot.appendItems(getDiaryContent())
-    }
-
-    private func getDiaryContent() -> [DiaryContents] {
-        guard let context = context,
-              let diaryContents = try? context.fetch(DiaryContents.fetchRequest()) else {
-                  return [DiaryContents()]
-        }
-        
-        return diaryContents
+        dataManager.snapshot.appendSections([.main])
+        dataManager.snapshot.appendItems(getDiaryContent())
     }
 }
 
@@ -119,7 +102,7 @@ extension DiaryListTableViewController: UITableViewDelegate {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        let diaryContent = snapshot.itemIdentifiers[indexPath.item]
+        let diaryContent = dataManager.snapshot.itemIdentifiers[indexPath.item]
         weak var sendDataDelegate: (SendDataDelegate)? = detailDiaryViewController
         
         sendDataDelegate?.sendData(
@@ -143,16 +126,16 @@ extension DiaryListTableViewController: UITableViewDelegate {
             style: .normal,
             title: "Delete"
         ) { [self] _, _, _ in
-            let removableContent = self.snapshot.itemIdentifiers[indexPath.item]
+            let removableContent = dataManager.snapshot.itemIdentifiers[indexPath.item]
             
             self.delete(removableContent) { error in
                 DispatchQueue.main.async {
                     self.showErrorAlert(error: error)
                 }
             }
-            self.snapshot.deleteItems([removableContent])
-            self.dataSource?.apply(
-                snapshot,
+            dataManager.snapshot.deleteItems([removableContent])
+            dataManager.dataSource?.apply(
+                dataManager.snapshot,
                 animatingDifferences: true
             )
         }

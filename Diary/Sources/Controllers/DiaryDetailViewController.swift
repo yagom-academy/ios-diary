@@ -10,8 +10,8 @@ import UIKit
 final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
     var content: DiaryContents?
     var isExist: Bool = false
-    
-    let textView: UITextView = {
+
+    private let textView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -233,6 +233,12 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
                     self.showErrorAlert(error: error)
                 }
             }
+            
+            guard let addedContent = getDiaryContent().last else {
+                return
+            }
+            
+            dataManager.snapshot.appendItems([addedContent])
         } else if textView.text.isEmpty == false && isExist == true {
             update(
                 entity: content ?? DiaryContents(),
@@ -242,6 +248,8 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
                         self.showErrorAlert(error: error)
                     }
                 })
+            
+            dataManager.snapshot.reloadItems(getDiaryContent())
         }
     }
 }

@@ -11,6 +11,8 @@ import CoreData
 protocol CoreDataProcessing { }
 
 extension CoreDataProcessing {
+    var dataManager: DataManager { return DataManager.shared }
+        
     var context: NSManagedObjectContext? {
         (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     }
@@ -67,6 +69,15 @@ extension CoreDataProcessing {
         } catch {
             errorHandler(handleError(error))
         }
+    }
+    
+    func getDiaryContent() -> [DiaryContents] {
+        guard let context = context,
+              let diaryContents = try? context.fetch(DiaryContents.fetchRequest()) else {
+                  return [DiaryContents()]
+        }
+        
+        return diaryContents
     }
 
     private func saveContext() throws {

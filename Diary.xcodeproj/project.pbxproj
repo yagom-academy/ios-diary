@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		054D31B228C0F064008FB2AD /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054D31B128C0F064008FB2AD /* DataManager.swift */; };
+		054D31B428C0FEFB008FB2AD /* Section.swift in Sources */ = {isa = PBXBuildFile; fileRef = 054D31B328C0FEFB008FB2AD /* Section.swift */; };
 		05656CFA28B8740F00B10BC9 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05656CF928B8740F00B10BC9 /* CoreDataError.swift */; };
 		058CF5DC28BB78F90042E758 /* UIViewController + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 058CF5DB28BB78F90042E758 /* UIViewController + extension.swift */; };
 		05902FAB28ACB2AC00D0C39F /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05902FAA28ACB2AC00D0C39F /* DiaryTableViewCell.swift */; };
@@ -28,6 +30,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		054D31B128C0F064008FB2AD /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		054D31B328C0FEFB008FB2AD /* Section.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Section.swift; sourceTree = "<group>"; };
 		05656CF928B8740F00B10BC9 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		058CF5DB28BB78F90042E758 /* UIViewController + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController + extension.swift"; sourceTree = "<group>"; };
 		05902FAA28ACB2AC00D0C39F /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
@@ -61,6 +65,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		054D31B528C0FF73008FB2AD /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				054D31B328C0FEFB008FB2AD /* Section.swift */,
+			);
+			path = Enum;
+			sourceTree = "<group>";
+		};
 		05656CFB28B8741200B10BC9 /* Error */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,6 +124,7 @@
 		05F9E60528B361AE00FB130D /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				054D31B528C0FF73008FB2AD /* Enum */,
 				058CF5DA28BB78DC0042E758 /* Extension */,
 				05656CFB28B8741200B10BC9 /* Error */,
 				05E6899528B3C43E0070E50B /* Protocol */,
@@ -125,6 +138,7 @@
 				05E97FB828B4BD1E00DC0800 /* DiaryContents+CoreDataClass.swift */,
 				05E97FB928B4BD1E00DC0800 /* DiaryContents+CoreDataProperties.swift */,
 				424D493A28ACB9A900402693 /* DiarySample.swift */,
+				054D31B128C0F064008FB2AD /* DataManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -276,10 +290,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				054D31B428C0FEFB008FB2AD /* Section.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListTableViewController.swift in Sources */,
 				05E97FBB28B4BD1E00DC0800 /* DiaryContents+CoreDataProperties.swift in Sources */,
 				05E97FBA28B4BD1E00DC0800 /* DiaryContents+CoreDataClass.swift in Sources */,
 				05902FAB28ACB2AC00D0C39F /* DiaryTableViewCell.swift in Sources */,
+				054D31B228C0F064008FB2AD /* DataManager.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				05E6899928B3CCB10070E50B /* SendDataDelegate.swift in Sources */,
 				42B41C7628B612EB00E85DFA /* CoreDataProcessing.swift in Sources */,
