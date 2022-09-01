@@ -105,9 +105,10 @@ private extension DiaryListViewController {
         let deleteAction = UIContextualAction(style: .destructive, title: NameSpace.delete) { _, _, _ in
             let diary = CoreDataManager.shared.fetchedDiaries[indexPath.row]
             CoreDataManager.shared.delete(diary: diary)
-            tableView.beginUpdates()
-            tableView.deleteRows(at: [indexPath], with: .fade)
-            tableView.endUpdates()
+            tableView.performBatchUpdates {
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+
         }
         deleteAction.image = UIImage(systemName: SystemName.deleteIcon)
         return deleteAction
