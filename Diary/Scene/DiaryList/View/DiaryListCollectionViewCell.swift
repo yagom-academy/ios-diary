@@ -104,8 +104,9 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupWeatherImageView(icon: String) {
-        DispatchQueue.main.async {
-            self.weatherImageView.leadingAnchor.constraint(equalTo: self.dateLabel.trailingAnchor).isActive = true
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
             self.dateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             
             self.weatherImageView.widthAnchor.constraint(equalTo: self.subtitleStackView.widthAnchor, multiplier: 0.1).isActive = true
