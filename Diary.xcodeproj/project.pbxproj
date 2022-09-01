@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		37038F4E28C077C6008D3921 /* DataTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37038F4D28C077C6008D3921 /* DataTaskViewController.swift */; };
+		37038F5B28C0A3CC008D3921 /* WeatherDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37038F5A28C0A3CC008D3921 /* WeatherDataManager.swift */; };
+		37038F5C28C0A4EB008D3921 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E836F4628C08481006E71D5 /* WeatherModel.swift */; };
 		37130A0828AC8471008F7A35 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37130A0728AC8471008F7A35 /* DiaryTests.swift */; };
 		37130A1128ACAC8B008F7A35 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37130A1028ACAC8B008F7A35 /* DiaryTableViewCell.swift */; };
 		372141BD28B75046002A8EAD /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372141BB28B75046002A8EAD /* Diary+CoreDataClass.swift */; };
@@ -43,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		37038F4D28C077C6008D3921 /* DataTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskViewController.swift; sourceTree = "<group>"; };
+		37038F5A28C0A3CC008D3921 /* WeatherDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherDataManager.swift; sourceTree = "<group>"; };
 		37130A0728AC8471008F7A35 /* DiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTests.swift; sourceTree = "<group>"; };
 		37130A1028ACAC8B008F7A35 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		372141BB28B75046002A8EAD /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -193,6 +196,7 @@
 				7EF147C128ACBBC000F142B2 /* MockData.swift */,
 				7EADF21E28B883600036138C /* DiaryData.swift */,
 				7EADF21428B744B00036138C /* DiaryDataManager.swift */,
+				37038F5A28C0A3CC008D3921 /* WeatherDataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -416,11 +420,13 @@
 				7EF147DA28AE0B5300F142B2 /* DiaryDetailView.swift in Sources */,
 				7EADF21C28B78DB40036138C /* DiaryRegisterView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				37038F5B28C0A3CC008D3921 /* WeatherDataManager.swift in Sources */,
 				37038F4E28C077C6008D3921 /* DataTaskViewController.swift in Sources */,
 				7EF147BA28AC82AA00F142B2 /* DiaryModel.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				7EF147C228ACBBC000F142B2 /* MockData.swift in Sources */,
 				37E9D3F528AE0846003611C0 /* Double+extension.swift in Sources */,
+				37038F5C28C0A4EB008D3921 /* WeatherModel.swift in Sources */,
 				7EF2F96828B36A27000E3C95 /* DiaryDataManagerProtocol.swift in Sources */,
 				37E9D3FD28AE555A003611C0 /* DiaryRegisterViewController.swift in Sources */,
 				7EF147BE28AC894900F142B2 /* DiaryListViewController.swift in Sources */,
