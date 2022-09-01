@@ -17,8 +17,6 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
         
         return tableView
     }()
-
-    private let detailDiaryViewController = DiaryDetailViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,6 +100,7 @@ extension DiaryListTableViewController: UITableViewDelegate {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
+        let detailDiaryViewController = DiaryDetailViewController()
         let diaryContent = dataManager.snapshot.itemIdentifiers[indexPath.item]
         weak var sendDataDelegate: (SendDataDelegate)? = detailDiaryViewController
         
