@@ -295,12 +295,12 @@ final class DiaryContentsViewController: UIViewController {
         }
         
         guard splitedText.count > 1 else {
-            return (String(title), DiaryCoreData.emptyBody)
+            return (String(title + DiaryCoreData.whiteSpace), DiaryCoreData.emptyBody)
         }
         
         let body = diaryConentViewText[splitedText[1].startIndex...]
         
-        return (String(title), String(body))
+        return (String(title + DiaryCoreData.whiteSpace), String(body))
     }
     
     private func determineDataProcessingWith(

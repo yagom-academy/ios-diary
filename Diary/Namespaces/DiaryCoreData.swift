@@ -8,6 +8,7 @@
 enum DiaryCoreData {
     static let entityName = "Diary"
     static let emptyBody = ""
+    static let whiteSpace = " "
 
     enum Key {
         static let title = "title"
