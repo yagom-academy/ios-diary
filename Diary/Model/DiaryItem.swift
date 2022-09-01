@@ -12,11 +12,13 @@ struct DiaryItem {
     let title: String
     let body: String
     let createdAt: Double
+    let icon: Data
     
-    init(id: UUID, title: String, body: String, createdAt: Double) {
+    init(id: UUID, title: String, body: String, createdAt: Double, icon: Data) {
         self.id = id
         self.title = title
         self.body = body
         self.createdAt = createdAt
+        self.icon = icon
     }
 }

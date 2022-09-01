@@ -16,7 +16,7 @@ final class ManageDiaryViewController: UIViewController {
     private let manageDiaryView = ManageDiaryView()
     private var viewMode: ViewMode = .add
     private var id = UUID()
-    private var weatherIcon = UIImage()
+    private var weatherIcon = Data()
     private let navigationView = NavigationTitleView()
     
     override func loadView() {
@@ -36,7 +36,11 @@ final class ManageDiaryViewController: UIViewController {
         manageDiaryView.fetchBodyTextView(content)
         id = data.id
         viewMode = .edit
-        self.navigationItem.title = DateManager().formatted(date: Date(timeIntervalSince1970: data.createdAt))
+        weatherIcon = data.icon
+        guard let icon = UIImage(data: data.icon) else { return }
+        let createData = Date(timeIntervalSince1970: data.createdAt)
+        self.navigationView.configure(title: DateManager().formatted(date: createData), icon: icon)
+        self.navigationItem.titleView = self.navigationView
     }
     
     private func configureBackButton() {
@@ -83,6 +87,7 @@ final class ManageDiaryViewController: UIViewController {
         WeatherSessionManager().requestWeatherIcon(info.icon) { response in
             switch response {
             case .success(let data):
+                self.weatherIcon = data
                 guard let imageData = UIImage(data: data) else { return }
                 DispatchQueue.main.async {
                     self.navigationView.configure(title: DateManager().formatted(date: Date()), icon: imageData)
@@ -95,7 +100,7 @@ final class ManageDiaryViewController: UIViewController {
     }
     
     @objc func backButtonDidTapped() {
-        guard let diary = manageDiaryView.convertDiaryItem(with: id) else {
+        guard let diary = manageDiaryView.convertDiaryItem(with: id, icon: weatherIcon) else {
             checkSaveDiary()
             return
         }
@@ -105,7 +110,7 @@ final class ManageDiaryViewController: UIViewController {
     }
     
     @objc func saveDiary() {
-        guard let diary = manageDiaryView.convertDiaryItem(with: id) else { return }
+        guard let diary = manageDiaryView.convertDiaryItem(with: id, icon: weatherIcon) else { return }
         DiaryDataManager.shared.saveDiary(item: diary)
     }
     
@@ -130,7 +135,7 @@ final class ManageDiaryViewController: UIViewController {
     }
     
     private func shareDiaryItem() {
-        guard let shareText = manageDiaryView.convertDiaryItem(with: id) else { return }
+        guard let shareText = manageDiaryView.convertDiaryItem(with: id, icon: weatherIcon) else { return }
         let shareObject: [String] = [shareText.title + shareText.body]
         
         let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)

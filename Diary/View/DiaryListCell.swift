@@ -28,7 +28,7 @@ final class DiaryListCell: UITableViewCell {
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.contentMode = .scaleToFill
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
@@ -55,9 +55,9 @@ final class DiaryListCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .fillProportionally
-        stackView.spacing = 5
+        stackView.spacing = 0
         return stackView
     }()
     
@@ -111,5 +111,7 @@ extension DiaryListCell: ReuseIdentifying {
         self.titleLabel.text = data.title
         self.dateLabel.text = DateManager().formatted(date: Date(timeIntervalSince1970: data.createdAt))
         self.bodyLabel.text = String(data.body[nextIndex..<data.body.endIndex])
+        guard let icon = UIImage(data: data.icon) else { return }
+        self.weatherImageView.image = icon
     }
 }

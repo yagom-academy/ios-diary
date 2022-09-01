@@ -20,7 +20,7 @@ class JSONManager: DataManageable {
         do {
             let JSONList = try decoder.decode([JSONDiary].self, from: sample.data)
             let diaryList = JSONList.map {
-                DiaryItem(id: UUID(), title: $0.title, body: $0.body, createdAt: $0.createdAt)
+                DiaryItem(id: UUID(), title: $0.title, body: $0.body, createdAt: $0.createdAt, icon: Data())
             }
             
             return diaryList
