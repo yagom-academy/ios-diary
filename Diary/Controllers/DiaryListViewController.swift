@@ -251,6 +251,7 @@ extension DiaryListViewController: UITableViewDelegate {
             activityItems: [title + String(NewLine.lineFeed) + body],
             applicationActivities: nil
         )
+        
         present(activityViewController, animated: true)
     }
 }
@@ -282,6 +283,7 @@ extension DiaryListViewController: NSFetchedResultsControllerDelegate {
         default:
             break
         }
+        
         dataSource?.apply(snapshot)
     }
 }

@@ -249,25 +249,17 @@ final class DiaryContentsViewController: UIViewController {
     }
     
     private func renewCoreData() {
-        if isFetching == false {
-            isFetching = true
+        if !isFetching {
+            isFetching.toggle()
             
             guard let (title, body) = extractTitleAndBody(),
                   let creationDate = creationDate,
                   let id = id else {
-                isFetching = false
+                isFetching.toggle()
                 
                 return
             }
-            
-            guard let main = main,
-                  let icon = icon else {
-                isHavingError = true
-                return
-            }
-            
-            isHavingError = false
-            
+
             do {
                 try determineDataProcessingWith(
                     title: title,
@@ -427,7 +419,7 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
             WeatherDataAPIManager(
                 latitude: location.latitude,
                 longitude: location.longitude
-            )?.requestAndDecodeWeather(dataType: WeatherDataEntity.self) { [weak self] result in
+            )?.requestWeather(dataType: WeatherDataEntity.self) { [weak self] result in
                 switch result {
                 case .success(let data):
                     DispatchQueue.main.async {

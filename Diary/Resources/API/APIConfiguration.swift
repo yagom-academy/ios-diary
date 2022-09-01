@@ -13,8 +13,7 @@ struct APIConfiguration {
     let url: URL
     let parameters: Parameters?
     
-    init(url: URL,
-         parameters: Parameters? = nil) {
+    init(url: URL, parameters: Parameters? = nil) {
         
         self.url = url
         self.parameters = parameters
