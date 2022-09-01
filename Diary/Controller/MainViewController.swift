@@ -63,6 +63,21 @@ final class MainViewController: UIViewController {
     @objc private func updateTableView() {
         self.diaryItemTableView.reloadData()
     }
+    
+    private func deleteAlertAction(index: Int) {
+        let alert = UIAlertController(title: "진짜요?",
+                                      message: "정말로 삭제하시겠어요?",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "취소", style: .default, handler: { _ in
+            
+        }))
+        alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
+            self.diaryManager.deleteDiary(id: self.diaryManager.fetchDiaryEntity()[index].id)
+        }))
+        
+        self.present(alert, animated: true)
+    }
 }
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
@@ -102,22 +117,12 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         
         let deleteAction = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             success(true)
-            let alert = UIAlertController(title: "진짜요?",
-                                          message: "정말로 삭제하시겠어요?",
-                                          preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "취소", style: .default, handler: { _ in
-                
-            }))
-            alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
-                self.diaryManager.deleteDiary(id: self.diaryManager.fetchDiaryEntity()[indexPath.row].id)
-            }))
-            
-            self.present(alert, animated: true)
+            self.deleteAlertAction(index: indexPath.row)
         }
         
         deleteAction.backgroundColor = .systemRed
         
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
+
 }
