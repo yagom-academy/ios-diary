@@ -150,7 +150,7 @@ final class DiaryListViewController: UIViewController {
                 cell.titleLabel.text = item.title
                 cell.dateLabel.text = item.createdAt.localizedString
                 cell.bodyLabel.text = item.body
-                cell.weatherIconImageView.image = item.image
+                cell.weatherIconImageView.image = item.weatherIconImage
                 
                 cell.accessoryType = .disclosureIndicator
                 

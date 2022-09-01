@@ -15,8 +15,8 @@ final class DiaryContentsViewController: UIViewController {
     private let diaryContentView = DiaryContentView()
     private var creationDate: Date?
     private var id: UUID?
-    private var main: String?
-    private var icon: String?
+    private var weatherMainData: String?
+    private var weatherIcon: String?
     private let locationManager = CLLocationManager()
     private var isDeleted: Bool = false
     private var isFetching: Bool = false
@@ -276,12 +276,12 @@ final class DiaryContentsViewController: UIViewController {
             
             do {
                 try determineDataProcessingWith(
-                    title,
-                    body,
-                    creationDate,
-                    id,
-                    main,
-                    icon
+                    title: title,
+                    body: body,
+                    creationDate: creationDate,
+                    id: id,
+                    weatherMainData: weatherMainData,
+                    weatherIcon: weatherIcon
                 )
             } catch {
                 presentErrorAlert(error)
@@ -309,12 +309,37 @@ final class DiaryContentsViewController: UIViewController {
         return (String(title), String(body))
     }
     
-    private func determineDataProcessingWith(_ title: String, _ body: String, _ creationDate: Date, _ id: UUID, _ main: String, _ icon: String) throws {
+    private func determineDataProcessingWith(
+        title: String,
+        body: String,
+        creationDate: Date,
+        id: UUID,
+        weatherMainData: String?,
+        weatherIcon: String?
+    ) throws {
         let fetchSuccess = try? CoreDataManager.shared.fetchDiary(using: id)
         
         switch (fetchSuccess, isDeleted) {
         case (nil, false):
-            WeatherImageAPIManager(icon: icon)?.requestImage(id: id) { [weak self] result in
+            guard let weatherIcon = weatherIcon else {
+                do {
+                    try CoreDataManager.shared.saveDiary(
+                        title: title,
+                        body: body,
+                        createdAt: creationDate,
+                        id: id,
+                        weatherMainData: nil,
+                        weatherIcon: nil,
+                        weatherIconImage: nil
+                    )
+                } catch {
+                    presentErrorAlert(error)
+                }
+                
+                return
+            }
+            
+            WeatherImageAPIManager(icon: weatherIcon)?.requestImage(id: id) { [weak self] result in
                 switch result {
                 case .success(let image):
                     do {
@@ -323,9 +348,9 @@ final class DiaryContentsViewController: UIViewController {
                             body: body,
                             createdAt: creationDate,
                             id: id,
-                            main: main,
-                            icon: icon,
-                            image: image
+                            weatherMainData: weatherMainData,
+                            weatherIcon: weatherIcon,
+                            weatherIconImage: image
                         )
                     } catch {
                         self?.presentErrorAlert(error)
@@ -419,8 +444,8 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
                         guard let firstWeatherData = data.weather.first else {
                             return
                         }
-                        self?.main = firstWeatherData.main
-                        self?.icon = firstWeatherData.icon
+                        self?.weatherMainData = firstWeatherData.main
+                        self?.weatherIcon = firstWeatherData.icon
                     }
                 case .failure(let error):
                     self?.presentErrorAlert(error)
@@ -430,8 +455,8 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
             return
         }
         
-        main = diary.main
-        icon = diary.icon
+        weatherMainData = diary.weatherMainData
+        weatherIcon = diary.weatherIcon
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

@@ -2,7 +2,7 @@
 //  Diary+CoreDataProperties.swift
 //  Diary
 //
-//  Created by Finnn, 수꿍 on 2022/08/29.
+//  Created by Finnn, 수꿍 on 2022/09/01.
 //
 //
 
@@ -16,9 +16,9 @@ extension Diary {
 
     @NSManaged public var body: String
     @NSManaged public var createdAt: Date
-    @NSManaged public var icon: String
+    @NSManaged public var weatherIcon: String?
     @NSManaged public var id: UUID
-    @NSManaged public var main: String
+    @NSManaged public var weatherIconImage: UIImage?
+    @NSManaged public var weatherMainData: String?
     @NSManaged public var title: String
-    @NSManaged public var image: UIImage
 }
