@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		37038F4E28C077C6008D3921 /* DataTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37038F4D28C077C6008D3921 /* DataTaskViewController.swift */; };
 		37130A0828AC8471008F7A35 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37130A0728AC8471008F7A35 /* DiaryTests.swift */; };
 		37130A1128ACAC8B008F7A35 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37130A1028ACAC8B008F7A35 /* DiaryTableViewCell.swift */; };
 		372141BD28B75046002A8EAD /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372141BB28B75046002A8EAD /* Diary+CoreDataClass.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		37038F4D28C077C6008D3921 /* DataTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskViewController.swift; sourceTree = "<group>"; };
 		37130A0728AC8471008F7A35 /* DiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTests.swift; sourceTree = "<group>"; };
 		37130A1028ACAC8B008F7A35 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		372141BB28B75046002A8EAD /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -158,9 +160,10 @@
 		7EF147BB28AC88C000F142B2 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				37E9D3FA28AE5531003611C0 /* DiaryRegister */,
+				37038F4D28C077C6008D3921 /* DataTaskViewController.swift */,
 				7EF147D628AE0AE000F142B2 /* DiaryDetail */,
 				7EF147BC28AC891B00F142B2 /* DiaryList */,
+				37E9D3FA28AE5531003611C0 /* DiaryRegister */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -353,7 +356,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3743CC4E28AC7CBC0049F5E3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -364,7 +367,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
@@ -409,6 +412,7 @@
 				7EF147DA28AE0B5300F142B2 /* DiaryDetailView.swift in Sources */,
 				7EADF21C28B78DB40036138C /* DiaryRegisterView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				37038F4E28C077C6008D3921 /* DataTaskViewController.swift in Sources */,
 				7EF147BA28AC82AA00F142B2 /* DiaryModel.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				7EF147C228ACBBC000F142B2 /* MockData.swift in Sources */,

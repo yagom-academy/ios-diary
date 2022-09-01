@@ -42,9 +42,9 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         switch topViewContoller {
         case let viewController as DiaryRegisterViewController:
-            viewController.saveDiaryData()
+            viewController.saveData()
         case let viewController as DiaryDetailViewController:
-            viewController.saveDiaryData()
+            viewController.saveData()
         default:
             break
         }
