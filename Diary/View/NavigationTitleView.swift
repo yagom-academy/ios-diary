@@ -18,7 +18,7 @@ class NavigationTitleView: UIView {
         return stackView
     }()
     
-    private let titleLabel: UILabel = {
+    private let diaryDateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title3)
@@ -51,7 +51,7 @@ extension NavigationTitleView {
     }
     private func addSubView() {
         horizontalStackView.addArrangedSubview(weatherImageView)
-        horizontalStackView.addArrangedSubview(titleLabel)
+        horizontalStackView.addArrangedSubview(diaryDateLabel)
         self.addSubview(horizontalStackView)
     }
     
@@ -65,7 +65,7 @@ extension NavigationTitleView {
     }
     
     func configure(title: String, icon: UIImage) {
-        titleLabel.text = title
+        diaryDateLabel.text = title
         weatherImageView.image = icon
     }
 }

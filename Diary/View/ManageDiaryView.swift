@@ -62,7 +62,7 @@ extension ManageDiaryView {
         self.bodyTextView.becomeFirstResponder()
     }
     
-    func convertDiaryItem(with id: UUID, icon: Data) -> DiaryItem? {
+    func convertDiaryItem(with id: UUID, icon: Data, createdData: Double) -> DiaryItem? {
         guard let content = self.bodyTextView.text,
               let firstLineIndex = content.firstIndex(of: "\n") else { return nil }
         
