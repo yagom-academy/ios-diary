@@ -17,7 +17,7 @@ extension CoreDataProcessing {
     
     func create(
         content: [String],
-        errorHandler: @escaping (CoreDataError) -> Void
+        errorHandler: @escaping (String) -> Void
     ) {
         guard let context = context else {
             return
@@ -31,19 +31,15 @@ extension CoreDataProcessing {
         
         do {
             try saveContext()
-        } catch CoreDataError.noContext {
-            errorHandler(CoreDataError.noContext)
-        } catch CoreDataError.failedToSave {
-            errorHandler(CoreDataError.failedToSave)
         } catch {
-            errorHandler(CoreDataError.unknown)
+            errorHandler(handleError(error))
         }
     }
-    
+
     func update(
         entity: DiaryContents,
         content: [String],
-        errorHandler: @escaping (CoreDataError) -> Void
+        errorHandler: @escaping (String) -> Void
     ) {
         let diaryContents = entity
         diaryContents.title = String(content[0])
@@ -51,18 +47,14 @@ extension CoreDataProcessing {
         
         do {
             try saveContext()
-        } catch CoreDataError.noContext {
-            errorHandler(CoreDataError.noContext)
-        } catch CoreDataError.failedToSave {
-            errorHandler(CoreDataError.failedToSave)
         } catch {
-            errorHandler(CoreDataError.unknown)
+            errorHandler(handleError(error))
         }
     }
     
     func delete(
         _ data: DiaryContents,
-        errorHandler: @escaping (CoreDataError) -> Void
+        errorHandler: @escaping (String) -> Void
     ) {
         guard let context = context else {
             return
@@ -72,12 +64,8 @@ extension CoreDataProcessing {
         
         do {
             try saveContext()
-        } catch CoreDataError.noContext {
-            errorHandler(CoreDataError.noContext)
-        } catch CoreDataError.failedToSave {
-            errorHandler(CoreDataError.failedToSave)
         } catch {
-            errorHandler(CoreDataError.unknown)
+            errorHandler(handleError(error))
         }
     }
 
@@ -88,6 +76,17 @@ extension CoreDataProcessing {
 
         guard (try? context.save()) != nil else {
             throw CoreDataError.failedToSave
+        }
+    }
+    
+    private func handleError(_ error: Error) -> String {
+        switch error {
+        case CoreDataError.noContext:
+            return CoreDataError.noContext.localizedDescription
+        case CoreDataError.failedToSave:
+            return CoreDataError.failedToSave.localizedDescription
+        default:
+            return CoreDataError.unknown.localizedDescription
         }
     }
 }

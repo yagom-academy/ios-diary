@@ -8,10 +8,10 @@
 import UIKit
 
 extension UIViewController {
-    func showErrorAlert(error: CoreDataError) {
+    func showErrorAlert(error: String) {
         let alertController = UIAlertController(
             title: "⚠️",
-            message: error.errorMessage,
+            message: error,
             preferredStyle: .alert
         )
         let okButton = UIAlertAction(
