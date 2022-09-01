@@ -40,7 +40,18 @@ struct JsonParser {
         do {
             weatherModel = try decoder.decode(WeatherModel.self, from: data)
         } catch {
-            print(error.localizedDescription)
+            switch error {
+            case DecodingError.typeMismatch(_, let context):
+                print(context.debugDescription)
+            case DecodingError.dataCorrupted(let context):
+                print(context.debugDescription)
+            case DecodingError.valueNotFound(_, let context):
+                print(context.debugDescription)
+            case DecodingError.keyNotFound(_, let context):
+                print(context.debugDescription)
+            default:
+                break
+            }
         }
         return weatherModel
     }
