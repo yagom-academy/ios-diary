@@ -10,7 +10,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     private enum Section {
         case main
     }
-    
+
     private typealias DiffableDataSource = UITableViewDiffableDataSource<Section, DiaryContents>
     private var dataSource: DiffableDataSource?
     private var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryContents>()
@@ -32,12 +32,13 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
   
         configureAttributes()
         configureLayout()
-        snapshot.appendSections([.main])
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        configureDataSource()
         configureSnapshot()
+        configureDataSource()
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        snapshot.reloadItems(getDiaryContent())
+        dataSource?.apply(snapshot)
     }
     
     private func configureAttributes() {
@@ -60,7 +61,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
             animated: true
         )
     }
-    
+
     private func configureLayout() {
         NSLayoutConstraint.activate([
             diaryTableView.topAnchor.constraint(
@@ -94,18 +95,19 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
                 return cell
             })
     }
-    
+
     private func configureSnapshot() {
+        snapshot.appendSections([.main])
+        snapshot.appendItems(getDiaryContent())
+    }
+
+    private func getDiaryContent() -> [DiaryContents] {
         guard let context = context,
               let diaryContents = try? context.fetch(DiaryContents.fetchRequest()) else {
-                  return
+                  return [DiaryContents()]
         }
-
-        snapshot.deleteAllItems()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(diaryContents)
         
-        dataSource?.apply(snapshot)
+        return diaryContents
     }
 }
 
