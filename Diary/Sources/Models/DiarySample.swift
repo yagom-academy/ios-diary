@@ -9,7 +9,6 @@ import Foundation
 
 struct DiarySample: Decodable, Hashable {
     let id = UUID()
-    
     let title: String
     let body: String
     let createdAt: Double

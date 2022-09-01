@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell, ReuseIdentifying {
-    private let diaryTitleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -17,7 +17,7 @@ final class DiaryTableViewCell: UITableViewCell, ReuseIdentifying {
         return label
     }()
     
-    private let diaryDateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.textAlignment = .center
@@ -30,7 +30,7 @@ final class DiaryTableViewCell: UITableViewCell, ReuseIdentifying {
         return label
     }()
     
-    private let diaryPreviewLabel: UILabel = {
+    private let previewLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption2)
         label.textAlignment = .center
@@ -70,7 +70,7 @@ final class DiaryTableViewCell: UITableViewCell, ReuseIdentifying {
             reuseIdentifier: reuseIdentifier
         )
         
-        setConstraint()
+        configureLayout()
         configureAccessoryType()
     }
     
@@ -79,27 +79,27 @@ final class DiaryTableViewCell: UITableViewCell, ReuseIdentifying {
         assertionFailure("init(coder:) has not been implemented")
     }
     
-    func setComponents(item: DiaryContents) {
-        diaryTitleLabel.text = item.title?.replacingOccurrences(
+    func setupComponents(item: DiaryContents) {
+        titleLabel.text = item.title?.replacingOccurrences(
             of: "\n",
             with: ""
         )
-        diaryDateLabel.text = DateFormatter.localizedString(
+        dateLabel.text = DateFormatter.localizedString(
             from: Date(timeIntervalSince1970: item.createdAt),
             dateStyle: .long,
             timeStyle: .none
         )
-        diaryPreviewLabel.text = item.body
+        previewLabel.text = item.body
     }
     
-    private func setConstraint() {
+    private func configureLayout() {
         contentView.addSubview(entireVerticalStackView)
         
-        entireVerticalStackView.addArrangedSubview(diaryTitleLabel)
+        entireVerticalStackView.addArrangedSubview(titleLabel)
         entireVerticalStackView.addArrangedSubview(bottomHorizontalStackView)
         
-        bottomHorizontalStackView.addArrangedSubview(diaryDateLabel)
-        bottomHorizontalStackView.addArrangedSubview(diaryPreviewLabel)
+        bottomHorizontalStackView.addArrangedSubview(dateLabel)
+        bottomHorizontalStackView.addArrangedSubview(previewLabel)
         
         NSLayoutConstraint.activate([
             entireVerticalStackView.topAnchor.constraint(

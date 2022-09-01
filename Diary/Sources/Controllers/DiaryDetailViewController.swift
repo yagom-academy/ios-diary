@@ -1,5 +1,5 @@
 //
-//  DetailDiaryViewController.swift
+//  DiaryDetailViewController.swift
 //  Diary
 //
 //  Created by yeton, hyeon2 on 2022/08/18.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
+final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
     var content: DiaryContents?
     var isExist: Bool = false
     
@@ -15,6 +15,8 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.keyboardDismissMode = .interactive
+        textView.alwaysBounceVertical = true
         
         return textView
     }()
@@ -23,7 +25,6 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
         super.viewDidLoad()
         
         configureNavigationItemTitle()
-        configureAttributes()
         configureLayout()
         registerForKeyboardShowNotification()
         registerForKeyboardHideNotification()
@@ -32,8 +33,6 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     override func viewWillAppear(_ animated: Bool) {
         configureTextView()
         textView.becomeFirstResponder()
-        textView.keyboardDismissMode = .interactive
-        textView.alwaysBounceVertical = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -101,7 +100,7 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
             handler: nil
         ))
         
-        self.present(
+        present(
             actionSheet,
             animated: true
         )
@@ -118,7 +117,7 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
             applicationActivities: nil
         )
         
-        self.present(
+        present(
             activityViewController,
             animated: true,
             completion: nil
@@ -152,18 +151,16 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
                 self.navigationController?.popViewController(animated: true)
             }))
         
-        self.present(
+        present(
             action,
             animated: true
         )
     }
     
-    private func configureAttributes() {
+    private func configureLayout() {
         view.addSubview(textView)
         view.backgroundColor = .white
-    }
-    
-    private func configureLayout() {
+        
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor
@@ -245,7 +242,7 @@ final class DetailDiaryViewController: UIViewController, CoreDataProcessing {
     }
 }
 
-extension DetailDiaryViewController: SendDataDelegate {
+extension DiaryDetailViewController: SendDataDelegate {
     func sendData<T>(
         _ data: T,
         isExist: Bool

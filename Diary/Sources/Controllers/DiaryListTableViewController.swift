@@ -25,7 +25,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
         return tableView
     }()
 
-    private let detailDiaryViewController = DetailDiaryViewController()
+    private let detailDiaryViewController = DiaryDetailViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +42,6 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     }
     
     private func configureAttributes() {
-        view.backgroundColor = .white
-        view.addSubview(diaryTableView)
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "plus"),
@@ -57,12 +55,15 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     
     @objc func touchAddButton() {
         navigationController?.pushViewController(
-            DetailDiaryViewController(),
+            DiaryDetailViewController(),
             animated: true
         )
     }
 
     private func configureLayout() {
+        view.addSubview(diaryTableView)
+        view.backgroundColor = .white
+        
         NSLayoutConstraint.activate([
             diaryTableView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor
@@ -90,7 +91,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
                     return nil
                 }
                 
-                cell.setComponents(item: itemIdentifier)
+                cell.setupComponents(item: itemIdentifier)
                 
                 return cell
             })

@@ -41,7 +41,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidEnterBackground(_ scene: UIScene) {
         guard let detailDiaryViewController = navigationController.topViewController
-                as? DetailDiaryViewController else {
+                as? DiaryDetailViewController else {
                     return
                 }
         

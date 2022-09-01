@@ -21,7 +21,7 @@ extension UIViewController {
         )
         alertController.addAction(okButton)
         
-        self.present(
+        present(
             alertController,
             animated: true
         )
