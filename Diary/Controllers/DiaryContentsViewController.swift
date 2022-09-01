@@ -20,7 +20,6 @@ final class DiaryContentsViewController: UIViewController {
     private let locationManager = CLLocationManager()
     private var isDeleted: Bool = false
     private var isFetching: Bool = false
-    private var isHavingError: Bool = false
     
     var diary: Diary?
     var isEditingMemo: Bool = false
@@ -90,12 +89,7 @@ final class DiaryContentsViewController: UIViewController {
     
     @objc private func popButtonTapped() {
         renewCoreData()
-        if isHavingError == false {
-            navigationController?.popViewController(animated: true)
-        } else {
-            presentErrorAlert(GPSError.noLocation)
-            isFetching = false
-        }
+        navigationController?.popViewController(animated: true)
     }
     
     private func configureActionSheet() -> UIAlertController {
@@ -438,7 +432,6 @@ extension DiaryContentsViewController: CLLocationManagerDelegate {
                 case .success(let data):
                     DispatchQueue.main.async {
                         self?.presentSuccessAlert()
-                        self?.isHavingError = false
                         self?.isFetching = false
                         
                         guard let firstWeatherData = data.weather.first else {

@@ -11,7 +11,6 @@ enum APIError: Error, LocalizedError {
     case invalidURL
     case failedToDecode
     case failedToConvert
-    case jsonFileNotFound
     case emptyData
     case unknownErrorOccured
     
@@ -23,8 +22,6 @@ enum APIError: Error, LocalizedError {
             return "Falied to decode response data."
         case .failedToConvert:
             return "Failed to convert response data"
-        case .jsonFileNotFound:
-            return "JSON file not found."
         case .emptyData:
             return "There is no data."
         case .unknownErrorOccured:

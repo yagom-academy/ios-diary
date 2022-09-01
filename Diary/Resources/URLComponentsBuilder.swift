@@ -10,8 +10,6 @@ import Foundation
 final class URLComponentsBuilder {
     private var urlComponents = URLComponents()
     
-    init() { }
-    
     func build() -> URLComponents {
         return urlComponents
     }
