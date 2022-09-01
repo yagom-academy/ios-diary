@@ -29,6 +29,8 @@
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
+		D7B8DF0C28BF2BAD002E1609 /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B8DF0B28BF2BAD002E1609 /* ImageCacheManager.swift */; };
+		D7B8DF0E28BF2CA8002E1609 /* ImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7B8DF0D28BF2CA8002E1609 /* ImageView+Extension.swift */; };
 		D7BC02FA28B67ECF003AB3B1 /* DiaryManagable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7BC02F928B67ECF003AB3B1 /* DiaryManagable.swift */; };
 		D7C5F20428B8FE3000EC90CF /* PersistentContainerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C5F20328B8FE3000EC90CF /* PersistentContainerManager.swift */; };
 		D7C5F20B28BCA0F400EC90CF /* SessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C5F20A28BCA0F400EC90CF /* SessionProtocol.swift */; };
@@ -83,6 +85,8 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7B8DF0B28BF2BAD002E1609 /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
+		D7B8DF0D28BF2CA8002E1609 /* ImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageView+Extension.swift"; sourceTree = "<group>"; };
 		D7BC02F928B67ECF003AB3B1 /* DiaryManagable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManagable.swift; sourceTree = "<group>"; };
 		D7C5F20328B8FE3000EC90CF /* PersistentContainerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainerManager.swift; sourceTree = "<group>"; };
 		D7C5F20A28BCA0F400EC90CF /* SessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionProtocol.swift; sourceTree = "<group>"; };
@@ -174,6 +178,7 @@
 				186D057128ABE9A200A2734E /* Date+Extension.swift */,
 				D7CA152228AE2AB300E1E3D1 /* TimeInterval+Extension.swift */,
 				187A611528B2161100847F8B /* Array+Extension.swift */,
+				D7B8DF0D28BF2CA8002E1609 /* ImageView+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -195,6 +200,7 @@
 				1889537B28B4C9DF00505607 /* DiaryCoreDataManager.swift */,
 				1869EDAE28B384530082AB42 /* MockDiaryManager.swift */,
 				D7C5F20328B8FE3000EC90CF /* PersistentContainerManager.swift */,
+				D7B8DF0B28BF2BAD002E1609 /* ImageCacheManager.swift */,
 				D7C5F20528B9258800EC90CF /* Protocol */,
 			);
 			path = Manager;
@@ -541,6 +547,7 @@
 				D7C5F21328BCEAB000EC90CF /* NetworkError.swift in Sources */,
 				D7C5F20D28BCA16500EC90CF /* APIRequest.swift in Sources */,
 				D7CA152328AE2AB300E1E3D1 /* TimeInterval+Extension.swift in Sources */,
+				D7B8DF0C28BF2BAD002E1609 /* ImageCacheManager.swift in Sources */,
 				1889537928B476A600505607 /* DiaryEntity+CoreDataClass.swift in Sources */,
 				D7C5F20428B8FE3000EC90CF /* PersistentContainerManager.swift in Sources */,
 				1848B2EA28BDEC0E0030E664 /* Diary1.0To2.0.xcmappingmodel in Sources */,
@@ -562,6 +569,7 @@
 				1863247D28AE1FF800BAE36D /* KeyboardManager.swift in Sources */,
 				D7C5F20B28BCA0F400EC90CF /* SessionProtocol.swift in Sources */,
 				D7BC02FA28B67ECF003AB3B1 /* DiaryManagable.swift in Sources */,
+				D7B8DF0E28BF2CA8002E1609 /* ImageView+Extension.swift in Sources */,
 				186D057228ABE9A200A2734E /* Date+Extension.swift in Sources */,
 				186D056F28ABE97900A2734E /* Section.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,

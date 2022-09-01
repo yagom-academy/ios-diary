@@ -116,7 +116,7 @@ final class DiaryListViewController: UIViewController {
             let deleteAction = UIContextualAction(style: .normal,
                                                  title: nil,
                                                  handler: deleteActionHandler)
-            deleteAction.image = UIImage(systemName: "trash")
+            deleteAction.image = UIImage(systemName: Design.trash)
             deleteAction.backgroundColor = .systemRed
             
             let shareAction = UIContextualAction(style: .normal,
@@ -129,7 +129,7 @@ final class DiaryListViewController: UIViewController {
             }
             
             shareAction.backgroundColor = .systemBlue
-            shareAction.image = UIImage(systemName: "square.and.arrow.up")
+            shareAction.image = UIImage(systemName: Design.squareAndArrowUp)
             
             return UISwipeActionsConfiguration(actions: [shareAction, deleteAction])
         }
@@ -222,12 +222,11 @@ extension DiaryListViewController: UICollectionViewDelegate {
     }
     
     private func requestWeather(_ locValue: CLLocationCoordinate2D) {
-        let weatherRequest = WeatherRequest(method: .get,
-                                   baseURL: URLHost.openWeather.url,
-                                   query: [URLQueryItem(name: "lat", value: "\(locValue.latitude)"),
-                                           URLQueryItem(name: "lon", value: "\(locValue.longitude)"),
-                                           URLQueryItem(name: "appid", value: "63722b736b97508775be46f7cf76cb85")],
-                                   path: URLAdditionalPath.weather)
+        let weatherRequest = WeatherRequest(baseURL: URLHost.openWeather.url,
+                                            query: [URLQueryItem(name: Design.latitude, value: "\(locValue.latitude)"),
+                                                    URLQueryItem(name: Design.longitude, value: "\(locValue.longitude)"),
+                                                    Design.IDQueryItem],
+                                            path: URLAdditionalPath.weather)
         let weatherSession = WeatherURLSession()
         
         weatherSession.dataTask(with: weatherRequest) { (result: Result<WeatherModel, Error>) in
@@ -253,6 +252,11 @@ private enum Design {
     static let moonImage = "moon.fill"
     static let navigationTitle = "일기장"
     static let plusButton = "plus"
+    static let trash = "trash"
+    static let squareAndArrowUp = "square.and.arrow.up"
+    static let latitude = "lat"
+    static let longitude = "lon"
+    static let IDQueryItem = URLQueryItem(name: "appid", value: "63722b736b97508775be46f7cf76cb85")
 }
 
 extension Notification.Name {

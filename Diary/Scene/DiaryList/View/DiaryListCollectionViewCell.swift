@@ -104,16 +104,13 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     }
     
     private func setupWeatherImageView(icon: String) {
-        guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") else { return }
-        guard let data = try? Data(contentsOf: url) else { return }
-        
         DispatchQueue.main.async {
             self.weatherImageView.leadingAnchor.constraint(equalTo: self.dateLabel.trailingAnchor).isActive = true
             self.dateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
             
             self.weatherImageView.widthAnchor.constraint(equalTo: self.subtitleStackView.widthAnchor, multiplier: 0.1).isActive = true
             
-            self.weatherImageView.image = UIImage(data: data)
+            self.weatherImageView.loadView(imageID: icon)
         }
     }
     

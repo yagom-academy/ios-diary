@@ -7,7 +7,9 @@
 import Foundation
 
 struct WeatherRequest: APIRequest {
-    var method: HTTPMethod
+    var method: HTTPMethod {
+        .get
+    }
     var baseURL: String
     var headers: [String: String]?
     var query: [URLQueryItem]?

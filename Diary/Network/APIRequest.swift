@@ -29,6 +29,7 @@ enum HTTPMethod {
 
 enum URLHost {
     case openWeather
+    case weatherIcon
     case sample
     
     var url: String {
@@ -37,20 +38,22 @@ enum URLHost {
             return "https://api.openweathermap.org"
         case .sample:
             return "sample"
+        case .weatherIcon:
+            return "https://openweathermap.org"
         }
     }
 }
 
 enum URLAdditionalPath {
     case weather
-    case weatherIcon
+    case weatherIcon(_ icon: String)
     
     var value: String {
         switch self {
         case .weather:
             return "/data/2.5/weather"
-        case .weatherIcon:
-            return "/img/wn"
+        case .weatherIcon(let iconID):
+            return "/img/wn/\(iconID)@2x.png"
         }
     }
 }
