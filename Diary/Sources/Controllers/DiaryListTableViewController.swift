@@ -37,6 +37,8 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     }
 
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    
         snapshot.reloadItems(getDiaryContent())
         dataSource?.apply(snapshot)
     }

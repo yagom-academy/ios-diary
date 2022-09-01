@@ -31,11 +31,15 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         configureTextView()
         textView.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         textView.resignFirstResponder()
     }
     
