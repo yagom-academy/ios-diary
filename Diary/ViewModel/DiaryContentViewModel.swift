@@ -9,7 +9,8 @@ import Foundation
 
 final class DiaryContentViewModel: DiaryViewModelLogic {
     private var dataManager: DataManageLogic?
-    private var apiManager: APIManager?
+    private var apiManager: APIManager<CurrentWeather>?
+    private var locationManager = LocationManager.shared
     
     var createdAt: Date?
     var reloadTableViewClosure: (()->())?
@@ -31,6 +32,7 @@ final class DiaryContentViewModel: DiaryViewModelLogic {
     
     init() {
         dataManager = CoreDataManager()
+        registerLocation()
         fetch()
     }
     
@@ -89,7 +91,12 @@ final class DiaryContentViewModel: DiaryViewModelLogic {
         })
     }
     
-    func requestLocation(_ latitude: Double, with longitude: Double) {
+    func registerLocation() {
+        guard let latitude = locationManager.latitude,
+              let longitude = locationManager.longitude else {
+            return
+        }
+        
         apiManager = APIManager(url: WeatherAPIConst.baseURL, latitude: latitude, longitude: longitude)
     }
     

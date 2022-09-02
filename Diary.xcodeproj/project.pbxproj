@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		41EEB21C990BFC3C8C749E68 /* Pods_DiaryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FDA4F5FFD4CD845ACB57AF10 /* Pods_DiaryTests.framework */; };
 		7213597B28B9F3BB00D33413 /* DataManageLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7213597A28B9F3BB00D33413 /* DataManageLogic.swift */; };
+		722F316B28C1E36200CEA885 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 722F316A28C1E36200CEA885 /* LocationManager.swift */; };
 		7256A8A128BC9FEB0040A8D0 /* DiaryContentViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7256A8A028BC9FEB0040A8D0 /* DiaryContentViewModelTest.swift */; };
 		7256A8A828BCD2E00040A8D0 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7256A8A728BCD2E00040A8D0 /* CurrentWeather.swift */; };
 		7256A8AA28BCE6800040A8D0 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7256A8A928BCE6800040A8D0 /* APIClient.swift */; };
@@ -64,6 +65,7 @@
 /* Begin PBXFileReference section */
 		575FF8283439B1E0C46DF05C /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		7213597A28B9F3BB00D33413 /* DataManageLogic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManageLogic.swift; sourceTree = "<group>"; };
+		722F316A28C1E36200CEA885 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		7256A89E28BC9FEB0040A8D0 /* DiaryContentViewModelTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryContentViewModelTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7256A8A028BC9FEB0040A8D0 /* DiaryContentViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentViewModelTest.swift; sourceTree = "<group>"; };
 		7256A8A728BCD2E00040A8D0 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
@@ -141,6 +143,14 @@
 				FDA4F5FFD4CD845ACB57AF10 /* Pods_DiaryTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		722F316928C1E34F00CEA885 /* CoreLoaction */ = {
+			isa = PBXGroup;
+			children = (
+				722F316A28C1E36200CEA885 /* LocationManager.swift */,
+			);
+			path = CoreLoaction;
 			sourceTree = "<group>";
 		};
 		7256A89F28BC9FEB0040A8D0 /* DiaryContentViewModelTest */ = {
@@ -282,6 +292,7 @@
 		90DED77928BDE198000BE228 /* Repository */ = {
 			isa = PBXGroup;
 			children = (
+				722F316928C1E34F00CEA885 /* CoreLoaction */,
 				90DED77A28BDE1BA000BE228 /* CoreData */,
 				726E90C928AB75A700F0ACAB /* DummyJSON */,
 				90DED76B28BCA902000BE228 /* Network */,
@@ -579,6 +590,7 @@
 				90FD09D728BA2A420047BF5D /* DiaryContentViewModel.swift in Sources */,
 				72B5F55C28BA50ED00DED8AE /* DiaryViewModelLogic.swift in Sources */,
 				7256A8A828BCD2E00040A8D0 /* CurrentWeather.swift in Sources */,
+				722F316B28C1E36200CEA885 /* LocationManager.swift in Sources */,
 				90DED77428BCD092000BE228 /* APIManager.swift in Sources */,
 				90DED77628BCE7B5000BE228 /* WeatherAPIConst.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,

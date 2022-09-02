@@ -43,7 +43,6 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupDefault()
-        setupCoreLocation()
         configureLayout()
         initializeViewModel()
     }
@@ -84,20 +83,6 @@ final class DiaryListViewController: UIViewController {
 
         self.title = "일기장"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTappedAddButton))
-    }
-    
-    private func setupCoreLocation() {
-        let locationManager = CLLocationManager()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
-        locationManager.requestWhenInUseAuthorization()
-        
-        guard let latitude = locationManager.location?.coordinate.latitude,
-              let longitude = locationManager.location?.coordinate.longitude else {
-            return
-        }
-        
-        diaryViewModel?.requestLocation(latitude, with: longitude)
     }
         
     private func configureDataSource() -> DataSource {

@@ -13,7 +13,7 @@ protocol DiaryViewModelLogic {
     func update(_ text: String)
     func remove()
     func fetchWeatherData()
-    func requestLocation(_ latitude: Double, with longitude: Double)
+    func registerLocation()
     func filterData(text: String)
     
     var diaryContents: [DiaryContent]? { get set }
