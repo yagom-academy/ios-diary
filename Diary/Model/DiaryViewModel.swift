@@ -23,4 +23,5 @@ struct DiaryViewModel {
     var index: Int?
     var latitude: String?
     var longitude: String?
+    var icon: String?
 }

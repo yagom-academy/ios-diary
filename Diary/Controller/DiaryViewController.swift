@@ -13,7 +13,8 @@ final class DiaryViewController: UIViewController {
     private let diaryView = DiaryView()
     private var diaryViewModel = DiaryViewModel()
     private var locationManger = CLLocationManager()
-
+    private let networkManager = NetworkManager()
+    
     override func loadView() {
         self.view = diaryView
     }
@@ -25,15 +26,16 @@ final class DiaryViewController: UIViewController {
         self.setupLoactionManger()
         self.diaryView.diaryTextView.delegate = self
         self.enterBackground()
+        self.fetchWeatherData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-         if CLLocationManager.locationServicesEnabled() {
-             locationManger.startUpdatingLocation()
-         } else {
-             print("off")
-         }
-     }
+        if CLLocationManager.locationServicesEnabled() {
+            locationManger.startUpdatingLocation()
+        } else {
+            print("off")
+        }
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -110,6 +112,28 @@ final class DiaryViewController: UIViewController {
                                                object: nil,
                                                queue: .main) { [self] notification in
             self.saveDiaryData()
+        }
+    }
+    
+    private func fetchWeatherData() {
+        let request = OpenWeatherRequest(method: .get,
+                                         baseURL: URLHost.openWeather.url,
+                                         query: [URLQuery.longitude.text: "127.14362189463154",
+                                                 URLQuery.latitude.text: "37.590321470642365",
+                                                 URLQuery.apiKey.text: APIkey.key],
+                                         path: URLAdditionalPath.data.value)
+        
+        networkManager.dataTask(with: request) { [self] result in
+            switch result {
+            case .success(let responseData):
+                guard let weatherData: WeatherData = try? JSONDecoder().decode(WeatherData.self,
+                                                                               from: responseData) else { return }
+                
+                diaryViewModel.icon = weatherData.weather[0].icon
+            case .failure(let error):
+                print(error)
+                return
+            }
         }
     }
 }
