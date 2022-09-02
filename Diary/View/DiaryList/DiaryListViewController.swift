@@ -16,7 +16,6 @@ final class DiaryListViewController: UIViewController {
     }
 
     private lazy var dataSource = self.configureDataSource()
-    
     private var diaryViewModel: DiaryViewModelLogic?
     
     private let diaryListTableView: UITableView = {
@@ -76,6 +75,7 @@ final class DiaryListViewController: UIViewController {
     private func setupDefault() {
         self.view.backgroundColor = .white
         self.diaryListTableView.delegate = self
+        self.diaryListTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .fade)
         
         diaryListTableView.tableHeaderView = self.searchController.searchBar
         searchController.searchResultsUpdater = self
@@ -135,8 +135,11 @@ final class DiaryListViewController: UIViewController {
     }
         
     @objc private func didTappedAddButton() {
-        let addDiaryViewController = DiaryPostViewController()
-        addDiaryViewController.diaryViewModel = diaryViewModel 
+        guard let viewModel = diaryViewModel else {
+            return
+        }
+
+        let addDiaryViewController = DiaryPostViewController(viewModel: viewModel)
         
         self.navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
@@ -146,12 +149,13 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let data = diaryViewModel?.diaryContents?[indexPath.row] else {
+        guard let viewModel = diaryViewModel,
+            let data = viewModel.diaryContents?[indexPath.row] else {
             return
         }
+        
         diaryViewModel?.createdAt = data.createdAt
-        let diaryContentViewController = DiaryContentViewController()
-        diaryContentViewController.diaryViewModel = diaryViewModel
+        let diaryContentViewController = DiaryContentViewController(viewModel: viewModel)
         
         diaryContentViewController.configureUI(data: data)
         
