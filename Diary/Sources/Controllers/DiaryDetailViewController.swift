@@ -9,7 +9,9 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
     var content: DiaryContents?
-    var isExist: Bool = false
+    private var isExist: Bool {
+            return content != nil
+        }
 
     private let textView: UITextView = {
         let textView = UITextView()
@@ -242,11 +244,7 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
 }
 
 extension DiaryDetailViewController: SendDataDelegate {
-    func sendData<T>(
-        _ data: T,
-        isExist: Bool
-    ) {
+    func sendData<T>(_ data: T) {
         content = data as? DiaryContents
-        self.isExist = isExist
     }
 }

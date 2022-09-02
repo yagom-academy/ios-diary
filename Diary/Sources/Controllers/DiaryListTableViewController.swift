@@ -104,10 +104,7 @@ extension DiaryListTableViewController: UITableViewDelegate {
         let diaryContent = dataManager.snapshot.itemIdentifiers[indexPath.item]
         weak var sendDataDelegate: (SendDataDelegate)? = detailDiaryViewController
         
-        sendDataDelegate?.sendData(
-            diaryContent,
-            isExist: true
-        )
+        sendDataDelegate?.sendData(diaryContent)
         
         navigationController?.pushViewController(
             detailDiaryViewController,
