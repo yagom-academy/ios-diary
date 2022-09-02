@@ -12,6 +12,7 @@ enum APIError: Error, CustomStringConvertible {
     case emptyData
     case unknownErrorOccured
     case invalidURL
+    case responseError
     
     var description: String {
         switch self {
@@ -23,6 +24,8 @@ enum APIError: Error, CustomStringConvertible {
             return "알 수 없는 에러가 발생했습니다."
         case .invalidURL:
             return "유효하지 않는 URL주소 입니다."
+        case .responseError:
+            return "응답에 실패했습니다."
         }
     }
 }
