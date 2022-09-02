@@ -94,15 +94,15 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
         actionSheet.addAction(UIAlertAction(
             title: "Share",
             style: .default,
-            handler: { _ in
-                self.showActivityView(diaryContent: self.content)
+            handler: { [weak self] _ in
+                self?.showActivityView(diaryContent: self?.content)
             }))
         
         actionSheet.addAction(UIAlertAction(
             title: "Delete",
             style: .destructive,
-            handler: { _ in
-                self.showDeleteAlert()
+            handler: { [weak self] _ in
+                self?.showDeleteAlert()
             }))
         
         actionSheet.addAction(UIAlertAction(
@@ -142,6 +142,7 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
                         self.showErrorAlert(error: error)
                     }
                 }
+                self.dataManager.snapshot.deleteItems([content])
                 self.navigationController?.popViewController(animated: true)
             }))
         
@@ -232,9 +233,9 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
             update(
                 entity: content ?? DiaryContents(),
                 content: getProcessedContent(),
-                errorHandler: { error in
+                errorHandler: { [weak self] error in
                     DispatchQueue.main.async {
-                        self.showErrorAlert(error: error)
+                        self?.showErrorAlert(error: error)
                     }
                 })
             
