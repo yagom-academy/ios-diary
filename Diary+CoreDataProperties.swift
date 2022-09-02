@@ -19,7 +19,7 @@ extension Diary {
     @NSManaged public var title: String
     @NSManaged public var createdAt: Double
     @NSManaged public var id: UUID
-
+    @NSManaged public var icon: String
 }
 
 extension Diary: Identifiable {
