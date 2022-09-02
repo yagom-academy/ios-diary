@@ -58,7 +58,9 @@ final class CoreDataManager {
         
         fetchList.forEach { diaryList.append(DiaryModel(title: $0.title,
                                                         body: $0.body,
-                                                        createdAt: $0.createdAt))}
+                                                        createdAt: $0.createdAt,
+                                                        main: "",
+                                                        icon: ""))}
         
         return diaryList
     }

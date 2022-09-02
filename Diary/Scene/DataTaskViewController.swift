@@ -17,7 +17,9 @@ class DataTaskViewController: UIViewController {
         
         let diaryModel = DiaryModel(title: title,
                                     body: body,
-                                    createdAt: createdAt)
+                                    createdAt: createdAt,
+                                    main: "",
+                                    icon: "")
         
         if isExist {
             CoreDataManager.shared.update(diary: diaryModel)
