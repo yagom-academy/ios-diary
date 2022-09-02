@@ -6,11 +6,15 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryRegisterViewController: DataTaskViewController {
     // MARK: - properties
     
     private let diaryRegisterView = DiaryRegisterView()
+    private var locationManager = CLLocationManager()
+    private var latitude: Double?
+    private var longtitude: Double?
     
     // MARK: - view life cycle
     
@@ -22,6 +26,12 @@ final class DiaryRegisterViewController: DataTaskViewController {
         configureViewLayout()
         configureKeyboardNotification()
         diaryRegisterView.showKeyBoard()
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.requestLocation()
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -69,5 +79,18 @@ final class DiaryRegisterViewController: DataTaskViewController {
             diaryRegisterView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             diaryRegisterView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
         ])
+    }
+}
+
+extension DiaryRegisterViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first else { return }
+        
+        latitude = location.coordinate.latitude
+        longtitude = location.coordinate.longitude
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
     }
 }
