@@ -122,7 +122,7 @@ extension DiaryListTableViewController: UITableViewDelegate {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(
-            style: .normal,
+            style: .destructive,
             title: "Delete"
         ) { [weak self] _, _, _ in
             guard let self = self else {
@@ -142,6 +142,25 @@ extension DiaryListTableViewController: UITableViewDelegate {
                 animatingDifferences: true
             )
         }
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        
+        let shareAction = UIContextualAction(style: .normal, title: "Share") {  [weak self] _, _, _ in
+            guard let self = self else {
+                return
+            }
+            
+            let diaryContent = self.dataManager.snapshot.itemIdentifiers[indexPath.item]
+            
+            let activityViewController = UIActivityViewController(
+                activityItems: [diaryContent.title ?? ""],
+                applicationActivities: nil)
+            
+            self.present(
+                activityViewController,
+                animated: true,
+                completion: nil
+            )
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
