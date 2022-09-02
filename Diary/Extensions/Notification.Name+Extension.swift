@@ -1,5 +1,5 @@
 //
-//  Extension+Notification.Name.swift
+//  Notification+Extension.Name.swift
 //  Diary
 //
 //  Created by unchain, 웡빙 on 2022/08/23.

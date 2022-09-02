@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryListCell: UITableViewCell {
     // MARK: - Properties
-
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -24,6 +24,14 @@ final class DiaryListCell: UITableViewCell {
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         return label
+    }()
+    
+    private let weatherIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        return imageView
     }()
     
     private let preViewLabel: UILabel = {
@@ -54,7 +62,7 @@ final class DiaryListCell: UITableViewCell {
     }()
     
     // MARK: - Initializer
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupAccessoryType()
@@ -77,6 +85,7 @@ final class DiaryListCell: UITableViewCell {
         mainStackView.addArrangedSubview(titleLabel)
         mainStackView.addArrangedSubview(horizontalStackView)
         horizontalStackView.addArrangedSubview(dateLabel)
+        horizontalStackView.addArrangedSubview(weatherIcon)
         horizontalStackView.addArrangedSubview(preViewLabel)
     }
     
@@ -90,9 +99,16 @@ final class DiaryListCell: UITableViewCell {
     }
     
     func setupData(with model: Diary) {
-        titleLabel.text = model.title
+        guard let modelIcon = model.weatherIcon else { return }
+        guard let filteredTitle = model.title?.trimmingCharacters(in: .whitespacesAndNewlines),
+              let filteredBody = model.body?.trimmingCharacters(in: .whitespacesAndNewlines) else { return
+        }
+        let filteredText = filteredTitle + filteredBody
+        
+        titleLabel.text = filteredText.isEmpty ? "새로운 일기장" : model.title
         preViewLabel.text = model.body?.replacingOccurrences(of: NameSpace.lineChange, with: NameSpace.whiteSpace)
         dateLabel.text = model.createdAt.translateToDate()
+        weatherIcon.requestWeatherImage(iconId: modelIcon)
     }
     
     override func prepareForReuse() {
@@ -100,5 +116,6 @@ final class DiaryListCell: UITableViewCell {
         titleLabel.text = nil
         preViewLabel.text = nil
         dateLabel.text = nil
+        weatherIcon.image = nil
     }
 }

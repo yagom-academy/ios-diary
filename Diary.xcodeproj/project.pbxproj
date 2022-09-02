@@ -12,14 +12,19 @@
 		8F06107A28AC8995004ACBC2 /* TimeInterval+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F06107928AC8995004ACBC2 /* TimeInterval+Extension.swift */; };
 		8F06109328ACC122004ACBC2 /* DiaryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F06109228ACC122004ACBC2 /* DiaryListView.swift */; };
 		8F06109528ACC5BD004ACBC2 /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F06109428ACC5BD004ACBC2 /* NameSpace.swift */; };
+		8F86713B28BF481500F039DF /* DiaryV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8F86713A28BF481500F039DF /* DiaryV2.xcmappingmodel */; };
+		8F86713D28BF51E900F039DF /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F86713C28BF51E900F039DF /* UIImageView+Extension.swift */; };
+		8F86714228C19B8300F039DF /* URLData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F86714128C19B8300F039DF /* URLData.swift */; };
 		8F9308EE28B60472001D189B /* MyActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9308ED28B60471001D189B /* MyActivityItemSource.swift */; };
 		AF68FA4FA22E1E716ED4C269 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D4573E6386663F265F631D /* Pods_Diary.framework */; };
+		AF824DC028BF3082002E6B76 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF824DBF28BF3082002E6B76 /* NetworkManager.swift */; };
+		AF824DC228BF30D9002E6B76 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF824DC128BF30D9002E6B76 /* WeatherModel.swift */; };
 		AF845ACA28AC7622001CA526 /* DiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF845AC928AC7622001CA526 /* DiaryModel.swift */; };
 		AF845ACC28AC7747001CA526 /* JsonParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF845ACB28AC7747001CA526 /* JsonParser.swift */; };
+		AFA2D2BA28C0DDC200441C17 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA2D2B928C0DDC200441C17 /* AlertManager.swift */; };
 		AFA8A10E28AC96AA006B8FF3 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA8A10D28AC96AA006B8FF3 /* DiaryViewController.swift */; };
 		AFA8A11028AC995B006B8FF3 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA8A10F28AC995B006B8FF3 /* DiaryView.swift */; };
-		AFE5520028B4BEC000827024 /* PageMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE551FF28B4BEC000827024 /* PageMode.swift */; };
-		AFE5520228B4CCA000827024 /* Extension+Notification.Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE5520128B4CCA000827024 /* Extension+Notification.Name.swift */; };
+		AFE5520228B4CCA000827024 /* Notification.Name+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFE5520128B4CCA000827024 /* Notification.Name+Extension.swift */; };
 		AFFC3E6E28B34BD600532B16 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFC3E6C28B34BD600532B16 /* Diary+CoreDataProperties.swift */; };
 		AFFC3E6F28B34BD600532B16 /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFC3E6D28B34BD600532B16 /* Diary+CoreDataClass.swift */; };
 		AFFC3E7228B34D5F00532B16 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFFC3E7128B34D5F00532B16 /* CoreDataManager.swift */; };
@@ -40,13 +45,19 @@
 		8F06107928AC8995004ACBC2 /* TimeInterval+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+Extension.swift"; sourceTree = "<group>"; };
 		8F06109228ACC122004ACBC2 /* DiaryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListView.swift; sourceTree = "<group>"; };
 		8F06109428ACC5BD004ACBC2 /* NameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSpace.swift; sourceTree = "<group>"; };
+		8F86713728BF46E900F039DF /* Diary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary 2.xcdatamodel"; sourceTree = "<group>"; };
+		8F86713A28BF481500F039DF /* DiaryV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = DiaryV2.xcmappingmodel; path = Diary/DiaryList/DiaryV2.xcmappingmodel; sourceTree = "<group>"; };
+		8F86713C28BF51E900F039DF /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		8F86714128C19B8300F039DF /* URLData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLData.swift; sourceTree = "<group>"; };
 		8F9308ED28B60471001D189B /* MyActivityItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActivityItemSource.swift; sourceTree = "<group>"; };
+		AF824DBF28BF3082002E6B76 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		AF824DC128BF30D9002E6B76 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		AF845AC928AC7622001CA526 /* DiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModel.swift; sourceTree = "<group>"; };
 		AF845ACB28AC7747001CA526 /* JsonParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonParser.swift; sourceTree = "<group>"; };
+		AFA2D2B928C0DDC200441C17 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		AFA8A10D28AC96AA006B8FF3 /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		AFA8A10F28AC995B006B8FF3 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
-		AFE551FF28B4BEC000827024 /* PageMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageMode.swift; sourceTree = "<group>"; };
-		AFE5520128B4CCA000827024 /* Extension+Notification.Name.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extension+Notification.Name.swift"; sourceTree = "<group>"; };
+		AFE5520128B4CCA000827024 /* Notification.Name+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.Name+Extension.swift"; sourceTree = "<group>"; };
 		AFFC3E6C28B34BD600532B16 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AFFC3E6D28B34BD600532B16 /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AFFC3E7128B34D5F00532B16 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -95,6 +106,7 @@
 			children = (
 				AFA8A10F28AC995B006B8FF3 /* DiaryView.swift */,
 				AFA8A10D28AC96AA006B8FF3 /* DiaryViewController.swift */,
+				AFA2D2B928C0DDC200441C17 /* AlertManager.swift */,
 				8F9308ED28B60471001D189B /* MyActivityItemSource.swift */,
 			);
 			path = Diary;
@@ -104,9 +116,9 @@
 			isa = PBXGroup;
 			children = (
 				AF845AC928AC7622001CA526 /* DiaryModel.swift */,
+				AF824DC128BF30D9002E6B76 /* WeatherModel.swift */,
 				AF845ACB28AC7747001CA526 /* JsonParser.swift */,
 				8F06109428ACC5BD004ACBC2 /* NameSpace.swift */,
-				AFE551FF28B4BEC000827024 /* PageMode.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -115,9 +127,19 @@
 			isa = PBXGroup;
 			children = (
 				8F06107928AC8995004ACBC2 /* TimeInterval+Extension.swift */,
-				AFE5520128B4CCA000827024 /* Extension+Notification.Name.swift */,
+				AFE5520128B4CCA000827024 /* Notification.Name+Extension.swift */,
+				8F86713C28BF51E900F039DF /* UIImageView+Extension.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		8F86714028C19AEE00F039DF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				AF824DBF28BF3082002E6B76 /* NetworkManager.swift */,
+				8F86714128C19B8300F039DF /* URLData.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		AFFC3E7028B34C0C00532B16 /* CoreData */ = {
@@ -133,6 +155,7 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
+				8F86713A28BF481500F039DF /* DiaryV2.xcmappingmodel */,
 				8F06107528AB8070004ACBC2 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
 				F644A260C606AB4838B287DE /* Pods */,
@@ -152,6 +175,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				8F86714028C19AEE00F039DF /* Network */,
 				AFFC3E7028B34C0C00532B16 /* CoreData */,
 				8F06108E28ACC010004ACBC2 /* DiaryList */,
 				8F06108F28ACC03D004ACBC2 /* Diary */,
@@ -293,21 +317,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F86714228C19B8300F039DF /* URLData.swift in Sources */,
+				AF824DC028BF3082002E6B76 /* NetworkManager.swift in Sources */,
 				AFA8A11028AC995B006B8FF3 /* DiaryView.swift in Sources */,
+				AFA2D2BA28C0DDC200441C17 /* AlertManager.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				AFA8A10E28AC96AA006B8FF3 /* DiaryViewController.swift in Sources */,
 				AFFC3E7228B34D5F00532B16 /* CoreDataManager.swift in Sources */,
 				8F06109528ACC5BD004ACBC2 /* NameSpace.swift in Sources */,
 				AFFC3E6E28B34BD600532B16 /* Diary+CoreDataProperties.swift in Sources */,
-				AFE5520228B4CCA000827024 /* Extension+Notification.Name.swift in Sources */,
+				AFE5520228B4CCA000827024 /* Notification.Name+Extension.swift in Sources */,
 				AF845ACA28AC7622001CA526 /* DiaryModel.swift in Sources */,
+				8F86713B28BF481500F039DF /* DiaryV2.xcmappingmodel in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				8F06107A28AC8995004ACBC2 /* TimeInterval+Extension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				AFFC3E6F28B34BD600532B16 /* Diary+CoreDataClass.swift in Sources */,
-				AFE5520028B4BEC000827024 /* PageMode.swift in Sources */,
+				AF824DC228BF30D9002E6B76 /* WeatherModel.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				AF845ACC28AC7747001CA526 /* JsonParser.swift in Sources */,
+				8F86713D28BF51E900F039DF /* UIImageView+Extension.swift in Sources */,
 				8F06109328ACC122004ACBC2 /* DiaryListView.swift in Sources */,
 				8F9308EE28B60472001D189B /* MyActivityItemSource.swift in Sources */,
 				8F06107828AB9005004ACBC2 /* DiaryListCell.swift in Sources */,
@@ -529,9 +558,10 @@
 		C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				8F86713728BF46E900F039DF /* Diary 2.xcdatamodel */,
 				C739AE2E284DF28600741E8F /* Diary.xcdatamodel */,
 			);
-			currentVersion = C739AE2E284DF28600741E8F /* Diary.xcdatamodel */;
+			currentVersion = 8F86713728BF46E900F039DF /* Diary 2.xcdatamodel */;
 			path = Diary.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

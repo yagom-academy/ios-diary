@@ -11,10 +11,10 @@ struct DiaryModel: Decodable {
     let title: String
     let body: String
     let createdAt: Double
+    let weatherIcon: String
     
     enum CodingKeys: String, CodingKey {
-        case title
-        case body
+        case title, body, weatherIcon
         case createdAt = "created_at"
     }
 }

@@ -33,4 +33,26 @@ struct JsonParser {
         }
         return diaryModels
     }
+    
+    static func fetch(_ data: Data) -> WeatherModel? {
+        let decoder = JSONDecoder()
+        var weatherModel: WeatherModel?
+        do {
+            weatherModel = try decoder.decode(WeatherModel.self, from: data)
+        } catch {
+            switch error {
+            case DecodingError.typeMismatch(_, let context):
+                print(context.debugDescription)
+            case DecodingError.dataCorrupted(let context):
+                print(context.debugDescription)
+            case DecodingError.valueNotFound(_, let context):
+                print(context.debugDescription)
+            case DecodingError.keyNotFound(_, let context):
+                print(context.debugDescription)
+            default:
+                break
+            }
+        }
+        return weatherModel
+    }
 }

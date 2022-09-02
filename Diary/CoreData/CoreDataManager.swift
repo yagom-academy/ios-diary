@@ -7,8 +7,14 @@
 import UIKit
 import CoreData
 
+protocol CoreDataManagerDelegate: AnyObject {
+    func didCreateCoreData()
+    func didUpdateCoreData()
+}
+
 final class CoreDataManager {
-    var fetchedDiaries: [Diary] = []
+    weak var delegate: CoreDataManagerDelegate?
+    private(set) var fetchedDiaries: [Diary] = []
     static let shared = CoreDataManager()
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
@@ -29,9 +35,11 @@ final class CoreDataManager {
         newItem.setValue(model.title, forKey: CoreDataKeys.title)
         newItem.setValue(model.body, forKey: CoreDataKeys.body)
         newItem.setValue(model.createdAt, forKey: CoreDataKeys.createdAt)
+        newItem.setValue(model.weatherIcon, forKey: "weatherIcon")
         do {
             try context.save()
             fetch()
+            delegate?.didCreateCoreData()
         } catch {
             print(error.localizedDescription)
         }
@@ -56,6 +64,7 @@ final class CoreDataManager {
         do {
             try context.save()
             fetch()
+            delegate?.didUpdateCoreData()
         } catch {
             print(error.localizedDescription)
         }
@@ -63,7 +72,8 @@ final class CoreDataManager {
     
     private func fetch() {
         do {
-            fetchedDiaries = try context.fetch(Diary.fetchRequest())
+            let reversed = try context.fetch(Diary.fetchRequest()).reversed()
+            fetchedDiaries = reversed.map { $0 }
         } catch {
             print(error.localizedDescription)
         }
