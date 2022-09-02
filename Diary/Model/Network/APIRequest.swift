@@ -2,7 +2,7 @@
 //  APIRequest.swift
 //  Diary
 //
-//  Created by Kiwon Song on 2022/08/30.
+//  Created by Kiwi, Brad. on 2022/09/02.
 //
 
 import Foundation
@@ -68,9 +68,10 @@ extension APIRequest {
         var urlComponents = URLComponents(string: baseURL + path)
         
         if let query = query {
-        urlComponents?.queryItems = query.map { URLQueryItem(name: $0.key, value: "\($0.value)") }
+        urlComponents?.queryItems = query.map {
+            URLQueryItem(name: $0.key, value: "\($0.value)") }
         }
-        print(urlComponents?.url)
+        
         return urlComponents?.url
     }
     

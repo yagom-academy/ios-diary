@@ -2,7 +2,7 @@
 //  SessionProtocol.swift
 //  Diary
 //
-//  Created by Kiwon Song on 2022/08/30.
+//  Created by Kiwi, Brad. on 2022/09/02.
 //
 
 import Foundation

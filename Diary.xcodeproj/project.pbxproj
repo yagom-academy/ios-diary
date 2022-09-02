@@ -34,6 +34,12 @@
 		A3AE109728ACB67000323D24 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3AE109628ACB67000323D24 /* DiaryView.swift */; };
 		A3B3390728B521A300637774 /* DiaryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3B3390628B521A300637774 /* DiaryManager.swift */; };
 		A3C2A8F128C1E5D000DF3204 /* DiaryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C2A8F028C1E5D000DF3204 /* DiaryViewModel.swift */; };
+		A3C2A8F928C1EAA200DF3204 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C2A8F828C1EAA200DF3204 /* DiaryTests.swift */; };
+		A3C2A90628C1EB7D00DF3204 /* MockSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C2A90028C1EB5400DF3204 /* MockSession.swift */; };
+		A3C2A90728C1EB8200DF3204 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C2A90228C1EB5400DF3204 /* MockData.swift */; };
+		A3C2A90828C1EB8500DF3204 /* sampleWeather.json in Resources */ = {isa = PBXBuildFile; fileRef = A3C2A90128C1EB5400DF3204 /* sampleWeather.json */; };
+		A3C2A90A28C1EBB700DF3204 /* CodableError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C2A90928C1EBB700DF3204 /* CodableError.swift */; };
+		A3C2A90C28C1EC2200DF3204 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3C2A90B28C1EC2200DF3204 /* WeatherData.swift */; };
 		A3FC7A5B28B751C7002CC893 /* StubDBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC7A5A28B751C7002CC893 /* StubDBManager.swift */; };
 		A3FC7A5D28B75226002CC893 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3FC7A5C28B75226002CC893 /* CoreDataManager.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
@@ -42,6 +48,16 @@
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A3C2A8FA28C1EAA200DF3204 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C739AE19284DF28600741E8F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C739AE20284DF28600741E8F;
+			remoteInfo = Diary;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		4D614C9528B3C0CA00AB5F8A /* Date + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date + Extension.swift"; sourceTree = "<group>"; };
@@ -71,6 +87,13 @@
 		A3AE109628ACB67000323D24 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		A3B3390628B521A300637774 /* DiaryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManager.swift; sourceTree = "<group>"; };
 		A3C2A8F028C1E5D000DF3204 /* DiaryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewModel.swift; sourceTree = "<group>"; };
+		A3C2A8F628C1EAA200DF3204 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A3C2A8F828C1EAA200DF3204 /* DiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTests.swift; sourceTree = "<group>"; };
+		A3C2A90028C1EB5400DF3204 /* MockSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockSession.swift; sourceTree = "<group>"; };
+		A3C2A90128C1EB5400DF3204 /* sampleWeather.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sampleWeather.json; sourceTree = "<group>"; };
+		A3C2A90228C1EB5400DF3204 /* MockData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		A3C2A90928C1EBB700DF3204 /* CodableError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableError.swift; sourceTree = "<group>"; };
+		A3C2A90B28C1EC2200DF3204 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		A3FC7A5A28B751C7002CC893 /* StubDBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubDBManager.swift; sourceTree = "<group>"; };
 		A3FC7A5C28B75226002CC893 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B33DE5BB41F8F24FEF64391A /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
@@ -85,6 +108,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A3C2A8F328C1EAA200DF3204 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C739AE1E284DF28600741E8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -132,6 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				4D789ABE28C1E98000B55969 /* APIError.swift */,
+				A3C2A90928C1EBB700DF3204 /* CodableError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -204,8 +235,28 @@
 				4DED680A28AC8781005E5A71 /* sample.json */,
 				4DC62C4E28BC804E000892A3 /* DiaryContent.swift */,
 				A3AE108E28AB891700323D24 /* JSONDecoder + Extension.swift */,
+				A3C2A90B28C1EC2200DF3204 /* WeatherData.swift */,
 			);
 			path = Json;
+			sourceTree = "<group>";
+		};
+		A3C2A8F728C1EAA200DF3204 /* DiaryTests */ = {
+			isa = PBXGroup;
+			children = (
+				A3C2A8FF28C1EB3000DF3204 /* TestDouble */,
+				A3C2A8F828C1EAA200DF3204 /* DiaryTests.swift */,
+			);
+			path = DiaryTests;
+			sourceTree = "<group>";
+		};
+		A3C2A8FF28C1EB3000DF3204 /* TestDouble */ = {
+			isa = PBXGroup;
+			children = (
+				A3C2A90228C1EB5400DF3204 /* MockData.swift */,
+				A3C2A90028C1EB5400DF3204 /* MockSession.swift */,
+				A3C2A90128C1EB5400DF3204 /* sampleWeather.json */,
+			);
+			path = TestDouble;
 			sourceTree = "<group>";
 		};
 		A3FC7A5928B75172002CC893 /* CoreData */ = {
@@ -222,6 +273,7 @@
 			children = (
 				4DABC64228AB843D009F5BAE /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
+				A3C2A8F728C1EAA200DF3204 /* DiaryTests */,
 				C739AE22284DF28600741E8F /* Products */,
 				4756E375C3115271A803D83D /* Pods */,
 				CD6C76DC3DED686BB719E8CA /* Frameworks */,
@@ -232,6 +284,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE21284DF28600741E8F /* Diary.app */,
+				A3C2A8F628C1EAA200DF3204 /* DiaryTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -263,6 +316,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A3C2A8F528C1EAA200DF3204 /* DiaryTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A3C2A8FE28C1EAA200DF3204 /* Build configuration list for PBXNativeTarget "DiaryTests" */;
+			buildPhases = (
+				A3C2A8F228C1EAA200DF3204 /* Sources */,
+				A3C2A8F328C1EAA200DF3204 /* Frameworks */,
+				A3C2A8F428C1EAA200DF3204 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A3C2A8FB28C1EAA200DF3204 /* PBXTargetDependency */,
+			);
+			name = DiaryTests;
+			productName = DiaryTests;
+			productReference = A3C2A8F628C1EAA200DF3204 /* DiaryTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C739AE20284DF28600741E8F /* Diary */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C739AE38284DF28600741E8F /* Build configuration list for PBXNativeTarget "Diary" */;
@@ -289,9 +360,13 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
-				LastSwiftUpdateCheck = 1320;
+				LastSwiftUpdateCheck = 1340;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
+					A3C2A8F528C1EAA200DF3204 = {
+						CreatedOnToolsVersion = 13.4.1;
+						TestTargetID = C739AE20284DF28600741E8F;
+					};
 					C739AE20284DF28600741E8F = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
@@ -311,17 +386,26 @@
 			projectRoot = "";
 			targets = (
 				C739AE20284DF28600741E8F /* Diary */,
+				A3C2A8F528C1EAA200DF3204 /* DiaryTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A3C2A8F428C1EAA200DF3204 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C739AE1F284DF28600741E8F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				4DABC64328AB843D009F5BAE /* .swiftlint.yml in Resources */,
 				4DED680B28AC8781005E5A71 /* sample.json in Resources */,
+				A3C2A90828C1EB8500DF3204 /* sampleWeather.json in Resources */,
 				C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */,
 				C739AE31284DF28600741E8F /* Assets.xcassets in Resources */,
 			);
@@ -372,23 +456,35 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A3C2A8F228C1EAA200DF3204 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A3C2A8F928C1EAA200DF3204 /* DiaryTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C739AE1D284DF28600741E8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				A3AE109728ACB67000323D24 /* DiaryView.swift in Sources */,
+				A3C2A90A28C1EBB700DF3204 /* CodableError.swift in Sources */,
 				A3939F2A28B3561A007010B4 /* ReuseIdentifying.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				A3FC7A5B28B751C7002CC893 /* StubDBManager.swift in Sources */,
 				A3C2A8F128C1E5D000DF3204 /* DiaryViewModel.swift in Sources */,
 				4D789AB728C1E93A00B55969 /* NameSpace.swift in Sources */,
+				A3C2A90628C1EB7D00DF3204 /* MockSession.swift in Sources */,
 				A3939F3B28B4A4F3007010B4 /* DBMangerable.swift in Sources */,
+				A3C2A90728C1EB8200DF3204 /* MockData.swift in Sources */,
 				A3AE108F28AB891700323D24 /* JSONDecoder + Extension.swift in Sources */,
 				4D614CCC28B7B2F600AB5F8A /* Diary+CoreDataProperties.swift in Sources */,
 				A3B3390728B521A300637774 /* DiaryManager.swift in Sources */,
 				4D789ABA28C1E93A00B55969 /* HTTPMethod.swift in Sources */,
 				4DEBCE9D28ACB00F006ADB82 /* Double + Extension.swift in Sources */,
 				4D614CC228B7492700AB5F8A /* DiaryDetailView.swift in Sources */,
+				A3C2A90C28C1EC2200DF3204 /* WeatherData.swift in Sources */,
 				4D614CC428B7496D00AB5F8A /* DiaryDetailViewController.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				A3FC7A5D28B75226002CC893 /* CoreDataManager.swift in Sources */,
@@ -410,6 +506,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A3C2A8FB28C1EAA200DF3204 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C739AE20284DF28600741E8F /* Diary */;
+			targetProxy = A3C2A8FA28C1EAA200DF3204 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		C739AE32284DF28600741E8F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -422,6 +526,44 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		A3C2A8FC28C1EAA200DF3204 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B99296K282;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = BradHeo.DiaryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Diary.app/Diary";
+			};
+			name = Debug;
+		};
+		A3C2A8FD28C1EAA200DF3204 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = B99296K282;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = BradHeo.DiaryTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Diary.app/Diary";
+			};
+			name = Release;
+		};
 		C739AE36284DF28600741E8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -603,6 +745,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		A3C2A8FE28C1EAA200DF3204 /* Build configuration list for PBXNativeTarget "DiaryTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A3C2A8FC28C1EAA200DF3204 /* Debug */,
+				A3C2A8FD28C1EAA200DF3204 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C739AE1C284DF28600741E8F /* Build configuration list for PBXProject "Diary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

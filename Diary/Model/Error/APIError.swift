@@ -2,11 +2,11 @@
 //  APIError.swift
 //  Diary
 //
-//  Created by Kiwon Song on 2022/09/02.
+//  Created by Kiwi, Brad. on 2022/09/02.
 //
 
 enum APIError: Error {
     case request
     case response
-    case invalidData    
-}
+    case invalidData
+} 
