@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		37038F4E28C077C6008D3921 /* DataTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37038F4D28C077C6008D3921 /* DataTaskViewController.swift */; };
+		37038F5B28C0A3CC008D3921 /* WeatherDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37038F5A28C0A3CC008D3921 /* WeatherDataManager.swift */; };
+		37038F5C28C0A4EB008D3921 /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E836F4628C08481006E71D5 /* WeatherModel.swift */; };
 		37130A0828AC8471008F7A35 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37130A0728AC8471008F7A35 /* DiaryTests.swift */; };
 		37130A1128ACAC8B008F7A35 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37130A1028ACAC8B008F7A35 /* DiaryTableViewCell.swift */; };
 		372141BD28B75046002A8EAD /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372141BB28B75046002A8EAD /* Diary+CoreDataClass.swift */; };
@@ -43,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		37038F4D28C077C6008D3921 /* DataTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataTaskViewController.swift; sourceTree = "<group>"; };
+		37038F5A28C0A3CC008D3921 /* WeatherDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WeatherDataManager.swift; sourceTree = "<group>"; };
 		37130A0728AC8471008F7A35 /* DiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTests.swift; sourceTree = "<group>"; };
 		37130A1028ACAC8B008F7A35 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		372141BB28B75046002A8EAD /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -52,9 +55,10 @@
 		37E9D3F428AE0846003611C0 /* Double+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+extension.swift"; sourceTree = "<group>"; };
 		37E9D3FC28AE555A003611C0 /* DiaryRegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRegisterViewController.swift; sourceTree = "<group>"; };
 		73875F12A28B2F8360640592 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
+		7E836F4328C08473006E71D5 /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E836F4428C08473006E71D5 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		7E836F4628C08481006E71D5 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		7EADF21428B744B00036138C /* DiaryDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDataManager.swift; sourceTree = "<group>"; };
-		7EADF21928B789D70036138C /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = Diary.app; path = "/Users/NAMU/Documents/Yagom/ios-diary/build/Debug-iphoneos/Diary.app"; sourceTree = "<absolute>"; };
-		7EADF21A28B789D70036138C /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = DiaryTests.xctest; path = "/Users/NAMU/Documents/Yagom/ios-diary/build/Debug-iphoneos/DiaryTests.xctest"; sourceTree = "<absolute>"; };
 		7EADF21B28B78DB40036138C /* DiaryRegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryRegisterView.swift; sourceTree = "<group>"; };
 		7EADF21E28B883600036138C /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
 		7EF147B928AC82AA00F142B2 /* DiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModel.swift; sourceTree = "<group>"; };
@@ -192,6 +196,7 @@
 				7EF147C128ACBBC000F142B2 /* MockData.swift */,
 				7EADF21E28B883600036138C /* DiaryData.swift */,
 				7EADF21428B744B00036138C /* DiaryDataManager.swift */,
+				37038F5A28C0A3CC008D3921 /* WeatherDataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -228,9 +233,12 @@
 				372141BB28B75046002A8EAD /* Diary+CoreDataClass.swift */,
 				372141BC28B75046002A8EAD /* Diary+CoreDataProperties.swift */,
 				7EF147B928AC82AA00F142B2 /* DiaryModel.swift */,
+				7E836F4628C08481006E71D5 /* WeatherModel.swift */,
 				C739AE23284DF28600741E8F /* Diary */,
 				37130A0628AC8471008F7A35 /* DiaryTests */,
 				D3B584185BE98AB88F7F40A8 /* Pods */,
+				7E836F4328C08473006E71D5 /* Diary.app */,
+				7E836F4428C08473006E71D5 /* DiaryTests.xctest */,
 			);
 			sourceTree = "<group>";
 		};
@@ -274,7 +282,7 @@
 			);
 			name = DiaryTests;
 			productName = DiaryTests;
-			productReference = 7EADF21A28B789D70036138C /* DiaryTests.xctest */;
+			productReference = 7E836F4428C08473006E71D5 /* DiaryTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		C739AE20284DF28600741E8F /* Diary */ = {
@@ -293,7 +301,7 @@
 			);
 			name = Diary;
 			productName = Diary;
-			productReference = 7EADF21928B789D70036138C /* Diary.app */;
+			productReference = 7E836F4328C08473006E71D5 /* Diary.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -356,7 +364,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3743CC4E28AC7CBC0049F5E3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
+			buildActionMask = 8;
 			files = (
 			);
 			inputFileListPaths = (
@@ -367,7 +375,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 0;
+			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};
@@ -412,11 +420,13 @@
 				7EF147DA28AE0B5300F142B2 /* DiaryDetailView.swift in Sources */,
 				7EADF21C28B78DB40036138C /* DiaryRegisterView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				37038F5B28C0A3CC008D3921 /* WeatherDataManager.swift in Sources */,
 				37038F4E28C077C6008D3921 /* DataTaskViewController.swift in Sources */,
 				7EF147BA28AC82AA00F142B2 /* DiaryModel.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				7EF147C228ACBBC000F142B2 /* MockData.swift in Sources */,
 				37E9D3F528AE0846003611C0 /* Double+extension.swift in Sources */,
+				37038F5C28C0A4EB008D3921 /* WeatherModel.swift in Sources */,
 				7EF2F96828B36A27000E3C95 /* DiaryDataManagerProtocol.swift in Sources */,
 				37E9D3FD28AE555A003611C0 /* DiaryRegisterViewController.swift in Sources */,
 				7EF147BE28AC894900F142B2 /* DiaryListViewController.swift in Sources */,
@@ -614,8 +624,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XUKBKA5462;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "앱 사용 시 항상 사용하시겠습니까?";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "항상 사용하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -627,7 +640,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "kr.yagom-academy.Diary";
+				PRODUCT_BUNDLE_IDENTIFIER = "kr.zzbae-academy.Diary";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -643,8 +656,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XUKBKA5462;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "앱 사용 시 항상 사용하시겠습니까?";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "항상 사용하시겠습니까?";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -656,7 +672,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "kr.yagom-academy.Diary";
+				PRODUCT_BUNDLE_IDENTIFIER = "kr.zzbae-academy.Diary";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
