@@ -2,7 +2,7 @@
 //  Diary+CoreDataProperties.swift
 //  
 //
-//  Created by 재재, 그루트 on 2022/08/25.
+//  Created by 변재은 on 2022/09/02.
 //
 //
 
@@ -15,8 +15,10 @@ extension Diary {
         return NSFetchRequest<Diary>(entityName: "Diary")
     }
 
-    @NSManaged public var title: String
     @NSManaged public var body: String
     @NSManaged public var createdAt: Double
+    @NSManaged public var title: String
+    @NSManaged public var main: String
+    @NSManaged public var icon: String
 
 }

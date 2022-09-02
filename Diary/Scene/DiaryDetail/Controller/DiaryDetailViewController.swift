@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryDetailViewController: DataTaskViewController {
     // MARK: - Design
-
+    
     private enum Design {
         static let alertControllerTitle = "진짜요?"
         static let alertControllerMessage = "정말로 삭제하시겠어요?🐒"
@@ -48,10 +48,20 @@ final class DiaryDetailViewController: DataTaskViewController {
     
     func saveData() {
         let inputText = diaryDetailView.seperateText()
-        saveDiaryData(title: inputText.title,
-                      body: inputText.body,
-                      createdAt: diaryDetailData?.createdAt ?? Double(),
-                      isExist: true)
+        
+        guard inputText.title != "" || inputText.body != "",
+              let main = diaryDetailData?.main,
+              let icon = diaryDetailData?.icon,
+              let createdAt = diaryDetailData?.createdAt
+        else { return }
+        
+        let diaryModel =  DiaryModel(title: inputText.title,
+                                     body: inputText.body,
+                                     createdAt: createdAt,
+                                     main: main,
+                                     icon: icon)
+        
+        saveDiaryData(diaryModel: diaryModel, isExist: true)
     }
     
     @objc override func keyBoardShowAction(notification: NSNotification) {

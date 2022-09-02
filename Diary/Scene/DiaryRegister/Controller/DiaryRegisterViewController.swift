@@ -41,10 +41,19 @@ final class DiaryRegisterViewController: DataTaskViewController {
     
     func saveData() {
         let inputText = diaryRegisterView.seperateText()
-        saveDiaryData(title: inputText.title,
-                      body: inputText.body,
-                      createdAt: Double(Date().timeIntervalSince1970),
-                      isExist: false)
+        
+        guard inputText.title != "" || inputText.body != "",
+              let main = weatherData?.main,
+              let icon = weatherData?.icon
+        else { return }
+        
+        let diaryModel =  DiaryModel(title: inputText.title,
+                                     body: inputText.body,
+                                     createdAt: Double(Date().timeIntervalSince1970),
+                                     main: main,
+                                     icon: icon)
+        
+        saveDiaryData(diaryModel: diaryModel, isExist: false)
     }
     
     private func configureLocationManager() {
