@@ -31,6 +31,7 @@ final class CoreDataManager {
             diary.setValue(model.title, forKey: "title")
             diary.setValue(model.body, forKey: "body")
             diary.setValue(model.createdAt, forKey: "createdAt")
+            diary.setValue(model.icon, forKey: "icon")
             do {
                 try context.save()
                 self.diary = fetchDiaryEntity()
@@ -50,7 +51,8 @@ final class CoreDataManager {
             
             do {
                 if let fetchedDiary = try context.fetch(request) as? [Diary] {
-                    fetchedDiary.forEach { diaryContent.append(DiaryContent(title: $0.title,
+                    fetchedDiary.forEach { diaryContent.append(DiaryContent(icon: $0.icon,
+                                                                            title: $0.title,
                                                                             body: $0.body,
                                                                             createdAt: $0.createdAt)) }
                 }
@@ -90,11 +92,12 @@ final class CoreDataManager {
                     fetchedDiary.setValue(item.body, forKey: "body")
                     fetchedDiary.setValue(item.createdAt, forKey: "createdAt")
                     fetchedDiary.setValue(item.id, forKey: "id")
-                    
+                    fetchedDiary.setValue(item.icon, forKey: "icon")
+
                     try context.save()
                     self.diary = fetchDiaryEntity()
                 } else {
-                    saveDiary(model: DiaryContent(id: item.id, title: item.title, body: item.body, createdAt: item.createdAt))
+                    saveDiary(model: DiaryContent(id: item.id, icon: item.icon, title: item.title, body: item.body, createdAt: item.createdAt))
                 }
             } catch {
                 print(error.localizedDescription)

@@ -9,6 +9,7 @@ import Foundation
 
 struct DiaryContent: Decodable {
     var id = UUID()
+    var icon = String()
     let title, body: String
     let createdAt: Double
    

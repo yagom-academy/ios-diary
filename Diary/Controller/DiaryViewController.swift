@@ -22,11 +22,10 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
+        self.diaryView.diaryTextView.delegate = self
         self.setupNavigationbar()
         self.setupLoactionManger()
-        self.diaryView.diaryTextView.delegate = self
         self.enterBackground()
-        self.fetchWeatherData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,9 +41,15 @@ final class DiaryViewController: UIViewController {
         self.registerForKeyboardNotification()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.fetchWeatherData(latitude: diaryViewModel.latitude ?? "", longitude: diaryViewModel.longitude ?? "")
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         self.removeRegisterForKeyboardNotification()
+        self.saveDiaryData()
     }
     
     private func setupNavigationbar() {
@@ -92,11 +97,13 @@ final class DiaryViewController: UIViewController {
     
     private func saveDiaryData() {
         guard let itemTitle = diaryViewModel.itemTitle,
-              let itemBody = diaryViewModel.itemBody else {
+              let itemBody = diaryViewModel.itemBody,
+              let itemIcon = diaryViewModel.icon else {
             return
         }
         
         diaryViewModel.coreDataManager.updateData(item: DiaryContent(id: diaryViewModel.id,
+                                                                     icon: WeatherIcon.makeURL(icon: itemIcon),
                                                                      title: itemTitle,
                                                                      body: itemBody,
                                                                      createdAt: Date().timeIntervalSince1970))
@@ -104,7 +111,6 @@ final class DiaryViewController: UIViewController {
     
     @objc private func keyBoardDownAction(_ sender: Notification) {
         self.diaryView.changeTextViewBottomAutoLayout()
-        self.saveDiaryData()
     }
     
     private func enterBackground() {
@@ -115,11 +121,11 @@ final class DiaryViewController: UIViewController {
         }
     }
     
-    private func fetchWeatherData() {
+    private func fetchWeatherData(latitude: String, longitude: String) {
         let request = OpenWeatherRequest(method: .get,
                                          baseURL: URLHost.openWeather.url,
-                                         query: [URLQuery.longitude.text: "127.14362189463154",
-                                                 URLQuery.latitude.text: "37.590321470642365",
+                                         query: [URLQuery.latitude.text: latitude,
+                                                 URLQuery.longitude.text: longitude,
                                                  URLQuery.apiKey.text: APIkey.key],
                                          path: URLAdditionalPath.data.value)
         
@@ -165,7 +171,7 @@ extension DiaryViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations[locations.count - 1]
-        
+
         diaryViewModel.latitude = location.coordinate.latitude.description
         diaryViewModel.longitude = location.coordinate.longitude.description
     }

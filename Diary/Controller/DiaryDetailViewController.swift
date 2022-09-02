@@ -126,9 +126,9 @@ final class DiaryDetailViewController: UIViewController {
         }
         
         diayViewModel.coreDataManager.updateData(item: DiaryContent(id: diayViewModel.coreDataManager.fetchDiaryEntity()[index].id,
-                                                      title: itemTitle,
-                                                      body: itemBody,
-                                                      createdAt: Date().timeIntervalSince1970))
+                                                                    title: itemTitle,
+                                                                    body: itemBody,
+                                                                    createdAt: Date().timeIntervalSince1970))
     }
     
     @objc private func keyBoardShow(notification: NSNotification) {

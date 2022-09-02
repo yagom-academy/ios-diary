@@ -71,7 +71,6 @@ extension APIRequest {
         urlComponents?.queryItems = query.map {
             URLQueryItem(name: $0.key, value: "\($0.value)") }
         }
-        
         return urlComponents?.url
     }
     
