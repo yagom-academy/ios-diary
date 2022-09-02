@@ -15,9 +15,9 @@ struct APIManager: GETProtocol {
             return nil
         }
         urlComponents.queryItems = [
-            URLQueryItem(name: API.latitude, value: "\(latitude)"),
-            URLQueryItem(name: API.longitude, value: "\(longitude)"),
-            URLQueryItem(name: API.appID, value: API.key)]
+            URLQueryItem(name: WeatherAPIConst.latitude, value: "\(latitude)"),
+            URLQueryItem(name: WeatherAPIConst.longitude, value: "\(longitude)"),
+            URLQueryItem(name: WeatherAPIConst.appID, value: WeatherAPIConst.key)]
         
         guard let url = urlComponents.url else {
             return nil

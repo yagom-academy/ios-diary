@@ -82,7 +82,7 @@ final class DiaryContentViewModel: DiaryViewModelLogic {
                     return
                 }
                 
-                self?.iconURL = API.baseIconURL + data + API.imageScale
+                self?.iconURL = WeatherAPIConst.baseIconURL + data + WeatherAPIConst.imageScale
             case .failure(let error):
                 self?.alertMessage = error.description
             }
@@ -90,7 +90,7 @@ final class DiaryContentViewModel: DiaryViewModelLogic {
     }
     
     func requestLocation(_ latitude: Double, with longitude: Double) {
-        apiManager = APIManager(url: API.baseURL, latitude: latitude, longitude: longitude)
+        apiManager = APIManager(url: WeatherAPIConst.baseURL, latitude: latitude, longitude: longitude)
     }
     
     func update(_ text: String) {
