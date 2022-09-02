@@ -4,6 +4,7 @@
 - [📜 프로젝트 소개](#-프로젝트-소개)
 - [📱 실행 화면](#-실행-화면)
 - [💡 핵심경험](#-핵심경험)
+- [🗂 폴더 구조](#-폴더-구조)
 - [🧑‍💻 코드 설명](#-코드-설명)
 - [⚡️ STEP 1 트러블 슈팅](#%EF%B8%8F-step-1-트러블-슈팅)
 - [⚡️ STEP 2 트러블 슈팅](#%EF%B8%8F-step-2-트러블-슈팅)
@@ -60,7 +61,65 @@
 - [x] Core Location
 
 <br>
-	
+
+
+## 🗂 폴더 구조
+
+```
+.
+├── Application
+│   ├── AppDelegate.swift
+│   └── SceneDelegate.swift
+├── Controller
+│   ├── DiaryTableViewController.swift
+│   └── ManageDiaryViewController.swift
+├── CoreData
+│   └── DiaryDataManager.swift
+├── Extension
+│   └── View + Extension.swift
+├── Info.plist
+├── Model
+│   ├── DateManager.swift
+│   ├── DiaryItem.swift
+│   ├── JSON
+│   │   ├── JSONDiary.swift
+│   │   ├── JSONError.swift
+│   │   └── JSONManager.swift
+│   ├── ReuseIdentifying.swift
+│   └── Weather
+│       ├── Weather.swift
+│       ├── WeatherError.swift
+│       └── WetherDecoder.swift
+├── Network
+│   └── WeatherSessionManager.swift
+├── Protocol
+│   └── DataManageable.swift
+├── Resource
+│   ├── Assets.xcassets
+│   │   ├── AccentColor.colorset
+│   │   │   └── Contents.json
+│   │   ├── AppIcon.appiconset
+│   │   │   └── Contents.json
+│   │   ├── Contents.json
+│   │   └── sample.dataset
+│   │       ├── Contents.json
+│   │       └── sample.json
+│   ├── Base.lproj
+│   │   ├── LaunchScreen.storyboard
+│   │   └── Main.storyboard
+│   │   └── Diary.xcdatamodel
+│   │       └── contents
+│   └── Model.xcdatamodeld
+│       └── Model.xcdatamodel
+│           └── contents
+└── View
+    ├── DiaryListCell.swift
+    ├── ManageDiaryView.swift
+    └── NavigationTitleView.swift
+```
+
+<br>
+
 ## 🧑‍💻 코드 설명
 - `WeatherSessionManager`: 날씨API 를 통해 정보를 얻어오는 코드입니다.
 - `DataManageable`: 데이터관리 프로토콜 입니다
