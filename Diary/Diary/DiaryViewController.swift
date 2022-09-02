@@ -12,8 +12,8 @@ final class DiaryViewController: UIViewController {
     
     // MARK: - Properties
     
-    var location: [String: String] = [:]
-    let locationManager = CLLocationManager()
+    private var location: [String: String] = [:]
+    private let locationManager = CLLocationManager()
     let diaryView = DiaryView(frame: .zero)
     var diary: Diary?
     
@@ -37,7 +37,7 @@ final class DiaryViewController: UIViewController {
         super.viewWillDisappear(animated)
         performAppropriateMode()
     }
-
+    
     // MARK: - UI Methods
     
     private func setupNavigationBar() {
@@ -94,10 +94,8 @@ extension DiaryViewController {
     private func createDiary() {
         guard diaryView.diaryTextView.text.isEmpty == false else { return }
         NetworkManager.shared.requestWeatherData(latitude: location["lat"], longitude: location["lon"]) { [self] data in
-            DispatchQueue.main.async { [weak self] in
-                guard let diaryModel = self?.makeDiaryModel(with: data.weather[0].icon) else { return }
-                CoreDataManager.shared.create(with: diaryModel)
-            }
+            let diaryModel = self.makeDiaryModel(with: data.weather[0].icon)
+            CoreDataManager.shared.create(with: diaryModel)
         }
     }
     
@@ -121,10 +119,8 @@ extension DiaryViewController {
     @objc private func updateDiary() {
         guard let coreDataDiary = diary else { return }
         NetworkManager.shared.requestWeatherData(latitude: location["lat"], longitude: location["lon"]) { [self] data in
-            DispatchQueue.main.async {
-                let diaryModel = self.makeDiaryModel(with: data.weather[0].icon)
-                CoreDataManager.shared.update(diary: coreDataDiary, with: diaryModel)
-            }
+            let diaryModel = self.makeDiaryModel(with: data.weather[0].icon)
+            CoreDataManager.shared.update(diary: coreDataDiary, with: diaryModel)
         }
     }
 }
