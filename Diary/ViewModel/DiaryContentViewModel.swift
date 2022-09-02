@@ -11,10 +11,11 @@ final class DiaryContentViewModel: DiaryViewModelLogic {
     private var dataManager: DataManageLogic?
     private var apiManager: APIManager?
     
-    private var iconURL: String?
     var createdAt: Date?
     var reloadTableViewClosure: (()->())?
     var showAlertClosure: (()->())?
+    
+    var iconURL: String = ""
     
     var diaryContents: [DiaryContent]? {
         didSet{
@@ -77,7 +78,11 @@ final class DiaryContentViewModel: DiaryViewModelLogic {
         apiManager?.requestAndDecode(dataType: CurrentWeather.self, completion: { [weak self] result in
             switch result {
             case .success(let data):
-                self?.iconURL = data.weather.first?.iconURL
+                guard let data = data.weather.first?.icon else {
+                    return
+                }
+                
+                self?.iconURL = API.baseIconURL + data + API.imageScale
             case .failure(let error):
                 self?.alertMessage = error.description
             }
@@ -123,9 +128,6 @@ final class DiaryContentViewModel: DiaryViewModelLogic {
         let title = data.remove(at: 0)
         let body = data.count >= 1 ? data.joined(separator: String(Const.nextLineString)) : Const.emptyString
         
-        guard let iconURL = iconURL else {
-            return nil
-        }
 
         return DiaryContent(title: title, body: body, createdAt: date, iconURL: iconURL)
     }
