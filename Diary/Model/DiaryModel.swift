@@ -14,9 +14,7 @@ struct DiaryModel: Decodable {
     let weatherIcon: String
     
     enum CodingKeys: String, CodingKey {
-        case title
-        case body
+        case title, body, weatherIcon
         case createdAt = "created_at"
-        case weatherIcon
     }
 }

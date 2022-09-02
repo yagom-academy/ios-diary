@@ -14,14 +14,15 @@ final class NetworkManager {
         guard let latitude = latitude, let longitude = longitude else {
             return
         }
-        var urlComponents = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather?")
-        let lat = URLQueryItem(name: "lat", value: latitude)
-        let lon = URLQueryItem(name: "lon", value: longitude)
-        let apiKey = URLQueryItem(name: "appId", value: "82dc71828b844e5d194f3128d649c0e8")
-        urlComponents?.queryItems?.append(lat)
-        urlComponents?.queryItems?.append(lon)
-        urlComponents?.queryItems?.append(apiKey)
-        guard let url = urlComponents?.url else {
+        guard var urlComponents = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather") else {
+            return
+        }
+        urlComponents.queryItems = [
+            .init(name: "lat", value: latitude),
+            .init(name: "lon", value: longitude),
+            .init(name: "appId", value: "82dc71828b844e5d194f3128d649c0e8")
+        ]
+        guard let url = urlComponents.url else {
             return
         }
         var request = URLRequest(url: url)
@@ -33,8 +34,8 @@ final class NetworkManager {
                   successRange.contains(statusCode) else {
                 return
             }
-            guard let resultData = data,
-                  let fetchedData = JsonParser.fetch(resultData) else {
+            guard let data = data,
+                  let fetchedData = JsonParser.fetch(data) else {
                 return
             }
             completion(fetchedData)
