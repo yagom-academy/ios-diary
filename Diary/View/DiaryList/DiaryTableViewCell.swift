@@ -85,7 +85,7 @@ final class DiaryTableViewCell: UITableViewCell {
     func configureUI(data: DiaryContent) {
         diaryTitleLabel.text = data.title
         dateLabel.text = data.createdAt.formattedDate
-        weatherIconImageView.fetch(url: data.iconURL)
+        
         shortDescriptionLabel.text = data.body
     }
     

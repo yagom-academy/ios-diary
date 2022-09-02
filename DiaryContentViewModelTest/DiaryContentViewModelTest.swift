@@ -23,8 +23,6 @@ class DiaryContentViewModelTest: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         viewModel = nil
-        diaryListView = nil
-        diaryContentView = nil
         diaryPostView = nil
     }
 }
