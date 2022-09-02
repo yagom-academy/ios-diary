@@ -22,7 +22,7 @@
 ## 개발자 소개
 |[바드](https://github.com/bar-d)|[본프](https://github.com/apwierk2451)|
 |:---:|:---:|
-| <img src = "https://i.imgur.com/k9hX1UH.png" width="250" height="250">| <img src = "https://i.imgur.com/ZLDLlML.png" width="250" height="250"> |
+| <img src = "https://i.imgur.com/wXKAg8F.jpg" width="250" height="250">| <img src = "https://i.imgur.com/ZLDLlML.png" width="250" height="250"> |
 
 
 
@@ -30,57 +30,83 @@
 ## 프로젝트 소개
 - 코어 데이터를 이용한 일기장 데이터 관리
 
-## UML
-### [ClassDiagram]
-
-
 ## 폴더 구조
 ```
 ├── Diary
-│   ├── DiaryEntity+CoreDataClass.swift
-│   ├── DiaryEntity+CoreDataProperties.swift
+│   ├── CoreData
+│   │   ├── DiaryEntity+CoreDataClass.swift
+│   │   └── DiaryEntity+CoreDataProperties.swift
 │   ├── Extension
 │   │   ├── Array+Extension.swift
 │   │   ├── Date+Extension.swift
+│   │   ├── ImageView+Extension.swift
 │   │   └── TimeInterval+Extension.swift
-│   ├── JSONModel
-│   │   └── Diary.swift
 │   ├── Manager
-│   │   ├── CoreDataManager.swift
-│   │   └── KeyboardManager.swift
-│   │   └── MockDiaryManager.swift
+│   │   ├── DiaryCoreDataManager.swift
+│   │   ├── ImageCacheManager.swift
+│   │   ├── KeyboardManager.swift
+│   │   ├── MockDiaryManager.swift
+│   │   ├── PersistentContainerManager.swift
+│   │   └── Protocol
+│   │       └── DiaryManagable.swift
+│   ├── Model
+│   │   ├── Diary.swift
+│   │   ├── MockData.json
+│   │   └── Weather.swift
+│   ├── Network
+│   │   ├── APIRequest.swift
+│   │   ├── NetworkError.swift
+│   │   ├── SessionProtocol.swift
+│   │   ├── WeatherRequest.swift
+│   │   └── WeatherURLSession.swift
 │   ├── Protocol
-│   │   ├── DataManagable.swift
 │   │   ├── DataSendable.swift
 │   │   └── ReuseIdentifiable.swift
 │   ├── Resources
 │   │   ├── AppDelegate.swift
 │   │   ├── Assets.xcassets
-│   │   │   └── sample.json
+│   │   │   ├── AccentColor.colorset
+│   │   │   │   └── Contents.json
+│   │   │   ├── AppIcon.appiconset
+│   │   │   │   └── Contents.json
+│   │   │   ├── Contents.json
+│   │   │   └── sample.dataset
+│   │   │       ├── Contents.json
+│   │   │       └── sample.json
+│   │   ├── Base.lproj
+│   │   │   └── LaunchScreen.storyboard
+│   │   ├── Diary.xcdatamodeld
+│   │   │   ├── Diary 2.0.xcdatamodel
+│   │   │   │   └── contents
+│   │   │   └── Diary.xcdatamodel
+│   │   │       └── contents
+│   │   ├── Diary.xcmappingmodel
+│   │   │   └── xcmapping.xml
+│   │   ├── Diary1.0To2.0.xcmappingmodel
+│   │   │   └── xcmapping.xml
 │   │   ├── Info.plist
 │   │   └── SceneDelegate.swift
 │   └── Scene
 │       ├── DiaryDetail
 │       │   ├── Controller
 │       │   │   └── DiaryDetailViewController.swift
-│       │   ├── Model
 │       │   └── View
 │       │       └── DiaryDetailTextView.swift
 │       ├── DiaryList
 │       │   ├── Controller
 │       │   │   └── DiaryListViewController.swift
 │       │   ├── Model
-│       │   │   ├── Enum
-│       │   │       └── Section.swift
+│       │   │   └── Enum
+│       │   │       └── Section.swift
 │       │   └── View
 │       │       └── DiaryListCollectionViewCell.swift
 │       └── DiaryRegistration
 │           ├── Controller
 │           │   └── DiaryRegistrationViewController.swift
-│           ├── Model
 │           └── View
 │               └── DiaryRegistrationView.swift
 ```
+
 ## 구현화면
 |||
 |:---:|:---:|
@@ -100,6 +126,12 @@
 |일기장 디테일 뷰 오토레이아웃|
 | <img src = "https://i.imgur.com/g9vHt84.gif" width="600" height="600">|
 
+|||
+|:---:|:---:|
+|아이콘이 포함된 일기장 등록|coredata lightweight migration|
+| <img src = "https://i.imgur.com/yZtl78O.gif" width="300" height="600">| <img src = "https://i.imgur.com/0Wf8hGh.gif" width="300" height="600"> |
+
+
 ## 키워드
 - AutoLayout
 - UICollectionView
@@ -110,6 +142,8 @@
 - UIApplication
 - keyboardDismissMode
 - CoreData
+- CLLocationDelegate
+- URLSession
 
 ## 참고문서
 - [Adaptivity and Layout](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout/)
@@ -125,24 +159,46 @@
 - [x] Text View의 활용
 - [x] 코어데이터 모델 생성
 - [x] 코어데이터 모델 및 DB 마이그레이션
-- [ ] 테이블뷰에서 스와이프를 통한 삭제기능 구현
+- [x] 테이블뷰에서 스와이프를 통한 삭제기능 구현
 - [x] Text View Delegate의 활용
-- [ ] Open API의 활용
-- [ ] Core Location의 활용
+- [x] Open API의 활용
+- [x] Core Location의 활용
 
 ## 부가경험
 - [ ] Attributed String 활용
-- [ ] Serach Controller 활용
+- [ ] Search Controller 활용
 - [x] 라이트모드/다크모드 구현
 - [x] 접근성 구현
-- [x] 지역화 구현
+- [ ] 지역화 구현
 
 
 ## 기능설명
 
-### JSONModel
+### SessionProtocol
+- **`urlSession에 사용되는 dataTask함수 타입 정의`**
+
+### APIRequest
+- **`APIRequest를 정의 및 타입 구현`**
+    - `APIRequest`
+        - `HTTPMethod`
+        - `URLHost`
+        - `URLAdditionalPath`
+
+### WeatherURLSession
+- **`SessionProtocol을 채택하여 Session 구현`**
+
+### NetworkError
+- **`Network관련 error case 정의`**
+
+### WeatherRequest
+- **`APIRequest를 채택하여 WeatherRequest타입 정의`**
+
+### Diary
 - **`Json Data decoding을 위한 타입 구현`**
-    - JSONModel
+    - Diary
+
+### Weather
+- **`URLSession을 이용하여 가져오는 WeatherModel 타입`**
 
 ### Extension
 - **`extension을 통한 사용자 정의 함수 구현`**
@@ -150,10 +206,13 @@
         - `convertToCurrentTime() -> String`
     - TimeInterval+extension
         - `convert1970DateToString() -> String`
-        
-### CoreDataManager
-- **`CoreData를 관리해주는 CoreDataManager class 구현`**
-- 
+    - Array+extension
+        - `get(index: Int) -> Element?`
+    - ImageView+extension
+        - `loadView(imageID: String)`
+### DiaryCoreDataManager
+- **`CoreData를 관리해주는 DiaryCoreDataManager class 구현`**
+
 ### KeyboardManager
 - **`keyboard를 관리해주는 KeyBoardManager class 구현`**
    
@@ -182,13 +241,16 @@
 
 - **`수정이 필요한 상품정보를 입력받는 뷰 구현`**
 
+##### CLLocationManagerDelegate
+- **`func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) 함수를 이용하여 현재 위치정보가 변경되었을 때 좌표 정보를 가져온다.`**
+
 #### 2. DiaryDetail
+
 ##### DiaryDetailTextView
 - **`작성된 일기를 보여주고 수정 가능한 UITextView 구현`**
 
 ##### DiaryDetailController
 - **`Delegate패턴을 이용하여 전달 받은 데이터를 뷰에 구현`**
-
 
 #### 3. DiaryRegistration
 ##### DiaryRegistrationTextView
@@ -228,9 +290,20 @@
 - `fetch()`의 반환 값을 `[Diary]`타입이 아닌 `[DiaryEntity]`으로 변경하여 `CoreData`에 저장된 값을 반환하게 해주었습니다.  
  그리고 `DetialViewController`에서 `uuid`값을 변수로 두어 `delete()`, `update()`를 실행할 때 현재 `uuid`를 넣어주어 같은 `uuid`일 경우 기능이 실행되도록 구현하였습니다.
 <br>
+
+### SessionProtocol Generic Type
+
+#### 문제 
+- 이미지를 `weatherRequest`를 통해 `dataTasking`을 해주었더니 `response` 에러 발생
+#### 이유 
+- `sessionProtocol` 내부에 해당 데이터를 제이슨 파일로 디코딩해주는 메서드가 있어서 해당 부분에서 `response` 에러 발생
+#### 해결 
+- `weatherRequest`의 `url`을 받아와 `URLSession`으로 작업을 해주고 `dataTask` 함수 내부 코드 작성
+
 ---
 
-## [1️⃣ Step1_Wiki](https://github.com/bar-d/ios-diary/wiki/1%EF%B8%8F⃣-Step1_Wiki)
-## [2️⃣ Step2_Wiki](https://github.com/bar-d/ios-diary/wiki/2%EF%B8%8F⃣-Step2_Wiki)
+
+## [1️⃣ Step1_Wiki](https://github.com/bar-d/ios-diary/wiki/Step1)
+## [2️⃣ Step2_Wiki](https://github.com/bar-d/ios-diary/wiki/Step2)
 ## [3️⃣ Step3_Wiki](https://github.com/bar-d/ios-diary/wiki/Step3)
 ## [TroubleShooting](https://github.com/bar-d/ios-diary/wiki/TroubleShooting)
