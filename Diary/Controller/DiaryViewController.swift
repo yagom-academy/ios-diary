@@ -6,12 +6,14 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryViewController: UIViewController {
     
     private let diaryView = DiaryView()
     private var diaryViewModel = DiaryViewModel()
-    
+    private var locationManger = CLLocationManager()
+
     override func loadView() {
         self.view = diaryView
     }
@@ -20,9 +22,18 @@ final class DiaryViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
         self.setupNavigationbar()
+        self.setupLoactionManger()
         self.diaryView.diaryTextView.delegate = self
         self.enterBackground()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+         if CLLocationManager.locationServicesEnabled() {
+             locationManger.startUpdatingLocation()
+         } else {
+             print("off")
+         }
+     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -37,6 +48,12 @@ final class DiaryViewController: UIViewController {
     private func setupNavigationbar() {
         let date = Date().dateFormatted()
         self.navigationItem.title = date
+    }
+    
+    private func setupLoactionManger() {
+        self.locationManger.delegate = self
+        self.locationManger.requestWhenInUseAuthorization()
+        self.locationManger.desiredAccuracy = kCLLocationAccuracyBest
     }
     
     private func registerForKeyboardNotification() {
@@ -78,9 +95,9 @@ final class DiaryViewController: UIViewController {
         }
         
         diaryViewModel.coreDataManager.updateData(item: DiaryContent(id: diaryViewModel.id,
-                                                      title: itemTitle,
-                                                      body: itemBody,
-                                                      createdAt: Date().timeIntervalSince1970))
+                                                                     title: itemTitle,
+                                                                     body: itemBody,
+                                                                     createdAt: Date().timeIntervalSince1970))
     }
     
     @objc private func keyBoardDownAction(_ sender: Notification) {
@@ -117,5 +134,19 @@ extension DiaryViewController: UITextViewDelegate {
         }
         diaryView.diaryTextView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
         return true
+    }
+}
+
+extension DiaryViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations[locations.count - 1]
+        
+        diaryViewModel.latitude = location.coordinate.latitude.description
+        diaryViewModel.longitude = location.coordinate.longitude.description
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
     }
 }

@@ -21,4 +21,6 @@ struct DiaryViewModel {
     var itemBody: String?
     var id = UUID()
     var index: Int?
+    var latitude: String?
+    var longitude: String?
 }
