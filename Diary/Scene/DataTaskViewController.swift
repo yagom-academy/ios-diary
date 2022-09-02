@@ -12,21 +12,8 @@ class DataTaskViewController: UIViewController {
         super.viewDidLoad()
     }
     
-    func saveDiaryData(title: String, body: String, createdAt: Double, isExist: Bool) {
-        guard title != "" || body != "" else { return }
-        
-        let diaryModel = DiaryModel(title: title,
-                                    body: body,
-                                    createdAt: createdAt,
-                                    main: "",
-                                    icon: "")
-        
-        if isExist {
-            CoreDataManager.shared.update(diary: diaryModel)
-            return
-        }
-        
-        CoreDataManager.shared.create(newDiary: diaryModel)
+    func saveDiaryData(diaryModel: DiaryModel, isExist: Bool) {
+        isExist ? CoreDataManager.shared.update(diary: diaryModel) : CoreDataManager.shared.create(newDiary: diaryModel)
     }
     
     func configureKeyboardNotification() {

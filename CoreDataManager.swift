@@ -17,6 +17,8 @@ final class CoreDataManager {
         static let titleKeyName = "title"
         static let bodyKeyName = "body"
         static let createdAtKeyName = "createdAt"
+        static let mainKeyName = "main"
+        static let iconKeyName = "icon"
     }
     
     // MARK: - properties
@@ -46,6 +48,8 @@ final class CoreDataManager {
         diary.setValue(newDiary.title, forKey: NameSpace.titleKeyName)
         diary.setValue(newDiary.body, forKey: NameSpace.bodyKeyName)
         diary.setValue(newDiary.createdAt, forKey: NameSpace.createdAtKeyName)
+        diary.setValue(newDiary.main, forKey: NameSpace.mainKeyName)
+        diary.setValue(newDiary.icon, forKey: NameSpace.iconKeyName)
         
         appDelegate?.saveContext()
     }
