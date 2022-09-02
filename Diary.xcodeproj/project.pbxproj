@@ -14,6 +14,7 @@
 		8F06109528ACC5BD004ACBC2 /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F06109428ACC5BD004ACBC2 /* NameSpace.swift */; };
 		8F86713B28BF481500F039DF /* DiaryV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8F86713A28BF481500F039DF /* DiaryV2.xcmappingmodel */; };
 		8F86713D28BF51E900F039DF /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F86713C28BF51E900F039DF /* UIImageView+Extension.swift */; };
+		8F86714228C19B8300F039DF /* URLData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F86714128C19B8300F039DF /* URLData.swift */; };
 		8F9308EE28B60472001D189B /* MyActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9308ED28B60471001D189B /* MyActivityItemSource.swift */; };
 		AF68FA4FA22E1E716ED4C269 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D4573E6386663F265F631D /* Pods_Diary.framework */; };
 		AF824DC028BF3082002E6B76 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF824DBF28BF3082002E6B76 /* NetworkManager.swift */; };
@@ -47,6 +48,7 @@
 		8F86713728BF46E900F039DF /* Diary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary 2.xcdatamodel"; sourceTree = "<group>"; };
 		8F86713A28BF481500F039DF /* DiaryV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = DiaryV2.xcmappingmodel; path = Diary/DiaryList/DiaryV2.xcmappingmodel; sourceTree = "<group>"; };
 		8F86713C28BF51E900F039DF /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
+		8F86714128C19B8300F039DF /* URLData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLData.swift; sourceTree = "<group>"; };
 		8F9308ED28B60471001D189B /* MyActivityItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActivityItemSource.swift; sourceTree = "<group>"; };
 		AF824DBF28BF3082002E6B76 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		AF824DC128BF30D9002E6B76 /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
@@ -131,6 +133,15 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		8F86714028C19AEE00F039DF /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				AF824DBF28BF3082002E6B76 /* NetworkManager.swift */,
+				8F86714128C19B8300F039DF /* URLData.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		AFFC3E7028B34C0C00532B16 /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -164,12 +175,12 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				8F86714028C19AEE00F039DF /* Network */,
 				AFFC3E7028B34C0C00532B16 /* CoreData */,
 				8F06108E28ACC010004ACBC2 /* DiaryList */,
 				8F06108F28ACC03D004ACBC2 /* Diary */,
 				8F06109028ACC076004ACBC2 /* Model */,
 				8F06109128ACC0D3004ACBC2 /* Extensions */,
-				AF824DBF28BF3082002E6B76 /* NetworkManager.swift */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
@@ -306,6 +317,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F86714228C19B8300F039DF /* URLData.swift in Sources */,
 				AF824DC028BF3082002E6B76 /* NetworkManager.swift in Sources */,
 				AFA8A11028AC995B006B8FF3 /* DiaryView.swift in Sources */,
 				AFA2D2BA28C0DDC200441C17 /* AlertManager.swift in Sources */,

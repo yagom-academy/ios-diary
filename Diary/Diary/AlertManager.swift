@@ -2,7 +2,7 @@
 //  AlertManager.swift
 //  Diary
 //
-//  Created by 이원빈 on 2022/09/01.
+//  Created by unchain, 웡빙 on 2022/09/01.
 //
 
 import UIKit

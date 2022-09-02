@@ -37,7 +37,7 @@ final class DiaryViewController: UIViewController {
         super.viewWillDisappear(animated)
         performAppropriateMode()
     }
-    
+
     // MARK: - UI Methods
     
     private func setupNavigationBar() {
@@ -113,13 +113,6 @@ extension DiaryViewController {
     private func makeDiaryModel(with icon: String) -> DiaryModel {
         let titleAndBody = diaryView.diaryTextView.text.components(separatedBy: NameSpace.twiceLineChange)
         let createdAt = Date().timeIntervalSince1970
-        let filteredList = titleAndBody.filter { return $0 != NameSpace.whiteSpace && $0 != NameSpace.lineChange }
-        guard filteredList.isEmpty == false else {
-            let title = "새로운 일기"
-            let body = NameSpace.whiteSpace
-            return DiaryModel(title: String(title), body: String(body), createdAt: createdAt, weatherIcon: icon)
-        }
-        
         let title = titleAndBody[0] == NameSpace.whiteSpace ? " " : titleAndBody[0]
         let body = titleAndBody.count == 1 ? NameSpace.whiteSpace : titleAndBody[1...titleAndBody.count-1].joined(separator: NameSpace.twiceLineChange)
         return DiaryModel(title: String(title), body: String(body), createdAt: createdAt, weatherIcon: icon)

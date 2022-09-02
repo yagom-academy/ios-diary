@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryListCell: UITableViewCell {
     // MARK: - Properties
-
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -62,7 +62,7 @@ final class DiaryListCell: UITableViewCell {
     }()
     
     // MARK: - Initializer
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupAccessoryType()
@@ -100,7 +100,12 @@ final class DiaryListCell: UITableViewCell {
     
     func setupData(with model: Diary) {
         guard let modelIcon = model.weatherIcon else { return }
-        titleLabel.text = model.title
+        guard let filteredTitle = model.title?.trimmingCharacters(in: .whitespacesAndNewlines),
+              let filteredBody = model.body?.trimmingCharacters(in: .whitespacesAndNewlines) else { return
+        }
+        let filteredText = filteredTitle + filteredBody
+        
+        titleLabel.text = filteredText.isEmpty ? "새로운 일기장" : model.title
         preViewLabel.text = model.body?.replacingOccurrences(of: NameSpace.lineChange, with: NameSpace.whiteSpace)
         dateLabel.text = model.createdAt.translateToDate()
         weatherIcon.requestWeatherImage(iconId: modelIcon)
