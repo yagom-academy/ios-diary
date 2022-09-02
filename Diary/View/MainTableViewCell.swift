@@ -32,8 +32,16 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
         label.adjustsFontForContentSizeCategory = true
         label.font = .preferredFont(forTextStyle: .body)
         label.numberOfLines = 1
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         return label
+    }()
+    
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
     }()
     
     private let horizontalStackView: UIStackView = {
@@ -70,7 +78,7 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
         
         verticalStackView.translatesAutoresizingMaskIntoConstraints = false
         
-        [diaryDate, diaryBody].forEach {
+        [diaryDate, weatherImageView, diaryBody].forEach {
             horizontalStackView.addArrangedSubview($0)
         }
         
@@ -82,7 +90,9 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
             verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            weatherImageView.widthAnchor.constraint(equalTo: horizontalStackView.widthAnchor, multiplier: 0.1),
+            weatherImageView.heightAnchor.constraint(equalTo: weatherImageView.widthAnchor, multiplier: 1)
         ])
     }
     
@@ -90,5 +100,6 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
         self.diaryTitle.text = content.title
         self.diaryDate.text = content.createdAt.dateFormatted()
         self.diaryBody.text = content.body
+        self.weatherImageView.setImageURL(content.icon)
     }
 }

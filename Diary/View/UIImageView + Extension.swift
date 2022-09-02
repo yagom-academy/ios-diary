@@ -8,28 +8,32 @@
 import UIKit
 
 extension UIImageView {
-    func setImageUrl(url: String) {
-        guard let safeUrl = URL(string: url) else { return }
-        let cachedKey = NSString(string: url)
+    func setImageURL(_ url: String) {
         
-        if let cachedImage = ImageCacheManager.shared.object(forKey: cachedKey) {
+        let cacheKey = NSString(string: url)
+        
+        if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
             self.image = cachedImage
             return
         }
         
-        URLSession.shared.dataTask(with: safeUrl) { data, response, error in
-            guard error == nil else { return }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else { return }
-            
-            guard let data = data,
-                  let image = UIImage(data: data) else { return }
-            ImageCacheManager.shared.setObject(image, forKey: cachedKey)
-            
-            DispatchQueue.main.async {
-                self.image = image
+        DispatchQueue.global().async {
+            if let url = URL(string: url) {
+                URLSession.shared.dataTask(with: url) { data, res, err in
+                    if let _ = err {
+                        DispatchQueue.main.async {
+                            self.image = UIImage()
+                        }
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        if let data = data,
+                           let image = UIImage(data: data) {
+                            self.image = image
+                        }
+                    }
+                }.resume()
             }
-        }.resume()
+        }
     }
 }
