@@ -13,7 +13,7 @@ struct WeatherDataManager {
     private let apiKey = "aa0dcb07586dc281aa4c712309c7e38c&units=metric"
     private let session = URLSession.init(configuration: .default)
     
-    func dataRequest(longitude: Double, latitude: Double, completion: @escaping (WeatherData?) -> Void) {
+    func weatherDataRequest(longitude: Double, latitude: Double, completion: @escaping (WeatherData?) -> Void) {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)")
         else { return }
         
@@ -32,7 +32,7 @@ struct WeatherDataManager {
         dataTask.resume()
     }
     
-    func iconRequest(id: String, completion: @escaping (UIImage?) -> Void) {
+    func weatheIconRequest(id: String, completion: @escaping (UIImage?) -> Void) {
         guard let url = URL(string: "https://openweathermap.org/img/wn/\(id).png")
         else { return }
         

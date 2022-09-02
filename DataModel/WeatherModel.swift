@@ -2,7 +2,7 @@
 //  WeatherModel.swift
 //  Diary
 //
-//  Created by 변재은 on 2022/09/01.
+//  Created by 재재, 그루트 2022/09/01.
 //
 
 import Foundation

@@ -92,6 +92,33 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		37038F6128C1F37A008D3921 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				372141BF28B7509B002A8EAD /* CoreDataManager.swift */,
+				372141BB28B75046002A8EAD /* Diary+CoreDataClass.swift */,
+				7E5B4DB828C1E44500ECA879 /* Diary+CoreDataProperties.swift */,
+			);
+			name = CoreData;
+			sourceTree = "<group>";
+		};
+		37038F6228C1F38C008D3921 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				7EF147B928AC82AA00F142B2 /* DiaryModel.swift */,
+				7E836F4628C08481006E71D5 /* WeatherModel.swift */,
+			);
+			path = DataModel;
+			sourceTree = "<group>";
+		};
+		37038F6328C1F3E5008D3921 /* DataTask */ = {
+			isa = PBXGroup;
+			children = (
+				37038F4D28C077C6008D3921 /* DataTaskViewController.swift */,
+			);
+			path = DataTask;
+			sourceTree = "<group>";
+		};
 		37130A0628AC8471008F7A35 /* DiaryTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -163,10 +190,10 @@
 		7EF147BB28AC88C000F142B2 /* Scene */ = {
 			isa = PBXGroup;
 			children = (
-				37038F4D28C077C6008D3921 /* DataTaskViewController.swift */,
-				7EF147D628AE0AE000F142B2 /* DiaryDetail */,
 				7EF147BC28AC891B00F142B2 /* DiaryList */,
+				7EF147D628AE0AE000F142B2 /* DiaryDetail */,
 				37E9D3FA28AE5531003611C0 /* DiaryRegister */,
+				37038F6328C1F3E5008D3921 /* DataTask */,
 			);
 			path = Scene;
 			sourceTree = "<group>";
@@ -227,11 +254,8 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
-				372141BF28B7509B002A8EAD /* CoreDataManager.swift */,
-				372141BB28B75046002A8EAD /* Diary+CoreDataClass.swift */,
-				7E5B4DB828C1E44500ECA879 /* Diary+CoreDataProperties.swift */,
-				7EF147B928AC82AA00F142B2 /* DiaryModel.swift */,
-				7E836F4628C08481006E71D5 /* WeatherModel.swift */,
+				37038F6128C1F37A008D3921 /* CoreData */,
+				37038F6228C1F38C008D3921 /* DataModel */,
 				C739AE23284DF28600741E8F /* Diary */,
 				37130A0628AC8471008F7A35 /* DiaryTests */,
 				D3B584185BE98AB88F7F40A8 /* Pods */,
@@ -362,7 +386,7 @@
 /* Begin PBXShellScriptBuildPhase section */
 		3743CC4E28AC7CBC0049F5E3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
+			buildActionMask = 12;
 			files = (
 			);
 			inputFileListPaths = (
@@ -373,7 +397,7 @@
 			);
 			outputPaths = (
 			);
-			runOnlyForDeploymentPostprocessing = 1;
+			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
 		};

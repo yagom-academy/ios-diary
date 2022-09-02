@@ -69,8 +69,7 @@ final class DiaryRegisterViewController: DataTaskViewController {
         guard let longtitude = longtitude,
               let latitude = latitude else { return }
         
-        let weatherDataManager = WeatherDataManager()
-        weatherDataManager.dataRequest(longitude: longtitude, latitude: latitude) { data in
+        WeatherDataManager().weatherDataRequest(longitude: longtitude, latitude: latitude) { data in
             self.weatherData = data
         }
     }

@@ -128,7 +128,7 @@ extension DiaryListViewController: UITableViewDataSource {
         cell.dateLabel.text = diaryData?.diaryItems?[indexPath.row].createdAt.convertDate()
         cell.bodyLabel.text = diaryData?.diaryItems?[indexPath.row].body
         
-        WeatherDataManager().iconRequest(id: diaryData?.diaryItems?[indexPath.row].icon ?? "") { image in
+        WeatherDataManager().weatheIconRequest(id: diaryData?.diaryItems?[indexPath.row].icon ?? "") { image in
             DispatchQueue.main.async {
                 guard indexPath == tableView.indexPath(for: cell) else { return }
                 cell.weatherIconImageView.image = image

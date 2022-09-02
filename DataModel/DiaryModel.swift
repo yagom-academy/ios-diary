@@ -1,5 +1,5 @@
 //
-//  DiaryTestData.swift
+//  DiaryModel.swift
 //  Diary
 //
 //  Created by 재재, 그루트 on 2022/08/17.
