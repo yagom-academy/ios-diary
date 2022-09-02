@@ -39,7 +39,9 @@ final class CoreDataManager {
         do {
             try context.save()
             fetch()
-            delegate?.didCreateCoreData()
+            DispatchQueue.main.async { [weak self] in
+                self?.delegate?.didCreateCoreData()
+            }
         } catch {
             print(error.localizedDescription)
         }
@@ -64,7 +66,9 @@ final class CoreDataManager {
         do {
             try context.save()
             fetch()
-            delegate?.didUpdateCoreData()
+            DispatchQueue.main.async { [weak self] in
+                self?.delegate?.didUpdateCoreData()
+            }
         } catch {
             print(error.localizedDescription)
         }
