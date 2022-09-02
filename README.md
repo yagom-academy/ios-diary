@@ -16,6 +16,7 @@
 * [핵심 경험](#-핵심-경험)
 * [타임 라인](#-타임-라인)
     * [week2](#week-2)
+    * [week3](#week-3)
 * [폴더 구조](#-폴더-구조)
 * [구현 내용](#-구현-내용)
 * [트러블 슈팅](#-트러블-슈팅)
@@ -53,6 +54,9 @@
 ## 💻 핵심 경험
 - [x] 코어데이터 모델 생성
 - [x] 테이블뷰에서 스와이프를 통한 삭제기능 구현
+- [x] CoreData관련 메서드 프레임워크화
+- [x] DiffableDataSource의 process
+- [x] UX를 고려한 코드 작성 
 
 <br>
 
@@ -70,9 +74,26 @@
   
 - **2022-08-25 (목)**
   - 일기장 STEP 2-2: CoreData Update 구현 및 일기장 자동 저장 구현
-  - 
+
 - **2022-08-26 (금)**
-  - 일기장 STEP 2-2: Error 구현 및 백그라운드 진입 시 자동저장 되는 기능 구현
+  - 일기장 STEP 2-2: Error 구현 및 백그라운드 진입 시 자동저장 되는 기능 구현  
+  
+### Week 3
+- **2022-08-29 (월)**
+  - CoreData 관련 메서드 프레임워크화 공부
+
+- **2022-08-30 (화)**
+  - CoreData 관련 메서드 프레임워크화 공부
+
+- **2022-08-31 (수)**
+  - diffableDataSource 이슈 해결
+  
+- **2022-09-01 (목)**
+  - 일기장 저장 시, 실패하는 케이스 처리
+ 
+- **2022-09-02 (금)**
+  - 피드백 바탕으로 전반적인 코드 수정
+
 <br>
 
 
@@ -81,6 +102,7 @@
 ```swift
 .
 └── Diary/
+    ├── Diary
     ├── info.plist
     ├── Resources/
     │   ├── LaunchScreen
@@ -90,20 +112,27 @@
         ├── SceneDelegate
         ├── Util/
         │   ├── Common/
+        │   │   └── Enum/
+        │   │       └── Section
+        │   │   └── Extension/
+        │   │       └── UIViewController + extension
+        │   │   └── Error/
+        │   │       └── CoreDataError
         │   │   └── Protocol/
         │   │       ├── ReuseIdentifying
         │   │       ├── SendDataDelegate
         │   │       └── CoreDataProcessing
         │   └── JSONData
         ├── Controllers/
-        │   ├── DetailDiaryViewController
+        │   ├── DiaryDetailViewController
         │   └── DiaryListTableViewController
         ├── Views/
         │   └── DiaryTableViewCell
         └── Models/
             ├── DiaryContents + CoreDataClass
             ├── DiaryContents + CoreDataProperties
-            └── DiarySample
+            ├── DiarySample
+            └── DataManager
 ```
 
 <br>
@@ -116,33 +145,73 @@
 |`ReuseIdentifying`|`Identifier` 네임스페이스 처리를 위한 프로토콜 구현|
 |`SendDataDelegate`| 뷰컨트롤러간 데이터 전달해주는 프로토콜 구현|
 |`CoreDataProcessing`| `CoreData` 관련 메서드 구현|
-|`DetailDiaryViewController`|일기 생성 및 업데이트 기능, 액티비티뷰, 알림창 구현|
+|`DiaryDetailViewController`|일기 생성 및 업데이트 기능, 액티비티뷰, 알림창 구현|
 |`DiaryListTableViewController`|스와이프 시 일기 삭제되는 기능 구현|
 |`SceneDelegate`|백그라운 진입 시 자동 저장되는 기능 구현|
 |`Diary`|`DiaryContents` Entities 구현|
+|`DataManager`|`DiffableDataSource`와 `DiffableDataSourceSnapshot`을 가지고 있는 싱글톤 구현|
+|`Section`|`DiffableDataSource`에서 사용할 섹션 열겨형 정의|
+
 
 <br>
 
 ## 🚀 트러블 슈팅
 
-### 1. 데이터 삭제 시 UI에 바로 적용되지 않는 문제
-- 구현하고자 했던 기능
-    - 두 번째 뷰컨의 일기장 작성 화면에서 일기장을 `delete`하면 두 번째 뷰컨이 `pop` 되고, `pop`이 되어 첫 번째 뷰컨으로 돌아왔을 때 일기장이 바로 삭제가 되어있어야 합니다.
-- 구현 실패 과정
-    - 첫 번째 뷰컨으로 돌아왔을 때 삭제가 된 화면이 바로 나타나지 않았고, 다시 앱을 재실행할 때만 삭제된 것이 제대로 나타났습니다.
-- 저희가 생각한 실행 흐름
-    -  삭제 버튼을 누를 시 `Core Data`의 `context`에서 삭제가 되고 ➡️ 바뀐 내용을`context`에 저장하고 ➡️ `fetch`를 통해 삭제된 데이터를 가져오고 ➡️ 이를 `snapshot`에 `append`해주고 ➡️ `dataSource`에 `snapshot`을 `apply` 해줍니다.
-    - 하지만, 위의 순서로 코드를 구현하니 제대로 작동되지 않았습니다. 이유를 찾아보니 데이터 삭제시 스냅샷에서도 `deleteItems` 메서드를 통해 데이터를 삭제해주는 과정이 추가로 더 필요한 것을 알게 되었습니다. 
-- 해결 방법
-    - 위의 이유를 통해 다음과 같은 코드를 추가해 줌으로서 UI에 바로 적용되지 않는 문제를 해결했습니다
-    
-```swift
-snapshot.deleteAllItems()
-snapshot.appendSections([.main])
-```
-    
-    
-추후 PR 리팩토링 후 수정
+### 1. DiffableDataSource의 dequeueReusableCell 호출 이슈
+- 문제 상황
+    - cell에 보여지는 데이터가 수정될 때마다, `dequeueReusableCell` 메서드를 호출해야지만 cell에 반영됐습니다.
+    - 이 때문에 `dequeueReusableCell`메서드를 `viewDidLoad` 가 아닌 `viewWillAppear`나 `viewDidAppear` 에 위치시켜 화면이 다시 나타날 때마다 실행해야지만 cell이 제대로 바뀌었습니다.
+    - 예시) `dequeueReusableCell`메서드를 `viewDidLoad` 호출 시킬 시, cell에 수정된 내용이 반영안됨
+<img src = "https://i.imgur.com/4G85SCL.gif" width=200 height=400>
+- 디버그 오류 내용
+> [UIDiffableDataSource]
+>
+> Diffable data source detected an attempt to insert or append 1 item identifier that already exists in the snapshot. 
+The existing item identifier will be moved into place instead, but this operation will be more expensive.
+For best performance, inserted item identifiers should always be unique. 
+Set a symbolic breakpoint on BUG_IN_CLIENT_OF_DIFFABLE_DATA_SOURCE__IDENTIFIER_ALREADY_EXISTS to catch this in the debugger. 
+Item identifier that already exists ...
+
+- 원인
+    - 데이터 수정 시에도 snapshot에 변경된 데이터를 추가하고 있기 때문에 기존에 추가된 데이터랑 충돌이 났습니다.
+    - 이 충돌로 인해, snapShot에 반영은 되었지만, dataSource는 이미 cell에 보여준 것으로 인식하여 `dequeueReusableCell` 메서드를 수동적으로 호출해줘야만 했습니다.
+
+- 해결 방안
+    - snapshot에 데이터를 `append`하는 경우(새로운 일기 생성)와 snapShot에 데이터를 `reload`(일기 생성 외) 해주는 경우를 나누어주었습니다.
+
+### 2. UX를 고려하여 셀에 보여지는 title과 body 수정
+- 문제 상황
+    - 프로젝트 요구서에는 `/n/n`을 기준으로 `title`과 `body`를 나누어주도록 나와있었습니다. 
+    - `\n\n`이 없는 경우에는 제대로 저장이 되지 않는 상황이 발생했습니다.
+
+
+#### PR 질문사항
+> 요구서의 예시 화면을 참고하여, `textView`에서 `\n\n`을 기준으로 `title`과 `body`를 구분해주었습니다. `textView`에 `\n\n`이 없는 경우 CoreData에 제대로 저장되지 않는 오류가 발생했습니다.
+>
+>이 오류를 해결하기 위해 `\n\n`으로 `components` 해 주었을 경우, 배열의 개수가 2개 이상인지 확인하는 코드를 추가하여, 2개 미만이면 임의로 데이터를 넣어주도록 했습니다. 
+또한 `title`에 `\n`이 들어간 경우, 셀에서 제목이 잘리는 현상이 발생해 `\n` 대신 `" "` 공백으로 바꿔주었습니다. 사용자 입력을 임의로 바꿔줌으로써 사용자가 원하는 결과를 충족시켜주지 못할 수도 있을 것 같아 좋은 코드라는 생각이 들지 않습니다..😓 더 나은 방식으로 `title`과 `body`를 구분하고, 예외처리를 해 주고 싶은데 어떤 아이디어로 접근해보면 좋을지 궁금합니다!
+
+#### 리팩토링한 결과
+
+`/n/n`이 없더라도 구분을 해서 저장해주도록 사용자 UX를 고려하여 추가적으로 리팩토링을 해보았습니다.
+
+- 예시 
+    - `\n\n\n\n\n 예톤과 현이의 일기장 \n` 
+- 고민 사항
+    - \n이 리스트에서 해당 일기장의 제목으로 보여져야하는지
+    - 예톤과 현이의 일기장이 제목으로 보여져야하는지
+    - 일기장 상세에 들어왔을 때 `\n\n\n\n\n` 들이 보여지고 예톤과 현이의 일기장이 나와야하는지
+
+
+- 해결안
+- > `일기의 맨 첫 줄은 일기의 제목이 되고, 그 다음 줄부터 본문이 됩니다.` 
+- 위 명세와 문자만 셀에 보여지는 것이 사용자가 가장 기대하는 UX가 아닐까 싶었습니다.
+- 제이크의 조언에 따라 다음과 같이 리팩토링을 진행하여 고민을 해결했습니다.
+- list에서 보여져야하는 제목
+    - `예톤과 현이의 일기장`
+- 일기 상세로 들어왔을 때
+    - `\n\n\n\n\n`이 나타난 이후 예톤과 현이의 일기장이 보여짐
+
 ---
 
 ### 🔗 참고 문서
@@ -152,4 +221,8 @@ snapshot.appendSections([.main])
 - [Core Data](https://developer.apple.com/documentation/coredata)
 - [Making Apps with Core Data](https://developer.apple.com/videos/play/wwdc2019/230/)
 
+- [UIActivityViewController](https://developer.apple.com/documentation/uikit/uiactivityviewcontroller)
 
+- [LocalizedError](https://developer.apple.com/documentation/foundation/localizederror)
+
+- [resignFirstResponder](https://developer.apple.com/documentation/uikit/uiresponder/1621097-resignfirstresponder)
