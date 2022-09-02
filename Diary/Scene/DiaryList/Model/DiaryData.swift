@@ -9,6 +9,6 @@ struct DiaryData: DiaryDataManagerProtocol {
     var diaryItems: [DiaryModel]?
     
     init() {
-        self.diaryItems = CoreDataManager.shared.read()
+        self.diaryItems = CoreDataManager.shared.read()?.reversed()
     }
 }
