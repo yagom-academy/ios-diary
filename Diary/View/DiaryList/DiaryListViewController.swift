@@ -135,7 +135,7 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let viewModel = diaryViewModel,
-            let data = viewModel.diaryContents?[indexPath.row] else {
+              let data = viewModel.diaryContents?[safe: indexPath.row] else {
             return
         }
         
@@ -149,9 +149,10 @@ extension DiaryListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: "삭제") { [weak self](UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            guard let date = self?.diaryViewModel?.diaryContents?[indexPath.row].createdAt else {
+            guard let date = self?.diaryViewModel?.diaryContents?[safe: indexPath.row]?.createdAt else {
                 return
             }
+
             self?.diaryViewModel?.createdAt = date
             self?.diaryViewModel?.remove()
             success(true)
