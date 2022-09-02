@@ -1,13 +1,13 @@
 //
-//  DiaryView.swift
+//  DiaryDetailView.swift
 //  Diary
 //
-//  Created by Kiwi, Brad. on 2022/08/17.
+//  Created by Kiwi, Brad. on 2022/08/25.
 //
 
 import UIKit
 
-final class DiaryView: UIView {
+final class DiaryDetailView: UIView {
     
     private lazy var diaryTextViewBottomConstraint = diaryTextView.bottomAnchor.constraint(
         equalTo: safeAreaLayoutGuide.bottomAnchor
@@ -46,5 +46,20 @@ final class DiaryView: UIView {
         self.diaryTextViewBottomConstraint = diaryTextView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor,
                                                                                    constant: -keyboardHeight)
         self.diaryTextViewBottomConstraint.isActive = true
+    }
+    
+    func configure(with content: DiaryContent) {
+        let title = content.title
+        let body = content.body
+        
+        self.diaryTextView.attributedText = attributedString(with: title, and: body)
+    }
+ 
+    private func attributedString(with title: String, and body: String) -> NSMutableAttributedString {
+        let attributedString = NSMutableAttributedString(string: title,
+                                                         attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)])
+        attributedString.append(NSMutableAttributedString(string: "\n" + body,
+                                                          attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]))
+        return attributedString
     }
 }

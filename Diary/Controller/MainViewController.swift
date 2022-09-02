@@ -8,8 +8,8 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-        
-    let diaryManager = DiaryManager(dbManager: StubDBManager())
+    
+    private let diaryManager = DiaryManager()
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return .all
@@ -63,6 +63,21 @@ final class MainViewController: UIViewController {
     @objc private func updateTableView() {
         self.diaryItemTableView.reloadData()
     }
+    
+    private func deleteAlertAction(index: Int) {
+        let alert = UIAlertController(title: "진짜요?",
+                                      message: "정말로 삭제하시겠어요?",
+                                      preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "취소", style: .default, handler: { _ in
+            
+        }))
+        alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
+            self.diaryManager.deleteDiary(id: self.diaryManager.fetchDiaryEntity()[index].id)
+        }))
+        
+        self.present(alert, animated: true)
+    }
 }
 
 extension MainViewController: UITableViewDataSource, UITableViewDelegate {
@@ -75,8 +90,39 @@ extension MainViewController: UITableViewDataSource, UITableViewDelegate {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else {
             return UITableViewCell()
         }
-                
+        
         cell.configure(with: diaryManager.content(index: indexPath.row))
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diaryDetailViewController = DiaryDetailViewController()
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        
+        diaryDetailViewController.setData(data: diaryManager.content(index: indexPath.row))
+        diaryDetailViewController.setIndexNumber(index: indexPath.row)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shareAction = UIContextualAction(style: .normal, title: "공유") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            success(true)
+            let shareText = self.diaryManager.fetchDiaryEntity()[indexPath.row]
+            let shareObject = [shareText.title + ("\n") + shareText.body]
+            let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+            
+            self.present(activityViewController, animated: true)
+        }
+        
+        shareAction.backgroundColor = .systemBlue
+        
+        let deleteAction = UIContextualAction(style: .normal, title: "삭제") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            success(true)
+            self.deleteAlertAction(index: indexPath.row)
+        }
+        
+        deleteAction.backgroundColor = .systemRed
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+
 }

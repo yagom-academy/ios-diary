@@ -2,7 +2,7 @@
 //  MainTableViewCell.swift
 //  Diary
 //
-//  Created by Kiwi, Brad on 2022/08/17.
+//  Created by Kiwi, Brad. on 2022/08/17.
 //
 
 import UIKit
@@ -55,7 +55,7 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         accessoryType = .disclosureIndicator
-        configureViews()
+        self.configureViews()
     }
     
     required init?(coder: NSCoder) {
@@ -86,7 +86,7 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
         ])
     }
     
-    func configure(with content: SampleDiaryContent) {
+    func configure(with content: DiaryContent) {
         self.diaryTitle.text = content.title
         self.diaryDate.text = content.createdAt.dateFormatted()
         self.diaryBody.text = content.body
