@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct APIClient {
+struct APIClient: APIClientLogic {
     private var session: URLSession
     static let shared = APIClient(session: URLSession.shared)
     
@@ -26,13 +26,11 @@ struct APIClient {
             guard let response = response as? HTTPURLResponse,
                   (200..<300).contains(response.statusCode) else {
                 completion(.failure(.invalidURL))
-                
                 return
             }
             
             guard let verifiedData = data else {
                 completion(.failure(.emptyData))
-                
                 return
             }
             
