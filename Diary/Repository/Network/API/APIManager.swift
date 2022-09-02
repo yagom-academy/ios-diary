@@ -7,13 +7,14 @@
 
 import Foundation
 
-struct APIManager {
+struct APIManager<T: Decodable> {
     var configuration: APIConfiguration
 
     init?(url: String, latitude: Double, longitude: Double) {
         guard var urlComponents = URLComponents(string: url) else {
             return nil
         }
+        
         urlComponents.queryItems = [
             URLQueryItem(name: WeatherAPIConst.latitude, value: "\(latitude)"),
             URLQueryItem(name: WeatherAPIConst.longitude, value: "\(longitude)"),
@@ -26,7 +27,7 @@ struct APIManager {
         self.configuration = APIConfiguration(url: url)
     }
     
-    func requestAndDecode<T: Decodable>(using client: APIClient = APIClient.shared,
+    func requestAndDecode(using client: APIClient = APIClient.shared,
                                         dataType: T.Type,
                                         completion: @escaping (Result<T,APIError>) -> Void) {
         
