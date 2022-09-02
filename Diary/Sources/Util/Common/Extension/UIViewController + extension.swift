@@ -26,4 +26,21 @@ extension UIViewController {
             animated: true
         )
     }
+    
+    func showActivityView(diaryContent: DiaryContents?) {
+        guard let content = diaryContent else {
+            return
+        }
+        
+        let activityViewController = UIActivityViewController(
+            activityItems: [content.title as Any],
+            applicationActivities: nil
+        )
+        
+        present(
+            activityViewController,
+            animated: true,
+            completion: nil
+        )
+    }
 }

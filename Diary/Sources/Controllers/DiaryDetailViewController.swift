@@ -88,7 +88,7 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
             title: "Share",
             style: .default,
             handler: { _ in
-                self.showActivityView()
+                self.showActivityView(diaryContent: self.content)
             }))
         
         actionSheet.addAction(UIAlertAction(
@@ -110,23 +110,23 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
         )
     }
     
-    private func showActivityView() {
-        guard let content = self.content,
-              let title = content.title else {
-            return
-        }
-        
-        let activityViewController = UIActivityViewController(
-            activityItems: [title],
-            applicationActivities: nil
-        )
-        
-        present(
-            activityViewController,
-            animated: true,
-            completion: nil
-        )
-    }
+//    private func showActivityView() {
+//        guard let content = self.content,
+//              let title = content.title else {
+//            return
+//        }
+//        
+//        let activityViewController = UIActivityViewController(
+//            activityItems: [title],
+//            applicationActivities: nil
+//        )
+//        
+//        present(
+//            activityViewController,
+//            animated: true,
+//            completion: nil
+//        )
+//    }
     
     private func showDeleteAlert() {
         let action = UIAlertController(
