@@ -15,6 +15,7 @@ final class DiaryRegisterViewController: DataTaskViewController {
     private var locationManager = CLLocationManager()
     private var latitude: Double?
     private var longtitude: Double?
+    private var weatherData: WeatherData?
     
     // MARK: - view life cycle
     
@@ -26,12 +27,7 @@ final class DiaryRegisterViewController: DataTaskViewController {
         configureViewLayout()
         configureKeyboardNotification()
         diaryRegisterView.showKeyBoard()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.requestLocation()
-        }
+        configureLocationManager()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -40,7 +36,7 @@ final class DiaryRegisterViewController: DataTaskViewController {
         saveData()
         removeRegisterForKeyboardNotification()
     }
-
+    
     // MARK: - methods
     
     func saveData() {
@@ -49,6 +45,25 @@ final class DiaryRegisterViewController: DataTaskViewController {
                       body: inputText.body,
                       createdAt: Double(Date().timeIntervalSince1970),
                       isExist: false)
+    }
+    
+    private func configureLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.requestLocation()
+        }
+    }
+    
+    private func configureWeatherData() {
+        guard let longtitude = longtitude,
+              let latitude = latitude else { return }
+        
+        let weatherDataManager = WeatherDataManager()
+        weatherDataManager.dataRequest(longitude: longtitude, latitude: latitude) { data in
+            self.weatherData = data
+        }
     }
     
     @objc override func keyBoardShowAction(notification: NSNotification) {
@@ -88,6 +103,8 @@ extension DiaryRegisterViewController: CLLocationManagerDelegate {
         
         latitude = location.coordinate.latitude
         longtitude = location.coordinate.longitude
+        
+        configureWeatherData()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

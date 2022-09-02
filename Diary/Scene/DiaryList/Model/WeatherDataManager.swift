@@ -13,11 +13,9 @@ struct WeatherDataManager {
     private let apiKey = "aa0dcb07586dc281aa4c712309c7e38c&units=metric"
     private let session = URLSession.init(configuration: .default)
     
-    func dataRequest(longitude: Double, latitude: Double) -> [WeatherData]? {
-        var weatherData: [WeatherData]?
-        
+    func dataRequest(longitude: Double, latitude: Double, completion: @escaping (WeatherData?) -> Void) {
         guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(latitude)&lon=\(longitude)&appid=\(apiKey)")
-        else { return nil }
+        else { return }
         
         let dataTask = session.dataTask(with: url) { data, response, error in
             guard error == nil else { return }
@@ -28,12 +26,10 @@ struct WeatherDataManager {
             
             guard let data = try? jsonDecoder.decode(WeatherModel.self, from: jsonData) else { return }
             
-            weatherData = data.weather
+            completion(data.weather.first)
         }
         
         dataTask.resume()
-        
-        return weatherData
     }
     
     func iconRequest(id: String) -> UIImage? {
