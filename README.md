@@ -21,7 +21,10 @@
 
 ## 💾 프로젝트 저장소
 >**프로젝트 기간** : 2022.08.16 ~ 2022.09.02<br>
-**소개** : 텍스트뷰를 통해 입력한 일기장을 코어데이터에 저장하고 리스트를 보여주는 앱 <br>
+**소개** : 
+- 텍스트뷰를 통해 입력한 일기장을 코어데이터에 저장하고 리스트를 보여주는 앱
+- 사용자의 위치를 기반으로 현재 날씨를 받아와서 아이콘으로 표현
+
 **리뷰어** : [**쿠마**](https://github.com/leejun6694)
 
 ## 👥 팀원
@@ -33,10 +36,13 @@
 
 ---
 ## 📺 실행 화면
+|위치권한 허용|
+|:--:|
+|<img src = "https://i.imgur.com/y6MBPk6.png" width="250" height="500">|
 
 | 새로운 일기생성 | 새로운 일기생성2 | 
 |:---:|:---:|
-|<img src = "https://i.imgur.com/VfdObZB.gif" width="250" height="500">|<img src = "https://i.imgur.com/ETR7gTZ.gif" width="250" height="500">|
+|<img src = "https://i.imgur.com/IAIGOOl.gif" width="250" height="500">|<img src = "https://i.imgur.com/ZpEvaQG.gif" width="250" height="500">|
 
 | 일기 공유 | 일기 공유2 | 
 |:---:|:---:|
@@ -45,6 +51,8 @@
 | 일기 삭제 | 일기 삭제2 | 일기 삭제3 |
 |:---:|:---:|:---:|
 |<img src = "https://i.imgur.com/GRVDElJ.gif" width="200" height="400">|<img src = "https://i.imgur.com/wMj7Jaf.gif" width="200" height="400">|<img src = "https://i.imgur.com/jJRuBMu.gif" width="200" height="400">|
+## 기능
+
 
 ## 👨‍👩‍👧‍👦 앱 구성
 
@@ -105,6 +113,7 @@
 </details>
 
 ### Week 2
+
 <details>
     
 - 2022.08.22(월)
@@ -124,7 +133,27 @@
     - Readme 작성
     
 </details>
+
+### Week 3
+<details>
     
+- 2022.08.29(월)
+    - step2 PR 에 대한 코멘트 리팩토링, 모듈화에 대한 고민
+- 2022.08.30(화)
+    - openWeather API 통신 
+- 2022.08.31(수)
+    - 마이그레이션 구현
+    - CLLocationManager를 이용하여 현재위치의 위도경도값을 fetch
+    - 네트워킹을 통해 셀에 날씨데이터 적용 (네트워킹에 따른 UI업데이트를 main스레드에서 처리)
+    - 
+- 2022.09.01(목)
+    - 코드정리
+- 2022.09.02(금) - [`STEP3 PR`](https://github.com/yagom-academy/ios-diary/pull/56)
+    - Step3 PR
+    - Readme 작성
+    
+</details>
+
 ---
 
 ## ✏️ 프로젝트 내용
@@ -179,3 +208,20 @@ UIActivityViewController(activityItems: ["title", body], applicationActivities: 
 |오류 상황|현재 상황|
 |:--:|:--:|
 |<img src = "https://i.imgur.com/nI4QX5f.png" width="200" height="200">|<img src = "https://i.imgur.com/amp0N1U.png" width="200" height="200">|
+
+### 5. 코어데이터 마이그레이션 했을 때 문제
+- 코어데이터 모델에서 날씨 아이콘을 추가 시키기 위해서 코어데이터 마이그레이션을 사용했습니다.
+- 마이그레이션으로 Diary2로 맵핑모델도 만들어주니 날씨 아이콘을 사용할 수 는 있었지만 다음과 같이 이전 버전에서 만들어 주었던 코어데이터에 저장되어 있던 셀에 오류가 생겼습니다. 이전의 데이터들이 무작위로 섞이기도하고 문제1 처럼 없어지기도 했습니다.
+- 마이그레이션을 하는 과정에서 문제가 있었던건지 아직 해결하지 못했기 때문에 좀 더 알아봐야 할 것 같습니다.
+
+|문제 1|문제 2|
+|:--:|:--:|
+|<img src = "https://i.imgur.com/tMg8O3Q.png" width=200, height=400>|<img src = "https://i.imgur.com/XGm5geJ.png" width=250, height=400>|
+
+### 6. textView.text 가 mainThread에서 ?
+
+textView.text를 가져오는 과정이 mainThread에서 실행되어야 한다는 오류가 떳는데, UI를 업데이트 할때는 메인 스레드에 접근한다고 알고 있었는데 이 경우에는 업데이트가 아닌 단순히 읽어오는 과정인데 이것도 반드시 메인스레드에서 해야하는지 이유를 모르겠어서 스택오버플로우 검색 결과 신경쓰지 않아도 된다는 내용이 있었습니다. 이걸 어떻게 해결 해야 할지 고민 해보겠습니다.
+https://developer.apple.com/forums/thread/130695
+![](https://i.imgur.com/oQ4P8YN.jpg)
+
+
