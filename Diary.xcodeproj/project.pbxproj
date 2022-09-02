@@ -12,7 +12,6 @@
 		7256A8A128BC9FEB0040A8D0 /* DiaryContentViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7256A8A028BC9FEB0040A8D0 /* DiaryContentViewModelTest.swift */; };
 		7256A8A828BCD2E00040A8D0 /* CurrentWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7256A8A728BCD2E00040A8D0 /* CurrentWeather.swift */; };
 		7256A8AA28BCE6800040A8D0 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7256A8A928BCE6800040A8D0 /* APIClient.swift */; };
-		7256A8AC28BCE69B0040A8D0 /* GETProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7256A8AB28BCE69B0040A8D0 /* GETProtocol.swift */; };
 		7256A8AE28BCE6C70040A8D0 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7256A8AD28BCE6C70040A8D0 /* APIError.swift */; };
 		7256A8B028BCE6DD0040A8D0 /* APIConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7256A8AF28BCE6DD0040A8D0 /* APIConfiguration.swift */; };
 		726E90CB28AB75C900F0ACAB /* JSONManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 726E90CA28AB75C900F0ACAB /* JSONManager.swift */; };
@@ -69,7 +68,6 @@
 		7256A8A028BC9FEB0040A8D0 /* DiaryContentViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentViewModelTest.swift; sourceTree = "<group>"; };
 		7256A8A728BCD2E00040A8D0 /* CurrentWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentWeather.swift; sourceTree = "<group>"; };
 		7256A8A928BCE6800040A8D0 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		7256A8AB28BCE69B0040A8D0 /* GETProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GETProtocol.swift; sourceTree = "<group>"; };
 		7256A8AD28BCE6C70040A8D0 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		7256A8AF28BCE6DD0040A8D0 /* APIConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfiguration.swift; sourceTree = "<group>"; };
 		726E90CA28AB75C900F0ACAB /* JSONManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONManager.swift; sourceTree = "<group>"; };
@@ -274,7 +272,6 @@
 			children = (
 				90DED77328BCD092000BE228 /* APIManager.swift */,
 				7256A8A928BCE6800040A8D0 /* APIClient.swift */,
-				7256A8AB28BCE69B0040A8D0 /* GETProtocol.swift */,
 				7256A8AD28BCE6C70040A8D0 /* APIError.swift */,
 				7256A8AF28BCE6DD0040A8D0 /* APIConfiguration.swift */,
 				90DED77528BCE7B5000BE228 /* WeatherAPIConst.swift */,
@@ -592,7 +589,6 @@
 				7256A8AA28BCE6800040A8D0 /* APIClient.swift in Sources */,
 				7213597B28B9F3BB00D33413 /* DataManageLogic.swift in Sources */,
 				90A5AE5328AB6E980072C1EE /* DiaryContent.swift in Sources */,
-				7256A8AC28BCE69B0040A8D0 /* GETProtocol.swift in Sources */,
 				72B768E828BDA50C000D23B4 /* DiaryEntity+CoreDataClass.swift in Sources */,
 				728FBF4428ACA2DD006DF83F /* DiaryPostViewController.swift in Sources */,
 				726E90CB28AB75C900F0ACAB /* JSONManager.swift in Sources */,

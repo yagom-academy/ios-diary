@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct APIManager: GETProtocol {
+struct APIManager {
     var configuration: APIConfiguration
 
     init?(url: String, latitude: Double, longitude: Double) {
@@ -24,5 +24,31 @@ struct APIManager: GETProtocol {
         }
 
         self.configuration = APIConfiguration(url: url)
+    }
+    
+    func requestAndDecode<T: Decodable>(using client: APIClient = APIClient.shared,
+                                        dataType: T.Type,
+                                        completion: @escaping (Result<T,APIError>) -> Void) {
+        
+        var request = URLRequest(url: configuration.url)
+        request.httpMethod = "GET"
+        
+        client.requestData(with: request) { result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decoder = JSONDecoder()
+                    decoder.keyDecodingStrategy = .convertFromSnakeCase
+                    
+                    let decodedData = try decoder.decode(T.self,
+                                                         from: data)
+                    completion(.success(decodedData))
+                } catch {
+                    completion(.failure(.failedToDecode))
+                }
+            case .failure(_):
+                completion(.failure(.emptyData))
+            }
+        }
     }
 }
