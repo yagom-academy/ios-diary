@@ -32,7 +32,7 @@ struct WeatherDataManager {
         dataTask.resume()
     }
     
-    func weatheIconRequest(id: String, completion: @escaping (UIImage?) -> Void) {
+    func weatherIconRequest(id: String, completion: @escaping (UIImage?) -> Void) {
         guard let url = URL(string: "https://openweathermap.org/img/wn/\(id).png")
         else { return }
         
