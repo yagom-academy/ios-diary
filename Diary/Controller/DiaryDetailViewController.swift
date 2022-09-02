@@ -10,18 +10,7 @@ import UIKit
 final class DiaryDetailViewController: UIViewController {
     
     private let diaryDetailView = DiaryDetailView()
-    private let coreDataManager = CoreDataManager.shared
-    private var islineChanged = false
-    private var realTimeTypingValue: String = "" {
-        didSet {
-            if realTimeTypingValue == "\n" {
-                islineChanged = true
-            }
-        }
-    }
-    private var itemTitle: String?
-    private var itemBody: String?
-    private var index: Int?
+    private var diayViewModel = DiaryViewModel()
     
     override func loadView() {
         self.view = diaryDetailView
@@ -45,7 +34,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     func setIndexNumber(index: Int) {
-        self.index = index
+        diayViewModel.index = index
     }
     
     private func setupNavigationbar() {
@@ -56,7 +45,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     @objc private func didTapRightBarButton() {
-        guard let index = self.index else {
+        guard let index = diayViewModel.index else {
             return
         }
         
@@ -75,8 +64,8 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func sharedAlertAction(_ sheet: UIAlertController) {
-        guard let itemTitle = itemTitle,
-              let itemBody = itemBody else {
+        guard let itemTitle = diayViewModel.itemTitle,
+              let itemBody = diayViewModel.itemBody else {
             return
         }
         
@@ -99,7 +88,9 @@ final class DiaryDetailViewController: UIViewController {
                 
             }))
             alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
-                self.coreDataManager.deleteDiary(id: self.coreDataManager.fetchDiaryEntity()[index].id)
+                let id = self.diayViewModel.coreDataManager.fetchDiaryEntity()[index].id
+                
+                self.diayViewModel.coreDataManager.deleteDiary(id: id)
                 self.navigationController?.popViewController(animated: true)
             }))
             
@@ -128,13 +119,13 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func updateDiaryData() {
-        guard let itemTitle = itemTitle,
-              let itemBody = itemBody,
-              let index = index else {
+        guard let itemTitle = diayViewModel.itemTitle,
+              let itemBody = diayViewModel.itemBody,
+              let index = diayViewModel.index else {
             return
         }
         
-        coreDataManager.updateData(item: DiaryContent(id: coreDataManager.fetchDiaryEntity()[index].id,
+        diayViewModel.coreDataManager.updateData(item: DiaryContent(id: diayViewModel.coreDataManager.fetchDiaryEntity()[index].id,
                                                       title: itemTitle,
                                                       body: itemBody,
                                                       createdAt: Date().timeIntervalSince1970))
@@ -159,8 +150,8 @@ final class DiaryDetailViewController: UIViewController {
     
     func setData(data: DiaryContent) {
         self.navigationItem.title = data.createdAt.dateFormatted()
-        self.itemTitle = data.title
-        self.itemBody = data.body
+        diayViewModel.itemTitle = data.title
+        diayViewModel.itemBody = data.body
         self.diaryDetailView.configure(with: data)
     }
 }
@@ -172,13 +163,13 @@ extension DiaryDetailViewController: UITextViewDelegate {
         let title = diaryText.first
         let body = diaryText[diaryText.startIndex + 1..<diaryText.endIndex].joined(separator: "")
         
-        self.itemTitle = title
-        self.itemBody = body
+        diayViewModel.itemTitle = title
+        diayViewModel.itemBody = body
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        realTimeTypingValue = text
-        if islineChanged {
+        diayViewModel.realTimeTypingValue = text
+        if diayViewModel.islineChanged {
             diaryDetailView.diaryTextView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
         }
         return true

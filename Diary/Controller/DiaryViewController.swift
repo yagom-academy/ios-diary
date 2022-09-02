@@ -10,18 +10,7 @@ import UIKit
 final class DiaryViewController: UIViewController {
     
     private let diaryView = DiaryView()
-    private let coreDataManager = CoreDataManager.shared
-    private var islineChanged = false
-    private var realTimeTypingValue: String = " " {
-        didSet {
-            if realTimeTypingValue == "\n" {
-                islineChanged = true
-            }
-        }
-    }
-    private var itemTitle: String?
-    private var itemBody: String?
-    private var id = UUID()
+    private var diaryViewModel = DiaryViewModel()
     
     override func loadView() {
         self.view = diaryView
@@ -83,12 +72,12 @@ final class DiaryViewController: UIViewController {
     }
     
     private func saveDiaryData() {
-        guard let itemTitle = itemTitle,
-              let itemBody = itemBody else {
+        guard let itemTitle = diaryViewModel.itemTitle,
+              let itemBody = diaryViewModel.itemBody else {
             return
         }
         
-        coreDataManager.updateData(item: DiaryContent(id: self.id,
+        diaryViewModel.coreDataManager.updateData(item: DiaryContent(id: diaryViewModel.id,
                                                       title: itemTitle,
                                                       body: itemBody,
                                                       createdAt: Date().timeIntervalSince1970))
@@ -116,17 +105,17 @@ extension DiaryViewController: UITextViewDelegate {
         
         guard let title = diaryText.first else { return }
         
-        self.itemTitle = title
-        self.itemBody = body
+        diaryViewModel.itemTitle = title
+        diaryViewModel.itemBody = body
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        self.realTimeTypingValue = text
-        if islineChanged {
+        diaryViewModel.realTimeTypingValue = text
+        if diaryViewModel.islineChanged {
             diaryView.diaryTextView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .body)]
-        } else {
-            diaryView.diaryTextView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
+            return true
         }
+        diaryView.diaryTextView.typingAttributes = [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .title1)]
         return true
     }
 }
