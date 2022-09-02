@@ -80,16 +80,22 @@ final class DiaryTableViewCell: UITableViewCell, ReuseIdentifying {
     }
     
     func setupComponents(item: DiaryContents) {
-        titleLabel.text = item.title?.replacingOccurrences(
-            of: "\n",
-            with: ""
-        )
+        guard let title = item.title,
+              let body = item.body else {
+            return
+        }
+        
+        titleLabel.text = title
+        
         dateLabel.text = DateFormatter.localizedString(
             from: Date(timeIntervalSince1970: item.createdAt),
             dateStyle: .long,
             timeStyle: .none
         )
-        previewLabel.text = item.body
+
+        let bodyRemovedTitle = body.components(separatedBy: title)
+        
+        previewLabel.text = bodyRemovedTitle.last?.replacingOccurrences(of: "\n", with: "")
     }
     
     private func configureLayout() {

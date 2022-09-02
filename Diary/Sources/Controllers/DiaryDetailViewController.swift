@@ -44,19 +44,24 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
     }
     
     func getProcessedContent() -> [String] {
-        var content = textView.text.components(separatedBy: "\n\n")
+        let diaryContent = textView.text.components(separatedBy: "\n")
+        var processedContent = [String]()
         
-        if content.count >= 2 {
-            return content
+        guard let first = diaryContent.first else {
+            return diaryContent
         }
         
-        if content[0] == "\n" {
-            content[0] = " "
+        if !first.isEmpty {
+            processedContent.append(first)
         }
         
-        content.append("")
+        let removedEmptyContent = diaryContent.filter {
+            !$0.isEmpty
+        }
         
-        return content
+        processedContent.append(removedEmptyContent.first ?? "")
+        processedContent.append(textView.text)
+        return processedContent
     }
     
     private func configureNavigationItemTitle() {
@@ -109,24 +114,6 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
             animated: true
         )
     }
-    
-//    private func showActivityView() {
-//        guard let content = self.content,
-//              let title = content.title else {
-//            return
-//        }
-//        
-//        let activityViewController = UIActivityViewController(
-//            activityItems: [title],
-//            applicationActivities: nil
-//        )
-//        
-//        present(
-//            activityViewController,
-//            animated: true,
-//            completion: nil
-//        )
-//    }
     
     private func showDeleteAlert() {
         let action = UIAlertController(
@@ -183,12 +170,11 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
     }
     
     private func configureTextView() {
-        guard let title = content?.title,
-              let body = content?.body else {
+        guard let body = content?.body else {
             return
         }
         
-        textView.text = title + "\n\n" + body
+        textView.text = body
         textView.contentOffset.y = 0
     }
     

@@ -26,8 +26,8 @@ extension CoreDataProcessing {
         }
         
         let diaryContents = DiaryContents(context: context)
-        diaryContents.title = content[0]
-        diaryContents.body = content[1]
+        diaryContents.title = content.first
+        diaryContents.body = content.last
         diaryContents.createdAt = Date().timeIntervalSince1970
         diaryContents.id = UUID()
         
@@ -44,8 +44,8 @@ extension CoreDataProcessing {
         errorHandler: @escaping (String) -> Void
     ) {
         let diaryContents = entity
-        diaryContents.title = String(content[0])
-        diaryContents.body = content[1]
+        diaryContents.title = content.first
+        diaryContents.body = content.last
         
         do {
             try saveContext()
