@@ -51,6 +51,15 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
 
+    let weatherIconImageView: UIImageView = {
+       let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
+        
+        return imageView
+    }()
+    
     let bodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -73,6 +82,10 @@ final class DiaryTableViewCell: UITableViewCell {
 
     // MARK: - methods
 
+    override func prepareForReuse() {
+        weatherIconImageView.image = nil
+    }
+    
     private func commonInit() {
         configureView()
         configureViewLayouts()
@@ -81,7 +94,7 @@ final class DiaryTableViewCell: UITableViewCell {
     private func configureView() {
         contentView.addSubview(mainStackView)
         [titleLabel, subStackView].forEach { mainStackView.addArrangedSubview($0) }
-        [dateLabel, bodyLabel].forEach { subStackView.addArrangedSubview($0) }
+        [dateLabel, weatherIconImageView, bodyLabel].forEach { subStackView.addArrangedSubview($0) }
 
         self.accessoryType = .disclosureIndicator
     }

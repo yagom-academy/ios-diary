@@ -32,22 +32,18 @@ struct WeatherDataManager {
         dataTask.resume()
     }
     
-    func iconRequest(id: String) -> UIImage? {
-        var image: UIImage?
-        
-        guard let url = URL(string: "https://openweathermap.org/img/wn/\(id)@2x.png")
-        else { return nil }
+    func iconRequest(id: String, completion: @escaping (UIImage?) -> Void) {
+        guard let url = URL(string: "https://openweathermap.org/img/wn/\(id).png")
+        else { return }
         
         let dataTask = session.dataTask(with: url) { data, response, error in
             guard error == nil else { return }
             guard response != nil else { return }
             guard let imageData = data else { return }
             
-            image = UIImage(data: imageData)
+            completion(UIImage(data: imageData))
         }
         
         dataTask.resume()
-        
-        return image
     }
 }
