@@ -74,7 +74,7 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
             timeStyle: .none
         )
         
-        navigationItem.rightBarButtonItem = .init(
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
             image: UIImage(systemName: "ellipsis.circle"),
             style: .plain,
             target: nil,
