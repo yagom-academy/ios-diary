@@ -100,7 +100,7 @@ class NetworkTests: XCTestCase {
     func test_urlRequest를통해_데이터를_잘받아오는지() {
         // given
         let expectation = expectation(description: "wait")
-        let weatherSession = WeatherURLSession()
+        let weatherSession = DiaryURLSession()
         var main: String?
         
         guard let sut = sut else { return }

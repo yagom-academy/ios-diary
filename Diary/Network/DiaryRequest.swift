@@ -1,12 +1,12 @@
 //
-//  WeatherRequest.swift
+//  DiaryRequest.swift
 //  Diary
 //
 //  Created by bonf, bard on 2022/08/30.
 //
 import Foundation
 
-struct WeatherRequest: APIRequest {
+struct DiaryRequest: APIRequest {
     var method: HTTPMethod {
         .get
     }

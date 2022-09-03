@@ -225,12 +225,12 @@ extension DiaryListViewController: UICollectionViewDelegate {
     }
     
     private func requestWeather(_ locValue: CLLocationCoordinate2D) {
-        let weatherRequest = WeatherRequest(baseURL: URLHost.openWeather.url,
+        let weatherRequest = DiaryRequest(baseURL: URLHost.openWeather.url,
                                             query: [URLQueryItem(name: Design.latitude, value: "\(locValue.latitude)"),
                                                     URLQueryItem(name: Design.longitude, value: "\(locValue.longitude)"),
                                                     Design.IDQueryItem],
                                             path: URLAdditionalPath.weather)
-        let weatherSession = WeatherURLSession()
+        let weatherSession = DiaryURLSession()
         
         weatherSession.dataTask(with: weatherRequest) { (result: Result<WeatherModel, Error>) in
             switch result {

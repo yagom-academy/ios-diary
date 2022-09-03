@@ -1,5 +1,5 @@
 //
-//  WeatherURLSession.swift
+//  DiaryURLSession.swift
 //  Diary
 //
 //  Created by bonf, bard on 2022/08/29.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class WeatherURLSession: SessionProtocol {
+final class DiaryURLSession: SessionProtocol {
     func dataTask<T: Codable>(with request: APIRequest, completionHandler: @escaping (Result<T, Error>) -> Void) {
         execute(with: request, completionHandler: completionHandler)
     }

@@ -16,7 +16,7 @@ extension UIImageView {
             return
         }
         
-        let request = WeatherRequest(baseURL: URLHost.weatherIcon.url, path: .weatherIcon(imageID))
+        let request = DiaryRequest(baseURL: URLHost.weatherIcon.url, path: .weatherIcon(imageID))
         guard let url = request.url else { return }
         
         let session =  URLSession.shared
