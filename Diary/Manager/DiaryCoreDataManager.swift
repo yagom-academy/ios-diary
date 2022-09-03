@@ -27,6 +27,10 @@ final class DiaryCoreDataManager: DiaryManagable {
 
     // MARK: - functions
     
+    func searchDiary(_ list: [Diary]) {
+        diaryList = list
+    }
+    
     func fetch() {
         let fetchedRequest = DiaryEntity.fetchRequest()
         diaryList.removeAll()
