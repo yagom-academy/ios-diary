@@ -20,7 +20,7 @@ extension UIImageView {
         guard let url = request.url else { return }
         
         let session =  URLSession.shared
-        session.dataTask(with: url) { data, response, error in
+        session.dataTask(with: url) { [weak self] data, response, error in
             guard error == nil else {
                 return
             }
@@ -37,7 +37,7 @@ extension UIImageView {
             
             DispatchQueue.main.async {
                 ImageCacheManager.shared.setObject(image, forKey: cacheKey)
-                self.image = image
+                self?.image = image
             }
         }.resume()
     }
