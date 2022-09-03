@@ -30,21 +30,31 @@ final class DiaryRegistrationViewController: UIViewController {
     }
     
     // MARK: - functions
-        
-    private func updateDiary() {
-        modifyDiary()
-        
-        guard let diary = diary else { return }
-
-        diaryCoreManager.create(diary)
-    }
-    
+       
     func setupDiary(icon: String?) {
         diary = Diary(uuid: UUID(),
                              title: "",
                              body: "",
                              createdAt: Date().timeIntervalSince1970,
                              icon: icon ?? "")
+    }
+    
+    private func updateDiary() {
+        modifyDiary()
+        
+        guard let diary = diary else { return }
+        if isDiaryTitleEmpty() {
+            return
+        }
+        diaryCoreManager.create(diary)
+    }
+    
+    private func isDiaryTitleEmpty() -> Bool {
+        if diary?.title == "" {
+            return true
+        }
+        
+        return false
     }
     
     private func modifyDiary() {
