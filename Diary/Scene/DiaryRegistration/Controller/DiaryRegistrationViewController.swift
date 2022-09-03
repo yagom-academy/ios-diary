@@ -39,12 +39,12 @@ final class DiaryRegistrationViewController: UIViewController {
         diaryCoreManager.create(diary)
     }
     
-    func setupDiary(icon: String) {
+    func setupDiary(icon: String?) {
         diary = Diary(uuid: UUID(),
                              title: "",
                              body: "",
                              createdAt: Date().timeIntervalSince1970,
-                             icon: icon)
+                             icon: icon ?? "")
     }
     
     private func modifyDiary() {

@@ -90,7 +90,9 @@ final class DiaryListCollectionViewCell: UICollectionViewCell {
     func setupCellProperties(with model: Diary) {
         titleLabel.text = model.title
         dateLabel.text = model.createdAt.convert1970DateToString()
-        setupWeatherImageView(icon: model.icon)
+        if let icon = model.icon {
+            setupWeatherImageView(icon: icon)
+        }
         guard let body = model.body.split(separator: "\n").first else { return }
         previewLabel.text = String(body)
     }

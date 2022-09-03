@@ -28,14 +28,10 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.startUpdatingLocation()
-        
         setupView()
         setupDataSource()
         addObserver()
+        setupLocationManager()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -172,6 +168,13 @@ final class DiaryListViewController: UIViewController {
                                                object: nil)
     }
     
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+    }
+    
     // MARK: - objc functions
     
     @objc private func onDidReceiveData(_ notification: Notification) {
@@ -202,8 +205,8 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func rightBarButtonItemDidTap() {
         let diaryRegistrationViewController = DiaryRegistrationViewController()
-        guard let icon = icon else { return }
         diaryRegistrationViewController.setupDiary(icon: icon)
+
         navigationController?.pushViewController(diaryRegistrationViewController, animated: true)
         
         let date = Date()

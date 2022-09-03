@@ -59,7 +59,7 @@ final class DiaryCoreDataManager: DiaryManagable {
                                      "body": diary.body,
                                      "createdAt": diary.createdAt,
                                      "uuid": diary.uuid,
-                                     "icon": diary.icon]
+                                     "icon": diary.icon as Any]
         
         persistentContainerManager.create(entityName: String(describing: DiaryEntity.self),
                                           values: values)        

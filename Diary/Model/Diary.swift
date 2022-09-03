@@ -12,7 +12,7 @@ struct Diary: Decodable, Hashable {
     var title: String
     var body: String
     let createdAt: TimeInterval
-    let icon: String
+    let icon: String?
     
     enum CodingKeys: String, CodingKey {
         case uuid
