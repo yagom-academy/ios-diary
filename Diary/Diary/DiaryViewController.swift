@@ -100,7 +100,7 @@ extension DiaryViewController {
     private func createDiary() {
         guard diaryView.diaryTextView.text.isEmpty == false else { return }
         NetworkManager.shared.requestWeatherData(latitude: location[Coordinate.latitude], longitude: location[Coordinate.longitude]) { [self] data in
-            let diaryModel = self.makeDiaryModel(with: data.weather[0].icon)
+            let diaryModel = makeDiaryModel(with: data.weather[0].icon)
             CoreDataManager.shared.create(with: diaryModel)
         }
     }
@@ -125,7 +125,7 @@ extension DiaryViewController {
     @objc private func updateDiary() {
         guard let coreDataDiary = diary else { return }
         NetworkManager.shared.requestWeatherData(latitude: location[Coordinate.latitude], longitude: location[Coordinate.longitude]) { [self] data in
-            let diaryModel = self.makeDiaryModel(with: data.weather[0].icon)
+            let diaryModel = makeDiaryModel(with: data.weather[0].icon)
             CoreDataManager.shared.update(diary: coreDataDiary, with: diaryModel)
         }
     }
