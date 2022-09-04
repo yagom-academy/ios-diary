@@ -94,6 +94,7 @@ final class DiaryContentViewController: UIViewController {
     
     private func presentDeleteAlert() {
         let alertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        
         let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             self?.diaryViewModel?.remove()

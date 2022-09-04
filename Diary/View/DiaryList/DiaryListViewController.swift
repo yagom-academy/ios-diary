@@ -14,6 +14,11 @@ final class DiaryListViewController: UIViewController {
     enum Section {
         case main
     }
+    
+    private enum AlertConst {
+        static let confirm = "확인"
+        static let notification = "알림"
+    }
 
     private lazy var dataSource = self.configureDataSource()
     private var diaryViewModel: DiaryViewModelLogic?
@@ -68,7 +73,25 @@ final class DiaryListViewController: UIViewController {
             }
         }
         
+        diaryViewModel?.showAlertClosure = { [weak self] in
+            if let message = self?.diaryViewModel?.alertMessage {
+                DispatchQueue.main.async {
+                    self?.presentConfirmAlert(message)
+                }
+            }
+        }
+        
         diaryViewModel?.fetchWeatherData()
+    }
+    
+    private func presentConfirmAlert(_ message: String) {
+        let alertController = UIAlertController(title: AlertConst.notification, message: message, preferredStyle: .alert)
+        
+        let confirmAction = UIAlertAction(title: AlertConst.confirm, style: .default, handler: nil)
+        
+        alertController.addAction(confirmAction)
+        
+        present(alertController, animated: true, completion: nil)
     }
     
     private func setupDefault() {

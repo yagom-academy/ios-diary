@@ -47,8 +47,8 @@ struct APIManager<T: Decodable> {
                 } catch {
                     completion(.failure(.failedToDecode))
                 }
-            case .failure(_):
-                completion(.failure(.emptyData))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
