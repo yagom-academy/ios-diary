@@ -253,8 +253,6 @@ extension DiaryListViewController: UICollectionViewDelegate {
         let frameHeight = scrollView.frame.height
         guard let location = locationManager.location?.coordinate else { return }
 
-        print("frameHeight: \(frameHeight)")
-        print("heightRemainHeight: \(heightRemainHeight)")
         if heightRemainHeight < frameHeight {
             requestWeather(location)
         }
