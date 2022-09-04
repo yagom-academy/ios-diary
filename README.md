@@ -20,7 +20,7 @@ Core Data를 활용한 일기장 어플 프로젝트 입니다
 - [🚀 TroubleShooting](#-TroubleShooting)
     - [🚀 STEP 1](#-STEP-1)
     - [🚀 STEP 2](#-STEP-2)
-
+    - [🚀 STEP 3](#-STEP-3)
 
 ## 🧑🏻‍💻🧑🏻‍💻 개발자 소개
 
@@ -33,37 +33,45 @@ Core Data를 활용한 일기장 어플 프로젝트 입니다
 ## 📦 파일 구조
 
 ```
-├── AppDelegate.swift![]
+├── AppDelegate.swift
 ├── Assets.xcassets
 │   ├── AccentColor.colorset
 │   │   └── Contents.json
 │   ├── AppIcon.appiconset
 │   │   └── Contents.json
-│   ├── Contents.json
-│   └── sample.dataset
+│   └── Contents.json
 ├── Base.lproj
 │   └── LaunchScreen.storyboard
 ├── Controller
 │   ├── DiaryDetailViewController.swift
 │   ├── DiaryViewController.swift
 │   └── MainViewController.swift
-├── CoreData.xcdatamodeld
-│   └── Model.xcdatamodel
 ├── Diary.xcdatamodeld
+│   ├── Diary 2.xcdatamodel
+│   │   └── contents
 │   └── Diary.xcdatamodel
 │       └── contents
+├── Diary2.xcmappingmodel
+│   └── xcmapping.xml
+├── DiaryMappingModel.xcmappingmodel
+│   └── xcmapping.xml
 ├── Info.plist
 ├── Model
 │   ├── CoreData
 │   │   ├── Diary+CoreDataClass.swift
 │   │   └── Diary+CoreDataProperties.swift
-│   ├── CoreDataManager.swift
 │   ├── DataManager
 │   │   ├── CoreDataManager.swift
 │   │   ├── DiaryManager.swift
 │   │   ├── Protocol
 │   │   │   └── DBMangerable.swift
 │   │   └── StubDBManager.swift
+│   ├── DiaryMappingModel.xcmappingmodel
+│   │   └── xcmapping.xml
+│   ├── DiaryViewModel.swift
+│   ├── Error
+│   │   ├── APIError.swift
+│   │   └── CodableError.swift
 │   ├── Extension
 │   │   ├── Date + Extension.swift
 │   │   ├── Double + Extension.swift
@@ -71,15 +79,24 @@ Core Data를 활용한 일기장 어플 프로젝트 입니다
 │   ├── Json
 │   │   ├── DiaryContent.swift
 │   │   ├── JSONDecoder + Extension.swift
+│   │   ├── WeatherData.swift
 │   │   └── sample.json
-│   └── New Group
+│   └── Network
+│       ├── APIRequest.swift
+│       ├── HTTPMethod.swift
+│       ├── ImageCacheManager.swift
+│       ├── NameSpace.swift
+│       ├── NetworkManager.swift
+│       ├── OpenWeatherRequest.swift
+│       └── SessionProtocol.swift
 ├── SceneDelegate.swift
 └── View
     ├── DiaryDetailView.swift
     ├── DiaryView.swift
     ├── MainTableViewCell.swift
-    └── Protocol
-        └── ReuseIdentifying.swift
+    ├── Protocol
+    │   └── ReuseIdentifying.swift
+    └── UIImageView + Extension.swift
 ```
     
     
@@ -100,14 +117,20 @@ Core Data를 활용한 일기장 어플 프로젝트 입니다
 |리스트화면 삭제 기능|일기작성화면 삭제 기능|
 |:---:|:---:|
 |<image src = "https://i.imgur.com/E8KN1YB.gif" width="250" height="500">|<image src = "https://i.imgur.com/3IbwUj0.gif" width="250" height="500">|    
-    
+
+|날씨 아이콘 추가|
+|:---:|
+|<image src = "https://i.imgur.com/Zy4EPWh.gif" width="250" height="500">|
+
 ## 💡 키워드
 - JSON
 - TableView
 - UITextView
 - Keyboard layout
 - CoreData
-    
+- Migration
+- URLSession
+- Core Location    
     
 ## 🤔 핵심경험
 - [x] Date Formatter의 지역 및 길이별 표현의 활용
@@ -116,7 +139,8 @@ Core Data를 활용한 일기장 어플 프로젝트 입니다
 - [x] 코어데이터 모델 및 DB 마이그레이션
 - [x] 테이블뷰에서 스와이프를 통한 삭제기능 구현
 - [x] Text View Delegate의 활용
-
+- [x] Open API의 활용
+- [x] Core Location의 활용
 
 ## 📚 참고문서
 - Adaptivity and Layout
@@ -129,7 +153,13 @@ Core Data를 활용한 일기장 어플 프로젝트 입니다
 - Making Apps with Core Data
 - UITextViewDelegate
 - UISwipeActionsConfiguration
-
+- Dynamic Type Sizes
+- Open Weather - Current weather data
+- Core Location
+    - Getting the User’s Location
+    - Adding Location Services to Your App
+    - Requesting Authorization for Location Services
+- Using Lightweight Migration
     
 ## 📝 기능설명
 - 작성한 일기장의 목록을 보여주는 Table View 구현
@@ -140,7 +170,8 @@ Core Data를 활용한 일기장 어플 프로젝트 입니다
 - UITextView `Title`, `Body` 구분 로직 
 - TableView Swipe
 - UIAlertAction
-    
+- Core Location 기능 구현
+- URLSession을 통한 Open API와의 데이터 송신
     
 ## 🚀 TroubleShooting
     
@@ -164,3 +195,21 @@ Core Data를 활용한 일기장 어플 프로젝트 입니다
 |적용 전|적용 후|
 |:---:|:---:|
 |<image src = "https://user-images.githubusercontent.com/45350356/187332064-a2cdbc16-7653-406a-bda5-06f593e70985.gif" width="250" height="500">| <image src = "https://user-images.githubusercontent.com/45350356/187332344-c4f15a7a-2bd2-4d08-94f0-341ae07a3fb9.gif" width="250" height="500">
+    
+    
+### 🚀 STEP 3
+    
+#### T1. Location 데이터가 없을 시 CoreData 저장 에러
+    
+날씨 데이터를 추가해 주기 위한 네트워크 통신 시 에러가 발생됬었습니다. 문제 발생 원인으로는 해당 값이 빈 문자열 ("")을 넣어주었어야 했는데 "null"이 들어가게 되면서 네트워크 에러가 발생되어 CoreData 저장 함수가 호출되지 않았습니다. 해결 방법으로는 현재 GPS 정보를 옵셔널 값으로 가져와서 `guard let`을 통해 옵셔널 바인딩을 해주었는데, `?? ""`로 변경해주어 해결해 주었습니다.
+    
+    
+#### T2. HTTP Error
+
+![image](https://user-images.githubusercontent.com/45350356/187469836-1e7d3d94-7887-40e7-91b1-cfdd3719a05c.png)
+**Error message:**
+`App Transport Security has blocked a cleartext HTTP connection toopenweathermap.orgsince it is insecure. Use HTTPS instead or add this domain to Exception Domains in your Info.plist.`
+
+문제 원인으로는 iOS App에서  `HTTP` 접근 시 발생 되는 에러라고 설명이 되어 있었습니다. 설명으로는 iOS9버전부터 애플에서 적용한 보안 정책이라고 되어 있는데, 보안에 취약한 네트워크 차단을 위한 정책떄문에 접근 제한을 걸어 둔 것 같습니다. 해결방법은 해당 주소를 http -> https로 변경해주거나 아래 사진처럼 info.plist의 `App Transport Security Settings Key`를 추가해주고 `Allow Arbitary Load`s를 만들어주시면 `default value`를 `YES`로 변경해서 해결해 주었습니다.
+
+![image](https://user-images.githubusercontent.com/45350356/187469591-e88ad295-cc49-4f32-9020-cd9329ca1510.png)
