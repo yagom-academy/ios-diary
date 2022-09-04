@@ -10,6 +10,11 @@ import CoreLocation
 
 final class DiaryViewController: UIViewController {
     
+    private enum Coordinate {
+        static let latitude = "lat"
+        static let longitude = "lon"
+    }
+    
     // MARK: - Properties
     
     private var location: [String: String] = [:]
@@ -85,17 +90,16 @@ extension DiaryViewController {
     }
     
     private func performAppropriateMode() {
-        switch diary == nil {
-        case true:
+        if diary == nil {
             createDiary()
-        case false:
-            modifyDiary()
+            return
         }
+        modifyDiary()
     }
     
     private func createDiary() {
         guard diaryView.diaryTextView.text.isEmpty == false else { return }
-        NetworkManager.shared.requestWeatherData(latitude: location["lat"], longitude: location["lon"]) { [self] data in
+        NetworkManager.shared.requestWeatherData(latitude: location[Coordinate.latitude], longitude: location[Coordinate.longitude]) { [self] data in
             let diaryModel = self.makeDiaryModel(with: data.weather[0].icon)
             CoreDataManager.shared.create(with: diaryModel)
         }
@@ -120,7 +124,7 @@ extension DiaryViewController {
     
     @objc private func updateDiary() {
         guard let coreDataDiary = diary else { return }
-        NetworkManager.shared.requestWeatherData(latitude: location["lat"], longitude: location["lon"]) { [self] data in
+        NetworkManager.shared.requestWeatherData(latitude: location[Coordinate.latitude], longitude: location[Coordinate.longitude]) { [self] data in
             let diaryModel = self.makeDiaryModel(with: data.weather[0].icon)
             CoreDataManager.shared.update(diary: coreDataDiary, with: diaryModel)
         }
@@ -182,8 +186,8 @@ extension DiaryViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.last?.coordinate {
             locationManager.stopUpdatingLocation()
-            location["lat"] = String(coordinate.latitude)
-            location["lon"] = String(coordinate.longitude)
+            location[Coordinate.latitude] = String(coordinate.latitude)
+            location[Coordinate.longitude] = String(coordinate.longitude)
         }
     }
     
