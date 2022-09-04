@@ -1,5 +1,5 @@
 # 📔 **일기장 "Diary"**
-> **프로젝트 기간** : 2022.08.16 화  ~ 2022.08.26 금 </br>**리뷰어** : [Wody](@Wody95)
+> **프로젝트 기간** : 2022.08.16 화  ~ 2022.09.04 일 </br>**리뷰어** : [Wody](@Wody95)
 
 ---
 ## 🪧 목차
@@ -20,7 +20,8 @@
 <br>
 
 ## 📜 프로젝트 소개
-> 📔 나만의 일기장을 만들어봅시다~
+> 📔 나만의 일기장을 만들어봅시다!
+> Core location을 사용하여 사용자의 해당 위치를 파악하고, open weather api를 사용하여 실시간 날씨를 받아옵니다. 입력받은 사용자의 일기와 날씨정보를 Core data 방식으로 앱 내부에 저장하는 일기장 어플입니다.
 
 <br>
 
@@ -45,6 +46,9 @@
 - [x] 코어데이터 모델 및 DB 마이그레이션
 - [x] 테이블뷰에서 스와이프를 통한 삭제기능 구현
 - [x] Text View Delegate의 활용
+- [x] Open API의 활용
+- [x] Core Location의 활용
+
 <br>
 
 <br>
@@ -64,10 +68,19 @@
 |:---:|:---|
 |**8/22(월)**|Step1 리팩토링|
 |**8/23(화)**|개인공부|
-|**8/24(수)**|개인공부 및 Step1 리팩토링|
+|**8/24(수)**|개인공부 및 Step1 리팩토링, 머지|
 |**8/25(목)**|Core Data CRUD 구현, DetailView 자동저장 구현 및 RegisterView 자동저장 구현|
 |**8/26(금)**|Step2 PR 및 리드미작성|
 
+**Step 3 셋째 주**
+| 날짜 | 내용 |
+|:---:|:---|
+|**8/29(월)**|Step2 리팩토링|
+|**8/30(화)**|Step2 리팩토링 및 머지|
+|**8/31(수)**|Step3 해당 개인 공부|
+|**9/1(목)**|날씨 API 받아서 날씨 icon 불러오기|
+|**9/2(금)**|사용자 지역별 날씨 icon 불러오기 수정 및 Step3 PR |
+|**9/4(일)**|Step3 리팩토링 및 리드미작성|
 <br>
 
 ---
@@ -85,6 +98,9 @@
 | <img src = "https://user-images.githubusercontent.com/96932116/186933221-94aeb437-f30a-451d-8eff-17229f31812b.gif" width="300" height="600">| <img src = "https://user-images.githubusercontent.com/96932116/186933986-0c135d33-8710-494b-b2b8-51c9ab890e07.gif" width="300" height="600">|
 | 리스트 화면에서 스와이프를 통한 공유 및 삭제|일기장 화면에서 경고문을 통한 공유 및 삭제 |
 | <img src = "https://i.imgur.com/IxTEFur.gif" width="300" height="600">| <img src = "https://i.imgur.com/d42iISE.gif" width="300" height="600">|
+| 일기장 List view에서<br>날씨 아이콘을 추가한 화면 | 일기장 Detail에서<br>해당 날짜를 title로 가진 화면 |
+| <img src = "https://i.imgur.com/bOMfcvA.png" width="300" height="600">| <img src = "https://i.imgur.com/K7I4JhG.png" width="300" height="600"> | 
+
 <br>
 
 ---
@@ -95,21 +111,26 @@
 ### 파일구조
 
 ```
-├── Diary
 ├── CoreDataManager.swift
-├── Diary+CoreDataClass.swift
-├── Diary+CoreDataProperties.swift
-├── DiaryModel.swift
+├── DataModel
+│   ├── DiaryModel.swift
+│   └── WeatherModel.swift
+├── Diary
 │   ├── Diary.xcdatamodeld
-│   │   └── Diary.xcdatamodel
+│   │   ├── Diary.xcdatamodel
+│   │   │   └── contents
+│   │   └── DiaryWithWeather.xcdatamodel
 │   │       └── contents
 │   ├── Info.plist
 │   ├── Resources
 │   │   ├── AppDelegate.swift
 │   │   ├── Assets.xcassets
 │   │   ├── Base.lproj
+│   │   │   └── LaunchScreen.storyboard
 │   │   └── SceneDelegate.swift
 │   ├── Scene
+│   │   ├── DataTask
+│   │   │   └── DataTaskViewController.swift
 │   │   ├── DiaryDetail
 │   │   │   ├── Controller
 │   │   │   │   └── DiaryDetailViewController.swift
@@ -121,7 +142,7 @@
 │   │   │   ├── Model
 │   │   │   │   ├── DiaryData.swift
 │   │   │   │   ├── DiaryDataManager.swift
-│   │   │   │   └── MockData.swift
+│   │   │   │   └── WeatherDataManager.swift
 │   │   │   └── View
 │   │   │       └── DiaryTableViewCell.swift
 │   │   └── DiaryRegister
@@ -133,34 +154,18 @@
 │   │   └── Double+extension.swift
 │   └── protocol
 │       └── DiaryDataManagerProtocol.swift
+├── Diary+CoreDataClass.swift
+├── Diary+CoreDataProperties.swift
 ├── DiaryTests
 │   └── DiaryTests.swift
-├── Podfile
-├── Podfile.lock
-├── Pods
-│   ├── SwiftLint
-│   │   ├── LICENSE
-│   │   └── swiftlint
-│   └── Target Support Files
-│       ├── Pods-Diary
-│       │   ├── Pods-Diary-Info.plist
-│       │   ├── Pods-Diary-acknowledgements.markdown
-│       │   ├── Pods-Diary-acknowledgements.plist
-│       │   ├── Pods-Diary-dummy.m
-│       │   ├── Pods-Diary-umbrella.h
-│       │   ├── Pods-Diary.debug.xcconfig
-│       │   ├── Pods-Diary.modulemap
-│       │   └── Pods-Diary.release.xcconfig
-│       └── SwiftLint
-│           ├── SwiftLint.debug.xcconfig
-│           └── SwiftLint.release.xcconfig
 └── README.md
+
 ```
 <br>
 
 <br>
 
-### 📁 파일 요약 정리
+## 📁 파일 요약 정리
 
 <details>
 <summary> STEP 1</summary>
@@ -231,6 +236,21 @@
     
 </details>
 
+<details>
+<summary> STEP 3</summary>
+    
+## Scene    
+### DiaryList
+#### WeatherDataManager
+> openAPI Get Reqeuest를 사용해 실시간 날씨정보와 Icon 이미지를 받아오기 위한 Data Manager
+    
+### **DataModel** 
+#### WeatherModel
+> openAPI 사이트에서 받아올 날씨와 아이콘 WeatherData를 배열로 가지고 있는 WeatherModel
+
+    
+</details>
+
 
 ---
 <br><br>
@@ -286,9 +306,6 @@ detailTextView.contentOffset = CGPoint(x: 0, y: 0)
             }
         }
     ```
-
-
-
 ---
 
 <br><br>
@@ -309,7 +326,6 @@ detailTextView.contentOffset = CGPoint(x: 0, y: 0)
     
 [Adaptivity and Layout](https://developer.apple.com/design/human-interface-guidelines/foundations/layout/)<br>[Positioning content relative to the safe area](https://developer.apple.com/documentation/uikit/uiview/positioning_content_relative_to_the_safe_area)<br>[Positioning content within layout margins](https://developer.apple.com/documentation/uikit/uiview/positioning_content_within_layout_margins)<br>[Making apps adaptive part 1](https://m.blog.naver.com/horajjan/220799515261)<br>[Making apps adaptive part 2](https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=horajjan&logNo=220799565626)<br>[DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter)<br>[UITextView](https://developer.apple.com/documentation/uikit/uitextview)<br>[tableView(_:trailingSwipeActionsConfigurationForRowAt:)](https://developer.apple.com/documentation/uikit/uitableviewdelegate/2902367-tableview)<br>[UITableViewController VS UIViewController + UITableView](https://www.codementor.io/@nguyentruongky/uitableviewcontroller-vs-uiviewcontroller-uitableview-rfxuec34w)<br>[hugging priority, compression priority](https://eunjin3786.tistory.com/43)
     
-
 </details>
 
 <details>
@@ -318,3 +334,12 @@ detailTextView.contentOffset = CGPoint(x: 0, y: 0)
 [Core Data](https://developer.apple.com/documentation/coredata)<br>[Setting Up a Core Data Stack Manually](https://developer.apple.com/documentation/coredata/setting_up_a_core_data_stack/setting_up_a_core_data_stack_manually)<br>[UITableViewDelegate](https://developer.apple.com/documentation/uikit/uitableviewdelegate)<br>[tableView(_:trailingSwipeActionsConfigurationForRowAt:)](https://developer.apple.com/documentation/uikit/uitableviewdelegate/2902367-tableview)<br>[UISwipeActionsConfiguration](https://developer.apple.com/documentation/uikit/uiswipeactionsconfiguration)
     
 </details>
+
+<details>
+<summary>[STEP 3]</summary>
+    
+[Using Lightweight Migration](https://developer.apple.com/documentation/coredata/using_lightweight_migration)<br>[Core Data Migration](https://mobiraft.com/ios/swift/lightweight-coredata-migration/)<br>
+    
+
+</details>
+
