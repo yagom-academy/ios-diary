@@ -13,7 +13,6 @@
 		8F06109328ACC122004ACBC2 /* DiaryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F06109228ACC122004ACBC2 /* DiaryListView.swift */; };
 		8F06109528ACC5BD004ACBC2 /* NameSpace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F06109428ACC5BD004ACBC2 /* NameSpace.swift */; };
 		8F86713B28BF481500F039DF /* DiaryV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8F86713A28BF481500F039DF /* DiaryV2.xcmappingmodel */; };
-		8F86713D28BF51E900F039DF /* UIImageView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F86713C28BF51E900F039DF /* UIImageView+Extension.swift */; };
 		8F86714228C19B8300F039DF /* URLData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F86714128C19B8300F039DF /* URLData.swift */; };
 		8F9308EE28B60472001D189B /* MyActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9308ED28B60471001D189B /* MyActivityItemSource.swift */; };
 		AF68FA4FA22E1E716ED4C269 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D4573E6386663F265F631D /* Pods_Diary.framework */; };
@@ -47,7 +46,6 @@
 		8F06109428ACC5BD004ACBC2 /* NameSpace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSpace.swift; sourceTree = "<group>"; };
 		8F86713728BF46E900F039DF /* Diary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary 2.xcdatamodel"; sourceTree = "<group>"; };
 		8F86713A28BF481500F039DF /* DiaryV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; name = DiaryV2.xcmappingmodel; path = Diary/DiaryList/DiaryV2.xcmappingmodel; sourceTree = "<group>"; };
-		8F86713C28BF51E900F039DF /* UIImageView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extension.swift"; sourceTree = "<group>"; };
 		8F86714128C19B8300F039DF /* URLData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLData.swift; sourceTree = "<group>"; };
 		8F9308ED28B60471001D189B /* MyActivityItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyActivityItemSource.swift; sourceTree = "<group>"; };
 		AF824DBF28BF3082002E6B76 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
@@ -128,7 +126,6 @@
 			children = (
 				8F06107928AC8995004ACBC2 /* TimeInterval+Extension.swift */,
 				AFE5520128B4CCA000827024 /* Notification.Name+Extension.swift */,
-				8F86713C28BF51E900F039DF /* UIImageView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -336,7 +333,6 @@
 				AF824DC228BF30D9002E6B76 /* WeatherModel.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				AF845ACC28AC7747001CA526 /* JsonParser.swift in Sources */,
-				8F86713D28BF51E900F039DF /* UIImageView+Extension.swift in Sources */,
 				8F06109328ACC122004ACBC2 /* DiaryListView.swift in Sources */,
 				8F9308EE28B60472001D189B /* MyActivityItemSource.swift in Sources */,
 				8F06107828AB9005004ACBC2 /* DiaryListCell.swift in Sources */,

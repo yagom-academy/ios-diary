@@ -108,7 +108,7 @@ final class DiaryListCell: UITableViewCell {
         titleLabel.text = filteredText.isEmpty ? "새로운 일기장" : model.title
         preViewLabel.text = model.body?.replacingOccurrences(of: NameSpace.lineChange, with: NameSpace.whiteSpace)
         dateLabel.text = model.createdAt.translateToDate()
-        weatherIcon.requestWeatherImage(iconId: modelIcon)
+        NetworkManager.shared.requestWeatherImage(iconId: modelIcon, iconImage: weatherIcon)
     }
     
     override func prepareForReuse() {
