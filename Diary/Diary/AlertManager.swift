@@ -55,7 +55,7 @@ struct AlertManager {
         return share
     }
     
-    private func generateDeleteAlertAction(in viewController: DiaryViewController ) -> UIAlertAction {
+    private func generateDeleteAlertAction(in viewController: DiaryViewController) -> UIAlertAction {
         let deleteAction = UIAlertAction(title: AlertMassage.deleteActionTitle, style: .destructive) { _ in
             let cancel = cancel()
             let delete = delete {

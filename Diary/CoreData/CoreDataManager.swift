@@ -16,6 +16,8 @@ final class CoreDataManager {
     weak var delegate: CoreDataManagerDelegate?
     private(set) var fetchedDiaries: [Diary] = []
     static let shared = CoreDataManager()
+    private lazy var context = persistentContainer.viewContext
+
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores(completionHandler: { (_, error) in
@@ -25,7 +27,7 @@ final class CoreDataManager {
         })
         return container
     }()
-    private lazy var context = persistentContainer.viewContext
+
     private init() {
         fetch()
     }

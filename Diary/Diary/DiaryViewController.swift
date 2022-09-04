@@ -45,10 +45,12 @@ final class DiaryViewController: UIViewController {
         navigationItem.title = now.timeIntervalSince1970.translateToDate()
         
         if diary != nil {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: SystemName.moreViewIcon),
-                                                                style: .plain,
-                                                                target: self,
-                                                                action: #selector(showActionSheet))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(
+                image: UIImage(systemName: SystemName.moreViewIcon),
+                style: .plain,
+                target: self,
+                action: #selector(showActionSheet)
+            )
         }
     }
     
