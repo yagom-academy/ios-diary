@@ -176,7 +176,6 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupLocationManager() {
-        locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.startUpdatingLocation()
@@ -246,6 +245,21 @@ extension DiaryListViewController: UICollectionViewDelegate {
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentHeight = scrollView.contentSize.height
+        let yOffset = scrollView.contentOffset.y
+        let heightRemainHeight = contentHeight - yOffset
+
+        let frameHeight = scrollView.frame.height
+        guard let location = locationManager.location?.coordinate else { return }
+
+        print("frameHeight: \(frameHeight)")
+        print("heightRemainHeight: \(heightRemainHeight)")
+        if heightRemainHeight < frameHeight {
+            requestWeather(location)
+        }
+    }
+    
     private func requestWeather(_ locValue: CLLocationCoordinate2D) {
         let weatherRequest = DiaryRequest(baseURL: URLHost.openWeather.url,
                                             query: [URLQueryItem(name: Design.latitude, value: "\(locValue.latitude)"),
@@ -262,14 +276,6 @@ extension DiaryListViewController: UICollectionViewDelegate {
                 print(failure)
             }
         }
-    }
-}
-
-extension DiaryListViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        
-        requestWeather(locValue)
     }
 }
 
