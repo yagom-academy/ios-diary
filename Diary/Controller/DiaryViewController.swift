@@ -97,13 +97,12 @@ final class DiaryViewController: UIViewController {
     
     private func saveDiaryData() {
         guard let itemTitle = diaryViewModel.itemTitle,
-              let itemBody = diaryViewModel.itemBody,
-              let itemIcon = diaryViewModel.icon else {
+              let itemBody = diaryViewModel.itemBody else {
             return
         }
         
         diaryViewModel.coreDataManager.updateData(item: DiaryContent(id: diaryViewModel.id,
-                                                                     icon: WeatherIcon.makeURL(icon: itemIcon),
+                                                                     icon: WeatherIcon.makeURL(icon: diaryViewModel.icon ?? ""),
                                                                      title: itemTitle,
                                                                      body: itemBody,
                                                                      createdAt: Date().timeIntervalSince1970))
