@@ -73,9 +73,8 @@ final class MainViewController: UIViewController {
             
         }))
         alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: { _ in
-            let id = self.diaryManager.fetchDiaryEntity()[index].id
             
-            self.diaryManager.deleteDiary(id: id)
+            self.diaryManager.deleteDiary(id: self.diaryManager.fetchDiaryEntity()[index].id)
         }))
         
         self.present(alert, animated: true)
