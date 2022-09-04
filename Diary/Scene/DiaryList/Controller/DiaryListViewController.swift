@@ -249,7 +249,6 @@ extension DiaryListViewController: UICollectionViewDelegate {
         let contentHeight = scrollView.contentSize.height
         let yOffset = scrollView.contentOffset.y
         let heightRemainHeight = contentHeight - yOffset
-
         let frameHeight = scrollView.frame.height
         guard let location = locationManager.location?.coordinate else { return }
 
