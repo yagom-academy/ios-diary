@@ -16,6 +16,7 @@ final class DiaryRegisterViewController: DataTaskViewController {
     private var latitude: Double?
     private var longtitude: Double?
     private var weatherData: WeatherData?
+    private var iconData: Data?
     
     // MARK: - view life cycle
     
@@ -44,7 +45,7 @@ final class DiaryRegisterViewController: DataTaskViewController {
         
         guard inputText.title != "" || inputText.body != "",
               let main = weatherData?.main,
-              let icon = weatherData?.icon
+              let icon = iconData
         else { return }
         
         let diaryModel =  DiaryModel(title: inputText.title,
@@ -71,6 +72,15 @@ final class DiaryRegisterViewController: DataTaskViewController {
         
         WeatherDataManager().weatherDataRequest(longitude: longtitude, latitude: latitude) { data in
             self.weatherData = data
+            self.configureIconData()
+        }
+    }
+    
+    private func configureIconData() {
+        guard let icon = weatherData?.icon else { return }
+
+        WeatherDataManager().weatherIconRequest(id: icon) { data in
+            self.iconData = data
         }
     }
     
