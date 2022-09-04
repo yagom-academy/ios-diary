@@ -1,6 +1,6 @@
 //
-//  UIImageView + Extension.swift
-//  OpenMarket
+//  ImageDownloader.swift
+//  Diary
 //
 //  Created by Kiwi, Brad. on 2022/09/02.
 //
@@ -8,18 +8,19 @@
 import UIKit
 
 extension UIImageView {
-    func setImageURL(_ url: String) {
+    func setImageURL(_ url: String) -> URLSessionDataTask? {
         
         let cacheKey = NSString(string: url)
+        var task: URLSessionDataTask?
         
         if let cachedImage = ImageCacheManager.shared.object(forKey: cacheKey) {
             self.image = cachedImage
-            return
+            return nil
         }
         
         DispatchQueue.global().async {
             if let url = URL(string: url) {
-                URLSession.shared.dataTask(with: url) { data, res, err in
+         task = URLSession.shared.dataTask(with: url) { data, res, err in
                     if let _ = err {
                         DispatchQueue.main.async {
                             self.image = UIImage()
@@ -32,8 +33,10 @@ extension UIImageView {
                             self.image = image
                         }
                     }
-                }.resume()
+                }
+                task?.resume()
             }
         }
+        return task
     }
 }

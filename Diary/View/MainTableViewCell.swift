@@ -8,6 +8,7 @@
 import UIKit
 
 final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
+    private var task: URLSessionDataTask?
     
     private let diaryTitle: UILabel = {
         let label = UILabel()
@@ -100,6 +101,12 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifying {
         self.diaryTitle.text = content.title
         self.diaryDate.text = content.createdAt.dateFormatted()
         self.diaryBody.text = content.body
-        self.weatherImageView.setImageURL(content.icon)
+        task = self.weatherImageView.setImageURL(content.icon)
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        self.task?.suspend()
+        self.task?.cancel()
     }
 }
