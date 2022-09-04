@@ -12,5 +12,5 @@ struct DiaryModel {
     let body: String
     let createdAt: Double
     let main: String
-    let icon: String
+    let icon: Data
 }

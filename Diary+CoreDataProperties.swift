@@ -19,6 +19,6 @@ extension Diary {
     @NSManaged public var createdAt: Double
     @NSManaged public var title: String
     @NSManaged public var main: String
-    @NSManaged public var icon: String
+    @NSManaged public var icon: Data
 
 }
