@@ -3,9 +3,10 @@
     <entity name="DiaryEntity" representedClassName="DiaryEntity" syncable="YES">
         <attribute name="body" optional="YES" attributeType="String"/>
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="iconURL" optional="YES" attributeType="String"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="DiaryEntity" positionX="-63" positionY="-18" width="128" height="74"/>
+        <element name="DiaryEntity" positionX="-63" positionY="-18" width="128" height="89"/>
     </elements>
 </model>

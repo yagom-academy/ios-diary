@@ -15,7 +15,17 @@ final class DiaryPostViewController: UIViewController {
         return textView
     }()
     
-    var diaryViewModel: DiaryContentViewModel?
+    private var diaryViewModel: DiaryViewModelLogic?
+    
+    init(viewModel: DiaryViewModelLogic) {
+        self.diaryViewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

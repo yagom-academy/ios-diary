@@ -76,10 +76,35 @@
 - 2022.08.26
     - 객체 지향에 대한 책 읽기 
     
+### Week 3
+    
+> 2022.08.29 ~ 2022.09.02
+
+- 2022.08.29
+    - Step02 리팩토링 
+    - Core Location을 통한 현재 위치 추적
+    - Open API 활용해 현재 위치의 날씨 정보를 서버에서 가져옴
+    - Open API 관련 모델 생성
+    
+- 2022.08.30
+    - Search Controller 구현
+    - Step 03 PR 
+    
+- 2022.08.31
+    - MVVM 패턴 공부
+	 -  객체 지향에 대한 책 읽기 
+    
+- 2022.09.01
+    - MVVM 패턴 공부
+	 -  객체 지향에 대한 책 읽기 
+    
+- 2022.09.02
+    - Step03 리팩토링
+    
 ## 💡 키워드
 
 - `DateFormatter`, `UITableViewDiffableDataSource`, `UITableView`, 
-    `UITextView`, `Date`, `JSON`, `AlertViewController`, `CoreData`,     `CRUD`, `Activity View`, `Navigation Bar Button` 
+    `UITextView`, `Date`, `JSON`, `AlertViewController`, `CoreData`,     `CRUD`, `Activity View`, `Navigation Bar Button`, `Core Location`, `SearchController`, `Open API`, `DIP`, `TestDouble`
     
 ## 🤔 핵심경험
 
@@ -89,8 +114,8 @@
 - [x] 코어데이터 모델 및 DB 마이그레이션
 - [x] 테이블뷰에서 스와이프를 통한 삭제기능 구현
 - [ ] Text View Delegate의 활용
-- [ ] Open API의 활용
-- [ ] Core Location의 활용
+- [x] Open API의 활용
+- [x] Core Location의 활용
 
 ## 📱 실행 화면
 
@@ -107,6 +132,9 @@
 |:--:|:--:|:--:|:--:|
 |![](https://i.imgur.com/LkU2vHk.gif)|![](https://i.imgur.com/ia4ZKUB.gif)|![](https://i.imgur.com/qEBa0vo.gif)|![](https://i.imgur.com/9PhyqAa.gif)|
 
+|Open API|Search Controller|
+|:--:|:--:|
+|<image src = "https://i.imgur.com/B9Xx8H1.png" width="150" height="300">|<image src = "https://i.imgur.com/8VNlaBA.gif" width="150" height="300">|
     
 ## 🗂 폴더 구조
 
@@ -117,7 +145,9 @@
     │   ├── AppDelegate
     │   └── SceneDelegate
     ├── ViewModel
-    │   └── DiaryViewModel
+    │   ├── DiaryContentViewModel
+    │   ├── DiaryViewModelLogic
+    │   └── Const
     ├── View
     │   ├── DiaryPost
     │   │   └── DiaryPostViewController
@@ -128,19 +158,40 @@
     │       └── DiaryTableViewCell
     ├── Model
     │   └── DiaryContent
-    ├── JSON
-    │   ├── JSONManager
-    │   └── JSONError
+    ├── Entity
+    │   ├── DiaryEntity+CoreDataClass
+    │   ├── DiaryEntity+CoreDataProperties
+    │   └── CurrentWeather
+    ├── Repository
+    │   ├── CoreData
+    │   │   ├── CoreDataManager
+    │   │   ├── DataManageLogic
+    │   │   └── CoreDataError
+    │   ├── DummyJSON
+    │   │   ├── JSONManager
+    │   │   └── JSONError
+    │   └── Network
+    │       └── API
+    │           ├── APIManager
+    │           ├── APIClient
+    │           ├── GETProtocol
+    │           ├── APIError
+    │           ├── APIConfiguration
+    │           └── API
     ├── Extensions
-    │   ├── TimeInterval+Extensions
     │   ├── Date+Extensions
-    │   └── UITextView+Extensions
+    │   ├── UITextView+Extensions
+    │   └── UIImageView+Extensions
     ├── Resources
     │   ├── Assets
     │   ├── LaunchScreen
     │   └── Info
-    └── DiaryTests
-        └── DiaryTests
+    ├── DiaryTests
+    │   └── DiaryTests
+    └── DiaryContentViewModelTest
+        ├── Spy
+        │   └── SpyDiaryContentViewModel
+        └── DiaryContentViewModelTest
 ```
 
     
@@ -169,6 +220,134 @@
 - ellipsis 버튼 (**⋯**) : 해당 텍스트를 공유하는 화면과 삭제 기능을 제공 
 - 완료 버튼 : 키보드로 내용 입력 후 완료 버튼 클릭 시 키보드 내림 기능 제공 
 
+**Search Bar**
+- Search Controller를 통해 title 검색 기능 구현
+    
+**Open API**
+- Open API를 활용해 현재 위치에 날씨 ICON을 서버에서 가져옴
+
+## 아키텍처
+
+### MVVM 패턴
+**사용한 이유**
+- TableView의 List는 Core Data의 값이 바뀌면 Cell 삭제되거나 추가되어야 한다. View는 Core Data를 Observing 하고 해당 Core Data가 변할 때마다 Table View를 update 하도록 구현
+
+**고민한점**
+- Test Double
+    View Model을 테스트하기 위해 어떤 Test Double을 사용해야 하는지 고민 (Test Double의 종류와 DIP에 대해 좀 더 공부한 후 테스트 코드를 작성할 예정 )
+  - Stub : 테스트에서 호출된 요청에 대해 미리 준비해둔 결과를 제공
+  - Mock : 메서드 호출에 대한 기대를 명세하고, 해당 내용에 따라 동작하도록 객체를 생성
+  - Spy : Stub 의 역할을 가지면서 호출된 애요에 대해 약간의 정보를 기록
+  
+- 데이터의 변화에 의한 View Update
+
+**NotificationCenter**
+>`NotificationCenter`를 통해 `ViewModel`과 `View` 사이에 상호작용이 일어 날 수 있도록 처리를 해보았습니다. 
+
+**1. ViewController**
+```swift 
+
+    private func registerNotificationForTableView() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(reloadTableView),
+                                               name: .diaryContent,
+                                               object: nil)
+    }
+    
+    @objc private func reloadTableView() {
+        DispatchQueue.main.async { [weak self] in
+            guard let data = self?.diaryListViewModel.diaryContents as? [DiaryContent] else {
+                return
+            }
+            
+            self?.updateDataSource(data: data)
+            self?.diaryListTableView.reloadData()
+        }
+    }
+```
+**2. ViewModel**
+```swift 
+    private var diaryContent: DiaryContent? {
+        didSet {
+            NotificationCenter.default.post(name: .diaryContent, object: self)
+        }
+    }
+```
+- `NotificationCenter`를 `ViewController`에서 등록하고 `ViewModel` 내에 `Model` 타입의 프로퍼티가 추가 될 시 `Property Observer`를 통해서 post를 띄워 `TableView`의 데이터가 자동으로 리로드 될 수 있도록 처리하였습니다. 
+
+- `NotificationCenter`의 사용을 View와 ViewModel 사이가 1:1이 될 수 있도록 처리하였고 `CoreDataManager`에서 데이터가 `save` 될 때 `View`가 업데이트 될 수 있는 흐름으로 구성해 보았습니다. 
+
+- `MVVM 패턴`에서 `ViewModel`의 역할은 `View`의 `Action`이 발생하면 `ViewModel`에서 자동적으로 데이터가 업데이트 될 수 있어야 한다는 것을 알게 되어 `NotificationCenter`를 사용해 보았습니다. 하지만 구조적인 개선을 위해 `NotificationCenter`가 아닌 `Closure`의 이점을 살려 리팩토링해 보았습니다.
+    
+**Closure**
+> 안전하게 데이터를 콜백하기 위해 `Closure`를 활용하였습니다. 이러한 이점을 활용하면 데이터를 요청하고 해당 데이터가 `ViewModel`에서 `View`로 이동하는 흐름을 보다 명확하게 표현할 수 있습니다.
+
+**ViewController**
+```swift    
+func initializeViewModel() {
+guard let data = diaryViewModel?.diaryContents else {
+    return
+}
+updateDataSource(data: data)
+
+diaryViewModel?.reloadTableViewClosure = { [weak self] in
+    DispatchQueue.main.async {
+        guard let data = self?.diaryViewModel?.diaryContents else {
+            return
+        }
+
+        self?.updateDataSource(data: data)
+    }
+}
+
+diaryViewModel?.fetchWeatherData()
+```
+
+**ViewModel**
+```swift    
+    var reloadTableViewClosure: (()->())?
+    var showAlertClosure: (()->())?
+    
+    var diaryContents: [DiaryContent]? {
+        didSet{
+            self.reloadTableViewClosure?()
+        }
+    }
+
+func save(_ text: String, _ date: Date) {
+    guard let data = convertToDiaryContent(text, date)  else {
+        return
+    }
+
+    do {
+        try dataManager?.save(data: data)
+    } catch CoreDataError.noneEntity {
+        self.alertMessage = CoreDataError.noneEntity.message
+    } catch {
+        self.alertMessage = CoreDataError.fetchFailure.message
+    }
+}
+    
+func fetch() {
+    do {
+        diaryContents = try dataManager?.fetch()
+    } catch CoreDataError.fetchFailure {
+        self.alertMessage = CoreDataError.fetchFailure.message
+    } catch {
+        self.alertMessage = CoreDataError.noneEntity.message
+    }
+}
+```   
+
+- 데이터가 `save`가 되고 tableView의 데이터를 fetch를 통해 diaryContents 배열에 데이터를 할당해 줄때 Property Observer에 `reloadTableViewClosure`를 선언해 둠으로써 `ViewController`의 TableView DataSource가 리로드 될 수 있도록 처리하였습니다. 기본적인 데이터 흐름은 `NotificationCenter`와 유사하나 콜백 처리로 데이터를 넘김으로써 가독성과 데이터 전환의 안정성을 향상 시켰습니다. 
+    
+    
+**공부해야 하는 부분**
++ **추상화**
++ **Test Double**
++ **SOLID**
++ **Side Effect**
+    
 ## 🚀 TroubleShooting
     
 ### STEP 1
@@ -268,6 +447,27 @@ let body = data.count >= 1 ? data.joined(separator: "\n") : ""
 request.predicate = NSPredicate(format: "createdAt = %@", "\(data.createdAt)")
 ```
 
+### STEP 3
+#### T1. View Model 추상화
+- View Model을 테스트 하기 위해 추상화를 진행하다 보니 너무 많은 행동과 상태를 테스트 해야 하는 문제점 발생
+```swift!
+protocol DiaryViewModelLogic {
+    func save(_ text: String, _ date: Date)
+    func fetch()
+    func update(_ text: String)
+    func remove()
+    func fetchWeatherData()
+    func requestLocation(_ latitude: Double, with longitude: Double)
+    func filterData(text: String)
+    
+    var diaryContents: [DiaryContent]? { get set }
+    var createdAt: Date? { get set }
+    var alertMessage: String? { get set }
+    var reloadTableViewClosure: (()->())? { get set }
+    var showAlertClosure: (()->())? { get set }
+}
+```
+해당 문제를 해결하기 위해 추상화 Test Double의 종류 DIP에 대해 좀 더 공부를 진행 (아직 미해결)
 
 ## 📚 참고문서
 

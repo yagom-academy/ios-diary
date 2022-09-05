@@ -32,6 +32,7 @@ final class CoreDataManager: DataManageLogic {
         managedObject.setValue(data.title, forKey: "title")
         managedObject.setValue(data.body, forKey: "body")
         managedObject.setValue(data.createdAt, forKey: "createdAt")
+        managedObject.setValue(data.iconURL, forKey: "iconURL")
         
         try context.save()
     }
@@ -51,9 +52,12 @@ final class CoreDataManager: DataManageLogic {
         let data = result.compactMap { data -> DiaryContent? in
             guard let title = data.title,
                   let body = data.body,
-                  let createdAt = data.createdAt else { return nil }
+                  let createdAt = data.createdAt,
+                  let iconURL = data.iconURL else {
+                return nil
+            }
             
-            return DiaryContent(title: title, body: body, createdAt: createdAt)
+            return DiaryContent(title: title, body: body, createdAt: createdAt, iconURL: iconURL)
         }
         
         return data
@@ -73,6 +77,7 @@ final class CoreDataManager: DataManageLogic {
         objectUpdate.setValue(data.title, forKey: "title")
         objectUpdate.setValue(data.body, forKey: "body")
         objectUpdate.setValue(data.createdAt, forKey: "createdAt")
+        objectUpdate.setValue(data.iconURL, forKey: "iconURL")
         
         try context.save()
     }

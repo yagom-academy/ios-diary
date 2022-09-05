@@ -38,6 +38,16 @@
                ReferencedContainer = "container:Diary.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "7256A89D28BC9FEB0040A8D0"
+               BuildableName = "DiaryContentViewModelTest.xctest"
+               BlueprintName = "DiaryContentViewModelTest"
+               ReferencedContainer = "container:Diary.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
