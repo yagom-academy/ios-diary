@@ -51,5 +51,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
+    
+    static let sharedAppDelegate: AppDelegate = {
+        guard let delegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Check to make sure the app delegate class hasn't changed: \(String(describing: UIApplication.shared.delegate))")
+        }
+        return delegate
+    }()
 }
 
