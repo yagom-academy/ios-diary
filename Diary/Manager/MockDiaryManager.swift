@@ -44,7 +44,7 @@ final class MockDiaryManager: DiaryManagable {
     
     func getModel(by indexPath: IndexPath) -> Diary {
         guard let model = model.get(index: indexPath.row)
-        else { return Diary(uuid: UUID(), title: "", body: "", createdAt: 0.0) }
+        else { return Diary(uuid: UUID(), title: "", body: "", createdAt: 0.0, icon: "") }
         
         return model
     }

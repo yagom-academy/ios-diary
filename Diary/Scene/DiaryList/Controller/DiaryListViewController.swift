@@ -5,6 +5,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryListViewController: UIViewController {
     // MARK: - properties
@@ -17,9 +18,12 @@ final class DiaryListViewController: UIViewController {
         return imageView
     }()
     
+    private let diaryCoreManager = DiaryCoreDataManager(with: .shared)
+    private let locationManager = CLLocationManager()
+    private let searchController = UISearchController(searchResultsController: nil)
     private var diaryCollectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
-    private var diaryCoreManager: DiaryCoreDataManager?
+    private var icon: String?
     
     // MARK: - life cycles
     
@@ -28,12 +32,21 @@ final class DiaryListViewController: UIViewController {
         setupView()
         setupDataSource()
         addObserver()
+        setupLocationManager()
+        setupSearchConroller()
+    }
+    
+    private func setupSearchConroller() {
+        searchController.searchResultsUpdater = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        
+        navigationItem.searchController = searchController
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        diaryCoreManager = DiaryCoreDataManager(with: .shared)
-        diaryCoreManager?.fetch()
+        diaryCoreManager.fetch()
+        updateDiary(with: searchController)
     }
     
     // MARK: - functions
@@ -74,7 +87,6 @@ final class DiaryListViewController: UIViewController {
     private func setupCollectionView(frame: CGRect, collectionViewLayout: UICollectionViewLayout) -> UICollectionView {
         let collectionView = UICollectionView(frame: frame,
                                               collectionViewLayout: collectionViewLayout)
-        
         view.addSubview(collectionView)
         setupCollectionViewConstraints(collectionView)
         
@@ -94,35 +106,34 @@ final class DiaryListViewController: UIViewController {
     
     private func setupLayout() -> UICollectionViewLayout {
         var listConfiguration = UICollectionLayoutListConfiguration(appearance: .sidebarPlain)
-
+        
         listConfiguration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
           guard let self = self else { return nil }
             
           let deleteActionHandler: UIContextualAction.Handler = { action, view, completion in
 
               completion(true)
-              guard let diaryList = self.diaryCoreManager?.diaryList else { return }
-              self.diaryCoreManager?.delete(diaryList[indexPath.row])
+              
+              self.diaryCoreManager.delete(self.diaryCoreManager.diaryList[indexPath.row])
           }
             
             let deleteAction = UIContextualAction(style: .normal,
                                                  title: nil,
                                                  handler: deleteActionHandler)
-            deleteAction.image = UIImage(systemName: "trash")
+            deleteAction.image = UIImage(systemName: Design.trash)
             deleteAction.backgroundColor = .systemRed
-            
             
             let shareAction = UIContextualAction(style: .normal,
                                                  title: nil) { action, view, competion in
                 competion(true)
-                let item = self.diaryCoreManager?.diaryList.get(index: indexPath.row)
+                let item = self.diaryCoreManager.diaryList.get(index: indexPath.row)
                 
                 let shareActivitView = UIActivityViewController(activityItems: [item as Any], applicationActivities: nil)
                 self.present(shareActivitView, animated: true)
             }
             
             shareAction.backgroundColor = .systemBlue
-            shareAction.image = UIImage(systemName: "square.and.arrow.up")
+            shareAction.image = UIImage(systemName: Design.squareAndArrowUp)
             
             return UISwipeActionsConfiguration(actions: [shareAction, deleteAction])
         }
@@ -130,7 +141,6 @@ final class DiaryListViewController: UIViewController {
 
         return listLayout
     }
-    
     
     private func setupDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<DiaryListCollectionViewCell, Diary>
@@ -165,12 +175,34 @@ final class DiaryListViewController: UIViewController {
                                                object: nil)
     }
     
+    private func setupLocationManager() {
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+    }
+    
+    private func updateDiary(with searchController: UISearchController) {
+        diaryCoreManager.fetch()
+        
+        guard let text = searchController.searchBar.text?.lowercased() else { return }
+        
+        let diaryList = (self.diaryCoreManager.diaryList.filter {
+              $0.title.lowercased().contains(text) || $0.body.lowercased().contains(text)
+          })
+        
+        diaryCoreManager.searchDiary(diaryList)
+        
+        if searchController.searchBar.text?.isEmpty == true {
+            diaryCoreManager.fetch()
+        }
+    }
+    
     // MARK: - objc functions
     
     @objc private func onDidReceiveData(_ notification: Notification) {
         DispatchQueue.main.async { [weak self] in
             self?.setupDataSource()
-            self?.setupSnapshot(with: self?.diaryCoreManager?.diaryList ?? [])
+            self?.setupSnapshot(with: self?.diaryCoreManager.diaryList ?? [])
         }
     }
     
@@ -195,6 +227,8 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func rightBarButtonItemDidTap() {
         let diaryRegistrationViewController = DiaryRegistrationViewController()
+        diaryRegistrationViewController.setupDiary(icon: icon)
+
         navigationController?.pushViewController(diaryRegistrationViewController, animated: true)
         
         let date = Date()
@@ -205,11 +239,46 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let diaryDetailViewController = DiaryDetailViewController()
-        guard let diaryCoreData = diaryCoreManager else { return }
         
-        diaryDetailViewController.setupData(diaryCoreData.diaryList[indexPath.row])
+        diaryDetailViewController.setupData(diaryCoreManager.diaryList[indexPath.row])
         
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        let contentHeight = scrollView.contentSize.height
+        let yOffset = scrollView.contentOffset.y
+        let heightRemainHeight = contentHeight - yOffset
+        let frameHeight = scrollView.frame.height
+        guard let location = locationManager.location?.coordinate else { return }
+
+        if heightRemainHeight < frameHeight {
+            requestWeather(location)
+        }
+    }
+    
+    private func requestWeather(_ locValue: CLLocationCoordinate2D) {
+        let weatherRequest = DiaryRequest(baseURL: URLHost.openWeather.url,
+                                            query: [URLQueryItem(name: Design.latitude, value: "\(locValue.latitude)"),
+                                                    URLQueryItem(name: Design.longitude, value: "\(locValue.longitude)"),
+                                                    Design.IDQueryItem],
+                                            path: URLAdditionalPath.weather)
+        let weatherSession = DiaryURLSession()
+        
+        weatherSession.dataTask(with: weatherRequest) { (result: Result<WeatherModel, Error>) in
+            switch result {
+            case .success(let success):
+                self.icon = success.weather.last?.icon
+            case .failure(let failure):
+                print(failure)
+            }
+        }
+    }
+}
+
+extension DiaryListViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        updateDiary(with: searchController)
     }
 }
 
@@ -217,15 +286,11 @@ private enum Design {
     static let moonImage = "moon.fill"
     static let navigationTitle = "일기장"
     static let plusButton = "plus"
-    static let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                 heightDimension: .absolute(44))
-    static let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                  heightDimension: .absolute(44))
-    static let enumInterGroupSpacing = 8.0
-    static let enumContentInsets = NSDirectionalEdgeInsets(top: 10,
-                                                           leading: 10,
-                                                           bottom: 10,
-                                                           trailing: 10)
+    static let trash = "trash"
+    static let squareAndArrowUp = "square.and.arrow.up"
+    static let latitude = "lat"
+    static let longitude = "lon"
+    static let IDQueryItem = URLQueryItem(name: "appid", value: "63722b736b97508775be46f7cf76cb85")
 }
 
 extension Notification.Name {

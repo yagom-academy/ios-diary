@@ -13,6 +13,7 @@ final class DiaryRegistrationViewController: UIViewController {
     private let textView = DiaryRegistrationView()
     private lazy var keyboardManager = KeyboardManager(textView)
     private let diaryCoreManager = DiaryCoreDataManager(with: .shared)
+    private var diary: Diary?
     
     // MARK: - life cycles
     
@@ -22,10 +23,6 @@ final class DiaryRegistrationViewController: UIViewController {
         keyboardManager.addNotificationObserver()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         keyboardManager.removeNotificationObserver()
@@ -33,8 +30,34 @@ final class DiaryRegistrationViewController: UIViewController {
     }
     
     // MARK: - functions
-        
+       
+    func setupDiary(icon: String?) {
+        diary = Diary(uuid: UUID(),
+                             title: "",
+                             body: "",
+                             createdAt: Date().timeIntervalSince1970,
+                             icon: icon ?? "")
+    }
+    
     private func updateDiary() {
+        modifyDiary()
+        
+        guard let diary = diary else { return }
+        if isDiaryTitleEmpty() {
+            return
+        }
+        diaryCoreManager.create(diary)
+    }
+    
+    private func isDiaryTitleEmpty() -> Bool {
+        if diary?.title == "" {
+            return true
+        }
+        
+        return false
+    }
+    
+    private func modifyDiary() {
         let diaryInfomation = textView.text.split(separator: "\n", maxSplits: 1)
         
         if diaryInfomation.isEmpty {
@@ -43,12 +66,9 @@ final class DiaryRegistrationViewController: UIViewController {
         
         let title = String(diaryInfomation[0])
         let body = getBody(title: title)
-        let newDiary = Diary(uuid: UUID(),
-                             title: title,
-                             body: body,
-                             createdAt: Date().timeIntervalSince1970)
         
-        diaryCoreManager.create(newDiary)
+        diary?.modify(title: title)
+        diary?.modify(body: body)
     }
     
     private func getBody(title: String) -> String {

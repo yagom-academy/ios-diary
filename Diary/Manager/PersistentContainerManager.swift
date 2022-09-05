@@ -23,7 +23,33 @@ final class PersistentContainerManager {
     
     private lazy var context = persistentContainer.viewContext
     
+    init() {
+        checkMigration()
+    }
+    
     // MARK: - functions
+    
+    private func checkMigration() {
+        let options = [NSMigratePersistentStoresAutomaticallyOption: true, NSInferMappingModelAutomaticallyOption: true]
+        
+        guard let url = Bundle.main.url(forResource: "Diary", withExtension: "momd") else { return }
+        guard let mom = NSManagedObjectModel(contentsOf: url) else {
+            fatalError("Failed to create model from file: \(url)")
+        }
+        let psc = NSPersistentStoreCoordinator(managedObjectModel: mom)
+        
+        let dirURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).last
+        let fileURL = URL(string: "Diary.sql", relativeTo: dirURL)
+        
+        do {
+            try psc.addPersistentStore(ofType: NSSQLiteStoreType,
+                                       configurationName: nil,
+                                       at: fileURL,
+                                       options: options)
+        } catch {
+            fatalError("Failed to add persistent store: \(error)")
+        }
+    }
     
     func fetch<T>(request: NSFetchRequest<T>, predicate: NSPredicate? = nil) -> [T] {
         if let predicate = predicate {
