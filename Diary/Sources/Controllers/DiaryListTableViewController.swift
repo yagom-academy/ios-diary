@@ -20,7 +20,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-  
+
         configureAttributes()
         configureLayout()
         configureSnapshot()
@@ -140,7 +140,10 @@ extension DiaryListTableViewController: UITableViewDelegate {
             )
         }
         
-        let shareAction = UIContextualAction(style: .normal, title: "Share") {  [weak self] _, _, _ in
+        let shareAction = UIContextualAction(
+            style: .normal,
+            title: "Share"
+        ) {  [weak self] _, _, _ in
             guard let self = self else {
                 return
             }

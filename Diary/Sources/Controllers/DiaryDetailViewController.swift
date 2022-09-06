@@ -10,9 +10,9 @@ import UIKit
 final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
     var content: DiaryContents?
     private var isExist: Bool {
-            return content != nil
-        }
-
+        return content != nil
+    }
+    
     private let textView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -153,9 +153,9 @@ final class DiaryDetailViewController: UIViewController, CoreDataProcessing {
     }
     
     private func configureLayout() {
-        view.addSubview(textView)
         view.backgroundColor = .white
         
+        view.addSubview(textView)
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(
                 equalTo: view.safeAreaLayoutGuide.topAnchor
