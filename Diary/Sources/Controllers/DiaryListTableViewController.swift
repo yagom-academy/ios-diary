@@ -17,6 +17,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
         
         return tableView
     }()
+    var dataSource: UITableViewDiffableDataSource<Section, DiaryContents>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,7 +31,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        dataManager.dataSource?.apply(dataManager.snapshot)
+        dataSource?.apply(dataManager.snapshot)
     }
     
     private func configureAttributes() {
@@ -73,7 +74,7 @@ final class DiaryListTableViewController: UIViewController, CoreDataProcessing {
     }
     
     private func configureDataSource() {
-        dataManager.dataSource = UITableViewDiffableDataSource<Section, DiaryContents>(
+        dataSource = UITableViewDiffableDataSource<Section, DiaryContents>(
             tableView: diaryTableView,
             cellProvider: { tableView, indexPath, itemIdentifier in
                 guard let cell = tableView.dequeueReusableCell(
@@ -134,7 +135,7 @@ extension DiaryListTableViewController: UITableViewDelegate {
                 }
             }
             self.dataManager.snapshot.deleteItems([removableContent])
-            self.dataManager.dataSource?.apply(
+            self.dataSource?.apply(
                 self.dataManager.snapshot,
                 animatingDifferences: true
             )

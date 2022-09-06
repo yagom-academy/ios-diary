@@ -9,9 +9,8 @@ import UIKit
 
 class DataManager {
     static let shared = DataManager()
-    
-    var dataSource: UITableViewDiffableDataSource<Section, DiaryContents>?
+
     var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryContents>()
 
-    private init() { }
+    private init() {}
 }
