@@ -7,6 +7,14 @@
 
 import UIKit
 
+protocol IdentifierReusable { }
+
+extension IdentifierReusable {
+    static var reuseIdentifier: String {
+        return String.init(describing: self)
+    }
+}
+
 final class DiaryCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -72,3 +80,5 @@ extension DiaryCollectionViewCell {
         ])
     }
 }
+
+extension DiaryCollectionViewCell: IdentifierReusable { }
