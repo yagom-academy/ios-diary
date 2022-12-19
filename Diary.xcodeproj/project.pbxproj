@@ -17,6 +17,7 @@
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		F63447C629506B8D00A43B7D /* DecoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447C529506B8D00A43B7D /* DecoderManager.swift */; };
 		F63447CA29506D2E00A43B7D /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447C929506D2E00A43B7D /* Error.swift */; };
+		F63447CC29508CCB00A43B7D /* DiaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447CB29508CCB00A43B7D /* DiaryCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		F63447C529506B8D00A43B7D /* DecoderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderManager.swift; sourceTree = "<group>"; };
 		F63447C929506D2E00A43B7D /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
+		F63447CB29508CCB00A43B7D /* DiaryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,6 +51,7 @@
 			isa = PBXGroup;
 			children = (
 				3C59F5EB2950637E0045C66A /* MainDiaryView.swift */,
+				F63447CB29508CCB00A43B7D /* DiaryCollectionViewCell.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -172,6 +175,7 @@
 				F63447C629506B8D00A43B7D /* DecoderManager.swift in Sources */,
 				3C59F5EC2950637E0045C66A /* MainDiaryView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				F63447CC29508CCB00A43B7D /* DiaryCollectionViewCell.swift in Sources */,
 				3C59F5F02950693D0045C66A /* Diary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
