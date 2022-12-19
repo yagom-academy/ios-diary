@@ -32,7 +32,7 @@ final class MainDiaryView: UIView {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .fractionalWidth(1.0 / 11.0))
+                                               heightDimension: .fractionalHeight(1.0 / 11.0))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                      subitems: [item])
         

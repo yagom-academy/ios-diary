@@ -18,7 +18,8 @@ struct Diary: Decodable, Hashable {
         case createdAt = "created_at"
     }
     
-    var date: Date {
-        return Date(timeIntervalSince1970: Double(self.createdAt) ?? .zero)
+    var customDate: String {
+        let date = Date(timeIntervalSince1970: Double(self.createdAt))
+        return Formatter.changeCustomDate(date)
     }
 }

@@ -30,6 +30,7 @@ final class MainViewController: UIViewController {
     private func setNavigationBar() {
         self.title = "일기장"
         let appearence = UINavigationBarAppearance()
+        appearence.backgroundColor = .systemGray5
         navigationController?.navigationBar.standardAppearance = appearence
         navigationController?.navigationBar.scrollEdgeAppearance = appearence
         
@@ -39,7 +40,7 @@ final class MainViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = addBarButton
     }
     
-    func setupData() {
+    private func setupData() {
         let decodeManager = DecoderManager<Diary>()
         let result = decodeManager.decodeJsonData("sample")
         
@@ -51,6 +52,7 @@ final class MainViewController: UIViewController {
         }
     }
     
+    //TODO: - AddButton Action
     @objc private func addButtonTapped() {
         
     }
@@ -67,7 +69,7 @@ extension MainViewController {
                 let errorCell = UICollectionViewCell()
                 return errorCell
             }
-            //TODO: -  Cell Data Insert
+            
             cell.bindData(diary)
             return cell
         }
