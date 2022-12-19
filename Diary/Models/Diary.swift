@@ -16,4 +16,8 @@ struct Diary: Decodable {
         case title, body
         case createdAt = "created_at"
     }
+    
+    var date: Date {
+        return Date(timeIntervalSince1970: Double(self.createdAt) ?? .zero)
+    }
 }
