@@ -8,4 +8,5 @@ line_length:
     error: 110
 disabled_rules:
     - vertical_whitespace
+    - trailing_whitespace
     - unused_optional_binding
