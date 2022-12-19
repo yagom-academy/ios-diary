@@ -23,6 +23,7 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         self.view = mainDiaryView
         setNavigationBar()
+        setupData()
         applySnapshot()
     }
     
@@ -36,6 +37,18 @@ final class MainViewController: UIViewController {
                                         target: self,
                                         action: #selector(addButtonTapped))
         self.navigationItem.rightBarButtonItem = addBarButton
+    }
+    
+    func setupData() {
+        let decodeManager = DecoderManager<Diary>()
+        let result = decodeManager.decodeJsonData("sample")
+        
+        switch result {
+        case .success(let datas):
+            diaryDatas = datas
+        case .failure(let error):
+            print(error.localizedDescription)
+        }
     }
     
     @objc private func addButtonTapped() {
@@ -55,6 +68,7 @@ extension MainViewController {
                 return errorCell
             }
             //TODO: -  Cell Data Insert
+            cell.bindData(diary)
             return cell
         }
         return dataSource

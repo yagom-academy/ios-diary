@@ -8,9 +8,10 @@
 import Foundation
 
 struct Diary: Decodable, Hashable {
+    var uuid = UUID()
     var title: String
     var body: String
-    var createdAt: String
+    var createdAt: Int
         
     enum CodingKeys: String, CodingKey {
         case title, body

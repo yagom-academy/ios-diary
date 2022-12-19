@@ -62,6 +62,12 @@ final class DiaryCollectionViewCell: UICollectionViewCell {
         stackView.distribution = .fillEqually
         return stackView
     }()
+    
+    func bindData(_ data: Diary) {
+        self.titleLabel.text = data.title
+        self.previewLabel.text = data.body
+        self.dateLabel.text = data.date.description
+    }
 }
 
 // MARK: - UIConstraints
