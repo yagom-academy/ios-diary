@@ -12,15 +12,11 @@ final class DiaryListTableViewCell: UITableViewCell {
         return String(describing: self)
     }
     
-    private var diaryForm: DiaryForm?
-    
-    private let cellStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.spacing = 8
-        stackView.alignment = .center
-        return stackView
-    }()
+    var diaryForm: DiaryForm? {
+        didSet {
+            updateContent()
+        }
+    }
     
     private let diaryInfoStackView: UIStackView = {
         let stackView = UIStackView()
@@ -58,12 +54,6 @@ final class DiaryListTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let disclosureImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "chevron.right")
-        return imageView
-    }()
-
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -71,23 +61,20 @@ final class DiaryListTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureLayout()
-        updateContent()
     }
     
     private func configureLayout() {
-        contentView.addSubview(cellStackView)
-        cellStackView.addSubview(diaryInfoStackView)
-        cellStackView.addArrangedSubview(disclosureImageView)
+        contentView.addSubview(diaryInfoStackView)
         diaryInfoStackView.addArrangedSubview(diaryTitleLabel)
-        diaryInfoStackView.addSubview(diaryDetailStackView)
+        diaryInfoStackView.addArrangedSubview(diaryDetailStackView)
         diaryDetailStackView.addArrangedSubview(createdDateLabel)
         diaryDetailStackView.addArrangedSubview(previewLabel)
         
         NSLayoutConstraint.activate([
-            cellStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
-            cellStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
-            cellStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            cellStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            diaryInfoStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
+            diaryInfoStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
+            diaryInfoStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 4),
+            diaryInfoStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -4)
         ])
     }
     
