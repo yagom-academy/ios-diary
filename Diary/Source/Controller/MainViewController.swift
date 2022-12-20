@@ -9,11 +9,12 @@ import UIKit
 class MainViewController: UIViewController {
     let mainDiaryView = MainDiaryView()
     var diaries: [Diary] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view = mainDiaryView
+        configureNavigationItem()
         setUpTableView()
         decodeDiaryData()
     }
@@ -33,6 +34,13 @@ class MainViewController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    func configureNavigationItem() {
+        navigationItem.title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: nil)
     }
 }
 
