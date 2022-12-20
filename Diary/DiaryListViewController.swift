@@ -70,6 +70,14 @@ extension DiaryListViewController {
     }
 }
 
+// MARK: Objc Method
+extension DiaryListViewController {
+    @objc private func didTappedAddDiaryButton() {
+        let viewController = UIViewController()
+        navigationController?.pushViewController(viewController, animated: true)
+    }
+}
+
 // MARK: UI Configuration
 extension DiaryListViewController {
     private func configureTableViewLayout() {
@@ -88,5 +96,10 @@ extension DiaryListViewController {
     
     private func setNavigationBar() {
         navigationItem.title = Constant.navigationTitle
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(didTappedAddDiaryButton)
+        )
     }
 }
