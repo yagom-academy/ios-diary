@@ -30,7 +30,7 @@ class MainDiaryView: UIView {
             diaryTableView.leadingAnchor.constraint(equalTo: leadingAnchor),
             diaryTableView.topAnchor.constraint(equalTo: topAnchor),
             diaryTableView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            diaryTableView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            diaryTableView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }
