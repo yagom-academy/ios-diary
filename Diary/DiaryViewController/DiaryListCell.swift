@@ -8,43 +8,66 @@
 import UIKit
 
 final class DiaryListCell: UITableViewCell {
+    static let identifier: String = "DiaryListCell"
+    
     let diaryStackView: UIStackView = {
         let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
 
         return stackView
     }()
 
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
+        label.text = "일기를 쓰겠습니다. 근데 영어로"
+        label.font = .preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
 
         return label
     }()
 
-    let informationStackView: UIStackView = {
+    private let informationStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.alignment = .center
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 4
 
         return stackView
     }()
 
-    let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
-
+        label.text = "2022년 12월 20일"
+        label.font = .preferredFont(forTextStyle: .subheadline)
+        label.adjustsFontForContentSizeCategory = true
+        
         return label
     }()
 
-    let previewLabel: UILabel = {
+    private let previewLabel: UILabel = {
         let label = UILabel()
+        label.text = "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart."
+        label.font = .preferredFont(forTextStyle: .caption2)
+        label.adjustsFontForContentSizeCategory = true
 
         return label
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.contentView.addSubview(diaryStackView)
         self.accessoryType = .disclosureIndicator
         configureStackView()
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 12))
     }
     
     required init?(coder: NSCoder) {
@@ -65,10 +88,11 @@ final class DiaryListCell: UITableViewCell {
 
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            diaryStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            diaryStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            diaryStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            diaryStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            diaryStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            diaryStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            diaryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            diaryStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         ])
+        previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
 }
