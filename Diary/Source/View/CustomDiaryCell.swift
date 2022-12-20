@@ -11,26 +11,31 @@ class CustomDiaryCell: UITableViewCell {
     
     let titleLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         return label
     }()
     let bodyLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
     let dateLabel: UILabel = {
         let label = UILabel()
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
         return label
     }()
     let bottomStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.spacing = 10
         return stackView
     }()
     let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
+        stackView.spacing = 5
         return stackView
     }()
     
@@ -58,10 +63,14 @@ class CustomDiaryCell: UITableViewCell {
         contentView.addSubview(totalStackView)
         
         NSLayoutConstraint.activate([
-            totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                    constant: 20),
+            totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
+                                                constant: 10),
+            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                     constant: -20),
+            totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
+                                                   constant: -10)
         ])
     }
     
