@@ -11,7 +11,7 @@ import UIKit
 final class ViewController: UIViewController {
     private var collectionView: UICollectionView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
-    private var diary: Diary?
+    private var diary: [Diary]?
 
     enum Section: Hashable {
         case main
@@ -21,6 +21,9 @@ final class ViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureCollectionView()
+        decodeJsonData()
+        configureDataSource()
+        makeSnapshot(with: diary!)
     }
     
     private func configureNavigationBar() {
@@ -47,6 +50,19 @@ final class ViewController: UIViewController {
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
+    private func decodeJsonData() {
+        guard let dataAsset: NSDataAsset = NSDataAsset(name: "sample") else {
+            print("ERROR: 데이터 에셋 로드 에러")
+            return
+        }
+        
+        do {
+            self.diary = try JSONDecoder().decode(data: dataAsset.data)
+        } catch {
+            print("ERROR: 에러 발생")
+        }
+    }
+    
     private func configureDataSource() {
         guard let collectionView = self.collectionView else { return }
         
@@ -62,5 +78,22 @@ final class ViewController: UIViewController {
                                                                 for: indexPath,
                                                                 item: diary)
         }
+    }
+    
+    private func makeSnapshot(with diaryData: [Diary]) {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(diaryData)
+        self.dataSource?.apply(snapshot)
+    }
+}
+
+extension JSONDecoder {
+    func decode<T: Decodable>(data: Data) -> T? {
+        guard let itemData = try? self.decode(T.self, from: data) else {
+            return nil
+        }
+        
+        return itemData
     }
 }
