@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryListView: UIView {
-    private var diaryListView: UICollectionView?
+    var diaryListView: UICollectionView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
