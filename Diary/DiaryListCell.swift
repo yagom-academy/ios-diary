@@ -8,7 +8,7 @@
 import UIKit
 
 class DiaryListCell: UITableViewCell {
-    static var reuseIdentifier: String{
+    static var reuseIdentifier: String {
         return "DiaryListCell"
     }
 }
