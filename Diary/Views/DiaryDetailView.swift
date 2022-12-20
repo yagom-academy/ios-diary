@@ -11,6 +11,8 @@ final class DiaryDetailView: UIView {
     private let textFieldPlaceHolder = "Title을 입력해주세요."
     private let textViewPlaceHolder = "Content를 입력해주세요."
     
+    private var textViewBottomConstraints: NSLayoutConstraint?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
@@ -18,6 +20,7 @@ final class DiaryDetailView: UIView {
         setupConstraints()
         titleTextField.delegate = self
         contentsTextView.delegate = self
+        setupNotification()
     }
     
     required init?(coder: NSCoder) {
@@ -96,14 +99,63 @@ extension DiaryDetailView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleTextField.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
-            titleTextField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            titleTextField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            titleTextField.topAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+            titleTextField.leadingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            titleTextField.trailingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
-            contentsTextView.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 10),
-            contentsTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 10),
-            contentsTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            contentsTextView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+            contentsTextView.topAnchor.constraint(
+                equalTo: titleTextField.bottomAnchor, constant: 10),
+            contentsTextView.leadingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            contentsTextView.trailingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+            contentsTextView.bottomAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10),
         ])
+        
+        textViewBottomConstraints = contentsTextView.bottomAnchor.constraint(
+            equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+        textViewBottomConstraints?.isActive = true
+    }
+    
+    private func setupTextViewBottomConstraints(constant: CGFloat) {
+        textViewBottomConstraints?.isActive = false
+        textViewBottomConstraints = contentsTextView.bottomAnchor.constraint(
+            equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: constant)
+        textViewBottomConstraints?.isActive = true
+    }
+}
+
+//MARK: - KeyboardResponse Notification
+extension DiaryDetailView {
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showKeyboard),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(hideKeyboard),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+
+    @objc private func showKeyboard(_ notification: NSNotification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, contentsTextView.isFirstResponder {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            UIView.animate(withDuration: 0.5) {
+                self.setupTextViewBottomConstraints(constant: -(keyboardHeight + 10))
+            }
+        }
+    }
+
+    @objc private func hideKeyboard() {
+        UIView.animate(withDuration: 0.5) {
+            self.setupTextViewBottomConstraints(constant: -10)
+        }
     }
 }

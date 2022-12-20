@@ -13,5 +13,11 @@ final class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = detailView
+        setNavigation()
+    }
+    
+    private func setNavigation() {
+        let date = Formatter.changeCustomDate(Date())
+        title = date
     }
 }
