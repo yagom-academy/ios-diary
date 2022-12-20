@@ -25,6 +25,7 @@ class DiaryContentView: UIView, UIContentView {
     let headerLabel = UILabel()
     let dateLabel = UILabel()
     let bodyLabel = UILabel()
+    
     private var appliedConfiguration: DiaryContentConfiguration?
     
     init(configuration: DiaryContentConfiguration) {
@@ -48,29 +49,58 @@ class DiaryContentView: UIView, UIContentView {
     }
     
     private func setupInternalViews() {
-        let insideStackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
-        insideStackView.distribution = .fillEqually
+        let defaultContentStackView = defaultContentStackView()
         
-        let totalStackView = UIStackView(arrangedSubviews: [headerLabel, insideStackView])
-        totalStackView.axis = .vertical
-        totalStackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        addSubview(totalStackView)
+        addSubview(defaultContentStackView)
         
         layoutMargins.left += 10
         
         NSLayoutConstraint.activate([
-            totalStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            totalStackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-            totalStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            totalStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
+            defaultContentStackView.leadingAnchor.constraint(
+                equalTo: layoutMarginsGuide.leadingAnchor
+            ),
+            defaultContentStackView.trailingAnchor.constraint(
+                equalTo: layoutMarginsGuide.trailingAnchor
+            ),
+            defaultContentStackView.topAnchor.constraint(
+                equalTo: layoutMarginsGuide.topAnchor
+            ),
+            defaultContentStackView.bottomAnchor.constraint(
+                equalTo: layoutMarginsGuide.bottomAnchor
+            )
         ])
+    }
+    
+    private func defaultContentStackView() -> UIStackView {
+        let insideStackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
+        dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        insideStackView.distribution = .fill
+        insideStackView.spacing = 8
+        
+        let totalStackView = UIStackView(arrangedSubviews: [headerLabel, insideStackView])
+
+        totalStackView.axis = .vertical
+        totalStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return totalStackView
+    }
+    
+    private func configureDynamicFont() {
+        headerLabel.font = .preferredFont(forTextStyle: .title3)
+        headerLabel.adjustsFontForContentSizeCategory = true
+        
+        [dateLabel, bodyLabel].forEach {
+            $0.font = .preferredFont(forTextStyle: .body)
+            $0.adjustsFontForContentSizeCategory = true
+        }
     }
     
     private func apply(configuration: DiaryContentConfiguration) {
         guard appliedConfiguration != configuration else { return }
         appliedConfiguration = configuration
         
+        configureDynamicFont()
         headerLabel.text = configuration.headerString
         dateLabel.text = configuration.dateString
         bodyLabel.text = configuration.bodyString
