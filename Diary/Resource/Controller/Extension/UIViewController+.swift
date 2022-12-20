@@ -1,5 +1,5 @@
 //
-//  ViewController+.swift
+//  UIViewController+.swift
 //  Diary
 //
 //  Created by SummerCat and som on 2022/12/20.
@@ -13,7 +13,7 @@ extension UIViewController {
                                                          message: message,
                                                          preferredStyle: .alert)
         
-        let action: UIAlertAction = UIAlertAction(title: AlertNameSpace.confirm,
+        let action: UIAlertAction = UIAlertAction(title: AlertNamespace.confirm,
                                                   style: .default,
                                                   handler: nil)
         
@@ -21,10 +21,9 @@ extension UIViewController {
         self.present(alert, animated: true)
     }
     
-    enum AlertNameSpace {
+    enum AlertNamespace {
         static let confirm = "확인"
         static let jsonErrorMessage = "데이터 읽기 오류"
         static let none = ""
     }
 }
-

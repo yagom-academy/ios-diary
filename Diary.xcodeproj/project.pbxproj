@@ -8,10 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		570229402951449000877268 /* DiaryListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5702293F2951449000877268 /* DiaryListTableViewCell.swift */; };
-		5702294929518BEA00877268 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5702294829518BEA00877268 /* DateFormatter.swift */; };
+		5702294929518BEA00877268 /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5702294829518BEA00877268 /* DateFormatterManager.swift */; };
+		8434E2E9CCABFA94F5FE525F /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A2BD80F680330B0BDB9F36F /* Pods_Diary.framework */; };
 		AEFFA496295142F000954852 /* DiaryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFA495295142F000954852 /* DiaryForm.swift */; };
 		AEFFA498295180FE00954852 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFA497295180FE00954852 /* RegisterViewController.swift */; };
-		AEFFA49B29519A6100954852 /* ViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFA49A29519A6100954852 /* ViewController+.swift */; };
+		AEFFA49B29519A6100954852 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFA49A29519A6100954852 /* UIViewController+.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryListViewController.swift */; };
@@ -21,11 +22,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		03EEF61FDA69209F9B32FD3D /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		5702293F2951449000877268 /* DiaryListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListTableViewCell.swift; sourceTree = "<group>"; };
-		5702294829518BEA00877268 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		5702294829518BEA00877268 /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
+		7A2BD80F680330B0BDB9F36F /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8FB44081E726E3ACBB89DA4A /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		AEFFA495295142F000954852 /* DiaryForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryForm.swift; sourceTree = "<group>"; };
 		AEFFA497295180FE00954852 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
-		AEFFA49A29519A6100954852 /* ViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ViewController+.swift"; sourceTree = "<group>"; };
+		AEFFA49A29519A6100954852 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -41,6 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8434E2E9CCABFA94F5FE525F /* Pods_Diary.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -66,9 +71,9 @@
 		57022943295153F000877268 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				AEFFA49929519A3D00954852 /* Extension */,
 				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
 				AEFFA497295180FE00954852 /* RegisterViewController.swift */,
-				AEFFA49929519A3D00954852 /* Extension */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -96,15 +101,24 @@
 		5702294A29518D7A00877268 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				5702294829518BEA00877268 /* DateFormatter.swift */,
+				5702294829518BEA00877268 /* DateFormatterManager.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		7464EBF297C38295AB02B10E /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				03EEF61FDA69209F9B32FD3D /* Pods-Diary.debug.xcconfig */,
+				8FB44081E726E3ACBB89DA4A /* Pods-Diary.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		AEFFA49929519A3D00954852 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				AEFFA49A29519A6100954852 /* ViewController+.swift */,
+				AEFFA49A29519A6100954852 /* UIViewController+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -114,6 +128,8 @@
 			children = (
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
+				7464EBF297C38295AB02B10E /* Pods */,
+				F40FA442186D74FE02F6A3F6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -138,6 +154,14 @@
 			path = Diary;
 			sourceTree = "<group>";
 		};
+		F40FA442186D74FE02F6A3F6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				7A2BD80F680330B0BDB9F36F /* Pods_Diary.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -145,9 +169,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = C739AE38284DF28600741E8F /* Build configuration list for PBXNativeTarget "Diary" */;
 			buildPhases = (
+				98C8C16EA25332D09A346925 /* [CP] Check Pods Manifest.lock */,
 				C739AE1D284DF28600741E8F /* Sources */,
 				C739AE1E284DF28600741E8F /* Frameworks */,
 				C739AE1F284DF28600741E8F /* Resources */,
+				5702294B2951C37C00877268 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -203,15 +229,58 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		5702294B2951C37C00877268 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/SwiftLint/swiftlint\n";
+		};
+		98C8C16EA25332D09A346925 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Diary-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		C739AE1D284DF28600741E8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5702294929518BEA00877268 /* DateFormatter.swift in Sources */,
+				5702294929518BEA00877268 /* DateFormatterManager.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				AEFFA496295142F000954852 /* DiaryForm.swift in Sources */,
-				AEFFA49B29519A6100954852 /* ViewController+.swift in Sources */,
+				AEFFA49B29519A6100954852 /* UIViewController+.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				570229402951449000877268 /* DiaryListTableViewCell.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
@@ -352,6 +421,7 @@
 		};
 		C739AE39284DF28600741E8F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 03EEF61FDA69209F9B32FD3D /* Pods-Diary.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -379,6 +449,7 @@
 		};
 		C739AE3A284DF28600741E8F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8FB44081E726E3ACBB89DA4A /* Pods-Diary.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

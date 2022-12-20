@@ -24,21 +24,23 @@ class DiaryListViewController: UIViewController {
     private func configureJSONData() {
         let jsonDecoder: JSONDecoder = JSONDecoder()
         
-        guard let dataAsset: NSDataAsset = NSDataAsset(name: DiaryConstant.jsonData) else { return }
+        guard let dataAsset: NSDataAsset = NSDataAsset(name: Namespace.jsonData) else { return }
         
         do {
             diaryForms = try jsonDecoder.decode([DiaryForm].self, from: dataAsset.data)
         } catch {
-            showAlertController(title: AlertNameSpace.jsonErrorMessage, message: AlertNameSpace.none)
+            showAlertController(title: AlertNamespace.jsonErrorMessage, message: AlertNamespace.none)
         }
         
         self.diaryListTableView.reloadData()
     }
     
     private func configureNavigationBar() {
-        self.navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
-        self.title = DiaryConstant.navigationTitle
-        let rightBarButtonImage = UIImage(systemName: DiaryConstant.plusImage)
+        self.navigationController?.navigationBar.scrollEdgeAppearance =
+            navigationController?.navigationBar.standardAppearance
+        self.title = Namespace.navigationTitle
+        
+        let rightBarButtonImage = UIImage(systemName: Namespace.plusImage)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarButtonImage,
                                                                  style: .plain,
                                                                  target: self,
@@ -74,11 +76,11 @@ extension DiaryListViewController: UITableViewDataSource {
 
 extension DiaryListViewController: UITableViewDelegate { }
 
+// MARK: Namespace
 extension DiaryListViewController {
-    private enum DiaryConstant {
+    private enum Namespace {
         static let jsonData = "sample"
         static let navigationTitle = "일기장"
         static let plusImage = "plus"
     }
 }
-

@@ -65,22 +65,24 @@ final class DiaryListTableViewCell: UITableViewCell {
     
     private func configureLayout() {
         contentView.addSubview(diaryInfoStackView)
+        contentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 8)
+        
         diaryInfoStackView.addArrangedSubview(diaryTitleLabel)
         diaryInfoStackView.addArrangedSubview(diaryDetailStackView)
         diaryDetailStackView.addArrangedSubview(createdDateLabel)
         diaryDetailStackView.addArrangedSubview(previewLabel)
         
         NSLayoutConstraint.activate([
-            diaryInfoStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
-            diaryInfoStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
-            diaryInfoStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 4),
-            diaryInfoStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -4)
+            diaryInfoStackView.leadingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.leadingAnchor),
+            diaryInfoStackView.trailingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.trailingAnchor),
+            diaryInfoStackView.topAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.topAnchor),
+            diaryInfoStackView.bottomAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.bottomAnchor)
         ])
     }
     
     private func updateContent() {
         diaryTitleLabel.text = diaryForm?.title
-        createdDateLabel.text = DateFormatterManager().numberToDate(diaryForm?.createdAt)
+        createdDateLabel.text = DateFormatterManager().convertToDate(from: diaryForm?.createdAt)
         previewLabel.text = diaryForm?.body
     }
 }

@@ -1,5 +1,5 @@
 //
-//  DateFormatter.swift
+//  DateFormatterManager.swift
 //  Diary
 //
 //  Created by SummerCat and som on 2022/12/20.
@@ -11,11 +11,13 @@ struct DateFormatterManager {
     let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 MM월 dd일"
+        formatter.locale = .current
         return formatter
     }()
     
-    func numberToDate(_ number: Int?) -> String? {
+    func convertToDate(from number: Int?) -> String? {
         guard let number = number else { return nil }
+        
         let timeInterval = TimeInterval(number)
         let date = Date(timeIntervalSince1970: timeInterval)
         

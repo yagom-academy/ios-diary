@@ -8,11 +8,11 @@
 import UIKit
 
 class RegisterViewController: UIViewController {
-    let stackView: UIStackView = {
+    let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 8
+        stackView.spacing = 4
         return stackView
     }()
     
@@ -43,20 +43,22 @@ class RegisterViewController: UIViewController {
     }
     
     private func configureLayout() {
-        self.view.addSubview(stackView)
-        stackView.addArrangedSubview(titleTextView)
-        stackView.addArrangedSubview(bodyTextView)
+        self.view.addSubview(mainStackView)
+        mainStackView.addArrangedSubview(titleTextView)
+        mainStackView.addArrangedSubview(bodyTextView)
         
         titleTextView.delegate = self
         bodyTextView.delegate = self
         
-        NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
-            stackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            view.keyboardLayoutGuide.topAnchor.constraint(equalTo: stackView.bottomAnchor)
-        ])
+        mainStackView.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 8, right: 8)
+        mainStackView.isLayoutMarginsRelativeArrangement = true
         
+        NSLayoutConstraint.activate([
+            mainStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            view.keyboardLayoutGuide.topAnchor.constraint(equalTo: mainStackView.bottomAnchor)
+        ])
     }
     
     private func configureNavigationBar() {
