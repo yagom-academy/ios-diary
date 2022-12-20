@@ -31,14 +31,15 @@ final class DiaryCell: UICollectionViewListCell {
     
     func configureDiaryCellLayout() {
         [dateLabel, previewLabel].forEach {
-            subStackView.addSubview($0)
+            subStackView.addArrangedSubview($0)
         }
         
         [titleLabel, subStackView].forEach {
-            totalStackView.addSubview($0)
+            totalStackView.addArrangedSubview($0)
         }
         
         self.addSubview(totalStackView)
+        dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         NSLayoutConstraint.activate([
             totalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
