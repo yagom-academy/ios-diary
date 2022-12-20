@@ -28,10 +28,10 @@ final class DiaryListViewController: UIViewController {
     private var dataSource: DiaryDataSource!
     private var snapshot = DiarySnapShot()
     private var sampleDiaryList: [Diary] = []
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureNavigation()
         configureHierarchy()
         configureDataSource()
@@ -43,7 +43,7 @@ extension DiaryListViewController {
     @objc private func addDiary() {
         print("tapped addDiaryButton")
     }
-
+    
     private func configureNavigation() {
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = addDiaryButton
@@ -62,8 +62,11 @@ extension DiaryListViewController {
     
     private func configureDataSource() {
         dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
-            let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier, for: indexPath)
-            cell.textLabel?.text = diary.title
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier, for: indexPath) as? DiaryListCell else {
+                return DiaryListCell()
+            }
+            cell.titleLabel.text = diary.title
+            cell.subtitleLabel.text = diary.createdAt.description
             
             return cell
         })
@@ -73,8 +76,8 @@ extension DiaryListViewController {
         let jsonDecoder = JSONDecoder()
         guard let data = NSDataAsset.init(name: "sample")?.data,
               let items = try? jsonDecoder.decode([Diary].self, from: data) else {
-            return
-        }
+                  return
+              }
         
         snapshot.appendSections([0])
         snapshot.appendItems(items)
