@@ -10,36 +10,37 @@ import UIKit
 final class DiaryListTableViewCell: UITableViewCell {
     private var diaryForm: DiaryForm?
     
-    let cellStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.spacing = 8
-        return stack
+    private let cellStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.alignment = .center
+        return stackView
     }()
     
-    let diaryInfoStack: UIStackView = {
-        let stack = UIStackView()
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
-        stack.spacing = 4
-        return stack
+    private let diaryInfoStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 4
+        return stackView
     }()
     
-    let diaryDetailStack: UIStackView = {
-        let stack = UIStackView()
-        stack.axis = .horizontal
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.spacing = 4
-        return stack
+    private let diaryDetailStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 4
+        return stackView
     }()
     
-    let diaryTitle: UILabel = {
+    private let diaryTitleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         return label
     }()
     
-    let createdDate: UILabel = {
+    private let createdDateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.setContentHuggingPriority(.required, for: .horizontal)
@@ -47,16 +48,15 @@ final class DiaryListTableViewCell: UITableViewCell {
         return label
     }()
     
-    let preview: UILabel = {
+    private let previewLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         return label
     }()
     
-    let disclosureButton: UIImageView = {
+    private let disclosureImageView: UIImageView = {
         let imageView = UIImageView()
-        let image = UIImage(systemName: "chevron.right")
-        imageView.image = image
+        imageView.image = UIImage(systemName: "chevron.right")
         return imageView
     }()
 
@@ -66,5 +66,30 @@ final class DiaryListTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureLayout()
+        updateContent()
+    }
+    
+    private func configureLayout() {
+        contentView.addSubview(cellStackView)
+        cellStackView.addSubview(diaryInfoStackView)
+        cellStackView.addArrangedSubview(disclosureImageView)
+        diaryInfoStackView.addArrangedSubview(diaryTitleLabel)
+        diaryInfoStackView.addSubview(diaryDetailStackView)
+        diaryDetailStackView.addArrangedSubview(createdDateLabel)
+        diaryDetailStackView.addArrangedSubview(previewLabel)
+        
+        NSLayoutConstraint.activate([
+            cellStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 8),
+            cellStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -8),
+            cellStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            cellStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+        ])
+    }
+    
+    private func updateContent() {
+        diaryTitleLabel.text = diaryForm?.title
+        createdDateLabel.text = String(diaryForm?.createdAt ?? 0)
+        previewLabel.text = diaryForm?.body
     }
 }
