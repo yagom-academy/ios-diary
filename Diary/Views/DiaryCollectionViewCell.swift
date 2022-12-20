@@ -85,7 +85,7 @@ extension DiaryCollectionViewCell {
     private func setupUI() {
         layer.borderColor = UIColor.systemGray4.cgColor
         layer.borderWidth = 1
-        self.contentView.addSubview(totalStackView)
+        contentView.addSubview(totalStackView)
         setupConstraints()
     }
     

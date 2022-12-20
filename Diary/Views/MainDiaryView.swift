@@ -12,7 +12,6 @@ final class MainDiaryView: UIView {
         super.init(frame: frame)
         self.backgroundColor = .white
         setupUI()
-        registerCell()
     }
     
     required init?(coder: NSCoder) {
@@ -40,11 +39,6 @@ final class MainDiaryView: UIView {
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
     }()
-    
-    private func registerCell() {
-        collectionView.register(DiaryCollectionViewCell.self,
-                                forCellWithReuseIdentifier: DiaryCollectionViewCell.reuseIdentifier)
-    }
 }
 
 // MARK: - UIConstraints

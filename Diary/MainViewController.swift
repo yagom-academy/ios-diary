@@ -61,17 +61,17 @@ final class MainViewController: UIViewController {
 //MARK: - DiffableDataSource And Snapshot
 extension MainViewController {
     private func configureDataSource() -> DataSource {
-        let dataSource = DataSource(collectionView: mainDiaryView.collectionView) { collectionView, indexPath, diary in
-            guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: DiaryCollectionViewCell.reuseIdentifier,
-                for: indexPath
-            ) as? DiaryCollectionViewCell else {
-                let errorCell = UICollectionViewCell()
-                return errorCell
-            }
-            
-            cell.bindData(diary)
-            return cell
+        let cellRegistration = UICollectionView
+            .CellRegistration<DiaryCollectionViewCell, Diary> { cell, indexPath, diaryData in
+            cell.bindData(diaryData)
+        }
+        
+        let dataSource = DataSource(
+            collectionView: mainDiaryView.collectionView
+        ) { collectionView, indexPath, diaryData in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
+                                                                for: indexPath,
+                                                                item: diaryData)
         }
         return dataSource
     }
