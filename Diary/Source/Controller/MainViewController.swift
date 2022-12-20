@@ -6,9 +6,9 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
-    let mainDiaryView = MainDiaryView()
-    var diaries: [Diary] = []
+final class MainViewController: UIViewController {
+    private let mainDiaryView = MainDiaryView()
+    private var diaries: [Diary] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,11 +19,11 @@ class MainViewController: UIViewController {
         decodeDiaryData()
     }
     
-    func setUpTableView() {
+    private func setUpTableView() {
         mainDiaryView.diaryTableView.dataSource = self
     }
     
-    func decodeDiaryData() {
+    private func decodeDiaryData() {
         guard let dataAsset = NSDataAsset(name: "sample") else { return }
         
         let decoder = JSONDecoder()
@@ -36,7 +36,7 @@ class MainViewController: UIViewController {
         }
     }
     
-    func configureNavigationItem() {
+    private func configureNavigationItem() {
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,

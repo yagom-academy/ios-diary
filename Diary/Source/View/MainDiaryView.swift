@@ -6,7 +6,7 @@
 
 import UIKit
 
-class MainDiaryView: UIView {
+final class MainDiaryView: UIView {
     let diaryTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +24,7 @@ class MainDiaryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         addSubview(diaryTableView)
         
         NSLayoutConstraint.activate([

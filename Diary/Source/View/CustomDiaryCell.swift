@@ -9,29 +9,29 @@ import UIKit
 class CustomDiaryCell: UITableViewCell {
     static let identifier = "CustomDiaryCell"
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         return label
     }()
-    let bodyLabel: UILabel = {
+    private let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
-    let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .callout)
         return label
     }()
-    let bottomStackView: UIStackView = {
+    private let bottomStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 10
         return stackView
     }()
-    let totalStackView: UIStackView = {
+    private let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -41,7 +41,7 @@ class CustomDiaryCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super .init(style: style, reuseIdentifier: reuseIdentifier)
-        
+
         accessoryType = .disclosureIndicator
         setUpStackView()
         configureLayout()
@@ -51,7 +51,7 @@ class CustomDiaryCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpStackView() {
+    private func setUpStackView() {
         bottomStackView.addArrangedSubview(dateLabel)
         bottomStackView.addArrangedSubview(bodyLabel)
         
@@ -59,7 +59,7 @@ class CustomDiaryCell: UITableViewCell {
         totalStackView.addArrangedSubview(bottomStackView)
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         contentView.addSubview(totalStackView)
         
         NSLayoutConstraint.activate([
