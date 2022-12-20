@@ -3,6 +3,10 @@
 
 import UIKit
 
+private enum DiarySection: Hashable {
+    case main
+}
+
 final class DiaryViewController: UIViewController {
     private let diaryTitle: String = "일기장"
     private lazy var diaryTableView: UITableView = {
@@ -14,9 +18,15 @@ final class DiaryViewController: UIViewController {
     }()
     
     private lazy var diaryDataSource: UITableViewDiffableDataSource = {
-        let dataSource = UITableViewDiffableDataSource<Section, Item>(tableView: diaryTableView) {
-            (tableView, indexPath, item) -> UITableViewCell? in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
+        let dataSource = UITableViewDiffableDataSource<DiarySection, Diary>(
+            tableView: diaryTableView
+        ) { (tableView, indexPath, diary) -> UITableViewCell? in
+            guard let cell = tableView.dequeueReusableCell(
+                withIdentifier: DiaryCell.identifier,
+                for: indexPath
+            ) as? DiaryCell else { return nil }
+            
+            cell.setupDiary(diary)
             return cell
         }
         
