@@ -8,7 +8,8 @@ import UIKit
 
 final class ViewController: UIViewController {
     private let tableView: UITableView = UITableView(frame: .zero, style: .plain)
-    private var dataSource: UITableViewDiffableDataSource<Int, Int>?
+    private var dataSource: UITableViewDiffableDataSource<Int, Diary>?
+    private var diaries: [Diary]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,6 +17,11 @@ final class ViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = "example"
         configureTableViewLayout()
+        
+        guard let dataAsset = NSDataAsset(name: "sample") else {
+            return
+        }
+        diaries = try? JSONDecoder().decode([Diary].self, from: dataAsset.data)
         
         setUpTableViewDataSource()
         setTableViewData()
@@ -38,7 +44,7 @@ final class ViewController: UIViewController {
     private func setUpTableViewDataSource() {
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
         
-        dataSource = UITableViewDiffableDataSource<Int, Int>(
+        dataSource = UITableViewDiffableDataSource<Int, Diary>(
             tableView: tableView
         ) { tableView, indexPath, item in
             guard let cell = tableView.dequeueReusableCell(
@@ -48,16 +54,20 @@ final class ViewController: UIViewController {
                 return UITableViewCell()
             }
             
-            cell.number = item
+            cell.diary = item
 
             return cell
         }
     }
     
     private func setTableViewData() {
-        var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
+        guard let diaries = diaries else {
+            return
+        }
+
+        var snapshot = NSDiffableDataSourceSnapshot<Int, Diary>()
         snapshot.appendSections([0])
-        snapshot.appendItems(Array(1...10000))
+        snapshot.appendItems(diaries)
         dataSource?.apply(snapshot)
     }
 }

@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryListCell: UITableViewCell {
     static let identifier = String(describing: DiaryListCell.self)
-    var number: Int? {
+    var diary: Diary? {
         didSet {
             setNeedsUpdateConfiguration()
         }
@@ -17,11 +17,10 @@ final class DiaryListCell: UITableViewCell {
     override func updateConfiguration(using state: UICellConfigurationState) {
         accessoryType = .disclosureIndicator
         var content = DiaryContentConfiguration().updated(for: state)
-        content.headerString = number?.description
-        content.dateString = number?.description
-        content.bodyString = number?.description
+        content.headerString = diary?.title
+        content.dateString = diary?.createdDate.description
+        content.bodyString = diary?.body
         
         contentConfiguration = content
-
     }
 }
