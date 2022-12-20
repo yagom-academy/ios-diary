@@ -47,7 +47,6 @@ class DiaryListViewController: UIViewController {
                                                                  action: #selector(tappedPlusButton))
     }
     
-    // TODO: 일기장 생성 화면으로 이동
     @objc private func tappedPlusButton(_ sender: UIBarButtonItem) {
         let registerViewController = RegisterViewController()
         self.navigationController?.pushViewController(registerViewController, animated: true)

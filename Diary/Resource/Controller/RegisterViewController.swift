@@ -2,7 +2,7 @@
 //  RegisterViewController.swift
 //  Diary
 //
-//  Created by 정선아 on 2022/12/20.
+//  Created by SummerCat and som on 2022/12/20.
 //
 
 import UIKit
@@ -12,7 +12,7 @@ class RegisterViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 16
+        stackView.spacing = 8
         return stackView
     }()
     
@@ -37,6 +37,7 @@ class RegisterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
+        configureNavigationBar()
         configureLayout()
     }
     
@@ -54,6 +55,13 @@ class RegisterViewController: UIViewController {
             stackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func configureNavigationBar() {
+        self.navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
+        
+        let date = Date()
+        self.title = DateFormatterManager().formatDate(date)
     }
 }
 
