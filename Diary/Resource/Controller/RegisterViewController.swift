@@ -50,7 +50,7 @@ class RegisterViewController: UIViewController {
         titleTextView.delegate = self
         bodyTextView.delegate = self
         
-        mainStackView.layoutMargins = UIEdgeInsets(top: 0, left: 8, bottom: 8, right: 8)
+        mainStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 8)
         mainStackView.isLayoutMarginsRelativeArrangement = true
         
         NSLayoutConstraint.activate([
