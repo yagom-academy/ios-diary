@@ -18,7 +18,7 @@ final class DiaryListCell: UITableViewCell {
         accessoryType = .disclosureIndicator
         var content = DiaryContentConfiguration().updated(for: state)
         content.headerString = diary?.title
-        content.dateString = diary?.createdDate.description
+        content.dateString = diary?.createDate
         content.bodyString = diary?.body
         
         contentConfiguration = content

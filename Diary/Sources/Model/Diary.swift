@@ -10,12 +10,19 @@ import Foundation
 struct Diary: Decodable, Hashable {
     let title: String
     let body: String
-    let createdDate: Date
+    let createdIntervalValue: Int
     let uuid = UUID()
     
     enum CodingKeys: String, CodingKey {
         case title
         case body
-        case createdDate = "created_at"
+        case createdIntervalValue = "created_at"
+    }
+    
+    var createDate: String? {
+        let timeInterval = TimeInterval(createdIntervalValue)
+        let intervalDate = Date(timeIntervalSince1970: timeInterval)
+        
+        return intervalDate.convertString()
     }
 }

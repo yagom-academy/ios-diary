@@ -41,6 +41,7 @@ extension DiaryWriteViewController {
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(willHideKeyboard),
@@ -96,6 +97,7 @@ extension DiaryWriteViewController {
     }
     
     private func setNavigationBar() {
-        navigationItem.setNavigationTitle(title: Date().description)
+        let currentDate = Date().convertString()
+        navigationItem.setNavigationTitle(title: currentDate)
     }
 }
