@@ -7,12 +7,15 @@
 import UIKit
 
 class CustomDiaryCell: UITableViewCell {
+    static let identifier = "CustomDiaryCell"
+    
     let titleLabel: UILabel = {
         let label = UILabel()
         return label
     }()
     let bodyLabel: UILabel = {
         let label = UILabel()
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         return label
     }()
     let dateLabel: UILabel = {
@@ -34,6 +37,7 @@ class CustomDiaryCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super .init(style: style, reuseIdentifier: reuseIdentifier)
         
+        accessoryType = .disclosureIndicator
         setUpStackView()
         configureLayout()
     }
@@ -59,5 +63,11 @@ class CustomDiaryCell: UITableViewCell {
             totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
+    }
+    
+    func configureCell(with diary: Diary) {
+        titleLabel.text = diary.title
+        bodyLabel.text = diary.body
+        dateLabel.text = diary.createdAt.description
     }
 }

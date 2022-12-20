@@ -10,6 +10,7 @@ class MainDiaryView: UIView {
     let diaryTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.register(CustomDiaryCell.self, forCellReuseIdentifier: CustomDiaryCell.identifier)
         return tableView
     }()
     
