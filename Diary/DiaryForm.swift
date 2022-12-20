@@ -2,7 +2,7 @@
 //  DiaryForm.swift
 //  Diary
 //
-//  Created by SummerCat and som
+//  Created by SummerCat and som on 2022/12/20.
 //
 
 import Foundation
