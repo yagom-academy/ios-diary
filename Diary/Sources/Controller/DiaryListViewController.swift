@@ -70,11 +70,10 @@ extension DiaryListViewController {
     }
 }
 
-// MARK: Objc Method
+// MARK: Present Method
 extension DiaryListViewController {
-    @objc private func didTappedAddDiaryButton() {
-        let viewController = UIViewController()
-        viewController.view.backgroundColor = .systemBackground
+    private func didTappedAddDiaryButton() {
+        let viewController = DiaryWriteViewController(backgroundColor: .systemBackground)
         show(viewController, sender: nil)
     }
 }
@@ -96,11 +95,11 @@ extension DiaryListViewController {
     }
     
     private func setNavigationBar() {
-        navigationItem.title = Constant.navigationTitle
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            barButtonSystemItem: .add,
-            target: self,
-            action: #selector(didTappedAddDiaryButton)
-        )
+        navigationItem.setNavigationTitle(title: Constant.navigationTitle)
+        
+        let presentAction = UIAction { _ in
+            self.didTappedAddDiaryButton()
+        }
+        navigationItem.setRightButton(systemName: .add, action: presentAction)
     }
 }
