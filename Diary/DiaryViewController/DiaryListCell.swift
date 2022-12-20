@@ -14,7 +14,6 @@ final class DiaryListCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
-        stackView.distribution = .fill
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -65,11 +64,6 @@ final class DiaryListCell: UITableViewCell {
         configureStackView()
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        contentView.frame = contentView.frame.inset(by: UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 12))
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -88,10 +82,10 @@ final class DiaryListCell: UITableViewCell {
 
     private func configureConstraints() {
         NSLayoutConstraint.activate([
-            diaryStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            diaryStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
-            diaryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            diaryStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
+            diaryStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 8),
+            diaryStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
+            diaryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -12),
+            diaryStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -8)
         ])
         previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
