@@ -74,7 +74,8 @@ extension DiaryListViewController {
 extension DiaryListViewController {
     @objc private func didTappedAddDiaryButton() {
         let viewController = UIViewController()
-        navigationController?.pushViewController(viewController, animated: true)
+        viewController.view.backgroundColor = .systemBackground
+        show(viewController, sender: nil)
     }
 }
 
