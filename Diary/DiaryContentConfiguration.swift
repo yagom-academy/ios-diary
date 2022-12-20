@@ -2,7 +2,7 @@
 //  DiaryContentConfiguration.swift
 //  Diary
 //
-//  Created by 이태영 on 2022/12/20.
+//  Created by hamo and mini on 2022/12/20.
 //
 
 import UIKit
@@ -49,10 +49,15 @@ class DiaryContentView: UIView, UIContentView {
     
     private func setupInternalViews() {
         let insideStackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
+        insideStackView.distribution = .fillEqually
+        
         let totalStackView = UIStackView(arrangedSubviews: [headerLabel, insideStackView])
         totalStackView.axis = .vertical
         totalStackView.translatesAutoresizingMaskIntoConstraints = false
+        
         addSubview(totalStackView)
+        
+        layoutMargins.left += 10
         
         NSLayoutConstraint.activate([
             totalStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),

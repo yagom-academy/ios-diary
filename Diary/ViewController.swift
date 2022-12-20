@@ -36,18 +36,20 @@ final class ViewController: UIViewController {
     }
     
     private func setUpTableViewDataSource() {
-        tableView.register(CustomCell.self, forCellReuseIdentifier: CustomCell.identifier)
+        tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
+        
         dataSource = UITableViewDiffableDataSource<Int, Int>(
             tableView: tableView
         ) { tableView, indexPath, item in
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: CustomCell.identifier,
+                withIdentifier: DiaryListCell.identifier,
                 for: indexPath
-            ) as? CustomCell else {
+            ) as? DiaryListCell else {
                 return UITableViewCell()
             }
-            cell.textLabel?.text = item.description
             
+            cell.number = item
+
             return cell
         }
     }
@@ -55,11 +57,7 @@ final class ViewController: UIViewController {
     private func setTableViewData() {
         var snapshot = NSDiffableDataSourceSnapshot<Int, Int>()
         snapshot.appendSections([0])
-        snapshot.appendItems(Array(1...10))
+        snapshot.appendItems(Array(1...10000))
         dataSource?.apply(snapshot)
     }
-}
-
-class CustomCell: UITableViewCell {
-    static let identifier = String(describing: CustomCell.self)
 }
