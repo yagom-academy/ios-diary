@@ -7,14 +7,6 @@
 
 import UIKit
 
-protocol IdentifierReusable { }
-
-extension IdentifierReusable {
-    static var reuseIdentifier: String {
-        return String.init(describing: self)
-    }
-}
-
 final class DiaryCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -80,7 +72,6 @@ final class DiaryCollectionViewCell: UICollectionViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }()
-    
     
     func bindData(_ data: Diary) {
         self.titleLabel.text = data.title

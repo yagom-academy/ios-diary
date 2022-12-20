@@ -7,8 +7,8 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-    let detailView = DiaryDetailView()
+final class DetailViewController: UIViewController {
+    private let detailView = DiaryDetailView()
     
     override func viewDidLoad() {
         super.viewDidLoad()

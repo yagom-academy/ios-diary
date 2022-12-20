@@ -7,30 +7,82 @@
 
 import UIKit
 
-class DiaryDetailView: UIView {
+final class DiaryDetailView: UIView {
+    private let textFieldPlaceHolder = "Title을 입력해주세요."
+    private let textViewPlaceHolder = "Content를 입력해주세요."
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = .white
         setupUI()
         setupConstraints()
+        titleTextField.delegate = self
+        contentsTextView.delegate = self
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    let titleTextField: UITextField = {
+    private lazy var titleTextField: UITextField = {
         let textfield = UITextField()
-        textfield.placeholder = "Title"
+        textfield.placeholder = textFieldPlaceHolder
+        textfield.layer.borderWidth = 1
+        textfield.layer.cornerRadius = 10
+        textfield.returnKeyType = .done
         textfield.font = .preferredFont(forTextStyle: .title1)
+        textfield.layer.borderColor = UIColor.systemGray5.cgColor
         return textfield
     }()
     
-    let contentsTextView: UITextView = {
+    private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
+        textView.layer.borderWidth = 1
+        textView.layer.cornerRadius = 10
+        textView.textColor = .lightGray
+        textView.text = textViewPlaceHolder
         textView.font = .preferredFont(forTextStyle: .body)
+        textView.layer.borderColor = UIColor.systemGray5.cgColor
         return textView
     }()
+}
+
+// MARK: - UITextFieldDelegate, UITextViewDelegate
+extension DiaryDetailView: UITextFieldDelegate, UITextViewDelegate {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        titleTextField.resignFirstResponder()
+        contentsTextView.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if titleTextField.text != "" {
+            contentsTextView.becomeFirstResponder()
+            return true
+        }
+        return false
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty{
+            textField.text = nil
+            textField.placeholder = textFieldPlaceHolder
+        }
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == textViewPlaceHolder {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textView.text = textViewPlaceHolder
+            textView.textColor = .lightGray
+        }
+    }
 }
 
 // MARK: - UIConstraints
@@ -44,14 +96,14 @@ extension DiaryDetailView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            titleTextField.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            titleTextField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            titleTextField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            titleTextField.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+            titleTextField.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            titleTextField.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             
-            contentsTextView.topAnchor.constraint(equalTo: titleTextField.bottomAnchor),
-            contentsTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            contentsTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            contentsTextView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
+            contentsTextView.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 10),
+            contentsTextView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: 10),
+            contentsTextView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+            contentsTextView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10)
         ])
     }
 }
