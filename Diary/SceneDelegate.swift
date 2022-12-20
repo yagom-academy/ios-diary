@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = scene as? UIWindowScene else { return }
-        let rootViewController = ViewController()
+        let rootViewController = DiaryViewController()
         let navigationController = UINavigationController(rootViewController: rootViewController)
         
         window = UIWindow(frame: scene.coordinateSpace.bounds)
