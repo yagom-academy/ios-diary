@@ -15,9 +15,9 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         diaryListView = DiaryListView()
         self.view = diaryListView
+        convertDiaryData()
         configureDiaryListDataSource()
         snapShot()
-        convertDiaryData()
     }
     
     func convertDiaryData() {
@@ -28,7 +28,8 @@ class ViewController: UIViewController {
     }
     
     func configureDiaryListDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DiaryCell, Diary> { cell, indexPath, itemIdentifier in
+        let cellRegistration = UICollectionView.CellRegistration<DiaryCell, Diary> {
+            cell, indexPath, itemIdentifier in
             cell.configureDiaryCellLayout()
             cell.titleLabel.text = self.diary[indexPath.item].title
             cell.dateLabel.text = "\(self.diary[indexPath.item].createdAt)"

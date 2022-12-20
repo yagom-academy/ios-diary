@@ -11,5 +11,10 @@ struct Diary: Decodable, Hashable {
     let title: String
     let body: String
     let createdAt: Date
-    let id: UUID? = UUID()
+    let id = UUID()
+    
+    enum CodingKeys: String, CodingKey {
+        case title, body
+        case createdAt = "created_at"
+    }
 }

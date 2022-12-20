@@ -30,6 +30,7 @@ final class DiaryCell: UICollectionViewListCell {
     }()
     
     func configureDiaryCellLayout() {
+        self.accessories = [.disclosureIndicator(options: .init(tintColor: .systemGray))]
         [dateLabel, previewLabel].forEach {
             subStackView.addArrangedSubview($0)
         }
@@ -43,7 +44,7 @@ final class DiaryCell: UICollectionViewListCell {
         
         NSLayoutConstraint.activate([
             totalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            totalStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            totalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
             totalStackView.topAnchor.constraint(equalTo: self.topAnchor),
             totalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
