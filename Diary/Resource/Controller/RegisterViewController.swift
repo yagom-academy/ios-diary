@@ -36,6 +36,7 @@ class RegisterViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.view.backgroundColor = .systemBackground
         configureNavigationBar()
         configureLayout()
@@ -53,8 +54,9 @@ class RegisterViewController: UIViewController {
             stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
             stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
             stackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            stackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            view.keyboardLayoutGuide.topAnchor.constraint(equalTo: stackView.bottomAnchor)
         ])
+        
     }
     
     private func configureNavigationBar() {
