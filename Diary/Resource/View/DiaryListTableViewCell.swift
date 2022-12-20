@@ -8,6 +8,10 @@
 import UIKit
 
 final class DiaryListTableViewCell: UITableViewCell {
+    static var identifier: String {
+        return String(describing: self)
+    }
+    
     private var diaryForm: DiaryForm?
     
     private let cellStackView: UIStackView = {
