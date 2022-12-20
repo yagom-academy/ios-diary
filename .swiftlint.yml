@@ -4,3 +4,4 @@ excluded:
   - Diary/SceneDelegate.swift
   
 disabled_rules:
+  - trailing_whitespace
