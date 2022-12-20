@@ -12,6 +12,7 @@ final class DiaryViewController: UIViewController {
     private lazy var diaryTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         
+        tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
@@ -36,6 +37,7 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        applySampleData()
     }
     
     private func configure() {
@@ -49,10 +51,22 @@ final class DiaryViewController: UIViewController {
         view.addSubview(diaryTableView)
         
         NSLayoutConstraint.activate([
-            diaryTableView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 8),
-            diaryTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 8),
-            diaryTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -8),
-            diaryTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8)
+            diaryTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            diaryTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            diaryTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            diaryTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+    
+    private func applySampleData() {
+        guard let sampleData = NSDataAsset(name: "sample"),
+              let sampleDiary: [Diary] = try? JSONDecoder().decode([Diary].self,
+                                                                   from: sampleData.data) else {
+            return
+        }
+        var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(sampleDiary)
+        diaryDataSource.apply(snapshot)
     }
 }

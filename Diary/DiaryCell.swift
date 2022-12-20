@@ -9,7 +9,7 @@ final class DiaryCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .left
-        label.font = .preferredFont(forTextStyle: .largeTitle)
+        label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
     
@@ -17,7 +17,7 @@ final class DiaryCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .left
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .body)
         return label
     }()
     
@@ -25,7 +25,7 @@ final class DiaryCell: UITableViewCell {
         let label = UILabel()
         label.textColor = .black
         label.textAlignment = .left
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = .preferredFont(forTextStyle: .caption1)
         return label
     }()
     
@@ -60,13 +60,13 @@ final class DiaryCell: UITableViewCell {
         dateAndBodyStackView.addArrangedSubview(bodyLabel)
         contentsStackView.addArrangedSubview(titleLabel)
         contentsStackView.addArrangedSubview(dateAndBodyStackView)
-        addSubview(contentsStackView)
+        contentView.addSubview(contentsStackView)
         
         NSLayoutConstraint.activate([
-            contentsStackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            contentsStackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor),
-            contentsStackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
-            contentsStackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
+            contentsStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            contentsStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            contentsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            contentsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
         
         createdDateLabel.setContentHuggingPriority(.required, for: .horizontal)
@@ -75,7 +75,7 @@ final class DiaryCell: UITableViewCell {
     
     func setupDiary(_ newDiary: Diary) {
         titleLabel.text = newDiary.title
-        createdDateLabel.text = newDiary.createdAt
+        createdDateLabel.text = "\(newDiary.createdAt)"
         bodyLabel.text = newDiary.body
     }
 }
