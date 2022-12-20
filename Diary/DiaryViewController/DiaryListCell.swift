@@ -22,7 +22,6 @@ final class DiaryListCell: UITableViewCell {
 
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "일기를 쓰겠습니다. 근데 영어로"
         label.font = .preferredFont(forTextStyle: .title3)
         label.adjustsFontForContentSizeCategory = true
 
@@ -41,7 +40,6 @@ final class DiaryListCell: UITableViewCell {
 
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.text = "2022년 12월 20일"
         label.font = .preferredFont(forTextStyle: .subheadline)
         label.adjustsFontForContentSizeCategory = true
         
@@ -50,7 +48,6 @@ final class DiaryListCell: UITableViewCell {
 
     private let previewLabel: UILabel = {
         let label = UILabel()
-        label.text = "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart."
         label.font = .preferredFont(forTextStyle: .caption2)
         label.adjustsFontForContentSizeCategory = true
 
@@ -66,6 +63,12 @@ final class DiaryListCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setupLabelText(from content: DiaryContent) {
+        titleLabel.text = content.title
+        dateLabel.text = "\(content.createdAt)"
+        previewLabel.text = content.body
     }
 
     private func configureStackView() {

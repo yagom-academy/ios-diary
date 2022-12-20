@@ -8,6 +8,7 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private let containerView: ContainerView = ContainerView()
+    private var diaryContents: [DiaryContent] = []
 
     override func loadView() {
         super.loadView()
@@ -17,8 +18,15 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemBackground
+        setupDiaryContents()
         configureTableView()
         configureNavigationBar()
+    }
+    
+    private func setupDiaryContents() {
+        guard let contents = JSONDecoder.decode([DiaryContent].self, from: "sample") else { return }
+        
+        self.diaryContents = contents
     }
     
     private func configureTableView() {
@@ -47,7 +55,7 @@ extension DiaryViewController: UITableViewDelegate {
 
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return diaryContents.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -55,7 +63,7 @@ extension DiaryViewController: UITableViewDataSource {
         else {
             return UITableViewCell()
         }
-        
+        cell.setupLabelText(from: diaryContents[indexPath.row])
         return cell
     }
 }
