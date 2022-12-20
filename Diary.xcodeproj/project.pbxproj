@@ -52,6 +52,63 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		18ACF3CE2951A428006906D5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE24284DF28600741E8F /* AppDelegate.swift */,
+				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+				C739AE30284DF28600741E8F /* Assets.xcassets */,
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+				C739AE35284DF28600741E8F /* Info.plist */,
+				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		18ACF3CF2951A435006906D5 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				18ACF3D22951A448006906D5 /* Controller */,
+				18ACF3D12951A446006906D5 /* View */,
+				18ACF3D02951A444006906D5 /* Model */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		18ACF3D02951A444006906D5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0CCBFD4E295181A10070FE99 /* Diary.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		18ACF3D12951A446006906D5 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				18ACF3D32951A460006906D5 /* DiaryListViews */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		18ACF3D22951A448006906D5 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		18ACF3D32951A460006906D5 /* DiaryListViews */ = {
+			isa = PBXGroup;
+			children = (
+				0CCBFD4C295155860070FE99 /* DiaryContentConfiguration.swift */,
+				185A5F39295196C000AF523D /* DiaryListCellContentView.swift */,
+				185A5F372951610800AF523D /* DiaryListCell.swift */,
+			);
+			path = DiaryListViews;
+			sourceTree = "<group>";
+		};
 		2E4946E04CB879E9155B7731 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -91,17 +148,8 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				C739AE24284DF28600741E8F /* AppDelegate.swift */,
-				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
-				0CCBFD4E295181A10070FE99 /* Diary.swift */,
-				0CCBFD4C295155860070FE99 /* DiaryContentConfiguration.swift */,
-				185A5F39295196C000AF523D /* DiaryListCellContentView.swift */,
-				185A5F372951610800AF523D /* DiaryListCell.swift */,
-				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
-				C739AE35284DF28600741E8F /* Info.plist */,
-				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				18ACF3CF2951A435006906D5 /* Sources */,
+				18ACF3CE2951A428006906D5 /* Resources */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -298,6 +346,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Diary/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -353,6 +402,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = Diary/Resources/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -372,7 +422,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = Diary/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -400,7 +450,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = Diary/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
