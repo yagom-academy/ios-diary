@@ -1,8 +1,5 @@
-//
-//  Diary - ViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//  Diary - DiaryViewController.swift
+//  Created by Ayaan, zhilly on 2022/12/20
 
 import UIKit
 
@@ -19,4 +16,3 @@ final class DiaryViewController: UIViewController {
         title = diaryTitle
     }
 }
-

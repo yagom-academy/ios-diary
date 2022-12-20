@@ -1,0 +1,25 @@
+included:
+    - Diary
+
+excluded:
+    - Pods
+
+opt_in_rules:
+    - empty_count
+    - empty_string
+    - operator_usage_whitespace
+    - force_unwrapping
+    - closure_spacing
+    - implicitly_unwrapped_optional
+    - private_outlet
+    - private_action
+    - weak_delegate
+    - vertical_whitespace_closing_braces
+
+disabled_rules:
+    - trailing_whitespace
+
+line_length:
+    warning: 100
+    error: 120
+    ignores_comments: true
