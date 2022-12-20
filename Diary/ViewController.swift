@@ -6,13 +6,17 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class DiaryViewController: UIViewController {
+    private let diaryTitle: String = "일기장"
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        configure()
     }
-
-
+    
+    private func configure() {
+        view.backgroundColor = .systemBackground
+        title = diaryTitle
+    }
 }
 
