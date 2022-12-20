@@ -19,11 +19,19 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureView()
+        configureListContents()
+    }
+    
+    private func configureView() {
         configureNavigationBar()
         configureCollectionView()
+    }
+    
+    private func configureListContents() {
         decodeJsonData()
         configureDataSource()
-        makeSnapshot(with: diary!)
+        applySnapshot(with: diary)
     }
     
     private func configureNavigationBar() {
@@ -69,6 +77,7 @@ final class ViewController: UIViewController {
         let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Diary> {
             (cell, indexPath, diary) in
             cell.configureContents(with: diary)
+            cell.accessories = [.disclosureIndicator()]
         }
         
         self.dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView) {
@@ -80,20 +89,11 @@ final class ViewController: UIViewController {
         }
     }
     
-    private func makeSnapshot(with diaryData: [Diary]) {
+    private func applySnapshot(with diaryData: [Diary]?) {
+        guard let diaryData else { return }
         var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diaryData)
         self.dataSource?.apply(snapshot)
-    }
-}
-
-extension JSONDecoder {
-    func decode<T: Decodable>(data: Data) -> T? {
-        guard let itemData = try? self.decode(T.self, from: data) else {
-            return nil
-        }
-        
-        return itemData
     }
 }

@@ -7,7 +7,27 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewCell {
+class ListCollectionViewCell: UICollectionViewListCell {
+    private var mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fillEqually
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
+    
+    private var subStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fillProportionally
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
+    
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -25,6 +45,38 @@ class ListCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        configureLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureLayout() {
+        configureMainStackView()
+        self.contentView.addSubview(self.mainStackView)
+        
+        NSLayoutConstraint.activate([
+            self.mainStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            self.mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
+            self.mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
+            self.mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
+        ])
+    }
+    
+    private func configureMainStackView() {
+        configureSubStackView()
+        self.mainStackView.addArrangedSubview(self.titleLabel)
+        self.mainStackView.addArrangedSubview(self.subStackView)
+    }
+    
+    private func configureSubStackView() {
+        self.subStackView.addArrangedSubview(self.dateLabel)
+        self.subStackView.addArrangedSubview(self.bodyLabel)
+    }
     
     func configureContents(with diary: Diary) {
         self.titleLabel.text = diary.title
