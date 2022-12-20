@@ -20,6 +20,6 @@ disabled_rules:
     - trailing_whitespace
 
 line_length:
-    warning: 100
+    warning: 105
     error: 120
     ignores_comments: true
