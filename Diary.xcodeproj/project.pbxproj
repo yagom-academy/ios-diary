@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09D5B5F4295150E700B5DFEC /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09D5B5F3295150E700B5DFEC /* Diary.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* ViewController.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		09B4F19CB2B126E3BED1258D /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
+		09D5B5F3295150E700B5DFEC /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		7291FC97C4E48FA7742DB928 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFEC0CD61C846032CDA369ED /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -46,6 +48,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09D5B5F029514EED00B5DFEC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE28284DF28600741E8F /* ViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		09D5B5F129514EFC00B5DFEC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE2A284DF28600741E8F /* Main.storyboard */,
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		09D5B5F229514F0500B5DFEC /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE30284DF28600741E8F /* Assets.xcassets */,
+				09D5B5F3295150E700B5DFEC /* Diary.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		286A15E46EADBF1B856BA9EF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -76,12 +104,11 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				09D5B5F229514F0500B5DFEC /* Model */,
+				09D5B5F129514EFC00B5DFEC /* View */,
+				09D5B5F029514EED00B5DFEC /* Controller */,
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE28284DF28600741E8F /* ViewController.swift */,
-				C739AE2A284DF28600741E8F /* Main.storyboard */,
-				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 			);
@@ -216,6 +243,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* ViewController.swift in Sources */,
+				09D5B5F4295150E700B5DFEC /* Diary.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
