@@ -11,7 +11,6 @@ class DiaryListViewController: UIViewController {
     private let diaryListTableView = UITableView()
     private var diaryForms: [DiaryForm] = []
 
-    // TODO: 함수 정리
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,17 +20,16 @@ class DiaryListViewController: UIViewController {
         self.diaryListTableView.delegate = self
         self.diaryListTableView.dataSource = self
     }
-    
-    // TODO: 디코딩 실패 시 얼럿 구현
+
     private func configureJSONData() {
         let jsonDecoder: JSONDecoder = JSONDecoder()
         
-        guard let dataAsset: NSDataAsset = NSDataAsset(name: "sample") else { return }
+        guard let dataAsset: NSDataAsset = NSDataAsset(name: DiaryConstant.jsonData) else { return }
         
         do {
             diaryForms = try jsonDecoder.decode([DiaryForm].self, from: dataAsset.data)
         } catch {
-            print(error.localizedDescription)
+            showAlertController(title: AlertNameSpace.jsonErrorMessage, message: AlertNameSpace.none)
         }
         
         self.diaryListTableView.reloadData()
@@ -39,8 +37,8 @@ class DiaryListViewController: UIViewController {
     
     private func configureNavigationBar() {
         self.navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
-        self.title = "일기장"
-        let rightBarButtonImage = UIImage(systemName: "plus")
+        self.title = DiaryConstant.navigationTitle
+        let rightBarButtonImage = UIImage(systemName: DiaryConstant.plusImage)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarButtonImage,
                                                                  style: .plain,
                                                                  target: self,
@@ -75,4 +73,12 @@ extension DiaryListViewController: UITableViewDataSource {
 }
 
 extension DiaryListViewController: UITableViewDelegate { }
+
+extension DiaryListViewController {
+    private enum DiaryConstant {
+        static let jsonData = "sample"
+        static let navigationTitle = "일기장"
+        static let plusImage = "plus"
+    }
+}
 

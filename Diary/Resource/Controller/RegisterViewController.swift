@@ -22,7 +22,7 @@ class RegisterViewController: UIViewController {
         textView.setContentCompressionResistancePriority(.required, for: .vertical)
         textView.textColor = .systemGray3
         textView.font = UIFont.preferredFont(forTextStyle: .title2)
-        textView.text = "제목을 입력해주세요."
+        textView.text = Placeholder.title
         return textView
     }()
     
@@ -30,7 +30,7 @@ class RegisterViewController: UIViewController {
         let textView = UITextView()
         textView.textColor = .systemGray3
         textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.text = "본문을 입력해주세요."
+        textView.text = Placeholder.body
         return textView
     }()
 
@@ -73,5 +73,12 @@ extension RegisterViewController: UITextViewDelegate {
             textView.text = nil
             textView.textColor = .black
         }
+    }
+}
+
+extension RegisterViewController {
+    private enum Placeholder {
+        static let title = "제목을 입력해주세요."
+        static let body = "본문을 입력해주세요."
     }
 }
