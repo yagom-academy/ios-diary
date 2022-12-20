@@ -22,7 +22,8 @@ class ListCollectionViewCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .equalSpacing
+        stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -31,18 +32,21 @@ class ListCollectionViewCell: UICollectionViewListCell {
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .title3, compatibleWith: .none)
         return label
     }()
     
     private var dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
         return label
     }()
     
     private var bodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
         return label
     }()
     
@@ -65,6 +69,8 @@ class ListCollectionViewCell: UICollectionViewListCell {
             self.mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
             self.mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
         ])
+
+        dateLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
     }
     
     private func configureMainStackView() {
@@ -80,7 +86,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
     
     func configureContents(with diary: Diary) {
         self.titleLabel.text = diary.title
-        self.dateLabel.text = "오늘 날짜"
+        self.dateLabel.text = DateFormatter().longDate
         self.bodyLabel.text = diary.body
     }
 }

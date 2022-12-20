@@ -90,7 +90,7 @@ final class ViewController: UIViewController {
     }
     
     private func applySnapshot(with diaryData: [Diary]?) {
-        guard let diaryData else { return }
+        guard let diaryData = diaryData else { return }
         var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diaryData)
