@@ -1,0 +1,67 @@
+//
+//  RegisterViewController.swift
+//  Diary
+//
+//  Created by 정선아 on 2022/12/20.
+//
+
+import UIKit
+
+class RegisterViewController: UIViewController {
+    let stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.spacing = 16
+        return stackView
+    }()
+    
+    let titleTextView: UITextView = {
+        let textView = UITextView()
+        textView.isScrollEnabled = false
+        textView.setContentCompressionResistancePriority(.required, for: .vertical)
+        textView.textColor = .systemGray3
+        textView.font = UIFont.preferredFont(forTextStyle: .title2)
+        textView.text = "제목을 입력해주세요."
+        return textView
+    }()
+    
+    let bodyTextView: UITextView = {
+        let textView = UITextView()
+        textView.textColor = .systemGray3
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.text = "본문을 입력해주세요."
+        return textView
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = .systemBackground
+        configureLayout()
+    }
+    
+    private func configureLayout() {
+        self.view.addSubview(stackView)
+        stackView.addArrangedSubview(titleTextView)
+        stackView.addArrangedSubview(bodyTextView)
+        
+        titleTextView.delegate = self
+        bodyTextView.delegate = self
+        
+        NSLayoutConstraint.activate([
+            stackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            stackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+            stackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        ])
+    }
+}
+
+extension RegisterViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.systemGray3 {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+}
