@@ -13,6 +13,7 @@ final class DiaryListView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureListView()
+        configureListViewLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -26,5 +27,18 @@ final class DiaryListView: UIView {
     
     private func configureListView() {
         diaryListView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        diaryListView?.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func configureListViewLayout() {
+        guard let diaryListView = diaryListView else { return }
+        self.addSubview(diaryListView)
+        
+        NSLayoutConstraint.activate([
+            diaryListView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            diaryListView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            diaryListView.topAnchor.constraint(equalTo: self.topAnchor),
+            diaryListView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        ])
     }
 }
