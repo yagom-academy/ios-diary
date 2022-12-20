@@ -9,7 +9,9 @@
 import UIKit
 
 final class ViewController: UIViewController {
-    var collectionView: UICollectionView?
+    private var collectionView: UICollectionView?
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
+    private var diary: Diary?
 
     enum Section: Hashable {
         case main
@@ -32,7 +34,8 @@ final class ViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createListLayout())
+        collectionView = UICollectionView(frame: view.bounds,
+                                          collectionViewLayout: createListLayout())
         guard let collectionView = collectionView else { return }
         
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -42,5 +45,22 @@ final class ViewController: UIViewController {
     private func createListLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
         return UICollectionViewCompositionalLayout.list(using: config)
+    }
+    
+    private func configureDataSource() {
+        guard let collectionView = self.collectionView else { return }
+        
+        let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Diary> {
+            (cell, indexPath, diary) in
+            cell.configureContents(with: diary)
+        }
+        
+        self.dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView) {
+            collectionView, indexPath, diary in
+            
+            return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
+                                                                for: indexPath,
+                                                                item: diary)
+        }
     }
 }
