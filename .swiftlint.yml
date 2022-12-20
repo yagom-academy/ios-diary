@@ -1,0 +1,4 @@
+excluded:
+  - Pods
+  - Diary/AppDelegate.swift
+  - Diary/SceneDelegate.swift
