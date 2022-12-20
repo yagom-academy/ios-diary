@@ -7,17 +7,35 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
+    typealias DiaryDataSource = UITableViewDiffableDataSource<Int, Diary>
+    typealias DiarySnapShot = NSDiffableDataSourceSnapshot<Int, Diary>
+    
     private lazy var addDiaryButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .add,
                                      target: self,
                                      action: #selector(addDiary))
         return button
     }()
+    
+    private var diaryListTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.reuseIdentifier)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return tableView
+    }()
+    
+    private var dataSource: DiaryDataSource!
+    private var snapshot = DiarySnapShot()
+    private var sampleDiaryList: [Diary] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureNavigation()
+        configureHierarchy()
+        configureDataSource()
+        configureSnapshot()
     }
 }
 
@@ -29,5 +47,38 @@ extension DiaryListViewController {
     private func configureNavigation() {
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = addDiaryButton
+    }
+    
+    private func configureHierarchy() {
+        view.addSubview(diaryListTableView)
+        
+        NSLayoutConstraint.activate([
+            diaryListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            diaryListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            diaryListTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            diaryListTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+        ])
+    }
+    
+    private func configureDataSource() {
+        dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
+            let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier, for: indexPath)
+            cell.textLabel?.text = diary.title
+            
+            return cell
+        })
+    }
+    
+    private func configureSnapshot() {
+        let jsonDecoder = JSONDecoder()
+        guard let data = NSDataAsset.init(name: "sample")?.data,
+              let items = try? jsonDecoder.decode([Diary].self, from: data) else {
+            return
+        }
+        
+        snapshot.appendSections([0])
+        snapshot.appendItems(items)
+        
+        dataSource.apply(snapshot)
     }
 }

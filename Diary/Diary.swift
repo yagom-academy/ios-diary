@@ -18,3 +18,13 @@ class Diary: Codable {
         case createdAt = "created_at"
     }
 }
+
+extension Diary: Hashable {
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(ObjectIdentifier(self).hashValue)
+    }
+    
+    static func == (lhs: Diary, rhs: Diary) -> Bool {
+        return lhs === rhs
+    }
+}
