@@ -10,4 +10,10 @@ struct Diary: Decodable {
     let title: String
     let body: String
     let createdAt: Int
+    
+    var createdDate: String {
+        let date = Date(timeIntervalSince1970: Double(createdAt))
+        
+        return DateFormatter.koreanDateFormatter.string(from: date)
+    }
 }

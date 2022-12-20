@@ -68,6 +68,6 @@ class CustomDiaryCell: UITableViewCell {
     func configureCell(with diary: Diary) {
         titleLabel.text = diary.title
         bodyLabel.text = diary.body
-        dateLabel.text = diary.createdAt.description
+        dateLabel.text = diary.createdDate
     }
 }
