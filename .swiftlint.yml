@@ -1,0 +1,6 @@
+excluded:
+  - Pods
+  - Diary/AppDelegate.swift
+  - Diary/SceneDelegate.swift
+  
+disabled_rules:
