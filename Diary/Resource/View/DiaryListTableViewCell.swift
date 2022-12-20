@@ -80,7 +80,7 @@ final class DiaryListTableViewCell: UITableViewCell {
     
     private func updateContent() {
         diaryTitleLabel.text = diaryForm?.title
-        createdDateLabel.text = String(diaryForm?.createdAt ?? 0)
+        createdDateLabel.text = diaryForm?.createdAt.formatDate()
         previewLabel.text = diaryForm?.body
     }
 }

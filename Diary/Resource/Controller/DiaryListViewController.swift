@@ -11,15 +11,18 @@ class DiaryListViewController: UIViewController {
     private let diaryListTableView = UITableView()
     private var diaryForms: [DiaryForm] = []
 
+    // TODO: 함수 정리
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureJSONData()
-        configureNaviItem()
+        configureNavigationBar()
         self.view = diaryListTableView
         self.diaryListTableView.delegate = self
         self.diaryListTableView.dataSource = self
     }
     
+    // TODO: 디코딩 실패 시 얼럿 구현
     private func configureJSONData() {
         let jsonDecoder: JSONDecoder = JSONDecoder()
         
@@ -30,10 +33,12 @@ class DiaryListViewController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+        
         self.diaryListTableView.reloadData()
     }
     
-    private func configureNaviItem() {
+    private func configureNavigationBar() {
+        self.navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         self.title = "일기장"
         let rightBarButtonImage = UIImage(systemName: "plus")
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarButtonImage,
@@ -42,6 +47,7 @@ class DiaryListViewController: UIViewController {
                                                                  action: #selector(tappedPlusButton))
     }
     
+    // TODO: 일기장 생성 화면으로 이동
     @objc private func tappedPlusButton(_ sender: UIBarButtonItem) {
         
     }
