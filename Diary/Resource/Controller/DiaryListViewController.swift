@@ -69,7 +69,7 @@ extension DiaryListViewController: UITableViewDataSource {
             for: indexPath
         ) as? DiaryListTableViewCell else { return UITableViewCell() }
         
-        cell.diaryForm = diaryForms[indexPath.row]
+        cell.updateContent(data: diaryForms[indexPath.row])
         cell.accessoryType = .disclosureIndicator
         
         return cell

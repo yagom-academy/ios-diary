@@ -12,12 +12,6 @@ final class DiaryListTableViewCell: UITableViewCell {
         return String(describing: self)
     }
     
-    var diaryForm: DiaryForm? {
-        didSet {
-            updateContent()
-        }
-    }
-    
     private let diaryInfoStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -83,10 +77,10 @@ final class DiaryListTableViewCell: UITableViewCell {
         ])
     }
     
-    private func updateContent() {
-        diaryTitleLabel.text = diaryForm?.title
-        createdDateLabel.text = DateFormatterManager().convertToDate(from: diaryForm?.createdAt)
-        previewLabel.text = diaryForm?.body
+    func updateContent(data: DiaryForm) {
+        diaryTitleLabel.text = data.title
+        createdDateLabel.text = DateFormatterManager().convertToDate(from: data.createdAt)
+        previewLabel.text = data.body
     }
 }
 
