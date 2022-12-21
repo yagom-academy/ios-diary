@@ -21,6 +21,7 @@
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		D06F92D029515353008FEAEA /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = D06F92CF29515353008FEAEA /* .swiftlint.yml */; };
 		D06F92D229517834008FEAEA /* CustomDiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F92D129517834008FEAEA /* CustomDiaryCell.swift */; };
+		D06F92D52952C2B4008FEAEA /* DiaryFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F92D42952C2B4008FEAEA /* DiaryFormViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D06F92CF29515353008FEAEA /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		D06F92D129517834008FEAEA /* CustomDiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDiaryCell.swift; sourceTree = "<group>"; };
+		D06F92D42952C2B4008FEAEA /* DiaryFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryFormViewController.swift; sourceTree = "<group>"; };
 		DF9002312F598A21D2A35F51 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -88,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* MainViewController.swift */,
+				D06F92D42952C2B4008FEAEA /* DiaryFormViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -289,6 +292,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				B299685529514A4C0080AB59 /* MainDiaryView.swift in Sources */,
+				D06F92D52952C2B4008FEAEA /* DiaryFormViewController.swift in Sources */,
 				B2EDA1C82951955700617C23 /* DateFormatter + Extension.swift in Sources */,
 				D06F92D229517834008FEAEA /* CustomDiaryCell.swift in Sources */,
 				B2EDA1CC2952C1DB00617C23 /* DiaryFormView.swift in Sources */,
