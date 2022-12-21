@@ -24,21 +24,21 @@ class DiaryCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(forTextStyle: .subheadline)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private let contentLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.font = UIFont.preferredFont(forTextStyle: .caption2)
         label.textAlignment = .right
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -67,10 +67,13 @@ class DiaryCell: UITableViewCell {
         self.titleLabel.text = diary?.title
         self.contentLabel.text = diary?.body
         
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        guard let diary else { return }
         
-        self.dateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: diary!.createdAt))
+        let date = Date(timeIntervalSince1970: diary.createdAt)
+        
+        let localDate = LocalDate().conversionLocalDate(date: date, local: .current, dateStyle: .long)
+        
+        self.dateLabel.text = localDate
     }
     
     private func configureConstraints() {
