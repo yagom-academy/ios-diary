@@ -1,9 +1,9 @@
-//  Diary - DiaryCell.swift
+//  Diary - DiaryView.swift
 //  Created by Ayaan, zhilly on 2022/12/21
 
 import UIKit
 
-class DiaryView: UIView {
+final class DiaryView: UIView {
     private let titleTextField: UITextField = {
         let textField = UITextField()
         textField.font = .preferredFont(forTextStyle: .title3)
@@ -19,6 +19,7 @@ class DiaryView: UIView {
         textView.textColor = .black
         textView.textAlignment = .left
         textView.textContainer.lineFragmentPadding = 0
+        textView.isScrollEnabled = false
         return textView
     }()
     
@@ -28,6 +29,12 @@ class DiaryView: UIView {
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
+    }()
+    
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
     }()
     
     var titleText: String? { return titleTextField.text }
@@ -46,13 +53,29 @@ class DiaryView: UIView {
         backgroundColor = .systemBackground
         stackView.addArrangedSubview(titleTextField)
         stackView.addArrangedSubview(bodyTextView)
-        addSubview(stackView)
+        scrollView.addSubview(stackView)
+        addSubview(scrollView)
         
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
-            stackView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
-            stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -8)
+            scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
+            scrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            scrollView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 8),
+            scrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -8)
+        ])
+        
+        let stackViewWidthAndHeightConstraints = (
+            width: stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            height: stackView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
+        )
+        stackViewWidthAndHeightConstraints.height.priority = .init(rawValue: 1)
+        
+        NSLayoutConstraint.activate([
+            stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            stackViewWidthAndHeightConstraints.width,
+            stackViewWidthAndHeightConstraints.height
         ])
     }
     
