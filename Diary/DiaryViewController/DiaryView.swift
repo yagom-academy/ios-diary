@@ -36,4 +36,10 @@ final class DiaryView: UIView {
             tableView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
+    
+    func configureTableView(delegate: UITableViewDelegate, dataSource: UITableViewDataSource) {
+        self.tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
+        self.tableView.dataSource = dataSource
+        self.tableView.delegate = delegate
+    }
 }

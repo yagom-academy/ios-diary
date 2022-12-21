@@ -31,9 +31,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configureTableView() {
-        diaryView.tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
-        diaryView.tableView.delegate = self
-        diaryView.tableView.dataSource = self
+        diaryView.configureTableView(delegate: self, dataSource: self)
     }
 
     private func configureNavigationBar() {
