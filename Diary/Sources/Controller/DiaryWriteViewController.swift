@@ -83,23 +83,33 @@ extension DiaryWriteViewController {
     
     private func configureLayout() {
         addElementViews()
-        
+        setTitleTextFieldAnchor()
+        setContentTextViewAnchor()
+    }
+    
+    private func setTitleTextFieldAnchor() {
         let safeArea = view.safeAreaLayoutGuide
         
-        NSLayoutConstraint.activate([
-            titleTextField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
-            titleTextField.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 8),
-            titleTextField
-                .trailingAnchor
-                .constraint(equalTo: safeArea.trailingAnchor, constant: -16),
-            
-            contentTextView.leadingAnchor.constraint(equalTo: titleTextField.leadingAnchor),
-            contentTextView
-                .topAnchor
-                .constraint(equalTo: titleTextField.bottomAnchor, constant: 8),
-            contentTextView.trailingAnchor.constraint(equalTo: titleTextField.trailingAnchor),
-            contentTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-        ])
+        titleTextField.anchor(
+            top: safeArea.topAnchor,
+            leading: safeArea.leadingAnchor,
+            trailing: safeArea.trailingAnchor,
+            paddingTop: 8,
+            paddingLeading: 16,
+            paddingTrailing: 16
+        )
+    }
+    
+    private func setContentTextViewAnchor() {
+        let safeArea = view.safeAreaLayoutGuide
+        
+        contentTextView.anchor(
+            top: titleTextField.bottomAnchor,
+            leading: titleTextField.leadingAnchor,
+            bottom: safeArea.bottomAnchor,
+            trailing: titleTextField.trailingAnchor,
+            paddingTop: 8
+        )
     }
     
     private func setNavigationBar() {

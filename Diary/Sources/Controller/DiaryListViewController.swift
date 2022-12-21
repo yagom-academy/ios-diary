@@ -20,7 +20,7 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         setNavigationBar()
         fetchData()
-        configureTableViewLayout()
+        setTableViewAnchor()
         setUpTableViewDataSource()
         setSnapshot()
     }
@@ -80,18 +80,18 @@ extension DiaryListViewController {
 
 // MARK: UI Configuration
 extension DiaryListViewController {
-    private func configureTableViewLayout() {
+    private func setTableViewAnchor() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(tableView)
         
         let safeArea = view.safeAreaLayoutGuide
         
-        NSLayoutConstraint.activate([
-            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+        tableView.anchor(
+            top: safeArea.topAnchor,
+            leading: safeArea.leadingAnchor,
+            bottom: view.bottomAnchor,
+            trailing: safeArea.trailingAnchor
+        )
     }
     
     private func setNavigationBar() {
