@@ -13,42 +13,42 @@ final class DiaryListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureJSONData()
         configureNavigationBar()
         self.view = diaryListTableView
-        self.diaryListTableView.delegate = self
-        self.diaryListTableView.dataSource = self
-    }
-
-    private func configureJSONData() {
-        let jsonDecoder: JSONDecoder = JSONDecoder()
-        
-        guard let dataAsset: NSDataAsset = NSDataAsset(name: Namespace.jsonData) else { return }
-        
-        do {
-            diaryForms = try jsonDecoder.decode([DiaryForm].self, from: dataAsset.data)
-        } catch {
-            showAlertController(title: AlertNamespace.jsonErrorMessage, message: AlertNamespace.none)
-        }
-        
-        self.diaryListTableView.reloadData()
+        configureDiaryListTableView()
+        fetchJSONData()
     }
     
     private func configureNavigationBar() {
-        self.navigationController?.navigationBar.scrollEdgeAppearance =
-            navigationController?.navigationBar.standardAppearance
-        self.title = Namespace.navigationTitle
+        navigationController?.navigationBar.scrollEdgeAppearance =
+        navigationController?.navigationBar.standardAppearance
+        title = Namespace.navigationTitle
         
         let rightBarButtonImage = UIImage(systemName: Namespace.plusImage)
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarButtonImage,
-                                                                 style: .plain,
-                                                                 target: self,
-                                                                 action: #selector(tappedPlusButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarButtonImage,
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(tappedPlusButton))
     }
     
     @objc private func tappedPlusButton(_ sender: UIBarButtonItem) {
         let registerViewController = RegisterViewController()
-        self.navigationController?.pushViewController(registerViewController, animated: true)
+        navigationController?.pushViewController(registerViewController, animated: true)
+    }
+    
+    private func configureDiaryListTableView() {
+        diaryListTableView.dataSource = self
+        diaryListTableView.delegate = self
+    }
+    
+    private func fetchJSONData() {
+        guard let data = JSONDecoderManager().convertJSONData() else {
+            showAlertController(title: AlertNamespace.jsonErrorMessage,
+                                message: AlertNamespace.none)
+            return
+        }
+        
+        diaryForms = data
     }
 }
 
@@ -58,8 +58,8 @@ extension DiaryListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        self.diaryListTableView.register(DiaryListTableViewCell.self,
-                                         forCellReuseIdentifier: DiaryListTableViewCell.identifier)
+        diaryListTableView.register(DiaryListTableViewCell.self,
+                                    forCellReuseIdentifier: DiaryListTableViewCell.identifier)
         
         guard let cell = diaryListTableView.dequeueReusableCell(
             withIdentifier: DiaryListTableViewCell.identifier,
