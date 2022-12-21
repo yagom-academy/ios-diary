@@ -8,39 +8,36 @@
 import UIKit
 
 final class DiaryCell: UICollectionViewListCell {
+    
     let titleLabel = CustomLabel()
     let dateLabel = CustomLabel(font: .subheadline)
     let previewLabel = CustomLabel(font: .caption2)
     
-    let subStackView: UIStackView = {
+    private let subStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 5
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
-    let totalStackView: UIStackView = {
+    private let totalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 5
         stackView.axis = .vertical
         stackView.alignment = .leading
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
-    
+
     func configureDiaryCellLayout() {
-        self.accessories = [.disclosureIndicator(options: .init(tintColor: .systemGray))]
-        [dateLabel, previewLabel].forEach {
-            subStackView.addArrangedSubview($0)
-        }
-        
-        [titleLabel, subStackView].forEach {
-            totalStackView.addArrangedSubview($0)
-        }
-        
-        contentView.addSubview(totalStackView)
+        configureAccessories()
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        [dateLabel, previewLabel].forEach { subStackView.addArrangedSubview($0) }
+        [titleLabel, subStackView].forEach { totalStackView.addArrangedSubview($0) }
+        contentView.addSubview(totalStackView)
         
         NSLayoutConstraint.activate([
             totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -48,5 +45,9 @@ final class DiaryCell: UICollectionViewListCell {
             totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
+    }
+    
+    private func configureAccessories() {
+        self.accessories = [.disclosureIndicator(options: .init(tintColor: .systemGray))]
     }
 }

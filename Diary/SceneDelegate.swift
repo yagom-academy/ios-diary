@@ -1,8 +1,8 @@
 //
 //  Diary - SceneDelegate.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//
+//  Created by 써니쿠키, LJ on 2022/12/20.
+//
 
 import UIKit
 
@@ -11,14 +11,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else {
+            return
+        }
         
         let window = UIWindow(windowScene: windowScene)
-        
         let mainViewController = ViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
-        window.rootViewController = navigationController
         
+        window.rootViewController = navigationController
         window.makeKeyAndVisible()
         self.window = window
     }

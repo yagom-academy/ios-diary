@@ -8,6 +8,7 @@
 import Foundation
 
 struct Diary: Decodable, Hashable {
+    
     let title: String
     let body: String
     let createdAt: Double

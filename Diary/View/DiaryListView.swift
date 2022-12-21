@@ -8,13 +8,14 @@
 import UIKit
 
 final class DiaryListView: UIView {
-    var diaryList: UICollectionView?
+    
+    private(set) var diaryList: UICollectionView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = .systemBackground
         configureListView()
         configureListViewLayout()
-        self.backgroundColor = .systemBackground
     }
     
     required init?(coder: NSCoder) {
@@ -23,6 +24,7 @@ final class DiaryListView: UIView {
     
     private func createLayout() -> UICollectionViewLayout {
         let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        
         return UICollectionViewCompositionalLayout.list(using: config)
     }
     
@@ -32,14 +34,21 @@ final class DiaryListView: UIView {
     }
     
     private func configureListViewLayout() {
-        guard let diaryList = diaryList else { return }
+        guard let diaryList = diaryList else {
+            return
+        }
+        
         self.addSubview(diaryList)
         
         NSLayoutConstraint.activate([
-            diaryList.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            diaryList.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
-            diaryList.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
-            diaryList.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
+            diaryList.leadingAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            diaryList.trailingAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.trailingAnchor),
+            diaryList.topAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.topAnchor),
+            diaryList.bottomAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }

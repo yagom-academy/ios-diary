@@ -1,8 +1,8 @@
 //
 //  Diary - AppDelegate.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//
+//  Created by 써니쿠키, LJ on 2022/12/20.
+//
 
 import UIKit
 import CoreData

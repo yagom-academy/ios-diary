@@ -24,12 +24,12 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = diaryDetailView
-        setupNavigationBar()
         configureDiary()
+        setupNavigationBar()
         setupNotification()
     }
     
-    func configureDiary() {
+    private func configureDiary() {
         guard let diary = diary else {
             return
         }
@@ -40,11 +40,12 @@ final class DiaryDetailViewController: UIViewController {
 }
 
 extension DiaryDetailViewController {
+    
     private func setupNavigationBar() {
         self.navigationItem.title = diary?.createdDate
     }
     
-    func setupNotification() {
+    private func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(controlKeyboard),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -55,13 +56,14 @@ extension DiaryDetailViewController {
                                                object: nil)
     }
     
-    @objc func controlKeyboard(_ notification: NSNotification) {
+    @objc private func controlKeyboard(_ notification: NSNotification) {
         guard let keyboardFrame: NSValue
                 = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
         
         let keyboardHeight = keyboardFrame.cgRectValue.height
+        
         UIView.animate(withDuration: 0.5) {
             if notification.name == UIResponder.keyboardWillShowNotification {
                 self.diaryDetailView.diaryTextScrollView.contentOffset.y += keyboardHeight

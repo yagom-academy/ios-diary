@@ -8,6 +8,7 @@
 import UIKit
 
 final class DiaryDetailView: UIView {
+    
     let titleTextView = CustomTextView(font: .title1)
     let bodyTextView = CustomTextView(font: .body)
     
@@ -16,15 +17,17 @@ final class DiaryDetailView: UIView {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.keyboardDismissMode = .interactive
+        
         return scrollView
     }()
     
-    let diaryTextStackView: UIStackView = {
+    private let diaryTextStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 10
         stackView.axis = .vertical
         stackView.alignment = .leading
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
@@ -38,13 +41,11 @@ final class DiaryDetailView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func diaryDetailLayout() {
-        [titleTextView, bodyTextView].forEach {
-            diaryTextStackView.addArrangedSubview($0)
-        }
-
+    private func diaryDetailLayout() {
+        [titleTextView, bodyTextView].forEach { diaryTextStackView.addArrangedSubview($0) }
         diaryTextScrollView.addSubview(diaryTextStackView)
         self.addSubview(diaryTextScrollView)
+        
         NSLayoutConstraint.activate([
             diaryTextScrollView.frameLayoutGuide.leadingAnchor.constraint(
                 equalTo: readableContentGuide.leadingAnchor),
