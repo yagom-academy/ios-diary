@@ -3,15 +3,16 @@
 //  Diary
 //
 //  Copyright (c) 2022 Minii All rights reserved.
-        
+
 import UIKit
 
 final class DiaryWriteViewController: UIViewController {
     let titleTextField: UITextField = {
         let titleTextField = UITextField()
         titleTextField.placeholder = "제목을 입력해주세요."
-        titleTextField.font = .preferredFont(forTextStyle: .title2)
+        titleTextField.font = UIFont.boldTitle1
         titleTextField.adjustsFontForContentSizeCategory = true
+        
         return titleTextField
     }()
     
@@ -19,6 +20,9 @@ final class DiaryWriteViewController: UIViewController {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
+        textView.textContainer.lineFragmentPadding = 0
+        textView.textContainerInset = .zero
+        textView.showsVerticalScrollIndicator = false
         
         return textView
     }()
@@ -57,8 +61,9 @@ extension DiaryWriteViewController {
     @objc private func willShowKeyboard(notification: Notification) {
         if contentTextView.isFirstResponder,
            let userInfo = notification.userInfo,
-           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            contentTextView.contentInset.bottom += keyboardFrame.cgRectValue.height
+           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+           contentTextView.textContainerInset.bottom == 0 {
+            contentTextView.textContainerInset.bottom = keyboardFrame.cgRectValue.height
         }
     }
     
@@ -80,8 +85,6 @@ extension DiaryWriteViewController {
         addElementViews()
         
         let safeArea = view.safeAreaLayoutGuide
-        
-        contentTextView.textContainer.lineFragmentPadding = 0
         
         NSLayoutConstraint.activate([
             titleTextField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
