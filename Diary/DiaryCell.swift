@@ -39,14 +39,14 @@ final class DiaryCell: UICollectionViewListCell {
             totalStackView.addArrangedSubview($0)
         }
         
-        self.addSubview(totalStackView)
+        contentView.addSubview(totalStackView)
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         NSLayoutConstraint.activate([
-            totalStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            totalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
-            totalStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            totalStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
     }
 }
