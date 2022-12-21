@@ -42,7 +42,7 @@ final class EditorViewController: UIViewController {
     
     func configureEditorView(from content: DiaryContent? = nil) {
         if let content = content {
-            let text = content.title + "\n\n" + content.body
+            let text = content.title + Constant.doubleBreak + content.body
             editorView.setupTextView(from: text)
         }
         

@@ -42,7 +42,7 @@ final class EditorView: UIView {
         ])
     }
     
-    func setupTextView(from text: String? = nil) {
+    func setupTextView(from text: String) {
         textView.text = text
     }
     
