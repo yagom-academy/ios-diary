@@ -18,6 +18,9 @@ class DiaryViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureNavigationItem()
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
     }
     
     func configureUI() {
@@ -40,4 +43,16 @@ class DiaryViewController: UIViewController {
     
     @objc func addDiaryPage() { }
     
+}
+
+extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier) as? DiaryCell else { return UITableViewCell() }
+        return cell
+    }
 }
