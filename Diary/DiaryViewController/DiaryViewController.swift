@@ -25,7 +25,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setupDiaryContents() {
-        guard let contents = JSONDecoder.decode([DiaryContent].self, from: "sample") else { return }
+        guard let contents = JSONDecoder.decode([DiaryContent].self, from: Constant.jsonAssetName) else { return }
         
         self.diaryContents = contents
     }
@@ -35,7 +35,7 @@ final class DiaryViewController: UIViewController {
     }
 
     private func configureNavigationBar() {
-        self.navigationItem.title = "일기장"
+        self.navigationItem.title = Constant.diaryViewTitle
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add)
         self.navigationItem.rightBarButtonItem?.target = self
         self.navigationItem.rightBarButtonItem?.action = #selector(tappedAddButton)
