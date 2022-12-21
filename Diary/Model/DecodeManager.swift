@@ -2,7 +2,7 @@
 //  DecodeManager.swift
 //  Diary
 //
-//  Created by 임지연 on 2022/12/20.
+//  Created by 써니쿠키, LJ on 2022/12/20.
 //
 
 import UIKit

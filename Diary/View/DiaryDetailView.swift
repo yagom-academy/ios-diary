@@ -15,6 +15,7 @@ final class DiaryDetailView: UIView {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.keyboardDismissMode = .interactive
         return scrollView
     }()
     

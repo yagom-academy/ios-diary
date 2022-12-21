@@ -26,6 +26,7 @@ final class DiaryDetailViewController: UIViewController {
         self.view = diaryDetailView
         setupNavigationBar()
         configureDiary()
+        setupNotification()
     }
     
     func configureDiary() {
@@ -41,5 +42,33 @@ final class DiaryDetailViewController: UIViewController {
 extension DiaryDetailViewController {
     private func setupNavigationBar() {
         self.navigationItem.title = diary?.createdDate
+    }
+    
+    func setupNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(controlKeyboard),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(controlKeyboard),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func controlKeyboard(_ notification: NSNotification) {
+        guard let keyboardFrame: NSValue
+                = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        
+        let keyboardHeight = keyboardFrame.cgRectValue.height
+        UIView.animate(withDuration: 0.5) {
+            if notification.name == UIResponder.keyboardWillShowNotification {
+                self.diaryDetailView.diaryTextScrollView.contentOffset.y += keyboardHeight
+                self.diaryDetailView.diaryTextScrollView.contentInset.bottom += keyboardHeight
+            } else if notification.name == UIResponder.keyboardWillHideNotification {
+                self.diaryDetailView.diaryTextScrollView.contentInset.bottom -= keyboardHeight
+            }
+        }
     }
 }
