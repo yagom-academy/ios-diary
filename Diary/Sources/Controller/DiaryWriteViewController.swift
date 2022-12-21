@@ -26,6 +26,7 @@ final class DiaryWriteViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        view.backgroundColor = .systemBackground
         setNavigationBar()
         configureLayout()
         bindKeyboardObserving()
@@ -80,6 +81,8 @@ extension DiaryWriteViewController {
         
         let safeArea = view.safeAreaLayoutGuide
         
+        contentTextView.textContainer.lineFragmentPadding = 0
+        
         NSLayoutConstraint.activate([
             titleTextField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 16),
             titleTextField.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 8),
@@ -91,7 +94,7 @@ extension DiaryWriteViewController {
             contentTextView
                 .topAnchor
                 .constraint(equalTo: titleTextField.bottomAnchor, constant: 8),
-            contentTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            contentTextView.trailingAnchor.constraint(equalTo: titleTextField.trailingAnchor),
             contentTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
