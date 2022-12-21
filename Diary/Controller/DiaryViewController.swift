@@ -53,7 +53,15 @@ final class DiaryViewController: UIViewController {
 }
 
 // MARK: - TableView Delegate
-extension DiaryViewController: UITableViewDelegate { }
+extension DiaryViewController: UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let detailView: DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailView") as? DetailViewController else { return }
+        detailView.diaryData = sampleData[indexPath.row]
+        self.navigationController?.pushViewController(detailView, animated: true)
+        
+    }
+}
 
 // MARK: - TableView DataSource
 extension DiaryViewController: UITableViewDataSource {
