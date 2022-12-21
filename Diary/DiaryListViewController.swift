@@ -70,17 +70,17 @@ extension DiaryListViewController {
                 return DiaryListCell()
             }
             cell.titleLabel.text = diary.title
-            cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdAt, diary.body)
+            cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdDate, diary.body)
             
             return cell
         })
     }
     
     private func configureSubtitleText(_ date: Date, _ body: String) -> NSMutableAttributedString {
-        let text: String = "\(date.koreanFormattedText)  \(body)"
+        let text: String = "\(date.localeFormattedText)  \(body)"
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttributes([.font: UIFont.preferredFont(forTextStyle: .callout)],
-                                       range: (text as NSString).range(of: "\(date.koreanFormattedText)  "))
+                                       range: (text as NSString).range(of: "\(date.localeFormattedText)  "))
         return attributedString
     }
     

@@ -8,11 +8,10 @@
 import Foundation
 
 extension Date {
-    var koreanFormattedText: String {
+    var localeFormattedText: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        dateFormatter.timeZone = .autoupdatingCurrent
-        dateFormatter.locale = .autoupdatingCurrent
+        dateFormatter.locale = Locale(identifier: Locale.preferredLanguages[0])
+        dateFormatter.dateStyle = .long
         
         return dateFormatter.string(from: self)
     }

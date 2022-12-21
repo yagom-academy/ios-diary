@@ -10,12 +10,18 @@ import Foundation
 class Diary: Codable {
     let title: String
     let body: String
-    let createdAt: Date
+    let createdAt: Double
     
     enum CodingKeys: String, CodingKey {
         case title
         case body
         case createdAt = "created_at"
+    }
+}
+
+extension Diary {
+    var createdDate: Date {
+        return Date(timeIntervalSince1970: createdAt)
     }
 }
 
