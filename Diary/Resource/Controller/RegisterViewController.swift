@@ -23,6 +23,7 @@ final class RegisterViewController: UIViewController {
         textView.textColor = .systemGray3
         textView.font = UIFont.preferredFont(forTextStyle: .title2)
         textView.text = Placeholder.title
+        textView.textContainerInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
         return textView
     }()
     
@@ -31,6 +32,7 @@ final class RegisterViewController: UIViewController {
         textView.textColor = .systemGray3
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.text = Placeholder.body
+        textView.textContainerInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
         return textView
     }()
     
@@ -46,7 +48,7 @@ final class RegisterViewController: UIViewController {
         configureMainStackView()
         configureTextView()
     }
-    
+
     private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         
@@ -84,17 +86,31 @@ extension RegisterViewController: UITextViewDelegate {
             textView.textColor = .black
         }
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        guard textView == titleTextView else { return }
+        let titleTextViewHeight = textView.contentSize.height
+        
+        if titleTextViewHeight > LayoutConstant.titleTextViewMaxHeight && !titleTextView.isScrollEnabled {
+            titleTextView.isScrollEnabled = true
+            titleTextView.heightAnchor.constraint(equalToConstant: LayoutConstant.titleTextViewMaxHeight).isActive = true
+        } else if titleTextViewHeight < LayoutConstant.titleTextViewMaxHeight && titleTextView.isScrollEnabled {
+            titleTextView.isScrollEnabled = false
+            titleTextView.heightAnchor.constraint(equalToConstant: LayoutConstant.titleTextViewMaxHeight).isActive = false
+        }
+    }
+    
+    private enum LayoutConstant {
+        static let stackViewSpacing = CGFloat(8)
+        static let mainStackViewTopMargin = CGFloat(8)
+        static let mainStackViewLeadingMargin = CGFloat(8)
+        static let mainStackViewBottomMargin = CGFloat(8)
+        static let mainStackViewTrailingMargin = CGFloat(8)
+        static let titleTextViewMaxHeight = CGFloat(100)
+    }
 }
 
 fileprivate enum Placeholder {
     static let title = "제목을 입력해주세요."
     static let body = "본문을 입력해주세요."
-}
-
-fileprivate enum LayoutConstant {
-    static let stackViewSpacing = CGFloat(4)
-    static let mainStackViewTopMargin = CGFloat(0)
-    static let mainStackViewLeadingMargin = CGFloat(8)
-    static let mainStackViewBottomMargin = CGFloat(8)
-    static let mainStackViewTrailingMargin = CGFloat(8)
 }
