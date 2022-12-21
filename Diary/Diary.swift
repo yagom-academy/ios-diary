@@ -8,6 +8,11 @@ struct Diary: Decodable {
     let title: String
     let body: String
     let createdAt: Double
+    var date: String {
+        return DateFormatter.converted(date: Date(timeIntervalSince1970: createdAt),
+                                       locale: Locale.preference,
+                                       dateStyle: .long)
+    }
     
     enum CodingKeys: String, CodingKey {
         case title, body

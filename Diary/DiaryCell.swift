@@ -75,7 +75,7 @@ final class DiaryCell: UITableViewCell {
     
     func setupDiary(_ newDiary: Diary) {
         titleLabel.text = newDiary.title
-        createdDateLabel.text = "\(newDiary.createdAt)"
+        createdDateLabel.text = newDiary.date
         bodyLabel.text = newDiary.body
     }
 }
