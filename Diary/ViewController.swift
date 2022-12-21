@@ -1,8 +1,8 @@
 //
 //  Diary - ViewController.swift
-//  Created by yagom. 
+//  Created by yagom.
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
@@ -18,6 +18,7 @@ class ViewController: UIViewController {
         convertDiaryData()
         configureDiaryListDataSource()
         snapShot()
+        setupNavigationBar()
     }
     
     func convertDiaryData() {
@@ -40,7 +41,8 @@ class ViewController: UIViewController {
             let diaryListView = diaryListView.diaryListView else { return }
         
         dataSource = UICollectionViewDiffableDataSource(collectionView: diaryListView,
-                                                        cellProvider: { collectionView, indexPath, itemIdentifier in
+                                                        cellProvider: {
+            collectionView, indexPath, itemIdentifier in
             collectionView.dequeueConfiguredReusableCell(using: cellRegistration,
                                                          for: indexPath,
                                                          item: itemIdentifier)
@@ -58,5 +60,26 @@ class ViewController: UIViewController {
 extension ViewController {
     enum Section {
         case main
+    }
+}
+
+extension ViewController {
+    private func setupNavigationBar() {
+        self.navigationItem.title = "일기장"
+        let appearance = UINavigationBarAppearance()
+        appearance.backgroundColor = .systemBackground
+        navigationController?.navigationBar.standardAppearance = appearance
+        navigationController?.navigationBar.scrollEdgeAppearance = appearance
+        
+        let addBarButtonItem = UIBarButtonItem(title: "+",
+                                               style: .plain,
+                                               target: self,
+                                               action: #selector(addDiary))
+        
+        self.navigationItem.rightBarButtonItem = addBarButtonItem
+    }
+    
+    @objc func addDiary() {
+        
     }
 }

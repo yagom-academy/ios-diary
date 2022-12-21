@@ -14,6 +14,7 @@ final class DiaryListView: UIView {
         super.init(frame: frame)
         configureListView()
         configureListViewLayout()
+        self.backgroundColor = .systemBackground
     }
     
     required init?(coder: NSCoder) {
@@ -35,10 +36,10 @@ final class DiaryListView: UIView {
         self.addSubview(diaryListView)
         
         NSLayoutConstraint.activate([
-            diaryListView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            diaryListView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            diaryListView.topAnchor.constraint(equalTo: self.topAnchor),
-            diaryListView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+            diaryListView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            diaryListView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            diaryListView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            diaryListView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
