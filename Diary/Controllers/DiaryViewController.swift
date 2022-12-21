@@ -18,19 +18,25 @@ class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        fetchData()
+        configureTableView()
         configureUI()
         configureNavigationItem()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
-        guard let assetData = NSDataAsset.init(name: "sample") else {
-            return
-        }
-        guard let diaries = try? JSONDecoder().decode([Diary].self, from: assetData.data) else {
+    }
+    
+    func fetchData() {
+        guard let assetData = NSDataAsset.init(name: "sample"),
+              let diaries = try? JSONDecoder().decode([Diary].self, from: assetData.data) else {
             return
         }
         self.diaries = diaries
-        tableView.reloadData()
+    }
+    
+    func configureTableView() {
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        self.tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
+        self.tableView.reloadData()
     }
     
     func configureUI() {
@@ -38,21 +44,19 @@ class DiaryViewController: UIViewController {
         
         self.view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
+            self.tableView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.tableView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            self.tableView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.tableView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
     
     func configureNavigationItem() {
         self.navigationItem.title = "일기장"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addDiaryPage))
-        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addDiary))
     }
     
-    @objc func addDiaryPage() { }
-    
+    @objc func addDiary() { }
 }
 
 extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
@@ -64,7 +68,7 @@ extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier) as? DiaryCell else { return UITableViewCell() }
         let diary = diaries?[indexPath.row]
-        cell.configureData(title: diary?.title, date: Date(timeIntervalSince1970: diary!.createdAt).description, content: diary?.body)
+        cell.configureData(diary: diary)
         return cell
     }
     

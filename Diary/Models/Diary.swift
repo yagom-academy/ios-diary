@@ -10,7 +10,7 @@ import Foundation
 struct Diary: Decodable {
     let title: String
     let body: String
-    let createdAt: TimeInterval
+    let createdAt: Double
     
     private enum CodingKeys: String, CodingKey {
         case title, body

@@ -49,13 +49,12 @@ class DiaryCell: UITableViewCell {
     }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        stackView.addArrangedSubview(dateLabel)
-        stackView.addArrangedSubview(contentLabel)
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(stackView)
+        self.stackView.addArrangedSubview(dateLabel)
+        self.stackView.addArrangedSubview(contentLabel)
+        self.contentView.addSubview(titleLabel)
+        self.contentView.addSubview(stackView)
         
         configureConstraints()
     }
@@ -64,28 +63,32 @@ class DiaryCell: UITableViewCell {
         fatalError("init(coder:) has not been impl")
     }
     
-    func configureData(title: String?, date: String?, content: String?) {
-        self.titleLabel.text = title
-        self.dateLabel.text = date
-        self.contentLabel.text = content
+    func configureData(diary: Diary?) {
+        self.titleLabel.text = diary?.title
+        self.contentLabel.text = diary?.body
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        
+        self.dateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: diary!.createdAt))
     }
     
     private func configureConstraints() {
-        dateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        contentLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        self.dateLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        self.contentLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: spacing),
-            titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: spacing),
-            titleLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, constant: -(spacing * 2)),
+            self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: spacing),
+            self.titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: spacing),
+            self.titleLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, constant: -(spacing * 2)),
             
-            stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
-            stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: spacing),
-            stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -spacing),
-            stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -spacing),
+            self.stackView.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: spacing),
+            self.stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: spacing),
+            self.stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -spacing),
+            self.stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -spacing),
             
-            dateLabel.leadingAnchor.constraint(equalTo: stackView.leadingAnchor),
-            contentLabel.trailingAnchor.constraint(equalTo: stackView.trailingAnchor)
+            self.dateLabel.leadingAnchor.constraint(equalTo: self.stackView.leadingAnchor),
+            self.contentLabel.trailingAnchor.constraint(equalTo: self.stackView.trailingAnchor)
         ])
     }
 }
