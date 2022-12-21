@@ -48,7 +48,7 @@ final class MainViewController: UIViewController {
     }
 }
 
-//MARK: - UITableViewDataSource
+// MARK: - UITableViewDataSource
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return diaries.count
@@ -70,8 +70,8 @@ extension MainViewController: UITableViewDataSource {
     }
 }
 
-//MARK: - NameSpace
-fileprivate enum NameSpace {
+// MARK: - NameSpace
+private enum NameSpace {
     static let navigationTitle = "일기장"
     static let assetName = "sample"
 }
