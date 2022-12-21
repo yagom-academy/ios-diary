@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let controller = DiaryListViewController(backgroundColor: .systemBackground)
+        let controller = DiaryListViewController()
         window?.rootViewController = UINavigationController(rootViewController: controller)
         window?.backgroundColor = .systemBackground
         window?.makeKeyAndVisible()

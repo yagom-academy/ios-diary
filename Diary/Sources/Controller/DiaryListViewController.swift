@@ -73,8 +73,8 @@ extension DiaryListViewController {
 // MARK: Present Method
 extension DiaryListViewController {
     private func didTappedAddDiaryButton() {
-        let viewController = DiaryWriteViewController(backgroundColor: .systemBackground)
-        show(viewController, sender: nil)
+        let viewController = DiaryWriteViewController()
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
@@ -101,5 +101,14 @@ extension DiaryListViewController {
             self.didTappedAddDiaryButton()
         }
         navigationItem.setRightButton(systemName: .add, action: presentAction)
+        navigationController?.setDefaultNavigationAppearance()
+    }
+}
+
+extension UINavigationController {
+    func setDefaultNavigationAppearance() {
+        let navigationAppearance = UINavigationBarAppearance()
+        navigationAppearance.configureWithOpaqueBackground()
+        self.navigationBar.scrollEdgeAppearance = navigationAppearance
     }
 }
