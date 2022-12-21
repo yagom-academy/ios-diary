@@ -9,7 +9,9 @@ import UIKit
 final class DiaryViewController: UIViewController {
     
     private let tableView: UITableView = {
-       return UITableView()
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+       return tableView
     }()
     
     override func viewDidLoad() {
@@ -32,6 +34,8 @@ final class DiaryViewController: UIViewController {
     private func tableViewAttribute() {
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.register(UINib(nibName: "DiaryTableViewCell", bundle: nil),
+                           forCellReuseIdentifier: "diaryTableViewCell")
     }
 }
 
@@ -46,7 +50,8 @@ extension DiaryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        return UITableViewCell()
+        let cell = tableView.dequeueReusableCell(withIdentifier: "diaryTableViewCell",
+                                                 for: indexPath) as? DiaryTableViewCell ?? DiaryTableViewCell()
+        return cell
     }
 }
