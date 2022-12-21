@@ -1,8 +1,7 @@
 //
 //  DiaryFormViewController.swift
 //  Diary
-//
-//  Created by yonggeun Kim on 2022/12/21.
+//  Created by inho, dragon on 2022/12/21.
 //
 
 import UIKit
@@ -13,8 +12,20 @@ final class DiaryFormViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view = diaryFormView
+        view.backgroundColor = .white
+        configureDiaryViewLayout()
         configureNavigationBar()
+    }
+    
+    private func configureDiaryViewLayout() {
+        view.addSubview(diaryFormView)
+        
+        NSLayoutConstraint.activate([
+            diaryFormView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            diaryFormView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            diaryFormView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            diaryFormView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     private func configureNavigationBar() {

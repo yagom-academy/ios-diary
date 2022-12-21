@@ -24,7 +24,7 @@ final class MainViewController: UIViewController {
     }
     
     private func decodeDiaryData() {
-        guard let dataAsset = NSDataAsset(name: "sample") else { return }
+        guard let dataAsset = NSDataAsset(name: NameSpace.assetName) else { return }
         
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
@@ -37,7 +37,7 @@ final class MainViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        navigationItem.title = "일기장"
+        navigationItem.title = NameSpace.navigationTitle
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(addDiary))
@@ -48,6 +48,7 @@ final class MainViewController: UIViewController {
     }
 }
 
+//MARK: - UITableViewDataSource
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return diaries.count
@@ -67,4 +68,10 @@ extension MainViewController: UITableViewDataSource {
         
         return cell
     }
+}
+
+//MARK: - NameSpace
+fileprivate enum NameSpace {
+    static let navigationTitle = "일기장"
+    static let assetName = "sample"
 }

@@ -10,6 +10,7 @@ final class DiaryFormView: UIView {
     private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.insertTextPlaceholder(with: <#T##CGSize#>)
         return textView
     }()
     
@@ -25,6 +26,7 @@ final class DiaryFormView: UIView {
     }
     
     private func configureLayout() {
+        translatesAutoresizingMaskIntoConstraints = false
         addSubview(diaryTextView)
         
         NSLayoutConstraint.activate([
