@@ -66,7 +66,7 @@ final class DiaryListCell: UITableViewCell {
     }
     
     func setupLabelText(from content: DiaryContent) {
-        let date = DateLocalizer.localizedString(from: content.createdAt, dateStyle: .long, timeStyle: .none)
+        let date = DateLocalizer.localizedString(from: content.createdDate, dateStyle: .long, timeStyle: .none)
         
         titleLabel.text = content.title
         dateLabel.text = date

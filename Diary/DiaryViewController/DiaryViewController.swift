@@ -1,18 +1,19 @@
 //
-//  Diary - DiaryViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//  DiaryViewController.swift
+//  Diary
+//
+//  Created by JPush, Wonbi on 2022/12/20.
+//
 
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private let containerView: ContainerView = ContainerView()
+    private let diaryView: DiaryView = DiaryView()
     private var diaryContents: [DiaryContent] = []
 
     override func loadView() {
         super.loadView()
-        self.view = containerView
+        self.view = diaryView
     }
 
     override func viewDidLoad() {
@@ -30,9 +31,9 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configureTableView() {
-        containerView.tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
-        containerView.tableView.delegate = self
-        containerView.tableView.dataSource = self
+        diaryView.tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
+        diaryView.tableView.delegate = self
+        diaryView.tableView.dataSource = self
     }
 
     private func configureNavigationBar() {
@@ -43,13 +44,21 @@ final class DiaryViewController: UIViewController {
     }
 
     @objc private func tappedAddButton(_ sender: UIBarButtonItem) {
-        print(#function)
+        let editorViewController = EditorViewController()
+        editorViewController.configureEditorView()
+        
+        self.navigationController?.pushViewController(editorViewController, animated: true)
     }
 }
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let editorViewController = EditorViewController()
+        editorViewController.configureEditorView(from: diaryContents[indexPath.row])
+        
+        self.navigationController?.pushViewController(editorViewController, animated: true)
     }
 }
 

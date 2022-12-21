@@ -14,9 +14,11 @@
 		C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryViewController.swift */; };
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
-		E3D8C98E2951577D003273BF /* ContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D8C98D2951577D003273BF /* ContainerView.swift */; };
+		E3D8C98E2951577D003273BF /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D8C98D2951577D003273BF /* DiaryView.swift */; };
 		E3D8C9902951E0AE003273BF /* DiaryContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D8C98F2951E0AE003273BF /* DiaryContent.swift */; };
 		E3D8C9922951E135003273BF /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D8C9912951E135003273BF /* JSONDecoder+.swift */; };
+		E3D8C9962952D436003273BF /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D8C9952952D436003273BF /* EditorViewController.swift */; };
+		E3D8C9992952D4F2003273BF /* EditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D8C9982952D4F2003273BF /* EditorView.swift */; };
 		E9E93329C7FF422FE48B832B /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7A862BCD2F97B8927E578B2 /* Pods_Diary.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,9 +35,11 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7A862BCD2F97B8927E578B2 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E3D8C98D2951577D003273BF /* ContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerView.swift; sourceTree = "<group>"; };
+		E3D8C98D2951577D003273BF /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		E3D8C98F2951E0AE003273BF /* DiaryContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContent.swift; sourceTree = "<group>"; };
 		E3D8C9912951E135003273BF /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
+		E3D8C9952952D436003273BF /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditorViewController.swift; path = Diary/EditorViewController/EditorViewController.swift; sourceTree = SOURCE_ROOT; };
+		E3D8C9982952D4F2003273BF /* EditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditorView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,10 +74,9 @@
 		AC1EC4642951800500169172 /* DiaryViewController */ = {
 			isa = PBXGroup;
 			children = (
+				E3D8C98D2951577D003273BF /* DiaryView.swift */,
 				C739AE28284DF28600741E8F /* DiaryViewController.swift */,
-				E3D8C98D2951577D003273BF /* ContainerView.swift */,
 				AC1EC46229517A7E00169172 /* DiaryListCell.swift */,
-				E3D8C98F2951E0AE003273BF /* DiaryContent.swift */,
 			);
 			path = DiaryViewController;
 			sourceTree = "<group>";
@@ -101,14 +104,41 @@
 			children = (
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				E3D8C9912951E135003273BF /* JSONDecoder+.swift */,
 				AC69D5CF29529ABF00208A2C /* DateLocalizer.swift */,
+				E3D8C9942952CF57003273BF /* Extension */,
+				E3D8C9932952CF2C003273BF /* Model */,
 				AC1EC4642951800500169172 /* DiaryViewController */,
+				E3D8C9972952D466003273BF /* EditorViewController */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 			);
 			path = Diary;
+			sourceTree = "<group>";
+		};
+		E3D8C9932952CF2C003273BF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E3D8C98F2951E0AE003273BF /* DiaryContent.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		E3D8C9942952CF57003273BF /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				E3D8C9912951E135003273BF /* JSONDecoder+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		E3D8C9972952D466003273BF /* EditorViewController */ = {
+			isa = PBXGroup;
+			children = (
+				E3D8C9982952D4F2003273BF /* EditorView.swift */,
+				E3D8C9952952D436003273BF /* EditorViewController.swift */,
+			);
+			path = EditorViewController;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -224,9 +254,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E3D8C98E2951577D003273BF /* ContainerView.swift in Sources */,
+				E3D8C98E2951577D003273BF /* DiaryView.swift in Sources */,
 				AC1EC46329517A7E00169172 /* DiaryListCell.swift in Sources */,
+				E3D8C9992952D4F2003273BF /* EditorView.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
+				E3D8C9962952D436003273BF /* EditorViewController.swift in Sources */,
 				AC69D5D029529ABF00208A2C /* DateLocalizer.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				E3D8C9922951E135003273BF /* JSONDecoder+.swift in Sources */,

@@ -11,11 +11,10 @@ struct DateLocalizer {
     private static let formatter: DateFormatter = DateFormatter()
     
     static func localizedString(
-        from dateNumber: Double,
+        from date: Date,
         dateStyle: DateFormatter.Style,
         timeStyle: DateFormatter.Style
     ) -> String {
-        let date = Date(timeIntervalSince1970: dateNumber)
         let localeIdentifier = Locale.preferredLanguages.first ?? Locale.current.identifier
         
         self.formatter.locale = Locale(identifier: localeIdentifier)

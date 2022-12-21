@@ -11,6 +11,10 @@ struct DiaryContent: Decodable {
     let title, body: String
     let createdAt: Double
     
+    var createdDate: Date {
+        return Date(timeIntervalSince1970: createdAt)
+    }
+    
     enum CodingKeys: String, CodingKey {
         case title, body
         case createdAt = "created_at"

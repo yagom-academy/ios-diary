@@ -1,5 +1,5 @@
 //
-//  ContainerView.swift
+//  DiaryView.swift
 //  Diary
 //
 //  Created by JPush, Wonbi on 2022/12/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ContainerView: UIView {
+final class DiaryView: UIView {
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
