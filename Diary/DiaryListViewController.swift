@@ -41,7 +41,10 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController {
     @objc private func addDiary() {
-        print("tapped addDiaryButton")
+        let newDiaryViewController = UINavigationController(rootViewController: NewDiaryViewController())
+        
+        newDiaryViewController.modalPresentationStyle = .fullScreen
+        present(newDiaryViewController, animated: true)
     }
     
     private func configureNavigation() {
