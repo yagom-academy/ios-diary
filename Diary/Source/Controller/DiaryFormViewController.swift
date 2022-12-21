@@ -7,12 +7,19 @@
 
 import UIKit
 
-class DiaryFormViewController: UIViewController {
-    let diaryFormView = DiaryFormView()
+final class DiaryFormViewController: UIViewController {
+    private let diaryFormView = DiaryFormView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view = diaryFormView
+        configureNavigationBar()
+    }
+    
+    private func configureNavigationBar() {
+        let date = Date()
+        
+        navigationItem.title = DateFormatter.koreanDateFormatter.string(from: date)
     }
 }

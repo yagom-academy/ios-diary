@@ -43,11 +43,8 @@ final class MainViewController: UIViewController {
                                                             action: #selector(addDiary))
     }
 
-    @objc func addDiary() {
-        let diaryFormViewController = DiaryFormViewController()
-        let navigationController = UINavigationController(rootViewController: diaryFormViewController)
-        navigationController.modalPresentationStyle = .fullScreen
-        self.present(navigationController, animated: true)
+    @objc private func addDiary() {
+        navigationController?.pushViewController(DiaryFormViewController(), animated: true)
     }
 }
 
