@@ -7,11 +7,21 @@ struct Diary: Decodable {
     let id: UUID = UUID()
     let title: String
     let body: String
-    let createdAt: Int
+    let createdAt: Double
     
     enum CodingKeys: String, CodingKey {
         case title, body
         case createdAt = "created_at"
+    }
+    
+    init(
+        title: String = "",
+        body: String = "",
+        createdAt: Double = Date().timeIntervalSince1970.rounded()
+    ) {
+        self.title = title
+        self.body = body
+        self.createdAt = createdAt
     }
 }
 
