@@ -8,11 +8,13 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
+    private let diaryDetailView: DiaryDetailView
     private var diary: Diary?
     
     init(diary: Diary) {
-        super.init(nibName: nil, bundle: nil)
         self.diary = diary
+        self.diaryDetailView = DiaryDetailView()
+        super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -21,10 +23,19 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = DiaryDetailView()
+        self.view = diaryDetailView
         setupNavigationBar()
+        configureDiary()
     }
-
+    
+    func configureDiary() {
+        guard let diary = diary else {
+            return
+        }
+        
+        diaryDetailView.titleTextView.text = diary.title
+        diaryDetailView.bodyTextView.text = diary.body
+    }
 }
 
 extension DiaryDetailViewController {
