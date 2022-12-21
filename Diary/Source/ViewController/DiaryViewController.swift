@@ -25,6 +25,7 @@ final class DiaryViewController: UIViewController {
         super.viewDidLoad()
         configure()
         diaryView.setupScrollViewDelegate(scrollViewDelegate: self)
+        diaryView.setupBodyTextViewDelegate(textViewDelegate: self)
     }
     
     private func configure() {
@@ -41,6 +42,22 @@ extension DiaryViewController: UIScrollViewDelegate {
     ) {
         if velocity.y < -2 {
             diaryView.endEditing(true)
+        }
+    }
+}
+
+extension DiaryViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == .systemGray3 {
+            textView.text = ""
+            textView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.hasText == false {
+            textView.text = "내용"
+            textView.textColor = .systemGray3
         }
     }
 }

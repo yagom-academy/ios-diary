@@ -19,7 +19,8 @@ final class DiaryView: UIView {
         let textView = UITextView()
         
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.textColor = .black
+        textView.text = "내용"
+        textView.textColor = .systemGray3
         textView.textAlignment = .left
         textView.textContainer.lineFragmentPadding = 0
         textView.isScrollEnabled = false
@@ -88,12 +89,21 @@ final class DiaryView: UIView {
         ])
     }
     
+    func setupBodyTextViewDelegate(textViewDelegate: UITextViewDelegate) {
+        bodyTextView.delegate = textViewDelegate
+    }
+    
     func setupScrollViewDelegate(scrollViewDelegate: UIScrollViewDelegate) {
         scrollView.delegate = scrollViewDelegate
     }
     
     func setupData(of diary: Diary?) {
-        titleTextField.text = diary?.title
-        bodyTextView.text = diary?.body
+        if diary?.title.isEmpty == false {
+            titleTextField.text = diary?.title
+        }
+        if diary?.body.isEmpty == false {
+            bodyTextView.text = diary?.body
+            bodyTextView.textColor = .black
+        }
     }
 }
