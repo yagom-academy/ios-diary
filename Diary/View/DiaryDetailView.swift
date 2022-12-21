@@ -46,13 +46,13 @@ final class DiaryDetailView: UIView {
         self.addSubview(diaryTextScrollView)
         NSLayoutConstraint.activate([
             diaryTextScrollView.frameLayoutGuide.leadingAnchor.constraint(
-                equalTo: safeAreaLayoutGuide.leadingAnchor),
+                equalTo: readableContentGuide.leadingAnchor),
             diaryTextScrollView.frameLayoutGuide.trailingAnchor.constraint(
-                equalTo: safeAreaLayoutGuide.trailingAnchor),
+                equalTo: readableContentGuide.trailingAnchor),
             diaryTextScrollView.frameLayoutGuide.topAnchor.constraint(
-                equalTo: safeAreaLayoutGuide.topAnchor),
+                equalTo: readableContentGuide.topAnchor),
             diaryTextScrollView.frameLayoutGuide.bottomAnchor.constraint(
-                equalTo: safeAreaLayoutGuide.bottomAnchor),
+                equalTo: readableContentGuide.bottomAnchor),
             diaryTextScrollView.contentLayoutGuide.leadingAnchor.constraint(
                 equalTo: diaryTextScrollView.frameLayoutGuide.leadingAnchor),
             diaryTextScrollView.contentLayoutGuide.trailingAnchor.constraint(
