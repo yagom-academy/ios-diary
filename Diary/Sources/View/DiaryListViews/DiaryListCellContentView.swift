@@ -78,11 +78,11 @@ extension DiaryListCellContentView {
         
         layoutMargins.left += 10
         
-        NSLayoutConstraint.activate([
-            contentStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
-            contentStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: layoutMarginsGuide.bottomAnchor)
-        ])
+        contentStackView.anchor(
+            top: layoutMarginsGuide.topAnchor,
+            leading: layoutMarginsGuide.leadingAnchor,
+            bottom: layoutMarginsGuide.bottomAnchor,
+            trailing: layoutMarginsGuide.trailingAnchor
+        )
     }
 }
