@@ -46,7 +46,6 @@ final class DiaryViewController: UIViewController {
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
         do {
             sampleData = try jsonDecoder.decode([SampleData].self, from: data)
-            print(sampleData)
         } catch {
             print(error)
         }
@@ -59,13 +58,15 @@ extension DiaryViewController: UITableViewDelegate { }
 // MARK: - TableView DataSource
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return 30
+        return sampleData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "diaryTableViewCell",
                                                  for: indexPath) as? DiaryTableViewCell ?? DiaryTableViewCell()
+        cell.configureCell(title: sampleData[indexPath.row].title,
+                           createdAt: sampleData[indexPath.row].createdAt,
+                           body: sampleData[indexPath.row].body)
         return cell
     }
 }
