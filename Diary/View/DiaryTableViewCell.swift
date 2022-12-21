@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryTableViewCell: UITableViewCell {
+final class DiaryTableViewCell: UITableViewCell {
 
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var createdAtLabel: UILabel!
@@ -20,7 +20,7 @@ class DiaryTableViewCell: UITableViewCell {
         bodyLabel.text = nil
     }
     
-    func configureCell(title: String,
+    private func configureCell(title: String,
                        createdAt: Int,
                        body: String) {
         titleLabel.text = title
