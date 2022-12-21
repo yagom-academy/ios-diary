@@ -33,39 +33,44 @@ final class RegisterViewController: UIViewController {
         textView.text = Placeholder.body
         return textView
     }()
+    
+    override func loadView() {
+        view = UIView(frame: .zero)
+        view.backgroundColor = .systemBackground
+        view.addSubview(mainStackView)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.view.backgroundColor = .systemBackground
         configureNavigationBar()
-        configureLayout()
+        configureMainStackView()
+        configureTextView()
     }
     
-    private func configureLayout() {
-        self.view.addSubview(mainStackView)
+    private func configureNavigationBar() {
+        navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
+        
+        let date = Date()
+        title = DateFormatterManager().formatDate(date)
+    }
+
+    private func configureMainStackView() {
         mainStackView.addArrangedSubview(titleTextView)
         mainStackView.addArrangedSubview(bodyTextView)
-        
-        titleTextView.delegate = self
-        bodyTextView.delegate = self
-        
         mainStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 8)
         mainStackView.isLayoutMarginsRelativeArrangement = true
         
         NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             view.keyboardLayoutGuide.topAnchor.constraint(equalTo: mainStackView.bottomAnchor)
         ])
     }
     
-    private func configureNavigationBar() {
-        self.navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
-        
-        let date = Date()
-        self.title = DateFormatterManager().formatDate(date)
+    private func configureTextView() {
+        titleTextView.delegate = self
+        bodyTextView.delegate = self
     }
 }
 
@@ -82,4 +87,3 @@ fileprivate enum Placeholder {
     static let title = "제목을 입력해주세요."
     static let body = "본문을 입력해주세요."
 }
-

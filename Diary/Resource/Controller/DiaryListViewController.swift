@@ -13,7 +13,6 @@ final class DiaryListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureJSONData()
         configureNavigationBar()
         self.view = diaryListTableView

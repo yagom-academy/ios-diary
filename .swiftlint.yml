@@ -22,3 +22,4 @@ disabled_rules:
   - line_length
   - unused_optional_binding
   - unused_closure_parameter
+  - private_over_fileprivate
