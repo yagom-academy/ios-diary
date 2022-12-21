@@ -17,10 +17,11 @@ final class DiaryListViewController: UIViewController {
         return button
     }()
     
-    private var diaryListTableView: UITableView = {
+    private lazy var diaryListTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.reuseIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.delegate = self
         
         return tableView
     }()
@@ -90,10 +91,20 @@ extension DiaryListViewController {
               let items = try? jsonDecoder.decode([Diary].self, from: data) else {
                   return
               }
+        sampleDiaryList = items
         
         snapshot.appendSections([0])
         snapshot.appendItems(items)
         
         dataSource.apply(snapshot)
+    }
+}
+
+extension DiaryListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let selectedDiary = sampleDiaryList[indexPath.row]
+        let diaryViewController = DiaryViewController(diary: selectedDiary)
+        
+        navigationController?.pushViewController(diaryViewController, animated: true)
     }
 }
