@@ -10,7 +10,7 @@ import Foundation
 extension Int {
     func convertDate() -> String {
         let dateFormatter = DateFormatter()
-        let date = Date(timeIntervalSinceReferenceDate: TimeInterval(self))
+        let date = Date(timeIntervalSince1970: TimeInterval(self))
         dateFormatter.setLocalizedDateFormatFromTemplate("YYYYMMMMd")
         dateFormatter.locale = Locale(identifier: "ko_KO")
         return dateFormatter.string(from: date)
