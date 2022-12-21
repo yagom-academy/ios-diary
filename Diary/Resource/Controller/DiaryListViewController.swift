@@ -10,11 +10,14 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     private let diaryListTableView = UITableView()
     private var diaryForms: [DiaryForm] = []
+    
+    override func loadView() {
+        self.view = diaryListTableView
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-        self.view = diaryListTableView
         configureDiaryListTableView()
         fetchJSONData()
     }
