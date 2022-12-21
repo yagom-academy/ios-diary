@@ -20,7 +20,7 @@ final class DiaryTableViewCell: UITableViewCell {
         bodyLabel.text = nil
     }
     
-    private func configureCell(title: String,
+    func configureCell(title: String,
                        createdAt: Int,
                        body: String) {
         titleLabel.text = title
