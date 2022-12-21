@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ListCollectionViewCell: UICollectionViewListCell {
+final class ListCollectionViewCell: UICollectionViewListCell {
     private var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -33,6 +33,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title3, compatibleWith: .none)
+        
         return label
     }()
     
@@ -40,6 +41,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
+        
         return label
     }()
     
@@ -47,6 +49,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
+        
         return label
     }()
     
@@ -70,7 +73,7 @@ class ListCollectionViewCell: UICollectionViewListCell {
             self.mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
         ])
 
-        dateLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
+        self.dateLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
     }
     
     private func configureMainStackView() {

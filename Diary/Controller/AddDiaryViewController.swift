@@ -8,27 +8,18 @@
 import UIKit
 
 final class AddDiaryViewController: UIViewController {
-    let addDiaryView = AddDiaryView()
+    private let addDiaryView = AddDiaryView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = addDiaryView
         self.navigationItem.title = DateFormatter().longDate
         
-        self.setKeyboardObserver()
-        self.initializeHideKeyBoard()
+        setKeyboardObserver()
+        initializeHideKeyBoard()
     }
     
-    private func initializeHideKeyBoard() {
-        let tap: UIGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyBoard))
-        self.navigationController?.navigationBar.addGestureRecognizer(tap)
-    }
-    
-    @objc private func dismissKeyBoard() {
-        self.addDiaryView.endEditing(true)
-    }
-    
-    func setKeyboardObserver() {
+    private func setKeyboardObserver() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(self.keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -53,11 +44,26 @@ final class AddDiaryViewController: UIViewController {
     }
     
     private func getKeyboardHeight(from notification: NSNotification) -> CGFloat? {
-        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else { return nil }
+        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
+            return nil
+        }
         
-        guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else { return nil }
+        guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+            return nil
+        }
         
         let keyboardRectangle = keyboardFrame.cgRectValue
+        
         return keyboardRectangle.height
+    }
+    
+    private func initializeHideKeyBoard() {
+        let tap: UIGestureRecognizer = UITapGestureRecognizer(target: self,
+                                                              action: #selector(dismissKeyBoard))
+        self.navigationController?.navigationBar.addGestureRecognizer(tap)
+    }
+    
+    @objc private func dismissKeyBoard() {
+        self.addDiaryView.endEditing(true)
     }
 }

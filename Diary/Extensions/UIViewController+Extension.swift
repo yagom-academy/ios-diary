@@ -11,6 +11,7 @@ extension UIViewController {
     func showErrorAlert(title: String, message: String) {
         let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let alertAction: UIAlertAction = UIAlertAction(title: "확인", style: .default)
+        
         alert.addAction(alertAction)
         present(alert, animated: true)
     }

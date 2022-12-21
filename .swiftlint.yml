@@ -7,5 +7,3 @@ disabled_rules:
   - trailing_whitespace
   - unused_closure_parameter
   - closure_parameter_position
-  - line_length
-  

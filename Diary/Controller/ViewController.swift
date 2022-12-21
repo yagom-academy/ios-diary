@@ -40,7 +40,9 @@ final class ViewController: UIViewController {
     }
     
     private func configureAddButton() {
-        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(pressAddButton))
+        let addItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                      target: self,
+                                      action: #selector(pressAddButton))
         self.navigationItem.rightBarButtonItem = addItem
     }
     
@@ -75,8 +77,7 @@ final class ViewController: UIViewController {
             case .success(let decodedDiary):
                 self.diary = decodedDiary
             case .failure(let error):
-                self.showErrorAlert(title: error.alertTitle,
-                                    message: error.alertMessage)
+                self.showErrorAlert(title: error.alertTitle, message: error.alertMessage)
             }
         }
     }
@@ -101,6 +102,7 @@ final class ViewController: UIViewController {
     
     private func applySnapshot(with diaryData: [Diary]?) {
         guard let diaryData = diaryData else { return }
+        
         var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diaryData)

@@ -7,19 +7,13 @@
 
 import UIKit
 
-class AddDiaryView: UIView {
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return scrollView
-    }()
-    
+final class AddDiaryView: UIView {
     private let textView: UITextView = {
         let textView = UITextView()
         textView.isEditable = true
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
+        
         return textView
     }()
     
@@ -34,24 +28,18 @@ class AddDiaryView: UIView {
     }
     
     private func configureView() {
-        self.scrollView.addSubview(textView)
-        self.addSubview(scrollView)
+        self.addSubview(textView)
     }
     
     private func configureAutoLayout() {
+        self.textView.textContainerInset = .zero
+        
         NSLayoutConstraint.activate([
-            self.scrollView.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor),
-            self.scrollView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            self.scrollView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            self.scrollView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            self.scrollView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            
-            self.textView.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
-            self.textView.heightAnchor.constraint(equalTo: self.scrollView.heightAnchor),
-            self.textView.topAnchor.constraint(equalTo: self.scrollView.topAnchor),
-            self.textView.leadingAnchor.constraint(equalTo: self.scrollView.leadingAnchor),
-            self.textView.trailingAnchor.constraint(equalTo: self.scrollView.trailingAnchor),
-            self.textView.bottomAnchor.constraint(equalTo: self.scrollView.bottomAnchor)
+            self.textView.widthAnchor.constraint(equalTo: self.safeAreaLayoutGuide.widthAnchor),
+            self.textView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
+            self.textView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            self.textView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
+            self.textView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
