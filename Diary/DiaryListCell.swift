@@ -14,13 +14,13 @@ class DiaryListCell: UITableViewCell {
     
     let titleLabel: UILabel = {
        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title2)
+        label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
     
     let subtitleLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .caption1)
          return label
     }()
     
@@ -51,10 +51,10 @@ class DiaryListCell: UITableViewCell {
         contentView.addSubview(containerStackView)
         
         NSLayoutConstraint.activate([
-            containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 4),
-            containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -4),
-            containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
     }
 }

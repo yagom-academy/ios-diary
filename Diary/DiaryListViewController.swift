@@ -62,14 +62,23 @@ extension DiaryListViewController {
     
     private func configureDataSource() {
         dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier, for: indexPath) as? DiaryListCell else {
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier,
+                                                           for: indexPath) as? DiaryListCell else {
                 return DiaryListCell()
             }
             cell.titleLabel.text = diary.title
-            cell.subtitleLabel.text = diary.createdAt.description
+            cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdAt, diary.body)
             
             return cell
         })
+    }
+    
+    private func configureSubtitleText(_ date: Date, _ body: String) -> NSMutableAttributedString {
+        let text: String = "\(date.koreanFormattedText)  \(body)"
+        let attributedString = NSMutableAttributedString(string: text)
+        attributedString.addAttributes([.font: UIFont.preferredFont(forTextStyle: .callout)],
+                                       range: (text as NSString).range(of: "\(date.koreanFormattedText)  "))
+        return attributedString
     }
     
     private func configureSnapshot() {
