@@ -14,8 +14,8 @@ class DetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureView()
+        addNotificationObserver()
     }
     
     func configureView() {
@@ -23,5 +23,25 @@ class DetailViewController: UIViewController {
         self.navigationItem.title = data.createdAt.convertDate()
         self.detailTextView.text = "\(data.title)\n\n\(data.body)"
     }
+    
+    func addNotificationObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_ :)),
+                                               name: UIResponder.keyboardDidShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_ :)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
 
+    @objc
+    func keyboardWillShow(_ notification: Notification) {
+        
+    }
+    
+    @objc
+    func keyboardWillHide(_ notification: Notification) {
+        
+    }
 }
