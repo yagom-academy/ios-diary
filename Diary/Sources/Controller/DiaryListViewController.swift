@@ -105,10 +105,3 @@ extension DiaryListViewController {
     }
 }
 
-extension UINavigationController {
-    func setDefaultNavigationAppearance() {
-        let navigationAppearance = UINavigationBarAppearance()
-        navigationAppearance.configureWithOpaqueBackground()
-        self.navigationBar.scrollEdgeAppearance = navigationAppearance
-    }
-}
