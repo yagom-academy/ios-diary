@@ -60,15 +60,22 @@ final class ViewController: UIViewController {
     
     private func decodeJsonData() {
         guard let dataAsset: NSDataAsset = NSDataAsset(name: "sample") else {
-            print("ERROR: 데이터 에셋 로드 에러")
+            // alert으로 에러처리
+            // ErrorType.dataAssetLoadFailed
             return
         }
         
-        do {
-            self.diary = try JSONDecoder().decode(data: dataAsset.data)
-        } catch {
-            print("ERROR: 에러 발생")
+        JSONDecoder().decode(data: dataAsset.data) { (result: Result<[Diary], ErrorType>) in
+            switch result {
+            case .success(let decodedDiary):
+                self.diary = decodedDiary
+            case .failure(let error):
+                print()
+                // alert으로 에러처리
+                // error
+            }
         }
+        
     }
     
     private func configureDataSource() {
