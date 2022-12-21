@@ -8,6 +8,8 @@ import UIKit
 
 class DiaryViewController: UIViewController {
     
+    var diaries: [Diary]?
+    
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -21,6 +23,14 @@ class DiaryViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
+        guard let assetData = NSDataAsset.init(name: "sample") else {
+            return
+        }
+        guard let diaries = try? JSONDecoder().decode([Diary].self, from: assetData.data) else {
+            return
+        }
+        self.diaries = diaries
+        tableView.reloadData()
     }
     
     func configureUI() {
@@ -48,11 +58,13 @@ class DiaryViewController: UIViewController {
 extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 1
+        return diaries?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier) as? DiaryCell else { return UITableViewCell() }
+        let diary = diaries?[indexPath.row]
+        cell.configureData(title: diary?.title, date: Date(timeIntervalSince1970: diary!.createdAt).description, content: diary?.body)
         return cell
     }
     
