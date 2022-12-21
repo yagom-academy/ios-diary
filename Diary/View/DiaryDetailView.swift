@@ -1,0 +1,71 @@
+//
+//  DiaryDetailView.swift
+//  Diary
+//
+//  Created by 써니쿠키, LJ on 2022/12/21.
+//
+
+import UIKit
+
+final class DiaryDetailView: UIView {
+    let titleTextView = CustomTextView(font: .title1)
+    let bodyTextView = CustomTextView(font: .body)
+    
+    let diaryTextScrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    let diaryTextStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.spacing = 10
+        stackView.axis = .vertical
+        stackView.alignment = .leading
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.backgroundColor = .systemBackground
+        diaryDetailLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func diaryDetailLayout() {
+        [titleTextView, bodyTextView].forEach {
+            diaryTextStackView.addArrangedSubview($0)
+        }
+
+        diaryTextScrollView.addSubview(diaryTextStackView)
+        self.addSubview(diaryTextScrollView)
+        NSLayoutConstraint.activate([
+            diaryTextScrollView.frameLayoutGuide.leadingAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.leadingAnchor),
+            diaryTextScrollView.frameLayoutGuide.trailingAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.trailingAnchor),
+            diaryTextScrollView.frameLayoutGuide.topAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.topAnchor),
+            diaryTextScrollView.frameLayoutGuide.bottomAnchor.constraint(
+                equalTo: safeAreaLayoutGuide.bottomAnchor),
+            diaryTextScrollView.contentLayoutGuide.leadingAnchor.constraint(
+                equalTo: diaryTextScrollView.frameLayoutGuide.leadingAnchor),
+            diaryTextScrollView.contentLayoutGuide.trailingAnchor.constraint(
+                equalTo: diaryTextScrollView.frameLayoutGuide.trailingAnchor),
+            
+            diaryTextStackView.leadingAnchor.constraint(
+                equalTo: diaryTextScrollView.contentLayoutGuide.leadingAnchor),
+            diaryTextStackView.trailingAnchor.constraint(
+                equalTo: diaryTextScrollView.contentLayoutGuide.trailingAnchor),
+            diaryTextStackView.topAnchor.constraint(
+                equalTo: diaryTextScrollView.contentLayoutGuide.topAnchor),
+            diaryTextStackView.bottomAnchor.constraint(
+                equalTo: diaryTextScrollView.contentLayoutGuide.bottomAnchor)
+        ])
+    }
+}

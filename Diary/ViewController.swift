@@ -15,6 +15,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         diaryListView = DiaryListView()
         self.view = diaryListView
+        diaryListView?.diaryList?.delegate = self
         convertDiaryData()
         configureDiaryListDataSource()
         snapShot()
@@ -33,12 +34,12 @@ class ViewController: UIViewController {
             cell, indexPath, diary in
             cell.configureDiaryCellLayout()
             cell.titleLabel.text = self.diary[indexPath.item].title
-            cell.dateLabel.text = self.diary[indexPath.item].createdAt.timeZoneDateFormat
+            cell.dateLabel.text = self.diary[indexPath.item].createdDate
             cell.previewLabel.text = self.diary[indexPath.item].body
         }
         
         guard let diaryListView = diaryListView,
-            let diaryListView = diaryListView.diaryListView else { return }
+            let diaryListView = diaryListView.diaryList else { return }
         
         dataSource = UICollectionViewDiffableDataSource(collectionView: diaryListView,
                                                         cellProvider: {
@@ -80,6 +81,13 @@ extension ViewController {
     }
     
     @objc func addDiary() {
-        
+
+    }
+}
+
+extension ViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detailViewController = DiaryDetailViewController(diary: diary[indexPath.item])
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }

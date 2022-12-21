@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryListView: UIView {
-    var diaryListView: UICollectionView?
+    var diaryList: UICollectionView?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,19 +27,19 @@ final class DiaryListView: UIView {
     }
     
     private func configureListView() {
-        diaryListView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
-        diaryListView?.translatesAutoresizingMaskIntoConstraints = false
+        diaryList = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        diaryList?.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func configureListViewLayout() {
-        guard let diaryListView = diaryListView else { return }
-        self.addSubview(diaryListView)
+        guard let diaryList = diaryList else { return }
+        self.addSubview(diaryList)
         
         NSLayoutConstraint.activate([
-            diaryListView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            diaryListView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor),
-            diaryListView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            diaryListView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+            diaryList.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            diaryList.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+            diaryList.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor),
+            diaryList.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
