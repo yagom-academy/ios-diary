@@ -8,23 +8,16 @@
 import Foundation
 
 struct DateFormatterManager {
-    private let formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        formatter.locale = .current
-        return formatter
-    }()
-    
     func convertToDate(from number: Int?) -> String? {
         guard let number = number else { return nil }
         
         let timeInterval = TimeInterval(number)
         let date = Date(timeIntervalSince1970: timeInterval)
         
-        return formatter.string(from: date)
+        return DateFormatter.localizedString(from: date, dateStyle: .long, timeStyle: .none)
     }
     
     func formatDate(_ date: Date) -> String {
-        return formatter.string(from: date)
+        return DateFormatter.localizedString(from: date, dateStyle: .long, timeStyle: .none)
     }
 }
