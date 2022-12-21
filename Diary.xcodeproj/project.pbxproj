@@ -16,6 +16,7 @@
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		D292E25B2952FB6F007DEE20 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D292E2592952FB6F007DEE20 /* DiaryTableViewCell.swift */; };
 		D292E25C2952FB6F007DEE20 /* DiaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D292E25A2952FB6F007DEE20 /* DiaryTableViewCell.xib */; };
+		DFF07CDF295303F900B39A8A /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF07CDE295303F900B39A8A /* SampleData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D292E2592952FB6F007DEE20 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		D292E25A2952FB6F007DEE20 /* DiaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiaryTableViewCell.xib; sourceTree = "<group>"; };
+		DFF07CDE295303F900B39A8A /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,6 +74,7 @@
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				DFF07CDE295303F900B39A8A /* SampleData.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -149,6 +152,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
+				DFF07CDF295303F900B39A8A /* SampleData.swift in Sources */,
 				D292E25B2952FB6F007DEE20 /* DiaryTableViewCell.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,

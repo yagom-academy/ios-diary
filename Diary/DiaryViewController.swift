@@ -7,7 +7,7 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    
+    private var sampleData: [SampleData] = []
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,6 +20,7 @@ final class DiaryViewController: UIViewController {
         view.addSubview(tableView)
         tableViewAttribute()
         configureTableViewConstraint()
+        getSampleData()
     }
     
     private func configureTableViewConstraint() {
@@ -36,6 +37,19 @@ final class DiaryViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(UINib(nibName: "DiaryTableViewCell", bundle: nil),
                            forCellReuseIdentifier: "diaryTableViewCell")
+    }
+    
+    private func getSampleData() {
+        let asset = NSDataAsset(name: "sample")
+        guard let data = asset?.data else { return }
+        let jsonDecoder = JSONDecoder()
+        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        do {
+            sampleData = try jsonDecoder.decode([SampleData].self, from: data)
+            print(sampleData)
+        } catch {
+            print(error)
+        }
     }
 }
 
