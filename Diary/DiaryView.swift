@@ -55,4 +55,9 @@ class DiaryView: UIView {
             stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -8)
         ])
     }
+    
+    func setupData(of diary: Diary) {
+        titleTextField.text = diary.title
+        bodyTextView.text = diary.body
+    }
 }

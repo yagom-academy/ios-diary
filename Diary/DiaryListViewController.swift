@@ -43,6 +43,7 @@ final class DiaryListViewController: UIViewController {
     private func configure() {
         view.backgroundColor = .systemBackground
         title = diaryTitle
+        diaryTableView.delegate = self
         setupViews()
         setupBarButtonItem()
     }
@@ -87,5 +88,14 @@ final class DiaryListViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(sampleDiary)
         diaryDataSource.apply(snapshot)
+    }
+}
+
+extension DiaryListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: false)
+        
+        guard let diary = diaryDataSource.itemIdentifier(for: indexPath) else { return }
+        pushDiaryView(diary)
     }
 }

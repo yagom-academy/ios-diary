@@ -28,5 +28,6 @@ final class DiaryViewController: UIViewController {
     
     private func configure() {
         title = diary.date
+        diaryView.setupData(of: diary)
     }
 }
