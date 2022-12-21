@@ -6,7 +6,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class DiaryViewController: UIViewController {
     
     let tableView: UITableView = {
         let tableView = UITableView()
