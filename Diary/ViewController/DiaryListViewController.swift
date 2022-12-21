@@ -1,12 +1,12 @@
 //
-//  Diary - ViewController.swift
-//  Created by yagom.
-//  Copyright © yagom. All rights reserved.
+//  DiaryListViewController.swift
+//  Created by 써니쿠키, LJ.
+//  Copyright © 써니쿠키, LJ. All rights reserved.
 //
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class DiaryListViewController: UIViewController {
     
     private var diaryListView: DiaryListView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
@@ -62,14 +62,14 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController {
+extension DiaryListViewController {
     
     private enum Section {
         case main
     }
 }
 
-extension ViewController {
+extension DiaryListViewController {
     
     private func setupNavigationBar() {
         self.navigationItem.title = "일기장"
@@ -92,7 +92,7 @@ extension ViewController {
     }
 }
 
-extension ViewController: UICollectionViewDelegate {
+extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailViewController = DiaryDetailViewController(diary: diary[indexPath.item])
         
