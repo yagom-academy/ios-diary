@@ -40,8 +40,13 @@ final class ViewController: UIViewController {
     }
     
     private func configureAddButton() {
-        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        let addItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(pressAddButton))
         self.navigationItem.rightBarButtonItem = addItem
+    }
+    
+    @objc private func pressAddButton() {
+        let addDiaryViewController = AddDiaryViewController()
+        self.navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
     
     private func configureCollectionView() {
