@@ -7,41 +7,51 @@ final class DiaryCell: UITableViewCell {
     static let identifier: String = String(describing: DiaryCell.self)
     private let titleLabel: UILabel = {
         let label = UILabel()
+        
         label.textColor = .black
         label.textAlignment = .left
         label.font = .preferredFont(forTextStyle: .title3)
+        
         return label
     }()
     
     private let createdDateLabel: UILabel = {
         let label = UILabel()
+        
         label.textColor = .black
         label.textAlignment = .left
         label.font = .preferredFont(forTextStyle: .body)
+        
         return label
     }()
     
     private let bodyLabel: UILabel = {
         let label = UILabel()
+        
         label.textColor = .black
         label.textAlignment = .left
         label.font = .preferredFont(forTextStyle: .caption1)
+        
         return label
     }()
     
     private let contentsStackView: UIStackView = {
         let stackView = UIStackView()
+        
         stackView.axis = .vertical
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
     private let dateAndBodyStackView: UIStackView = {
         let stackView = UIStackView()
+        
         stackView.axis = .horizontal
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     

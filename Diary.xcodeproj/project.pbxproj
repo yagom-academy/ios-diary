@@ -95,21 +95,77 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				C739AE24284DF28600741E8F /* AppDelegate.swift */,
-				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
-				D34F1E6D2952AD0C00C1CF62 /* DiaryViewController.swift */,
-				B4CEA69F295192090079FBDF /* Diary.swift */,
-				B4CEA6A1295193790079FBDF /* DiaryCell.swift */,
-				B414FEDF2952997900E7AC2A /* DiaryView.swift */,
-				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+				D34F1E742952EDBB00C1CF62 /* Source */,
+				D34F1E752952EDC400C1CF62 /* Resource */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+			);
+			path = Diary;
+			sourceTree = "<group>";
+		};
+		D34F1E6F2952ED4400C1CF62 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B4CEA69F295192090079FBDF /* Diary.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D34F1E702952ED4D00C1CF62 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
 				B414FEE12952D2C400E7AC2A /* DateFormatter+Extension.swift */,
 				B414FEE32952D8AC00E7AC2A /* Locale+Extension.swift */,
 			);
-			path = Diary;
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		D34F1E712952ED5F00C1CF62 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE24284DF28600741E8F /* AppDelegate.swift */,
+				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		D34F1E722952ED6D00C1CF62 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				B414FEDF2952997900E7AC2A /* DiaryView.swift */,
+				B4CEA6A1295193790079FBDF /* DiaryCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D34F1E732952ED7B00C1CF62 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
+				D34F1E6D2952AD0C00C1CF62 /* DiaryViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		D34F1E742952EDBB00C1CF62 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				D34F1E6F2952ED4400C1CF62 /* Model */,
+				D34F1E722952ED6D00C1CF62 /* View */,
+				D34F1E732952ED7B00C1CF62 /* ViewController */,
+				D34F1E712952ED5F00C1CF62 /* App */,
+				D34F1E702952ED4D00C1CF62 /* Extension */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		D34F1E752952EDC400C1CF62 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE30284DF28600741E8F /* Assets.xcassets */,
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

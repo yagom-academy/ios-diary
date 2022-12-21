@@ -28,6 +28,7 @@ final class DiaryListViewController: UIViewController {
             ) as? DiaryCell else { return nil }
             
             cell.setupDiary(diary)
+            
             return cell
         }
         
@@ -44,14 +45,15 @@ final class DiaryListViewController: UIViewController {
         view.backgroundColor = .systemBackground
         title = diaryTitle
         diaryTableView.delegate = self
+        
         setupViews()
         setupBarButtonItem()
     }
     
     private func setupViews() {
         let safeArea = view.safeAreaLayoutGuide
-        view.addSubview(diaryTableView)
         
+        view.addSubview(diaryTableView)
         NSLayoutConstraint.activate([
             diaryTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             diaryTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
@@ -65,15 +67,16 @@ final class DiaryListViewController: UIViewController {
                                              style: .plain,
                                              target: self,
                                              action: #selector(tappedAddButton))
+        
         navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
     @objc
     private func tappedAddButton(_ sender: UIBarButtonItem) {
-        pushDiaryView()
+        pushDiaryViewController()
     }
     
-    private func pushDiaryView(_ diary: Diary = Diary()) {
+    private func pushDiaryViewController(_ diary: Diary = Diary()) {
         let diaryViewController = DiaryViewController(diary: diary)
         navigationController?.pushViewController(diaryViewController, animated: false)
     }
@@ -85,6 +88,7 @@ final class DiaryListViewController: UIViewController {
             return
         }
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
+        
         snapshot.appendSections([.main])
         snapshot.appendItems(sampleDiary)
         diaryDataSource.apply(snapshot)
@@ -96,6 +100,6 @@ extension DiaryListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: false)
         
         guard let diary = diaryDataSource.itemIdentifier(for: indexPath) else { return }
-        pushDiaryView(diary)
+        pushDiaryViewController(diary)
     }
 }

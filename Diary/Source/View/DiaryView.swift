@@ -6,34 +6,42 @@ import UIKit
 final class DiaryView: UIView {
     private let titleTextField: UITextField = {
         let textField = UITextField()
+        
         textField.font = .preferredFont(forTextStyle: .title3)
         textField.textColor = .black
         textField.textAlignment = .left
         textField.placeholder = "제목"
+        
         return textField
     }()
     
     private let bodyTextView: UITextView = {
         let textView = UITextView()
+        
         textView.font = .preferredFont(forTextStyle: .body)
         textView.textColor = .black
         textView.textAlignment = .left
         textView.textContainer.lineFragmentPadding = 0
         textView.isScrollEnabled = false
+        
         return textView
     }()
     
     private let stackView: UIStackView = {
         let stackView = UIStackView()
+        
         stackView.axis = .vertical
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
         return scrollView
     }()
     
@@ -84,8 +92,8 @@ final class DiaryView: UIView {
         scrollView.delegate = scrollViewDelegate
     }
     
-    func setupData(of diary: Diary) {
-        titleTextField.text = diary.title
-        bodyTextView.text = diary.body
+    func setupData(of diary: Diary?) {
+        titleTextField.text = diary?.title
+        bodyTextView.text = diary?.body
     }
 }
