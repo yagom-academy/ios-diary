@@ -44,6 +44,7 @@ final class DiaryViewController: UIViewController {
         view.backgroundColor = .systemBackground
         title = diaryTitle
         setupViews()
+        setupBarButtonItem()
     }
     
     private func setupViews() {
@@ -56,6 +57,14 @@ final class DiaryViewController: UIViewController {
             diaryTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             diaryTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+    
+    private func setupBarButtonItem() {
+        let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
+                                             style: .plain,
+                                             target: self,
+                                             action: nil)
+        navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
     private func applySampleData() {
