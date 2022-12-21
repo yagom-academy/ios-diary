@@ -82,13 +82,15 @@ extension DiaryListViewController {
         let addBarButtonItem = UIBarButtonItem(title: "+",
                                                style: .plain,
                                                target: self,
-                                               action: #selector(addDiary))
+                                               action: #selector(registerDiary))
         
         self.navigationItem.rightBarButtonItem = addBarButtonItem
     }
     
-    @objc private func addDiary() {
-
+    @objc private func registerDiary() {
+        let registerDiaryViewController = RegisterDiaryViewController()
+        
+        self.navigationController?.pushViewController(registerDiaryViewController, animated: true)
     }
 }
 
