@@ -20,12 +20,31 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <navigationItem key="navigationItem" title="일기장" id="XWE-37-OgQ">
-                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tyk-jp-uPI"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="tyk-jp-uPI">
+                            <connections>
+                                <segue destination="FjG-tP-tht" kind="presentation" modalPresentationStyle="fullScreen" id="aEC-Qs-AwV"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1060" y="-34.123222748815166"/>
+        </scene>
+        <!--Add View Controller-->
+        <scene sceneID="2Ve-g3-AVT">
+            <objects>
+                <viewController id="FjG-tP-tht" customClass="AddViewController" customModule="Diary" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="kUK-RW-ASg">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="ZhD-Vz-KlI"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ChC-ZJ-sY5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1877" y="-303"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ahx-AA-gLI">
