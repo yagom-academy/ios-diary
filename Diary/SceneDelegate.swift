@@ -13,7 +13,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let mainViewController = DiaryViewController()
+        let mainViewController = DiaryListViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
         
         if #available(iOS 15.0, *) {
