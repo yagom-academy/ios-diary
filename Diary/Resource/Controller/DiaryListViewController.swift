@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryListViewController: UIViewController {
+final class DiaryListViewController: UIViewController {
     private let diaryListTableView = UITableView()
     private var diaryForms: [DiaryForm] = []
 
@@ -77,10 +77,8 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate { }
 
 // MARK: Namespace
-extension DiaryListViewController {
-    private enum Namespace {
-        static let jsonData = "sample"
-        static let navigationTitle = "일기장"
-        static let plusImage = "plus"
-    }
+fileprivate enum Namespace {
+    static let jsonData = "sample"
+    static let navigationTitle = "일기장"
+    static let plusImage = "plus"
 }

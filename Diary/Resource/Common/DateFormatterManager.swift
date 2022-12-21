@@ -8,7 +8,7 @@
 import Foundation
 
 struct DateFormatterManager {
-    let formatter: DateFormatter = {
+    private let formatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy년 MM월 dd일"
         formatter.locale = .current

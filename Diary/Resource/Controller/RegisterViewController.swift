@@ -7,8 +7,8 @@
 
 import UIKit
 
-class RegisterViewController: UIViewController {
-    let mainStackView: UIStackView = {
+final class RegisterViewController: UIViewController {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -16,7 +16,7 @@ class RegisterViewController: UIViewController {
         return stackView
     }()
     
-    let titleTextView: UITextView = {
+    private let titleTextView: UITextView = {
         let textView = UITextView()
         textView.isScrollEnabled = false
         textView.setContentCompressionResistancePriority(.required, for: .vertical)
@@ -26,7 +26,7 @@ class RegisterViewController: UIViewController {
         return textView
     }()
     
-    let bodyTextView: UITextView = {
+    private let bodyTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .systemGray3
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -78,9 +78,8 @@ extension RegisterViewController: UITextViewDelegate {
     }
 }
 
-extension RegisterViewController {
-    private enum Placeholder {
-        static let title = "제목을 입력해주세요."
-        static let body = "본문을 입력해주세요."
-    }
+fileprivate enum Placeholder {
+    static let title = "제목을 입력해주세요."
+    static let body = "본문을 입력해주세요."
 }
+
