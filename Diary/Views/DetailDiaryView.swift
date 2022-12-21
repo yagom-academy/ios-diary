@@ -67,7 +67,7 @@ extension DetailDiaryView: UITextFieldDelegate, UITextViewDelegate {
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         guard let text = textField.text else { return }
-        if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty{
+        if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textField.text = nil
             textField.placeholder = textFieldPlaceHolder
         }
@@ -113,7 +113,7 @@ extension DetailDiaryView {
             contentsTextView.trailingAnchor.constraint(
                 equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
             contentsTextView.bottomAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10),
+                equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
         ])
         
         textViewBottomConstraints = contentsTextView.bottomAnchor.constraint(
@@ -129,7 +129,7 @@ extension DetailDiaryView {
     }
 }
 
-//MARK: - KeyboardResponse Notification
+// MARK: - KeyboardResponse Notification
 extension DetailDiaryView {
     private func setupNotification() {
         NotificationCenter.default.addObserver(self,
@@ -144,7 +144,9 @@ extension DetailDiaryView {
     }
     
     @objc private func showKeyboard(_ notification: NSNotification) {
-        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, contentsTextView.isFirstResponder {
+        if let keyboardFrame: NSValue = notification.userInfo?[
+            UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+            contentsTextView.isFirstResponder {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.setupTextViewBottomConstraints(constant: -(keyboardHeight + 10))

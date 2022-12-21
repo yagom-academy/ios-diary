@@ -58,11 +58,11 @@ final class MainViewController: UIViewController {
     }
 }
 
-//MARK: - DiffableDataSource And Snapshot
+// MARK: - DiffableDataSource And Snapshot
 extension MainViewController {
     private func configureDataSource() -> DataSource {
         let cellRegistration = UICollectionView
-            .CellRegistration<DiaryCollectionViewCell, Diary> { cell, indexPath, diaryData in
+            .CellRegistration<DiaryCollectionViewCell, Diary> { cell, _, diaryData in
             cell.bindData(diaryData)
         }
         

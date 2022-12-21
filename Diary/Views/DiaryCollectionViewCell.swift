@@ -91,10 +91,14 @@ extension DiaryCollectionViewCell {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            totalStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 5),
-            totalStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,constant: -5),
-            totalStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 20),
-            totalStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -20)
+            totalStackView.topAnchor.constraint(
+                equalTo: self.contentView.topAnchor, constant: 5),
+            totalStackView.bottomAnchor.constraint(
+                equalTo: self.contentView.bottomAnchor, constant: -5),
+            totalStackView.leadingAnchor.constraint(
+                equalTo: self.contentView.leadingAnchor, constant: 20),
+            totalStackView.trailingAnchor.constraint(
+                equalTo: self.contentView.trailingAnchor, constant: -20)
             
         ])
         button.setContentCompressionResistancePriority(.init(1000), for: .horizontal)

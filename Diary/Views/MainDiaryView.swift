@@ -31,7 +31,8 @@ final class MainDiaryView: UIView {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(UIScreen.main.bounds.height / 11))
+                                               heightDimension: .absolute(
+                                                UIScreen.main.bounds.height / 11))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
                                                      subitems: [item])
         
@@ -50,10 +51,14 @@ extension MainDiaryView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor)
+            collectionView.topAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.topAnchor),
+            collectionView.bottomAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.leadingAnchor),
+            collectionView.trailingAnchor.constraint(
+                equalTo: self.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
 }
