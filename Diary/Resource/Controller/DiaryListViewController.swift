@@ -46,8 +46,8 @@ final class DiaryListViewController: UIViewController {
     
     private func fetchJSONData() {
         guard let data = JSONDecoderManager().convertJSONData() else {
-            showAlertController(title: AlertNamespace.jsonErrorMessage,
-                                message: AlertNamespace.none)
+            showAlert(title: AlertNamespace.jsonDecodingErrorTitle,
+                                message: AlertNamespace.jsonDecodingErrorMessage)
             return
         }
         
