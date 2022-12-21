@@ -101,8 +101,6 @@ extension DiaryCollectionViewCell {
                 equalTo: self.contentView.trailingAnchor, constant: -20)
             
         ])
-        button.setContentCompressionResistancePriority(.init(1000), for: .horizontal)
+        button.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
 }
-
-extension DiaryCollectionViewCell: IdentifierReusable { }

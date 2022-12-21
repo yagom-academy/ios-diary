@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3C3D088329518DF6007DB5E7 /* IdentifierReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3D088229518DF6007DB5E7 /* IdentifierReusable.swift */; };
 		3C3D08882952A60D007DB5E7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3C3D08872952A60D007DB5E7 /* .swiftlint.yml */; };
 		3C59F5EC2950637E0045C66A /* MainDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C59F5EB2950637E0045C66A /* MainDiaryView.swift */; };
 		3C59F5F02950693D0045C66A /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C59F5EF2950693D0045C66A /* Diary.swift */; };
@@ -27,7 +26,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3C3D088229518DF6007DB5E7 /* IdentifierReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierReusable.swift; sourceTree = "<group>"; };
 		3C3D08872952A60D007DB5E7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3C59F5EB2950637E0045C66A /* MainDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDiaryView.swift; sourceTree = "<group>"; };
 		3C59F5EF2950693D0045C66A /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
@@ -68,14 +66,6 @@
 				F0E94E3986489A68A81A6D05 /* Pods_Diary.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		3C3D088129518DE6007DB5E7 /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				3C3D088229518DF6007DB5E7 /* IdentifierReusable.swift */,
-			);
-			path = Protocols;
 			sourceTree = "<group>";
 		};
 		3C59F5ED295063810045C66A /* Views */ = {
@@ -139,7 +129,6 @@
 				3C3D08872952A60D007DB5E7 /* .swiftlint.yml */,
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				3C3D088129518DE6007DB5E7 /* Protocols */,
 				3C59F5F12950A89A0045C66A /* Extensions */,
 				C739AE28284DF28600741E8F /* MainViewController.swift */,
 				F633D22C295169EE0037DD81 /* DetailViewController.swift */,
@@ -279,7 +268,6 @@
 				3C59F5EC2950637E0045C66A /* MainDiaryView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				F63447CC29508CCB00A43B7D /* DiaryCollectionViewCell.swift in Sources */,
-				3C3D088329518DF6007DB5E7 /* IdentifierReusable.swift in Sources */,
 				3C59F5F02950693D0045C66A /* Diary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
