@@ -7,13 +7,13 @@
 
 import UIKit
 
-class DiaryListCell: UITableViewCell {
+final class DiaryListCell: UITableViewCell {
     static var reuseIdentifier: String {
         return "DiaryListCell"
     }
     
     let titleLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         return label
     }()
@@ -21,11 +21,11 @@ class DiaryListCell: UITableViewCell {
     let subtitleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
-         return label
+        return label
     }()
     
-    lazy var containerStackView: UIStackView = {
-       let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+    private lazy var containerStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -43,11 +43,11 @@ class DiaryListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure() {
+    private func configure() {
         self.accessoryType = .disclosureIndicator
     }
     
-    func configureHierarchy() {
+    private func configureHierarchy() {
         contentView.addSubview(containerStackView)
         
         NSLayoutConstraint.activate([

@@ -98,6 +98,44 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		1AE0A2EA295310300083BA6C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				1137174C2951573B00302E84 /* Diary.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		1AE0A2EB2953103B0083BA6C /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
+				1AE0A2E82952AEE20083BA6C /* NewDiaryViewController.swift */,
+				1137175F2952E02600302E84 /* DiaryViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		1AE0A2EC2953105E0083BA6C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				BF8EC7C729519AA00054CD03 /* DiaryListCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		1AE0A2ED295310800083BA6C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE30284DF28600741E8F /* Assets.xcassets */,
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+				C739AE35284DF28600741E8F /* Info.plist */,
+				C739AE24284DF28600741E8F /* AppDelegate.swift */,
+				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
 		3B7ADC066FAD8533EA2046EB /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -139,18 +177,12 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				1AE0A2ED295310800083BA6C /* App */,
 				BF8EC7CB295299770054CD03 /* Extension */,
-				C739AE24284DF28600741E8F /* AppDelegate.swift */,
-				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
-				BF8EC7C729519AA00054CD03 /* DiaryListCell.swift */,
-				1AE0A2E82952AEE20083BA6C /* NewDiaryViewController.swift */,
-				1137175F2952E02600302E84 /* DiaryViewController.swift */,
-				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
-				C739AE35284DF28600741E8F /* Info.plist */,
+				1AE0A2EA295310300083BA6C /* Model */,
+				1AE0A2EC2953105E0083BA6C /* View */,
+				1AE0A2EB2953103B0083BA6C /* Controller */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-				1137174C2951573B00302E84 /* Diary.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -526,7 +558,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = Diary/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -554,7 +586,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = Diary/App/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

@@ -14,6 +14,7 @@ final class DiaryListViewController: UIViewController {
         let button = UIBarButtonItem(barButtonSystemItem: .add,
                                      target: self,
                                      action: #selector(addDiary))
+
         return button
     }()
     
@@ -43,8 +44,7 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController {
     @objc private func addDiary() {
         let newDiaryViewController = UINavigationController(rootViewController: NewDiaryViewController())
-        
-        newDiaryViewController.modalPresentationStyle = .fullScreen
+
         present(newDiaryViewController, animated: true)
     }
     
@@ -70,6 +70,7 @@ extension DiaryListViewController {
                                                            for: indexPath) as? DiaryListCell else {
                 return DiaryListCell()
             }
+
             cell.titleLabel.text = diary.title
             cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdDate, diary.body)
             
@@ -89,8 +90,9 @@ extension DiaryListViewController {
         let jsonDecoder = JSONDecoder()
         guard let data = NSDataAsset.init(name: "sample")?.data,
               let items = try? jsonDecoder.decode([Diary].self, from: data) else {
-                  return
-              }
+            return
+        }
+        
         sampleDiaryList = items
         
         snapshot.appendSections([0])

@@ -7,31 +7,34 @@
 
 import UIKit
 
-class DiaryViewController: UIViewController {
-    let diary: Diary
+final class DiaryViewController: UIViewController {
+    private let diary: Diary
     
-    let scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
+        scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+
         return scrollView
     }()
     
-    let titleTextView: UITextView = {
+    private let titleTextView: UITextView = {
         let textView = UITextView()
         textView.isScrollEnabled = false
+        textView.font = UIFont.preferredFont(forTextStyle: .title3)
+
+        return textView
+    }()
+    
+    private let bodyTextView: UITextView = {
+        let textView = UITextView()
+        textView.isScrollEnabled = false
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
         
         return textView
     }()
     
-    let bodyTextView: UITextView = {
-        let textView = UITextView()
-        textView.isScrollEnabled = false
-        
-        return textView
-    }()
-    
-    lazy var containerStackView: UIStackView = {
+    private lazy var containerStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [titleTextView, bodyTextView])
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -59,24 +62,24 @@ class DiaryViewController: UIViewController {
         configureLayout()
     }
     
-    func configureHierarchy() {
+    private func configureHierarchy() {
         scrollView.addSubview(containerStackView)
         view.addSubview(scrollView)
     }
     
-    func configureView(with diary: Diary) {
+    private func configureView(with diary: Diary) {
         navigationItem.title = diary.createdDate.localeFormattedText
         titleTextView.text = diary.title
         bodyTextView.text = diary.body
     }
     
-    func configureLayout() {
+    private func configureLayout() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-        
+
             containerStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
             containerStackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             containerStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
