@@ -8,14 +8,16 @@
 import UIKit
 
 extension UIViewController {
-    func showAlertController(title: String, message: String) {
+    func showAlert(title: String, message: String) {
         let alert: UIAlertController = UIAlertController(title: title,
                                                          message: message,
                                                          preferredStyle: .alert)
         
         let action: UIAlertAction = UIAlertAction(title: AlertNamespace.confirm,
                                                   style: .default,
-                                                  handler: nil)
+                                                  handler: { _ in
+            exit(1)
+        })
         
         alert.addAction(action)
         present(alert, animated: true)
@@ -23,7 +25,7 @@ extension UIViewController {
     
     enum AlertNamespace {
         static let confirm = "확인"
-        static let jsonErrorMessage = "데이터 읽기 오류"
-        static let none = ""
+        static let jsonDecodingErrorTitle = "데이터 읽기 오류"
+        static let jsonDecodingErrorMessage = "데이터를 읽을 수 없어 앱을 종료합니다."
     }
 }
