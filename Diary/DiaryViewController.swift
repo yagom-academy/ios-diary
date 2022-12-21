@@ -24,10 +24,23 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        diaryView.setupScrollViewDelegate(scrollViewDelegate: self)
     }
     
     private func configure() {
         title = diary.date
         diaryView.setupData(of: diary)
+    }
+}
+
+extension DiaryViewController: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(
+        _ scrollView: UIScrollView,
+        withVelocity velocity: CGPoint,
+        targetContentOffset: UnsafeMutablePointer<CGPoint>
+    ) {
+        if velocity.y < -2 {
+            diaryView.endEditing(true)
+        }
     }
 }

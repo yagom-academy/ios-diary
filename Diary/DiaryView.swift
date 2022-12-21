@@ -58,7 +58,8 @@ final class DiaryView: UIView {
         
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
-            scrollView.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -8),
+            keyboardLayoutGuide.topAnchor.constraint(equalToSystemSpacingBelow: scrollView.bottomAnchor,
+                                                     multiplier: 1.0),
             scrollView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 8),
             scrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -8)
         ])
@@ -77,6 +78,10 @@ final class DiaryView: UIView {
             stackViewWidthAndHeightConstraints.width,
             stackViewWidthAndHeightConstraints.height
         ])
+    }
+    
+    func setupScrollViewDelegate(scrollViewDelegate: UIScrollViewDelegate) {
+        scrollView.delegate = scrollViewDelegate
     }
     
     func setupData(of diary: Diary) {
