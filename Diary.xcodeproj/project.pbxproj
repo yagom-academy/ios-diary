@@ -17,7 +17,7 @@
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
-		F633D22B295165D10037DD81 /* DiaryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F633D22A295165D10037DD81 /* DiaryDetailView.swift */; };
+		F633D22B295165D10037DD81 /* DetailDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F633D22A295165D10037DD81 /* DetailDiaryView.swift */; };
 		F633D22D295169EE0037DD81 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F633D22C295169EE0037DD81 /* DetailViewController.swift */; };
 		F63447C629506B8D00A43B7D /* DecoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447C529506B8D00A43B7D /* DecoderManager.swift */; };
 		F63447CA29506D2E00A43B7D /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447C929506D2E00A43B7D /* Error.swift */; };
@@ -37,7 +37,7 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F633D22A295165D10037DD81 /* DiaryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailView.swift; sourceTree = "<group>"; };
+		F633D22A295165D10037DD81 /* DetailDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDiaryView.swift; sourceTree = "<group>"; };
 		F633D22C295169EE0037DD81 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		F63447C529506B8D00A43B7D /* DecoderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderManager.swift; sourceTree = "<group>"; };
 		F63447C929506D2E00A43B7D /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
@@ -67,7 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				3C59F5EB2950637E0045C66A /* MainDiaryView.swift */,
-				F633D22A295165D10037DD81 /* DiaryDetailView.swift */,
+				F633D22A295165D10037DD81 /* DetailDiaryView.swift */,
 				F63447CB29508CCB00A43B7D /* DiaryCollectionViewCell.swift */,
 			);
 			path = Views;
@@ -203,7 +203,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				F63447C629506B8D00A43B7D /* DecoderManager.swift in Sources */,
-				F633D22B295165D10037DD81 /* DiaryDetailView.swift in Sources */,
+				F633D22B295165D10037DD81 /* DetailDiaryView.swift in Sources */,
 				3C59F5EC2950637E0045C66A /* MainDiaryView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				F63447CC29508CCB00A43B7D /* DiaryCollectionViewCell.swift in Sources */,

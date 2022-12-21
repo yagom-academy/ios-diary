@@ -1,5 +1,5 @@
 //
-//  DiaryDetailView.swift
+//  DetailDiaryView.swift
 //  Diary
 //
 //  Created by Kyo, Baem on 2022/12/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiaryDetailView: UIView {
+final class DetailDiaryView: UIView {
     private let textFieldPlaceHolder = "Title을 입력해주세요."
     private let textViewPlaceHolder = "Content를 입력해주세요."
     
@@ -51,7 +51,7 @@ final class DiaryDetailView: UIView {
 }
 
 // MARK: - UITextFieldDelegate, UITextViewDelegate
-extension DiaryDetailView: UITextFieldDelegate, UITextViewDelegate {
+extension DetailDiaryView: UITextFieldDelegate, UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         titleTextField.resignFirstResponder()
         contentsTextView.resignFirstResponder()
@@ -89,7 +89,7 @@ extension DiaryDetailView: UITextFieldDelegate, UITextViewDelegate {
 }
 
 // MARK: - UIConstraints
-extension DiaryDetailView {
+extension DetailDiaryView {
     private func setupUI() {
         [titleTextField, contentsTextView].forEach { component in
             self.addSubview(component)
@@ -130,32 +130,28 @@ extension DiaryDetailView {
 }
 
 //MARK: - KeyboardResponse Notification
-extension DiaryDetailView {
+extension DetailDiaryView {
     private func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(showKeyboard),
                                                name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
+                                               object: nil) 
 
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(hideKeyboard),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
-
+    
     @objc private func showKeyboard(_ notification: NSNotification) {
         if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue, contentsTextView.isFirstResponder {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            UIView.animate(withDuration: 0.5) {
-                self.setupTextViewBottomConstraints(constant: -(keyboardHeight + 10))
-            }
+            self.setupTextViewBottomConstraints(constant: -(keyboardHeight + 10))
         }
     }
-
+    
     @objc private func hideKeyboard() {
-        UIView.animate(withDuration: 0.5) {
-            self.setupTextViewBottomConstraints(constant: -10)
-        }
+        self.setupTextViewBottomConstraints(constant: -10)
     }
 }
