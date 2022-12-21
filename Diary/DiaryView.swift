@@ -18,6 +18,7 @@ class DiaryView: UIView {
         textView.font = .preferredFont(forTextStyle: .body)
         textView.textColor = .black
         textView.textAlignment = .left
+        textView.textContainer.lineFragmentPadding = 0
         return textView
     }()
     
@@ -34,6 +35,7 @@ class DiaryView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        setupViews()
     }
     
     required init?(coder: NSCoder) {
@@ -41,8 +43,10 @@ class DiaryView: UIView {
     }
     
     private func setupViews() {
+        backgroundColor = .systemBackground
         stackView.addArrangedSubview(titleTextField)
         stackView.addArrangedSubview(bodyTextView)
+        addSubview(stackView)
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 8),
