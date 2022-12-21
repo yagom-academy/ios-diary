@@ -10,6 +10,7 @@
 		263B2E892951986C00848F18 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263B2E882951986C00848F18 /* ListCollectionViewCell.swift */; };
 		263B2E8B2951B3D500848F18 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263B2E8A2951B3D500848F18 /* DateFormatter+Extension.swift */; };
 		264FE2E129515264003D79CB /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264FE2E029515264003D79CB /* Diary.swift */; };
+		2666394229529BF700369B6B /* UIViewController+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2666394129529BF700369B6B /* UIViewController+Extension.swift */; };
 		274DFBF063D172D65C9CF45A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E13DCEB8944C2CA8316FCA7 /* Pods_Diary.framework */; };
 		572EE63E2951ACB200D40C1B /* JSONDecoder+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572EE63D2951ACB200D40C1B /* JSONDecoder+Extension.swift */; };
 		572EE6412952950E00D40C1B /* ErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 572EE6402952950E00D40C1B /* ErrorType.swift */; };
@@ -27,6 +28,7 @@
 		263B2E882951986C00848F18 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		263B2E8A2951B3D500848F18 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		264FE2E029515264003D79CB /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
+		2666394129529BF700369B6B /* UIViewController+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extension.swift"; sourceTree = "<group>"; };
 		2A94EE8C17E720FAD19DA08C /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		3E13DCEB8944C2CA8316FCA7 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		572EE63D2951ACB200D40C1B /* JSONDecoder+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+Extension.swift"; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			children = (
 				572EE63D2951ACB200D40C1B /* JSONDecoder+Extension.swift */,
 				263B2E8A2951B3D500848F18 /* DateFormatter+Extension.swift */,
+				2666394129529BF700369B6B /* UIViewController+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -272,6 +275,7 @@
 				263B2E8B2951B3D500848F18 /* DateFormatter+Extension.swift in Sources */,
 				C739AE29284DF28600741E8F /* ViewController.swift in Sources */,
 				264FE2E129515264003D79CB /* Diary.swift in Sources */,
+				2666394229529BF700369B6B /* UIViewController+Extension.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
