@@ -12,7 +12,7 @@ final class RegisterViewController: UIViewController {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 4
+        stackView.spacing = LayoutConstant.stackViewSpacing
         return stackView
     }()
     
@@ -57,7 +57,10 @@ final class RegisterViewController: UIViewController {
     private func configureMainStackView() {
         mainStackView.addArrangedSubview(titleTextView)
         mainStackView.addArrangedSubview(bodyTextView)
-        mainStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 8, bottom: 8, trailing: 8)
+        mainStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: LayoutConstant.mainStackViewTopMargin,
+                                                                         leading: LayoutConstant.mainStackViewLeadingMargin,
+                                                                         bottom: LayoutConstant.mainStackViewBottomMargin,
+                                                                         trailing: LayoutConstant.mainStackViewTrailingMargin)
         mainStackView.isLayoutMarginsRelativeArrangement = true
         
         NSLayoutConstraint.activate([
@@ -86,4 +89,12 @@ extension RegisterViewController: UITextViewDelegate {
 fileprivate enum Placeholder {
     static let title = "제목을 입력해주세요."
     static let body = "본문을 입력해주세요."
+}
+
+fileprivate enum LayoutConstant {
+    static let stackViewSpacing = CGFloat(4)
+    static let mainStackViewTopMargin = CGFloat(0)
+    static let mainStackViewLeadingMargin = CGFloat(8)
+    static let mainStackViewBottomMargin = CGFloat(8)
+    static let mainStackViewTrailingMargin = CGFloat(8)
 }

@@ -18,7 +18,7 @@ extension UIViewController {
                                                   handler: nil)
         
         alert.addAction(action)
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     enum AlertNamespace {

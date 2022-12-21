@@ -22,7 +22,7 @@ final class DiaryListTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = 4
+        stackView.spacing = LayoutConstant.stackViewSpacing
         return stackView
     }()
     
@@ -30,7 +30,7 @@ final class DiaryListTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.spacing = 4
+        stackView.spacing = LayoutConstant.stackViewSpacing
         return stackView
     }()
     
@@ -65,7 +65,10 @@ final class DiaryListTableViewCell: UITableViewCell {
     
     private func configureLayout() {
         contentView.addSubview(diaryInfoStackView)
-        contentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 4, leading: 16, bottom: 4, trailing: 8)
+        contentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: LayoutConstant.contentViewTopMargin,
+                                                                       leading: LayoutConstant.contentViewLeadingMargin,
+                                                                       bottom: LayoutConstant.contentViewBottomMargin,
+                                                                       trailing: LayoutConstant.contentViewTrailingMargin)
         
         diaryInfoStackView.addArrangedSubview(diaryTitleLabel)
         diaryInfoStackView.addArrangedSubview(diaryDetailStackView)
@@ -73,10 +76,10 @@ final class DiaryListTableViewCell: UITableViewCell {
         diaryDetailStackView.addArrangedSubview(previewLabel)
         
         NSLayoutConstraint.activate([
-            diaryInfoStackView.leadingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.leadingAnchor),
-            diaryInfoStackView.trailingAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.trailingAnchor),
-            diaryInfoStackView.topAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.topAnchor),
-            diaryInfoStackView.bottomAnchor.constraint(equalTo: self.contentView.layoutMarginsGuide.bottomAnchor)
+            diaryInfoStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            diaryInfoStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            diaryInfoStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            diaryInfoStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
         ])
     }
     
@@ -85,4 +88,12 @@ final class DiaryListTableViewCell: UITableViewCell {
         createdDateLabel.text = DateFormatterManager().convertToDate(from: diaryForm?.createdAt)
         previewLabel.text = diaryForm?.body
     }
+}
+
+fileprivate enum LayoutConstant {
+    static let stackViewSpacing = CGFloat(4)
+    static let contentViewTopMargin = CGFloat(4)
+    static let contentViewLeadingMargin = CGFloat(16)
+    static let contentViewBottomMargin = CGFloat(4)
+    static let contentViewTrailingMargin = CGFloat(8)
 }

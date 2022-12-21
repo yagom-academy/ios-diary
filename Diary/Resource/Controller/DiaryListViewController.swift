@@ -12,7 +12,7 @@ final class DiaryListViewController: UIViewController {
     private var diaryForms: [DiaryForm] = []
     
     override func loadView() {
-        self.view = diaryListTableView
+        view = diaryListTableView
     }
 
     override func viewDidLoad() {
