@@ -8,6 +8,8 @@
 import UIKit
 
 final class EditorView: UIView {
+    lazy var textViewBottomConstraint = self.textView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+    
     private let textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -23,7 +25,23 @@ final class EditorView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func configureView() {
+        self.backgroundColor = .systemBackground
+        self.addSubview(textView)
+        
+        configureConstraints()
+    }
 
+    private func configureConstraints() {
+        NSLayoutConstraint.activate([
+            textView.topAnchor.constraint(equalTo: self.topAnchor),
+            textView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            textViewBottomConstraint
+        ])
+    }
+    
     func setupTextView(from text: String? = nil) {
         textView.text = text
     }
@@ -35,17 +53,7 @@ final class EditorView: UIView {
         textView.contentOffset = CGPoint(x: 0, y: -contentOffset)
     }
     
-    private func configureView() {
-        self.addSubview(textView)
-        configureConstraints()
-    }
-
-    private func configureConstraints() {
-        NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: self.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            textView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        ])
+    func changeBottomConstant(to constant: CGFloat) {
+        self.textViewBottomConstraint.constant = constant
     }
 }

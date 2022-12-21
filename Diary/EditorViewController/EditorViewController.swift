@@ -15,9 +15,29 @@ final class EditorViewController: UIViewController {
         self.view = editorView
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillDisappear),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillAppear),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         editorView.scrollToTop()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func configureEditorView(from content: DiaryContent? = nil) {
@@ -31,5 +51,21 @@ final class EditorViewController: UIViewController {
             dateStyle: .long,
             timeStyle: .none
         )
+    }
+}
+
+// MARK: - Objc Method
+private extension EditorViewController {
+    @objc func keyboardWillAppear(_ notification: NSNotification) {
+        if let userInfokey = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
+           let keyboardSize = (userInfokey as? NSValue)?.cgRectValue {
+            editorView.changeBottomConstant(to: -keyboardSize.height)
+            self.view.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardWillDisappear(_ notification: NSNotification) {
+        editorView.changeBottomConstant(to: 0)
+        self.view.layoutIfNeeded()
     }
 }
