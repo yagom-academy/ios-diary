@@ -3,7 +3,7 @@
 
 import UIKit
 
-private enum DiarySection: Hashable {
+fileprivate enum DiarySection: Hashable {
     case main
 }
 

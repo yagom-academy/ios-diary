@@ -18,6 +18,7 @@ opt_in_rules:
 
 disabled_rules:
     - trailing_whitespace
+    - private_over_fileprivate
 
 line_length:
     warning: 110
