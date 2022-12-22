@@ -75,7 +75,7 @@ final class DiaryListViewController: UIViewController {
         pushDiaryViewController()
     }
     
-    private func pushDiaryViewController(_ diary: Diary = Diary()) {
+    private func pushDiaryViewController(with diary: Diary = Diary()) {
         let diaryViewController = DiaryViewController(diary: diary)
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
@@ -99,6 +99,6 @@ extension DiaryListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: false)
         
         guard let diary = diaryDataSource.itemIdentifier(for: indexPath) else { return }
-        pushDiaryViewController(diary)
+        pushDiaryViewController(with: diary)
     }
 }
