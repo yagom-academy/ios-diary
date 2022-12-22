@@ -72,8 +72,10 @@ final class DiaryListViewController: UIViewController {
     
     private func decodeJsonData() {
         guard let dataAsset: NSDataAsset = NSDataAsset(name: "sample") else {
-            self.showErrorAlert(title: DiaryError.dataAssetLoadFailed.alertTitle,
-                                message: DiaryError.dataAssetLoadFailed.alertMessage)
+            let errorAlert = ErrorAlert.shared.showErrorAlert(title: DiaryError.dataAssetLoadFailed.alertTitle,
+                                                              message: DiaryError.dataAssetLoadFailed.alertMessage,
+                                                              actionTitle: "확인")
+            present(errorAlert, animated: true)
             return
         }
         
@@ -82,7 +84,10 @@ final class DiaryListViewController: UIViewController {
             case .success(let decodedDiary):
                 self.diary = decodedDiary
             case .failure(let error):
-                self.showErrorAlert(title: error.alertTitle, message: error.alertMessage)
+                let errorAlert = ErrorAlert.shared.showErrorAlert(title: error.alertTitle,
+                                                                  message: error.alertMessage,
+                                                                  actionTitle: "확인")
+                self.present(errorAlert, animated: true)
             }
         }
     }
