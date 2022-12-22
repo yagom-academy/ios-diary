@@ -17,25 +17,9 @@ final class DiaryCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.font = .preferredFont(forTextStyle: .title3)
-        return label
-    }()
-    
-    private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        return label
-    }()
-    
-    private let previewLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 1
-        label.font = .preferredFont(forTextStyle: .caption1)
-        return label
-    }()
+    private let titleLabel = UILabel(textStyle: .title3)
+    private let dateLabel = UILabel(textStyle: .body)
+    private let previewLabel = UILabel(textStyle: .caption1)
     
     private let button: UIButton = {
         let button = UIButton()
@@ -44,34 +28,21 @@ final class DiaryCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    private lazy var bottomStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [dateLabel, previewLabel])
-        stackView.spacing = 5
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        return stackView
-    }()
-    
-    private lazy var labelStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, bottomStackView])
-        stackView.spacing = 3
-        stackView.axis = .vertical
-        stackView.alignment = .leading
-        stackView.distribution = .fillEqually
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
-    
-    private lazy var totalStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [labelStackView, button])
-        stackView.spacing = 3
-        stackView.axis = .horizontal
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        return stackView
-    }()
+    private lazy var bottomStackView = UIStackView(subview: [dateLabel, previewLabel],
+                                                   spacing: 5,
+                                                   axis: .horizontal,
+                                                   alignment: .firstBaseline,
+                                                   distribution: .fill)
+    private lazy var labelStackView = UIStackView(subview: [titleLabel, bottomStackView],
+                                                  spacing: 3,
+                                                  axis: .vertical,
+                                                  alignment: .leading,
+                                                  distribution: .fillEqually)
+    private lazy var totalStackView = UIStackView(subview: [labelStackView, button],
+                                                  spacing: 3,
+                                                  axis: .horizontal,
+                                                  alignment: .center,
+                                                  distribution: .fill)
     
     func bindData(_ data: Diary) {
         self.titleLabel.text = data.title

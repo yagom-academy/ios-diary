@@ -23,6 +23,7 @@
 		F63447C629506B8D00A43B7D /* DecoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447C529506B8D00A43B7D /* DecoderManager.swift */; };
 		F63447CA29506D2E00A43B7D /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447C929506D2E00A43B7D /* Error.swift */; };
 		F63447CC29508CCB00A43B7D /* DiaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447CB29508CCB00A43B7D /* DiaryCollectionViewCell.swift */; };
+		FCEA9EC929545A4200ACA37D /* UIComponent+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA9EC829545A4200ACA37D /* UIComponent+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		F63447C529506B8D00A43B7D /* DecoderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderManager.swift; sourceTree = "<group>"; };
 		F63447C929506D2E00A43B7D /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		F63447CB29508CCB00A43B7D /* DiaryCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCollectionViewCell.swift; sourceTree = "<group>"; };
+		FCEA9EC829545A4200ACA37D /* UIComponent+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIComponent+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				3C59F5F22950A8AF0045C66A /* Formatter+Extension.swift */,
+				FCEA9EC829545A4200ACA37D /* UIComponent+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				F63447CA29506D2E00A43B7D /* Error.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				F633D22D295169EE0037DD81 /* DetailViewController.swift in Sources */,
+				FCEA9EC929545A4200ACA37D /* UIComponent+Extension.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				F63447C629506B8D00A43B7D /* DecoderManager.swift in Sources */,
