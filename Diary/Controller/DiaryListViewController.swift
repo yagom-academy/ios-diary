@@ -27,9 +27,16 @@ final class DiaryListViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureNavigationItem()
         configureDiariesWithSampleData()
         configureDataSource()
         updateSnapshot()
+    }
+
+    private func configureNavigationItem() {
+        navigationItem.title = NSLocalizedString("일기장", comment: "")
+        let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(touchUpAddButton))
+        navigationItem.rightBarButtonItem = addButton
     }
 
     private func configureDiariesWithSampleData() {
@@ -73,5 +80,10 @@ final class DiaryListViewController: UICollectionViewController {
         snapshot.appendSections([0])
         snapshot.appendItems(diaries.map { $0.id }, toSection: 0)
         dataSource.apply(snapshot)
+    }
+}
+
+extension DiaryListViewController {
+    @objc private func touchUpAddButton(_ sender: UIBarButtonItem) {
     }
 }
