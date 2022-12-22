@@ -16,11 +16,17 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        DetailViewController.delegate = self
         view.addSubview(tableView)
         tableViewAttribute()
         configureTableViewConstraint()
         getSampleData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
     }
     
     private func configureTableViewConstraint() {
@@ -58,6 +64,7 @@ extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailView: DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailView") as? DetailViewController else { return }
         detailView.diaryData = sampleData[indexPath.row]
+        detailView.indexPath = indexPath
         self.navigationController?.pushViewController(detailView, animated: true)
         
     }
@@ -76,5 +83,14 @@ extension DiaryViewController: UITableViewDataSource {
                            createdAt: sampleData[indexPath.row].createdAt,
                            body: sampleData[indexPath.row].body)
         return cell
+    }
+}
+
+extension DiaryViewController: DetailViewControllerDelegate {
+    
+    func sendData(title: String, body: String, indexPath: IndexPath) {
+        sampleData[indexPath.row].title = title
+        sampleData[indexPath.row].body = body
+        
     }
 }

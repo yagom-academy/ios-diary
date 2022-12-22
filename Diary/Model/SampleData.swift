@@ -8,8 +8,8 @@
 import Foundation
 
 struct SampleData: Decodable {
-    let title: String
-    let body: String
+    var title: String
+    var body: String
     let createdAt: Int
     
     enum CodingKeys: String, CodingKey {
