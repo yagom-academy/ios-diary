@@ -49,7 +49,7 @@ final class AddDiaryViewController: UIViewController {
         }
         
         contentTextView.scrollIndicatorInsets = contentTextView.contentInset
-        
+
         let selectedRange = contentTextView.selectedRange
         contentTextView.scrollRangeToVisible(selectedRange)
     }
@@ -92,6 +92,7 @@ final class AddDiaryViewController: UIViewController {
 }
 
 extension AddDiaryViewController: UITextViewDelegate {
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == "내용을 입력하세요." {
             textView.text = nil

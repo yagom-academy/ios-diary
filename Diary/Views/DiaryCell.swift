@@ -8,6 +8,7 @@
 import UIKit
 
 final class DiaryCell: UITableViewCell {
+    
     static let identifier = "CustomCell"
     
     private let spacing: CGFloat = 10
