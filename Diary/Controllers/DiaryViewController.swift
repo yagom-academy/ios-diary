@@ -56,7 +56,10 @@ class DiaryViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addDiary))
     }
     
-    @objc func addDiary() { }
+    @objc func addDiary() {
+        let addDiaryViewController = AddDiaryViewController()
+        self.navigationController?.pushViewController(addDiaryViewController, animated: true)
+    }
 }
 
 extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
