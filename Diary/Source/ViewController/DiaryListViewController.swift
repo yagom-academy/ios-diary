@@ -9,7 +9,7 @@ fileprivate enum DiarySection: Hashable {
 
 final class DiaryListViewController: UIViewController {
     private let diaryTitle: String = "일기장"
-    private lazy var diaryTableView: UITableView = {
+    private let diaryTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         
         tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.reuseIdentifier)
