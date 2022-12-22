@@ -3,7 +3,7 @@
 //  Diary
 //
 //  Copyright (c) 2022 woong, jeremy All rights reserved.
-    
+//
 
 import Foundation
 
@@ -18,6 +18,7 @@ extension String {
         let limitIndex = index(startIndex, offsetBy: titleWordsLimit)
         let title = self[startIndex..<limitIndex]
         let body = self[limitIndex..<endIndex]
+        
         return (title.description, body.description)
     }
 }

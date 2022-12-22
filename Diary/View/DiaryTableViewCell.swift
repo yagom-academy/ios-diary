@@ -2,13 +2,13 @@
 //  DiaryTableViewCell.swift
 //  Diary
 //
-//  Created by 서현웅 on 2022/12/21.
+//  Copyright (c) 2022 woong, jeremy All rights reserved.
 //
 
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
-
+    
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var createdAtLabel: UILabel!
     @IBOutlet weak var bodyLabel: UILabel!
@@ -26,5 +26,6 @@ final class DiaryTableViewCell: UITableViewCell {
         titleLabel.text = title
         createdAtLabel.text = createdAt.convertDate()
         bodyLabel.text = body
+        self.accessoryType = .disclosureIndicator
     }
 }

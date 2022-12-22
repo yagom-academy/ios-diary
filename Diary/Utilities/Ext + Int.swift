@@ -13,6 +13,7 @@ extension Int {
         let date = Date(timeIntervalSince1970: TimeInterval(self))
         dateFormatter.setLocalizedDateFormatFromTemplate("YYYYMMMMd")
         dateFormatter.locale = Locale(identifier: "ko_KO")
+        
         return dateFormatter.string(from: date)
     }
 }

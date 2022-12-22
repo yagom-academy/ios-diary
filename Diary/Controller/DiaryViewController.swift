@@ -11,7 +11,7 @@ final class DiaryViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-       return tableView
+        return tableView
     }()
     
     override func viewDidLoad() {
@@ -50,6 +50,7 @@ final class DiaryViewController: UIViewController {
         guard let data = asset?.data else { return }
         let jsonDecoder = JSONDecoder()
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        
         do {
             sampleData = try jsonDecoder.decode([SampleData].self, from: data)
         } catch {
@@ -73,6 +74,7 @@ extension DiaryViewController: UITableViewDelegate {
 // MARK: - TableView DataSource
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return sampleData.count
     }
     
@@ -82,6 +84,7 @@ extension DiaryViewController: UITableViewDataSource {
         cell.configureCell(title: sampleData[indexPath.row].title,
                            createdAt: sampleData[indexPath.row].createdAt,
                            body: sampleData[indexPath.row].body)
+        
         return cell
     }
 }

@@ -3,7 +3,7 @@
 //  Diary
 //
 //  Copyright (c) 2022 woong, jeremy All rights reserved.
-
+//
 
 import UIKit
 
@@ -44,12 +44,9 @@ final class DetailViewController: UIViewController {
         self.navigationItem.title = data.createdAt.convertDate()
         self.detailTextView.text = "\(data.title)\n\n\(data.body)"
     }
-    
-    
-    
 }
 
-// MARK: Notification: handled keyboard Method
+// MARK: - Notification: handled keyboard Method
 
 extension DetailViewController {
     private func addNotificationObserver() {
