@@ -31,12 +31,12 @@ final class MainViewController: UIViewController {
         self.title = "일기장"
         let appearence = UINavigationBarAppearance()
         appearence.backgroundColor = .systemGray5
-        navigationController?.navigationBar.standardAppearance = appearence
-        navigationController?.navigationBar.scrollEdgeAppearance = appearence
+        self.navigationController?.navigationBar.standardAppearance = appearence
+        self.navigationController?.navigationBar.scrollEdgeAppearance = appearence
         
         let addBarButton = UIBarButtonItem(barButtonSystemItem: .add,
-                                        target: self,
-                                        action: #selector(addButtonTapped))
+                                           target: self,
+                                           action: #selector(addButtonTapped))
         self.navigationItem.rightBarButtonItem = addBarButton
     }
     
@@ -46,7 +46,7 @@ final class MainViewController: UIViewController {
         
         switch result {
         case .success(let datas):
-            diaryDatas = datas
+            self.diaryDatas = datas
         case .failure(let error):
             print(error.localizedDescription)
         }
@@ -54,7 +54,7 @@ final class MainViewController: UIViewController {
     
     @objc private func addButtonTapped() {
         let detailViewController = DetailViewController()
-        navigationController?.pushViewController(detailViewController, animated: true)
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
@@ -63,8 +63,8 @@ extension MainViewController {
     private func configureDataSource() -> DataSource {
         let cellRegistration = UICollectionView
             .CellRegistration<DiaryCollectionViewCell, Diary> { cell, _, diaryData in
-            cell.bindData(diaryData)
-        }
+                cell.bindData(diaryData)
+            }
         
         let dataSource = DataSource(
             collectionView: mainDiaryView.collectionView

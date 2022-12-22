@@ -18,6 +18,6 @@ final class DetailViewController: UIViewController {
     
     private func setNavigation() {
         let date = Formatter.changeCustomDate(Date())
-        title = date
+        self.title = date
     }
 }

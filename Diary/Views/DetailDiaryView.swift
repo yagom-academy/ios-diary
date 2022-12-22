@@ -8,8 +8,14 @@
 import UIKit
 
 final class DetailDiaryView: UIView {
-    private let textFieldPlaceHolder = "Title을 입력해주세요."
-    private let textViewPlaceHolder = "Content를 입력해주세요."
+    private enum Placeholder: String {
+        case textFieldPlaceHolder = "Title을 입력해주세요."
+        case textViewPlaceHolder = "Content를 입력해주세요."
+        
+        var sentence: String {
+            return self.rawValue
+        }
+    }
     
     private var textViewBottomConstraints: NSLayoutConstraint?
     
@@ -29,7 +35,7 @@ final class DetailDiaryView: UIView {
     
     private lazy var titleTextField: UITextField = {
         let textfield = UITextField()
-        textfield.placeholder = textFieldPlaceHolder
+        textfield.placeholder = Placeholder.textFieldPlaceHolder.sentence
         textfield.layer.borderWidth = 1
         textfield.layer.cornerRadius = 10
         textfield.returnKeyType = .done
@@ -43,7 +49,7 @@ final class DetailDiaryView: UIView {
         textView.layer.borderWidth = 1
         textView.layer.cornerRadius = 10
         textView.textColor = .lightGray
-        textView.text = textViewPlaceHolder
+        textView.text = Placeholder.textViewPlaceHolder.sentence
         textView.font = .preferredFont(forTextStyle: .body)
         textView.layer.borderColor = UIColor.systemGray5.cgColor
         return textView
@@ -53,13 +59,13 @@ final class DetailDiaryView: UIView {
 // MARK: - UITextFieldDelegate, UITextViewDelegate
 extension DetailDiaryView: UITextFieldDelegate, UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        titleTextField.resignFirstResponder()
-        contentsTextView.resignFirstResponder()
+        self.titleTextField.resignFirstResponder()
+        self.contentsTextView.resignFirstResponder()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if titleTextField.text != "" {
-            contentsTextView.becomeFirstResponder()
+            self.contentsTextView.becomeFirstResponder()
             return true
         }
         return false
@@ -69,12 +75,12 @@ extension DetailDiaryView: UITextFieldDelegate, UITextViewDelegate {
         guard let text = textField.text else { return }
         if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textField.text = nil
-            textField.placeholder = textFieldPlaceHolder
+            textField.placeholder = Placeholder.textFieldPlaceHolder.sentence
         }
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == textViewPlaceHolder {
+        if textView.text == Placeholder.textViewPlaceHolder.sentence {
             textView.text = nil
             textView.textColor = .black
         }
@@ -82,7 +88,7 @@ extension DetailDiaryView: UITextFieldDelegate, UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = textViewPlaceHolder
+            textView.text = Placeholder.textViewPlaceHolder.sentence
             textView.textColor = .lightGray
         }
     }

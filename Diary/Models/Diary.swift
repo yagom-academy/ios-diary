@@ -13,7 +13,7 @@ struct Diary: Decodable, Hashable {
     var body: String
     var createdAt: Int
         
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case title, body
         case createdAt = "created_at"
     }
