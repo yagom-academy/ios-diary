@@ -5,7 +5,7 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private let diaryView = DiaryView(frame: .zero)
-    private var diary: Diary?
+    private var diary: Diary
 
     init(diary: Diary) {
         self.diary = diary
@@ -13,6 +13,7 @@ final class DiaryViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
+        self.diary = Diary()
         super.init(coder: coder)
     }
     
@@ -29,7 +30,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configure() {
-        title = diary?.date
+        title = diary.date
         diaryView.setupData(of: diary)
     }
 }

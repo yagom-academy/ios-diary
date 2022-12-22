@@ -97,12 +97,12 @@ final class DiaryView: UIView {
         scrollView.delegate = scrollViewDelegate
     }
     
-    func setupData(of diary: Diary?) {
-        if diary?.title.isEmpty == false {
-            titleTextField.text = diary?.title
+    func setupData(of diary: Diary) {
+        if diary.title.isEmpty == false {
+            titleTextField.text = diary.title
         }
-        if diary?.body.isEmpty == false {
-            bodyTextView.text = diary?.body
+        if diary.body.isEmpty == false {
+            bodyTextView.text = diary.body
             bodyTextView.textColor = .black
         }
     }
