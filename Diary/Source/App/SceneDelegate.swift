@@ -16,13 +16,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let mainViewController = DiaryListViewController()
         let navigationController = UINavigationController(rootViewController: mainViewController)
         
-        if #available(iOS 15.0, *) {
-            let navigationBarAppearance = UINavigationBarAppearance()
-            navigationBarAppearance.configureWithOpaqueBackground()
-
-            navigationController.navigationBar.standardAppearance = navigationBarAppearance
-            navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
-        }
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithOpaqueBackground()
+        
+        navigationController.navigationBar.standardAppearance = navigationBarAppearance
+        navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearance
         
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
