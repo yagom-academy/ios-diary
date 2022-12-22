@@ -10,10 +10,10 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private var collectionView: UICollectionView?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
+    private var dataSource: UICollectionViewDiffableDataSource<DiarySection, Diary>?
     private var diary: [Diary]?
 
-    enum Section: Hashable {
+    enum DiarySection: Hashable {
         case main
     }
     
@@ -91,7 +91,7 @@ final class DiaryListViewController: UIViewController {
             cell.accessories = [.disclosureIndicator()]
         }
         
-        self.dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView) {
+        self.dataSource = UICollectionViewDiffableDataSource<DiarySection, Diary>(collectionView: collectionView) {
             collectionView, indexPath, diary in
             
             return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
@@ -103,7 +103,7 @@ final class DiaryListViewController: UIViewController {
     private func applySnapshot(with diaryData: [Diary]?) {
         guard let diaryData = diaryData else { return }
         
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
+        var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diaryData)
         self.dataSource?.apply(snapshot)
