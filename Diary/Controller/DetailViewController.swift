@@ -45,6 +45,13 @@ final class DetailViewController: UIViewController {
         self.detailTextView.text = "\(data.title)\n\n\(data.body)"
     }
     
+    
+    
+}
+
+// MARK: Notification: handled keyboard Method
+
+extension DetailViewController {
     private func addNotificationObserver() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(_ :)),

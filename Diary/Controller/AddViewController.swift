@@ -2,7 +2,7 @@
 //  AddViewController.swift
 //  Diary
 //
-//  Created by 서현웅 on 2022/12/21.
+//  Copyright (c) 2022 woong, jeremy All rights reserved.
 //
 
 import UIKit
