@@ -10,9 +10,12 @@ import UIKit
 final class AddDiaryViewController: UIViewController {
     private let addDiaryView = AddDiaryView()
     
+    override func loadView() {
+        self.view = addDiaryView
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = addDiaryView
         self.navigationItem.title = DateFormatter().longDate
         
         setKeyboardObserver()
@@ -33,13 +36,13 @@ final class AddDiaryViewController: UIViewController {
     
     @objc func keyboardWillShow(notification: NSNotification) {
         guard let keyboardHeight = getKeyboardHeight(from: notification) else { return }
-                
+        
         self.addDiaryView.changeTextViewContentInset(for: keyboardHeight)
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
         guard let keyboardHeight = getKeyboardHeight(from: notification) else { return }
-                
+        
         self.addDiaryView.changeTextViewContentInset(for: -keyboardHeight)
     }
     
