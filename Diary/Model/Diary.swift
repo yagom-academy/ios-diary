@@ -9,7 +9,7 @@ import Foundation
 
 struct Diary: Codable {
     let title, body: String
-    let createdAt: Int
+    let createdAt: Double
 
     enum CodingKeys: String, CodingKey {
         case title, body
