@@ -6,11 +6,11 @@
 
 import UIKit
 
-class DiaryListViewController: UIViewController {
+final class DiaryListViewController: UIViewController {
     
-    var diaries: [Diary]?
+    private var diaries: [Diary]?
     
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -24,7 +24,7 @@ class DiaryListViewController: UIViewController {
         configureNavigationItem()
     }
     
-    func fetchData() {
+    private func fetchData() {
         guard let assetData = NSDataAsset.init(name: "sample"),
               let diaries = try? JSONDecoder().decode([Diary].self, from: assetData.data) else {
             return
@@ -32,14 +32,14 @@ class DiaryListViewController: UIViewController {
         self.diaries = diaries
     }
     
-    func configureTableView() {
+    private func configureTableView() {
         self.tableView.delegate = self
         self.tableView.dataSource = self
         self.tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
         self.tableView.reloadData()
     }
     
-    func configureUI() {
+    private func configureUI() {
         self.view.backgroundColor = .white
         
         self.view.addSubview(tableView)
@@ -51,12 +51,12 @@ class DiaryListViewController: UIViewController {
         ])
     }
     
-    func configureNavigationItem() {
+    private func configureNavigationItem() {
         self.navigationItem.title = "일기장"
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addDiary))
     }
     
-    @objc func addDiary() {
+    @objc private func addDiary() {
         let addDiaryViewController = AddDiaryViewController()
         self.navigationController?.pushViewController(addDiaryViewController, animated: true)
     }

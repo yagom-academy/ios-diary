@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AddDiaryViewController: UIViewController {
+final class AddDiaryViewController: UIViewController {
     
     private let titleTextField: UITextField = {
         let textField = UITextField()
@@ -26,9 +26,8 @@ class AddDiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        configureNavigationItem()
         configureUI()
+        configureNavigationItem()
         configureTextView()
         configureNotificationCenter()
     }
@@ -65,6 +64,8 @@ class AddDiaryViewController: UIViewController {
     }
     
     private func configureUI() {
+        self.view.backgroundColor = .white
+        
         self.view.addSubview(titleTextField)
         self.view.addSubview(contentTextView)
         
@@ -84,9 +85,9 @@ class AddDiaryViewController: UIViewController {
     }
     
     private func configureTextView() {
-        contentTextView.delegate = self
-        contentTextView.text = "내용을 입력하세요."
-        contentTextView.textColor = .lightGray
+        self.contentTextView.delegate = self
+        self.contentTextView.text = "내용을 입력하세요."
+        self.contentTextView.textColor = .lightGray
     }
 }
 
