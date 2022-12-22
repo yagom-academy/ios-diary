@@ -7,6 +7,8 @@
 import UIKit
 
 final class DiaryListViewController: UICollectionViewController {
+    var diaries: [Diary] = []
+
     init() {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
                                               heightDimension: .fractionalHeight(1.0))
@@ -28,5 +30,13 @@ final class DiaryListViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        configureDiariesWithSampleData()
+    }
+
+    private func configureDiariesWithSampleData() {
+        guard let dataAsset = NSDataAsset(name: "sample"),
+              let data = try? JSONDecoder().decode([Diary].self, from: dataAsset.data) else { return }
+        diaries = data
     }
 }
