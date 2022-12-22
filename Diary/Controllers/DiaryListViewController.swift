@@ -1,12 +1,12 @@
 //
-//  Diary - ViewController.swift
+//  Diary - DiaryListViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-class DiaryViewController: UIViewController {
+class DiaryListViewController: UIViewController {
     
     var diaries: [Diary]?
     
@@ -62,7 +62,7 @@ class DiaryViewController: UIViewController {
     }
 }
 
-extension DiaryViewController: UITableViewDelegate, UITableViewDataSource {
+extension DiaryListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return diaries?.count ?? 0
