@@ -9,10 +9,11 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    private var collectionView: UICollectionView?
+    private lazy var collectionView: UICollectionView = UICollectionView(frame: view.bounds,
+                                                                         collectionViewLayout: createListLayout())
     private var dataSource: UICollectionViewDiffableDataSource<DiarySection, Diary>?
     private var diary: [Diary]?
-
+    
     enum DiarySection: Hashable {
         case main
     }
@@ -52,10 +53,6 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds,
-                                          collectionViewLayout: createListLayout())
-        guard let collectionView = collectionView else { return }
-        
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.view.addSubview(collectionView)
     }
@@ -83,8 +80,6 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        guard let collectionView = self.collectionView else { return }
-        
         let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Diary> {
             (cell, indexPath, diary) in
             cell.configureContents(with: diary)
