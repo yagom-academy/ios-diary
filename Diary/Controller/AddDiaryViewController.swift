@@ -50,6 +50,7 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationItem.title = DateFormatter().longDate
+        self.view.backgroundColor = UIColor.white
         
         setKeyboardObserver()
         initializeHideKeyBoard()

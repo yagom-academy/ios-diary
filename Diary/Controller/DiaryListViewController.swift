@@ -53,8 +53,16 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(collectionView)
+        
+        NSLayoutConstraint.activate([
+            self.collectionView.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor),
+            self.collectionView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.collectionView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     private func createListLayout() -> UICollectionViewLayout {
