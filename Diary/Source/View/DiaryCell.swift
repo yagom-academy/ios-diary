@@ -3,8 +3,7 @@
 
 import UIKit
 
-final class DiaryCell: UITableViewCell {
-    static let identifier: String = String(describing: DiaryCell.self)
+final class DiaryCell: UITableViewCell, ReusableView {
     private let titleLabel: UILabel = {
         let label = UILabel()
         

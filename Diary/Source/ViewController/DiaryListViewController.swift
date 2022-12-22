@@ -12,7 +12,7 @@ final class DiaryListViewController: UIViewController {
     private lazy var diaryTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         
-        tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
+        tableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.reuseIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
@@ -23,7 +23,7 @@ final class DiaryListViewController: UIViewController {
             tableView: diaryTableView
         ) { (tableView, indexPath, diary) -> UITableViewCell? in
             guard let cell = tableView.dequeueReusableCell(
-                withIdentifier: DiaryCell.identifier,
+                withIdentifier: DiaryCell.reuseIdentifier,
                 for: indexPath
             ) as? DiaryCell else { return nil }
             
@@ -78,7 +78,7 @@ final class DiaryListViewController: UIViewController {
     
     private func pushDiaryViewController(_ diary: Diary = Diary()) {
         let diaryViewController = DiaryViewController(diary: diary)
-        navigationController?.pushViewController(diaryViewController, animated: false)
+        navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
     private func applySampleData() {
