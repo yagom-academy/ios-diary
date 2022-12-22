@@ -10,7 +10,6 @@
 		B414FEE02952997900E7AC2A /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B414FEDF2952997900E7AC2A /* DiaryView.swift */; };
 		B414FEE22952D2C400E7AC2A /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B414FEE12952D2C400E7AC2A /* DateFormatter+Extension.swift */; };
 		B414FEE42952D8AC00E7AC2A /* Locale+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B414FEE32952D8AC00E7AC2A /* Locale+Extension.swift */; };
-		B42D0AC9295160C400BE49C6 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = B42D0AC8295160C400BE49C6 /* .swiftlint.yml */; };
 		B4C1C51229544CA4008A130F /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4C1C51129544CA4008A130F /* ReusableView.swift */; };
 		B4CEA6A0295192090079FBDF /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CEA69F295192090079FBDF /* Diary.swift */; };
 		B4CEA6A2295193790079FBDF /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4CEA6A1295193790079FBDF /* DiaryCell.swift */; };
@@ -30,7 +29,6 @@
 		B414FEDF2952997900E7AC2A /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		B414FEE12952D2C400E7AC2A /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		B414FEE32952D8AC00E7AC2A /* Locale+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+Extension.swift"; sourceTree = "<group>"; };
-		B42D0AC8295160C400BE49C6 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		B4C1C51129544CA4008A130F /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
 		B4CEA69F295192090079FBDF /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		B4CEA6A1295193790079FBDF /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
@@ -86,7 +84,6 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
-				B42D0AC8295160C400BE49C6 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
 				6A48DFCB2123CF94762803EA /* Pods */,
@@ -239,7 +236,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B42D0AC9295160C400BE49C6 /* .swiftlint.yml in Resources */,
 				C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */,
 				C739AE31284DF28600741E8F /* Assets.xcassets in Resources */,
 			);
