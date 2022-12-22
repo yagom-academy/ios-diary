@@ -12,7 +12,7 @@ final class DiaryListViewController: UIViewController {
     private lazy var collectionView: UICollectionView = UICollectionView(frame: view.bounds,
                                                                          collectionViewLayout: createListLayout())
     private var dataSource: UICollectionViewDiffableDataSource<DiarySection, Diary>?
-    private var diary: [Diary]?
+    private var diary: [Diary] = []
     
     enum DiarySection: Hashable {
         case main
@@ -32,7 +32,7 @@ final class DiaryListViewController: UIViewController {
     private func configureListContents() {
         decodeJsonData()
         configureDataSource()
-        applySnapshot(with: diary)
+        applySnapshot()
     }
     
     private func configureNavigationBar() {
@@ -103,12 +103,10 @@ final class DiaryListViewController: UIViewController {
         }
     }
     
-    private func applySnapshot(with diaryData: [Diary]?) {
-        guard let diaryData = diaryData else { return }
-        
+    private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(diaryData)
+        snapshot.appendItems(diary)
         self.dataSource?.apply(snapshot)
     }
 }
