@@ -7,7 +7,40 @@
 
 import UIKit
 
-final class AddDiaryViewController: UIViewController {
+@objc protocol AddKeyboardNotification {
+    @objc func keyboardWillShow(notification: NSNotification)
+    @objc func keyboardWillHide(notification: NSNotification)
+}
+
+extension AddKeyboardNotification {
+    func setKeyboardObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    func getKeyboardHeight(from notification: NSNotification) -> CGFloat? {
+        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
+            return nil
+        }
+        
+        guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
+            return nil
+        }
+        
+        let keyboardRectangle = keyboardFrame.cgRectValue
+        
+        return keyboardRectangle.height
+    }
+}
+
+final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
     private let addDiaryView = AddDiaryView()
     
     override func loadView() {
@@ -22,42 +55,16 @@ final class AddDiaryViewController: UIViewController {
         initializeHideKeyBoard()
     }
     
-    private func setKeyboardObserver() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(notification: NSNotification) {
         guard let keyboardHeight = getKeyboardHeight(from: notification) else { return }
         
         self.addDiaryView.changeTextViewContentInset(for: keyboardHeight)
     }
     
-    @objc func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillHide(notification: NSNotification) {
         guard let keyboardHeight = getKeyboardHeight(from: notification) else { return }
         
         self.addDiaryView.changeTextViewContentInset(for: -keyboardHeight)
-    }
-    
-    private func getKeyboardHeight(from notification: NSNotification) -> CGFloat? {
-        guard let userInfo: NSDictionary = notification.userInfo as? NSDictionary else {
-            return nil
-        }
-        
-        guard let keyboardFrame = userInfo.value(forKey: UIResponder.keyboardFrameEndUserInfoKey) as? NSValue else {
-            return nil
-        }
-        
-        let keyboardRectangle = keyboardFrame.cgRectValue
-        
-        return keyboardRectangle.height
     }
     
     private func initializeHideKeyBoard() {
