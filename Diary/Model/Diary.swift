@@ -2,7 +2,7 @@
 //  Diary.swift
 //  Diary
 //
-//  Created by Mangdi on 2022/12/20.
+//  Created by Mangdi, junho on 2022/12/20.
 //
 
 import Foundation
