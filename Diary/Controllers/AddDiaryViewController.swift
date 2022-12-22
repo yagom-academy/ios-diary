@@ -11,6 +11,13 @@ class AddDiaryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.view.backgroundColor = .white
+        configureNavigationItem()
+    }
+    
+    private func configureNavigationItem() {
+        let currentDate = DateFormatter.conversionLocalDate(date: Date(), local: .current, dateStyle: .long)
+        self.navigationItem.title = currentDate
     }
 
 }
