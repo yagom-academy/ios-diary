@@ -85,5 +85,7 @@ final class DiaryListViewController: UICollectionViewController {
 
 extension DiaryListViewController {
     @objc private func touchUpAddButton(_ sender: UIBarButtonItem) {
+        let diaryRegistrationViewController = DiaryRegistrationViewController()
+        navigationController?.pushViewController(diaryRegistrationViewController, animated: true)
     }
 }
