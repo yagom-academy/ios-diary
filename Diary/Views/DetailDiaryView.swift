@@ -35,12 +35,15 @@ final class DetailDiaryView: UIView {
     
     private lazy var titleTextField: UITextField = {
         let textfield = UITextField()
-        textfield.placeholder = Placeholder.textFieldPlaceHolder.sentence
+        
+        textfield.returnKeyType = .done
         textfield.layer.borderWidth = 1
         textfield.layer.cornerRadius = 10
-        textfield.returnKeyType = .done
+        textfield.leftViewMode = .always
+        textfield.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
         textfield.font = .preferredFont(forTextStyle: .title1)
         textfield.layer.borderColor = UIColor.systemGray5.cgColor
+        textfield.placeholder = Placeholder.textFieldPlaceHolder.sentence
         return textfield
     }()
     
@@ -49,9 +52,9 @@ final class DetailDiaryView: UIView {
         textView.layer.borderWidth = 1
         textView.layer.cornerRadius = 10
         textView.textColor = .lightGray
-        textView.text = Placeholder.textViewPlaceHolder.sentence
         textView.font = .preferredFont(forTextStyle: .body)
         textView.layer.borderColor = UIColor.systemGray5.cgColor
+        textView.text = Placeholder.textViewPlaceHolder.sentence
         return textView
     }()
 }
@@ -117,9 +120,7 @@ extension DetailDiaryView {
             contentsTextView.leadingAnchor.constraint(
                 equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             contentsTextView.trailingAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            contentsTextView.bottomAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+                equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10)
         ])
         
         textViewBottomConstraints = contentsTextView.bottomAnchor.constraint(
