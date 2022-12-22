@@ -27,7 +27,7 @@ final class DiaryListViewController: UIViewController {
                 for: indexPath
             ) as? DiaryCell else { return nil }
             
-            cell.setupDiary(diary)
+            cell.configure(with: diary)
             
             return cell
         }

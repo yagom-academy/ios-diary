@@ -57,14 +57,14 @@ final class DiaryCell: UITableViewCell, ReusableView {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         accessoryType = .disclosureIndicator
-        configure()
+        setupViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
     }
     
-    private func configure() {
+    private func setupViews() {
         dateAndBodyStackView.addArrangedSubview(createdDateLabel)
         dateAndBodyStackView.addArrangedSubview(bodyLabel)
         contentsStackView.addArrangedSubview(titleLabel)
@@ -82,9 +82,9 @@ final class DiaryCell: UITableViewCell, ReusableView {
         createdDateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
     
-    func setupDiary(_ newDiary: Diary) {
-        titleLabel.text = newDiary.title
-        createdDateLabel.text = newDiary.date
-        bodyLabel.text = newDiary.body
+    func configure(with diary: Diary) {
+        titleLabel.text = diary.title
+        createdDateLabel.text = diary.date
+        bodyLabel.text = diary.body
     }
 }
