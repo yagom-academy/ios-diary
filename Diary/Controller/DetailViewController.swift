@@ -7,9 +7,10 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
 
-    @IBOutlet weak var detailTextView: UITextView!
+    @IBOutlet weak private var detailTextViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet weak private var detailTextView: UITextView!
     var diaryData: SampleData?
     
     override func viewDidLoad() {
@@ -18,16 +19,16 @@ class DetailViewController: UIViewController {
         addNotificationObserver()
     }
     
-    func configureView() {
+    private func configureView() {
         guard let data = diaryData else { return }
         self.navigationItem.title = data.createdAt.convertDate()
         self.detailTextView.text = "\(data.title)\n\n\(data.body)"
     }
     
-    func addNotificationObserver() {
+    private func addNotificationObserver() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(_ :)),
-                                               name: UIResponder.keyboardDidShowNotification,
+                                               name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide(_ :)),
@@ -36,12 +37,18 @@ class DetailViewController: UIViewController {
     }
 
     @objc
-    func keyboardWillShow(_ notification: Notification) {
-        
+    private func keyboardWillShow(_ notification: Notification) {
+        handleScrollView(notification, isAppearing: true)
     }
     
     @objc
-    func keyboardWillHide(_ notification: Notification) {
-        
+    private func keyboardWillHide(_ notification: Notification) {
+        handleScrollView(notification, isAppearing: false)
+    }
+    
+    private func handleScrollView(_ notification: Notification, isAppearing: Bool) {
+        guard let userinfo = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardHeight = userinfo.cgRectValue.height
+        detailTextViewBottomConstraint.constant = isAppearing ? keyboardHeight : .zero
     }
 }
