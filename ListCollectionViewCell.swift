@@ -8,7 +8,7 @@
 import UIKit
 
 final class ListCollectionViewCell: UICollectionViewListCell {
-    private var mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -18,7 +18,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    private var subStackView: UIStackView = {
+    private let subStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
@@ -29,7 +29,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    private var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title3, compatibleWith: .none)
@@ -37,7 +37,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    private var dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
@@ -45,7 +45,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
-    private var bodyLabel: UILabel = {
+    private let bodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
