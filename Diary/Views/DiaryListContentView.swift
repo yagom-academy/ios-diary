@@ -98,7 +98,7 @@ final class DiaryListContentView: UIView, UIContentView {
 struct DiaryListConfiguration: UIContentConfiguration {
     var title: String?
     var body: String?
-    var createdAt: Double?
+    var createdAt: TimeInterval?
 
     func makeContentView() -> UIView & UIContentView {
         return DiaryListContentView(configuration: self)

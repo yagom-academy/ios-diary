@@ -34,8 +34,10 @@ final class DiaryListViewController: UICollectionViewController {
     }
 
     private func configureNavigationItem() {
-        navigationItem.title = NSLocalizedString("일기장", comment: "")
-        let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(touchUpAddButton))
+        navigationItem.title = NSLocalizedString("Diary", comment: "diary title")
+        let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
+                                        style: .plain, target: self,
+                                        action: #selector(touchUpAddButton))
         navigationItem.rightBarButtonItem = addButton
     }
 
@@ -51,7 +53,9 @@ final class DiaryListViewController: UICollectionViewController {
         }) else { return nil }
         return diary
     }
+}
 
+extension DiaryListViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Diary.ID> { [weak self] cell, _, itemIdentifier in
 

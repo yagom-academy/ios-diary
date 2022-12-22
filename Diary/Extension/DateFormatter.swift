@@ -8,12 +8,12 @@
 import Foundation
 
 extension DateFormatter {
-    static func convertToCurrentLocalizedText(timeIntervalSince1970: Double) -> String {
+    static func convertToCurrentLocalizedText(timeIntervalSince1970: TimeInterval) -> String {
         let date = Date(timeIntervalSince1970: timeIntervalSince1970)
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
-        formatter.locale = Locale.current
+        formatter.locale = Locale.currentLocale
         return formatter.string(from: date)
     }
 }

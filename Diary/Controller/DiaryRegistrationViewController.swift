@@ -15,7 +15,7 @@ final class DiaryRegistrationViewController: UIViewController {
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.font = UIFont.preferredFont(forTextStyle: .title3)
         textField.adjustsFontForContentSizeCategory = true
-        textField.placeholder = "title"
+        textField.placeholder = NSLocalizedString("Title", comment: "title placeholder")
         return textField
     }()
     private let bodyTextView: UITextView = {
@@ -23,7 +23,6 @@ final class DiaryRegistrationViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
-        textView.text = "body"
         textView.textContainer.lineFragmentPadding = 0
         return textView
     }()
@@ -38,30 +37,14 @@ final class DiaryRegistrationViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         if #unavailable(iOS 15.0) {
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(keyboardWillShow(_:)),
-                                                   name: UIResponder.keyboardWillShowNotification,
-                                                   object: nil)
-            NotificationCenter.default.addObserver(self,
-                                                   selector: #selector(keyboardWillHide(_:)),
-                                                   name: UIResponder.keyboardWillHideNotification,
-                                                   object: nil)
+            addKeyboardObserver()
         }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         if #unavailable(iOS 15.0) {
-            NotificationCenter.default.removeObserver(self,
-                                                      name: UIResponder.keyboardWillShowNotification,
-                                                      object: nil)
-            NotificationCenter.default.removeObserver(self,
-                                                      name: UIResponder.keyboardWillHideNotification,
-                                                      object: nil)
+            removeKeyboardObserver()
         }
-    }
-
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
     }
 
     private func configureNavigationItem() {
@@ -92,10 +75,33 @@ final class DiaryRegistrationViewController: UIViewController {
 }
 
 extension DiaryRegistrationViewController {
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(_:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide(_:)),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillShowNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillHideNotification,
+                                                  object: nil)
+    }
+
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+
     @objc private func keyboardWillShow(_ notification: NSNotification) {
         guard bodyTextView.isFirstResponder,
-              let keyboardFrame: NSValue =
-                notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+              let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
         let keyboardHeight = keyboardFrame.cgRectValue.height

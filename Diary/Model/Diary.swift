@@ -10,7 +10,7 @@ import Foundation
 struct Diary: Codable, Identifiable {
     let id: UUID = UUID()
     let title, body: String
-    let createdAt: Double
+    let createdAt: TimeInterval
 
     enum CodingKeys: String, CodingKey {
         case title, body
