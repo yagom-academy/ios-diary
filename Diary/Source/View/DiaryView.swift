@@ -73,19 +73,19 @@ final class DiaryView: UIView {
             scrollView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -8)
         ])
         
-        let stackViewWidthAndHeightConstraints = (
-            width: stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
-            height: stackView.heightAnchor.constraint(equalTo: scrollView.frameLayoutGuide.heightAnchor)
+        let stackViewHeightConstraint = stackView.heightAnchor.constraint(
+            equalTo: scrollView.frameLayoutGuide.heightAnchor
         )
-        stackViewWidthAndHeightConstraints.height.priority = .init(rawValue: 1)
+        
+        stackViewHeightConstraint.priority = .init(rawValue: 1)
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
             stackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
             stackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
-            stackViewWidthAndHeightConstraints.width,
-            stackViewWidthAndHeightConstraints.height
+            stackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
+            stackViewHeightConstraint
         ])
     }
     
