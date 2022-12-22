@@ -19,6 +19,10 @@ final class DetailViewController: UIViewController {
         addNotificationObserver()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        removeNotificationObserver()
+    }
+    
     private func configureView() {
         guard let data = diaryData else { return }
         self.navigationItem.title = data.createdAt.convertDate()
@@ -34,6 +38,15 @@ final class DetailViewController: UIViewController {
                                                selector: #selector(keyboardWillHide(_ :)),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
+    }
+    
+    private func removeNotificationObserver() {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillShowNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillHideNotification,
+                                                  object: nil)
     }
 
     @objc
