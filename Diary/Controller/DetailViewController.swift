@@ -17,7 +17,7 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak private var detailTextView: UITextView!
     var diaryData: SampleData?
     var indexPath: IndexPath?
-    weak static var delegate: DetailViewControllerDelegate?
+    weak var delegate: DetailViewControllerDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,9 +34,9 @@ final class DetailViewController: UIViewController {
     private func shareChangedData() {
         guard let indexPath = indexPath else { return }
         let data = detailTextView.text.parseData(titleWordsLimit: 20)
-        DetailViewController.delegate?.sendData(title: data.title,
-                                                body: data.body,
-                                                indexPath: indexPath)
+        delegate?.sendData(title: data.title,
+                           body: data.body,
+                           indexPath: indexPath)
     }
     
     private func configureView() {

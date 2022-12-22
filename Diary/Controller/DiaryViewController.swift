@@ -16,7 +16,6 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        DetailViewController.delegate = self
         view.addSubview(tableView)
         tableViewAttribute()
         configureTableViewConstraint()
@@ -64,6 +63,7 @@ extension DiaryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailView: DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailView") as? DetailViewController else { return }
+        detailView.delegate = self
         detailView.diaryData = sampleData[indexPath.row]
         detailView.indexPath = indexPath
         self.navigationController?.pushViewController(detailView, animated: true)
