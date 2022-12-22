@@ -8,7 +8,6 @@ fileprivate enum DiarySection: Hashable {
 }
 
 final class DiaryListViewController: UIViewController {
-    private let diaryTitle: String = "일기장"
     private let diaryTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         
@@ -43,7 +42,7 @@ final class DiaryListViewController: UIViewController {
     
     private func configure() {
         view.backgroundColor = .systemBackground
-        title = diaryTitle
+        title = DiaryApp.mainTitle
         diaryTableView.delegate = self
         
         setupViews()
@@ -82,7 +81,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func applySampleData() {
-        guard let sampleData = NSDataAsset(name: "sample"),
+        guard let sampleData = NSDataAsset(name: DiaryApp.sampleDataName),
               let sampleDiary: [Diary] = try? JSONDecoder().decode([Diary].self,
                                                                    from: sampleData.data) else {
             return

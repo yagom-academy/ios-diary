@@ -10,7 +10,7 @@ final class DiaryView: UIView {
         textField.font = .preferredFont(forTextStyle: .title3)
         textField.textColor = .black
         textField.textAlignment = .left
-        textField.placeholder = "제목"
+        textField.placeholder = DiaryApp.titlePlaceholder
         
         return textField
     }()
@@ -19,7 +19,7 @@ final class DiaryView: UIView {
         let textView = UITextView()
         
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.text = "내용"
+        textView.text = DiaryApp.bodyPlaceholder
         textView.textColor = .systemGray3
         textView.textAlignment = .left
         textView.textContainer.lineFragmentPadding = 0

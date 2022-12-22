@@ -20,6 +20,7 @@
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		D34F1E6E2952AD0C00C1CF62 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34F1E6D2952AD0C00C1CF62 /* DiaryViewController.swift */; };
+		D3AA3351295456F100751A79 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3AA3350295456F100751A79 /* Constant.swift */; };
 		F4791F2149ED5B1B66DA319A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B62CDBF03119E61C8407448 /* Pods_Diary.framework */; };
 /* End PBXBuildFile section */
 
@@ -42,6 +43,7 @@
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD6F343C2A864EA530C93954 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		D34F1E6D2952AD0C00C1CF62 /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
+		D3AA3350295456F100751A79 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 		D34F1E742952EDBB00C1CF62 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				D3AA334F295456B900751A79 /* Constant */,
 				B4C1C51029544C5F008A130F /* Protocol */,
 				D34F1E6F2952ED4400C1CF62 /* Model */,
 				D34F1E722952ED6D00C1CF62 /* View */,
@@ -174,6 +177,14 @@
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 			);
 			path = Resource;
+			sourceTree = "<group>";
+		};
+		D3AA334F295456B900751A79 /* Constant */ = {
+			isa = PBXGroup;
+			children = (
+				D3AA3350295456F100751A79 /* Constant.swift */,
+			);
+			path = Constant;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -303,6 +314,7 @@
 				B414FEE42952D8AC00E7AC2A /* Locale+Extension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				D3AA3351295456F100751A79 /* Constant.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

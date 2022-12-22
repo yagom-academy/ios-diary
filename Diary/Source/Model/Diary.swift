@@ -20,8 +20,8 @@ struct Diary: Decodable {
     }
     
     init(
-        title: String = "",
-        body: String = "",
+        title: String = .init(),
+        body: String = .init(),
         createdAt: Double = Date().timeIntervalSince1970.rounded()
     ) {
         self.title = title

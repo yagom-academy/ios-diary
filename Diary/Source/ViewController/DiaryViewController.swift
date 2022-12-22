@@ -41,7 +41,7 @@ extension DiaryViewController: UIScrollViewDelegate {
         withVelocity velocity: CGPoint,
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
-        if velocity.y < -2 {
+        if velocity.y < DiaryApp.endEditingVelocity {
             diaryView.endEditing(true)
         }
     }
@@ -50,14 +50,14 @@ extension DiaryViewController: UIScrollViewDelegate {
 extension DiaryViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == .systemGray3 {
-            textView.text = ""
+            textView.text = .init()
             textView.textColor = .black
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.hasText == false {
-            textView.text = "내용"
+            textView.text = DiaryApp.bodyPlaceholder
             textView.textColor = .systemGray3
         }
     }
