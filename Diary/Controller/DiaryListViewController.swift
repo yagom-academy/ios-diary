@@ -72,12 +72,12 @@ final class DiaryListViewController: UIViewController {
     
     private func decodeJsonData() {
         guard let dataAsset: NSDataAsset = NSDataAsset(name: "sample") else {
-            self.showErrorAlert(title: ErrorType.dataAssetLoadFailed.alertTitle,
-                                message: ErrorType.dataAssetLoadFailed.alertMessage)
+            self.showErrorAlert(title: DiaryError.dataAssetLoadFailed.alertTitle,
+                                message: DiaryError.dataAssetLoadFailed.alertMessage)
             return
         }
         
-        JSONDecoder().decode(data: dataAsset.data) { (result: Result<[Diary], ErrorType>) in
+        JSONDecoder().decode(data: dataAsset.data) { (result: Result<[Diary], DiaryError>) in
             switch result {
             case .success(let decodedDiary):
                 self.diary = decodedDiary

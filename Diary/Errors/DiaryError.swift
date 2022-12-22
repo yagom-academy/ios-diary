@@ -5,7 +5,7 @@
 //  Created by 애종, 애쉬 on 2022/12/21.
 //
 
-enum ErrorType: Error {
+enum DiaryError: Error {
     case decodeFailed
     case dataAssetLoadFailed
     
