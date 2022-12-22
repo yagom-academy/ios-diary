@@ -8,25 +8,31 @@
 import UIKit
 
 final class DiaryListContentView: UIView, UIContentView {
-    private let titleLabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
-        return label
-    }()
-    private let bodyLabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
-    private let createdAtLabel = {
+
+    private let bodyLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+
+    private let createdAtLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
         return label
     }()
-    private let stackView = {
+
+    private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
@@ -35,7 +41,12 @@ final class DiaryListContentView: UIView, UIContentView {
         stackView.spacing = 10
         return stackView
     }()
-    var configuration: UIContentConfiguration
+
+    var configuration: UIContentConfiguration {
+        didSet {
+            configure(configuration)
+        }
+    }
 
     init(configuration: UIContentConfiguration) {
         self.configuration = configuration
@@ -70,14 +81,16 @@ final class DiaryListContentView: UIView, UIContentView {
         stackView.addArrangedSubview(bodyLabel)
         addSubview(stackView)
 
+        createdAtLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
+        let spacing = CGFloat(8)
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: spacing),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
+            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -spacing)
         ])
     }
 }

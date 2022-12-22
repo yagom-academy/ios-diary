@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct Diary: Codable {
+struct Diary: Codable, Identifiable {
+    let id: UUID = UUID()
     let title, body: String
     let createdAt: Double
 

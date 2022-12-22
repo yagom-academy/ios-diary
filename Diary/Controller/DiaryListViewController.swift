@@ -7,19 +7,15 @@
 import UIKit
 
 final class DiaryListViewController: UICollectionViewController {
-    var diaries: [Diary] = []
+    typealias DataSource = UICollectionViewDiffableDataSource<Int, Diary.ID>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Diary.ID>
+    private var dataSource: DataSource!
+    private var diaries: [Diary] = []
 
     init() {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .estimated(75))
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: groupSize,
-                                                       subitem: item,
-                                                       count: 1)
-        let section = NSCollectionLayoutSection(group: group)
-        let viewLayout = UICollectionViewCompositionalLayout(section: section)
+        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        config.showsSeparators = true
+        let viewLayout = UICollectionViewCompositionalLayout.list(using: config)
 
         super.init(collectionViewLayout: viewLayout)
     }
@@ -32,11 +28,50 @@ final class DiaryListViewController: UICollectionViewController {
         super.viewDidLoad()
 
         configureDiariesWithSampleData()
+        configureDataSource()
+        updateSnapshot()
     }
 
     private func configureDiariesWithSampleData() {
         guard let dataAsset = NSDataAsset(name: "sample"),
               let data = try? JSONDecoder().decode([Diary].self, from: dataAsset.data) else { return }
         diaries = data
+    }
+
+    private func diary(diaryID: Diary.ID) -> Diary? {
+        guard let diary = diaries.first(where: { diary in
+            diary.id == diaryID
+        }) else { return nil }
+        return diary
+    }
+
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Diary.ID> { [weak self] cell, _, itemIdentifier in
+
+            var contentConfiguration = DiaryListConfiguration()
+            guard let diary = self?.diary(diaryID: itemIdentifier) else {
+                cell.contentConfiguration = contentConfiguration
+                return
+            }
+
+            contentConfiguration.title = diary.title
+            contentConfiguration.body = diary.body
+            contentConfiguration.createdAt = diary.createdAt
+            cell.contentConfiguration = contentConfiguration
+            cell.accessories = [
+                UICellAccessory.disclosureIndicator()
+            ]
+        }
+
+        dataSource = DataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: itemIdentifier)
+        })
+    }
+
+    private func updateSnapshot() {
+        var snapshot = Snapshot()
+        snapshot.appendSections([0])
+        snapshot.appendItems(diaries.map { $0.id }, toSection: 0)
+        dataSource.apply(snapshot)
     }
 }
