@@ -71,7 +71,7 @@ class DiaryCell: UITableViewCell {
         
         let date = Date(timeIntervalSince1970: diary.createdAt)
         
-        let localDate = LocalDate().conversionLocalDate(date: date, local: .current, dateStyle: .long)
+        let localDate = DateFormatter.conversionLocalDate(date: date, local: .current, dateStyle: .long)
         
         self.dateLabel.text = localDate
     }
