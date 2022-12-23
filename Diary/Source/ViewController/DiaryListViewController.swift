@@ -3,11 +3,10 @@
 
 import UIKit
 
-fileprivate enum DiarySection: Hashable {
-    case main
-}
-
 final class DiaryListViewController: UIViewController {
+    private enum DiarySection: Hashable {
+        case main
+    }
     private let diaryTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         
