@@ -7,8 +7,12 @@
 import UIKit
 
 final class MainViewController: UIViewController {
+    // MARK: - Properties
+    
     private let mainDiaryView = MainDiaryView()
     private var diaries: [Diary] = []
+    
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,6 +21,17 @@ final class MainViewController: UIViewController {
         configureNavigationItem()
         setUpTableView()
         decodeDiaryData()
+    }
+    
+    // MARK: - Private Methods
+    
+    private func configureNavigationItem() {
+        navigationItem.title = NameSpace.navigationTitle
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addDiary)
+        )
     }
     
     private func setUpTableView() {
@@ -36,12 +51,7 @@ final class MainViewController: UIViewController {
         }
     }
     
-    private func configureNavigationItem() {
-        navigationItem.title = NameSpace.navigationTitle
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-                                                            target: self,
-                                                            action: #selector(addDiary))
-    }
+    // MARK: - Action Methods
 
     @objc private func addDiary() {
         navigationController?.pushViewController(DiaryFormViewController(), animated: true)
@@ -49,6 +59,7 @@ final class MainViewController: UIViewController {
 }
 
 // MARK: - UITableViewDataSource
+
 extension MainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return diaries.count
@@ -71,6 +82,7 @@ extension MainViewController: UITableViewDataSource {
 }
 
 // MARK: - NameSpace
+
 private enum NameSpace {
     static let navigationTitle = "일기장"
     static let assetName = "sample"

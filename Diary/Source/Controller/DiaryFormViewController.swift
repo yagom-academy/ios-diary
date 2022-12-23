@@ -7,8 +7,12 @@
 import UIKit
 
 final class DiaryFormViewController: UIViewController {
+    // MARK: - Properties
+    
     private let diaryFormView = DiaryFormView()
 
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -16,6 +20,8 @@ final class DiaryFormViewController: UIViewController {
         configureDiaryViewLayout()
         configureNavigationBar()
     }
+    
+    // MARK: - Private Methods
     
     private func configureDiaryViewLayout() {
         view.addSubview(diaryFormView)
@@ -29,8 +35,6 @@ final class DiaryFormViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        let date = Date()
-        
-        navigationItem.title = DateFormatter.koreanDateFormatter.string(from: date)
+        navigationItem.title = DateFormatter.koreanDateFormatter.string(from: Date())
     }
 }

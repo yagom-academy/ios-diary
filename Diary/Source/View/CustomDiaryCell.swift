@@ -79,4 +79,12 @@ class CustomDiaryCell: UITableViewCell {
         bodyLabel.text = diary.body
         dateLabel.text = diary.createdDate
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        titleLabel.text = nil
+        bodyLabel.text = nil
+        dateLabel.text = nil
+    }
 }
