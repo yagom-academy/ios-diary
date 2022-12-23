@@ -11,19 +11,21 @@ final class DiaryListCell: UITableViewCell {
     static var reuseIdentifier: String {
         return "DiaryListCell"
     }
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
+
         return label
     }()
-    
+
     let subtitleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
+
         return label
     }()
-    
+
     private lazy var containerStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,24 +34,24 @@ final class DiaryListCell: UITableViewCell {
         stackView.spacing = 8
         return stackView
     }()
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configure()
         configureHierarchy()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func configure() {
         self.accessoryType = .disclosureIndicator
     }
-    
+
     private func configureHierarchy() {
         contentView.addSubview(containerStackView)
-        
+
         NSLayoutConstraint.activate([
             containerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),

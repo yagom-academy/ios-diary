@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private let diary: Diary
-    
+
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,7 +17,7 @@ final class DiaryViewController: UIViewController {
 
         return scrollView
     }()
-    
+
     private let titleTextView: UITextView = {
         let textView = UITextView()
         textView.isScrollEnabled = false
@@ -25,15 +25,15 @@ final class DiaryViewController: UIViewController {
 
         return textView
     }()
-    
+
     private let bodyTextView: UITextView = {
         let textView = UITextView()
         textView.isScrollEnabled = false
         textView.font = UIFont.preferredFont(forTextStyle: .body)
-        
+
         return textView
     }()
-    
+
     private lazy var containerStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [titleTextView, bodyTextView])
         stackView.axis = .vertical
@@ -41,19 +41,19 @@ final class DiaryViewController: UIViewController {
         stackView.distribution = .equalSpacing
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        
+
         return stackView
     }()
-    
+
     init(diary: Diary) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .systemBackground
@@ -61,18 +61,18 @@ final class DiaryViewController: UIViewController {
         configureView(with: diary)
         configureLayout()
     }
-    
+
     private func configureHierarchy() {
         scrollView.addSubview(containerStackView)
         view.addSubview(scrollView)
     }
-    
+
     private func configureView(with diary: Diary) {
         navigationItem.title = diary.createdDate.localeFormattedText
         titleTextView.text = diary.title
         bodyTextView.text = diary.body
     }
-    
+
     private func configureLayout() {
         NSLayoutConstraint.activate([
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

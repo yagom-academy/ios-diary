@@ -1,8 +1,5 @@
 disabled_rules: # 실행에서 제외할 룰 식별자들
-  - trailing_whitespace
   - trailing_comma
 
 excluded: # 린트 과정에서 무시할 파일 경로. `included`보다 우선순위 높음
   - Pods
-  - Diary/AppDelegate.swift
-  - Diary/SceneDelegate.swift

@@ -11,7 +11,7 @@ final class Diary: Codable {
     let title: String
     let body: String
     let createdAt: Double
-    
+
     enum CodingKeys: String, CodingKey {
         case title
         case body
@@ -29,7 +29,7 @@ extension Diary: Hashable {
     func hash(into hasher: inout Hasher) {
         hasher.combine(ObjectIdentifier(self).hashValue)
     }
-    
+
     static func == (lhs: Diary, rhs: Diary) -> Bool {
         return lhs === rhs
     }

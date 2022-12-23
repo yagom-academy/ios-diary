@@ -9,7 +9,7 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     typealias DiaryDataSource = UITableViewDiffableDataSource<Int, Diary>
     typealias DiarySnapShot = NSDiffableDataSourceSnapshot<Int, Diary>
-    
+
     private lazy var addDiaryButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .add,
                                      target: self,
@@ -17,23 +17,23 @@ final class DiaryListViewController: UIViewController {
 
         return button
     }()
-    
+
     private lazy var diaryListTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.reuseIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.delegate = self
-        
+
         return tableView
     }()
-    
+
     private var dataSource: DiaryDataSource!
     private var snapshot = DiarySnapShot()
     private var sampleDiaryList: [Diary] = []
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         configureNavigation()
         configureHierarchy()
         configureDataSource()
@@ -47,15 +47,15 @@ extension DiaryListViewController {
 
         present(newDiaryViewController, animated: true)
     }
-    
+
     private func configureNavigation() {
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = addDiaryButton
     }
-    
+
     private func configureHierarchy() {
         view.addSubview(diaryListTableView)
-        
+
         NSLayoutConstraint.activate([
             diaryListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             diaryListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -63,7 +63,7 @@ extension DiaryListViewController {
             diaryListTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
-    
+
     private func configureDataSource() {
         dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier,
@@ -73,11 +73,11 @@ extension DiaryListViewController {
 
             cell.titleLabel.text = diary.title
             cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdDate, diary.body)
-            
+
             return cell
         })
     }
-    
+
     private func configureSubtitleText(_ date: Date, _ body: String) -> NSMutableAttributedString {
         let text: String = "\(date.localeFormattedText)  \(body)"
         let attributedString = NSMutableAttributedString(string: text)
@@ -85,19 +85,19 @@ extension DiaryListViewController {
                                        range: (text as NSString).range(of: "\(date.localeFormattedText)  "))
         return attributedString
     }
-    
+
     private func configureSnapshot() {
         let jsonDecoder = JSONDecoder()
         guard let data = NSDataAsset.init(name: "sample")?.data,
               let items = try? jsonDecoder.decode([Diary].self, from: data) else {
             return
         }
-        
+
         sampleDiaryList = items
-        
+
         snapshot.appendSections([0])
         snapshot.appendItems(items)
-        
+
         dataSource.apply(snapshot)
     }
 }
@@ -106,7 +106,7 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedDiary = sampleDiaryList[indexPath.row]
         let diaryViewController = DiaryViewController(diary: selectedDiary)
-        
+
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
 }
