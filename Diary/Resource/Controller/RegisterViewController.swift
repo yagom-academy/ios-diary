@@ -36,6 +36,18 @@ final class RegisterViewController: UIViewController {
         return textView
     }()
     
+    private lazy var titleHeightConstraint =
+        titleTextView.heightAnchor.constraint(equalToConstant: LayoutConstant.titleTextViewMaxHeight)
+        
+    private var isOversized = false {
+        didSet {
+            guard oldValue != isOversized else { return }
+            titleTextView.isScrollEnabled = isOversized
+            titleHeightConstraint.isActive = !oldValue
+            titleTextView.setNeedsUpdateConstraints()
+        }
+    }
+    
     override func loadView() {
         view = UIView(frame: .zero)
         view.backgroundColor = .systemBackground
@@ -91,12 +103,10 @@ extension RegisterViewController: UITextViewDelegate {
         guard textView == titleTextView else { return }
         let titleTextViewHeight = textView.contentSize.height
         
-        if titleTextViewHeight > LayoutConstant.titleTextViewMaxHeight && !titleTextView.isScrollEnabled {
-            titleTextView.isScrollEnabled = true
-            titleTextView.heightAnchor.constraint(equalToConstant: LayoutConstant.titleTextViewMaxHeight).isActive = true
-        } else if titleTextViewHeight < LayoutConstant.titleTextViewMaxHeight && titleTextView.isScrollEnabled {
-            titleTextView.isScrollEnabled = false
-            titleTextView.heightAnchor.constraint(equalToConstant: LayoutConstant.titleTextViewMaxHeight).isActive = false
+        if titleTextViewHeight > LayoutConstant.titleTextViewMaxHeight {
+            isOversized = true
+        } else {
+            isOversized = false
         }
     }
     
