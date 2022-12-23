@@ -50,15 +50,13 @@ extension MainDiaryView {
     }
     
     private func setupConstraints() {
+        let safeArea = self.safeAreaLayoutGuide
+        
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.topAnchor),
-            collectionView.bottomAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.leadingAnchor),
-            collectionView.trailingAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.trailingAnchor)
+            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
         ])
     }
 }

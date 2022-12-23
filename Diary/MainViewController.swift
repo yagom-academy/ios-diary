@@ -53,8 +53,8 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        let detailViewController = DetailViewController()
-        self.navigationController?.pushViewController(detailViewController, animated: true)
+        let addViewController = AddViewController()
+        self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
 

@@ -1,5 +1,5 @@
 //
-//  DetailDiaryView.swift
+//  AddDiaryView.swift
 //  Diary
 //
 //  Created by Kyo, Baem on 2022/12/20.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailDiaryView: UIView {
+final class AddDiaryView: UIView {
     private enum Placeholder: String {
         case textFieldPlaceHolder = "Title을 입력해주세요."
         case textViewPlaceHolder = "Content를 입력해주세요."
@@ -35,12 +35,11 @@ final class DetailDiaryView: UIView {
     
     private lazy var titleTextField: UITextField = {
         let textfield = UITextField()
-        
         textfield.returnKeyType = .done
         textfield.layer.borderWidth = 1
         textfield.layer.cornerRadius = 10
         textfield.leftViewMode = .always
-        textfield.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 5, height: 0))
+        textfield.leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: 5, height: .zero))
         textfield.font = .preferredFont(forTextStyle: .title1)
         textfield.layer.borderColor = UIColor.systemGray5.cgColor
         textfield.placeholder = Placeholder.textFieldPlaceHolder.sentence
@@ -60,7 +59,7 @@ final class DetailDiaryView: UIView {
 }
 
 // MARK: - UITextFieldDelegate, UITextViewDelegate
-extension DetailDiaryView: UITextFieldDelegate, UITextViewDelegate {
+extension AddDiaryView: UITextFieldDelegate, UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.titleTextField.resignFirstResponder()
         self.contentsTextView.resignFirstResponder()
@@ -98,7 +97,7 @@ extension DetailDiaryView: UITextFieldDelegate, UITextViewDelegate {
 }
 
 // MARK: - UIConstraints
-extension DetailDiaryView {
+extension AddDiaryView {
     private func setupUI() {
         [titleTextField, contentsTextView].forEach { component in
             self.addSubview(component)
@@ -107,24 +106,25 @@ extension DetailDiaryView {
     }
     
     private func setupConstraints() {
+        let safeArea = self.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             titleTextField.topAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
+                equalTo: safeArea.topAnchor, constant: 10),
             titleTextField.leadingAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                equalTo: safeArea.leadingAnchor, constant: 10),
             titleTextField.trailingAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
+                equalTo: safeArea.trailingAnchor, constant: -10),
             
             contentsTextView.topAnchor.constraint(
                 equalTo: titleTextField.bottomAnchor, constant: 10),
             contentsTextView.leadingAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
+                equalTo: safeArea.leadingAnchor, constant: 10),
             contentsTextView.trailingAnchor.constraint(
-                equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10)
+                equalTo: safeArea.trailingAnchor, constant: -10)
         ])
         
         textViewBottomConstraints = contentsTextView.bottomAnchor.constraint(
-            equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            equalTo: safeArea.bottomAnchor, constant: -10)
         textViewBottomConstraints?.isActive = true
     }
     
@@ -137,7 +137,7 @@ extension DetailDiaryView {
 }
 
 // MARK: - KeyboardResponse Notification
-extension DetailDiaryView {
+extension AddDiaryView {
     private func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(showKeyboard),

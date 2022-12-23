@@ -1,5 +1,5 @@
 //
-//  DetailViewController.swift
+//  AddViewController.swift
 //  Diary
 //
 //  Created by Kyo, Baem on 2022/12/20.
@@ -7,12 +7,12 @@
 
 import UIKit
 
-final class DetailViewController: UIViewController {
-    private let detailView = DetailDiaryView()
+final class AddViewController: UIViewController {
+    private let addView = AddDiaryView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = detailView
+        self.view = addView
         setNavigation()
     }
     
