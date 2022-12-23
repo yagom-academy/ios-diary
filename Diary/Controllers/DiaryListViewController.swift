@@ -9,7 +9,7 @@ import UIKit
 final class DiaryListViewController: UICollectionViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Diary.ID>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Diary.ID>
-    private var dataSource: DataSource!
+    private var dataSource: DataSource?
     private var diaries: [Diary] = []
 
     init() {
@@ -83,7 +83,7 @@ extension DiaryListViewController {
         var snapshot = Snapshot()
         snapshot.appendSections([0])
         snapshot.appendItems(diaries.map { $0.id }, toSection: 0)
-        dataSource.apply(snapshot)
+        dataSource?.apply(snapshot)
     }
 }
 
