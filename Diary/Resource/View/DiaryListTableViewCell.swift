@@ -54,20 +54,26 @@ final class DiaryListTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        configureLayout()
+        configureUI()
     }
     
-    private func configureLayout() {
+    private func configureUI() {
+        configureContentView()
+        configureDiaryInfoStackView()
+        configureDetailStackView()
+    }
+    
+    private func configureContentView() {
         contentView.addSubview(diaryInfoStackView)
         contentView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: LayoutConstant.contentViewTopMargin,
                                                                        leading: LayoutConstant.contentViewLeadingMargin,
                                                                        bottom: LayoutConstant.contentViewBottomMargin,
                                                                        trailing: LayoutConstant.contentViewTrailingMargin)
-        
+    }
+    
+    private func configureDiaryInfoStackView() {
         diaryInfoStackView.addArrangedSubview(diaryTitleLabel)
         diaryInfoStackView.addArrangedSubview(diaryDetailStackView)
-        diaryDetailStackView.addArrangedSubview(createdDateLabel)
-        diaryDetailStackView.addArrangedSubview(previewLabel)
         
         NSLayoutConstraint.activate([
             diaryInfoStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
@@ -77,6 +83,11 @@ final class DiaryListTableViewCell: UITableViewCell {
         ])
     }
     
+    private func configureDetailStackView() {
+        diaryDetailStackView.addArrangedSubview(createdDateLabel)
+        diaryDetailStackView.addArrangedSubview(previewLabel)
+    }
+
     func updateContent(data: DiaryForm) {
         diaryTitleLabel.text = data.title
         createdDateLabel.text = DateFormatterManager().convertToDate(from: data.createdAt)
