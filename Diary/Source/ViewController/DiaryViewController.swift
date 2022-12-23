@@ -22,7 +22,6 @@ final class DiaryViewController: UIViewController {
     }
     
     override func loadView() {
-        super.loadView()
         self.view = diaryView
     }
     
