@@ -19,7 +19,7 @@ struct Diary: Decodable, Hashable {
         case createdIntervalValue = "created_at"
     }
     
-    var createDate: String? {
+    var createdDate: String? {
         let timeInterval = TimeInterval(createdIntervalValue)
         let intervalDate = Date(timeIntervalSince1970: timeInterval)
         
