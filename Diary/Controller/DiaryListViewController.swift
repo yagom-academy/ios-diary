@@ -13,7 +13,7 @@ final class DiaryListViewController: UIViewController {
     private lazy var addDiaryButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .add,
                                      target: self,
-                                     action: #selector(addDiary))
+                                     action: #selector(presentNewDiaryView))
 
         return button
     }()
@@ -29,7 +29,7 @@ final class DiaryListViewController: UIViewController {
 
     private lazy var dataSource: DiaryDataSource = configureDataSource()
     private var snapshot = DiarySnapShot()
-    private var sampleDiaryList: [Diary] = []
+    private var diaryList: [Diary] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +41,7 @@ final class DiaryListViewController: UIViewController {
 }
 
 extension DiaryListViewController {
-    @objc private func addDiary() {
+    @objc private func presentNewDiaryView() {
         let newDiaryViewController = UINavigationController(rootViewController: NewDiaryViewController())
 
         present(newDiaryViewController, animated: true)
@@ -88,24 +88,32 @@ extension DiaryListViewController {
     }
 
     private func configureSnapshot() {
-        guard let path = Bundle.main.path(forResource: "sample", ofType: "json"),
-              let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-              let items = try? JSONDecoder().decode([Diary].self, from: data) else {
+        guard let items = decodeSampleData() else {
             return
         }
 
-        sampleDiaryList = items
+        diaryList = items
 
         snapshot.appendSections([0])
         snapshot.appendItems(items)
 
         dataSource.apply(snapshot)
     }
+
+    private func decodeSampleData() -> [Diary]? {
+        guard let path = Bundle.main.path(forResource: "sample", ofType: "json"),
+              let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
+              let items = try? JSONDecoder().decode([Diary].self, from: data) else {
+            return nil
+        }
+
+        return items
+    }
 }
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let selectedDiary = sampleDiaryList[indexPath.row]
+        let selectedDiary = diaryList[indexPath.row]
         let diaryViewController = DiaryViewController(diary: selectedDiary)
 
         navigationController?.pushViewController(diaryViewController, animated: true)
