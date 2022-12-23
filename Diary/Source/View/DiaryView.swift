@@ -4,13 +4,18 @@
 import UIKit
 
 final class DiaryView: UIView {
+    private enum Constant {
+        static let titlePlaceholder = "제목"
+        static let bodyPlaceholder = "내용"
+    }
+    
     private let titleTextField: UITextField = {
         let textField = UITextField()
         
         textField.font = .preferredFont(forTextStyle: .title3)
         textField.textColor = .black
         textField.textAlignment = .left
-        textField.placeholder = DiaryApp.titlePlaceholder
+        textField.placeholder = Constant.titlePlaceholder
         
         return textField
     }()
@@ -19,7 +24,7 @@ final class DiaryView: UIView {
         let textView = UITextView()
         
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.text = DiaryApp.bodyPlaceholder
+        textView.text = Constant.bodyPlaceholder
         textView.textColor = .systemGray3
         textView.textAlignment = .left
         textView.textContainer.lineFragmentPadding = 0

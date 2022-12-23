@@ -7,6 +7,10 @@ final class DiaryListViewController: UIViewController {
     private enum DiarySection: Hashable {
         case main
     }
+    private enum Constant {
+        static let title = "일기장"
+    }
+    
     private let diaryTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         
@@ -41,7 +45,7 @@ final class DiaryListViewController: UIViewController {
     
     private func configure() {
         view.backgroundColor = .systemBackground
-        title = DiaryApp.mainTitle
+        title = Constant.title
         diaryTableView.delegate = self
         
         setupViews()

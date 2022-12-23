@@ -4,6 +4,10 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
+    private enum Constant {
+        static let endEditingVelocity = -2.0
+    }
+    
     private let diaryView = DiaryView(frame: .zero)
     private var diary: Diary
 
@@ -41,7 +45,7 @@ extension DiaryViewController: UIScrollViewDelegate {
         withVelocity velocity: CGPoint,
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
-        if velocity.y < DiaryApp.endEditingVelocity {
+        if velocity.y < Constant.endEditingVelocity {
             diaryView.endEditing(true)
         }
     }
