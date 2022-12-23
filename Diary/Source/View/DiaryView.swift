@@ -81,7 +81,7 @@ final class DiaryView: UIView {
             equalTo: scrollView.frameLayoutGuide.heightAnchor
         )
         
-        stackViewHeightConstraint.priority = .init(rawValue: 1)
+        stackViewHeightConstraint.priority = .defaultLow
         
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
