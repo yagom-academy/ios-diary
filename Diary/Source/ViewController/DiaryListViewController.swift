@@ -9,6 +9,7 @@ final class DiaryListViewController: UIViewController {
     }
     private enum Constant {
         static let title = "일기장"
+        static let sampleDataName = "sample"
     }
     
     private let diaryTableView: UITableView = {
@@ -84,7 +85,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func applySampleData() {
-        guard let sampleData = NSDataAsset(name: DiaryApp.sampleDataName),
+        guard let sampleData = NSDataAsset(name: Constant.sampleDataName),
               let sampleDiary: [Diary] = try? JSONDecoder().decode([Diary].self,
                                                                    from: sampleData.data) else {
             return
