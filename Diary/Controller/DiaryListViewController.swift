@@ -27,16 +27,15 @@ final class DiaryListViewController: UIViewController {
         return tableView
     }()
 
-    private var dataSource: DiaryDataSource!
+    private lazy var dataSource: DiaryDataSource = configureDataSource()
     private var snapshot = DiarySnapShot()
     private var sampleDiaryList: [Diary] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureNavigation()
+        configureNavigationBar()
         configureHierarchy()
-        configureDataSource()
         configureSnapshot()
     }
 }
@@ -48,7 +47,7 @@ extension DiaryListViewController {
         present(newDiaryViewController, animated: true)
     }
 
-    private func configureNavigation() {
+    private func configureNavigationBar() {
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = addDiaryButton
     }
@@ -64,8 +63,8 @@ extension DiaryListViewController {
         ])
     }
 
-    private func configureDataSource() {
-        dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
+    private func configureDataSource() -> DiaryDataSource {
+        let dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier,
                                                            for: indexPath) as? DiaryListCell else {
                 return DiaryListCell()
@@ -76,6 +75,8 @@ extension DiaryListViewController {
 
             return cell
         })
+        
+        return dataSource
     }
 
     private func configureSubtitleText(_ date: Date, _ body: String) -> NSMutableAttributedString {
