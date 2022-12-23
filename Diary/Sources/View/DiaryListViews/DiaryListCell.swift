@@ -15,7 +15,6 @@ final class DiaryListCell: UITableViewCell {
     }
     
     override func updateConfiguration(using state: UICellConfigurationState) {
-        accessoryType = .disclosureIndicator
         var content = DiaryContentConfiguration().updated(for: state)
         content.headerString = diary?.title
         content.dateString = diary?.createDate

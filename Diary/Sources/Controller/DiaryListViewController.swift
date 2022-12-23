@@ -42,6 +42,7 @@ extension DiaryListViewController {
             }
             
             cell.diary = item
+            cell.accessoryType = .disclosureIndicator
 
             return cell
         }
@@ -104,4 +105,3 @@ extension DiaryListViewController {
         navigationController?.setDefaultNavigationAppearance()
     }
 }
-

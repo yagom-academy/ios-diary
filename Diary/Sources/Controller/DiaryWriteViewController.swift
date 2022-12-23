@@ -110,9 +110,9 @@ extension DiaryWriteViewController {
         
         contentTextView.anchor(
             top: titleTextField.bottomAnchor,
-            leading: titleTextField.leadingAnchor,
+            leading: view.leadingAnchor,
             bottom: safeArea.bottomAnchor,
-            trailing: titleTextField.trailingAnchor,
+            trailing: view.trailingAnchor,
             paddingTop: 8
         )
     }
