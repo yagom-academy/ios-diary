@@ -63,14 +63,17 @@ extension DiaryDetailViewController {
         }
         
         let keyboardHeight = keyboardFrame.cgRectValue.height
+        let bottomInset = self.diaryDetailView.diaryTextScrollView.contentInset.bottom
+        let keyboardShowNotification = UIResponder.keyboardWillShowNotification
+        let keyboardHideNotification = UIResponder.keyboardWillHideNotification
         
         UIView.animate(withDuration: 0.5) {
-            if notification.name == UIResponder.keyboardWillShowNotification {
+            if notification.name == keyboardShowNotification && bottomInset == 0 {
                 self.diaryDetailView.diaryTextScrollView.contentOffset.y += keyboardHeight
                 self.diaryDetailView.diaryTextScrollView.contentInset.bottom += keyboardHeight
-            } else if notification.name == UIResponder.keyboardWillHideNotification {
+            } else if notification.name == keyboardHideNotification && bottomInset != 0 {
                 self.diaryDetailView.diaryTextScrollView.contentInset.bottom -= keyboardHeight
-            }
+           }
         }
     }
 }
