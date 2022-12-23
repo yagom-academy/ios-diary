@@ -9,8 +9,14 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    private lazy var collectionView: UICollectionView = UICollectionView(frame: view.bounds,
-                                                                         collectionViewLayout: createListLayout())
+    private let collectionView: UICollectionView = {
+        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        let collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
+        
+        return collectionView
+    }()
+    
     private var dataSource: UICollectionViewDiffableDataSource<DiarySection, Diary>?
     private var diary: [Diary] = []
     
@@ -63,11 +69,6 @@ final class DiaryListViewController: UIViewController {
             self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             self.collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    private func createListLayout() -> UICollectionViewLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
-        return UICollectionViewCompositionalLayout.list(using: config)
     }
     
     private func decodeJsonData() {
