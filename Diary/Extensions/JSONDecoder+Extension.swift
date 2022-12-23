@@ -8,13 +8,11 @@
 import Foundation
 
 extension JSONDecoder {
-    func decode<T: Decodable>(data: Data, completion: @escaping (Result<T, DiaryError>) -> Void) {
+    func decode<T: Decodable>(data: Data) -> Result<T, DiaryError> {
         guard let itemData = try? self.decode(T.self, from: data) else {
-            completion(.failure(.decodeFailed))
-            return
+            return .failure(.decodeFailed)
         }
         
-        completion(.success(itemData))
-        return
+        return .success(itemData)
     }
 }

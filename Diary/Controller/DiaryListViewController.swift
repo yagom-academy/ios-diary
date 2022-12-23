@@ -80,16 +80,16 @@ final class DiaryListViewController: UIViewController {
             return
         }
         
-        JSONDecoder().decode(data: dataAsset.data) { (result: Result<[Diary], DiaryError>) in
-            switch result {
-            case .success(let decodedDiary):
-                self.diary = decodedDiary
-            case .failure(let error):
-                let errorAlert = ErrorAlert.shared.showErrorAlert(title: error.alertTitle,
-                                                                  message: error.alertMessage,
-                                                                  actionTitle: "확인")
-                self.present(errorAlert, animated: true)
-            }
+        let decodingResult: Result<[Diary], DiaryError> = JSONDecoder().decode(data: dataAsset.data)
+        
+        switch decodingResult {
+        case .success(let decodedDiary):
+            self.diary = decodedDiary
+        case .failure(let error):
+            let errorAlert = ErrorAlert.shared.showErrorAlert(title: error.alertTitle,
+                                                              message: error.alertMessage,
+                                                              actionTitle: "확인")
+            self.present(errorAlert, animated: true)
         }
     }
     
