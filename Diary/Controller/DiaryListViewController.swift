@@ -87,9 +87,9 @@ extension DiaryListViewController {
     }
 
     private func configureSnapshot() {
-        let jsonDecoder = JSONDecoder()
-        guard let data = NSDataAsset.init(name: "sample")?.data,
-              let items = try? jsonDecoder.decode([Diary].self, from: data) else {
+        guard let path = Bundle.main.path(forResource: "sample", ofType: "json"),
+              let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
+              let items = try? JSONDecoder().decode([Diary].self, from: data) else {
             return
         }
 

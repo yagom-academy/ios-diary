@@ -8,10 +8,6 @@
 import UIKit
 
 final class DiaryListCell: UITableViewCell {
-    static var reuseIdentifier: String {
-        return "DiaryListCell"
-    }
-
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
@@ -60,3 +56,5 @@ final class DiaryListCell: UITableViewCell {
         ])
     }
 }
+
+extension DiaryListCell: ReusableCell { }
