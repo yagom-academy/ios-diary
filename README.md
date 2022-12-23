@@ -81,11 +81,11 @@
 
 #### 👟 Step 1
 - SwiftLint 적용
-    ✅ SwiftLint이용해 코드 컨벤션 지키기
+    - ✅ SwiftLint이용해 코드 컨벤션 지키기
 - Date Formatter 활용하기
-    ✅ DateFormatter를 활용해 사용자의 지역 포맷에 맞게 날짜 출력하기
+    - ✅ DateFormatter를 활용해 사용자의 지역 포맷에 맞게 날짜 출력하기
 - NotificationCenter 활용하기
-    ✅ 키보드가 나타나고 사라질 때 키보드의 위치 정보 구하기 
+    - ✅ 키보드가 나타나고 사라질 때 키보드의 위치 정보 구하기 
 
 
 ## 🏃🏻 기술적 도전
