@@ -25,6 +25,7 @@ final class DiaryListCellContentView: UIView, UIContentView {
     
     init(configuration: DiaryContentConfiguration) {
         super.init(frame: .zero)
+        configureDynamicFont()
         setupInternalViews()
         apply(configuration: configuration)
     }
@@ -37,7 +38,6 @@ final class DiaryListCellContentView: UIView, UIContentView {
         guard appliedConfiguration != configuration else { return }
         appliedConfiguration = configuration
         
-        configureDynamicFont()
         headerLabel.text = configuration.headerString
         dateLabel.text = configuration.dateString
         bodyLabel.text = configuration.bodyString
