@@ -80,7 +80,6 @@ extension DiaryListViewController: UITableViewDelegate { }
 
 // MARK: Namespace
 fileprivate enum Namespace {
-    static let jsonData = "sample"
     static let navigationTitle = "일기장"
     static let plusImage = "plus"
 }

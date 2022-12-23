@@ -8,9 +8,7 @@
 import Foundation
 
 struct DateFormatterManager {
-    func convertToDate(from number: Int?) -> String? {
-        guard let number = number else { return nil }
-        
+    func convertToDate(from number: Int) -> String {
         let timeInterval = TimeInterval(number)
         let date = Date(timeIntervalSince1970: timeInterval)
         
