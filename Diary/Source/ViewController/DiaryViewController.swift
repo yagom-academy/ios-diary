@@ -51,17 +51,9 @@ extension DiaryViewController: UIScrollViewDelegate {
 }
 
 extension DiaryViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .systemGray3 {
-            textView.text = .init()
-            textView.textColor = .black
-        }
-    }
-    
     func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.hasText == false {
-            textView.text = DiaryApp.bodyPlaceholder
-            textView.textColor = .systemGray3
+        if let diaryTextView = textView as? DiaryTextView {
+            diaryTextView.configurePlaceholder()
         }
     }
 }

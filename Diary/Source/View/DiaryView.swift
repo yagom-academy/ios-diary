@@ -20,12 +20,11 @@ final class DiaryView: UIView {
         return textField
     }()
     
-    private let bodyTextView: UITextView = {
-        let textView = UITextView()
+    private let bodyTextView: DiaryTextView = {
+        let textView = DiaryTextView(placeholder: Constant.bodyPlaceholder,
+                                     defaultTextColor: .black)
         
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.text = Constant.bodyPlaceholder
-        textView.textColor = .systemGray3
         textView.textAlignment = .left
         textView.textContainer.lineFragmentPadding = 0
         textView.isScrollEnabled = false
