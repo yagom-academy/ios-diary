@@ -98,7 +98,7 @@ Step2 구현 후 추가 예정
 <summary>코드 보기</summary>
 <div markdown="1">
     
-```swift!
+```swift
 let navigationController = UINavigationController(rootViewController: mainViewController)
 let navigationBarAppearance = UINavigationBarAppearance()
 navigationBarAppearance.configureWithOpaqueBackground()
@@ -109,6 +109,7 @@ navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearanc
     
 </div>
 </details>
+
 </div>
 </details>
 
