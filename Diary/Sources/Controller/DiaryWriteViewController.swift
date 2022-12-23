@@ -7,7 +7,7 @@
 import UIKit
 
 final class DiaryWriteViewController: UIViewController {
-    let titleTextField: UITextField = {
+    private let titleTextField: UITextField = {
         let titleTextField = UITextField()
         titleTextField.placeholder = "제목을 입력해주세요."
         titleTextField.font = UIFont.boldTitle1
@@ -16,7 +16,7 @@ final class DiaryWriteViewController: UIViewController {
         return titleTextField
     }()
     
-    let contentTextView: UITextView = {
+    private let contentTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
