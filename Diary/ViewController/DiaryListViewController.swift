@@ -97,7 +97,7 @@ extension DiaryListViewController {
 extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailViewController = DiaryDetailViewController(diary: diary[indexPath.item])
-        
+        collectionView.deselectItem(at: indexPath, animated: false)
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
