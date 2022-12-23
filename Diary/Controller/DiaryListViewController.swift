@@ -20,7 +20,7 @@ final class DiaryListViewController: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<DiarySection, Diary>?
     private var diary: [Diary] = []
     
-    enum DiarySection: Hashable {
+    private enum DiarySection: Hashable {
         case main
     }
     
