@@ -10,3 +10,4 @@ disabled_rules:
     - vertical_whitespace
     - trailing_whitespace
     - unused_optional_binding
+    - notification_center_detachment

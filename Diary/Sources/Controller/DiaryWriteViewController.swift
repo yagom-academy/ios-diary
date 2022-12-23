@@ -33,13 +33,18 @@ final class DiaryWriteViewController: UIViewController {
         view.backgroundColor = .systemBackground
         setNavigationBar()
         configureLayout()
-        bindKeyboardObserving()
+        bindKeyboardObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(self)
     }
 }
 
 // MARK: Business Logic
 extension DiaryWriteViewController {
-    private func bindKeyboardObserving() {
+    private func bindKeyboardObserver() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(willShowKeyboard),
