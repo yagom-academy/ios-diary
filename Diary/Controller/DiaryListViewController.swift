@@ -26,30 +26,30 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureView()
-        configureListContents()
+        self.configureView()
+        self.configureListContents()
     }
     
     private func configureView() {
-        configureNavigationBar()
-        configureCollectionView()
+        self.configureNavigationBar()
+        self.configureCollectionView()
     }
     
     private func configureListContents() {
-        decodeJsonData()
-        configureDataSource()
-        applySnapshot()
+        self.decodeJsonData()
+        self.configureDataSource()
+        self.applySnapshot()
     }
     
     private func configureNavigationBar() {
         self.navigationItem.title = "일기장"
-        configureAddButton()
+        self.configureAddButton()
     }
     
     private func configureAddButton() {
         let addItem = UIBarButtonItem(barButtonSystemItem: .add,
                                       target: self,
-                                      action: #selector(pressAddButton))
+                                      action: #selector(self.pressAddButton))
         self.navigationItem.rightBarButtonItem = addItem
     }
     
@@ -60,7 +60,7 @@ final class DiaryListViewController: UIViewController {
     
     private func configureCollectionView() {
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(collectionView)
+        self.view.addSubview(self.collectionView)
         
         NSLayoutConstraint.activate([
             self.collectionView.widthAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.widthAnchor),

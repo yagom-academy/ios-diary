@@ -19,8 +19,8 @@ final class AddDiaryView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureView()
-        configureAutoLayout()
+        self.configureView()
+        self.configureAutoLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -28,7 +28,7 @@ final class AddDiaryView: UIView {
     }
     
     private func configureView() {
-        self.addSubview(textView)
+        self.addSubview(self.textView)
     }
     
     private func configureAutoLayout() {

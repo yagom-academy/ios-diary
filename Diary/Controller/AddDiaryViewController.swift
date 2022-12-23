@@ -19,8 +19,8 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
         self.navigationItem.title = DateFormatter().longDate
         self.view.backgroundColor = UIColor.white
         
-        setKeyboardObserver()
-        initializeHideKeyBoard()
+        self.setKeyboardObserver()
+        self.initializeHideKeyBoard()
     }
     
     func keyboardWillShow(notification: NSNotification) {
@@ -37,7 +37,7 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
     
     private func initializeHideKeyBoard() {
         let tap: UIGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                              action: #selector(dismissKeyBoard))
+                                                              action: #selector(self.dismissKeyBoard))
         self.navigationController?.navigationBar.addGestureRecognizer(tap)
     }
     

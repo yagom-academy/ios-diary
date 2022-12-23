@@ -55,7 +55,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureLayout()
+        self.configureLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -63,7 +63,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     }
     
     private func configureLayout() {
-        configureMainStackView()
+        self.configureMainStackView()
         self.contentView.addSubview(self.mainStackView)
         
         NSLayoutConstraint.activate([
@@ -77,7 +77,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     }
     
     private func configureMainStackView() {
-        configureSubStackView()
+        self.configureSubStackView()
         self.mainStackView.addArrangedSubview(self.titleLabel)
         self.mainStackView.addArrangedSubview(self.subStackView)
     }
