@@ -9,11 +9,7 @@ import Foundation
 
 extension Date {
     
-    var timeZoneDateFormat: String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        dateFormatter.timeZone = .autoupdatingCurrent
-        
-        return dateFormatter.string(from: self)
+    var localizedDateFormat: String {
+        return DateFormatter.localizedString(from: self, dateStyle: .long, timeStyle: .none)
     }
 }

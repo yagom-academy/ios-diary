@@ -20,6 +20,6 @@ struct Diary: Decodable, Hashable {
     }
     
     var createdDate: String {
-        return Date(timeIntervalSince1970: createdAt).timeZoneDateFormat
+        return Date(timeIntervalSince1970: createdAt).localizedDateFormat
     }
 }
