@@ -9,9 +9,9 @@ import UIKit
 
 final class DiaryCell: UICollectionViewListCell {
     
-    let titleLabel = CustomLabel()
-    let dateLabel = CustomLabel(font: .subheadline)
-    let previewLabel = CustomLabel(font: .caption2)
+    private let titleLabel = CustomLabel()
+    private let dateLabel = CustomLabel(font: .subheadline)
+    private let previewLabel = CustomLabel(font: .caption2)
     
     private let subStackView: UIStackView = {
         let stackView = UIStackView()
@@ -32,7 +32,7 @@ final class DiaryCell: UICollectionViewListCell {
         return stackView
     }()
 
-    func configureDiaryCellLayout() {
+    private func configureDiaryCellLayout() {
         configureAccessories()
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         [dateLabel, previewLabel].forEach { subStackView.addArrangedSubview($0) }
@@ -49,5 +49,12 @@ final class DiaryCell: UICollectionViewListCell {
     
     private func configureAccessories() {
         self.accessories = [.disclosureIndicator(options: .init(tintColor: .systemGray))]
+    }
+    
+    func configureCell(title: String, date: String, preview: String) {
+        configureDiaryCellLayout()
+        titleLabel.text = title
+        dateLabel.text = date
+        previewLabel.text = preview
     }
 }

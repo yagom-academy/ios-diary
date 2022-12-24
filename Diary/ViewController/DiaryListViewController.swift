@@ -34,10 +34,9 @@ final class DiaryListViewController: UIViewController {
     private func configureDiaryListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<DiaryCell, Diary> {
             cell, indexPath, diary in
-            cell.configureDiaryCellLayout()
-            cell.titleLabel.text = self.diary[indexPath.item].title
-            cell.dateLabel.text = self.diary[indexPath.item].createdDate
-            cell.previewLabel.text = self.diary[indexPath.item].body
+            cell.configureCell(title: self.diary[indexPath.item].title,
+                               date: self.diary[indexPath.item].createdDate,
+                               preview: self.diary[indexPath.item].body)
         }
         
         guard let diaryListView = diaryListView,

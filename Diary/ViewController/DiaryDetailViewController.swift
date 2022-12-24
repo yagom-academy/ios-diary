@@ -34,8 +34,7 @@ final class DiaryDetailViewController: UIViewController {
             return
         }
         
-        diaryDetailView.titleTextView.text = diary.title
-        diaryDetailView.bodyTextView.text = diary.body
+        diaryDetailView.configureTextView(title: diary.title, body: diary.body)
     }
 }
 
@@ -63,14 +62,14 @@ extension DiaryDetailViewController {
         }
         
         let keyboardHeight = keyboardFrame.cgRectValue.height
-        let bottomInset = self.diaryDetailView.diaryTextScrollView.contentInset.bottom
+        let bottomInset = self.diaryDetailView.scrollViewBottomInset
         let keyboardShowNotification = UIResponder.keyboardWillShowNotification
         let keyboardHideNotification = UIResponder.keyboardWillHideNotification
         
         if notification.name == keyboardShowNotification && bottomInset == 0 {
-            self.diaryDetailView.diaryTextScrollView.contentInset.bottom += keyboardHeight
+            self.diaryDetailView.changeScrollViewBottomInset(keyboardHeight)
         } else if notification.name == keyboardHideNotification && bottomInset != 0 {
-            self.diaryDetailView.diaryTextScrollView.contentInset.bottom -= keyboardHeight
+            self.diaryDetailView.changeScrollViewBottomInset(-keyboardHeight)
         }
     }
 }

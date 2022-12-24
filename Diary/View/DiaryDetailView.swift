@@ -9,10 +9,10 @@ import UIKit
 
 final class DiaryDetailView: UIView {
     
-    let titleTextView = CustomTextView(font: .title1)
-    let bodyTextView = CustomTextView(font: .body)
+    private let titleTextView = CustomTextView(font: .title1)
+    private let bodyTextView = CustomTextView(font: .body)
     
-    let diaryTextScrollView: UIScrollView = {
+    private let diaryTextScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -30,6 +30,10 @@ final class DiaryDetailView: UIView {
         
         return stackView
     }()
+    
+    var scrollViewBottomInset: CGFloat {
+        return diaryTextScrollView.contentInset.bottom
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -69,5 +73,14 @@ final class DiaryDetailView: UIView {
             diaryTextStackView.bottomAnchor.constraint(
                 equalTo: diaryTextScrollView.contentLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    func configureTextView(title: String, body: String) {
+        titleTextView.text = title
+        bodyTextView.text = body
+    }
+    
+    func changeScrollViewBottomInset(_ inset: CGFloat ) {
+        diaryTextScrollView.contentInset.bottom += inset
     }
 }
