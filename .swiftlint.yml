@@ -1,0 +1,13 @@
+excluded:
+  - Pods
+force_cast: error
+force_try:
+    severity: error
+line_length:
+    warning: 100
+    error: 110
+disabled_rules:
+    - vertical_whitespace
+    - trailing_whitespace
+    - unused_optional_binding
+    - notification_center_detachment
