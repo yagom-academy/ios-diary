@@ -10,11 +10,10 @@ import UIKit
 final class RegisterViewController: DiaryItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        mainTextView.delegate = self
     }
 }
 
-extension RegisterViewController: UITextViewDelegate {
+extension RegisterViewController {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.systemGray3 {
             textView.text = nil

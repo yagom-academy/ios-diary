@@ -37,6 +37,7 @@ class DiaryItemViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureTextView()
+        addKeyboardDismissAction()
     }
     
     private func configureNavigationBar() {
@@ -47,6 +48,7 @@ class DiaryItemViewController: UIViewController {
     }
     
     private func configureTextView() {
+        mainTextView.delegate = self
         view.addSubview(mainTextView)
         
         NSLayoutConstraint.activate([
@@ -55,6 +57,25 @@ class DiaryItemViewController: UIViewController {
             mainTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             mainTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -4)
         ])
+    }
+}
+
+extension DiaryItemViewController {
+    func addKeyboardDismissAction() {
+        let swipeGesture: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self,
+                                                                                action: #selector(dismissKeyboard))
+        swipeGesture.direction = .down
+        mainTextView.addGestureRecognizer(swipeGesture)
+    }
+    
+    @objc func dismissKeyboard() {
+        mainTextView.resignFirstResponder()
+    }
+}
+
+extension DiaryItemViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        
     }
 }
 
