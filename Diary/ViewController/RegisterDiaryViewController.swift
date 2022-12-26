@@ -8,6 +8,7 @@
 import UIKit
 
 class RegisterDiaryViewController: UIViewController {
+    
     private let diaryDetailView: DiaryDetailView = DiaryDetailView()
     private var diaryCoreDataManager = CoreDataManager.shared
     private var diaryPage = DiaryPage(title: " ", body: " ", createdAt: Date())
@@ -16,7 +17,6 @@ class RegisterDiaryViewController: UIViewController {
         super.viewDidLoad()
         self.view = diaryDetailView
         diaryCoreDataManager.saveDiary(diaryPage)
-        setupNotification()
         diaryDetailView.addTextViewsDelegate(self)
     }
 }

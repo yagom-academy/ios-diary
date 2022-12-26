@@ -9,6 +9,8 @@ import UIKit
 
 final class DiaryDetailView: UIView {
     
+    private var isTitlePlaceHolderState: Bool = true
+    private var isBodyPlaceHolderState: Bool = true
     private let titleTextView = CustomTextView(font: .title1)
     private let bodyTextView = CustomTextView(font: .body)
     
@@ -40,6 +42,7 @@ final class DiaryDetailView: UIView {
         self.backgroundColor = .systemBackground
         configureDetailLayout()
         setupPlaceHolder()
+        titleTextView.becomeFirstResponder()
     }
     
     required init?(coder: NSCoder) {
@@ -100,12 +103,14 @@ final class DiaryDetailView: UIView {
     }
     
     func removePlaceHolder() {
-        if titleTextView.isFirstResponder {
+        if titleTextView.isFirstResponder && isTitlePlaceHolderState == true {
             configureTitle("")
             titleTextView.textColor = .black
-        } else if bodyTextView.isFirstResponder {
+            isTitlePlaceHolderState = false
+        } else if bodyTextView.isFirstResponder && isBodyPlaceHolderState == true {
             configureBody("")
             bodyTextView.textColor = .black
+            isBodyPlaceHolderState = false
         }
     }
     
@@ -113,11 +118,13 @@ final class DiaryDetailView: UIView {
         if titleTextView.text == Constant.empty {
             configureTitle(Constant.titlePlaceHolder)
             titleTextView.textColor = .systemGray3
+            isTitlePlaceHolderState = true
         }
         
         if bodyTextView.text == Constant.empty {
             configureBody(Constant.bodyPlaceHolder)
             bodyTextView.textColor = .systemGray3
+            isBodyPlaceHolderState = true
         }
     }
 }
