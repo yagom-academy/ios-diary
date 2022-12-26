@@ -76,7 +76,13 @@ extension DiaryListViewController: UITableViewDataSource {
     }
 }
 
-extension DiaryListViewController: UITableViewDelegate { }
+extension DiaryListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let detailViewController = DetailViewController()
+        
+        navigationController?.pushViewController(detailViewController, animated: true)
+    }
+}
 
 // MARK: Namespace
 fileprivate enum Namespace {
