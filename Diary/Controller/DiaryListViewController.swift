@@ -70,7 +70,7 @@ extension DiaryListViewController {
             }
 
             cell.titleLabel.text = diary.title
-            cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdDate, diary.body)
+            cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdAt, diary.body)
 
             return cell
         })
@@ -102,11 +102,11 @@ extension DiaryListViewController {
     private func decodeSampleData() -> [Diary]? {
         guard let path = Bundle.main.path(forResource: "sample", ofType: "json"),
               let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-              let items = try? JSONDecoder().decode([Diary].self, from: data) else {
+              let items = try? JSONDecoder().decode([DiaryResponseDTO].self, from: data) else {
             return nil
         }
 
-        return items
+        return items.map { $0.toDomain() }
     }
 }
 
@@ -116,5 +116,6 @@ extension DiaryListViewController: UITableViewDelegate {
         let diaryViewController = DiaryViewController(diary: selectedDiary)
 
         navigationController?.pushViewController(diaryViewController, animated: true)
+        diaryListTableView.deselectRow(at: indexPath, animated: true)
     }
 }

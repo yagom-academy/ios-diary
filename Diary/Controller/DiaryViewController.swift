@@ -69,7 +69,7 @@ final class DiaryViewController: UIViewController {
     }
 
     private func configureView(with diary: Diary) {
-        navigationItem.title = diary.createdDate.localeFormattedText
+        navigationItem.title = diary.createdAt.localeFormattedText
         titleTextView.text = diary.title
         bodyTextView.text = diary.body
     }

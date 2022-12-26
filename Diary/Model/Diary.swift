@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Diary: Codable {
+struct DiaryResponseDTO: Decodable {
     let title: String
     let body: String
     let createdAt: Double
@@ -19,18 +19,19 @@ final class Diary: Codable {
     }
 }
 
-extension Diary {
-    var createdDate: Date {
-        return Date(timeIntervalSince1970: createdAt)
+extension DiaryResponseDTO {
+    func toDomain() -> Diary {
+        let diary = Diary(title: title,
+                          body: body,
+                          createdAt: Date(timeIntervalSince1970: createdAt))
+
+        return diary
     }
 }
 
-extension Diary: Hashable {
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(ObjectIdentifier(self).hashValue)
-    }
-
-    static func == (lhs: Diary, rhs: Diary) -> Bool {
-        return lhs === rhs
-    }
+struct Diary: Hashable {
+    let title: String
+    let body: String
+    let createdAt: Date
+    let uuid: UUID = UUID()
 }
