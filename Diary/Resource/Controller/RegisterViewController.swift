@@ -8,56 +8,33 @@
 import UIKit
 
 final class RegisterViewController: UIViewController {
-    private let mainStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .vertical
-        stackView.spacing = LayoutConstant.stackViewSpacing
-        return stackView
-    }()
-    
-    private let titleTextView: UITextView = {
-        let textView = UITextView()
-        textView.isScrollEnabled = false
-        textView.setContentCompressionResistancePriority(.required, for: .vertical)
-        textView.textColor = .systemGray3
-        textView.font = UIFont.preferredFont(forTextStyle: .title2)
-        textView.text = Placeholder.title
-        textView.textContainerInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
-        return textView
-    }()
-    
-    private let bodyTextView: UITextView = {
-        let textView = UITextView()
-        textView.textColor = .systemGray3
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.text = Placeholder.body
-        textView.textContainerInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
-        return textView
-    }()
-    
-    private lazy var titleHeightConstraint =
-        titleTextView.heightAnchor.constraint(equalToConstant: LayoutConstant.titleTextViewMaxHeight)
-        
-    private var isOversized = false {
+    private var diaryTitle: String? = ""
+    private var diaryBody: String? = ""
+    private var titleRange: NSRange?
+    private var firstReturnIndex: String.Index?
+    private var hasTitle: Bool = false {
         didSet {
-            guard oldValue != isOversized else { return }
-            titleTextView.isScrollEnabled = isOversized
-            titleHeightConstraint.isActive = !oldValue
-            titleTextView.setNeedsUpdateConstraints()
+            mainTextView.attributedText = mainTextView.attributedText.formatTitle(between: titleRange)
         }
     }
     
+    private let mainTextView: UITextView = {
+        let textView = UITextView()
+        textView.textColor = .systemGray3
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.text = Placeholder.editText
+        textView.textContainerInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
+        return textView
+    }()
+
     override func loadView() {
-        view = UIView(frame: .zero)
+        view = mainTextView
         view.backgroundColor = .systemBackground
-        view.addSubview(mainStackView)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
-        configureMainStackView()
         configureTextView()
     }
 
@@ -68,26 +45,8 @@ final class RegisterViewController: UIViewController {
         title = DateFormatterManager().formatDate(date)
     }
 
-    private func configureMainStackView() {
-        mainStackView.addArrangedSubview(titleTextView)
-        mainStackView.addArrangedSubview(bodyTextView)
-        mainStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: LayoutConstant.mainStackViewTopMargin,
-                                                                         leading: LayoutConstant.mainStackViewLeadingMargin,
-                                                                         bottom: LayoutConstant.mainStackViewBottomMargin,
-                                                                         trailing: LayoutConstant.mainStackViewTrailingMargin)
-        mainStackView.isLayoutMarginsRelativeArrangement = true
-        
-        NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
-        ])
-    }
-    
     private func configureTextView() {
-        titleTextView.delegate = self
-        bodyTextView.delegate = self
+        mainTextView.delegate = self
     }
 }
 
@@ -100,27 +59,22 @@ extension RegisterViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        guard textView == titleTextView else { return }
-        let titleTextViewHeight = textView.contentSize.height
+        guard !hasTitle else { return }
         
-        if titleTextViewHeight > LayoutConstant.titleTextViewMaxHeight {
-            isOversized = true
-        } else {
-            isOversized = false
-        }
+        guard let firstReturnIndex = mainTextView.text.firstIndex(of: "\n") else { return }
+
+        let distance = mainTextView.text.distance(from: mainTextView.text.startIndex, to: firstReturnIndex)
+        diaryTitle = String(mainTextView.text[..<firstReturnIndex])
+        titleRange = NSRange(location: 0, length: distance)
+        hasTitle = true
     }
     
-    private enum LayoutConstant {
-        static let stackViewSpacing = CGFloat(8)
-        static let mainStackViewTopMargin = CGFloat(8)
-        static let mainStackViewLeadingMargin = CGFloat(8)
-        static let mainStackViewBottomMargin = CGFloat(8)
-        static let mainStackViewTrailingMargin = CGFloat(8)
-        static let titleTextViewMaxHeight = CGFloat(100)
-    }
+    // TODO: didEndEditing에서 body 할당
+//    diaryBody = String(mainTextView.text[returnIdx...]).trimmingCharacters(in: .whitespaces)
 }
 
+// TODO: 키보드 올라왔을때 텍스트뷰(루트뷰) 조정!
+
 fileprivate enum Placeholder {
-    static let title = "제목을 입력해주세요."
-    static let body = "본문을 입력해주세요."
+    static let editText = "일기를 입력해주세요."
 }
