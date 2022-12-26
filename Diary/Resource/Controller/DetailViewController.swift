@@ -13,5 +13,4 @@ class DetailViewController: DiaryItemViewController {
         super.viewDidLoad()
 
     }
-    
 }

@@ -2,7 +2,7 @@
 //  DiaryItemViewController.swift
 //  Diary
 //
-//  Created by 정선아 on 2022/12/26.
+//  Created by SummerCat and som on 2022/12/26.
 //
 
 import UIKit

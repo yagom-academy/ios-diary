@@ -10,5 +10,5 @@ import Foundation
 struct DiaryForm: Decodable {
     let title: String
     let body: String
-    let createdAt: Int
+    let createdAt: Date
 }

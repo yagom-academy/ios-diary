@@ -90,7 +90,7 @@ final class DiaryListTableViewCell: UITableViewCell {
 
     func updateContent(data: DiaryForm) {
         diaryTitleLabel.text = data.title
-        createdDateLabel.text = DateFormatterManager().convertToDate(from: data.createdAt)
+//        createdDateLabel.text = DateFormatterManager().convertToDate(from: data.createdAt)
         previewLabel.text = data.body
     }
 }
