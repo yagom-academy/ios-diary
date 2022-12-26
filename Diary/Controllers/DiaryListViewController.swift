@@ -62,6 +62,7 @@ final class DiaryListViewController: UIViewController {
     }
 }
 
+// MARK: - TableView Method
 extension DiaryListViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

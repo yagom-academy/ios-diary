@@ -72,6 +72,7 @@ final class AddDiaryViewController: UIViewController {
         self.contentTextView.textColor = .lightGray
     }
 }
+
 // MARK: - Keyboard adjusting
 extension AddDiaryViewController {
     
@@ -98,6 +99,7 @@ extension AddDiaryViewController {
     }
 }
 
+// MARK: - TextView Method
 extension AddDiaryViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -114,5 +116,3 @@ extension AddDiaryViewController: UITextViewDelegate {
         }
     }
 }
-
-
