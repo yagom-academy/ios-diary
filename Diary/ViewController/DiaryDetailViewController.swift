@@ -9,9 +9,9 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController {
     private let diaryDetailView: DiaryDetailView
-    private var diary: Diary?
+    private var diary: DiaryPage?
     
-    init(diary: Diary) {
+    init(diary: DiaryPage) {
         self.diary = diary
         self.diaryDetailView = DiaryDetailView()
         super.init(nibName: nil, bundle: nil)

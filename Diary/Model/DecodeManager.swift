@@ -9,11 +9,11 @@ import UIKit
 
 final class DecodeManager {
     
-    static func decodeDiaryData(_ data: Data) -> [Diary]? {
+    static func decodeDiaryData(_ data: Data) -> [DiaryPage]? {
         let decoder = JSONDecoder()
         
         do {
-            let decodedData = try decoder.decode([Diary].self, from: data)
+            let decodedData = try decoder.decode([DiaryPage].self, from: data)
             return decodedData
         } catch let DecodingError.dataCorrupted(context) {
             print(context)

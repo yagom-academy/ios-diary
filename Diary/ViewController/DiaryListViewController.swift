@@ -9,8 +9,8 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     
     private var diaryListView: DiaryListView?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>?
-    private var diary: [Diary] = []
+    private var dataSource: UICollectionViewDiffableDataSource<Section, DiaryPage>?
+    private var diary: [DiaryPage] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,7 +32,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureDiaryListDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DiaryCell, Diary> {
+        let cellRegistration = UICollectionView.CellRegistration<DiaryCell, DiaryPage> {
             cell, indexPath, diary in
             cell.configureCell(title: self.diary[indexPath.item].title,
                                date: self.diary[indexPath.item].createdDate,
@@ -54,7 +54,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func snapShot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryPage>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diary)
         dataSource?.apply(snapshot)

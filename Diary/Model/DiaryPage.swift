@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Diary: Decodable, Hashable {
+struct DiaryPage: Decodable, Hashable {
     
     let title: String
     let body: String
