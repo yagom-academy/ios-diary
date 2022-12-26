@@ -18,12 +18,13 @@ extension UIViewController {
                                       preferredStyle: .alert)
         
         if bool {
-            self.present(alert, animated: true)
-            alert.dismiss(animated: true)
-            
-            guard let completion = completion else { return }
-            completion()
-            
+            self.present(alert, animated: true) {
+                Thread.sleep(forTimeInterval: 0.5)
+            }
+            alert.dismiss(animated: true) {
+                guard let completion = completion else { return }
+                completion()
+            }
         } else {
             let confirm = UIAlertAction(title: "취소", style: .destructive) {  _ in
                 if let completion = completion {

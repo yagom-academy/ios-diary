@@ -36,13 +36,11 @@ final class AddViewController: UIViewController {
                                             body: data.body,
                                             createdAt: currentDate),
                                      completion: {
-                
-                self.showCustomAlert(alertText: "저장 성공", alertMessage: "저장성공하였습니다.", bool: true) {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        self.navigationController?.popViewController(animated: true)
-                    }
+                self.showCustomAlert(alertText: "저장 성공",
+                                     alertMessage: "저장성공하였습니다.",
+                                     bool: true) {
+                    self.navigationController?.popViewController(animated: true)
                 }
-                return
             })
         case .failure(let error):
             self.showCustomAlert(alertText: error.localizedDescription,
