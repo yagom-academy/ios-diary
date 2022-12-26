@@ -7,6 +7,10 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
+    enum Constant {
+        static let rightBarButtonName = "ellipsis"
+    }
+    
     private let titleTextField: UITextField = {
         let titleTextField = UITextField()
         titleTextField.placeholder = "제목을 입력해주세요."
@@ -131,5 +135,13 @@ extension DiaryDetailViewController {
     private func setNavigationBar() {
         let currentDate = Date().convertString()
         navigationItem.setNavigationTitle(title: currentDate)
+        
+        let presentAction = UIAction { _ in
+            // TODO: Action Sheet 추가
+        }
+        navigationItem.setRightButton(
+            systemName: Constant.rightBarButtonName,
+            action: presentAction
+        )
     }
 }

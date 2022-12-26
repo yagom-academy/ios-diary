@@ -15,4 +15,9 @@ extension UINavigationItem {
         let button = UIBarButtonItem(systemItem: systemName, primaryAction: action)
         self.rightBarButtonItem = button
     }
+    
+    func setRightButton(systemName: String, action: UIAction) {
+        let button = UIBarButtonItem(image: UIImage(systemName: systemName), primaryAction: action)
+        self.rightBarButtonItem = button
+    }
 }
