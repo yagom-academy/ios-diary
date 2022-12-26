@@ -58,10 +58,15 @@ final class AddDiaryView: UIView {
     }()
     
     func packageData() -> Result<(title: String, body: String), DataError> {
-        guard let title = titleTextField.text,
-              let contents = contentsTextView.text else {
+        guard let title = titleTextField.text, title.count != .zero,
+              var contents = contentsTextView.text else {
             return .failure(.nonDataError)
         }
+        
+        if contents == Placeholder.textViewPlaceHolder.sentence {
+            contents = ""
+        }
+        
         return .success((title, contents))
     }
 }

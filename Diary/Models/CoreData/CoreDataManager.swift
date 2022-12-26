@@ -22,7 +22,6 @@ final class CoreDataManager {
         if let context = context {
             let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
             
-            // TODO: 테스트예정
             let dataOrder = NSSortDescriptor(key: "createdAt", ascending: false)
             request.sortDescriptors = [dataOrder]
             
@@ -38,7 +37,6 @@ final class CoreDataManager {
         return diaryDataList
     }
     
-    //TODO: @escaping으로 Bool값 전달하여 Alert 기능 추가 예정
     func saveData(data: (title: String, body: String, createdAt: Date),
                   completion: @escaping () -> Void) {
         guard let context = context else {

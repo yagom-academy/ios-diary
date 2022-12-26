@@ -23,7 +23,8 @@ final class AddViewController: UIViewController {
         self.title = date
         
         let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
-                                                 target: self, action: #selector(doneButtonTapped))
+                                                 target: self,
+                                                 action: #selector(doneButtonTapped))
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
     
@@ -35,10 +36,19 @@ final class AddViewController: UIViewController {
                                             body: data.body,
                                             createdAt: currentDate),
                                      completion: {
+                
+                self.showCustomAlert(alertText: "저장 성공", alertMessage: "저장성공하였습니다.", bool: true) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                }
                 return
             })
         case .failure(let error):
-            print(error)
+            self.showCustomAlert(alertText: error.localizedDescription,
+                                 alertMessage: "저장 실패하였습니다.",
+                                 bool: false,
+                                 completion: nil)
         }
     }
 }

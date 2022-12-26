@@ -20,6 +20,12 @@ final class MainViewController: UIViewController {
         case main
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupData()
+        applySnapshot()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = mainDiaryView
