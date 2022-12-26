@@ -12,7 +12,7 @@ struct DiaryPage: Decodable, Hashable {
     let title: String
     let body: String
     let createdAt: Double
-    let id = UUID()
+    var id = UUID()
     
     enum CodingKeys: String, CodingKey {
         case title, body
