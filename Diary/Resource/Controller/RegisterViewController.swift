@@ -20,6 +20,7 @@ final class RegisterViewController: UIViewController {
     
     private let mainTextView: UITextView = {
         let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textColor = .systemGray3
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.text = Placeholder.editText
@@ -28,7 +29,7 @@ final class RegisterViewController: UIViewController {
     }()
 
     override func loadView() {
-        view = mainTextView
+        view = UIView(frame: .zero)
         view.backgroundColor = .systemBackground
     }
 
@@ -47,6 +48,14 @@ final class RegisterViewController: UIViewController {
 
     private func configureTextView() {
         mainTextView.delegate = self
+        view.addSubview(mainTextView)
+        
+        NSLayoutConstraint.activate([
+            mainTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            mainTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            mainTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            mainTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor, constant: -4)
+        ])
     }
 }
 
@@ -72,8 +81,6 @@ extension RegisterViewController: UITextViewDelegate {
     // TODO: didEndEditing에서 body 할당
 //    diaryBody = String(mainTextView.text[returnIdx...]).trimmingCharacters(in: .whitespaces)
 }
-
-// TODO: 키보드 올라왔을때 텍스트뷰(루트뷰) 조정!
 
 fileprivate enum Placeholder {
     static let editText = "일기를 입력해주세요."
