@@ -9,6 +9,10 @@ import UIKit
 
 final class AddDiaryViewController: UIViewController {
     
+    enum Constant {
+        static let placeholder = "내용을 입력하세요."
+    }
+    
     private let titleTextField: UITextField = {
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -86,7 +90,7 @@ final class AddDiaryViewController: UIViewController {
     
     private func configureTextView() {
         self.contentTextView.delegate = self
-        self.contentTextView.text = "내용을 입력하세요."
+        self.contentTextView.text = Constant.placeholder
         self.contentTextView.textColor = .lightGray
     }
 }
@@ -94,7 +98,7 @@ final class AddDiaryViewController: UIViewController {
 extension AddDiaryViewController: UITextViewDelegate {
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == "내용을 입력하세요." {
+        if textView.text == Constant.placeholder {
             textView.text = nil
             textView.textColor = .black
         }
@@ -102,7 +106,7 @@ extension AddDiaryViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textView.text = "내용을 입력하세요."
+            textView.text = Constant.placeholder
             textView.textColor = .lightGray
         }
     }
