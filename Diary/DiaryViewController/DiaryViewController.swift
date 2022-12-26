@@ -18,10 +18,14 @@ final class DiaryViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .systemBackground
+        configureView()
         setupDiaryContents()
         configureTableView()
         configureNavigationBar()
+    }
+    
+    private func configureView() {
+        self.view.backgroundColor = .systemBackground
     }
     
     private func setupDiaryContents() {
@@ -40,23 +44,21 @@ final class DiaryViewController: UIViewController {
         self.navigationItem.rightBarButtonItem?.target = self
         self.navigationItem.rightBarButtonItem?.action = #selector(tappedAddButton)
     }
-
-    @objc private func tappedAddButton(_ sender: UIBarButtonItem) {
-        let editorViewController = EditorViewController()
-        editorViewController.configureEditorView()
+    
+    private func pushEditorViewController(with content: DiaryContent? = nil) {
+        let editorViewController = EditorViewController(with: content)
         
         self.navigationController?.pushViewController(editorViewController, animated: true)
+    }
+    
+    @objc private func tappedAddButton(_ sender: UIBarButtonItem) {
+        self.pushEditorViewController()
     }
 }
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
-        
-        let editorViewController = EditorViewController()
-        editorViewController.configureEditorView(from: diaryContents[indexPath.row])
-        
-        self.navigationController?.pushViewController(editorViewController, animated: true)
+        self.pushEditorViewController(with: diaryContents[indexPath.row])
     }
 }
 

@@ -10,7 +10,7 @@ import UIKit
 final class DiaryListCell: UITableViewCell {
     static let identifier: String = String(describing: DiaryListCell.self)
     
-    let diaryStackView: UIStackView = {
+    private let diaryStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .leading
@@ -53,12 +53,11 @@ final class DiaryListCell: UITableViewCell {
 
         return label
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        self.contentView.addSubview(diaryStackView)
-        self.accessoryType = .disclosureIndicator
-        configureStackView()
+        
+        self.configureCell()
     }
     
     required init?(coder: NSCoder) {
@@ -66,11 +65,18 @@ final class DiaryListCell: UITableViewCell {
     }
     
     func setupLabelText(from content: DiaryContent) {
-        let date = content.createdDateString
+        let dateString = content.createdDateString
         
         titleLabel.text = content.title
-        dateLabel.text = date
+        dateLabel.text = dateString
         previewLabel.text = content.body
+    }
+    
+    private func configureCell() {
+        self.contentView.addSubview(diaryStackView)
+        self.accessoryType = .disclosureIndicator
+        
+        configureStackView()
     }
 
     private func configureStackView() {

@@ -9,6 +9,7 @@ import UIKit
 
 final class EditorViewController: UIViewController {
     private let editorView: EditorView = EditorView()
+    private let content: DiaryContent?
     
     override func loadView() {
         super.loadView()
@@ -33,20 +34,31 @@ final class EditorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        editorView.scrollToTop()
+        self.editorView.scrollToTop()
+        self.configureEditorView()
+    }
+    
+    init(with content: DiaryContent?) {
+        self.content = content
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
     
-    func configureEditorView(from content: DiaryContent? = nil) {
+    private func configureEditorView() {
+        self.navigationItem.title = self.content?.createdDateString ?? Date().localizedString()
+ 
         if let content = content {
             let text = content.title + Constant.doubleBreak + content.body
-            editorView.setupTextView(from: text)
+            self.editorView.setupTextView(from: text)
         }
-        
-        self.navigationItem.title = content?.createdDateString ?? Date().localizedString()
     }
 }
 
@@ -55,13 +67,13 @@ private extension EditorViewController {
     @objc func keyboardWillAppear(_ notification: NSNotification) {
         if let userInfokey = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
            let keyboardSize = (userInfokey as? NSValue)?.cgRectValue {
-            editorView.changeBottomConstant(to: -keyboardSize.height)
+            self.editorView.changeBottomConstant(to: -keyboardSize.height)
             self.view.layoutIfNeeded()
         }
     }
     
     @objc func keyboardWillDisappear(_ notification: NSNotification) {
-        editorView.changeBottomConstant(to: 0)
+        self.editorView.changeBottomConstant(to: 0)
         self.view.layoutIfNeeded()
     }
 }

@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryView: UIView {
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
