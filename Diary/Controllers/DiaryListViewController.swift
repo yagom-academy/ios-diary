@@ -55,11 +55,11 @@ final class DiaryListViewController: UICollectionViewController {
     }
 }
 
+// MARK: - DataSource
 extension DiaryListViewController {
     private func configureDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, Diary.ID> { [weak self] cell, _, itemIdentifier in
-
-            var contentConfiguration = DiaryListConfiguration()
+            var contentConfiguration = DiaryListContentView.Configuration()
             guard let diary = self?.diary(diaryID: itemIdentifier) else {
                 cell.contentConfiguration = contentConfiguration
                 return
@@ -87,6 +87,7 @@ extension DiaryListViewController {
     }
 }
 
+// MARK: - objc
 extension DiaryListViewController {
     @objc private func touchUpAddButton(_ sender: UIBarButtonItem) {
         let diaryRegistrationViewController = DiaryRegistrationViewController()

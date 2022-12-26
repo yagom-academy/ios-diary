@@ -49,7 +49,7 @@ final class DiaryRegistrationViewController: UIViewController {
 
     private func configureNavigationItem() {
         let timeInterval = Date().timeIntervalSince1970
-        navigationItem.title = DateFormatter.convertToCurrentLocalizedText(timeIntervalSince1970: timeInterval)
+        navigationItem.title = timeInterval.currentLocalizedText()
     }
 
     private func configureSubViews() {
@@ -74,6 +74,7 @@ final class DiaryRegistrationViewController: UIViewController {
     }
 }
 
+// MARK: - Keyboard
 extension DiaryRegistrationViewController {
     private func addKeyboardObserver() {
         NotificationCenter.default.addObserver(self,

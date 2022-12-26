@@ -16,7 +16,7 @@
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		E25BBF9D4EC8DA94B06150FB /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7291FC97C4E48FA7742DB928 /* Pods_Diary.framework */; };
 		EB39A625295450B80029B9D6 /* DiaryListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB39A624295450B80029B9D6 /* DiaryListContentView.swift */; };
-		EB39A628295458320029B9D6 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB39A627295458320029B9D6 /* DateFormatter.swift */; };
+		EB39A628295458320029B9D6 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB39A627295458320029B9D6 /* TimeInterval.swift */; };
 		EB84FA3D295147260056999D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EB84FA3C295147260056999D /* .swiftlint.yml */; };
 		EBE77C7B2954B5D00050FDFF /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE77C7A2954B5D00050FDFF /* Locale.swift */; };
 		EBE77C7E2954BB110050FDFF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EBE77C802954BB110050FDFF /* Localizable.strings */; };
@@ -36,7 +36,7 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EB39A624295450B80029B9D6 /* DiaryListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListContentView.swift; sourceTree = "<group>"; };
-		EB39A627295458320029B9D6 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		EB39A627295458320029B9D6 /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
 		EB84FA3C295147260056999D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		EBE77C7A2954B5D00050FDFF /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
 		EBE77C7F2954BB110050FDFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 		EB39A626295456C70029B9D6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				EB39A627295458320029B9D6 /* DateFormatter.swift */,
+				EB39A627295458320029B9D6 /* TimeInterval.swift */,
 				EBE77C7A2954B5D00050FDFF /* Locale.swift */,
 			);
 			path = Extensions;
@@ -276,7 +276,7 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				EB39A625295450B80029B9D6 /* DiaryListContentView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
-				EB39A628295458320029B9D6 /* DateFormatter.swift in Sources */,
+				EB39A628295458320029B9D6 /* TimeInterval.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

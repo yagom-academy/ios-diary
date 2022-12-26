@@ -8,6 +8,20 @@
 import UIKit
 
 final class DiaryListContentView: UIView, UIContentView {
+    struct Configuration: UIContentConfiguration {
+        var title: String?
+        var body: String?
+        var createdAt: TimeInterval?
+
+        func makeContentView() -> UIView & UIContentView {
+            return DiaryListContentView(configuration: self)
+        }
+
+        func updated(for state: UIConfigurationState) -> Configuration {
+            return self
+        }
+    }
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -59,12 +73,12 @@ final class DiaryListContentView: UIView, UIContentView {
     }
 
     private func configure(_ configuration: UIContentConfiguration) {
-        if let configuration = configuration as? DiaryListConfiguration {
+        if let configuration = configuration as? Configuration {
             titleLabel.text = configuration.title
             bodyLabel.text = configuration.body
 
             if let createdAt = configuration.createdAt {
-                createdAtLabel.text = DateFormatter.convertToCurrentLocalizedText(timeIntervalSince1970: createdAt)
+                createdAtLabel.text = createdAt.currentLocalizedText()
             } else {
                 createdAtLabel.text = nil
             }
@@ -92,19 +106,5 @@ final class DiaryListContentView: UIView, UIContentView {
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -spacing)
         ])
-    }
-}
-
-struct DiaryListConfiguration: UIContentConfiguration {
-    var title: String?
-    var body: String?
-    var createdAt: TimeInterval?
-
-    func makeContentView() -> UIView & UIContentView {
-        return DiaryListContentView(configuration: self)
-    }
-
-    func updated(for state: UIConfigurationState) -> DiaryListConfiguration {
-        return self
     }
 }

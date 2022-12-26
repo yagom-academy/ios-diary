@@ -7,9 +7,9 @@
 
 import Foundation
 
-extension DateFormatter {
-    static func convertToCurrentLocalizedText(timeIntervalSince1970: TimeInterval) -> String {
-        let date = Date(timeIntervalSince1970: timeIntervalSince1970)
+extension TimeInterval {
+    func currentLocalizedText() -> String {
+        let date = Date(timeIntervalSince1970: self)
         let formatter = DateFormatter()
         formatter.dateStyle = .long
         formatter.timeStyle = .none
