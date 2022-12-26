@@ -40,14 +40,14 @@ class CoreDataStack {
         }
     }
     
-    func insertDiary(_ diaryForm: DiaryModel) {
+    func insertDiary(_ diaryModel: DiaryModel) {
         guard let diaryEntity = diaryEntity else { return }
         
         let managedObject = NSManagedObject(entity: diaryEntity, insertInto: viewContext)
-        managedObject.setValue(diaryForm.id, forKey: "id")
-        managedObject.setValue(diaryForm.title, forKey: "title")
-        managedObject.setValue(diaryForm.body, forKey: "body")
-        managedObject.setValue(diaryForm.createdAt, forKey: "createdAt")
+        managedObject.setValue(diaryModel.id, forKey: "id")
+        managedObject.setValue(diaryModel.title, forKey: "title")
+        managedObject.setValue(diaryModel.body, forKey: "body")
+        managedObject.setValue(diaryModel.createdAt, forKey: "createdAt")
         saveContext()
     }
     

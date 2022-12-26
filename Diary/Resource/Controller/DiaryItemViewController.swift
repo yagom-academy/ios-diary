@@ -60,7 +60,6 @@ class DiaryItemViewController: UIViewController {
         view.addSubview(mainStackView)
         configureNavigationBar()
         configureMainStackView()
-        configureTextView()
         addKeyboardDismissAction()
     }
     
@@ -88,11 +87,6 @@ class DiaryItemViewController: UIViewController {
         ])
     }
     
-    private func configureTextView() {
-        titleTextView.delegate = self
-        bodyTextView.delegate = self
-    }
-    
     private enum LayoutConstant {
         static let stackViewSpacing = CGFloat(8)
         static let mainStackViewTopMargin = CGFloat(8)
@@ -113,24 +107,6 @@ extension DiaryItemViewController {
     
     @objc func dismissKeyboard() {
         mainStackView.resignFirstResponder()
-    }
-}
-
-extension DiaryItemViewController: UITextViewDelegate {
-    func textViewDidChange(_ textView: UITextView) {
-        guard textView == titleTextView else { return }
-        
-        guard !hasTitle,
-              let _ = titleTextView.text.firstIndex(of: "\n") else { return }
-
-        hasTitle = true
-        titleTextView.text = titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-        titleTextView.resignFirstResponder()
-        bodyTextView.becomeFirstResponder()
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        // TODO: 코어 데이터에 저장
     }
 }
 

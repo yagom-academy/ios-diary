@@ -10,6 +10,21 @@ import UIKit
 final class RegisterViewController: DiaryItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureTextView()
+    }
+    
+    private func makeDiaryModel() -> DiaryModel {
+        let diaryData = DiaryModel(id: UUID(),
+                        title: titleTextView.text,
+                        body: bodyTextView.text,
+                        createdAt: Date())
+        
+        return diaryData
+    }
+    
+    private func configureTextView() {
+        titleTextView.delegate = self
+        bodyTextView.delegate = self
     }
 }
 
@@ -20,7 +35,22 @@ extension RegisterViewController {
             textView.textColor = .black
         }
     }
+}
+
+extension RegisterViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        guard textView == titleTextView else { return }
+        
+        guard !hasTitle,
+              let _ = titleTextView.text.firstIndex(of: "\n") else { return }
+
+        hasTitle = true
+        titleTextView.text = titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        titleTextView.resignFirstResponder()
+        bodyTextView.becomeFirstResponder()
+    }
     
-    // TODO: didEndEditing에서 body 할당
-//    diaryBody = String(mainTextView.text[returnIdx...]).trimmingCharacters(in: .whitespaces)
+    func textViewDidEndEditing(_ textView: UITextView) {
+        CoreDataStack.shared.insertDiary(makeDiaryModel())
+    }
 }
