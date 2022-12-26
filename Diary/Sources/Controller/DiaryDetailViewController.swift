@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class DiaryWriteViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController {
     private let titleTextField: UITextField = {
         let titleTextField = UITextField()
         titleTextField.placeholder = "제목을 입력해주세요."
@@ -27,6 +27,13 @@ final class DiaryWriteViewController: UIViewController {
         return textView
     }()
     
+    private var item: Diary? {
+        didSet {
+            self.titleTextField.text = item?.title
+            self.contentTextView.text = item?.body
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -43,7 +50,7 @@ final class DiaryWriteViewController: UIViewController {
 }
 
 // MARK: Business Logic
-extension DiaryWriteViewController {
+extension DiaryDetailViewController {
     private func bindKeyboardObserver() {
         NotificationCenter.default.addObserver(
             self,
@@ -59,16 +66,20 @@ extension DiaryWriteViewController {
             object: nil
         )
     }
+    
+    func setDiary(with item: Diary? = nil) {
+        self.item = item
+    }
 }
 
 // MARK: Objc Method
-extension DiaryWriteViewController {
+extension DiaryDetailViewController {
     @objc private func willShowKeyboard(notification: Notification) {
         if contentTextView.isFirstResponder,
            let userInfo = notification.userInfo,
            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
            contentTextView.textContainerInset.bottom == 0 {
-            contentTextView.textContainerInset.bottom = keyboardFrame.cgRectValue.height
+            contentTextView.contentInset.bottom = keyboardFrame.cgRectValue.height
         }
     }
     
@@ -78,7 +89,7 @@ extension DiaryWriteViewController {
 }
 
 // MARK: UI Configuration
-extension DiaryWriteViewController {
+extension DiaryDetailViewController {
     private func addElementViews() {
         [titleTextField, contentTextView].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -110,9 +121,9 @@ extension DiaryWriteViewController {
         
         contentTextView.anchor(
             top: titleTextField.bottomAnchor,
-            leading: view.leadingAnchor,
+            leading: view.readableContentGuide.leadingAnchor,
             bottom: safeArea.bottomAnchor,
-            trailing: view.trailingAnchor,
+            trailing: view.readableContentGuide.trailingAnchor,
             paddingTop: 8
         )
     }

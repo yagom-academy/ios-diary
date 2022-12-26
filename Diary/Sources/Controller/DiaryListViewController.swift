@@ -15,9 +15,10 @@ final class DiaryListViewController: UIViewController {
     private let tableView: UITableView = UITableView(frame: .zero, style: .plain)
     private var dataSource: UITableViewDiffableDataSource<Int, Diary>?
     private var diaries: [Diary]?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
         setNavigationBar()
         fetchData()
         setTableViewAnchor()
@@ -43,9 +44,20 @@ extension DiaryListViewController {
             
             cell.diary = item
             cell.accessoryType = .disclosureIndicator
-
+            
             return cell
         }
+    }
+}
+
+// MARK: UITableView Delegate
+extension DiaryListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let items = diaries else { return }
+        let diary = items[indexPath.row]
+        
+        presentDiaryDetailView(diary: diary)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -63,7 +75,7 @@ extension DiaryListViewController {
         guard let diaries = diaries else {
             return
         }
-
+        
         var snapshot = NSDiffableDataSourceSnapshot<Int, Diary>()
         snapshot.appendSections([.zero])
         snapshot.appendItems(diaries)
@@ -73,8 +85,10 @@ extension DiaryListViewController {
 
 // MARK: Present Method
 extension DiaryListViewController {
-    private func didTappedAddDiaryButton() {
-        let viewController = DiaryWriteViewController()
+    private func presentDiaryDetailView(diary: Diary? = nil) {
+        let viewController = DiaryDetailViewController()
+        viewController.setDiary(with: diary)
+        
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -99,7 +113,7 @@ extension DiaryListViewController {
         navigationItem.setNavigationTitle(title: Constant.navigationTitle)
         
         let presentAction = UIAction { _ in
-            self.didTappedAddDiaryButton()
+            self.presentDiaryDetailView()
         }
         navigationItem.setRightButton(systemName: .add, action: presentAction)
         navigationController?.setDefaultNavigationAppearance()
