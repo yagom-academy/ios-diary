@@ -95,4 +95,11 @@ class CoreDataStack {
             print(error.localizedDescription)
         }
     }
+    
+    func deleteDiary(_ diaryForm: DiaryForm) {
+        let fetchResults = fetchDiary()
+        let diaryForm = fetchResults.filter({ $0.id == diaryForm.id })[0]
+        viewContext.delete(diaryForm)
+        saveContext()
+    }
 }
