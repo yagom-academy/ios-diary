@@ -46,11 +46,7 @@ final class EditorViewController: UIViewController {
             editorView.setupTextView(from: text)
         }
         
-        self.navigationItem.title = DateLocalizer.localizedString(
-            from: content?.createdDate ?? Date(),
-            dateStyle: .long,
-            timeStyle: .none
-        )
+        self.navigationItem.title = content?.createdDateString ?? Date().localizedString()
     }
 }
 

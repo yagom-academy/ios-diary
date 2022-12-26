@@ -11,8 +11,8 @@ struct DiaryContent: Decodable {
     let title, body: String
     let createdAt: Double
     
-    var createdDate: Date {
-        return Date(timeIntervalSince1970: createdAt)
+    var createdDateString: String {
+        return Date(timeIntervalSince1970: createdAt).localizedString()
     }
     
     enum CodingKeys: String, CodingKey {

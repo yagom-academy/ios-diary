@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryListCell: UITableViewCell {
-    static let identifier: String = "DiaryListCell"
+    static let identifier: String = String(describing: DiaryListCell.self)
     
     let diaryStackView: UIStackView = {
         let stackView = UIStackView()
@@ -66,7 +66,7 @@ final class DiaryListCell: UITableViewCell {
     }
     
     func setupLabelText(from content: DiaryContent) {
-        let date = DateLocalizer.localizedString(from: content.createdDate, dateStyle: .long, timeStyle: .none)
+        let date = content.createdDateString
         
         titleLabel.text = content.title
         dateLabel.text = date
