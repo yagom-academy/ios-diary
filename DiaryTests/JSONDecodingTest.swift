@@ -9,15 +9,13 @@ import XCTest
 @testable import Diary
 
 class DiaryTests: XCTestCase {
-    func test_JSON_sample_data가_diary_타입에_맞게_decoding이_되는지() {
-        guard let asset = NSDataAsset.init(name: "sample") else {
-            return
+    func test_JSON_sample_data를_DiaryResponseDTO_타입으로_decoding하면_Nil이_아닌값_반환한다() throws {
+        guard let path = Bundle.main.path(forResource: "sample", ofType: "json") else {
+            return XCTFail("sample data 경로 오류")
         }
 
-        let jsonDecoder = JSONDecoder()
-        guard let decodedData = try? jsonDecoder.decode([Diary].self, from: asset.data) else {
-            return
-        }
+        let data = try Data(contentsOf: URL(fileURLWithPath: path))
+        let decodedData = try JSONDecoder().decode([DiaryResponseDTO].self, from: data)
 
         XCTAssertNotNil(decodedData)
     }
