@@ -14,7 +14,7 @@ struct CoreDataManager {
     
     let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
- 
+        
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -59,5 +59,35 @@ struct CoreDataManager {
         }
         
         return diaryList
+    }
+    
+    func updateDiary(_ diaryPage: DiaryPage) {
+        let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
+        request.predicate = .init(format: "id = %@", diaryPage.id.uuidString)
+        
+        do {
+            let fetchedData = try context.fetch(request)
+            fetchedData[0].title = diaryPage.title
+            fetchedData[0].body = diaryPage.body
+            
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteDiary(_ diaryPage: DiaryPage) {
+        let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
+        request.predicate = .init(format: "id = %@", diaryPage.id.uuidString)
+        
+        do {
+            guard let dataWillRemove = try context.fetch(request).first else {
+                return
+            }
+            context.delete(dataWillRemove)
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
