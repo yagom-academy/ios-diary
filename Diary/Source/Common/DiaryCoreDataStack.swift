@@ -3,7 +3,7 @@
 
 import CoreData
 
-class DiaryCoreDataStack {
+final class DiaryCoreDataStack {
     static let shared = DiaryCoreDataStack()
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -17,4 +17,24 @@ class DiaryCoreDataStack {
         
         return container
     }()
+    
+    var context: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
+    private init() {}
+    
+    func fetchEntity(forEntityName entityName: String) -> NSEntityDescription? {
+        return NSEntityDescription.entity(forEntityName: entityName, in: context)
+    }
+    
+    func save() {
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
 }
