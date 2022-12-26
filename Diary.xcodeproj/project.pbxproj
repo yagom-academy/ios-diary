@@ -10,6 +10,8 @@
 		570229402951449000877268 /* DiaryListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5702293F2951449000877268 /* DiaryListTableViewCell.swift */; };
 		5702294929518BEA00877268 /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5702294829518BEA00877268 /* DateFormatterManager.swift */; };
 		570FF1362959475B001D2022 /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FF1352959475B001D2022 /* NSAttributedString+.swift */; };
+		570FF139295964D8001D2022 /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FF138295964D8001D2022 /* Diary+CoreDataClass.swift */; };
+		570FF13A295964D8001D2022 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FF137295964D8001D2022 /* Diary+CoreDataProperties.swift */; };
 		8434E2E9CCABFA94F5FE525F /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A2BD80F680330B0BDB9F36F /* Pods_Diary.framework */; };
 		AE214FB32952E9C900268247 /* JSONDecoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE214FB22952E9C900268247 /* JSONDecoderManager.swift */; };
 		AEFFA496295142F000954852 /* DiaryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFA495295142F000954852 /* DiaryForm.swift */; };
@@ -28,6 +30,8 @@
 		5702293F2951449000877268 /* DiaryListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListTableViewCell.swift; sourceTree = "<group>"; };
 		5702294829518BEA00877268 /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
 		570FF1352959475B001D2022 /* NSAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+.swift"; sourceTree = "<group>"; };
+		570FF137295964D8001D2022 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Diary+CoreDataProperties.swift"; path = "/Users/summercat/Desktop/yagom/ios_career_starter_7th/ios-diary/Diary/Resource/Model/Diary+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
+		570FF138295964D8001D2022 /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Diary+CoreDataClass.swift"; path = "/Users/summercat/Desktop/yagom/ios_career_starter_7th/ios-diary/Diary/Resource/Model/Diary+CoreDataClass.swift"; sourceTree = "<absolute>"; };
 		7A2BD80F680330B0BDB9F36F /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FB44081E726E3ACBB89DA4A /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		AE214FB22952E9C900268247 /* JSONDecoderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecoderManager.swift; sourceTree = "<group>"; };
@@ -67,6 +71,8 @@
 		57022942295153E900877268 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				570FF138295964D8001D2022 /* Diary+CoreDataClass.swift */,
+				570FF137295964D8001D2022 /* Diary+CoreDataProperties.swift */,
 				AEFFA495295142F000954852 /* DiaryForm.swift */,
 			);
 			path = Model;
@@ -287,11 +293,13 @@
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				AEFFA496295142F000954852 /* DiaryForm.swift in Sources */,
 				AEFFA49B29519A6100954852 /* UIViewController+.swift in Sources */,
+				570FF13A295964D8001D2022 /* Diary+CoreDataProperties.swift in Sources */,
 				AE214FB32952E9C900268247 /* JSONDecoderManager.swift in Sources */,
 				570FF1362959475B001D2022 /* NSAttributedString+.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				570229402951449000877268 /* DiaryListTableViewCell.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				570FF139295964D8001D2022 /* Diary+CoreDataClass.swift in Sources */,
 				AEFFA498295180FE00954852 /* RegisterViewController.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);
