@@ -49,4 +49,16 @@ class CoreDataStack {
             saveContext()
         }
     }
+    
+    func fetchDiary() -> [Diary] {
+        do {
+            let request = Diary.fetchRequest()
+            let results = try viewContext.fetch(request)
+            return results
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        return []
+    }
 }
