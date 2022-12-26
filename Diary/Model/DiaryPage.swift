@@ -11,7 +11,7 @@ struct DiaryPage: Decodable, Hashable {
     
     var title: String
     var body: String
-    let createdAt: Double
+    let createdAt: Date
     var id = UUID()
     
     enum CodingKeys: String, CodingKey {
@@ -20,6 +20,6 @@ struct DiaryPage: Decodable, Hashable {
     }
     
     var createdDate: String {
-        return Date(timeIntervalSince1970: createdAt).localizedDateFormat
+        return createdAt.localizedDateFormat
     }
 }

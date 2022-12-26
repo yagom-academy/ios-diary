@@ -34,7 +34,8 @@ final class DiaryDetailViewController: UIViewController {
             return
         }
         
-        diaryDetailView.configureTextView(title: diary.title, body: diary.body)
+        diaryDetailView.configureTitle(diary.title)
+        diaryDetailView.configureBody(diary.body)
     }
 }
 

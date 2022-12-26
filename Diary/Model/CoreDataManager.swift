@@ -51,7 +51,7 @@ struct CoreDataManager {
             _ = fetchedData.map {
                 diaryList.append(DiaryPage(title: $0.title ?? "",
                                            body: $0.body ?? "",
-                                           createdAt: $0.createdAt,
+                                           createdAt: $0.createdAt ?? Date(),
                                            id: $0.id ?? UUID() ))
             }
         } catch {
@@ -96,7 +96,7 @@ struct CoreDataManager {
         
         do {
             let fetchedData = try context.fetch(request)
-            fetchedData.map {
+            _ = fetchedData.map {
                 context.delete($0)
             }
             try context.save()

@@ -39,6 +39,7 @@ final class DiaryDetailView: UIView {
         super.init(frame: frame)
         self.backgroundColor = .systemBackground
         configureDetailLayout()
+        setupPlaceHolder()
     }
     
     required init?(coder: NSCoder) {
@@ -75,12 +76,54 @@ final class DiaryDetailView: UIView {
         ])
     }
     
-    func configureTextView(title: String, body: String) {
+    func configureTitle(_ title: String) {
         titleTextView.text = title
+        titleTextView.textColor = .black
+    }
+    
+    func configureBody(_ body: String) {
         bodyTextView.text = body
+        bodyTextView.textColor = .black
     }
     
     func changeScrollViewBottomInset(_ inset: CGFloat ) {
         diaryTextScrollView.contentInset.bottom += inset
     }
+    
+    func addTextViewsDelegate(_ controller: UIViewController) {
+        guard let controller = controller as? UITextViewDelegate else {
+            return
+        }
+        
+        titleTextView.delegate = controller
+        bodyTextView.delegate = controller
+    }
+    
+    func removePlaceHolder() {
+        if titleTextView.isFirstResponder {
+            configureTitle("")
+            titleTextView.textColor = .black
+        } else if bodyTextView.isFirstResponder {
+            configureBody("")
+            bodyTextView.textColor = .black
+        }
+    }
+    
+    func setupPlaceHolder() {
+        if titleTextView.text == Constant.empty {
+            configureTitle(Constant.titlePlaceHolder)
+            titleTextView.textColor = .systemGray3
+        }
+        
+        if bodyTextView.text == Constant.empty {
+            configureBody(Constant.bodyPlaceHolder)
+            bodyTextView.textColor = .systemGray3
+        }
+    }
+}
+
+private enum Constant {
+    static let titlePlaceHolder = "일기 제목"
+    static let bodyPlaceHolder = "일기 내용"
+    static let empty = ""
 }
