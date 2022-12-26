@@ -21,17 +21,6 @@ extension RegisterViewController {
         }
     }
     
-    func textViewDidChange(_ textView: UITextView) {
-        guard !hasTitle else { return }
-        
-        guard let firstReturnIndex = mainTextView.text.firstIndex(of: "\n") else { return }
-
-        let distance = mainTextView.text.distance(from: mainTextView.text.startIndex, to: firstReturnIndex)
-        diaryTitle = String(mainTextView.text[..<firstReturnIndex])
-        titleRange = NSRange(location: 0, length: distance)
-        hasTitle = true
-    }
-    
     // TODO: didEndEditing에서 body 할당
 //    diaryBody = String(mainTextView.text[returnIdx...]).trimmingCharacters(in: .whitespaces)
 }
