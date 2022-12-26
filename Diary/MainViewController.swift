@@ -14,6 +14,7 @@ final class MainViewController: UIViewController {
     private var diaryDatas: [DiaryData] = []
     
     private let mainDiaryView = MainDiaryView()
+    private let coreDataManager = CoreDataManager.shared
     
     enum Section {
         case main
@@ -41,15 +42,7 @@ final class MainViewController: UIViewController {
     }
     
     private func setupData() {
-//        let decodeManager = DecoderManager<DiaryData>()
-//        let result = decodeManager.decodeJsonData("sample")
-//
-//        switch result {
-//        case .success(let datas):
-//            self.diaryDatas = datas
-//        case .failure(let error):
-//            print(error.localizedDescription)
-//        }
+        diaryDatas = coreDataManager.fetchData()
     }
     
     @objc private func addButtonTapped() {

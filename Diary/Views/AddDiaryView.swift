@@ -56,6 +56,14 @@ final class AddDiaryView: UIView {
         textView.text = Placeholder.textViewPlaceHolder.sentence
         return textView
     }()
+    
+    func packageData() -> Result<(title: String, body: String), DataError> {
+        guard let title = titleTextField.text,
+              let contents = contentsTextView.text else {
+            return .failure(.nonDataError)
+        }
+        return .success((title, contents))
+    }
 }
 
 // MARK: - UITextFieldDelegate, UITextViewDelegate

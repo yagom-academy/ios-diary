@@ -47,8 +47,8 @@ final class DiaryCollectionViewCell: UICollectionViewCell {
     func bindData(_ data: DiaryData) {
         self.titleLabel.text = data.title
         self.previewLabel.text = data.body
-        //TODO: Fix
-        // self.dateLabel.text = data.createdAt
+        guard let date = data.createdAt else { return }
+        self.dateLabel.text = Formatter.changeCustomDate(date)
     }
 }
 

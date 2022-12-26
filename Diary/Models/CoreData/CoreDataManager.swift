@@ -39,7 +39,8 @@ final class CoreDataManager {
     }
     
     //TODO: @escaping으로 Bool값 전달하여 Alert 기능 추가 예정
-    func saveData(data: DiaryData?, completion: @escaping () -> Void) {
+    func saveData(data: (title: String, body: String, createdAt: Date),
+                  completion: @escaping () -> Void) {
         guard let context = context else {
             completion()
             return
@@ -55,10 +56,10 @@ final class CoreDataManager {
             return
         }
         
-        content.id = data?.id
-        content.title = data?.title
-        content.body = data?.body
-        content.createdAt = data?.createdAt
+        content.id = UUID()
+        content.title = data.title
+        content.body = data.body
+        content.createdAt = data.createdAt
         
         if context.hasChanges {
             do {
