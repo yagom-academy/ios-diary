@@ -88,7 +88,7 @@ final class DiaryListTableViewCell: UITableViewCell {
         diaryDetailStackView.addArrangedSubview(previewLabel)
     }
 
-    func updateContent(data: DiaryForm) {
+    func updateContent(data: DiaryModel) {
         diaryTitleLabel.text = data.title
 //        createdDateLabel.text = DateFormatterManager().convertToDate(from: data.createdAt)
         previewLabel.text = data.body

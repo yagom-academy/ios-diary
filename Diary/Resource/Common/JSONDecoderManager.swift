@@ -10,11 +10,11 @@ import UIKit
 struct JSONDecoderManager {
     let jsonDecoder = JSONDecoder()
 
-    func convertJSONData() -> [DiaryForm]? {
+    func convertJSONData() -> [DiaryModel]? {
         let sampleData = "sample"
         guard let dataAsset = NSDataAsset(name: sampleData) else { return nil }
         
         jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        return try? jsonDecoder.decode([DiaryForm].self, from: dataAsset.data)
+        return try? jsonDecoder.decode([DiaryModel].self, from: dataAsset.data)
     }
 }

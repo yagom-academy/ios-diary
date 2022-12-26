@@ -40,21 +40,22 @@ class CoreDataStack {
         }
     }
     
-    func insertDiary(_ diaryForm: DiaryForm) {
-        if let entity = diaryEntity {
-            let managedObject = NSManagedObject(entity: entity, insertInto: viewContext)
-            managedObject.setValue(diaryForm.id, forKey: "id")
-            managedObject.setValue(diaryForm.title, forKey: "title")
-            managedObject.setValue(diaryForm.body, forKey: "body")
-            managedObject.setValue(diaryForm.createdAt, forKey: "createdAt")
-            saveContext()
-        }
+    func insertDiary(_ diaryForm: DiaryModel) {
+        guard let diaryEntity = diaryEntity else { return }
+        
+        let managedObject = NSManagedObject(entity: diaryEntity, insertInto: viewContext)
+        managedObject.setValue(diaryForm.id, forKey: "id")
+        managedObject.setValue(diaryForm.title, forKey: "title")
+        managedObject.setValue(diaryForm.body, forKey: "body")
+        managedObject.setValue(diaryForm.createdAt, forKey: "createdAt")
+        saveContext()
     }
     
     func fetchDiary() -> [Diary] {
         do {
             let request = Diary.fetchRequest()
             let results = try viewContext.fetch(request)
+            
             return results
         } catch {
             print(error.localizedDescription)
@@ -63,29 +64,29 @@ class CoreDataStack {
         return []
     }
     
-    func fetchDiaryForm() -> [DiaryForm] {
-        var diaryForm: [DiaryForm] = []
-        let fetchResults = fetchDiary()
+    func fetchDiaryForm() -> [DiaryModel] {
+        var diaryModels: [DiaryModel] = []
+        let fetchedResults = fetchDiary()
         
-        for result in fetchResults {
-            let diary = DiaryForm(id: result.id,
+        for result in fetchedResults {
+            let diary = DiaryModel(id: result.id,
                                   title: result.title ?? "",
                                   body: result.body ?? "",
                                   createdAt: result.createdAt ?? Date())
-            diaryForm.append(diary)
+            diaryModels.append(diary)
         }
         
-        return diaryForm
+        return diaryModels
     }
     
-    func updateDiary(_ diaryForm: DiaryForm) {
+    func updateDiary(_ diaryModel: DiaryModel) {
         let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", diaryForm.id.uuidString)
+        fetchRequest.predicate = NSPredicate(format: "id == %@", diaryModel.id.uuidString)
         
         do {
-            let value = try viewContext.fetch(fetchRequest)
-            let valueUpdate = value[0]
-            valueUpdate.setValue(diaryForm.id, forKeyPath: "id")
+            let diaries = try viewContext.fetch(fetchRequest)
+            let diaryToUpdate = diaries[0]
+            diaryToUpdate.setValue(diaryModel.id, forKeyPath: "id")
             do {
                 try viewContext.save()
             } catch {
@@ -96,10 +97,17 @@ class CoreDataStack {
         }
     }
     
-    func deleteDiary(_ diaryForm: DiaryForm) {
-        let fetchResults = fetchDiary()
-        let diaryForm = fetchResults.filter({ $0.id == diaryForm.id })[0]
-        viewContext.delete(diaryForm)
-        saveContext()
+    func deleteDiary(_ diaryModel: DiaryModel) {
+        let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", diaryModel.id.uuidString)
+        
+        do {
+            let diaries = try viewContext.fetch(fetchRequest)
+            let diaryToDelete = diaries[0]
+            viewContext.delete(diaryToDelete)
+            saveContext()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }

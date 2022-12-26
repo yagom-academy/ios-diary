@@ -1,5 +1,5 @@
 //
-//  DiaryForm.swift
+//  DiaryModel.swift
 //  Diary
 //
 //  Created by SummerCat and som on 2022/12/20.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DiaryForm: Decodable {
+struct DiaryModel: Decodable {
     let id: UUID
     let title: String
     let body: String

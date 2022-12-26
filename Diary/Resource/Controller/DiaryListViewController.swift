@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let diaryListTableView = UITableView()
-    private var diaryForms: [DiaryForm] = []
+    private var diaryModels: [DiaryModel] = []
     
     override func loadView() {
         view = diaryListTableView
@@ -51,13 +51,13 @@ final class DiaryListViewController: UIViewController {
             return
         }
         
-        diaryForms = data
+        diaryModels = data
     }
 }
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryForms.count
+        return diaryModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,7 +69,7 @@ extension DiaryListViewController: UITableViewDataSource {
             for: indexPath
         ) as? DiaryListTableViewCell else { return UITableViewCell() }
         
-        cell.updateContent(data: diaryForms[indexPath.row])
+        cell.updateContent(data: diaryModels[indexPath.row])
         cell.accessoryType = .disclosureIndicator
         
         return cell
