@@ -25,6 +25,6 @@ final class DiaryTableViewCell: UITableViewCell {
         titleLabel.text = title
         createdAtLabel.text = createdAt.convertDate()
         bodyLabel.text = body
-        self.accessoryType = .disclosureIndicator
+        accessoryType = .disclosureIndicator
     }
 }
