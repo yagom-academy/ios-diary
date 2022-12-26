@@ -40,9 +40,9 @@ final class DetailViewController: UIViewController {
     }
     
     private func configureView() {
-        guard let data = diaryData else { return }
-        self.navigationItem.title = data.createdAt.convertDate()
-        self.detailTextView.text = "\(data.title)\n\n\(data.body)"
+        guard let diaryData = diaryData else { return }
+        self.navigationItem.title = diaryData.createdAt.convertDate()
+        self.detailTextView.text = "\(diaryData.title)\n\n\(diaryData.body)"
     }
 }
 

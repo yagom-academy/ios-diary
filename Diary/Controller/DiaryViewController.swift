@@ -62,11 +62,11 @@ final class DiaryViewController: UIViewController {
 extension DiaryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detailView: DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailView") as? DetailViewController else { return }
-        detailView.delegate = self
-        detailView.diaryData = sampleData[indexPath.row]
-        detailView.indexPath = indexPath
-        self.navigationController?.pushViewController(detailView, animated: true)
+        guard let detailViewController: DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailView") as? DetailViewController else { return }
+        detailViewController.delegate = self
+        detailViewController.diaryData = sampleData[indexPath.row]
+        detailViewController.indexPath = indexPath
+        self.navigationController?.pushViewController(detailViewController, animated: true)
         
     }
 }
