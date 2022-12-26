@@ -43,6 +43,7 @@ class CoreDataStack {
     func insertDiary(_ diaryForm: DiaryForm) {
         if let entity = diaryEntity {
             let managedObject = NSManagedObject(entity: entity, insertInto: viewContext)
+            managedObject.setValue(diaryForm.id, forKey: "id")
             managedObject.setValue(diaryForm.title, forKey: "title")
             managedObject.setValue(diaryForm.body, forKey: "body")
             managedObject.setValue(diaryForm.createdAt, forKey: "createdAt")
@@ -67,12 +68,31 @@ class CoreDataStack {
         let fetchResults = fetchDiary()
         
         for result in fetchResults {
-            let diary = DiaryForm(title: result.title ?? "",
+            let diary = DiaryForm(id: result.id,
+                                  title: result.title ?? "",
                                   body: result.body ?? "",
                                   createdAt: result.createdAt ?? Date())
             diaryForm.append(diary)
         }
         
         return diaryForm
+    }
+    
+    func updateDiary(_ diaryForm: DiaryForm) {
+        let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", diaryForm.id.uuidString)
+        
+        do {
+            let value = try viewContext.fetch(fetchRequest)
+            let valueUpdate = value[0]
+            valueUpdate.setValue(diaryForm.id, forKeyPath: "id")
+            do {
+                try viewContext.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
