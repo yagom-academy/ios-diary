@@ -10,10 +10,15 @@ final class DiaryListViewController: UIViewController {
     typealias DiaryDataSource = UITableViewDiffableDataSource<Int, Diary>
     typealias DiarySnapShot = NSDiffableDataSourceSnapshot<Int, Diary>
 
+    private lazy var presentNewDiaryViewAction = UIAction { _ in
+        let newDiaryViewController = UINavigationController(rootViewController: NewDiaryViewController())
+
+        self.present(newDiaryViewController, animated: true)
+    }
+
     private lazy var addDiaryButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .add,
-                                     target: self,
-                                     action: #selector(presentNewDiaryView))
+        let button = UIBarButtonItem(systemItem: .add,
+                                     primaryAction: presentNewDiaryViewAction)
 
         return button
     }()
@@ -41,12 +46,6 @@ final class DiaryListViewController: UIViewController {
 }
 
 extension DiaryListViewController {
-    @objc private func presentNewDiaryView() {
-        let newDiaryViewController = UINavigationController(rootViewController: NewDiaryViewController())
-
-        present(newDiaryViewController, animated: true)
-    }
-
     private func configureNavigationBar() {
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = addDiaryButton
@@ -75,7 +74,7 @@ extension DiaryListViewController {
 
             return cell
         })
-        
+
         return dataSource
     }
 

@@ -11,16 +11,20 @@ final class NewDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureView()
+    }
+
+    private func configureView() {
         view.backgroundColor = .systemYellow
-        configureNavigation()
+        configureNavigationBar()
     }
 
-    @objc private func cancel() {
-        dismiss(animated: true)
+    private lazy var cancelAction = UIAction { _ in
+        self.dismiss(animated: true)
     }
 
-    private func configureNavigation() {
-        let cancelButton = UIBarButtonItem(title: "취소", style: .plain, target: self, action: #selector(cancel))
+    private func configureNavigationBar() {
+        let cancelButton = UIBarButtonItem(title: "취소", primaryAction: cancelAction)
 
         navigationItem.title = Date().localeFormattedText
         navigationItem.leftBarButtonItem = cancelButton
