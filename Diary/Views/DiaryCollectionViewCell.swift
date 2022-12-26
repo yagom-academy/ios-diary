@@ -44,10 +44,11 @@ final class DiaryCollectionViewCell: UICollectionViewCell {
                                                   alignment: .center,
                                                   distribution: .fill)
     
-    func bindData(_ data: Diary) {
+    func bindData(_ data: DiaryData) {
         self.titleLabel.text = data.title
         self.previewLabel.text = data.body
-        self.dateLabel.text = data.customDate
+        //TODO: Fix
+        // self.dateLabel.text = data.createdAt
     }
 }
 

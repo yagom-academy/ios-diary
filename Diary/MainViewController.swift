@@ -7,11 +7,11 @@
 import UIKit
 
 final class MainViewController: UIViewController {
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Diary>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Diary>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, DiaryData>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DiaryData>
     
     private lazy var dataSource = configureDataSource()
-    private var diaryDatas: [Diary] = []
+    private var diaryDatas: [DiaryData] = []
     
     private let mainDiaryView = MainDiaryView()
     
@@ -41,15 +41,15 @@ final class MainViewController: UIViewController {
     }
     
     private func setupData() {
-        let decodeManager = DecoderManager<Diary>()
-        let result = decodeManager.decodeJsonData("sample")
-        
-        switch result {
-        case .success(let datas):
-            self.diaryDatas = datas
-        case .failure(let error):
-            print(error.localizedDescription)
-        }
+//        let decodeManager = DecoderManager<DiaryData>()
+//        let result = decodeManager.decodeJsonData("sample")
+//
+//        switch result {
+//        case .success(let datas):
+//            self.diaryDatas = datas
+//        case .failure(let error):
+//            print(error.localizedDescription)
+//        }
     }
     
     @objc private func addButtonTapped() {
@@ -62,7 +62,7 @@ final class MainViewController: UIViewController {
 extension MainViewController {
     private func configureDataSource() -> DataSource {
         let cellRegistration = UICollectionView
-            .CellRegistration<DiaryCollectionViewCell, Diary> { cell, _, diaryData in
+            .CellRegistration<DiaryCollectionViewCell, DiaryData> { cell, _, diaryData in
                 cell.bindData(diaryData)
             }
         
