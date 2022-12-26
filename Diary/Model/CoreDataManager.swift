@@ -90,4 +90,18 @@ struct CoreDataManager {
             print(error.localizedDescription)
         }
     }
+    
+    func deleteAllDiary() {
+        let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
+        
+        do {
+            let fetchedData = try context.fetch(request)
+            fetchedData.map {
+                context.delete($0)
+            }
+            try context.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
