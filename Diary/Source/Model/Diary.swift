@@ -3,35 +3,40 @@
 
 import Foundation
 
-struct Diary: Decodable {
-    let id: UUID = UUID()
-    let title: String
-    let body: String
-    private let createdAt: Double
-    var date: String {
-        return DateFormatter.converted(date: Date(timeIntervalSince1970: createdAt),
-                                       locale: Locale.preference,
-                                       dateStyle: .long)
+struct Diary: Hashable {
+    var content: String
+    var createAt: Date
+    
+    var firstNewLineIndex: String.Index? {
+        return content.firstIndex(of: "\n")
+    }
+    var title: String {
+        if let firstNewLineIndex = firstNewLineIndex {
+            return String(content.prefix(through: firstNewLineIndex))
+        } else {
+            return content
+        }
+    }
+    var body: String {
+        if let firstNewLineIndex = firstNewLineIndex {
+            return String(content.suffix(from: firstNewLineIndex))
+        } else {
+            return .init()
+        }
     }
     
-    private enum CodingKeys: String, CodingKey {
-        case title, body
-        case createdAt = "created_at"
+    init?(from diaryData: DiaryData) {
+        guard let title = diaryData.title,
+              let body = diaryData.body,
+              let createAt = diaryData.createAt else {
+            return nil
+        }
+        self.content = title + "\n" + body
+        self.createAt = createAt
     }
     
-    init(
-        title: String = .init(),
-        body: String = .init(),
-        createdAt: Double = Date().timeIntervalSince1970.rounded()
-    ) {
-        self.title = title
-        self.body = body
-        self.createdAt = createdAt
-    }
-}
-
-extension Diary: Hashable {
-    static func == (_ lhs: Diary, _ rhs: Diary) -> Bool {
-        return (lhs.id == rhs.id)
+    init(content: String, createAt: Date) {
+        self.content = content
+        self.createAt = createAt
     }
 }
