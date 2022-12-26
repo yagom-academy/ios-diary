@@ -8,7 +8,6 @@
 import Foundation
 
 extension DateFormatter {
-    
     static func conversionLocalDate(date: Date, local: Locale, dateStyle: DateFormatter.Style) -> String {
         let formatter = DateFormatter()
         formatter.locale = local
