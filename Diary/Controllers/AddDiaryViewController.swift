@@ -36,28 +36,6 @@ final class AddDiaryViewController: UIViewController {
         configureNotificationCenter()
     }
     
-    private func configureNotificationCenter() {
-        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustForKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc func adjustForKeyboard(notification: NSNotification) {
-        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
-        let keyboardScreenEndFrame = keyboardValue.cgRectValue
-        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
-        
-        if notification.name == UIResponder.keyboardWillHideNotification {
-            contentTextView.contentInset = .zero
-        } else {
-            contentTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
-        }
-        
-        contentTextView.scrollIndicatorInsets = contentTextView.contentInset
-
-        let selectedRange = contentTextView.selectedRange
-        contentTextView.scrollRangeToVisible(selectedRange)
-    }
-    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
     }
@@ -94,6 +72,31 @@ final class AddDiaryViewController: UIViewController {
         self.contentTextView.textColor = .lightGray
     }
 }
+// MARK: - Keyboard adjusting
+extension AddDiaryViewController {
+    
+    private func configureNotificationCenter() {
+        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustForKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func adjustForKeyboard(notification: NSNotification) {
+        guard let keyboardValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let keyboardScreenEndFrame = keyboardValue.cgRectValue
+        let keyboardViewEndFrame = view.convert(keyboardScreenEndFrame, from: view.window)
+        
+        if notification.name == UIResponder.keyboardWillHideNotification {
+            contentTextView.contentInset = .zero
+        } else {
+            contentTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
+        }
+        
+        contentTextView.scrollIndicatorInsets = contentTextView.contentInset
+
+        let selectedRange = contentTextView.selectedRange
+        contentTextView.scrollRangeToVisible(selectedRange)
+    }
+}
 
 extension AddDiaryViewController: UITextViewDelegate {
     
@@ -111,3 +114,5 @@ extension AddDiaryViewController: UITextViewDelegate {
         }
     }
 }
+
+
