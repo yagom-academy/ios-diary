@@ -61,4 +61,18 @@ class CoreDataStack {
         
         return []
     }
+    
+    func fetchDiaryForm() -> [DiaryForm] {
+        var diaryForm: [DiaryForm] = []
+        let fetchResults = fetchDiary()
+        
+        for result in fetchResults {
+            let diary = DiaryForm(title: result.title ?? "",
+                                  body: result.body ?? "",
+                                  createdAt: result.createdAt ?? Date())
+            diaryForm.append(diary)
+        }
+        
+        return diaryForm
+    }
 }
