@@ -17,7 +17,7 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
-        tableViewAttribute()
+        setTableView()
         configureTableViewConstraint()
         getSampleData()
     }
@@ -37,7 +37,7 @@ final class DiaryViewController: UIViewController {
         ])
     }
     
-    private func tableViewAttribute() {
+    private func setTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "DiaryTableViewCell", bundle: nil),
