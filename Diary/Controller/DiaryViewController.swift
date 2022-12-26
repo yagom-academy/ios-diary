@@ -60,14 +60,12 @@ final class DiaryViewController: UIViewController {
 
 // MARK: - TableView Delegate
 extension DiaryViewController: UITableViewDelegate {
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailViewController: DetailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailView") as? DetailViewController else { return }
         detailViewController.delegate = self
         detailViewController.diaryData = sampleData[indexPath.row]
         detailViewController.indexPath = indexPath
         self.navigationController?.pushViewController(detailViewController, animated: true)
-        
     }
 }
 
@@ -90,10 +88,8 @@ extension DiaryViewController: UITableViewDataSource {
 }
 
 extension DiaryViewController: DetailViewControllerDelegate {
-    
     func sendData(title: String, body: String, indexPath: IndexPath) {
         sampleData[indexPath.row].title = title
         sampleData[indexPath.row].body = body
-        
     }
 }

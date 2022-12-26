@@ -12,7 +12,6 @@ protocol DetailViewControllerDelegate: AnyObject {
 }
 
 final class DetailViewController: UIViewController {
-    
     @IBOutlet weak private var detailTextViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak private var detailTextView: UITextView!
     var diaryData: SampleData?
