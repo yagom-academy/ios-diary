@@ -10,6 +10,8 @@ final class DiaryListViewController: UIViewController {
     enum Constant {
         static let assetName = "sample"
         static let navigationTitle = "일기장"
+        static let deleteImage = "trash"
+        static let shareImage = "square.and.arrow.up"
     }
     
     private let tableView: UITableView = UITableView(frame: .zero, style: .plain)
@@ -59,6 +61,45 @@ extension DiaryListViewController: UITableViewDelegate {
         presentDiaryDetailView(diary: diary)
         tableView.deselectRow(at: indexPath, animated: true)
     }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = configureDeleteButton(indexPath: indexPath)
+        let shareAction = configureShareButton()
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+}
+
+extension DiaryListViewController {
+    func configureDeleteButton(indexPath: IndexPath) -> UIContextualAction {
+        let handler: UIContextualAction.Handler = { [weak self] _, _, handler in
+            guard let self = self else { return }
+            let result = self.deleteSnapshot(index: indexPath)
+            handler(result)
+        }
+        
+        let action = UIContextualAction(style: .destructive, title: nil, handler: handler)
+        action.backgroundColor = .systemRed
+        action.image = UIImage(systemName: Constant.deleteImage)
+        
+        return action
+    }
+    
+    func configureShareButton() -> UIContextualAction {
+        let handler: UIContextualAction.Handler = { _, _, handler in
+            // TODO: ActivityView 띄우는 메서드 추가하기
+            // MARK: 넌 누구냐...handler
+            handler(false)
+        }
+        
+        let action = UIContextualAction(style: .normal, title: nil, handler: handler)
+        action.backgroundColor = .systemBlue
+        action.image = UIImage(systemName: Constant.shareImage)
+        
+        return action
+    }
 }
 
 // MARK: Business Logic
@@ -69,6 +110,19 @@ extension DiaryListViewController {
         }
         
         diaries = try? JSONDecoder().decode([Diary].self, from: dataAsset.data)
+    }
+    
+    private func deleteSnapshot(index: IndexPath) -> Bool {
+        guard let dataSource = dataSource,
+              let item = dataSource.itemIdentifier(for: index) else {
+            return false
+        }
+        
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteItems([item])
+        dataSource.apply(snapshot)
+        
+        return true
     }
     
     private func setSnapshot() {
