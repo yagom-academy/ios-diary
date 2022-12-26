@@ -53,7 +53,20 @@ final class EditorView: UIView {
         textView.contentOffset = CGPoint(x: 0, y: -contentOffset)
     }
     
-    func changeBottomConstant(to constant: CGFloat) {
+    private func changeBottomConstant(to constant: CGFloat) {
         self.textViewBottomConstraint.constant = constant
+    }
+    
+    @objc func keyboardWillAppear(_ notification: NSNotification) {
+        if let userInfokey = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
+           let keyboardSize = (userInfokey as? NSValue)?.cgRectValue {
+            self.changeBottomConstant(to: -keyboardSize.height)
+            self.layoutIfNeeded()
+        }
+    }
+    
+    @objc func keyboardWillDisappear(_ notification: NSNotification) {
+        self.changeBottomConstant(to: 0)
+        self.layoutIfNeeded()
     }
 }

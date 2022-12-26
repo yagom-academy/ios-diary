@@ -12,11 +12,6 @@ extension JSONDecoder {
         let decoder: JSONDecoder = JSONDecoder()
         guard let asset = NSDataAsset(name: asset) else { return nil }
         
-        do {
-            return try decoder.decode(type, from: asset.data)
-        } catch {
-            print(error.localizedDescription)
-            return nil
-        }
+        return try? decoder.decode(type, from: asset.data)
     }
 }

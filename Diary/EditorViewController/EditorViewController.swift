@@ -18,15 +18,15 @@ final class EditorViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillDisappear),
+            self.editorView,
+            selector: #selector(self.editorView.keyboardWillDisappear),
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
         
         NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillAppear),
+            self.editorView,
+            selector: #selector(self.editorView.keyboardWillAppear),
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
@@ -59,21 +59,5 @@ final class EditorViewController: UIViewController {
             let text = content.title + Constant.doubleBreak + content.body
             self.editorView.setupTextView(from: text)
         }
-    }
-}
-
-// MARK: - Objc Method
-private extension EditorViewController {
-    @objc func keyboardWillAppear(_ notification: NSNotification) {
-        if let userInfokey = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
-           let keyboardSize = (userInfokey as? NSValue)?.cgRectValue {
-            self.editorView.changeBottomConstant(to: -keyboardSize.height)
-            self.view.layoutIfNeeded()
-        }
-    }
-    
-    @objc func keyboardWillDisappear(_ notification: NSNotification) {
-        self.editorView.changeBottomConstant(to: 0)
-        self.view.layoutIfNeeded()
     }
 }
