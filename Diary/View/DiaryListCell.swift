@@ -28,11 +28,13 @@ final class DiaryListCell: UITableViewCell {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.spacing = 8
+
         return stackView
     }()
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
         configure()
         configureHierarchy()
     }

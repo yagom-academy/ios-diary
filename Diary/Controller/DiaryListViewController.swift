@@ -12,7 +12,6 @@ final class DiaryListViewController: UIViewController {
 
     private lazy var presentNewDiaryViewAction = UIAction { _ in
         let newDiaryViewController = UINavigationController(rootViewController: NewDiaryViewController())
-
         self.present(newDiaryViewController, animated: true)
     }
 
@@ -83,6 +82,7 @@ extension DiaryListViewController {
         let attributedString = NSMutableAttributedString(string: text)
         attributedString.addAttributes([.font: UIFont.preferredFont(forTextStyle: .callout)],
                                        range: (text as NSString).range(of: "\(date.localeFormattedText)  "))
+
         return attributedString
     }
 

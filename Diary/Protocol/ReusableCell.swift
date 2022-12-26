@@ -2,7 +2,7 @@
 //  ReusableCell.swift
 //  Diary
 //
-//  Created by 노유빈 on 2022/12/23.
+//  Created by Aaron, Gundy, Rhovin on 2022/12/23.
 //
 
 import Foundation
