@@ -8,9 +8,9 @@
 import Foundation
 
 extension DateFormatter {
-    static func conversionLocalDate(date: Date, local: Locale, dateStyle: DateFormatter.Style) -> String {
+    static func conversionLocalDate(date: Date, locale: Locale, dateStyle: DateFormatter.Style) -> String {
         let formatter = DateFormatter()
-        formatter.locale = local
+        formatter.locale = locale
         formatter.dateStyle = dateStyle
         return formatter.string(from: date)
     }
