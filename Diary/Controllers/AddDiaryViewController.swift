@@ -92,7 +92,7 @@ extension AddDiaryViewController {
             contentTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
         }
         
-        contentTextView.scrollIndicatorInsets = contentTextView.contentInset
+        contentTextView.verticalScrollIndicatorInsets = contentTextView.contentInset
 
         let selectedRange = contentTextView.selectedRange
         contentTextView.scrollRangeToVisible(selectedRange)
