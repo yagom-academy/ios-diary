@@ -9,7 +9,11 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let diaryListTableView = UITableView()
-    private var diaryModels: [DiaryModel] = []
+    private var diaryModels: [DiaryModel] = [] {
+        didSet {
+            diaryListTableView.reloadData()
+        }
+    }
     
     override func loadView() {
         view = diaryListTableView
@@ -19,7 +23,7 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureDiaryListTableView()
-        fetchJSONData()
+        fetchCoreData()
     }
     
     private func configureNavigationBar() {
@@ -44,14 +48,8 @@ final class DiaryListViewController: UIViewController {
         diaryListTableView.delegate = self
     }
     
-    private func fetchJSONData() {
-        guard let data = JSONDecoderManager().convertJSONData() else {
-            showAlert(title: AlertNamespace.jsonDecodingErrorTitle,
-                                message: AlertNamespace.jsonDecodingErrorMessage)
-            return
-        }
-        
-        diaryModels = data
+    private func fetchCoreData() {
+        diaryModels = CoreDataStack.shared.fetchDiaryModel()
     }
 }
 

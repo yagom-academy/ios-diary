@@ -64,7 +64,7 @@ class CoreDataStack {
         return []
     }
     
-    func fetchDiaryForm() -> [DiaryModel] {
+    func fetchDiaryModel() -> [DiaryModel] {
         var diaryModels: [DiaryModel] = []
         let fetchedResults = fetchDiary()
         
