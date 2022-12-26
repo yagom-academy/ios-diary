@@ -6,6 +6,7 @@ import CoreData
 
 protocol DiaryManageable {
     func add(title: String, body: String, createAt: Date)
-    func remove(_ object: NSManagedObject)
-    func update(_ object: NSManagedObject)
+    func fetchDiaries() -> [Diary]
+    func update(_ diary: Diary)
+    func remove(_ diary: Diary)
 }
