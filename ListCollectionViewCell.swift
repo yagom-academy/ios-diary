@@ -87,7 +87,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         self.subStackView.addArrangedSubview(self.bodyLabel)
     }
     
-    func configureContents(with diary: Diary) {
+    func configureContents(with diary: DiaryModel) {
         self.titleLabel.text = diary.title
         self.dateLabel.text = DateFormatter().longDate
         self.bodyLabel.text = diary.body

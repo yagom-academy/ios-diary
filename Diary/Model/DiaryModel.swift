@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct Diary: Decodable, Hashable {
+struct DiaryModel: Decodable, Hashable {
     let id = UUID()
     let title: String
     let body: String

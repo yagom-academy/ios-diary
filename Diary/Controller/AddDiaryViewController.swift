@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
     private let addDiaryView = AddDiaryView()
@@ -43,5 +44,32 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
     
     @objc private func dismissKeyBoard() {
         self.addDiaryView.endEditing(true)
+    }
+    
+    func createDiaryModel() -> DiaryModel {
+        // title, body, createdAt 데이터 가져오기
+        return DiaryModel(title: "", body: "", createdAt: 1)
+    }
+    
+    func addNewDiary() {
+        let diaryModel = createDiaryModel()
+        
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let context = appDelegate.persistentContainer.viewContext
+        let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context)
+        
+        if let entity = entity {
+            let newDiary = NSManagedObject(entity: entity, insertInto: context)
+            newDiary.setValue(diaryModel.title, forKey: "title")
+            newDiary.setValue(diaryModel.body, forKey: "body")
+            newDiary.setValue(diaryModel.createdAt, forKey: "createdAt")
+            newDiary.setValue(diaryModel.id, forKey: "id")
+            
+            do {
+                try context.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }

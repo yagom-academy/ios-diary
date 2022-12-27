@@ -17,8 +17,8 @@ final class DiaryListViewController: UIViewController {
         return collectionView
     }()
     
-    private var dataSource: UICollectionViewDiffableDataSource<DiarySection, Diary>?
-    private var diary: [Diary] = []
+    private var dataSource: UICollectionViewDiffableDataSource<DiarySection, DiaryModel>?
+    private var diary: [DiaryModel] = []
     
     private enum DiarySection: Hashable {
         case main
@@ -80,7 +80,7 @@ final class DiaryListViewController: UIViewController {
             return
         }
         
-        let decodingResult: Result<[Diary], DiaryError> = JSONDecoder().decode(data: dataAsset.data)
+        let decodingResult: Result<[DiaryModel], DiaryError> = JSONDecoder().decode(data: dataAsset.data)
         
         switch decodingResult {
         case .success(let decodedDiary):
@@ -94,13 +94,13 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureDataSource() {
-        let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Diary> {
+        let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, DiaryModel> {
             (cell, indexPath, diary) in
             cell.configureContents(with: diary)
             cell.accessories = [.disclosureIndicator()]
         }
         
-        self.dataSource = UICollectionViewDiffableDataSource<DiarySection, Diary>(collectionView: collectionView) {
+        self.dataSource = UICollectionViewDiffableDataSource<DiarySection, DiaryModel>(collectionView: collectionView) {
             collectionView, indexPath, diary in
             
             return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
@@ -110,7 +110,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func applySnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
+        var snapshot = NSDiffableDataSourceSnapshot<DiarySection, DiaryModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diary)
         self.dataSource?.apply(snapshot)
