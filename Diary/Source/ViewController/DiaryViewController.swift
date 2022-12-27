@@ -65,6 +65,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func saveDiary() {
+        guard contentTextView.hasText == true else { return }
         diary.content = contentTextView.text
         
         let diaryDataManager = DiaryDataManager()
