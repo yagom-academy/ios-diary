@@ -7,6 +7,7 @@
 // 
 
 import UIKit
+import CoreData
 
 final class DiaryListViewController: UIViewController {
     private let collectionView: UICollectionView = {
@@ -18,7 +19,7 @@ final class DiaryListViewController: UIViewController {
     }()
     
     private var dataSource: UICollectionViewDiffableDataSource<DiarySection, DiaryModel>?
-    private var diary: [DiaryModel] = []
+    private var diaries: [DiaryModel] = []
     
     private enum DiarySection: Hashable {
         case main
@@ -30,13 +31,31 @@ final class DiaryListViewController: UIViewController {
         self.configureListContents()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        fetchDiary()
+        applySnapshot()
+    }
+    
+    private func fetchDiary() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let context = appDelegate.persistentContainer.viewContext
+        print(NSHomeDirectory())
+        do {
+            guard let diary = try context.fetch(Diary.fetchRequest()) as? [Diary] else { return }
+            diary.forEach {
+                diaries.append(DiaryModel(title: $0.title ?? "", body: $0.body ?? "", createdAt: Int($0.createdAt)))
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     private func configureView() {
         self.configureNavigationBar()
         self.configureCollectionView()
     }
     
     private func configureListContents() {
-        self.decodeJsonData()
         self.configureDataSource()
         self.applySnapshot()
     }
@@ -71,28 +90,6 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
-    private func decodeJsonData() {
-        guard let dataAsset: NSDataAsset = NSDataAsset(name: "sample") else {
-            let errorAlert = ErrorAlert.shared.showErrorAlert(title: DiaryError.dataAssetLoadFailed.alertTitle,
-                                                              message: DiaryError.dataAssetLoadFailed.alertMessage,
-                                                              actionTitle: "확인")
-            present(errorAlert, animated: true)
-            return
-        }
-        
-        let decodingResult: Result<[DiaryModel], DiaryError> = JSONDecoder().decode(data: dataAsset.data)
-        
-        switch decodingResult {
-        case .success(let decodedDiary):
-            self.diary = decodedDiary
-        case .failure(let error):
-            let errorAlert = ErrorAlert.shared.showErrorAlert(title: error.alertTitle,
-                                                              message: error.alertMessage,
-                                                              actionTitle: "확인")
-            self.present(errorAlert, animated: true)
-        }
-    }
-    
     private func configureDataSource() {
         let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, DiaryModel> {
             (cell, indexPath, diary) in
@@ -112,7 +109,7 @@ final class DiaryListViewController: UIViewController {
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, DiaryModel>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(diary)
+        snapshot.appendItems(diaries)
         self.dataSource?.apply(snapshot)
     }
 }

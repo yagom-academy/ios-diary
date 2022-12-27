@@ -2,7 +2,7 @@
 //  Diary+CoreDataClass.swift
 //  
 //
-//  Created by 유연수 on 2022/12/27.
+//  Created by 애종, 애쉬 on 2022/12/27.
 //
 //
 

@@ -22,6 +22,8 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
         
         self.setKeyboardObserver()
         self.initializeHideKeyBoard()
+        
+        addNewDiary()
     }
     
     func keyboardWillShow(notification: NSNotification) {
@@ -54,7 +56,7 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
     func addNewDiary() {
         let diaryModel = createDiaryModel()
         
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let context = appDelegate.persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context)
         
