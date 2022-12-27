@@ -9,7 +9,6 @@ import UIKit
 
 final class AddDiaryView: UIView {
     private enum Placeholder: String {
-        case textFieldPlaceHolder = "Title을 입력해주세요."
         case textViewPlaceHolder = "Content를 입력해주세요."
         
         var sentence: String {
@@ -24,7 +23,6 @@ final class AddDiaryView: UIView {
         self.backgroundColor = .white
         setupUI()
         setupConstraints()
-        titleTextField.delegate = self
         contentsTextView.delegate = self
         setupNotification()
     }
@@ -32,19 +30,6 @@ final class AddDiaryView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private lazy var titleTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.returnKeyType = .done
-        textfield.layer.borderWidth = 1
-        textfield.layer.cornerRadius = 10
-        textfield.leftViewMode = .always
-        textfield.leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: 5, height: .zero))
-        textfield.font = .preferredFont(forTextStyle: .title1)
-        textfield.layer.borderColor = UIColor.systemGray5.cgColor
-        textfield.placeholder = Placeholder.textFieldPlaceHolder.sentence
-        return textfield
-    }()
     
     private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
@@ -58,40 +43,27 @@ final class AddDiaryView: UIView {
     }()
     
     func packageData() -> Result<(title: String, body: String), DataError> {
-        guard let title = titleTextField.text, title.count != .zero,
-              var contents = contentsTextView.text else {
-            return .failure(.nonDataError)
+        guard let contents = contentsTextView.text else {
+            return .failure(.noneDataError)
         }
         
         if contents == Placeholder.textViewPlaceHolder.sentence {
-            contents = ""
+            return .failure(.noneTitleError)
+        }
+        
+        guard let title = contents.components(separatedBy: "\n").first,
+              title.trimmingCharacters(in: .whitespaces).isEmpty == false else {
+            return .failure(.noneTitleError)
         }
         
         return .success((title, contents))
     }
 }
 
-// MARK: - UITextFieldDelegate, UITextViewDelegate
-extension AddDiaryView: UITextFieldDelegate, UITextViewDelegate {
+// MARK: - UITextViewDelegate
+extension AddDiaryView: UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.titleTextField.resignFirstResponder()
         self.contentsTextView.resignFirstResponder()
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if titleTextField.text != "" {
-            self.contentsTextView.becomeFirstResponder()
-            return true
-        }
-        return false
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let text = textField.text else { return }
-        if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textField.text = nil
-            textField.placeholder = Placeholder.textFieldPlaceHolder.sentence
-        }
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -112,24 +84,15 @@ extension AddDiaryView: UITextFieldDelegate, UITextViewDelegate {
 // MARK: - UIConstraints
 extension AddDiaryView {
     private func setupUI() {
-        [titleTextField, contentsTextView].forEach { component in
-            self.addSubview(component)
-            component.translatesAutoresizingMaskIntoConstraints = false
-        }
+        self.addSubview(contentsTextView)
+        contentsTextView.translatesAutoresizingMaskIntoConstraints = false
     }
     
     private func setupConstraints() {
         let safeArea = self.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            titleTextField.topAnchor.constraint(
-                equalTo: safeArea.topAnchor, constant: 10),
-            titleTextField.leadingAnchor.constraint(
-                equalTo: safeArea.leadingAnchor, constant: 10),
-            titleTextField.trailingAnchor.constraint(
-                equalTo: safeArea.trailingAnchor, constant: -10),
-            
             contentsTextView.topAnchor.constraint(
-                equalTo: titleTextField.bottomAnchor, constant: 10),
+                equalTo: safeArea.topAnchor, constant: 10),
             contentsTextView.leadingAnchor.constraint(
                 equalTo: safeArea.leadingAnchor, constant: 10),
             contentsTextView.trailingAnchor.constraint(

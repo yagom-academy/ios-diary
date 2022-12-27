@@ -12,7 +12,7 @@ struct DecoderManager<T: Decodable> {
     
     func decodeJsonData(_ fileName: String) -> Result<[T], DataError> {
         guard let assetsData = NSDataAsset(name: fileName) else {
-            return Result.failure(.nonDataError)
+            return Result.failure(.noneDataError)
         }
         guard let data = try? decoder.decode([T].self, from: assetsData.data) else {
             return Result.failure(.decodeError)

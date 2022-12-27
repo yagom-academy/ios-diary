@@ -43,8 +43,8 @@ final class AddViewController: UIViewController {
                 }
             })
         case .failure(let error):
-            self.showCustomAlert(alertText: error.localizedDescription,
-                                 alertMessage: "저장 실패하였습니다.",
+            self.showCustomAlert(alertText: "저장 실패하였습니다.",
+                                 alertMessage: error.errorDescription ?? "",
                                  bool: false,
                                  completion: nil)
         }
