@@ -26,7 +26,7 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        addNewDiary()
+        self.addNewDiary()
     }
     
     func keyboardWillShow(notification: NSNotification) {
@@ -52,14 +52,18 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
     }
     
     func createDiaryModel() -> DiaryModel {
-        let splitedText = self.addDiaryView.textView.text.split(separator: "\n",
-                                                                maxSplits: 1,
-                                                                omittingEmptySubsequences: false)
+        let diaryContent = self.addDiaryView.fetchTextViewContent()
+        guard diaryContent != "" else {
+            return DiaryModel()
+        }
+        let splitedText = diaryContent.split(separator: "\n",
+                                             maxSplits: 1,
+                                             omittingEmptySubsequences: false)
         
         let title = String(splitedText[0])
         let body = String(splitedText[1])
         
-        return DiaryModel(title: title, body: body, createdAt: DateFormatter().convertDateToDouble())
+        return DiaryModel(title: title, body: body)
     }
     
     func addNewDiary() {

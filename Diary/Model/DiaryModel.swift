@@ -9,9 +9,9 @@ import UIKit
 
 struct DiaryModel: Decodable, Hashable {
     let id = UUID()
-    let title: String
-    let body: String
-    let createdAt: Double
+    var title: String = ""
+    var body: String = ""
+    var createdAt: Double = DateFormatter().convertDateToDouble()
     
     private enum CodingKeys: String, CodingKey {
         case title, body

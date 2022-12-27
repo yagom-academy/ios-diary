@@ -16,4 +16,9 @@ final class AddDiaryView: DiaryView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func fetchTextViewContent() -> String {
+        return self.textView.text
+    }
+    
 }
