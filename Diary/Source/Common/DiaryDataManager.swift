@@ -29,32 +29,33 @@ struct DiaryDataManager: DiaryManageable {
     }
     
     func update(_ diary: Diary) {
-        let fetchRequest: NSFetchRequest<DiaryData> = DiaryData.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title == %@ AND body == %@ AND createdAt == %@",
-                                             argumentArray: [diary.title, diary.body, diary.createdAt])
-        
-        guard let result = try? DiaryCoreDataStack.shared.context.fetch(fetchRequest),
-              let firstObject = result.first else {
+        guard let objectID = fetchObjectID(from: diary.objectID) else {
             return
         }
+        let object = DiaryCoreDataStack.shared.context.object(with: objectID)
         
-        firstObject.setValue(diary.title, forKey: "title")
-        firstObject.setValue(diary.body, forKey: "body")
+        object.setValue(diary.title, forKey: "title")
+        object.setValue(diary.body, forKey: "body")
         
         DiaryCoreDataStack.shared.save()
     }
     
     func remove(_ diary: Diary) {
-        let fetchRequest: NSFetchRequest<DiaryData> = DiaryData.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title == %@ AND body == %@ AND createdAt == %@",
-                                             argumentArray: [diary.title, diary.body, diary.createdAt])
-        
-        guard let result = try? DiaryCoreDataStack.shared.context.fetch(fetchRequest),
-              let firstObject = result.first else {
+        guard let objectID = fetchObjectID(from: diary.objectID) else {
             return
         }
+        let object = DiaryCoreDataStack.shared.context.object(with: objectID)
         
-        DiaryCoreDataStack.shared.context.delete(firstObject)
+        DiaryCoreDataStack.shared.context.delete(object)
         DiaryCoreDataStack.shared.save()
+    }
+    
+    private func fetchObjectID(from diaryID: String?) -> NSManagedObjectID? {
+        guard let diaryID = diaryID, let objectURL = URL(string: diaryID),
+              let storeCoordinator = DiaryCoreDataStack.shared.context.persistentStoreCoordinator,
+              let objectID = storeCoordinator.managedObjectID(forURIRepresentation: objectURL) else {
+            return nil
+        }
+        return objectID
     }
 }
