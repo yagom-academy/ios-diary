@@ -9,6 +9,10 @@ import UIKit
 
 class DiaryItemViewController: UIViewController {
     var hasTitle: Bool = false
+    var diaryData: DiaryModel = DiaryModel(id: UUID(),
+                                           title: "제목 없음",
+                                           body: "",
+                                           createdAt: Date())
     
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -55,22 +59,37 @@ class DiaryItemViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        titleTextView.becomeFirstResponder()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(mainStackView)
+        configureTextView()
         configureNavigationBar()
         configureMainStackView()
         addKeyboardDismissAction()
+        addObserver()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        saveOrUpdate()
     }
     
-    private func configureNavigationBar() {
+    private func configureTextView() {
+        titleTextView.delegate = self
+        bodyTextView.delegate = self
+    }
+    
+    func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         
         let date = Date()
         title = DateFormatterManager().formatDate(date)
     }
     
-    private func configureMainStackView() {
+    func configureMainStackView() {
         mainStackView.addArrangedSubview(titleTextView)
         mainStackView.addArrangedSubview(bodyTextView)
         mainStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: LayoutConstant.mainStackViewTopMargin,
@@ -85,6 +104,33 @@ class DiaryItemViewController: UIViewController {
             mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
+    }
+    
+    func addObserver() {
+        let notificationName = Notification.Name("sceneDidEnterBackground")
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(saveOrUpdate),
+                                               name: notificationName,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(saveOrUpdate),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    func updateDiaryModel() {
+        diaryData.title = titleTextView.text
+        diaryData.body = bodyTextView.text
+        diaryData.createdAt = Date()
+    }
+    
+    @objc func saveOrUpdate() {
+        guard CoreDataStack.shared.fetchDiary(with: diaryData.id) != nil else {
+            CoreDataStack.shared.insertDiary(diaryData)
+            return
+        }
+
+        updateDiaryModel()
+        CoreDataStack.shared.updateDiary(diaryData)
     }
     
     private enum LayoutConstant {
@@ -109,6 +155,8 @@ extension DiaryItemViewController {
         bodyTextView.resignFirstResponder()
     }
 }
+
+extension DiaryItemViewController: UITextViewDelegate { }
 
 enum Placeholder {
     static let editText = "일기를 입력해주세요."
