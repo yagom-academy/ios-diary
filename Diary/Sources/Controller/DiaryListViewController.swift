@@ -66,31 +66,34 @@ extension DiaryListViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let deleteAction = configureDeleteButton(indexPath: indexPath)
+        guard let dataSource = dataSource,
+              let item = dataSource.itemIdentifier(for: indexPath) else { return nil }
+        
+        let deleteAction = configureDeleteButton(item: item)
         let shareAction = configureShareButton()
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
 
 extension DiaryListViewController {
-    func configureDeleteButton(indexPath: IndexPath) -> UIContextualAction {
-        let handler: UIContextualAction.Handler = { [weak self] _, _, handler in
+    private func configureDeleteButton(item: Diary) -> UIContextualAction {
+        let handler: UIContextualAction.Handler = { [weak self] _, view, handler in
             guard let self = self else { return }
-            let alert = UIAlertController(
-                title: "진짜요",
-                message: "정말로 삭제하시겠어요?",
-                preferredStyle: .alert
-            )
-            let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-                let result = self.deleteSnapshot(index: indexPath)
-                handler(result)
-            }
-            let cancelAction = UIAlertAction(type: .cancel) { _ in
-                handler(false)
-            }
             
-            alert.addAction(deleteAction)
-            alert.addAction(cancelAction)
+            let alert = UIAlertController(
+                title: "정말요",
+                message: "정말 삭제하시겠어요?",
+                diary: item,
+                deleteCompletion: { [weak self] _ in
+                    guard let self = self else { return }
+                    
+                    let result = self.deleteSnapshot(item: item)
+                    handler(result)
+                },
+                cancelCompletion: { _ in
+                    handler(false)
+                }
+            )
             
             self.present(alert, animated: true)
         }
@@ -102,7 +105,7 @@ extension DiaryListViewController {
         return action
     }
     
-    func configureShareButton() -> UIContextualAction {
+    private func configureShareButton() -> UIContextualAction {
         let handler: UIContextualAction.Handler = { _, _, handler in
             // TODO: ActivityView 띄우는 메서드 추가하기
             // MARK: 넌 누구냐...handler
@@ -127,11 +130,8 @@ extension DiaryListViewController {
         diaries = try? JSONDecoder().decode([Diary].self, from: dataAsset.data)
     }
     
-    private func deleteSnapshot(index: IndexPath) -> Bool {
-        guard let dataSource = dataSource,
-              let item = dataSource.itemIdentifier(for: index) else {
-            return false
-        }
+    private func deleteSnapshot(item: Diary) -> Bool {
+        guard let dataSource = dataSource else { return false }
         
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([item])

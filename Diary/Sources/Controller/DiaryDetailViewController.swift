@@ -150,15 +150,25 @@ extension DiaryDetailViewController {
         let deleteAction = UIAlertAction(type: .delete, handler: deleteHandler(_:))
         let cancelAction = UIAlertAction(type: .cancel)
         
-        alert.addAction(shareAction)
-        alert.addAction(deleteAction)
-        alert.addAction(cancelAction)
+        [shareAction, deleteAction, cancelAction].forEach {
+            alert.addAction($0)
+        }
         
         self.present(alert, animated: true)
     }
     
     private func deleteHandler(_ action: UIAlertAction) {
-        // TODO: 삭제 액션 구현
+        guard let item = item else { return }
+        let alert = UIAlertController(
+            title: "정말요?",
+            message: "정말 삭제하실거에요?",
+            diary: item,
+            deleteCompletion: { _ in
+                // TODO: 코어데이터 삭제 메서드 추가하기
+            }
+        )
+        
+        present(alert, animated: true)
     }
     
     private func shareHandler(_ action: UIAlertAction) {
