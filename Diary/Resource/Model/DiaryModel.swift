@@ -7,9 +7,9 @@
 
 import Foundation
 
-struct DiaryModel: Decodable {
-    let id: UUID
-    let title: String
-    let body: String
-    let createdAt: Date
+struct DiaryModel {
+    var id: UUID
+    var title: String
+    var body: String
+    var createdAt: Date
 }
