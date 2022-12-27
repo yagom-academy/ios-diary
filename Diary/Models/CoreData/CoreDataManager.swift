@@ -69,23 +69,30 @@ final class CoreDataManager {
         completion()
     }
     
-    //TODO: 수정 예정
-    func updateData(data: DiaryData,
-                    completion: @escaping () -> Void) {
+    func updateData(id: UUID, contentText: String, compeltion: @escaping () -> Void) {
         if let context = context {
-            if context.hasChanges {
-                do {
-                    try context.save()
-                    completion()
-                } catch {
-                    print(error)
-                    completion()
+            let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
+            
+            request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
+            
+            do {
+                guard let fetchedDatas = try context.fetch(request) as? [DiaryData] else { return }
+                guard let diaryData = fetchedDatas.first else { return }
+                
+                diaryData.setValue(contentText, forKey: "contentText")
+                if context.hasChanges {
+                    do {
+                        try context.save()
+                        compeltion()
+                    } catch {
+                        print(error)
+                    }
                 }
+            } catch {
+                print(error)
             }
-            completion()
         }
     }
-    
     //TODO: 구현 예정
     func deleteData() {
         

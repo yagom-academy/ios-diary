@@ -59,8 +59,10 @@ final class EditViewController: UIViewController {
             //TODO: UPdate CoreData
             else {
                 diaryData?.contentText = data
-                guard let diaryData = diaryData else { return }
-                coreDataManager.updateData(data: diaryData) {
+                guard let id = diaryData?.id,
+                      let contentText = diaryData?.contentText else { return }
+                
+                coreDataManager.updateData(id: id, contentText: contentText) {
                     self.showCustomAlert(alertText: "편집 성공",
                                          alertMessage: "편집성공하였습니다.",
                                          bool: true) {
