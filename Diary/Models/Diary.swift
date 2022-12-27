@@ -8,9 +8,16 @@
 import Foundation
 
 struct Diary: Codable, Identifiable {
-    let id: UUID = UUID()
-    let title, body: String
+    private(set) var id: UUID = UUID()
+    var title, body: String
     let createdAt: TimeInterval
+
+    init(id: UUID = UUID(), title: String, body: String, createdAt: TimeInterval) {
+        self.id = id
+        self.title = title
+        self.body = body
+        self.createdAt = createdAt
+    }
 
     enum CodingKeys: String, CodingKey {
         case title, body
