@@ -31,7 +31,7 @@ final class DiaryListViewController: UIViewController {
         return tableView
     }()
 
-    private lazy var dataSource: DiaryDataSource = configureDataSource()
+    private var dataSource: DiaryDataSource?
     private var snapshot = DiarySnapShot()
     private var diaryList: [Diary] = []
 
@@ -40,6 +40,7 @@ final class DiaryListViewController: UIViewController {
 
         configureNavigationBar()
         configureHierarchy()
+        configureDataSource()
         configureSnapshot()
     }
 }
@@ -61,8 +62,8 @@ extension DiaryListViewController {
         ])
     }
 
-    private func configureDataSource() -> DiaryDataSource {
-        let dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
+    private func configureDataSource() {
+        dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier,
                                                            for: indexPath) as? DiaryListCell else {
                 return DiaryListCell()
@@ -73,8 +74,6 @@ extension DiaryListViewController {
 
             return cell
         })
-
-        return dataSource
     }
 
     private func configureSubtitleText(_ date: Date, _ body: String) -> NSMutableAttributedString {
@@ -96,7 +95,7 @@ extension DiaryListViewController {
         snapshot.appendSections([0])
         snapshot.appendItems(items)
 
-        dataSource.apply(snapshot)
+        dataSource?.apply(snapshot)
     }
 
     private func decodeSampleData() -> [Diary]? {
