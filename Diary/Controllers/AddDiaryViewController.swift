@@ -81,6 +81,7 @@ extension AddDiaryViewController {
     private func configureNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.adjustForKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.adjustForKeyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.manageCoreData), name: UIApplication.willResignActiveNotification, object: nil)
     }
     
     @objc func adjustForKeyboard(notification: NSNotification) {
@@ -90,7 +91,7 @@ extension AddDiaryViewController {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             contentTextView.contentInset = .zero
-            createCoreData()
+            manageCoreData()
         } else {
             contentTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
         }
@@ -100,12 +101,37 @@ extension AddDiaryViewController {
         let selectedRange = contentTextView.selectedRange
         contentTextView.scrollRangeToVisible(selectedRange)
     }
+}
+
+// MARK: - CoreData
+extension AddDiaryViewController {
+    
+    @objc func manageCoreData() {
+        if self.diary != nil {
+            updateCoreData()
+            return
+        }
+        
+        createCoreData()
+    }
     
     func createCoreData() {
         do {
             let title = titleTextField.text
             let content = contentTextView.text
             self.diary = try CoreDataManager.shared.createDiary(title: title, content: content, createdAt: Date().timeIntervalSince1970)
+        } catch {
+            print(error)
+        }
+    }
+    
+    func updateCoreData() {
+        guard let diary else { return }
+        diary.title = titleTextField.text
+        diary.content = contentTextView.text
+        
+        do {
+            try CoreDataManager.shared.updateDiary(updatedDiary: diary)
         } catch {
             print(error)
         }
