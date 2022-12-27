@@ -46,6 +46,7 @@ final class MainViewController: UIViewController {
     
     private func setUpTableView() {
         mainDiaryView.diaryTableView.dataSource = self
+        mainDiaryView.diaryTableView.delegate = self
     }
     
     private func decodeDiaryData() {
@@ -68,8 +69,15 @@ final class MainViewController: UIViewController {
             guard let title = entity.title,
                   let body = entity.body,
                   let createdDate = entity.createdDate,
-                  let createdAt = Int(createdDate) else { return }
-            let diary = Diary.init(title: title, body: body, createdAt: createdAt)
+                  let createdAt = Int(createdDate),
+                  let totalText = entity.totalText,
+                  let id = entity.id else { return }
+            
+            let diary = Diary(title: title,
+                              body: body,
+                              createdAt: createdAt,
+                              totalText: totalText,
+                              id: id)
             
             diaryArray.append(diary)
         }
@@ -104,6 +112,19 @@ extension MainViewController: UITableViewDataSource {
         cell.configureCell(with: diary)
         
         return cell
+    }
+}
+
+// MARK: - UITableViewDelegate
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diary = diaries[indexPath.row]
+        
+        navigationController?.pushViewController(
+            DiaryFormViewController(diary: diary),
+            animated: true
+        )
     }
 }
 

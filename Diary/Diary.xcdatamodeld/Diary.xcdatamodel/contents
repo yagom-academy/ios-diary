@@ -3,9 +3,11 @@
     <entity name="Entity" representedClassName="Entity" syncable="YES">
         <attribute name="body" optional="YES" attributeType="String"/>
         <attribute name="createdDate" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="totalText" optional="YES" attributeType="String"/>
     </entity>
     <elements>
-        <element name="Entity" positionX="-54" positionY="-9" width="128" height="74"/>
+        <element name="Entity" positionX="-54" positionY="-9" width="128" height="104"/>
     </elements>
 </model>

@@ -23,6 +23,7 @@ class CustomDiaryCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     private let bottomStackView: UIStackView = {
