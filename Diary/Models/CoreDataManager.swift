@@ -52,7 +52,8 @@ class CoreDataManager {
         var diaryList: [Diary] = []
         
         let request = NSFetchRequest<NSManagedObject>(entityName: self.entityName)
-        
+        let sortDescriptor = NSSortDescriptor(key: "createdAt", ascending: false)
+        request.sortDescriptors = [sortDescriptor]
         do {
             if let fetchedDiaryList = try context.fetch(request) as? [Diary] {
                 diaryList = fetchedDiaryList

@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     
-    private var diaries: [DiaryData]?
+    private var diaries: [Diary]?
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -25,11 +25,11 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchData() {
-        guard let assetData = NSDataAsset.init(name: "sample"),
-              let diaries = try? JSONDecoder().decode([DiaryData].self, from: assetData.data) else {
-            return
+        do {
+            self.diaries = try CoreDataManager.shared.fetchDiaryList()
+        } catch {
+            print(error)
         }
-        self.diaries = diaries
     }
     
     private func configureTableView() {
