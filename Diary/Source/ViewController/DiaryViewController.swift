@@ -29,6 +29,13 @@ final class DiaryViewController: UIViewController {
         contentTextView.delegate = self
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if contentTextView.hasText == false {
+            contentTextView.becomeFirstResponder()
+        }
+    }
+    
     private func configure() {
         title = DateFormatter.converted(date: diary.createAt,
                                         locale: Locale.preference,
