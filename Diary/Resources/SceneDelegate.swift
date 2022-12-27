@@ -23,6 +23,20 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        CoreDataManager.shared.save()
+        backgroundDiaryUpdate()
+    }
+    
+    func sceneDidDisconnect(_ scene: UIScene) {
+        backgroundDiaryUpdate()
+    }
+    
+    private func backgroundDiaryUpdate() {
+        guard let rootViewController = window?.rootViewController as? UINavigationController,
+              let topViewController = rootViewController.topViewController as? DiaryDetailViewController
+        else {
+            return
+        }
+        
+        topViewController.updateAndCreateData()
     }
 }

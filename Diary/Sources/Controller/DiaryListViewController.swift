@@ -14,11 +14,7 @@ final class DiaryListViewController: UIViewController {
         static let shareImage = "square.and.arrow.up"
     }
     
-    private var diaries: [Diary]? {
-        didSet {
-            print(diaries)
-        }
-    }
+    private var diaries: [Diary]?
     private let coreDataManager = CoreDataManager.shared
     
     private let tableView: UITableView = UITableView(frame: .zero, style: .plain)
@@ -86,6 +82,7 @@ extension DiaryListViewController: UITableViewDelegate {
     }
 }
 
+// MARK: Swipe Action
 extension DiaryListViewController {
     private func configureDeleteButton(item: Diary) -> UIContextualAction {
         let handler: UIContextualAction.Handler = { [weak self] _, view, handler in
@@ -139,7 +136,7 @@ extension DiaryListViewController {
         var snapshot = dataSource.snapshot()
         snapshot.deleteItems([item])
         dataSource.apply(snapshot)
-        
+        coreDataManager.deleteDiary(id: item.id)
         return true
     }
     

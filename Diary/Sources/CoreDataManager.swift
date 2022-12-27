@@ -14,6 +14,7 @@ extension DiaryEntity {
               let body = self.body else {
             return nil
         }
+        
         let createdInt = Int(self.createdIntervalValue)
         return Diary(title: title, body: body, createdIntervalValue: createdInt, uuid: self.id)
     }
@@ -59,8 +60,6 @@ final class CoreDataManager {
         
         guard let updateObjects = try? context.fetch(fetchRequest) else { return }
         
-        
-        
         if updateObjects.count == 1,
            let object = updateObjects.first {
             object.title = diary.title
@@ -94,7 +93,7 @@ final class CoreDataManager {
         save()
     }
 
-    func save() {
+    private func save() {
         if context.hasChanges {
             try? context.save()
         }

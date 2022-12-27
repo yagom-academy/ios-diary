@@ -53,21 +53,7 @@ final class DiaryDetailViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         NotificationCenter.default.removeObserver(self)
-        
-        guard var item = item else {
-            item = Diary(
-                title: titleTextField.text,
-                body: contentTextView.text,
-                createdIntervalValue: 0,
-                uuid: UUID()
-            )
-            coreDataManager.createDiary(diary: item)
-            return
-        }
-        
-        item.title = titleTextField.text
-        item.body = contentTextView.text
-        coreDataManager.updateDiary(diary: item)
+        updateAndCreateData()
     }
 }
 
@@ -91,6 +77,33 @@ extension DiaryDetailViewController {
     
     func setDiary(with item: Diary? = nil) {
         self.item = item
+    }
+    
+    private func createWithCoreData() {
+        item = Diary(
+            title: titleTextField.text,
+            body: contentTextView.text,
+            createdIntervalValue: 0,
+            uuid: UUID()
+        )
+        coreDataManager.createDiary(diary: item)
+        return
+    }
+    
+    private func updateWithCoreData() {
+        guard var item = item else { return }
+        
+        item.title = titleTextField.text
+        item.body = contentTextView.text
+        coreDataManager.updateDiary(diary: item)
+    }
+    
+    func updateAndCreateData() {
+        if item == nil {
+            createWithCoreData()
+        } else {
+            updateWithCoreData()
+        }
     }
 }
 
@@ -182,7 +195,8 @@ extension DiaryDetailViewController {
             message: "정말 삭제하실거에요?",
             diary: item,
             deleteCompletion: { _ in
-                // TODO: 코어데이터 삭제 메서드 추가하기
+                self.coreDataManager.deleteDiary(id: item.id)
+                self.navigationController?.popViewController(animated: true)
             }
         )
         
