@@ -19,12 +19,10 @@ final class DiaryTableViewCell: UITableViewCell {
         bodyLabel.text = nil
     }
     
-    func configureCell(title: String,
-                       createdAt: Int,
-                       body: String) {
-        titleLabel.text = title
-        createdAtLabel.text = createdAt.convertDate()
-        bodyLabel.text = body
+    func configureCell(data: SampleData) {
+        titleLabel.text = data.title
+        createdAtLabel.text = data.createdAt.convertDate()
+        bodyLabel.text = data.body
         accessoryType = .disclosureIndicator
     }
 }

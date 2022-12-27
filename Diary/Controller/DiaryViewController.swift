@@ -79,9 +79,8 @@ extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "diaryTableViewCell",
                                                  for: indexPath) as? DiaryTableViewCell ?? DiaryTableViewCell()
-        cell.configureCell(title: sampleData[indexPath.row].title,
-                           createdAt: sampleData[indexPath.row].createdAt,
-                           body: sampleData[indexPath.row].body)
+        let data = sampleData[indexPath.row]
+        cell.configureCell(data: data)
         
         return cell
     }
