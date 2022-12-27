@@ -102,11 +102,11 @@ extension DiaryItemViewController {
         let swipeGesture: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
         swipeGesture.direction = .down
-        mainStackView.addGestureRecognizer(swipeGesture)
+        bodyTextView.addGestureRecognizer(swipeGesture)
     }
     
     @objc func dismissKeyboard() {
-        mainStackView.resignFirstResponder()
+        bodyTextView.resignFirstResponder()
     }
 }
 

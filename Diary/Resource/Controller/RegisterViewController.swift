@@ -16,6 +16,10 @@ final class RegisterViewController: DiaryItemViewController {
         addObserver()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        titleTextView.becomeFirstResponder()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         save()
     }
@@ -23,7 +27,12 @@ final class RegisterViewController: DiaryItemViewController {
     private func addObserver() {
         let notificationName = Notification.Name("sceneDidEnterBackground")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(save), name: notificationName, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(save),
+                                               name: notificationName,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(save),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
 
     private func makeDiaryModel() -> DiaryModel {
@@ -46,7 +55,6 @@ final class RegisterViewController: DiaryItemViewController {
         bodyTextView.delegate = self
     }
     
-    // 키보드를 내렸을때
     @objc private func save() {
         updateDiaryModel()
         
