@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C396FD8295AB6CF00934C79 /* UIAlertAction+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C396FD7295AB6CF00934C79 /* UIAlertAction+.swift */; };
 		0CCBFD492950645B0070FE99 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0CCBFD482950645B0070FE99 /* .swiftlint.yml */; };
 		0CCBFD4D295155860070FE99 /* DiaryContentConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCBFD4C295155860070FE99 /* DiaryContentConfiguration.swift */; };
 		0CCBFD4F295181A10070FE99 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCBFD4E295181A10070FE99 /* Diary.swift */; };
@@ -28,6 +29,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C396FD7295AB6CF00934C79 /* UIAlertAction+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertAction+.swift"; sourceTree = "<group>"; };
 		0CCBFD482950645B0070FE99 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		0CCBFD4C295155860070FE99 /* DiaryContentConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentConfiguration.swift; sourceTree = "<group>"; };
 		0CCBFD4E295181A10070FE99 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				18D381332952E014002BB2F1 /* UIFont+.swift */,
 				18D381352952E311002BB2F1 /* UIView+.swift */,
 				18D381372952F19B002BB2F1 /* UINavigationController+.swift */,
+				0C396FD7295AB6CF00934C79 /* UIAlertAction+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -302,6 +305,7 @@
 				0CCBFD4F295181A10070FE99 /* Diary.swift in Sources */,
 				18F2A53C2951DF14008D9CCD /* Date+.swift in Sources */,
 				18D381342952E014002BB2F1 /* UIFont+.swift in Sources */,
+				0C396FD8295AB6CF00934C79 /* UIAlertAction+.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				18D381382952F19B002BB2F1 /* UINavigationController+.swift in Sources */,
 				185A5F382951610800AF523D /* DiaryListCell.swift in Sources */,

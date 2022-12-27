@@ -76,8 +76,23 @@ extension DiaryListViewController {
     func configureDeleteButton(indexPath: IndexPath) -> UIContextualAction {
         let handler: UIContextualAction.Handler = { [weak self] _, _, handler in
             guard let self = self else { return }
-            let result = self.deleteSnapshot(index: indexPath)
-            handler(result)
+            let alert = UIAlertController(
+                title: "진짜요",
+                message: "정말로 삭제하시겠어요?",
+                preferredStyle: .alert
+            )
+            let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                let result = self.deleteSnapshot(index: indexPath)
+                handler(result)
+            }
+            let cancelAction = UIAlertAction(type: .cancel) { _ in
+                handler(false)
+            }
+            
+            alert.addAction(deleteAction)
+            alert.addAction(cancelAction)
+            
+            self.present(alert, animated: true)
         }
         
         let action = UIContextualAction(style: .destructive, title: nil, handler: handler)
