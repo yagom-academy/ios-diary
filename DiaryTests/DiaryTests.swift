@@ -12,7 +12,7 @@ final class DiaryTests: XCTestCase {
     
     func test_코어데이터저장소에_정상적으로_데이터가_insert_되는지() throws {
         do {
-            let result: () = try CoreDataManager.shared.createDiary(data: DiaryData(id: UUID(), title: "일번", body: "ㅋㅋ", createdAt: 123))
+            let result: () = try CoreDataManager.shared.createDiary(data: DiaryData(id: UUID(), title: "일번", body: "ㅋㅋ", createdAt: Date().timeIntervalSince1970))
             XCTAssertNotNil(result)
         } catch {
             XCTFail("Fail")
