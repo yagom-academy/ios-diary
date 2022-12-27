@@ -9,8 +9,8 @@ import UIKit
 
 final class DiaryDetailView: UIView {
     
-    private var isTitlePlaceHolderState: Bool = true
-    private var isBodyPlaceHolderState: Bool = true
+    var isTitlePlaceHolderState: Bool = false
+    var isBodyPlaceHolderState: Bool = false
     private let titleTextView = CustomTextView(font: .title1)
     private let bodyTextView = CustomTextView(font: .body)
     var title: String {
@@ -47,8 +47,6 @@ final class DiaryDetailView: UIView {
         super.init(frame: frame)
         self.backgroundColor = .systemBackground
         configureDetailLayout()
-        setupPlaceHolder()
-        titleTextView.becomeFirstResponder()
     }
     
     required init?(coder: NSCoder) {
@@ -132,6 +130,10 @@ final class DiaryDetailView: UIView {
             bodyTextView.textColor = .systemGray3
             isBodyPlaceHolderState = true
         }
+    }
+    
+    func makeTitleTextViewFirstResponder() {
+        titleTextView.becomeFirstResponder()
     }
 }
 

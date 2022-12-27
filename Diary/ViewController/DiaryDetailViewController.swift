@@ -7,15 +7,13 @@
 
 import UIKit
 
-final class DiaryDetailViewController: UIViewController {
+final class DiaryDetailViewController: RegisterDiaryViewController {
     
-    private let diaryDetailView: DiaryDetailView
-    private var diaryCoreDataManager = CoreDataManager.shared
+    private let diaryDetailView: DiaryDetailView = DiaryDetailView()
     private var diaryPage: DiaryPage
     
     init(diary: DiaryPage) {
         self.diaryPage = diary
-        self.diaryDetailView = DiaryDetailView()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -26,23 +24,12 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = diaryDetailView
-        configureDiary()
         setupNavigationBar()
+        configureDiary()
         setupNotification()
+        diaryDetailView.addTextViewsDelegate(self)
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        updateDiary()
-    }
-    
-    @objc private func updateDiary() {
-        diaryPage.title = diaryDetailView.title
-        diaryPage.body = diaryDetailView.body
-        
-        diaryCoreDataManager.updateDiary(diaryPage)
-    }
-
     private func configureDiary() {
         diaryDetailView.configureTitle(diaryPage.title)
         diaryDetailView.configureBody(diaryPage.body)
@@ -55,37 +42,11 @@ extension DiaryDetailViewController {
         self.navigationItem.title = diaryPage.createdDate
     }
     
-    private func setupNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(controlKeyboard),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(controlKeyboard),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(updateDiary),
-                                               name: UIApplication.didEnterBackgroundNotification,
-                                               object: nil)
+    override func textViewDidBeginEditing(_ textView: UITextView) {
+        diaryDetailView.removePlaceHolder()
     }
     
-    @objc private func controlKeyboard(_ notification: NSNotification) {
-        guard let keyboardFrame: NSValue
-                = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-            return
-        }
-        
-        let keyboardHeight = keyboardFrame.cgRectValue.height
-        let bottomInset = self.diaryDetailView.scrollViewBottomInset
-        let keyboardShowNotification = UIResponder.keyboardWillShowNotification
-        let keyboardHideNotification = UIResponder.keyboardWillHideNotification
-        
-        if notification.name == keyboardShowNotification && bottomInset == 0 {
-            self.diaryDetailView.changeScrollViewBottomInset(keyboardHeight)
-        } else if notification.name == keyboardHideNotification && bottomInset != 0 {
-            self.diaryDetailView.changeScrollViewBottomInset(-keyboardHeight)
-            updateDiary()
-        }
+    override func textViewDidEndEditing(_ textView: UITextView) {
+        diaryDetailView.setupPlaceHolder()
     }
 }

@@ -68,8 +68,8 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
-				905456F12952CCF200AAFEB0 /* DiaryDetailViewController.swift */,
 				41BE025229533C9E006053FD /* RegisterDiaryViewController.swift */,
+				905456F12952CCF200AAFEB0 /* DiaryDetailViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";

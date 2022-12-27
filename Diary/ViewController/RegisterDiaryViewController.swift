@@ -9,16 +9,17 @@ import UIKit
 
 class RegisterDiaryViewController: UIViewController {
     
-    private let diaryDetailView: DiaryDetailView = DiaryDetailView()
-    private var diaryCoreDataManager = CoreDataManager.shared
+    private let diaryPageView: DiaryDetailView = DiaryDetailView()
     private var diaryPage = DiaryPage(title: " ", body: " ", createdAt: Date())
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = diaryDetailView
-        diaryCoreDataManager.saveDiary(diaryPage)
-        diaryDetailView.addTextViewsDelegate(self)
+        self.view = diaryPageView
+        CoreDataManager.shared.saveDiary(diaryPage)
+        diaryPageView.addTextViewsDelegate(self)
         setupNotification()
+        diaryPageView.makeTitleTextViewFirstResponder()
+        diaryPageView.setupPlaceHolder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -26,28 +27,28 @@ class RegisterDiaryViewController: UIViewController {
         updateDiary()
     }
     
-    @objc private func updateDiary() {
-        diaryPage.title = diaryDetailView.title
-        diaryPage.body = diaryDetailView.body
+    @objc func updateDiary() {
+        diaryPage.title = diaryPageView.title
+        diaryPage.body = diaryPageView.body
         
-        diaryCoreDataManager.updateDiary(diaryPage)
+        CoreDataManager.shared.updateDiary(diaryPage)
     }
 }
 
 extension RegisterDiaryViewController: UITextViewDelegate {
 
     func textViewDidBeginEditing(_ textView: UITextView) {
-        diaryDetailView.removePlaceHolder()
+        diaryPageView.removePlaceHolder()
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        diaryDetailView.setupPlaceHolder()
+        diaryPageView.setupPlaceHolder()
     }
 }
 
 extension RegisterDiaryViewController {
     
-    private func setupNotification() {
+    func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(controlKeyboard),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -62,21 +63,21 @@ extension RegisterDiaryViewController {
                                                object: nil)
     }
     
-    @objc private func controlKeyboard(_ notification: NSNotification) {
+    @objc func controlKeyboard(_ notification: NSNotification) {
         guard let keyboardFrame: NSValue
                 = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
         
         let keyboardHeight = keyboardFrame.cgRectValue.height
-        let bottomInset = self.diaryDetailView.scrollViewBottomInset
+        let bottomInset = self.diaryPageView.scrollViewBottomInset
         let keyboardShowNotification = UIResponder.keyboardWillShowNotification
         let keyboardHideNotification = UIResponder.keyboardWillHideNotification
         
         if notification.name == keyboardShowNotification && bottomInset == 0 {
-            self.diaryDetailView.changeScrollViewBottomInset(keyboardHeight)
+            self.diaryPageView.changeScrollViewBottomInset(keyboardHeight)
         } else if notification.name == keyboardHideNotification && bottomInset != 0 {
-            self.diaryDetailView.changeScrollViewBottomInset(-keyboardHeight)
+            self.diaryPageView.changeScrollViewBottomInset(-keyboardHeight)
             updateDiary()
         }
     }
