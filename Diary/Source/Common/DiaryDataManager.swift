@@ -21,6 +21,7 @@ struct DiaryDataManager: DiaryManageable {
     
     func fetchDiaries() -> [Diary] {
         let fetchRequest: NSFetchRequest<DiaryData> = DiaryData.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         guard let result = try? DiaryCoreDataStack.shared.context.fetch(fetchRequest) else {
             return []
         }
