@@ -78,11 +78,11 @@ class DiaryItemViewController: UIViewController {
         addKeyboardDismissAction()
         addObserver()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         saveOrUpdate()
     }
-
+    
     private func configureTextView() {
         titleTextView.delegate = self
         bodyTextView.delegate = self
@@ -134,7 +134,7 @@ class DiaryItemViewController: UIViewController {
             CoreDataStack.shared.insertDiary(diaryData)
             return
         }
-
+        
         updateDiaryModel()
         CoreDataStack.shared.updateDiary(diaryData)
     }
@@ -162,7 +162,18 @@ extension DiaryItemViewController {
     }
 }
 
-extension DiaryItemViewController: UITextViewDelegate { }
+extension DiaryItemViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        guard textView == titleTextView else { return }
+        let titleTextViewHeight = textView.contentSize.height
+        
+        if titleTextViewHeight > LayoutConstant.titleTextViewMaxHeight {
+            isOversized = true
+        } else {
+            isOversized = false
+        }
+    }
+}
 
 enum Placeholder {
     static let editText = "일기를 입력해주세요."

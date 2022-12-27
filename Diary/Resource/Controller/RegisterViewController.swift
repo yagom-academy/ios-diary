@@ -19,11 +19,13 @@ extension RegisterViewController {
 }
 
 extension RegisterViewController {
-    func textViewDidChange(_ textView: UITextView) {
+    override func textViewDidChange(_ textView: UITextView) {
+        super.textViewDidChange(textView)
+        
         guard textView == titleTextView else { return }
         
         guard !hasTitle,
-              let _ = titleTextView.text.firstIndex(of: "\n") else { return }
+              titleTextView.text.firstIndex(of: "\n") != nil  else { return }
 
         hasTitle = true
         titleTextView.text = titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
