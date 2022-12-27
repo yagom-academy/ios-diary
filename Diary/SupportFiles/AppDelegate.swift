@@ -38,7 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
          application to it. This property is optional since there are legitimate
          error conditions that could cause the creation of the store to fail.
          */
-        let container = NSPersistentContainer(name: "Diary")
+        let container = NSPersistentContainer(name: "DiaryModel")
         // swiftlint:disable unused_closure_parameter
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
