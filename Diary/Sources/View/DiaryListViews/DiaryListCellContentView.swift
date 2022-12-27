@@ -50,7 +50,7 @@ extension DiaryListCellContentView {
         let insideStackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
-        insideStackView.distribution = .fill
+        insideStackView.distribution = .equalCentering
         insideStackView.spacing = 8
         
         let totalStackView = UIStackView(arrangedSubviews: [headerLabel, insideStackView])

@@ -31,6 +31,8 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
+    private let coreDataManager = CoreDataManager.shared
+    
     private var item: Diary? {
         didSet {
             self.titleTextField.text = item?.title
@@ -49,7 +51,23 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         NotificationCenter.default.removeObserver(self)
+        
+        guard var item = item else {
+            item = Diary(
+                title: titleTextField.text,
+                body: contentTextView.text,
+                createdIntervalValue: 0,
+                uuid: UUID()
+            )
+            coreDataManager.createDiary(diary: item)
+            return
+        }
+        
+        item.title = titleTextField.text
+        item.body = contentTextView.text
+        coreDataManager.updateDiary(diary: item)
     }
 }
 

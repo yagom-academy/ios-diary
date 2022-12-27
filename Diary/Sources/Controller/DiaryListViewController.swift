@@ -14,17 +14,28 @@ final class DiaryListViewController: UIViewController {
         static let shareImage = "square.and.arrow.up"
     }
     
+    private var diaries: [Diary]? {
+        didSet {
+            print(diaries)
+        }
+    }
+    private let coreDataManager = CoreDataManager.shared
+    
     private let tableView: UITableView = UITableView(frame: .zero, style: .plain)
     private var dataSource: UITableViewDiffableDataSource<Int, Diary>?
-    private var diaries: [Diary]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         setNavigationBar()
-        fetchData()
         setTableViewAnchor()
         setUpTableViewDataSource()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        diaries = coreDataManager.fetchDiary()
         setSnapshot()
     }
 }
@@ -122,14 +133,6 @@ extension DiaryListViewController {
 
 // MARK: Business Logic
 extension DiaryListViewController {
-    private func fetchData() {
-        guard let dataAsset = NSDataAsset(name: Constant.assetName) else {
-            return
-        }
-        
-        diaries = try? JSONDecoder().decode([Diary].self, from: dataAsset.data)
-    }
-    
     private func deleteSnapshot(item: Diary) -> Bool {
         guard let dataSource = dataSource else { return false }
         
@@ -148,7 +151,7 @@ extension DiaryListViewController {
         var snapshot = NSDiffableDataSourceSnapshot<Int, Diary>()
         snapshot.appendSections([.zero])
         snapshot.appendItems(diaries)
-        dataSource?.apply(snapshot)
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
 
