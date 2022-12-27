@@ -52,17 +52,12 @@ final class DiaryListCell: UITableViewCell, CellIdentifiable {
         return label
     }()
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        self.configureCell()
+    func configure(with content: DiaryContent) {
+        configureCell()
+        setupLabelText(from: content)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    func setupLabelText(from content: DiaryContent) {
+    private func setupLabelText(from content: DiaryContent) {
         let dateString = content.createdDateString
         
         titleLabel.text = content.title

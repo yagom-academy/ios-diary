@@ -35,7 +35,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configureTableView() {
-        diaryView.configureTableView(delegate: self, dataSource: self)
+        self.diaryView.configureTableView(delegate: self, dataSource: self)
     }
 
     private func configureNavigationBar() {
@@ -52,13 +52,15 @@ final class DiaryViewController: UIViewController {
     }
     
     @objc private func tappedAddButton(_ sender: UIBarButtonItem) {
-        self.pushEditorViewController()
+        pushEditorViewController()
     }
 }
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.pushEditorViewController(with: diaryContents[indexPath.row])
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        pushEditorViewController(with: diaryContents[indexPath.row])
     }
 }
 
@@ -72,7 +74,7 @@ extension DiaryViewController: UITableViewDataSource {
         else {
             return UITableViewCell()
         }
-        cell.setupLabelText(from: diaryContents[indexPath.row])
+        cell.configure(with: diaryContents[indexPath.row])
         return cell
     }
 }

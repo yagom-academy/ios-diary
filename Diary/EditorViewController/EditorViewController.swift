@@ -16,7 +16,24 @@ final class EditorViewController: UIViewController {
         self.view = editorView
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.editorView.scrollToTop()
+        configureNotification()
+        configureEditorView()
+    }
+    
+    init(with content: DiaryContent?) {
+        self.content = content
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureNotification() {
         NotificationCenter.default.addObserver(
             self.editorView,
             selector: #selector(self.editorView.keyboardWillDisappear),
@@ -32,28 +49,11 @@ final class EditorViewController: UIViewController {
         )
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.editorView.scrollToTop()
-        self.configureEditorView()
-    }
-    
-    init(with content: DiaryContent?) {
-        self.content = content
-        
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private func configureEditorView() {
         self.navigationItem.title = self.content?.createdDateString ?? Date().localizedString()
- 
-        if let content = content {
-            let text = content.title + Constant.doubleBreak + content.body
-            self.editorView.setupTextView(from: text)
-        }
+        
+        guard let content = content else { return }
+        let text = content.title + Constant.doubleBreak + content.body
+        self.editorView.setupTextView(from: text)
     }
 }
