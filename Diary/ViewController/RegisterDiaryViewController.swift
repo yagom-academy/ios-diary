@@ -17,6 +17,7 @@ class RegisterDiaryViewController: UIViewController {
         self.view = diaryPageView
         CoreDataManager.shared.saveDiary(diaryPage)
         diaryPageView.addTextViewsDelegate(self)
+        setupNavigationBar()
         setupNotification()
         diaryPageView.makeTitleTextViewFirstResponder()
         diaryPageView.setupPlaceHolder()
@@ -32,6 +33,10 @@ class RegisterDiaryViewController: UIViewController {
         diaryPage.body = diaryPageView.body
         
         CoreDataManager.shared.updateDiary(diaryPage)
+    }
+    
+    func setupNavigationBar() {
+        self.navigationItem.title = diaryPage.createdDate
     }
 }
 

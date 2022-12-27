@@ -24,11 +24,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func convertDiaryData() {
-        guard let data = NSDataAsset(name: "sample")?.data else {
-            return
-        }
-        
-        diary = DecodeManager.decodeDiaryData(data) ?? []
+        diary = CoreDataManager.shared.fetchDiary()
     }
     
     private func configureDiaryListDataSource() {

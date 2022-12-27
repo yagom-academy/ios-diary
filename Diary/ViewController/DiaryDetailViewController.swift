@@ -34,13 +34,18 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
         diaryDetailView.configureTitle(diaryPage.title)
         diaryDetailView.configureBody(diaryPage.body)
     }
+    
+    override func setupNavigationBar() {
+        super.setupNavigationBar()
+        let alphaBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: #selector(showActionSheet))
+        self.navigationItem.rightBarButtonItem = alphaBarButtonItem
+    }
 }
 
 extension DiaryDetailViewController {
-    
-    private func setupNavigationBar() {
-        self.navigationItem.title = diaryPage.createdDate
-    }
     
     override func textViewDidBeginEditing(_ textView: UITextView) {
         diaryDetailView.removePlaceHolder()
@@ -48,5 +53,46 @@ extension DiaryDetailViewController {
     
     override func textViewDidEndEditing(_ textView: UITextView) {
         diaryDetailView.setupPlaceHolder()
+    }
+}
+
+extension DiaryDetailViewController {
+
+    @objc func showActionSheet() {
+        let actionSheet = UIAlertController()
+        actionSheet.addAction(UIAlertAction(title: "Share", style: .default) { _ in
+            self.showActivityView()
+        })
+        actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.showDeleteAlert()
+        })
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        
+        self.present(actionSheet, animated: true)
+    }
+    
+    private func showActivityView() {
+        let title = diaryPage.title
+        let body = diaryPage.body
+        let activityViewController = UIActivityViewController(activityItems: [title, body],
+                                                              applicationActivities: nil)
+        activityViewController.excludedActivityTypes = [UIActivity.ActivityType.postToFlickr,
+                                                        UIActivity.ActivityType.saveToCameraRoll,
+                                                        UIActivity.ActivityType.postToVimeo,
+                                                        UIActivity.ActivityType.postToWeibo]
+        
+        self.present(activityViewController, animated: true)
+    }
+    
+    private func showDeleteAlert() {
+        let alertController = UIAlertController(title: "진짜요?",
+                                                message: "정말로 삭제하시겠어요?",
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: "취소", style: .cancel))
+        alertController.addAction(UIAlertAction(title: "삭제", style: .destructive) { _ in
+            CoreDataManager.shared.deleteDiary(self.diaryPage)
+        })
+        
+        self.present(alertController, animated: true)
     }
 }
