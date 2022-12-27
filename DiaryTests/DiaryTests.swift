@@ -17,10 +17,10 @@ final class DiaryTests: XCTestCase {
     }
     
     func test_코어데이터저장소에서_데이터를_정상적으로_불러오는지() throws {
-        let result = CoreDataManager.shared.readDiary()
+        let result = CoreDataManager.shared.fetchDiaryList()
         
         result?.forEach({ diary in
-            print("diary.id: ", diary.id ?? "")
+            print("diary.id: ", diary.id)
             print("diary.content: ", diary.content ?? "")
             print("diary.createdAt: ", diary.createdAt)
             print("diary.title: ", diary.title ?? "")

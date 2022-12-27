@@ -35,7 +35,7 @@ class CoreDataManager {
             return
         }
         
-        diaryData.id = data.id
+        diaryData.id = data.id ?? UUID()
         diaryData.title = data.title
         diaryData.content = data.body
         diaryData.createdAt = data.createdAt
@@ -68,9 +68,18 @@ class CoreDataManager {
         return diaryList
     }
     
-    func updateDiary() {
-        
-    }
+//    func updateDiary(diary: Diary) {
+//        let request = NSFetchRequest<Diary>(entityName: self.entityName)
+//        guard let id = diary.id else { return }
+//        request.predicate = NSPredicate(format: "id == @", diary.id?.description as CVarArg!)
+//        
+//        do {
+//            return try context.fetch(request).first
+//        } catch {
+//            print(error)
+//            return nil
+//        }
+//    }
     
     func deleteDiary() {
         
