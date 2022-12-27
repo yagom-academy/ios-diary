@@ -37,7 +37,7 @@ final class CoreDataManager {
         return diaryDataList
     }
     
-    func saveData(data: (title: String, body: String, createdAt: Date),
+    func saveData(data: (contentText: String, createdAt: Date),
                   completion: @escaping () -> Void) {
         guard let context = context else {
             completion()
@@ -55,8 +55,7 @@ final class CoreDataManager {
         }
         
         content.id = UUID()
-        content.title = data.title
-        content.body = data.body
+        content.contentText = data.contentText
         content.createdAt = data.createdAt
         
         if context.hasChanges {
@@ -70,9 +69,21 @@ final class CoreDataManager {
         completion()
     }
     
-    //TODO: 구현 예정
-    func updateData() {
-        
+    //TODO: 수정 예정
+    func updateData(data: DiaryData,
+                    completion: @escaping () -> Void) {
+        if let context = context {
+            if context.hasChanges {
+                do {
+                    try context.save()
+                    completion()
+                } catch {
+                    print(error)
+                    completion()
+                }
+            }
+            completion()
+        }
     }
     
     //TODO: 구현 예정

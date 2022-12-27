@@ -41,27 +41,27 @@ final class EditDiaryView: UIView {
         return textView
     }()
     
-    func packageData() -> Result<(title: String, body: String), DataError> {
-        guard let contents = contentsTextView.text else {
+    func packageData() -> Result<String, DataError> {
+        guard let contentText = contentsTextView.text else {
             return .failure(.noneDataError)
         }
         
-        if contents == Placeholder.textViewPlaceHolder.sentence {
+        if contentText == Placeholder.textViewPlaceHolder.sentence {
             return .failure(.noneTitleError)
         }
         
-        guard let title = contents.components(separatedBy: "\n").first,
+        guard let title = contentText.components(separatedBy: "\n").first,
               title.trimmingCharacters(in: .whitespaces).isEmpty == false else {
             return .failure(.noneTitleError)
         }
         
-        return .success((title, contents))
+        return .success(contentText)
     }
     
     func bindData(_ data: DiaryData?) {
         guard let data = data else { return }
         contentsTextView.textColor = .black
-        self.contentsTextView.text = data.body
+        self.contentsTextView.text = data.contentText
     }
 }
 

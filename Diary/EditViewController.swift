@@ -8,7 +8,7 @@
 import UIKit
 
 final class EditViewController: UIViewController {
-    private let addView = EditDiaryView()
+    private let editView = EditDiaryView()
     private let coreDataManager = CoreDataManager.shared
     private let currentDate = Date()
     private var diaryData: DiaryData?
@@ -24,8 +24,8 @@ final class EditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = addView
-        self.addView.bindData(diaryData)
+        self.view = editView
+        self.editView.bindData(diaryData)
         setNavigation()
     }
     
@@ -43,19 +43,31 @@ final class EditViewController: UIViewController {
     }
     
     @objc private func doneButtonTapped() {
-        let data = addView.packageData()
+        let data = editView.packageData()
         switch data {
         case .success(let data):
-            coreDataManager.saveData(data: (title: data.title,
-                                            body: data.body,
-                                            createdAt: currentDate),
-                                     completion: {
-                self.showCustomAlert(alertText: "저장 성공",
-                                     alertMessage: "저장성공하였습니다.",
-                                     bool: true) {
-                    self.navigationController?.popViewController(animated: true)
+            if diaryData == nil {
+                coreDataManager.saveData(data: (contentText: data, createdAt: currentDate),
+                                         completion: {
+                    self.showCustomAlert(alertText: "저장 성공",
+                                         alertMessage: "저장성공하였습니다.",
+                                         bool: true) {
+                        self.navigationController?.popViewController(animated: true)
+                    }
+                })
+            }
+            //TODO: UPdate CoreData
+            else {
+                diaryData?.contentText = data
+                guard let diaryData = diaryData else { return }
+                coreDataManager.updateData(data: diaryData) {
+                    self.showCustomAlert(alertText: "편집 성공",
+                                         alertMessage: "편집성공하였습니다.",
+                                         bool: true) {
+                        self.navigationController?.popViewController(animated: true)
+                    }
                 }
-            })
+            }
         case .failure(let error):
             self.showCustomAlert(alertText: "저장 실패하였습니다.",
                                  alertMessage: error.errorDescription ?? "",

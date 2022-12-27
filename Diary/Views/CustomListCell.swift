@@ -33,8 +33,10 @@ final class CustomListCell: UICollectionViewListCell {
                                                   distribution: .fillEqually)
     
     func bindData(_ data: DiaryData) {
-        self.titleLabel.text = data.title
-        self.previewLabel.text = data.body
+        guard let titleText = data.contentText?.components(separatedBy: "\n").first else { return }
+        
+        self.titleLabel.text = titleText
+        self.previewLabel.text = data.contentText
         guard let date = data.createdAt else { return }
         self.dateLabel.text = Formatter.changeCustomDate(date)
     }
@@ -56,7 +58,7 @@ extension CustomListCell {
             labelStackView.leadingAnchor.constraint(
                 equalTo: self.contentView.leadingAnchor, constant: 20),
             labelStackView.trailingAnchor.constraint(
-                equalTo: self.contentView.trailingAnchor, constant: -20)  
+                equalTo: self.contentView.trailingAnchor, constant: -20)
         ])
     }
 }
