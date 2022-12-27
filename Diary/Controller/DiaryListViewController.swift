@@ -19,7 +19,6 @@ final class DiaryListViewController: UIViewController {
     }()
     
     private var dataSource: UICollectionViewDiffableDataSource<DiarySection, DiaryModel>?
-    private var diaries: [DiaryModel] = []
     
     private enum DiarySection: Hashable {
         case main
@@ -29,6 +28,7 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         self.configureView()
         self.configureDataSource()
+        self.collectionView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -108,5 +108,17 @@ final class DiaryListViewController: UIViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(diaries)
         self.dataSource?.apply(snapshot)
+    }
+}
+
+extension DiaryListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let editDiaryViewController = EditDiaryViewController()
+        
+        guard let diaryItem: DiaryModel = dataSource?.itemIdentifier(for: indexPath) else { return }
+        
+        editDiaryViewController.configureView(with: diaryItem)
+        
+        self.navigationController?.pushViewController(editDiaryViewController, animated: true)
     }
 }
