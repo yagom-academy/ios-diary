@@ -6,7 +6,7 @@ target 'Diary' do
   use_frameworks!
 
   # Pods for Diary
-  pod 'SwiftLint'
+  pod 'SwiftLint', '>= 0.49.1'
 
   target 'DiaryTests' do
     inherit! :search_paths
