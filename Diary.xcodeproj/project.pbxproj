@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B414FEE02952997900E7AC2A /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B414FEDF2952997900E7AC2A /* DiaryView.swift */; };
 		B414FEE22952D2C400E7AC2A /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B414FEE12952D2C400E7AC2A /* DateFormatter+Extension.swift */; };
 		B414FEE42952D8AC00E7AC2A /* Locale+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B414FEE32952D8AC00E7AC2A /* Locale+Extension.swift */; };
 		B48B3663295550CF00D40CC1 /* DiaryTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48B3662295550CF00D40CC1 /* DiaryTextView.swift */; };
@@ -32,7 +31,6 @@
 /* Begin PBXFileReference section */
 		29EED53ECB802965115A1763 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		9B62CDBF03119E61C8407448 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B414FEDF2952997900E7AC2A /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		B414FEE12952D2C400E7AC2A /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		B414FEE32952D8AC00E7AC2A /* Locale+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+Extension.swift"; sourceTree = "<group>"; };
 		B48B3662295550CF00D40CC1 /* DiaryTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTextView.swift; sourceTree = "<group>"; };
@@ -163,7 +161,6 @@
 		D34F1E722952ED6D00C1CF62 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				B414FEDF2952997900E7AC2A /* DiaryView.swift */,
 				B4CEA6A1295193790079FBDF /* DiaryCell.swift */,
 				B48B3662295550CF00D40CC1 /* DiaryTextView.swift */,
 			);
@@ -323,7 +320,6 @@
 				D34938042959352300AC4697 /* DiaryData+CoreDataProperties.swift in Sources */,
 				B4CEA6A0295192090079FBDF /* Diary.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
-				B414FEE02952997900E7AC2A /* DiaryView.swift in Sources */,
 				B48B36812959425B00D40CC1 /* DiaryCoreDataStack.swift in Sources */,
 				B4C1C51229544CA4008A130F /* ReusableView.swift in Sources */,
 				D34F1E6E2952AD0C00C1CF62 /* DiaryViewController.swift in Sources */,

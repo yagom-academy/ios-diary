@@ -8,7 +8,9 @@ final class DiaryViewController: UIViewController {
         static let endEditingVelocity = -2.0
     }
     
-    private let diaryView = DiaryView(frame: .zero)
+    private let contentTextView = DiaryTextView(font: .preferredFont(forTextStyle: .body),
+                                                textAlignment: .left,
+                                                textColor: .black)
     private var diary: Diary
 
     init(diary: Diary) {
@@ -21,41 +23,49 @@ final class DiaryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func loadView() {
-        self.view = diaryView
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        diaryView.setupScrollViewDelegate(scrollViewDelegate: self)
-        diaryView.setupBodyTextViewDelegate(textViewDelegate: self)
+        contentTextView.delegate = self
     }
     
     private func configure() {
         title = DateFormatter.converted(date: diary.createAt,
                                         locale: Locale.preference,
                                         dateStyle: .long)
-        diaryView.setupData(of: diary)
+        setupView()
+        setupData()
+    }
+    
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+        view.addSubview(contentTextView)
+        contentTextView.translatesAutoresizingMaskIntoConstraints = false
+
+        let safeArea = view.safeAreaLayoutGuide
+        
+        NSLayoutConstraint.activate([
+            contentTextView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 8),
+            contentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor,
+                                                    constant: -8),
+            contentTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 8),
+            contentTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -8)
+        ])
+    }
+    
+    private func setupData() {
+        contentTextView.text = diary.content
     }
 }
 
-extension DiaryViewController: UIScrollViewDelegate {
+extension DiaryViewController: UITextViewDelegate {
     func scrollViewWillEndDragging(
         _ scrollView: UIScrollView,
         withVelocity velocity: CGPoint,
         targetContentOffset: UnsafeMutablePointer<CGPoint>
     ) {
         if velocity.y < Constant.endEditingVelocity {
-            diaryView.endEditing(true)
-        }
-    }
-}
-
-extension DiaryViewController: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if let diaryTextView = textView as? DiaryTextView {
-            diaryTextView.configurePlaceholder()
+            contentTextView.endEditing(true)
         }
     }
 }
