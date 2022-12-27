@@ -16,9 +16,9 @@ final class DiaryViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
-        self.diary = Diary()
-        super.init(coder: coder)
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
@@ -33,7 +33,9 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configure() {
-        title = diary.date
+        title = DateFormatter.converted(date: diary.createAt,
+                                        locale: Locale.preference,
+                                        dateStyle: .long)
         diaryView.setupData(of: diary)
     }
 }

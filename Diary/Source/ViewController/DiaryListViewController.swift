@@ -79,17 +79,18 @@ final class DiaryListViewController: UIViewController {
         pushDiaryViewController()
     }
     
-    private func pushDiaryViewController(with diary: Diary = Diary()) {
+    private func pushDiaryViewController(with diary: Diary = Diary(content: "", createAt: Date())) {
         let diaryViewController = DiaryViewController(diary: diary)
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
     private func applySampleData() {
-        guard let sampleData = NSDataAsset(name: Constant.sampleDataName),
-              let sampleDiary: [Diary] = try? JSONDecoder().decode([Diary].self,
-                                                                   from: sampleData.data) else {
-            return
-        }
+        let sampleDiary: [Diary] = [
+            Diary(content: "제목 테스트1\n 내용테스트", createAt: Date()),
+            Diary(content: "제목 테스트2\n 내용테스트", createAt: Date()),
+            Diary(content: "제목 테스트3\n 내용테스트", createAt: Date())
+        ]
+
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
         
         snapshot.appendSections([.main])

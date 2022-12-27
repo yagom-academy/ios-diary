@@ -19,7 +19,8 @@ struct Diary: Hashable {
     }
     var body: String {
         if let firstNewLineIndex = firstNewLineIndex {
-            return String(content.suffix(from: firstNewLineIndex))
+            let firstIndexOfBody = content.index(firstNewLineIndex, offsetBy: 1)
+            return String(content.suffix(from: firstIndexOfBody))
         } else {
             return .init()
         }
