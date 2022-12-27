@@ -19,7 +19,6 @@
 		D2E469D0295328A3002D004C /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E469CF295328A3002D004C /* AddViewController.swift */; };
 		DF75497D29531FF2006FEF9E /* DiaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = DF75497C29531FF2006FEF9E /* DiaryTableViewCell.xib */; };
 		DF75497F29532991006FEF9E /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF75497E29532991006FEF9E /* DetailViewController.swift */; };
-		DFAE6539295470920055C7B7 /* Ext + String.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFAE6538295470920055C7B7 /* Ext + String.swift */; };
 		DFF07CDF295303F900B39A8A /* SampleData.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFF07CDE295303F900B39A8A /* SampleData.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +37,6 @@
 		D2E469CF295328A3002D004C /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		DF75497C29531FF2006FEF9E /* DiaryTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DiaryTableViewCell.xib; sourceTree = "<group>"; };
 		DF75497E29532991006FEF9E /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		DFAE6538295470920055C7B7 /* Ext + String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Ext + String.swift"; sourceTree = "<group>"; };
 		DFF07CDE295303F900B39A8A /* SampleData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -95,7 +93,6 @@
 			isa = PBXGroup;
 			children = (
 				D292E25D29531D2A007DEE20 /* Ext + Int.swift */,
-				DFAE6538295470920055C7B7 /* Ext + String.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -203,7 +200,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DFAE6539295470920055C7B7 /* Ext + String.swift in Sources */,
 				DF75497F29532991006FEF9E /* DetailViewController.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				DFF07CDF295303F900B39A8A /* SampleData.swift in Sources */,
