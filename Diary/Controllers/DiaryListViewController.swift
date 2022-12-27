@@ -24,6 +24,11 @@ final class DiaryListViewController: UIViewController {
         configureNavigationItem()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        fetchData()
+        tableView.reloadData()
+    }
+    
     private func fetchData() {
         do {
             self.diaries = try CoreDataManager.shared.fetchDiaryList()

@@ -20,7 +20,7 @@ class CoreDataManager {
     
     let entityName = "Diary"
     
-    func createDiary(data: DiaryData) throws {
+    func createDiary(title: String?, content: String?, createdAt: Double) throws -> Diary {
         
         guard let context else { throw DataError.contextUndifined }
     
@@ -32,10 +32,10 @@ class CoreDataManager {
             throw DataError.emptyData
         }
         
-        diaryData.id = data.id ?? UUID()
-        diaryData.title = data.title
-        diaryData.content = data.body
-        diaryData.createdAt = data.createdAt
+        diaryData.id = UUID()
+        diaryData.title = title
+        diaryData.content = content
+        diaryData.createdAt = createdAt
         
         if context.hasChanges {
             do {
@@ -44,6 +44,8 @@ class CoreDataManager {
                 throw DataError.unChangedData
             }
         }
+        
+        return diaryData
     }
     
     func fetchDiaryList() throws -> [Diary] {

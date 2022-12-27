@@ -9,6 +9,8 @@ import UIKit
 
 final class AddDiaryViewController: UIViewController {
     
+    var diary: Diary?
+    
     enum Constant {
         static let placeholder = "내용을 입력하세요."
     }
@@ -88,6 +90,7 @@ extension AddDiaryViewController {
         
         if notification.name == UIResponder.keyboardWillHideNotification {
             contentTextView.contentInset = .zero
+            createCoreData()
         } else {
             contentTextView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardViewEndFrame.height - view.safeAreaInsets.bottom, right: 0)
         }
@@ -96,6 +99,16 @@ extension AddDiaryViewController {
 
         let selectedRange = contentTextView.selectedRange
         contentTextView.scrollRangeToVisible(selectedRange)
+    }
+    
+    func createCoreData() {
+        do {
+            let title = titleTextField.text
+            let content = contentTextView.text
+            self.diary = try CoreDataManager.shared.createDiary(title: title, content: content, createdAt: Date().timeIntervalSince1970)
+        } catch {
+            print(error)
+        }
     }
 }
 
