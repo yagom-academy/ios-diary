@@ -5,12 +5,13 @@
 //
 
 import UIKit
+import CoreData
 
 final class DiaryFormViewController: UIViewController {
     // MARK: - Properties
     
     private let diaryFormView = DiaryFormView()
-
+    
     // MARK: - Life Cycle
     
     override func viewDidLoad() {
@@ -19,6 +20,10 @@ final class DiaryFormViewController: UIViewController {
         view.backgroundColor = .white
         configureDiaryViewLayout()
         configureNavigationBar()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     // MARK: - Private Methods
@@ -36,5 +41,26 @@ final class DiaryFormViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = DateFormatter.koreanDateFormatter.string(from: Date())
+    }
+    
+    private func saveCoreData(diary: Diary) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        guard let entity = NSEntityDescription.entity(
+            forEntityName: "Entity",
+            in: managedContext) else {
+            return
+        }
+        let object = NSManagedObject(entity: entity, insertInto: managedContext)
+        
+        object.setValue(diary.body, forKey: "body")
+        object.setValue(diary.createdDate, forKey: "createdDate")
+        object.setValue(diary.title, forKey: "title")
+        
+        do {
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Could not save. \(error), \(error.userInfo)")
+        }
     }
 }

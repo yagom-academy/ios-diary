@@ -1,9 +1,7 @@
 //
 //  Entity+CoreDataProperties.swift
-//  
-//
-//  Created by 김인호 on 2022/12/27.
-//
+//  Diary
+//  Created by inho, dragon on 2022/12/27.
 //
 
 import Foundation
