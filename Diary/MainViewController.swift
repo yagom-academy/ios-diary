@@ -53,14 +53,17 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        let addViewController = AddViewController()
+        let addViewController = EditViewController(diaryData: nil)
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
 
 // MARK: - UICollectionViewDelegate
 extension MainViewController: UICollectionViewDelegate {
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let addViewController = EditViewController(diaryData: diaryDatas[indexPath.item])
+        self.navigationController?.pushViewController(addViewController, animated: true)
+    }
 }
 
 // MARK: - DiffableDataSource And Snapshot

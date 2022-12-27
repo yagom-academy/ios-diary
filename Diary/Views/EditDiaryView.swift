@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AddDiaryView: UIView {
+final class EditDiaryView: UIView {
     private enum Placeholder: String {
         case textViewPlaceHolder = "Content를 입력해주세요."
         
@@ -57,10 +57,16 @@ final class AddDiaryView: UIView {
         
         return .success((title, contents))
     }
+    
+    func bindData(_ data: DiaryData?) {
+        guard let data = data else { return }
+        contentsTextView.textColor = .black
+        self.contentsTextView.text = data.body
+    }
 }
 
 // MARK: - UITextViewDelegate
-extension AddDiaryView: UITextViewDelegate {
+extension EditDiaryView: UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.contentsTextView.resignFirstResponder()
     }
@@ -81,7 +87,7 @@ extension AddDiaryView: UITextViewDelegate {
 }
 
 // MARK: - UIConstraints
-extension AddDiaryView {
+extension EditDiaryView {
     private func setupUI() {
         self.backgroundColor = .white
         self.addSubview(contentsTextView)
@@ -113,7 +119,7 @@ extension AddDiaryView {
 }
 
 // MARK: - KeyboardResponse Notification
-extension AddDiaryView {
+extension EditDiaryView {
     private func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(showKeyboard),

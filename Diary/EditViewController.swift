@@ -7,20 +7,34 @@
 
 import UIKit
 
-final class AddViewController: UIViewController {
-    private let addView = AddDiaryView()
+final class EditViewController: UIViewController {
+    private let addView = EditDiaryView()
     private let coreDataManager = CoreDataManager.shared
     private let currentDate = Date()
+    private var diaryData: DiaryData?
+    
+    init(diaryData: DiaryData?) {
+        super.init(nibName: nil, bundle: nil)
+        self.diaryData = diaryData
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = addView
+        self.addView.bindData(diaryData)
         setNavigation()
     }
     
     private func setNavigation() {
-        let date = Formatter.changeCustomDate(currentDate)
-        self.title = date
+        if let date = diaryData?.createdAt {
+            self.title = Formatter.changeCustomDate(date)
+        } else {
+            self.title = Formatter.changeCustomDate(currentDate)
+        }
         
         let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
                                                  target: self,

@@ -21,8 +21,8 @@
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		F62C55D629597B0D00BFD226 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4221CF187888BE8480EE92C5 /* Pods_Diary.framework */; settings = {ATTRIBUTES = (Required, ); }; };
-		F633D22B295165D10037DD81 /* AddDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F633D22A295165D10037DD81 /* AddDiaryView.swift */; };
-		F633D22D295169EE0037DD81 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F633D22C295169EE0037DD81 /* AddViewController.swift */; };
+		F633D22B295165D10037DD81 /* EditDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F633D22A295165D10037DD81 /* EditDiaryView.swift */; };
+		F633D22D295169EE0037DD81 /* EditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F633D22C295169EE0037DD81 /* EditViewController.swift */; };
 		F63447C629506B8D00A43B7D /* DecoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447C529506B8D00A43B7D /* DecoderManager.swift */; };
 		F63447CA29506D2E00A43B7D /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447C929506D2E00A43B7D /* Error.swift */; };
 		F63447CC29508CCB00A43B7D /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447CB29508CCB00A43B7D /* CustomListCell.swift */; };
@@ -48,8 +48,8 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F633D22A295165D10037DD81 /* AddDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDiaryView.swift; sourceTree = "<group>"; };
-		F633D22C295169EE0037DD81 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
+		F633D22A295165D10037DD81 /* EditDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDiaryView.swift; sourceTree = "<group>"; };
+		F633D22C295169EE0037DD81 /* EditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditViewController.swift; sourceTree = "<group>"; };
 		F63447C529506B8D00A43B7D /* DecoderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderManager.swift; sourceTree = "<group>"; };
 		F63447C929506D2E00A43B7D /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		F63447CB29508CCB00A43B7D /* CustomListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				3C59F5EB2950637E0045C66A /* MainDiaryView.swift */,
-				F633D22A295165D10037DD81 /* AddDiaryView.swift */,
+				F633D22A295165D10037DD81 /* EditDiaryView.swift */,
 				F63447CB29508CCB00A43B7D /* CustomListCell.swift */,
 			);
 			path = Views;
@@ -151,7 +151,7 @@
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
 				3C59F5F12950A89A0045C66A /* Extensions */,
 				C739AE28284DF28600741E8F /* MainViewController.swift */,
-				F633D22C295169EE0037DD81 /* AddViewController.swift */,
+				F633D22C295169EE0037DD81 /* EditViewController.swift */,
 				3C59F5EE295068B40045C66A /* Models */,
 				3C59F5ED295063810045C66A /* Views */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
@@ -281,14 +281,14 @@
 				3C59F5F32950A8AF0045C66A /* Formatter+Extension.swift in Sources */,
 				F63447CA29506D2E00A43B7D /* Error.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
-				F633D22D295169EE0037DD81 /* AddViewController.swift in Sources */,
+				F633D22D295169EE0037DD81 /* EditViewController.swift in Sources */,
 				FCEA9EC929545A4200ACA37D /* UIComponent+Extension.swift in Sources */,
 				3C03E28D295978CE00E0DB67 /* DiaryData+CoreDataProperties.swift in Sources */,
 				3C03E28C295978CE00E0DB67 /* DiaryData+CoreDataClass.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				F63447C629506B8D00A43B7D /* DecoderManager.swift in Sources */,
-				F633D22B295165D10037DD81 /* AddDiaryView.swift in Sources */,
+				F633D22B295165D10037DD81 /* EditDiaryView.swift in Sources */,
 				3C59F5EC2950637E0045C66A /* MainDiaryView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				F63447CC29508CCB00A43B7D /* CustomListCell.swift in Sources */,
