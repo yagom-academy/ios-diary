@@ -24,6 +24,12 @@ final class DiaryFormViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        let diary = createDiary()
+
+        if !diary.title.isEmpty {
+            saveCoreData(diary: diary)
+        }
     }
     
     // MARK: - Private Methods
@@ -62,5 +68,14 @@ final class DiaryFormViewController: UIViewController {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
+    }
+    
+    func createDiary() -> Diary {
+        var components = diaryFormView.diaryTextView.text.components(separatedBy: "\n")
+        let title = components.removeFirst()
+        let body = components.joined(separator: "\n")
+        let diary = Diary(title: title, body: body, createdAt: Int(Date().timeIntervalSince1970))
+        
+        return diary
     }
 }

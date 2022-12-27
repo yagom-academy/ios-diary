@@ -7,7 +7,7 @@
 import UIKit
 
 final class DiaryFormView: UIView {
-    private let diaryTextView: UITextView = {
+    let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
