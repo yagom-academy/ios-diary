@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiaryCollectionViewCell: UICollectionViewCell {
+final class CustomListCell: UICollectionViewListCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -21,13 +21,6 @@ final class DiaryCollectionViewCell: UICollectionViewCell {
     private let dateLabel = UILabel(textStyle: .body)
     private let previewLabel = UILabel(textStyle: .caption1)
     
-    private let button: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "chevron.right"), for: .normal)
-        button.tintColor = .gray
-        return button
-    }()
-    
     private lazy var bottomStackView = UIStackView(subview: [dateLabel, previewLabel],
                                                    spacing: 5,
                                                    axis: .horizontal,
@@ -38,11 +31,6 @@ final class DiaryCollectionViewCell: UICollectionViewCell {
                                                   axis: .vertical,
                                                   alignment: .leading,
                                                   distribution: .fillEqually)
-    private lazy var totalStackView = UIStackView(subview: [labelStackView, button],
-                                                  spacing: 3,
-                                                  axis: .horizontal,
-                                                  alignment: .center,
-                                                  distribution: .fill)
     
     func bindData(_ data: DiaryData) {
         self.titleLabel.text = data.title
@@ -53,26 +41,22 @@ final class DiaryCollectionViewCell: UICollectionViewCell {
 }
 
 // MARK: - UIConstraints
-extension DiaryCollectionViewCell {
+extension CustomListCell {
     private func setupUI() {
-        layer.borderColor = UIColor.systemGray4.cgColor
-        layer.borderWidth = 1
-        contentView.addSubview(totalStackView)
+        contentView.addSubview(labelStackView)
         setupConstraints()
     }
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            totalStackView.topAnchor.constraint(
+            labelStackView.topAnchor.constraint(
                 equalTo: self.contentView.topAnchor, constant: 5),
-            totalStackView.bottomAnchor.constraint(
+            labelStackView.bottomAnchor.constraint(
                 equalTo: self.contentView.bottomAnchor, constant: -5),
-            totalStackView.leadingAnchor.constraint(
+            labelStackView.leadingAnchor.constraint(
                 equalTo: self.contentView.leadingAnchor, constant: 20),
-            totalStackView.trailingAnchor.constraint(
-                equalTo: self.contentView.trailingAnchor, constant: -20)
-            
+            labelStackView.trailingAnchor.constraint(
+                equalTo: self.contentView.trailingAnchor, constant: -20)  
         ])
-        button.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
 }

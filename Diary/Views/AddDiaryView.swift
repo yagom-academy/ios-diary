@@ -20,7 +20,6 @@ final class AddDiaryView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
         setupUI()
         setupConstraints()
         contentsTextView.delegate = self
@@ -84,6 +83,7 @@ extension AddDiaryView: UITextViewDelegate {
 // MARK: - UIConstraints
 extension AddDiaryView {
     private func setupUI() {
+        self.backgroundColor = .white
         self.addSubview(contentsTextView)
         contentsTextView.translatesAutoresizingMaskIntoConstraints = false
     }

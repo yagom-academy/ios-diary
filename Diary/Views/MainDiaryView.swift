@@ -8,43 +8,38 @@
 import UIKit
 
 final class MainDiaryView: UIView {
+    var collectionView: UICollectionView! = nil
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = .white
         setupUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+}
+
+// MARK: - Configure CollectionView
+extension MainDiaryView {
+    private func configureLayout() -> UICollectionViewLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        return UICollectionViewCompositionalLayout.list(using: configuration)
+    }
     
-    lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero,
-                                              collectionViewLayout: listCompositionalLayout)
+    private func configureCollectionView() {
+        collectionView = UICollectionView(frame: .zero,
+                                          collectionViewLayout: configureLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
-    }()
-    
-    private let listCompositionalLayout: UICollectionViewCompositionalLayout = {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                              heightDimension: .fractionalHeight(1.0))
-        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                               heightDimension: .absolute(
-                                                UIScreen.main.bounds.height / 11))
-        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize,
-                                                     subitems: [item])
-        
-        let section = NSCollectionLayoutSection(group: group)
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
-    }()
+        self.addSubview(collectionView)
+    }
 }
 
 // MARK: - UIConstraints
 extension MainDiaryView {
     private func setupUI() {
+        self.backgroundColor = .white
+        configureCollectionView()
         self.addSubview(collectionView)
         setupConstraints()
     }

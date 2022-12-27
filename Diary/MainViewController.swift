@@ -1,8 +1,8 @@
+//  MainViewController.swift
+//  Diary
 //
-//  Diary - MainViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//  Created by Kyo, Baem on 2022/12/19.
+//
 
 import UIKit
 
@@ -29,6 +29,7 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = mainDiaryView
+        mainDiaryView.collectionView.delegate = self
         setNavigationBar()
         setupData()
         applySnapshot()
@@ -57,12 +58,18 @@ final class MainViewController: UIViewController {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+extension MainViewController: UICollectionViewDelegate {
+    
+}
+
 // MARK: - DiffableDataSource And Snapshot
 extension MainViewController {
     private func configureDataSource() -> DataSource {
         let cellRegistration = UICollectionView
-            .CellRegistration<DiaryCollectionViewCell, DiaryData> { cell, _, diaryData in
+            .CellRegistration<CustomListCell, DiaryData> { cell, _, diaryData in
                 cell.bindData(diaryData)
+                cell.accessories = [.disclosureIndicator()]
             }
         
         let dataSource = DataSource(
