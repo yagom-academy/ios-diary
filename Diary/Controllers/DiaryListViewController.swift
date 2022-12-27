@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     
-    private var diaries: [Diary]?
+    private var diaries: [DiaryData]?
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -26,7 +26,7 @@ final class DiaryListViewController: UIViewController {
     
     private func fetchData() {
         guard let assetData = NSDataAsset.init(name: "sample"),
-              let diaries = try? JSONDecoder().decode([Diary].self, from: assetData.data) else {
+              let diaries = try? JSONDecoder().decode([DiaryData].self, from: assetData.data) else {
             return
         }
         self.diaries = diaries

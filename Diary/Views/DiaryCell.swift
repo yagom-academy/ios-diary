@@ -65,7 +65,7 @@ final class DiaryCell: UITableViewCell {
         fatalError("init(coder:) has not been impl")
     }
     
-    func configureData(diary: Diary?) {
+    func configureData(diary: DiaryData?) {
         self.titleLabel.text = diary?.title
         self.contentLabel.text = diary?.body
         
