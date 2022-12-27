@@ -40,6 +40,18 @@ final class DiaryFormViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        selectSaveOrUpdate()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        diaryFormView.diaryTextView.becomeFirstResponder()
+    }
+   
+    // MARK: - Internal Methods
+    
+    func selectSaveOrUpdate() {
         let diary = createDiary()
         
         if selectedDiary != nil {
