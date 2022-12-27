@@ -136,12 +136,32 @@ extension DiaryDetailViewController {
         let currentDate = Date().convertString()
         navigationItem.setNavigationTitle(title: currentDate)
         
-        let presentAction = UIAction { _ in
-            // TODO: Action Sheet 추가
-        }
+        let presentAction = UIAction(handler: presentActionSheet)
         navigationItem.setRightButton(
             systemName: Constant.rightBarButtonName,
             action: presentAction
         )
+    }
+    
+    private func presentActionSheet(_ action: UIAction) {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(type: .share, handler: shareHandler(_:))
+        let deleteAction = UIAlertAction(type: .delete, handler: deleteHandler(_:))
+        let cancelAction = UIAlertAction(type: .cancel)
+        
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        self.present(alert, animated: true)
+    }
+    
+    private func deleteHandler(_ action: UIAlertAction) {
+        // TODO: 삭제 액션 구현
+    }
+    
+    private func shareHandler(_ action: UIAlertAction) {
+        // TODO: 공유 액션 구현
     }
 }
