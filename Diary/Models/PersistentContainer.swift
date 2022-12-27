@@ -17,8 +17,4 @@ class PersistentContainer: NSPersistentContainer {
         }
         return container
     }()
-
-    private init(name: String) {
-        super.init(name: name, managedObjectModel: NSManagedObjectModel())
-    }
 }

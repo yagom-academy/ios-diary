@@ -9,6 +9,7 @@ import UIKit
 final class DiaryListViewController: UICollectionViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Diary.ID>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Diary.ID>
+    private let persistentContainerManager = PersistentContainerManager(PersistentContainer.shared)
     private var dataSource: DataSource?
     private var diaries: [Diary] = []
 
@@ -28,8 +29,13 @@ final class DiaryListViewController: UICollectionViewController {
         super.viewDidLoad()
 
         configureNavigationItem()
-        configureDiariesWithSampleData()
         configureDataSource()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        diaries = persistentContainerManager.fetchDiaries()
         updateSnapshot()
     }
 
@@ -39,12 +45,6 @@ final class DiaryListViewController: UICollectionViewController {
                                         style: .plain, target: self,
                                         action: #selector(touchUpAddButton))
         navigationItem.rightBarButtonItem = addButton
-    }
-
-    private func configureDiariesWithSampleData() {
-        guard let dataAsset = NSDataAsset(name: "sample"),
-              let data = try? JSONDecoder().decode([Diary].self, from: dataAsset.data) else { return }
-        diaries = data
     }
 
     private func diary(diaryID: Diary.ID) -> Diary? {
