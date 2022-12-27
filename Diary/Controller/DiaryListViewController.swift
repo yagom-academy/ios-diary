@@ -64,10 +64,7 @@ extension DiaryListViewController {
 
     private func configureDataSource() {
         dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier,
-                                                           for: indexPath) as? DiaryListCell else {
-                return DiaryListCell()
-            }
+            let cell = tableView.dequeueReusableCell(cellType: DiaryListCell.self, for: indexPath)
 
             cell.titleLabel.text = diary.title
             cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdAt, diary.body)
