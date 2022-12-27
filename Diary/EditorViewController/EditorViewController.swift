@@ -48,10 +48,6 @@ final class EditorViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     private func configureEditorView() {
         self.navigationItem.title = self.content?.createdDateString ?? Date().localizedString()
  

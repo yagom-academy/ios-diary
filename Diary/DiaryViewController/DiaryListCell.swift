@@ -7,9 +7,7 @@
 
 import UIKit
 
-final class DiaryListCell: UITableViewCell {
-    static let identifier: String = String(describing: DiaryListCell.self)
-    
+final class DiaryListCell: UITableViewCell, CellIdentifiable {
     private let diaryStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
