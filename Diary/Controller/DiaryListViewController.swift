@@ -28,23 +28,25 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureView()
-        self.configureListContents()
+        self.configureDataSource()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         fetchDiary()
-        applySnapshot()
     }
     
     private func fetchDiary() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let context = appDelegate.persistentContainer.viewContext
-        print(NSHomeDirectory())
+        
         do {
             guard let diary = try context.fetch(Diary.fetchRequest()) as? [Diary] else { return }
+            var diaries: [DiaryModel] = []
+            
             diary.forEach {
                 diaries.append(DiaryModel(title: $0.title ?? "", body: $0.body ?? "", createdAt: Int($0.createdAt)))
             }
+            applySnapshot(with: diaries)
         } catch {
             print(error.localizedDescription)
         }
@@ -53,11 +55,6 @@ final class DiaryListViewController: UIViewController {
     private func configureView() {
         self.configureNavigationBar()
         self.configureCollectionView()
-    }
-    
-    private func configureListContents() {
-        self.configureDataSource()
-        self.applySnapshot()
     }
     
     private func configureNavigationBar() {
@@ -106,7 +103,7 @@ final class DiaryListViewController: UIViewController {
         }
     }
     
-    private func applySnapshot() {
+    private func applySnapshot(with diaries: [DiaryModel]) {
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, DiaryModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diaries)
