@@ -82,8 +82,19 @@ class CoreDataManager {
         }
     }
     
-    func deleteDiary() {
+    func deleteDiary(diary: Diary) {
+        let request = NSFetchRequest<Diary>(entityName: self.entityName)
+        request.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
         
+        do {
+            if let fetchedDiary = try context?.fetch(request).first as? Diary {
+                context?.delete(fetchedDiary)
+            }
+            try context?.save()
+        } catch {
+            print(error)
+            return
+        }
     }
     
 }

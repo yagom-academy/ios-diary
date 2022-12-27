@@ -37,4 +37,11 @@ final class DiaryTests: XCTestCase {
 
         test_코어데이터저장소에서_데이터를_정상적으로_불러오는지()
     }
+    
+    func test_코어데이터저장소에서_데이터를_정상적으로_삭제하는지() {
+        guard let given = CoreDataManager.shared.fetchDiaryList()?.last else { return }
+        CoreDataManager.shared.deleteDiary(diary: given)
+        
+        test_코어데이터저장소에서_데이터를_정상적으로_불러오는지()
+    }
 }
