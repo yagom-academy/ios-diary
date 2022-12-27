@@ -16,7 +16,7 @@ final class DiaryTests: XCTestCase {
         CoreDataManager.shared.createDiary(data: DiaryData(id: UUID(), title: "삼번", body: "ㅋㅋ", createdAt: 123))
     }
     
-    func test_코어데이터저장소에서_데이터를_정상적으로_불러오는지() throws {
+    func test_코어데이터저장소에서_데이터를_정상적으로_불러오는지() {
         let result = CoreDataManager.shared.fetchDiaryList()
         
         result?.forEach({ diary in
@@ -26,5 +26,15 @@ final class DiaryTests: XCTestCase {
             print("diary.title: ", diary.title ?? "")
         })
         
+    }
+    
+    func test_코어데이터저장소에서_데이터를_정상적으로_수정하는지() {
+        if let result = CoreDataManager.shared.fetchDiaryList()?.last {
+            result.content = "수정된 내용입니다."
+            result.title = "내용입니다."
+            CoreDataManager.shared.updateDiary(diary: result)
+        }
+
+        test_코어데이터저장소에서_데이터를_정상적으로_불러오는지()
     }
 }

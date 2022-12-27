@@ -68,18 +68,19 @@ class CoreDataManager {
         return diaryList
     }
     
-//    func updateDiary(diary: Diary) {
-//        let request = NSFetchRequest<Diary>(entityName: self.entityName)
-//        guard let id = diary.id else { return }
-//        request.predicate = NSPredicate(format: "id == @", diary.id?.description as CVarArg!)
-//        
-//        do {
-//            return try context.fetch(request).first
-//        } catch {
-//            print(error)
-//            return nil
-//        }
-//    }
+    func updateDiary(diary: Diary) {
+        let request = NSFetchRequest<Diary>(entityName: self.entityName)
+        request.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
+        
+        do {
+            var updatedDiary = try context?.fetch(request).first as? Diary
+            updatedDiary = diary
+            try context?.save()
+        } catch {
+            print(error)
+            return
+        }
+    }
     
     func deleteDiary() {
         
