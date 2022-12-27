@@ -5,7 +5,7 @@ import Foundation
 import CoreData
 
 struct DiaryDataManager: DiaryManageable {
-    func add(title: String, body: String, createAt: Date) {
+    func add(title: String, body: String, createdAt: Date) {
         guard let entity = DiaryCoreDataStack.shared.fetchEntity(forEntityName: "DiaryData") else {
             return
         }
@@ -14,7 +14,7 @@ struct DiaryDataManager: DiaryManageable {
                                     insertInto: DiaryCoreDataStack.shared.context)
         diary.setValue(title, forKey: "title")
         diary.setValue(body, forKey: "body")
-        diary.setValue(createAt, forKey: "createdAt")
+        diary.setValue(createdAt, forKey: "createdAt")
         
         DiaryCoreDataStack.shared.save()
     }
@@ -30,8 +30,8 @@ struct DiaryDataManager: DiaryManageable {
     
     func update(_ diary: Diary) {
         let fetchRequest: NSFetchRequest<DiaryData> = DiaryData.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title == %@ AND body == %@ AND createAt == %@",
-                                             argumentArray: [diary.title, diary.body, diary.createAt])
+        fetchRequest.predicate = NSPredicate(format: "title == %@ AND body == %@ AND createdAt == %@",
+                                             argumentArray: [diary.title, diary.body, diary.createdAt])
         
         guard let result = try? DiaryCoreDataStack.shared.context.fetch(fetchRequest),
               let firstObject = result.first else {
@@ -46,8 +46,8 @@ struct DiaryDataManager: DiaryManageable {
     
     func remove(_ diary: Diary) {
         let fetchRequest: NSFetchRequest<DiaryData> = DiaryData.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title == %@ AND body == %@ AND createAt == %@",
-                                             argumentArray: [diary.title, diary.body, diary.createAt])
+        fetchRequest.predicate = NSPredicate(format: "title == %@ AND body == %@ AND createdAt == %@",
+                                             argumentArray: [diary.title, diary.body, diary.createdAt])
         
         guard let result = try? DiaryCoreDataStack.shared.context.fetch(fetchRequest),
               let firstObject = result.first else {

@@ -37,7 +37,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configure() {
-        title = DateFormatter.converted(date: diary.createAt,
+        title = DateFormatter.converted(date: diary.createdAt,
                                         locale: Locale.preference,
                                         dateStyle: .long)
         setupView()
@@ -63,6 +63,20 @@ final class DiaryViewController: UIViewController {
     private func setupData() {
         contentTextView.text = diary.content
     }
+    
+    private func saveDiary() {
+        diary.content = contentTextView.text
+        
+        let diaryDataManager = DiaryDataManager()
+        
+        if diary.objectID == nil {
+            diaryDataManager.add(title: diary.title,
+                                 body: diary.body,
+                                 createdAt: diary.createdAt)
+        } else {
+            diaryDataManager.update(diary)
+        }
+    }
 }
 
 extension DiaryViewController: UITextViewDelegate {
@@ -74,5 +88,9 @@ extension DiaryViewController: UITextViewDelegate {
         if velocity.y < Constant.endEditingVelocity {
             contentTextView.endEditing(true)
         }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        saveDiary()
     }
 }

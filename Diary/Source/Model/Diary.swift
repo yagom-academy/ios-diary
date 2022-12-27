@@ -5,7 +5,8 @@ import Foundation
 
 struct Diary: Hashable {
     var content: String
-    var createAt: Date
+    var createdAt: Date
+    var objectID: String?
     
     var firstNewLineIndex: String.Index? {
         return content.firstIndex(of: "\n")
@@ -29,15 +30,16 @@ struct Diary: Hashable {
     init?(from diaryData: DiaryData) {
         guard let title = diaryData.title,
               let body = diaryData.body,
-              let createAt = diaryData.createAt else {
+              let createdAt = diaryData.createdAt else {
             return nil
         }
         self.content = title + "\n" + body
-        self.createAt = createAt
+        self.createdAt = createdAt
+        self.objectID = diaryData.objectID.uriRepresentation().absoluteString
     }
     
-    init(content: String, createAt: Date) {
+    init(content: String, createdAt: Date) {
         self.content = content
-        self.createAt = createAt
+        self.createdAt = createdAt
     }
 }

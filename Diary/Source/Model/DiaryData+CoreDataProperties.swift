@@ -11,7 +11,7 @@ extension DiaryData {
 
     @NSManaged public var title: String?
     @NSManaged public var body: String?
-    @NSManaged public var createAt: Date?
+    @NSManaged public var createdAt: Date?
 }
 
 extension DiaryData: Identifiable {}

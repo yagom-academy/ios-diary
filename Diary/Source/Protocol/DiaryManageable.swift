@@ -5,7 +5,7 @@ import Foundation
 import CoreData
 
 protocol DiaryManageable {
-    func add(title: String, body: String, createAt: Date)
+    func add(title: String, body: String, createdAt: Date)
     func fetchDiaries() -> [Diary]
     func update(_ diary: Diary)
     func remove(_ diary: Diary)
