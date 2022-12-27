@@ -37,7 +37,9 @@ final class CoreDataManager {
         return diaryDataList
     }
     
-    func saveData(data: (contentText: String, createdAt: Date),
+    func saveData(titleText: String,
+                  contentText: String,
+                  date: Date,
                   completion: @escaping () -> Void) {
         guard let context = context else {
             completion()
@@ -55,8 +57,9 @@ final class CoreDataManager {
         }
         
         content.id = UUID()
-        content.contentText = data.contentText
-        content.createdAt = data.createdAt
+        content.createdAt = date
+        content.titleText = titleText
+        content.contentText = contentText
         
         if context.hasChanges {
             do {
@@ -69,7 +72,10 @@ final class CoreDataManager {
         completion()
     }
     
-    func updateData(id: UUID, contentText: String, compeltion: @escaping () -> Void) {
+    func updateData(id: UUID,
+                    titleText: String,
+                    contentText: String,
+                    compeltion: @escaping () -> Void) {
         if let context = context {
             let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
             
@@ -79,6 +85,7 @@ final class CoreDataManager {
                 guard let fetchedDatas = try context.fetch(request) as? [DiaryData] else { return }
                 guard let diaryData = fetchedDatas.first else { return }
                 
+                diaryData.setValue(titleText, forKey: "titleText")
                 diaryData.setValue(contentText, forKey: "contentText")
                 if context.hasChanges {
                     do {

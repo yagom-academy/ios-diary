@@ -48,7 +48,9 @@ final class EditViewController: UIViewController {
         switch data {
         case .success(let data):
             if diaryData == nil {
-                coreDataManager.saveData(data: (contentText: data, createdAt: currentDate)) {
+                coreDataManager.saveData(titleText: data.title,
+                                         contentText: data.content,
+                                         date: currentDate) {
                     self.showCustomAlert(alertText: "저장 성공",
                                          alertMessage: "저장성공하였습니다.",
                                          bool: true) {
@@ -56,11 +58,10 @@ final class EditViewController: UIViewController {
                     }
                 }
             } else {
-                diaryData?.contentText = data
-                guard let id = diaryData?.id,
-                      let contentText = diaryData?.contentText else { return }
-                
-                coreDataManager.updateData(id: id, contentText: contentText) {
+                guard let id = diaryData?.id else { return }
+                coreDataManager.updateData(id: id,
+                                           titleText: data.title,
+                                           contentText: data.content) {
                     self.showCustomAlert(alertText: "편집 성공",
                                          alertMessage: "편집성공하였습니다.",
                                          bool: true) {

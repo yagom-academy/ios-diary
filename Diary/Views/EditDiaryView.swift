@@ -9,7 +9,8 @@ import UIKit
 
 final class EditDiaryView: UIView {
     private enum Placeholder: String {
-        case textViewPlaceHolder = "Content를 입력해주세요."
+        case textFieldPlaceHolder = "Title"
+        case textViewPlaceHolder = "Content"
         
         var sentence: String {
             return self.rawValue
@@ -22,6 +23,7 @@ final class EditDiaryView: UIView {
         super.init(frame: frame)
         setupUI()
         setupConstraints()
+        titleTextField.delegate = self
         contentsTextView.delegate = self
         setupNotification()
     }
@@ -30,10 +32,19 @@ final class EditDiaryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private lazy var titleTextField: UITextField = {
+        let textfield = UITextField()
+        textfield.returnKeyType = .done
+        textfield.leftViewMode = .always
+        textfield.leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: 5, height: .zero))
+        textfield.font = .preferredFont(forTextStyle: .title1)
+        textfield.layer.borderColor = UIColor.systemGray5.cgColor
+        textfield.placeholder = Placeholder.textFieldPlaceHolder.sentence
+        return textfield
+    }()
+    
     private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
-        textView.layer.borderWidth = 1
-        textView.layer.cornerRadius = 10
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
         textView.layer.borderColor = UIColor.systemGray5.cgColor
@@ -41,38 +52,55 @@ final class EditDiaryView: UIView {
         return textView
     }()
     
-    func packageData() -> Result<String, DataError> {
+    func packageData() -> Result<(title: String, content: String), DataError> {
+        guard let titleText = titleTextField.text else {
+            return .failure(.noneTitleError)
+        }
+        
         guard let contentText = contentsTextView.text else {
             return .failure(.noneDataError)
         }
         
         if contentText == Placeholder.textViewPlaceHolder.sentence {
-            return .failure(.noneTitleError)
+            return .success((titleText, ""))
         }
         
-        guard let title = contentText.components(separatedBy: "\n").first,
-              title.trimmingCharacters(in: .whitespaces).isEmpty == false else {
-            return .failure(.noneTitleError)
-        }
-        
-        return .success(contentText)
+        return .success((titleText, contentText))
     }
     
     func bindData(_ data: DiaryData?) {
         guard let data = data else { return }
         contentsTextView.textColor = .black
+        self.titleTextField.text = data.titleText
         self.contentsTextView.text = data.contentText
     }
     
     func presentKeyboard() {
-        contentsTextView.becomeFirstResponder()
+        titleTextField.becomeFirstResponder()
     }
 }
 
-// MARK: - UITextViewDelegate
-extension EditDiaryView: UITextViewDelegate {
+// MARK: - UITextFieldDelegate, UITextViewDelegate
+extension EditDiaryView: UITextFieldDelegate, UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.titleTextField.resignFirstResponder()
         self.contentsTextView.resignFirstResponder()
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if titleTextField.text != "" {
+            self.contentsTextView.becomeFirstResponder()
+            return true
+        }
+        return false
+    }
+
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text else { return }
+        if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            textField.text = nil
+            textField.placeholder = Placeholder.textFieldPlaceHolder.sentence
+        }
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -94,15 +122,24 @@ extension EditDiaryView: UITextViewDelegate {
 extension EditDiaryView {
     private func setupUI() {
         self.backgroundColor = .white
-        self.addSubview(contentsTextView)
-        contentsTextView.translatesAutoresizingMaskIntoConstraints = false
+        [titleTextField, contentsTextView].forEach { component in
+            self.addSubview(component)
+            component.translatesAutoresizingMaskIntoConstraints = false
+        }
     }
     
     private func setupConstraints() {
         let safeArea = self.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            contentsTextView.topAnchor.constraint(
+            titleTextField.topAnchor.constraint(
                 equalTo: safeArea.topAnchor, constant: 10),
+            titleTextField.leadingAnchor.constraint(
+                equalTo: safeArea.leadingAnchor, constant: 10),
+            titleTextField.trailingAnchor.constraint(
+                equalTo: safeArea.trailingAnchor, constant: -10),
+            
+            contentsTextView.topAnchor.constraint(
+                equalTo: titleTextField.bottomAnchor, constant: 10),
             contentsTextView.leadingAnchor.constraint(
                 equalTo: safeArea.leadingAnchor, constant: 10),
             contentsTextView.trailingAnchor.constraint(

@@ -15,6 +15,7 @@ extension DiaryData {
         return NSFetchRequest<DiaryData>(entityName: "DiaryData")
     }
 
+    @NSManaged public var titleText: String?
     @NSManaged public var contentText: String?
     @NSManaged public var createdAt: Date?
     @NSManaged public var id: UUID?
@@ -22,3 +23,4 @@ extension DiaryData {
 
 extension DiaryData: Identifiable {
 }
+
