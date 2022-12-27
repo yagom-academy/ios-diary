@@ -14,7 +14,7 @@ final class AddDiaryViewController: DiaryItemViewController {
         configureNavigationItem()
     }
     
-    func configureNavigationItem() {
+    private func configureNavigationItem() {
         let currentDate = DateFormatter.conversionLocalDate(date: Date(), locale: .current, dateStyle: .long)
         self.navigationItem.title = currentDate
     }

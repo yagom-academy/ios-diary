@@ -24,12 +24,12 @@ final class EditDiaryViewController: DiaryItemViewController {
         configureNavigationItem()
     }
     
-    func updateTexts() {
+    private func updateTexts() {
         updateTitleText(title: diary?.title)
         updateContentText(content: diary?.content)
     }
     
-    func configureNavigationItem() {
+    private func configureNavigationItem() {
         guard let timeInterval = diary?.createdAt else { return }
         let currentDate = DateFormatter.conversionLocalDate(date: Date(timeIntervalSince1970: timeInterval), locale: .current, dateStyle: .long)
         self.navigationItem.title = currentDate

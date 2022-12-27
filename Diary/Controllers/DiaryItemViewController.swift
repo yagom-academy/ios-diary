@@ -119,6 +119,8 @@ extension DiaryItemViewController {
 extension DiaryItemViewController {
     
     @objc func manageCoreData() {
+        if titleTextField.text == "" { return }
+        
         if self.diary != nil {
             updateCoreData()
             return
