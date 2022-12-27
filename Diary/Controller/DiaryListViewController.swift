@@ -95,9 +95,17 @@ extension DiaryListViewController {
         dataSource?.apply(snapshot)
     }
 
-    private func decodeSampleData() -> [Diary]? {
+    private func loadSampleData() -> Data? {
         guard let path = Bundle.main.path(forResource: "sample", ofType: "json"),
-              let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
+              let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
+            return nil
+        }
+
+        return data
+    }
+
+    private func decodeSampleData() -> [Diary]? {
+        guard let data = loadSampleData(),
               let items = try? JSONDecoder().decode([DiaryResponseDTO].self, from: data) else {
             return nil
         }
