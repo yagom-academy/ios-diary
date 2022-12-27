@@ -33,7 +33,7 @@ struct Diary: Hashable {
               let createdAt = diaryData.createdAt else {
             return nil
         }
-        self.content = title + "\n" + body
+        self.content = title + body
         self.createdAt = createdAt
         self.objectID = diaryData.objectID.uriRepresentation().absoluteString
     }
