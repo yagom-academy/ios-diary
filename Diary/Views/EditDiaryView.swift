@@ -17,7 +17,7 @@ final class EditDiaryView: UIView {
         }
     }
     
-    private var textViewBottomConstraints: NSLayoutConstraint?
+    private var textStackViewBottomConstraints: NSLayoutConstraint?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -51,6 +51,12 @@ final class EditDiaryView: UIView {
         textView.text = Placeholder.textViewPlaceHolder.sentence
         return textView
     }()
+    
+    private lazy var textStackView = UIStackView(subview: [titleTextField, contentsTextView],
+                                                 spacing: 5,
+                                                 axis: .vertical,
+                                                 alignment: .fill,
+                                                 distribution: .fill)
     
     func packageData() -> Result<(title: String, content: String), DataError> {
         guard let titleText = titleTextField.text else {
@@ -122,40 +128,33 @@ extension EditDiaryView: UITextFieldDelegate, UITextViewDelegate {
 extension EditDiaryView {
     private func setupUI() {
         self.backgroundColor = .white
-        [titleTextField, contentsTextView].forEach { component in
-            self.addSubview(component)
-            component.translatesAutoresizingMaskIntoConstraints = false
-        }
+        textStackView.layer.borderWidth = 1
+        textStackView.layer.cornerRadius = 10
+        textStackView.layer.borderColor = UIColor.systemGray4.cgColor
+        self.addSubview(textStackView)
     }
     
     private func setupConstraints() {
         let safeArea = self.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            titleTextField.topAnchor.constraint(
+            textStackView.topAnchor.constraint(
                 equalTo: safeArea.topAnchor, constant: 10),
-            titleTextField.leadingAnchor.constraint(
+            textStackView.leadingAnchor.constraint(
                 equalTo: safeArea.leadingAnchor, constant: 10),
-            titleTextField.trailingAnchor.constraint(
-                equalTo: safeArea.trailingAnchor, constant: -10),
-            
-            contentsTextView.topAnchor.constraint(
-                equalTo: titleTextField.bottomAnchor, constant: 10),
-            contentsTextView.leadingAnchor.constraint(
-                equalTo: safeArea.leadingAnchor, constant: 10),
-            contentsTextView.trailingAnchor.constraint(
+            textStackView.trailingAnchor.constraint(
                 equalTo: safeArea.trailingAnchor, constant: -10)
         ])
         
-        textViewBottomConstraints = contentsTextView.bottomAnchor.constraint(
+        textStackViewBottomConstraints = textStackView.bottomAnchor.constraint(
             equalTo: safeArea.bottomAnchor, constant: -10)
-        textViewBottomConstraints?.isActive = true
+        textStackViewBottomConstraints?.isActive = true
     }
     
     private func setupTextViewBottomConstraints(constant: CGFloat) {
-        textViewBottomConstraints?.isActive = false
-        textViewBottomConstraints = contentsTextView.bottomAnchor.constraint(
+        textStackViewBottomConstraints?.isActive = false
+        textStackViewBottomConstraints = contentsTextView.bottomAnchor.constraint(
             equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: constant)
-        textViewBottomConstraints?.isActive = true
+        textStackViewBottomConstraints?.isActive = true
     }
 }
 
@@ -176,7 +175,7 @@ extension EditDiaryView {
     @objc private func showKeyboard(_ notification: NSNotification) {
         if let keyboardFrame: NSValue = notification.userInfo?[
             UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-            contentsTextView.isFirstResponder {
+            titleTextField.isFirstResponder {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.setupTextViewBottomConstraints(constant: -(keyboardHeight + 10))

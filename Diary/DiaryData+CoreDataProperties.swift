@@ -2,7 +2,7 @@
 //  DiaryData+CoreDataProperties.swift
 //  Diary
 //
-//  Created by parkhyo on 2022/12/26.
+//  Created by Kyo, Baem on 2022/12/26.
 //
 //
 

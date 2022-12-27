@@ -40,7 +40,9 @@ final class CoreDataManager {
     func saveData(titleText: String,
                   contentText: String,
                   date: Date,
-                  completion: @escaping () -> Void) {
+                  completion: (() -> Void)?) {
+        guard let completion = completion else { return }
+        
         guard let context = context else {
             completion()
             return
@@ -75,7 +77,10 @@ final class CoreDataManager {
     func updateData(id: UUID,
                     titleText: String,
                     contentText: String,
-                    compeltion: @escaping () -> Void) {
+                    completion: (() -> Void)?) {
+        
+        guard let completion = completion else { return }
+        
         if let context = context {
             let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
             
@@ -90,7 +95,7 @@ final class CoreDataManager {
                 if context.hasChanges {
                     do {
                         try context.save()
-                        compeltion()
+                        completion()
                     } catch {
                         print(error)
                     }

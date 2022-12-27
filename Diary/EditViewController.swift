@@ -8,18 +8,38 @@
 import UIKit
 
 final class EditViewController: UIViewController {
+    var status: Status?
+    
+    enum Status {
+        case new
+        case edit
+    }
+    
     private let editView = EditDiaryView()
     private let coreDataManager = CoreDataManager.shared
     private let currentDate = Date()
     private var diaryData: DiaryData?
     
-    init(diaryData: DiaryData?) {
+    init(diaryData: DiaryData?, status: Status) {
         super.init(nibName: nil, bundle: nil)
         self.diaryData = diaryData
+        self.status = status
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.saveEditData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if status == .new {
+            editView.presentKeyboard()
+        }
     }
     
     override func viewDidLoad() {
@@ -34,40 +54,38 @@ final class EditViewController: UIViewController {
             self.title = Formatter.changeCustomDate(date)
         } else {
             self.title = Formatter.changeCustomDate(currentDate)
-            editView.presentKeyboard()
         }
         
-        let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
+        let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
+                                                 style: .plain,
                                                  target: self,
-                                                 action: #selector(doneButtonTapped))
+                                                 action: #selector(shareButtonTapped))
+        
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
+}
+
+// MARK: - Action
+extension EditViewController {
+    @objc private func shareButtonTapped() {
+        //TODO: 추후 구현
+    }
     
-    @objc private func doneButtonTapped() {
+    private func saveEditData() {
         let data = editView.packageData()
         switch data {
         case .success(let data):
             if diaryData == nil {
                 coreDataManager.saveData(titleText: data.title,
                                          contentText: data.content,
-                                         date: currentDate) {
-                    self.showCustomAlert(alertText: "저장 성공",
-                                         alertMessage: "저장성공하였습니다.",
-                                         bool: true) {
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                }
+                                         date: currentDate,
+                                         completion: nil)
             } else {
                 guard let id = diaryData?.id else { return }
                 coreDataManager.updateData(id: id,
                                            titleText: data.title,
-                                           contentText: data.content) {
-                    self.showCustomAlert(alertText: "편집 성공",
-                                         alertMessage: "편집성공하였습니다.",
-                                         bool: true) {
-                        self.navigationController?.popViewController(animated: true)
-                    }
-                }
+                                           contentText: data.content,
+                                           completion: nil)
             }
         case .failure(let error):
             self.showCustomAlert(alertText: "저장 실패하였습니다.",

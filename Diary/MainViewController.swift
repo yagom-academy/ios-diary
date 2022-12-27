@@ -53,7 +53,7 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        let addViewController = EditViewController(diaryData: nil)
+        let addViewController = EditViewController(diaryData: nil, status: .new)
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
@@ -61,7 +61,8 @@ final class MainViewController: UIViewController {
 // MARK: - UICollectionViewDelegate
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let addViewController = EditViewController(diaryData: diaryDatas[indexPath.item])
+        let addViewController = EditViewController(diaryData: diaryDatas[indexPath.item],
+                                                   status: .edit)
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
