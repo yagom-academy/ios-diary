@@ -7,7 +7,6 @@
 import Foundation
 import CoreData
 
-
 extension Entity {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Entity> {
@@ -17,5 +16,4 @@ extension Entity {
     @NSManaged public var title: String?
     @NSManaged public var body: String?
     @NSManaged public var createdDate: String?
-
 }

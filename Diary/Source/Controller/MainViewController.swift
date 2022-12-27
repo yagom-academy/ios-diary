@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreData
 
 final class MainViewController: UIViewController {
     // MARK: - Properties
@@ -21,6 +22,15 @@ final class MainViewController: UIViewController {
         configureNavigationItem()
         setUpTableView()
         decodeDiaryData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if let entity = readCoreData() {
+            diaries = convertToDiary(from: entity)
+            mainDiaryView.diaryTableView.reloadData()
+        }
     }
     
     // MARK: - Private Methods
@@ -51,6 +61,22 @@ final class MainViewController: UIViewController {
         }
     }
     
+    private func convertToDiary(from entityArray: [Entity]) -> [Diary] {
+        var diaryArray: [Diary] = []
+        
+        entityArray.forEach { entity in
+            guard let title = entity.title,
+                  let body = entity.body,
+                  let createdDate = entity.createdDate,
+                  let createdAt = Int(createdDate) else { return }
+            let diary = Diary.init(title: title, body: body, createdAt: createdAt)
+            
+            diaryArray.append(diary)
+        }
+        
+        return diaryArray
+    }
+    
     // MARK: - Action Methods
 
     @objc private func addDiary() {
@@ -78,6 +104,19 @@ extension MainViewController: UITableViewDataSource {
         cell.configureCell(with: diary)
         
         return cell
+    }
+}
+
+// MARK: - CoreData Methods
+
+extension MainViewController {
+    func readCoreData() -> [Entity]? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<Entity>(entityName: "Entity")
+        let result = try? managedContext.fetch(fetchRequest)
+        
+        return result
     }
 }
 

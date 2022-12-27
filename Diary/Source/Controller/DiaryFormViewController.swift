@@ -49,6 +49,19 @@ final class DiaryFormViewController: UIViewController {
         navigationItem.title = DateFormatter.koreanDateFormatter.string(from: Date())
     }
     
+    func createDiary() -> Diary {
+        var components = diaryFormView.diaryTextView.text.components(separatedBy: "\n")
+        let title = components.removeFirst()
+        let body = components.joined(separator: "\n")
+        let diary = Diary(title: title, body: body, createdAt: Int(Date().timeIntervalSince1970))
+        
+        return diary
+    }
+}
+
+// MARK: - CoreData Methods
+
+extension DiaryFormViewController {
     private func saveCoreData(diary: Diary) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
@@ -60,7 +73,7 @@ final class DiaryFormViewController: UIViewController {
         let object = NSManagedObject(entity: entity, insertInto: managedContext)
         
         object.setValue(diary.body, forKey: "body")
-        object.setValue(diary.createdDate, forKey: "createdDate")
+        object.setValue(diary.createdAt.description, forKey: "createdDate")
         object.setValue(diary.title, forKey: "title")
         
         do {
@@ -68,14 +81,5 @@ final class DiaryFormViewController: UIViewController {
         } catch let error as NSError {
             print("Could not save. \(error), \(error.userInfo)")
         }
-    }
-    
-    func createDiary() -> Diary {
-        var components = diaryFormView.diaryTextView.text.components(separatedBy: "\n")
-        let title = components.removeFirst()
-        let body = components.joined(separator: "\n")
-        let diary = Diary(title: title, body: body, createdAt: Int(Date().timeIntervalSince1970))
-        
-        return diary
     }
 }
