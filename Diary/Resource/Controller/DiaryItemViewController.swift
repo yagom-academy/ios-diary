@@ -9,10 +9,7 @@ import UIKit
 
 class DiaryItemViewController: UIViewController {
     var hasTitle: Bool = false
-    var diaryData: DiaryModel = DiaryModel(id: UUID(),
-                                           title: "제목 없음",
-                                           body: "",
-                                           createdAt: Date())
+    var diaryData: DiaryModel
     
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -54,6 +51,15 @@ class DiaryItemViewController: UIViewController {
         }
     }
     
+    init(diary: DiaryModel = DiaryModel(id: UUID(), title: "제목 없음", body: "", createdAt: Date())) {
+        self.diaryData = diary
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         view = UIView(frame: .zero)
         view.backgroundColor = .systemBackground
@@ -76,7 +82,7 @@ class DiaryItemViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         saveOrUpdate()
     }
-    
+
     private func configureTextView() {
         titleTextView.delegate = self
         bodyTextView.delegate = self
