@@ -11,6 +11,8 @@
 		3C4528432952D79F00E59E94 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4528422952D79F00E59E94 /* DiaryCell.swift */; };
 		3C4528452952F08A00E59E94 /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C4528442952F08A00E59E94 /* DiaryData.swift */; };
 		3C45284B2954558B00E59E94 /* AddDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C45284A2954558B00E59E94 /* AddDiaryViewController.swift */; };
+		5472B0FA295AAF6600BC3986 /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5472B0F8295AAF6600BC3986 /* Diary+CoreDataClass.swift */; };
+		5472B0FB295AAF6600BC3986 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5472B0F9295AAF6600BC3986 /* Diary+CoreDataProperties.swift */; };
 		547F54C02952CFC000244F15 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 547F54BF2952CFC000244F15 /* .swiftlint.yml */; };
 		54CB54142953F23D006D9E8C /* DateFormatter+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CB54132953F23D006D9E8C /* DateFormatter+extension.swift */; };
 		54E58E01295A8504005DD067 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E58E00295A8504005DD067 /* CoreDataManager.swift */; };
@@ -37,6 +39,8 @@
 		3C4528422952D79F00E59E94 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		3C4528442952F08A00E59E94 /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
 		3C45284A2954558B00E59E94 /* AddDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDiaryViewController.swift; sourceTree = "<group>"; };
+		5472B0F8295AAF6600BC3986 /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		5472B0F9295AAF6600BC3986 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		547F54BF2952CFC000244F15 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		54CB54132953F23D006D9E8C /* DateFormatter+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+extension.swift"; sourceTree = "<group>"; };
 		54E58E00295A8504005DD067 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -91,6 +95,8 @@
 		54ED313529533AD600BB9C01 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5472B0F8295AAF6600BC3986 /* Diary+CoreDataClass.swift */,
+				5472B0F9295AAF6600BC3986 /* Diary+CoreDataProperties.swift */,
 				3C4528442952F08A00E59E94 /* DiaryData.swift */,
 				54E58E00295A8504005DD067 /* CoreDataManager.swift */,
 			);
@@ -325,7 +331,9 @@
 			files = (
 				3C45284B2954558B00E59E94 /* AddDiaryViewController.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
+				5472B0FB295AAF6600BC3986 /* Diary+CoreDataProperties.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				5472B0FA295AAF6600BC3986 /* Diary+CoreDataClass.swift in Sources */,
 				54CB54142953F23D006D9E8C /* DateFormatter+extension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				3C4528432952D79F00E59E94 /* DiaryCell.swift in Sources */,

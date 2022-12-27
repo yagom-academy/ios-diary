@@ -30,12 +30,16 @@ class CoreDataManager {
             print("엔티티 불러오기 실패")
             return
         }
-        let diaryData = NSManagedObject(entity: entity, insertInto: context)
-        diaryData.setValue(UUID(), forKey: "id")
-        diaryData.setValue(data.title, forKey: "title")
-        diaryData.setValue(data.body, forKey: "content")
-        diaryData.setValue(data.createdAt, forKey: "createdAt")
-
+        
+        guard let diaryData = NSManagedObject(entity: entity, insertInto: context) as? Diary else {
+            return
+        }
+        
+        diaryData.id = data.id
+        diaryData.title = data.title
+        diaryData.content = data.body
+        diaryData.createdAt = data.createdAt
+        
         if context.hasChanges {
             do {
                 try context.save()
@@ -45,8 +49,23 @@ class CoreDataManager {
         }
     }
     
-    func readDiary() {
+    func fetchDiaryList() -> [Diary]? {
+        guard let context else {
+            print("컨텍스트 불러오기 실패")
+            return nil
+        }
+        var diaryList: [Diary] = []
         
+        let request = NSFetchRequest<NSManagedObject>(entityName: self.entityName)
+        do {
+            
+            if let fetchedDiaryList = try context.fetch(request) as? [Diary] {
+                diaryList = fetchedDiaryList
+            }
+        } catch {
+           print("데이터 불러오기 실패")
+        }
+        return diaryList
     }
     
     func updateDiary() {

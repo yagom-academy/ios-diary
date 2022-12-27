@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import CoreData
 
 struct DiaryData: Decodable {
-    
+    var id: UUID?
     let title: String
     let body: String
     let createdAt: Double
