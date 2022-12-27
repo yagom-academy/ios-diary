@@ -57,6 +57,7 @@ class CoreDataStack {
         
         do {
             let diaries = try viewContext.fetch(fetchRequest)
+            if diaries.isEmpty { return nil }
             return diaries[0]
         } catch {
             print(error.localizedDescription)
@@ -100,12 +101,10 @@ class CoreDataStack {
         do {
             let diaries = try viewContext.fetch(fetchRequest)
             let diaryToUpdate = diaries[0]
-            diaryToUpdate.setValue(diaryModel.id, forKeyPath: "id")
-            do {
-                try viewContext.save()
-            } catch {
-                print(error.localizedDescription)
-            }
+            diaryToUpdate.setValue(diaryModel.title, forKeyPath: "title")
+            diaryToUpdate.setValue(diaryModel.body, forKey: "body")
+            diaryToUpdate.setValue(diaryModel.createdAt, forKey: "createdAt")
+            saveContext()
         } catch {
             print(error.localizedDescription)
         }

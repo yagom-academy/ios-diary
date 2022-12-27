@@ -8,23 +8,53 @@
 import UIKit
 
 final class RegisterViewController: DiaryItemViewController {
+    private var diaryData: DiaryModel?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTextView()
     }
     
+    // 백그라운드로 보낼때는 동작 안함
+    // 이전화면으로 갈때는 동작 O
+    override func viewWillDisappear(_ animated: Bool) {
+        save()
+    }
+
     private func makeDiaryModel() -> DiaryModel {
-        let diaryData = DiaryModel(id: UUID(),
+        let data = DiaryModel(id: UUID(),
                         title: titleTextView.text,
                         body: bodyTextView.text,
                         createdAt: Date())
         
-        return diaryData
+        return data
+    }
+    
+    private func updateDiaryModel() {
+        diaryData?.title = titleTextView.text
+        diaryData?.body = bodyTextView.text
+        diaryData?.createdAt = Date()
     }
     
     private func configureTextView() {
         titleTextView.delegate = self
         bodyTextView.delegate = self
+    }
+    
+    // 키보드를 내렸을때
+    // 백그라운드로 갈때
+    // 전화면으로 갈때
+    private func save() {
+        updateDiaryModel()
+        
+        guard let diary = diaryData else {
+            let data = makeDiaryModel()
+            diaryData = data
+            CoreDataStack.shared.insertDiary(data)
+            return
+        }
+        
+        CoreDataStack.shared.updateDiary(diary)
     }
 }
 
@@ -48,9 +78,5 @@ extension RegisterViewController: UITextViewDelegate {
         titleTextView.text = titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         titleTextView.resignFirstResponder()
         bodyTextView.becomeFirstResponder()
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        CoreDataStack.shared.insertDiary(makeDiaryModel())
     }
 }
