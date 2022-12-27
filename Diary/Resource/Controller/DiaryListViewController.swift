@@ -53,7 +53,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchCoreData() {
-        diaryModels = CoreDataStack.shared.fetchDiaryModel()
+        diaryModels = CoreDataStack.shared.fetchAllDiaryModels()
     }
 }
 

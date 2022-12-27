@@ -51,7 +51,21 @@ class CoreDataStack {
         saveContext()
     }
     
-    func fetchDiary() -> [Diary] {
+    func fetchDiary(with id: UUID) -> Diary? {
+        let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
+        
+        do {
+            let diaries = try viewContext.fetch(fetchRequest)
+            return diaries[0]
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        return nil
+    }
+    
+    func fetchAllDiaries() -> [Diary] {
         do {
             let request = Diary.fetchRequest()
             let results = try viewContext.fetch(request)
@@ -64,9 +78,9 @@ class CoreDataStack {
         return []
     }
     
-    func fetchDiaryModel() -> [DiaryModel] {
+    func fetchAllDiaryModels() -> [DiaryModel] {
         var diaryModels: [DiaryModel] = []
-        let fetchedResults = fetchDiary()
+        let fetchedResults = fetchAllDiaries()
         
         for result in fetchedResults {
             let diary = DiaryModel(id: result.id,
