@@ -11,7 +11,7 @@ struct DiaryModel: Decodable, Hashable {
     let id = UUID()
     let title: String
     let body: String
-    let createdAt: Int
+    let createdAt: Double
     
     private enum CodingKeys: String, CodingKey {
         case title, body

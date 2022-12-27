@@ -17,4 +17,9 @@ extension DateFormatter {
         
         return self.string(from: Date())
     }
+    
+    func convertDateToDouble() -> Double {
+        let timeInterval = Date().timeIntervalSince1970
+        return timeInterval
+    }
 }

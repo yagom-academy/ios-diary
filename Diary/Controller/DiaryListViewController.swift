@@ -44,7 +44,7 @@ final class DiaryListViewController: UIViewController {
             var diaries: [DiaryModel] = []
             
             diary.forEach {
-                diaries.append(DiaryModel(title: $0.title ?? "", body: $0.body ?? "", createdAt: Int($0.createdAt)))
+                diaries.append(DiaryModel(title: $0.title ?? "", body: $0.body ?? "", createdAt: $0.createdAt))
             }
             applySnapshot(with: diaries)
         } catch {

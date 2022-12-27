@@ -9,6 +9,6 @@ import UIKit
 
 final class EditDiaryView: DiaryView {
     func configureView(with diaryData: DiaryModel) {
-        self.textView.text = diaryData.title + diaryData.body
+        self.textView.text = diaryData.title + "\n" + diaryData.body
     }
 }

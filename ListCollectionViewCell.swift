@@ -89,7 +89,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     
     func configureContents(with diary: DiaryModel) {
         self.titleLabel.text = diary.title
-        self.dateLabel.text = DateFormatter().longDate
+        self.dateLabel.text = diary.createdAt.convertDate()
         self.bodyLabel.text = diary.body
     }
 }

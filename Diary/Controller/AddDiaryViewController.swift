@@ -21,6 +21,10 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
         self.view.backgroundColor = UIColor.white
         self.setKeyboardObserver()
         self.initializeHideKeyBoard()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
         addNewDiary()
     }
@@ -48,8 +52,14 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
     }
     
     func createDiaryModel() -> DiaryModel {
-        // title, body, createdAt 데이터 가져오기
-        return DiaryModel(title: "", body: "", createdAt: 1)
+        let splitedText = self.addDiaryView.textView.text.split(separator: "\n",
+                                                                maxSplits: 1,
+                                                                omittingEmptySubsequences: false)
+        
+        let title = String(splitedText[0])
+        let body = String(splitedText[1])
+        
+        return DiaryModel(title: title, body: body, createdAt: DateFormatter().convertDateToDouble())
     }
     
     func addNewDiary() {

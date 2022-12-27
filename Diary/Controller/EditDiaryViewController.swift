@@ -22,7 +22,7 @@ class EditDiaryViewController: UIViewController, AddKeyboardNotification {
     }
     
     func configureView(with diaryData: DiaryModel) {
-        self.navigationItem.title = diaryData.createdAt.description
+        self.navigationItem.title = diaryData.createdAt.convertDate()
         self.editDiaryView.configureView(with: diaryData)
     }
     
