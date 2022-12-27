@@ -85,4 +85,10 @@ extension DiaryListViewController: UITableViewDelegate, UITableViewDataSource {
         return UITableView.automaticDimension
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diary = diaries?[indexPath.row]
+        let editDiaryViewController = EditDiaryViewController(diary: diary)
+        
+        self.navigationController?.pushViewController(editDiaryViewController, animated: true)
+    }
 }
