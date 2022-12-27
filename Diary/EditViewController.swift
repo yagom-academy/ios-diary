@@ -34,6 +34,7 @@ final class EditViewController: UIViewController {
             self.title = Formatter.changeCustomDate(date)
         } else {
             self.title = Formatter.changeCustomDate(currentDate)
+            editView.presentKeyboard()
         }
         
         let rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
@@ -47,17 +48,14 @@ final class EditViewController: UIViewController {
         switch data {
         case .success(let data):
             if diaryData == nil {
-                coreDataManager.saveData(data: (contentText: data, createdAt: currentDate),
-                                         completion: {
+                coreDataManager.saveData(data: (contentText: data, createdAt: currentDate)) {
                     self.showCustomAlert(alertText: "저장 성공",
                                          alertMessage: "저장성공하였습니다.",
                                          bool: true) {
                         self.navigationController?.popViewController(animated: true)
                     }
-                })
-            }
-            //TODO: UPdate CoreData
-            else {
+                }
+            } else {
                 diaryData?.contentText = data
                 guard let id = diaryData?.id,
                       let contentText = diaryData?.contentText else { return }

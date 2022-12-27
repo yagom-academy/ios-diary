@@ -33,10 +33,10 @@ final class CustomListCell: UICollectionViewListCell {
                                                   distribution: .fillEqually)
     
     func bindData(_ data: DiaryData) {
-        guard let titleText = data.contentText?.components(separatedBy: "\n").first else { return }
+        guard var text = data.contentText?.components(separatedBy: "\n") else { return }
         
-        self.titleLabel.text = titleText
-        self.previewLabel.text = data.contentText
+        self.titleLabel.text = text.removeFirst()
+        self.previewLabel.text = text.joined()
         guard let date = data.createdAt else { return }
         self.dateLabel.text = Formatter.changeCustomDate(date)
     }

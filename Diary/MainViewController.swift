@@ -23,7 +23,7 @@ final class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setupData()
-        applySnapshot()
+        applySnapshot(animatingDifferences: false)
     }
     
     override func viewDidLoad() {

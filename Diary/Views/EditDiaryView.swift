@@ -63,6 +63,10 @@ final class EditDiaryView: UIView {
         contentsTextView.textColor = .black
         self.contentsTextView.text = data.contentText
     }
+    
+    func presentKeyboard() {
+        contentsTextView.becomeFirstResponder()
+    }
 }
 
 // MARK: - UITextViewDelegate
