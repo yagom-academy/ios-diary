@@ -41,7 +41,11 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        applySampleData()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        loadDiary()
     }
     
     private func configure() {
@@ -84,12 +88,9 @@ final class DiaryListViewController: UIViewController {
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
-    private func applySampleData() {
-        let sampleDiary: [Diary] = [
-            Diary(content: "제목 테스트1\n 내용테스트", createdAt: Date()),
-            Diary(content: "제목 테스트2\n 내용테스트", createdAt: Date()),
-            Diary(content: "제목 테스트3\n 내용테스트", createdAt: Date())
-        ]
+    private func loadDiary() {
+        let manager = DiaryDataManager()
+        let sampleDiary: [Diary] = manager.fetchDiaries()
 
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
         
