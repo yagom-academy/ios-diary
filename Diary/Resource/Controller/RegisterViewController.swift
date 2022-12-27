@@ -13,12 +13,17 @@ final class RegisterViewController: DiaryItemViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTextView()
+        addObserver()
     }
     
-    // 백그라운드로 보낼때는 동작 안함
-    // 이전화면으로 갈때는 동작 O
     override func viewWillDisappear(_ animated: Bool) {
         save()
+    }
+    
+    private func addObserver() {
+        let notificationName = Notification.Name("sceneDidEnterBackground")
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(save), name: notificationName, object: nil)
     }
 
     private func makeDiaryModel() -> DiaryModel {
@@ -42,9 +47,7 @@ final class RegisterViewController: DiaryItemViewController {
     }
     
     // 키보드를 내렸을때
-    // 백그라운드로 갈때
-    // 전화면으로 갈때
-    private func save() {
+    @objc private func save() {
         updateDiaryModel()
         
         guard let diary = diaryData else {
