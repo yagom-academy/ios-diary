@@ -20,19 +20,16 @@ class CoreDataManager {
     
     let entityName = "Diary"
     
-    func createDiary(data: DiaryData) {
-        guard let context else {
-            print("컨텍스트 불러오기 실패")
-            return
-        }
+    func createDiary(data: DiaryData) throws {
         
+        guard let context else { throw DataError.contextUndifined }
+    
         guard let entity = NSEntityDescription.entity(forEntityName: self.entityName, in: context) else {
-            print("엔티티 불러오기 실패")
-            return
+            throw DataError.entityUndifined
         }
         
         guard let diaryData = NSManagedObject(entity: entity, insertInto: context) as? Diary else {
-            return
+            throw DataError.emptyData
         }
         
         diaryData.id = data.id ?? UUID()
@@ -44,56 +41,72 @@ class CoreDataManager {
             do {
                 try context.save()
             } catch {
-                print(error)
+                throw DataError.unChangedData
             }
         }
     }
     
-    func fetchDiaryList() -> [Diary]? {
-        guard let context else {
-            print("컨텍스트 불러오기 실패")
-            return nil
-        }
+    func fetchDiaryList() throws -> [Diary] {
+        guard let context else { throw DataError.contextUndifined }
+        
         var diaryList: [Diary] = []
         
         let request = NSFetchRequest<NSManagedObject>(entityName: self.entityName)
+        
         do {
-            
             if let fetchedDiaryList = try context.fetch(request) as? [Diary] {
                 diaryList = fetchedDiaryList
             }
         } catch {
-           print("데이터 불러오기 실패")
+            throw DataError.emptyData
         }
+        
         return diaryList
     }
     
-    func updateDiary(diary: Diary) {
+    func updateDiary(updatedDiary: Diary) throws {
+        guard let context else { throw DataError.contextUndifined }
+        
         let request = NSFetchRequest<Diary>(entityName: self.entityName)
-        request.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
+        request.predicate = NSPredicate(format: "id == %@", updatedDiary.id as CVarArg)
         
         do {
-            var updatedDiary = try context?.fetch(request).first as? Diary
-            updatedDiary = diary
-            try context?.save()
+            var diary = try context.fetch(request).first
+            
+            diary = updatedDiary
         } catch {
-            print(error)
-            return
+            throw DataError.emptyData
+        }
+        
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                throw DataError.unChangedData
+            }
         }
     }
     
-    func deleteDiary(diary: Diary) {
+    func deleteDiary(diary: Diary) throws {
+        guard let context else { throw DataError.contextUndifined }
+        
         let request = NSFetchRequest<Diary>(entityName: self.entityName)
         request.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
         
         do {
-            if let fetchedDiary = try context?.fetch(request).first as? Diary {
-                context?.delete(fetchedDiary)
+            if let fetchedDiary = try context.fetch(request).first {
+                context.delete(fetchedDiary)
             }
-            try context?.save()
         } catch {
-            print(error)
-            return
+            throw DataError.emptyData
+        }
+        
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                throw DataError.unChangedData
+            }
         }
     }
     
