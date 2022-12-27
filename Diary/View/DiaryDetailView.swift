@@ -13,6 +13,12 @@ final class DiaryDetailView: UIView {
     private var isBodyPlaceHolderState: Bool = true
     private let titleTextView = CustomTextView(font: .title1)
     private let bodyTextView = CustomTextView(font: .body)
+    var title: String {
+        return titleTextView.text
+    }
+    var body: String {
+        return bodyTextView.text
+    }
     
     private let diaryTextScrollView: UIScrollView = {
         let scrollView = UIScrollView()

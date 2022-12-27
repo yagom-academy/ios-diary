@@ -8,11 +8,13 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
+    
     private let diaryDetailView: DiaryDetailView
-    private var diary: DiaryPage?
+    private var diaryCoreDataManager = CoreDataManager.shared
+    private var diaryPage: DiaryPage
     
     init(diary: DiaryPage) {
-        self.diary = diary
+        self.diaryPage = diary
         self.diaryDetailView = DiaryDetailView()
         super.init(nibName: nil, bundle: nil)
     }
@@ -29,20 +31,28 @@ final class DiaryDetailViewController: UIViewController {
         setupNotification()
     }
     
-    private func configureDiary() {
-        guard let diary = diary else {
-            return
-        }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        updateDiary()
+    }
+    
+    @objc private func updateDiary() {
+        diaryPage.title = diaryDetailView.title
+        diaryPage.body = diaryDetailView.body
         
-        diaryDetailView.configureTitle(diary.title)
-        diaryDetailView.configureBody(diary.body)
+        diaryCoreDataManager.updateDiary(diaryPage)
+    }
+
+    private func configureDiary() {
+        diaryDetailView.configureTitle(diaryPage.title)
+        diaryDetailView.configureBody(diaryPage.body)
     }
 }
 
 extension DiaryDetailViewController {
     
     private func setupNavigationBar() {
-        self.navigationItem.title = diary?.createdDate
+        self.navigationItem.title = diaryPage.createdDate
     }
     
     private func setupNotification() {
@@ -53,6 +63,10 @@ extension DiaryDetailViewController {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(controlKeyboard),
                                                name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateDiary),
+                                               name: UIApplication.didEnterBackgroundNotification,
                                                object: nil)
     }
     
@@ -71,6 +85,7 @@ extension DiaryDetailViewController {
             self.diaryDetailView.changeScrollViewBottomInset(keyboardHeight)
         } else if notification.name == keyboardHideNotification && bottomInset != 0 {
             self.diaryDetailView.changeScrollViewBottomInset(-keyboardHeight)
+            updateDiary()
         }
     }
 }
