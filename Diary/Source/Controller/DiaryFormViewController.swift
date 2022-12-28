@@ -13,6 +13,9 @@ final class DiaryFormViewController: UIViewController {
     private let diaryFormView = DiaryFormView()
     private let selectedDiary: Diary?
     private let alertControllerManager = AlertControllerManager()
+    private let activityControllerManager = ActivityControllerManager()
+    
+    // MARK: - Initializer
     
     init(diary: Diary? = nil) {
         selectedDiary = diary
@@ -109,10 +112,19 @@ final class DiaryFormViewController: UIViewController {
         present(alertControllerManager.createDeleteAlert(), animated: true, completion: nil)
     }
     
+    private func showActivityController() {
+        if let totalText = diaryFormView.diaryTextView.text, !totalText.isEmpty {
+            present(activityControllerManager.showActivity(textToShare: totalText),
+                    animated: true,
+                    completion: nil)
+        }
+    }
+    
     // MARK: - Action Methods
     
     @objc private func showActionSheet() {
-        present(alertControllerManager.createActionSheet(completionHandler: showDeleteAlert),
+        present(alertControllerManager.createActionSheet(shareHandler: showActivityController,
+                                                         deleteHandler: showDeleteAlert),
                 animated: true,
                 completion: nil)
     }

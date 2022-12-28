@@ -13,6 +13,7 @@ final class MainViewController: UIViewController {
     private let mainDiaryView = MainDiaryView()
     private var diaries: [Diary] = []
     private let alertControllerManager = AlertControllerManager()
+    private let activityControllerManager = ActivityControllerManager()
     
     // MARK: - Life Cycle
     
@@ -90,6 +91,12 @@ final class MainViewController: UIViewController {
         present(alertControllerManager.createDeleteAlert(), animated: true, completion: nil)
     }
     
+    private func showActivityController(with text: String) {
+        present(activityControllerManager.showActivity(textToShare: text),
+                animated: true,
+                completion: nil)
+    }
+    
     // MARK: - Action Methods
 
     @objc private func addDiary() {
@@ -136,6 +143,9 @@ extension MainViewController: UITableViewDelegate {
                    trailingSwipeActionsConfigurationForRowAt
                    indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let share = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
+            let diary = self.diaries[indexPath.row]
+            
+            self.showActivityController(with: diary.totalText)
         }
         share.backgroundColor = .systemBlue
         

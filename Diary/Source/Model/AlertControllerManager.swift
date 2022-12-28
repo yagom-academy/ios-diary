@@ -7,11 +7,14 @@
 import UIKit
 
 struct AlertControllerManager {
-    func createActionSheet(completionHandler: @escaping () -> Void) -> UIAlertController {
+    func createActionSheet(shareHandler: @escaping () -> Void,
+                           deleteHandler: @escaping () -> Void) -> UIAlertController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default, handler: nil)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            shareHandler()
+        }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            completionHandler()
+            deleteHandler()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
