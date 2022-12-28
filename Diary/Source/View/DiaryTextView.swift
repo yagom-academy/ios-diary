@@ -9,6 +9,7 @@ final class DiaryTextView: UITextView {
         self.font = font
         self.textAlignment = textAlignment
         self.textColor = textColor
+        self.alwaysBounceVertical = true
     }
     
     @available(*, unavailable)
