@@ -97,6 +97,13 @@ final class DiaryListViewController: UIViewController {
         manager.remove(diary)
     }
     
+    private func showShareView(_ diary: Diary) {
+        let activityViewController = UIActivityViewController(activityItems: [diary.content],
+                                                              applicationActivities: nil)
+        
+        present(activityViewController, animated: true)
+    }
+    
     @objc
     private func tappedAddButton(_ sender: UIBarButtonItem) {
         let diaryDataManager = DiaryDataManager()
@@ -145,7 +152,12 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let shareAction = UIContextualAction(style: .normal,
                                              title: nil) { (_, _, success) in
-            success(true)
+            if let diary = self.diaryDataSource.itemIdentifier(for: indexPath) {
+                self.showShareView(diary)
+                success(true)
+            } else {
+                success(false)
+            }
         }
         shareAction.backgroundColor = UIColor(named: "CustomBlue")
         shareAction.image = UIImage(systemName: "square.and.arrow.up.fill")

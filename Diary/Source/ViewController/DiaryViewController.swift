@@ -119,10 +119,20 @@ final class DiaryViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    private func showShareView() {
+        diary.content = contentTextView.text
+        let activityViewController = UIActivityViewController(activityItems: [diary.content],
+                                                              applicationActivities: nil)
+        
+        present(activityViewController, animated: true)
+    }
+    
     @objc
     private func tappedDetailButton() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
+            self?.showShareView()
+        }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
             self?.showDeleteAlert()
         }
