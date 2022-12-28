@@ -98,13 +98,30 @@ extension DiaryListViewController: UITableViewDelegate {
         shareAction.backgroundColor = .blue
 
         let deleteAction = UIContextualAction(style: .destructive, title: Namespace.delete) { _, _, _  in
-//            self.showDeleteAlert(for: self.diaryModels[indexPath.row])
-            self.diaryModels = CoreDataStack.shared.fetchAllDiaryModels()
+            self.showDeleteAlert(for: self.diaryModels[indexPath.row])
         }
         
         actions.append(deleteAction)
         actions.append(shareAction)
         
         return UISwipeActionsConfiguration(actions: actions)
+    }
+    
+    private func showDeleteAlert(for diaryModel: DiaryModel?) {
+        let alert: UIAlertController = UIAlertController(title: Namespace.deleteDiary,
+                                                         message: Namespace.deleteMessage,
+                                                         preferredStyle: .alert)
+        let cancelAction: UIAlertAction = UIAlertAction(title: Namespace.cancel,
+                                                        style: .cancel)
+        let deleteAction: UIAlertAction = UIAlertAction(title: Namespace.delete,
+                                                        style: .destructive,
+                                                        handler: { _ in
+            self.diaryItemManager.deleteDiary(data: diaryModel)
+            self.diaryModels = CoreDataStack.shared.fetchAllDiaryModels()
+        })
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
     }
 }

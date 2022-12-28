@@ -171,10 +171,9 @@ class DiaryItemViewController: UIViewController {
     }
     
     private func delete(_ diaryModel: DiaryModel?) {
-        CoreDataStack.shared.deleteDiary(with: diaryModel?.id)
         self.titleTextView.text = Namespace.emptyString
         self.bodyTextView.text = Namespace.emptyString
-        self.diaryItemManager.deleteDiary()
+        self.diaryItemManager.deleteDiary(data: diaryModel)
     }
     
     private enum LayoutConstant {
