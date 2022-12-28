@@ -17,6 +17,8 @@
 		5472B0FB295AAF6600BC3986 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5472B0F9295AAF6600BC3986 /* Diary+CoreDataProperties.swift */; };
 		5472B0FD295AC1CF00BC3986 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5472B0FC295AC1CF00BC3986 /* DataError.swift */; };
 		547F54C02952CFC000244F15 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 547F54BF2952CFC000244F15 /* .swiftlint.yml */; };
+		54890CE9295BD4920054CFE8 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54890CE8295BD4920054CFE8 /* Array+Extension.swift */; };
+		54890CEB295BD4C00054CFE8 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54890CEA295BD4C00054CFE8 /* String+Extension.swift */; };
 		54CB54142953F23D006D9E8C /* DateFormatter+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54CB54132953F23D006D9E8C /* DateFormatter+extension.swift */; };
 		54E58E01295A8504005DD067 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E58E00295A8504005DD067 /* CoreDataManager.swift */; };
 		54E58E09295A8F0A005DD067 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54E58E08295A8F0A005DD067 /* DiaryTests.swift */; };
@@ -48,6 +50,8 @@
 		5472B0F9295AAF6600BC3986 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		5472B0FC295AC1CF00BC3986 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		547F54BF2952CFC000244F15 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		54890CE8295BD4920054CFE8 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		54890CEA295BD4C00054CFE8 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
 		54CB54132953F23D006D9E8C /* DateFormatter+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+extension.swift"; sourceTree = "<group>"; };
 		54E58E00295A8504005DD067 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		54E58E06295A8F0A005DD067 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -86,6 +90,8 @@
 			isa = PBXGroup;
 			children = (
 				54CB54132953F23D006D9E8C /* DateFormatter+extension.swift */,
+				54890CE8295BD4920054CFE8 /* Array+Extension.swift */,
+				54890CEA295BD4C00054CFE8 /* String+Extension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -338,12 +344,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54890CEB295BD4C00054CFE8 /* String+Extension.swift in Sources */,
 				3C45284B2954558B00E59E94 /* AddDiaryViewController.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				3C796314295AE5480027310D /* EditDiaryViewController.swift in Sources */,
 				5472B0FB295AAF6600BC3986 /* Diary+CoreDataProperties.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				5472B0FA295AAF6600BC3986 /* Diary+CoreDataClass.swift in Sources */,
+				54890CE9295BD4920054CFE8 /* Array+Extension.swift in Sources */,
 				54CB54142953F23D006D9E8C /* DateFormatter+extension.swift in Sources */,
 				5472B0FD295AC1CF00BC3986 /* DataError.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
