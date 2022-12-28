@@ -38,6 +38,15 @@ final class DiaryViewController: UIViewController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        if contentTextView.hasText == false {
+            let diaryDataManager = DiaryDataManager()
+            
+            diaryDataManager.remove(diary)
+        }
+    }
+    
     private func configure() {
         title = DateFormatter.converted(date: diary.createdAt,
                                         locale: Locale.preference,
@@ -128,18 +137,10 @@ final class DiaryViewController: UIViewController {
     
     @objc
     private func saveDiary() {
-        guard contentTextView.hasText == true else { return }
-        diary.content = contentTextView.text
-        
         let diaryDataManager = DiaryDataManager()
         
-        if diary.objectID == nil {
-            diaryDataManager.add(title: diary.title,
-                                 body: diary.body,
-                                 createdAt: diary.createdAt)
-        } else {
-            diaryDataManager.update(diary)
-        }
+        diary.content = contentTextView.text
+        diaryDataManager.update(diary)
     }
 }
 
