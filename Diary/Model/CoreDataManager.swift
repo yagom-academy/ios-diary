@@ -65,9 +65,9 @@ struct CoreDataManager {
     }
     
     func update(_ diaryPage: DiaryPage) {
-        let fetchedData = searchDiary(using: diaryPage.id)
-        fetchedData[0].title = diaryPage.title
-        fetchedData[0].body = diaryPage.body
+        guard let fetchedData = searchDiary(using: diaryPage.id).first else { return }
+        fetchedData.title = diaryPage.title
+        fetchedData.body = diaryPage.body
         
         saveContext()
     }

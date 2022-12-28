@@ -9,8 +9,6 @@ import UIKit
 
 final class DiaryDetailView: UIView {
     
-    var isTitlePlaceHolderState: Bool = false
-    var isBodyPlaceHolderState: Bool = false
     private let titleTextView = CustomTextView(font: .title1)
     private let bodyTextView = CustomTextView(font: .body)
     var title: String {
@@ -73,19 +71,13 @@ final class DiaryDetailView: UIView {
                 equalTo: readableContentGuide.topAnchor),
             diaryTextScrollView.frameLayoutGuide.bottomAnchor.constraint(
                 equalTo: readableContentGuide.bottomAnchor),
-            diaryTextScrollView.contentLayoutGuide.leadingAnchor.constraint(
-                equalTo: diaryTextScrollView.frameLayoutGuide.leadingAnchor),
-            diaryTextScrollView.contentLayoutGuide.trailingAnchor.constraint(
-                equalTo: diaryTextScrollView.frameLayoutGuide.trailingAnchor),
             
-            diaryTextStackView.leadingAnchor.constraint(
-                equalTo: diaryTextScrollView.contentLayoutGuide.leadingAnchor),
-            diaryTextStackView.trailingAnchor.constraint(
-                equalTo: diaryTextScrollView.contentLayoutGuide.trailingAnchor),
-            diaryTextStackView.topAnchor.constraint(
-                equalTo: diaryTextScrollView.contentLayoutGuide.topAnchor),
-            diaryTextStackView.bottomAnchor.constraint(
-                equalTo: diaryTextScrollView.contentLayoutGuide.bottomAnchor)
+            diaryTextScrollView.contentLayoutGuide.widthAnchor.constraint(
+                equalTo: diaryTextScrollView.frameLayoutGuide.widthAnchor),
+            diaryTextStackView.widthAnchor.constraint(
+                equalTo: diaryTextScrollView.contentLayoutGuide.widthAnchor),
+            diaryTextStackView.heightAnchor.constraint(
+                equalTo: diaryTextScrollView.contentLayoutGuide.heightAnchor)
         ])
     }
     
@@ -151,6 +143,10 @@ final class DiaryDetailView: UIView {
     
     func makeTitleTextViewFirstResponder() {
         titleTextView.becomeFirstResponder()
+    }
+    
+    func resignTitleTextViewFirstResponder() {
+        titleTextView.resignFirstResponder()
     }
 }
 

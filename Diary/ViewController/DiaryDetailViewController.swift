@@ -25,6 +25,8 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDiary()
+        diaryPageView.resignTitleTextViewFirstResponder()
+        diaryPageView.resignFirstResponder()
     }
     
     private func configureDiary() {
@@ -72,6 +74,7 @@ extension DiaryDetailViewController {
         alertController.addAction(UIAlertAction(title: "취소", style: .cancel))
         alertController.addAction(UIAlertAction(title: "삭제", style: .destructive) { _ in
             CoreDataManager.shared.delete(self.diaryPage)
+            self.navigationController?.popViewController(animated: true)
         })
         
         self.present(alertController, animated: true)

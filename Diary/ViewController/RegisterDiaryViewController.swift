@@ -29,12 +29,12 @@ class RegisterDiaryViewController: UIViewController {
         diaryPageView.addTextViewsDelegate(self)
         setupNavigationBar()
         setupNotification()
+        diaryPageView.makeTitleTextViewFirstResponder()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
         diaryPageView.setupPlaceHolder()
-        diaryPageView.makeTitleTextViewFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
