@@ -40,8 +40,9 @@ class CoreDataStack {
         }
     }
     
-    func insertDiary(_ diaryModel: DiaryModel) {
-        guard let diaryEntity = diaryEntity else { return }
+    func insertDiary(_ diaryModel: DiaryModel?) {
+        guard let diaryModel = diaryModel,
+              let diaryEntity = diaryEntity else { return }
         
         let managedObject = NSManagedObject(entity: diaryEntity, insertInto: viewContext)
         managedObject.setValue(diaryModel.id, forKey: "id")
@@ -51,7 +52,9 @@ class CoreDataStack {
         saveContext()
     }
     
-    func fetchDiary(with id: UUID) -> Diary? {
+    func fetchDiary(with id: UUID?) -> Diary? {
+        guard let id = id else { return nil }
+        
         let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
         fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
         
@@ -94,7 +97,9 @@ class CoreDataStack {
         return diaryModels
     }
     
-    func updateDiary(_ diaryModel: DiaryModel) {
+    func updateDiary(_ diaryModel: DiaryModel?) {
+        guard let diaryModel = diaryModel else { return }
+
         let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
         fetchRequest.predicate = NSPredicate(format: "id == %@", diaryModel.id.uuidString)
         
@@ -110,7 +115,9 @@ class CoreDataStack {
         }
     }
     
-    func deleteDiary(_ diaryModel: DiaryModel) {
+    func deleteDiary(_ diaryModel: DiaryModel?) {
+        guard let diaryModel = diaryModel else { return }
+        
         let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
         fetchRequest.predicate = NSPredicate(format: "id == %@", diaryModel.id.uuidString)
         
