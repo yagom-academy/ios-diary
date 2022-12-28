@@ -111,6 +111,7 @@ extension EditDiaryView: UITextFieldDelegate, UITextViewDelegate {
             textField.text = nil
             textField.placeholder = Placeholder.textFieldPlaceHolder.sentence
         }
+        keyboardDelegate?.saveWhenHideKeyboard()
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -125,6 +126,7 @@ extension EditDiaryView: UITextFieldDelegate, UITextViewDelegate {
             textView.text = Placeholder.textViewPlaceHolder.sentence
             textView.textColor = .lightGray
         }
+        keyboardDelegate?.saveWhenHideKeyboard()
     }
 }
 
@@ -178,8 +180,7 @@ extension EditDiaryView {
     
     @objc private func showKeyboard(_ notification: NSNotification) {
         if let keyboardFrame: NSValue = notification.userInfo?[
-            UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-           titleTextField.isFirstResponder {
+            UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.setupTextViewBottomConstraints(constant: -(keyboardHeight + 10))
@@ -188,6 +189,5 @@ extension EditDiaryView {
     
     @objc private func hideKeyboard() {
         self.setupTextViewBottomConstraints(constant: -10)
-        keyboardDelegate?.saveWhenHideKeyboard()
     }
 }

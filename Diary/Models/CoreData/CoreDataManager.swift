@@ -16,7 +16,7 @@ final class CoreDataManager {
     private let appDelegate = UIApplication.shared.delegate as? AppDelegate
     private lazy var context = appDelegate?.persistentContainer.viewContext
     
-    func fetchData() -> [DiaryData] {
+    func fetchData() -> Result<[DiaryData], DataError> {
         var diaryDataList: [DiaryData] = []
         
         if let context = context {
@@ -30,30 +30,29 @@ final class CoreDataManager {
                     diaryDataList = dataList
                 }
             } catch {
-                // TODO: Alert 구현 예정
-                print("CoreData Fecth Error")
+                return .failure(.coreDataError)
             }
         }
-        return diaryDataList
+        return .success(diaryDataList)
     }
     
     func saveData(titleText: String,
                   contentText: String,
                   date: Date,
-                  completion: @escaping (Bool) -> Void) {
+                  completion: @escaping ((Result<DiaryData, DataError>) -> Void)) {
         
         guard let context = context else {
-            completion(false)
+            completion(.failure(.noneDataError))
             return
         }
         guard let entity = NSEntityDescription.entity(forEntityName: self.modelName,
                                                       in: context) else {
-            completion(false)
+            completion(.failure(.noneDataError))
             return
         }
         guard let content = NSManagedObject(entity: entity,
                                             insertInto: context) as? DiaryData else {
-            completion(false)
+            completion(.failure(.noneDataError))
             return
         }
         
@@ -65,12 +64,12 @@ final class CoreDataManager {
         if context.hasChanges {
             do {
                 try context.save()
-                completion(true)
+                completion(.success(content))
             } catch {
-                completion(false)
+                completion(.failure(.noneDataError))
             }
         }
-        completion(true)
+        completion(.success(content))
     }
     
     func updateData(id: UUID,

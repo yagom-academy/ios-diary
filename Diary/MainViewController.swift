@@ -47,7 +47,16 @@ final class MainViewController: UIViewController {
     }
     
     private func setupData() {
-        diaryDatas = coreDataManager.fetchData()
+        let result = coreDataManager.fetchData()
+        switch result {
+        case .success(let data):
+            diaryDatas = data
+        case .failure(let error):
+            self.showCustomAlert(alertText: error.localizedDescription,
+                                 alertMessage: error.errorDescription ?? "",
+                                 useAction: true,
+                                 completion: nil)
+        }
     }
     
     @objc private func addButtonTapped() {

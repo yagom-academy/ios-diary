@@ -23,4 +23,3 @@ extension DiaryData {
 
 extension DiaryData: Identifiable {
 }
-

@@ -99,30 +99,41 @@ extension EditViewController {
         let data = editView.packageData()
         switch data {
         case .success(let data):
-            if diaryData == nil {
+            if status == .new {
                 coreDataManager.saveData(titleText: data.title,
                                          contentText: data.content,
-                                         date: currentDate) { _ in
-                    //TODO: Success
+                                         date: currentDate) { result in
+                    switch result {
+                    case .success(let data):
+                        self.diaryData = data
+                    case .failure(let error):
+                        self.showCustomAlert(alertText: error.localizedDescription,
+                                             alertMessage: error.errorDescription ?? "",
+                                             useAction: true,
+                                             completion: nil)
+                    }
                 }
             } else {
                 guard let id = diaryData?.id else { return }
                 coreDataManager.updateData(id: id,
                                            titleText: data.title,
-                                           contentText: data.content) { _ in
-                    //TODO: Success
-                }
+                                           contentText: data.content) { _ in }
             }
         case .failure(let error):
-            self.showCustomAlert(alertText: "저장 실패하였습니다.",
+            self.showCustomAlert(alertText: "저장 실패",
                                  alertMessage: error.errorDescription ?? "",
-                                 bool: false, completion: nil)
+                                 completion: nil)
         }
     }
 }
 
 extension EditViewController: KeyboardActionProtocol {
     func saveWhenHideKeyboard() {
-        saveEditData()
+        if status == .new {
+            saveEditData()
+            status = .edit
+        } else {
+            saveEditData()
+        }
     }
 }

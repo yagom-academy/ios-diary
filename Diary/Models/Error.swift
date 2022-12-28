@@ -11,17 +11,20 @@ enum DataError: Error {
     case noneDataError
     case decodeError
     case noneTitleError
+    case coreDataError
 }
 
 extension DataError: LocalizedError {
     var errorDescription: String? {
         switch self {
         case .noneDataError:
-            return "데이터가 없습니다."
+            return "입력을 확인해주세요."
         case .decodeError:
-            return "DECODE ERROR"
+            return "Decode 오류"
         case .noneTitleError:
             return "제목을 입력해주세요"
+        case .coreDataError:
+            return "코어데이터 오류"
         }
     }
 }

@@ -10,22 +10,13 @@ import UIKit
 extension UIViewController {
     func showCustomAlert(alertText: String,
                          alertMessage: String,
-                         bool: Bool,
+                         useAction: Bool = false,
                          completion: (() -> Void)?) {
-        
         let alert = UIAlertController(title: alertText,
                                       message: alertMessage,
                                       preferredStyle: .alert)
         
-        if bool {
-            self.present(alert, animated: true) {
-                Thread.sleep(forTimeInterval: 0.5)
-            }
-            alert.dismiss(animated: true) {
-                guard let completion = completion else { return }
-                completion()
-            }
-        } else {
+        if useAction == true {
             let confirm = UIAlertAction(title: "취소", style: .destructive) {  _ in
                 if let completion = completion {
                     completion()
@@ -33,7 +24,9 @@ extension UIViewController {
             }
             alert.addAction(confirm)
             self.present(alert, animated: true)
+        } else {
+            self.present(alert, animated: true)
+            alert.dismiss(animated: true)
         }
-        
     }
 }
