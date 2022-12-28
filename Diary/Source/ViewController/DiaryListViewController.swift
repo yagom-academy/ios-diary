@@ -55,6 +55,7 @@ final class DiaryListViewController: UIViewController {
         
         setupViews()
         setupBarButtonItem()
+        setupNotification()
     }
     
     private func setupViews() {
@@ -81,6 +82,11 @@ final class DiaryListViewController: UIViewController {
     @objc
     private func tappedAddButton(_ sender: UIBarButtonItem) {
         pushDiaryViewController()
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(loadDiary),
+                                               name: .didChangeDiaryCoreData,
+                                               object: nil)
     }
     
     private func pushDiaryViewController(with diary: Diary = Diary(content: "", createdAt: Date())) {
