@@ -33,4 +33,8 @@ struct DiaryItemManager {
         diaryItem?.body = body
         diaryItem?.createdAt = Date()
     }
+    
+    mutating func fetchDiary(data: DiaryModel) {
+        diaryItem = data
+    }
 }

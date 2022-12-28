@@ -111,12 +111,6 @@ class DiaryItemViewController: UIViewController {
         ])
     }
     
-    func configureDetailView(data: DiaryModel) {
-        titleTextView.text = data.title
-        bodyTextView.text = data.body
-        title = DateFormatterManager().formatDate(data.createdAt)
-    }
-    
     private func addObserver() {
         let notificationName = Notification.Name("sceneDidEnterBackground")
         
@@ -130,6 +124,17 @@ class DiaryItemViewController: UIViewController {
     
     @objc private func save() {
         diaryItemManager.saveDiaryWith(title: titleTextView.text, body: bodyTextView.text)
+    }
+    
+    func receive(data: DiaryModel) {
+        diaryItemManager.fetchDiary(data: data)
+        fillTextView(with: data)
+    }
+    
+    private func fillTextView(with data: DiaryModel) {
+        titleTextView.text = data.title
+        bodyTextView.text = data.body
+        title = DateFormatterManager().formatDate(data.createdAt)
     }
     
     private enum LayoutConstant {

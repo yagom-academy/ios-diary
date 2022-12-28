@@ -81,7 +81,7 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryItemViewController = DiaryItemViewController()
-        diaryItemViewController.configureDetailView(data: diaryModels[indexPath.row])
+        diaryItemViewController.receive(data: diaryModels[indexPath.row])
         navigationController?.pushViewController(diaryItemViewController, animated: true)
     }
 }
