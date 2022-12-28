@@ -91,4 +91,55 @@ extension DiaryListViewController: UITableViewDelegate, UITableViewDataSource {
         
         self.navigationController?.pushViewController(editDiaryViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let share = UIContextualAction(style: .normal, title: Constant.share) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            guard let diary = self.diaries?[indexPath.row] else {
+                success(false)
+                return
+            }
+            self.showActivityViewController(diary: diary)
+            success(true)
+        }
+        share.backgroundColor = .systemBlue
+        let delete = UIContextualAction(style: .normal, title: Constant.delete) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            guard let diary = self.diaries?[indexPath.row] else {
+                success(false)
+                return
+            }
+            self.showDeleteAlert(diary: diary)
+            success(true)
+        }
+        
+        delete.backgroundColor = .systemRed
+        
+        return UISwipeActionsConfiguration(actions: [delete, share])
+    }
+}
+
+// MARK: - Alert, ActivityViewController
+extension DiaryListViewController {
+    
+    func showDeleteAlert(diary: Diary) {
+        let alert = UIAlertController(title: Constant.deleteAlertTitle, message: Constant.deleteAlertMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constant.delete, style: .destructive) { _ in
+            do {
+                try CoreDataManager.shared.deleteDiary(diary: diary)
+            } catch {
+                print(error)
+            }
+            self.fetchData()
+            self.tableView.reloadData()
+        })
+                
+        alert.addAction(UIAlertAction(title: Constant.cancel, style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showActivityViewController(diary: Diary) {
+        let activityViewController = UIActivityViewController(activityItems: [diary.text], applicationActivities: nil)
+        
+        self.present(activityViewController, animated: true, completion: nil)
+    }
 }
