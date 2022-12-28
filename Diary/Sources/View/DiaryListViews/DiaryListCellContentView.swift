@@ -26,7 +26,7 @@ final class DiaryListCellContentView: UIView, UIContentView {
     init(configuration: DiaryContentConfiguration) {
         super.init(frame: .zero)
         configureDynamicFont()
-        setupInternalViews()
+        setupSubviews()
         apply(configuration: configuration)
     }
     
@@ -71,7 +71,7 @@ extension DiaryListCellContentView {
         }
     }
     
-    private func setupInternalViews() {
+    private func setupSubviews() {
         let contentStackView = defaultContentStackView()
         
         addSubview(contentStackView)
