@@ -7,10 +7,6 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-    enum Constant {
-        static let rightBarButtonName = "ellipsis"
-    }
-    
     private let titleTextField: UITextField = {
         let titleTextField = UITextField()
         titleTextField.placeholder = "제목을 입력해주세요."
@@ -210,10 +206,7 @@ extension DiaryDetailViewController {
     
     private func setNavigationBar() {
         let presentAction = UIAction(handler: presentActionSheet)
-        navigationItem.setRightButton(
-            systemName: Constant.rightBarButtonName,
-            action: presentAction
-        )
+        navigationItem.setRightButton(systemImage: Constant.Images.moreImage, action: presentAction)
         navigationItem.rightBarButtonItem?.isEnabled = isNotEmpty
         
         var currentDate = Date().convertString()
@@ -242,8 +235,8 @@ extension DiaryDetailViewController {
     private func deleteHandler(_ action: UIAlertAction) {
         guard let item = item else { return }
         let alert = UIAlertController(
-            title: "정말요?",
-            message: "정말 삭제하실거에요?",
+            title: LocalizedConstant.AlertController.deleteTitle,
+            message: LocalizedConstant.AlertController.deleteMessage,
             diary: item,
             deleteCompletion: { _ in
                 self.coreDataManager.deleteDiary(id: item.id)

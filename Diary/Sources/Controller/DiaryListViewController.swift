@@ -7,13 +7,6 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    enum Constant {
-        static let assetName = "sample"
-        static let navigationTitle = "일기장"
-        static let deleteImage = "trash"
-        static let shareImage = "square.and.arrow.up"
-    }
-    
     private var diaries: [Diary]?
     private let coreDataManager = CoreDataManager.shared
     
@@ -89,8 +82,8 @@ extension DiaryListViewController {
             guard let self = self else { return }
             
             let alert = UIAlertController(
-                title: "정말요",
-                message: "정말 삭제하시겠어요?",
+                title: LocalizedConstant.AlertController.deleteTitle,
+                message: LocalizedConstant.AlertController.deleteMessage,
                 diary: item,
                 deleteCompletion: { [weak self] _ in
                     guard let self = self else { return }
@@ -108,7 +101,7 @@ extension DiaryListViewController {
         
         let action = UIContextualAction(style: .destructive, title: nil, handler: handler)
         action.backgroundColor = .systemRed
-        action.image = UIImage(systemName: Constant.deleteImage)
+        action.image = Constant.Images.deleteImage
         
         return action
     }
@@ -128,7 +121,7 @@ extension DiaryListViewController {
         
         let action = UIContextualAction(style: .normal, title: nil, handler: handler)
         action.backgroundColor = .systemBlue
-        action.image = UIImage(systemName: Constant.shareImage)
+        action.image = Constant.Images.shareImage
         
         return action
     }
@@ -185,7 +178,7 @@ extension DiaryListViewController {
     }
     
     private func setNavigationBar() {
-        navigationItem.setNavigationTitle(title: Constant.navigationTitle)
+        navigationItem.setNavigationTitle(title: LocalizedConstant.App.appTitle)
         
         let presentAction = UIAction { _ in
             self.presentDiaryDetailView()

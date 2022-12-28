@@ -16,9 +16,12 @@ extension UIAlertController {
     ) {
         self.init(title: title, message: message, preferredStyle: .alert)
         
-        let cancelAction = UIAlertAction(title: "취소", style: .default, handler: cancelCompletion)
+        let cancelTitle = LocalizedConstant.AlertTitles.cancelTitle
+        let deleteTitle = LocalizedConstant.AlertTitles.deleteTitle
+        
+        let cancelAction = UIAlertAction(title: cancelTitle, style: .default, handler: cancelCompletion)
         let deleteAction = UIAlertAction(
-            title: "삭제",
+            title: deleteTitle,
             style: .destructive,
             handler: deleteCompletion
         )
