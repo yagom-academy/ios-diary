@@ -88,7 +88,10 @@ class DiaryItemViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         
         let date = Date()
-        title = DateFormatterManager().formatDate(date)
+        
+        if title == nil {
+            title = DateFormatterManager().formatDate(date)
+        }
     }
     
     private func configureMainStackView() {
@@ -106,6 +109,12 @@ class DiaryItemViewController: UIViewController {
             mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
+    }
+    
+    func configureDetailView(data: DiaryModel) {
+        titleTextView.text = data.title
+        bodyTextView.text = data.body
+        title = DateFormatterManager().formatDate(data.createdAt)
     }
     
     private func addObserver() {
