@@ -7,7 +7,7 @@
 import UIKit
 import CoreData
 
-final class DiaryFormViewController: UIViewController {
+final class DiaryFormViewController: UIViewController, CoreDataProcessable {
     // MARK: - Properties
     
     private let diaryFormView = DiaryFormView()
@@ -109,7 +109,11 @@ final class DiaryFormViewController: UIViewController {
     }
     
     private func showDeleteAlert() {
-        present(alertControllerManager.createDeleteAlert(), animated: true, completion: nil)
+        guard let diary = selectedDiary else { return }
+        
+        present(alertControllerManager.createDeleteAlert({
+            self.deleteCoreData(diary: diary)
+        }), animated: true)
     }
     
     private func showActivityController() {
@@ -123,58 +127,8 @@ final class DiaryFormViewController: UIViewController {
     // MARK: - Action Methods
     
     @objc private func showActionSheet() {
-        present(alertControllerManager.createActionSheet(shareHandler: showActivityController,
-                                                         deleteHandler: showDeleteAlert),
+        present(alertControllerManager.createActionSheet(showActivityController, showDeleteAlert),
                 animated: true,
                 completion: nil)
-    }
-}
-
-// MARK: - CoreData Methods
-
-extension DiaryFormViewController {
-    private func saveCoreData(diary: Diary) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        guard let entity = NSEntityDescription.entity(
-            forEntityName: "Entity",
-            in: managedContext) else {
-            return
-        }
-        let object = NSManagedObject(entity: entity, insertInto: managedContext)
-        
-        object.setValue(diary.body, forKey: "body")
-        object.setValue(diary.createdAt.description, forKey: "createdDate")
-        object.setValue(diary.title, forKey: "title")
-        object.setValue(diary.totalText, forKey: "totalText")
-        object.setValue(diary.id, forKey: "id")
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
-    }
-    
-    private func updateCoreData(diary: Diary) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Entity")
-        
-        fetchRequest.predicate = NSPredicate(format: "id = %@", diary.id.uuidString)
-        
-        guard let result = try? managedContext.fetch(fetchRequest),
-              let object = result[0] as? NSManagedObject else { return }
-        
-        object.setValue(diary.title, forKey: "title")
-        object.setValue(diary.body, forKey: "body")
-        object.setValue(diary.createdAt.description, forKey: "createdDate")
-        object.setValue(diary.totalText, forKey: "totalText")
-        
-        do {
-            try managedContext.save()
-        } catch let error as NSError {
-            print("Could not update. \(error), \(error.userInfo)")
-        }
     }
 }

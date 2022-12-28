@@ -7,8 +7,8 @@
 import UIKit
 
 struct AlertControllerManager {
-    func createActionSheet(shareHandler: @escaping () -> Void,
-                           deleteHandler: @escaping () -> Void) -> UIAlertController {
+    func createActionSheet(_ shareHandler: @escaping () -> Void,
+                           _ deleteHandler: @escaping () -> Void) -> UIAlertController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
             shareHandler()
@@ -25,10 +25,12 @@ struct AlertControllerManager {
         return actionSheet
     }
     
-    func createDeleteAlert() -> UIAlertController {
+    func createDeleteAlert(_ deleteHandler: @escaping () -> Void) -> UIAlertController {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "취소", style: .default, handler: nil)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive, handler: nil)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            deleteHandler()
+        }
         
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)

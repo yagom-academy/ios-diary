@@ -7,7 +7,7 @@
 import UIKit
 import CoreData
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, CoreDataProcessable {
     // MARK: - Properties
     
     private let mainDiaryView = MainDiaryView()
@@ -29,10 +29,7 @@ final class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if let entity = readCoreData() {
-            diaries = convertToDiary(from: entity)
-            mainDiaryView.diaryTableView.reloadData()
-        }
+        fetchDiaryFromCoreData()
     }
     
     // MARK: - Private Methods
@@ -64,6 +61,13 @@ final class MainViewController: UIViewController {
         }
     }
     
+    private func fetchDiaryFromCoreData() {
+        if let entity = readCoreData() {
+            diaries = convertToDiary(from: entity)
+            mainDiaryView.diaryTableView.reloadData()
+        }
+    }
+    
     private func convertToDiary(from entityArray: [Entity]) -> [Diary] {
         var diaryArray: [Diary] = []
         
@@ -87,8 +91,11 @@ final class MainViewController: UIViewController {
         return diaryArray
     }
     
-    private func showDeleteAlert() {
-        present(alertControllerManager.createDeleteAlert(), animated: true, completion: nil)
+    private func showDeleteAlert(diary: Diary) {
+        present(alertControllerManager.createDeleteAlert({
+            self.deleteCoreData(diary: diary)
+            self.fetchDiaryFromCoreData()
+        }), animated: true)
     }
     
     private func showActivityController(with text: String) {
@@ -150,23 +157,12 @@ extension MainViewController: UITableViewDelegate {
         share.backgroundColor = .systemBlue
         
         let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            self.showDeleteAlert()
+            let diary = self.diaries[indexPath.row]
+            
+            self.showDeleteAlert(diary: diary)
         }
         
         return UISwipeActionsConfiguration(actions: [delete, share])
-    }
-}
-
-// MARK: - CoreData Methods
-
-extension MainViewController {
-    func readCoreData() -> [Entity]? {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<Entity>(entityName: "Entity")
-        let result = try? managedContext.fetch(fetchRequest)
-        
-        return result
     }
 }
 
