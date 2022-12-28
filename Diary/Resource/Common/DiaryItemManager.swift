@@ -15,6 +15,10 @@ struct DiaryItemManager {
         
         if CoreDataStack.shared.fetchDiary(with: diaryItem?.id) == nil {
             generateDiary()
+            
+            if diaryItem?.title == "",
+               diaryItem?.body == "" { return }
+            
             CoreDataStack.shared.insertDiary(diaryItem)
         } else {
             CoreDataStack.shared.updateDiary(diaryItem)
@@ -23,7 +27,7 @@ struct DiaryItemManager {
     
     mutating func generateDiary() {
         diaryItem = DiaryModel(id: UUID(),
-                               title: "제목 없음",
+                               title: "",
                                body: "",
                                createdAt: Date())
     }
