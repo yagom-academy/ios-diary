@@ -7,50 +7,22 @@
 
 import Foundation
 
-struct Diary: Decodable, Hashable {
-    var title: String?
-    var body: String?
-    var createdIntervalValue: Int?
-    var uuid: UUID?
+struct Diary: Hashable {
+    var id: UUID
+    var title: String
+    var body: String
+    var createdDate: Date
     
-    enum CodingKeys: String, CodingKey {
-        case title
-        case body
-        case createdIntervalValue = "created_at"
+    init(id: UUID, title: String, body: String, timeInterval: TimeInterval) {
+        self.id = id
+        self.title = title
+        self.body = body
+        self.createdDate = timeInterval.calculatedDate
     }
-    
-    var createdDate: String? {
-        guard let createdIntervalValue = createdIntervalValue else {
-            return nil
-        }
-        
-        let timeInterval = TimeInterval(createdIntervalValue)
-        let intervalDate = Date(timeIntervalSince1970: timeInterval)
-        
-        return intervalDate.convertString()
-    }
-    
-    var createInt64: Int64 {
-        guard let createdIntervalValue = createdIntervalValue else {
-            return 0
-        }
-        return Int64(createdIntervalValue)
-    }
-    
-    var id: UUID {
-        guard let uuid = uuid else {
-            return UUID()
-        }
-        
-        return uuid
-    }
-    
-    var content: String {
-        guard let title = title,
-              let body = body else {
-            return ""
-        }
-        
+}
+
+extension Diary {
+    func convertShareContent() -> String {
         return title + "\n\n" + body
     }
 }

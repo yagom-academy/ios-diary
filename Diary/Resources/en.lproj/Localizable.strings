@@ -9,3 +9,6 @@
 "Share" = "Share";
 "Cancel" = "Cancel";
 "Delete" = "Delete";
+
+// PlaceHolder
+"TextFieldPlaceHolder" = "Enter Subject";
