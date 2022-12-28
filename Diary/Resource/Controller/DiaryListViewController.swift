@@ -59,6 +59,24 @@ final class DiaryListViewController: UIViewController {
     private func fetchCoreData() {
         diaryModels = CoreDataStack.shared.fetchAllDiaryModels()
     }
+    
+    private func showDeleteAlert(for diaryModel: DiaryModel?) {
+        let alert: UIAlertController = UIAlertController(title: Namespace.deleteDiary,
+                                                         message: Namespace.deleteMessage,
+                                                         preferredStyle: .alert)
+        let cancelAction: UIAlertAction = UIAlertAction(title: Namespace.cancel,
+                                                        style: .cancel)
+        let deleteAction: UIAlertAction = UIAlertAction(title: Namespace.delete,
+                                                        style: .destructive,
+                                                        handler: { _ in
+            self.diaryItemManager.deleteDiary(data: diaryModel)
+            self.diaryModels = CoreDataStack.shared.fetchAllDiaryModels()
+        })
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
+    }
 }
 
 extension DiaryListViewController: UITableViewDataSource {
@@ -93,6 +111,7 @@ extension DiaryListViewController: UITableViewDelegate {
         var actions: [UIContextualAction] = []
 
         let shareAction = UIContextualAction(style: .normal, title: Namespace.share) { _, _, _  in
+            self.diaryItemManager.fetchDiary(data: self.diaryModels[indexPath.row])
             self.present(self.activityViewController, animated: true)
         }
         shareAction.backgroundColor = .blue
@@ -105,23 +124,5 @@ extension DiaryListViewController: UITableViewDelegate {
         actions.append(shareAction)
         
         return UISwipeActionsConfiguration(actions: actions)
-    }
-    
-    private func showDeleteAlert(for diaryModel: DiaryModel?) {
-        let alert: UIAlertController = UIAlertController(title: Namespace.deleteDiary,
-                                                         message: Namespace.deleteMessage,
-                                                         preferredStyle: .alert)
-        let cancelAction: UIAlertAction = UIAlertAction(title: Namespace.cancel,
-                                                        style: .cancel)
-        let deleteAction: UIAlertAction = UIAlertAction(title: Namespace.delete,
-                                                        style: .destructive,
-                                                        handler: { _ in
-            self.diaryItemManager.deleteDiary(data: diaryModel)
-            self.diaryModels = CoreDataStack.shared.fetchAllDiaryModels()
-        })
-        
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-        present(alert, animated: true)
     }
 }

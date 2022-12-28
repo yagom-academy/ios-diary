@@ -8,7 +8,7 @@
 import Foundation
 
 struct DiaryItemManager {
-    var diaryItem: DiaryModel?
+    private var diaryItem: DiaryModel?
     
     mutating func saveDiaryWith(title: String, body: String) {
         updateDiaryWith(title: title, body: body)

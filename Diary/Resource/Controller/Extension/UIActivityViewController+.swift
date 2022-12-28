@@ -10,7 +10,6 @@ import UIKit
 extension UIActivityViewController {
     convenience init(diaryItemManager: DiaryItemManager) {
         let diaryForm: String = diaryItemManager.createDiaryShareForm()
-        
         self.init(activityItems: [diaryForm], applicationActivities: nil)
     }
 }
