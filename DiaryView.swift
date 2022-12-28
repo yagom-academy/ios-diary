@@ -13,6 +13,7 @@ class DiaryView: UIView {
         textView.isEditable = true
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
+        textView.keyboardDismissMode = .interactive
         
         return textView
     }()
@@ -21,6 +22,7 @@ class DiaryView: UIView {
         super.init(frame: frame)
         self.configureView()
         self.configureAutoLayout()
+        self.setKeyboardObserver()
     }
     
     required init?(coder: NSCoder) {
@@ -45,5 +47,19 @@ class DiaryView: UIView {
     
     func changeTextViewContentInset(for height: CGFloat) {
         self.textView.contentInset.bottom += height
+    }
+}
+
+extension DiaryView: AddKeyboardNotification {
+    func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardHeight = getKeyboardHeight(from: notification) else { return }
+        
+        self.changeTextViewContentInset(for: keyboardHeight)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        guard let keyboardHeight = getKeyboardHeight(from: notification) else { return }
+        
+        self.changeTextViewContentInset(for: -keyboardHeight)
     }
 }

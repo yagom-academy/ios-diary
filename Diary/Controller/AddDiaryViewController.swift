@@ -6,9 +6,8 @@
 //
 
 import UIKit
-import CoreData
 
-final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
+final class AddDiaryViewController: UIViewController {
     private let addDiaryView = AddDiaryView()
     
     override func loadView() {
@@ -19,8 +18,7 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
         super.viewDidLoad()
         self.navigationItem.title = DateFormatter().longDate
         self.view.backgroundColor = UIColor.white
-        self.setKeyboardObserver()
-        self.initializeHideKeyBoard()
+        self.setKeyboardHideObserver()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -29,40 +27,34 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
         CoreDataMananger.shared.insertDiary(createDiaryModel())
     }
     
-    func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardHeight = getKeyboardHeight(from: notification) else { return }
-        
-        self.addDiaryView.changeTextViewContentInset(for: keyboardHeight)
-    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-        guard let keyboardHeight = getKeyboardHeight(from: notification) else { return }
-        
-        self.addDiaryView.changeTextViewContentInset(for: -keyboardHeight)
-    }
-    
-    private func initializeHideKeyBoard() {
-        let tap: UIGestureRecognizer = UITapGestureRecognizer(target: self,
-                                                              action: #selector(self.dismissKeyBoard))
-        self.navigationController?.navigationBar.addGestureRecognizer(tap)
-    }
-    
-    @objc private func dismissKeyBoard() {
-        self.addDiaryView.endEditing(true)
-    }
-    
     func createDiaryModel() -> DiaryModel {
         let diaryContent = self.addDiaryView.fetchTextViewContent()
         guard diaryContent != "" else {
             return DiaryModel()
         }
-        let splitedText = diaryContent.split(separator: "\n",
-                                             maxSplits: 1,
-                                             omittingEmptySubsequences: false)
         
-        let title = String(splitedText[0])
-        let body = String(splitedText[1])
-        
-        return DiaryModel(title: title, body: body)
+        if diaryContent.contains("\n") {
+            let splitedText = diaryContent.split(separator: "\n",
+                                                 maxSplits: 1,
+                                                 omittingEmptySubsequences: false)
+            
+            let title = String(splitedText[0])
+            let body = String(splitedText[1])
+            
+            return DiaryModel(title: title, body: body)
+        } else {
+            return DiaryModel(title: diaryContent)
+        }
+    }
+    
+    func setKeyboardHideObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardDidHide),
+                                               name: UIResponder.keyboardDidHideNotification,
+                                               object: nil)
+    }
+    
+    @objc func keyboardDidHide() {
+        CoreDataMananger.shared.insertDiary(createDiaryModel())
     }
 }
