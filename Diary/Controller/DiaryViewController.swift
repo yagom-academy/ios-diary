@@ -104,9 +104,18 @@ final class DiaryViewController: UIViewController {
         present(alert, animated: true)
     }
 
+    private func showActivityViewController() {
+        let textToShare: String = "\(diary.title)\n\(diary.body)"
+        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+
     private func makeMenu() -> UIMenu {
         let shareAction = UIAction(title: "공유",
-                                   image: UIImage(systemName: "square.and.arrow.up")) { _ in }
+                                   image: UIImage(systemName: "square.and.arrow.up")) { _ in
+            self.showActivityViewController()
+        }
         let deleteAction = UIAction(title: "삭제",
                                     image: UIImage(systemName: "trash"),
                                     attributes: .destructive) { _ in

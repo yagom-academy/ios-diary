@@ -112,6 +112,7 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let shareAction = UIContextualAction(style: .normal, title: nil) { (_, _, success) in
+            self.showActivityViewController(diary: self.diaryList[indexPath.row])
             success(true)
         }
         shareAction.backgroundColor = .systemBlue
@@ -141,5 +142,12 @@ extension DiaryListViewController: UITableViewDelegate {
         alert.addAction(deleteAction)
 
         present(alert, animated: true)
+    }
+
+    private func showActivityViewController(diary: Diary) {
+        let textToShare: String = "\(diary.title)\n\(diary.body)"
+        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }
