@@ -83,37 +83,21 @@ final class EditViewController: UIViewController {
                                                    object: nil)
         }
     }
-    
+}
+
+// MARK: - Associate Save Logic
+extension EditViewController {
     @objc func saveWhenBackground() {
         self.saveEditData()
     }
-}
-
-// MARK: - Action
-extension EditViewController {
-    @objc private func optionButtonTapped() {
-        self.saveEditData()
-        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            guard let sendingText = self.diaryData?.contentText else { return }
-            let activiyController = UIActivityViewController(activityItems: [sendingText],
-                                                             applicationActivities: nil)
-            activiyController.excludedActivityTypes = [.addToReadingList,
-                                                       .assignToContact,
-                                                       .openInIBooks,
-                                                       .saveToCameraRoll]
-            
-            self.present(activiyController, animated: true, completion: nil)
+    
+    private func changeStatusToSave() {
+        if status == .new {
+            saveEditData()
+            status = .edit
+        } else {
+            saveEditData()
         }
-        
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        [shareAction, deleteAction, cancelAction].forEach {
-            alert.addAction($0)
-        }
-        
-        self.present(alert, animated: true)
     }
     
     private func saveEditData() {
@@ -148,13 +132,55 @@ extension EditViewController {
     }
 }
 
+
+// MARK: - Action
+extension EditViewController {
+    @objc private func optionButtonTapped() {
+        changeStatusToSave()
+        
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
+            self.moveToActivityView()
+        }
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            guard let id = self.diaryData?.id else { return }
+            
+            self.coreDataManager.deleteData(id: id) { result in
+                if !result {
+                    self.showCustomAlert(alertText: "삭제 실패",
+                                         alertMessage: "삭제 실패하였습니다.",
+                                         completion: nil)
+                }
+                
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        [shareAction, deleteAction, cancelAction].forEach {
+            alert.addAction($0)
+        }
+        self.present(alert, animated: true)
+    }
+    
+    private func moveToActivityView() {
+        guard let sendingText = self.diaryData?.contentText else { return }
+        let activiyController = UIActivityViewController(activityItems: [sendingText],
+                                                         applicationActivities: nil)
+        activiyController.excludedActivityTypes = [.addToReadingList,
+                                                   .assignToContact,
+                                                   .openInIBooks,
+                                                   .saveToCameraRoll]
+        
+        self.present(activiyController, animated: true, completion: nil)
+    }
+}
+
 extension EditViewController: KeyboardActionProtocol {
     func saveWhenHideKeyboard() {
-        if status == .new {
-            saveEditData()
-            status = .edit
-        } else {
-            saveEditData()
-        }
+        changeStatusToSave()
     }
 }
