@@ -9,11 +9,15 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let diaryListTableView = UITableView()
+    
     private var diaryModels: [DiaryModel] = [] {
         didSet {
             diaryListTableView.reloadData()
         }
     }
+    
+    private var diaryItemManager = DiaryItemManager()
+    lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)
     
     override func loadView() {
         view = diaryListTableView
@@ -83,6 +87,27 @@ extension DiaryListViewController: UITableViewDelegate {
         let diaryItemViewController = DiaryItemViewController()
         diaryItemViewController.receive(data: diaryModels[indexPath.row])
         navigationController?.pushViewController(diaryItemViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        var actions: [UIContextualAction] = []
+
+        let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _  in
+            self.present(self.activityViewController, animated: true)
+        }
+        shareAction.backgroundColor = .blue
+
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _  in
+            CoreDataStack.shared.deleteDiary(with: self.diaryModels[indexPath.row].id)
+            DispatchQueue.main.async {
+                self.diaryListTableView.reloadData()
+            }
+        }
+        
+        actions.append(deleteAction)
+        actions.append(shareAction)
+        
+        return UISwipeActionsConfiguration(actions: actions)
     }
 }
 
