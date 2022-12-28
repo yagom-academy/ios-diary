@@ -11,7 +11,7 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
     // MARK: - Properties
     
     private let diaryFormView = DiaryFormView()
-    private let selectedDiary: Diary?
+    private var selectedDiary: Diary?
     private let alertControllerManager = AlertControllerManager()
     private let activityControllerManager = ActivityControllerManager()
     
@@ -63,6 +63,7 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
             updateCoreData(diary: diary)
         } else {
             if !diary.title.isEmpty, !diary.body.isEmpty {
+                selectedDiary = diary
                 saveCoreData(diary: diary)
             }
         }
