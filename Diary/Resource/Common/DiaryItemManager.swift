@@ -37,4 +37,17 @@ struct DiaryItemManager {
     mutating func fetchDiary(data: DiaryModel) {
         diaryItem = data
     }
+    
+    func createDiaryShareForm() -> String {
+        guard let diaryItem = diaryItem else { return "" }
+        
+        let form: String = """
+            id: \(diaryItem.id)
+            title: \(diaryItem.title)
+            body: \(diaryItem.body)
+            created at: \(diaryItem.createdAt)
+            """
+
+        return form
+    }
 }
