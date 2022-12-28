@@ -89,9 +89,15 @@ class CoreDataManager {
     // MARK: - UPDATE
     func update(diary: Diary) {
         let fetchResults = fetchDiaryEntity()
-        for result in fetchResults where result.uuid == diary.uuid {
-            result.title = diary.title
-            result.body = diary.body
+        if fetchResults.filter({ diaryEntity in
+            diaryEntity.uuid == diary.uuid
+        }).isEmpty {
+            create(diary: diary)
+        } else {
+            for result in fetchResults where result.uuid == diary.uuid {
+                result.title = diary.title
+                result.body = diary.body
+            }
         }
         saveContext()
     }

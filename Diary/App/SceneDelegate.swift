@@ -21,7 +21,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
-        if let topViewController = UIApplication.topViewController() as? DiaryViewController {
+        let rootViewController = UIApplication.shared.keyWindow?.rootViewController
+        if let topViewController = UIApplication.topViewController(rootViewController) as? DiaryViewController {
             CoreDataManager.shared.update(diary: topViewController.generateDiary())
         }
     }

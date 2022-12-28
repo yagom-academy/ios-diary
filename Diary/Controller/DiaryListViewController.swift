@@ -34,7 +34,6 @@ final class DiaryListViewController: UIViewController {
     }()
 
     private var dataSource: DiaryDataSource?
-    private var snapshot = DiarySnapShot()
     private var diaryList: [Diary] = []
 
     override func viewDidLoad() {
@@ -43,14 +42,12 @@ final class DiaryListViewController: UIViewController {
         configureNavigationBar()
         configureHierarchy()
         configureDataSource()
-        configureSnapshot()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        snapshot.reloadSections([0])
-        dataSource?.apply(snapshot)
+        configureSnapshot()
     }
 }
 
@@ -92,13 +89,14 @@ extension DiaryListViewController {
     }
 
     private func configureSnapshot() {
+        var snapshot = DiarySnapShot()
         let items = CoreDataManager.shared.read()
-        diaryList = items
 
         snapshot.appendSections([0])
-        snapshot.appendItems(items)
+        snapshot.appendItems(items.reversed())
 
         dataSource?.apply(snapshot)
+        diaryList = items.reversed()
     }
 }
 

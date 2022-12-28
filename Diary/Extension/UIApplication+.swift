@@ -7,20 +7,19 @@
 import UIKit
 
 extension UIApplication {
-    class func topViewController(base: UIViewController? = UIApplication.shared.keyWindow?.rootViewController) -> UIViewController? {
-        if let nav = base as? UINavigationController {
-            return topViewController(base: nav.visibleViewController)
+    var keyWindow: UIWindow? {
+            return UIApplication.shared.connectedScenes
+                .filter { $0.activationState == .foregroundActive }
+                .first(where: { $0 is UIWindowScene })
+                .flatMap({ $0 as? UIWindowScene })?.windows
+                .first(where: \.isKeyWindow)
         }
 
-        if let tab = base as? UITabBarController {
-            if let selected = tab.selectedViewController {
-                return topViewController(base: selected)
-            }
+    static func topViewController(_ rootViewController: UIViewController?) -> UIViewController? {
+        if let navigationController = rootViewController as? UINavigationController {
+            return topViewController(navigationController.visibleViewController)
         }
 
-        if let presented = base?.presentedViewController {
-            return topViewController(base: presented)
-        }
-        return base
+        return rootViewController
     }
 }

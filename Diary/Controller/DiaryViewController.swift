@@ -75,6 +75,12 @@ final class DiaryViewController: UIViewController {
         }
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        updateCoreDataIfNeeded()
+    }
+
     private func configureHierarchy() {
         scrollView.addSubview(containerStackView)
         view.addSubview(scrollView)
@@ -109,6 +115,12 @@ final class DiaryViewController: UIViewController {
                      createdAt: diary.createdAt,
                      uuid: diary.uuid)
     }
+
+    private func updateCoreDataIfNeeded() {
+        if diary.title != titleTextView.text || diary.body != bodyTextView.text {
+            CoreDataManager.shared.update(diary: generateDiary())
+        }
+    }
 }
 
 extension DiaryViewController: UITextViewDelegate {
@@ -120,6 +132,6 @@ extension DiaryViewController: UITextViewDelegate {
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        CoreDataManager.shared.update(diary: generateDiary())
+        updateCoreDataIfNeeded()
     }
 }
