@@ -8,7 +8,7 @@
 import UIKit
 
 final class EditDiaryView: UIView {
-    var keyboardDelegate: KeyboardActionProtocol?
+    weak var delegate: KeyboardActionSavable?
     
     private enum Placeholder: String {
         case textFieldPlaceHolder = "Title"
@@ -111,7 +111,7 @@ extension EditDiaryView: UITextFieldDelegate, UITextViewDelegate {
             textField.text = nil
             textField.placeholder = Placeholder.textFieldPlaceHolder.sentence
         }
-        keyboardDelegate?.saveWhenHideKeyboard()
+        delegate?.saveWhenHideKeyboard()
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -126,7 +126,7 @@ extension EditDiaryView: UITextFieldDelegate, UITextViewDelegate {
             textView.text = Placeholder.textViewPlaceHolder.sentence
             textView.textColor = .lightGray
         }
-        keyboardDelegate?.saveWhenHideKeyboard()
+        delegate?.saveWhenHideKeyboard()
     }
 }
 

@@ -7,11 +7,16 @@
 
 import UIKit
 
+protocol SwipeConfigurable: AnyObject {
+    func makeSwipeActions(for indexPath: IndexPath?) -> UISwipeActionsConfiguration?
+}
+
 final class MainDiaryView: UIView {
+    weak var delegate: SwipeConfigurable?
     var collectionView: UICollectionView! = nil
     
     override init(frame: CGRect) {
-        super.init(frame: frame)
+        super.init(frame: .zero)
         setupUI()
     }
     
@@ -23,7 +28,10 @@ final class MainDiaryView: UIView {
 // MARK: - Configure CollectionView
 extension MainDiaryView {
     private func configureLayout() -> UICollectionViewLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        configuration.trailingSwipeActionsConfigurationProvider = .some({ indexPath in
+            self.delegate?.makeSwipeActions(for: indexPath)
+        })
         return UICollectionViewCompositionalLayout.list(using: configuration)
     }
     

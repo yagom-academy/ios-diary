@@ -11,9 +11,9 @@ final class MainViewController: UIViewController {
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DiaryData>
     
     private lazy var dataSource = configureDataSource()
+    private lazy var mainDiaryView = MainDiaryView()
     private var diaryDatas: [DiaryData] = []
     
-    private let mainDiaryView = MainDiaryView()
     private let coreDataManager = CoreDataManager.shared
     
     enum Section {
@@ -29,6 +29,7 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = mainDiaryView
+        self.mainDiaryView.delegate = self
         mainDiaryView.collectionView.delegate = self
         setNavigationBar()
     }
@@ -98,5 +99,36 @@ extension MainViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(diaryDatas)
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
+    }
+}
+
+// MARK: - Swipe
+extension MainViewController: SwipeConfigurable {
+    func makeSwipeActions(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
+        guard let indexPath = indexPath,
+              let id = diaryDatas[indexPath.item].id else { return nil }
+        
+        let deleteActionTitle = NSLocalizedString("Delete", comment: "Delete action title")
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: deleteActionTitle) { [weak self] _, _, _ in
+            
+            self?.coreDataManager.deleteData(id: id) { bool in
+                print(bool)
+                self?.setupData()
+                self?.applySnapshot(animatingDifferences: true)
+            }
+        }
+        
+        
+        //TODO: Baem's Mission
+        let shareActionTitle = NSLocalizedString("Share", comment: "Share action title")
+        let shareAction = UIContextualAction(style: .normal, title: shareActionTitle) {
+            [weak self] UIContextualAction, UIView, completion in
+            self?.applySnapshot(animatingDifferences: false)
+            completion(false)
+        }
+        deleteAction.backgroundColor = .systemPink
+        shareAction.backgroundColor = .systemBlue
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }

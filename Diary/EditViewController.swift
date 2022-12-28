@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol KeyboardActionProtocol {
+protocol KeyboardActionSavable: AnyObject {
     func saveWhenHideKeyboard()
 }
 
@@ -36,7 +36,7 @@ final class EditViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.saveEditData()
+        self.changeStatusToSave()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,7 +50,7 @@ final class EditViewController: UIViewController {
         super.viewDidLoad()
         self.view = editView
         self.editView.bindData(diaryData)
-        self.editView.keyboardDelegate = self
+        self.editView.delegate = self
         setNavigation()
         addNotification()
     }
@@ -88,7 +88,7 @@ final class EditViewController: UIViewController {
 // MARK: - Associate Save Logic
 extension EditViewController {
     @objc func saveWhenBackground() {
-        self.saveEditData()
+        self.changeStatusToSave()
     }
     
     private func changeStatusToSave() {
@@ -125,6 +125,7 @@ extension EditViewController {
                                            contentText: data.content) { _ in }
             }
         case .failure(let error):
+            self.status = .new
             self.showCustomAlert(alertText: "저장 실패",
                                  alertMessage: error.errorDescription ?? "",
                                  completion: nil)
@@ -179,7 +180,7 @@ extension EditViewController {
     }
 }
 
-extension EditViewController: KeyboardActionProtocol {
+extension EditViewController: KeyboardActionSavable {
     func saveWhenHideKeyboard() {
         changeStatusToSave()
     }
