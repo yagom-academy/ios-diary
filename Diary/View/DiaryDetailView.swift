@@ -19,6 +19,12 @@ final class DiaryDetailView: UIView {
     var body: String {
         return bodyTextView.text
     }
+    private let titlePlaceHolder = CustomLabel(text: Constant.titlePlaceHolder,
+                                               textColor: .systemGray2,
+                                               font: .title1)
+    private let bodyPlaceHolder = CustomLabel(text: Constant.bodyPlaceHolder,
+                                              textColor: .systemGray2,
+                                              font: .body)
     
     private let diaryTextScrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -107,28 +113,39 @@ final class DiaryDetailView: UIView {
     }
     
     func removePlaceHolder() {
-        if titleTextView.isFirstResponder && isTitlePlaceHolderState == true {
-            configureTitle("")
-            titleTextView.textColor = .black
-            isTitlePlaceHolderState = false
-        } else if bodyTextView.isFirstResponder && isBodyPlaceHolderState == true {
-            configureBody("")
-            bodyTextView.textColor = .black
-            isBodyPlaceHolderState = false
+        if title != Constant.empty {
+            titlePlaceHolder.removeFromSuperview()
+        }
+        
+        if body != Constant.empty {
+            bodyPlaceHolder.removeFromSuperview()
         }
     }
     
     func setupPlaceHolder() {
-        if titleTextView.text == Constant.empty {
-            configureTitle(Constant.titlePlaceHolder)
-            titleTextView.textColor = .systemGray3
-            isTitlePlaceHolderState = true
+        if title == Constant.empty {
+            titleTextView.addSubview(titlePlaceHolder)
+            
+            NSLayoutConstraint.activate([
+                titlePlaceHolder.leadingAnchor.constraint(
+                    equalTo: titleTextView.frameLayoutGuide.leadingAnchor, constant: 7),
+                titlePlaceHolder.trailingAnchor.constraint(
+                    equalTo: titleTextView.frameLayoutGuide.trailingAnchor),
+                titlePlaceHolder.heightAnchor.constraint(
+                    equalTo: titleTextView.frameLayoutGuide.heightAnchor)
+            ])
         }
-        
-        if bodyTextView.text == Constant.empty {
-            configureBody(Constant.bodyPlaceHolder)
-            bodyTextView.textColor = .systemGray3
-            isBodyPlaceHolderState = true
+        if body == Constant.empty {
+            bodyTextView.addSubview(bodyPlaceHolder)
+            
+            NSLayoutConstraint.activate([
+                bodyPlaceHolder.leadingAnchor.constraint(
+                    equalTo: bodyTextView.frameLayoutGuide.leadingAnchor, constant: 7),
+                bodyPlaceHolder.trailingAnchor.constraint(
+                    equalTo: bodyTextView.frameLayoutGuide.trailingAnchor),
+                bodyPlaceHolder.heightAnchor.constraint(
+                    equalTo: bodyTextView.frameLayoutGuide.heightAnchor)
+            ])
         }
     }
     

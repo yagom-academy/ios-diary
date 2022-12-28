@@ -9,7 +9,7 @@ import UIKit
 
 class RegisterDiaryViewController: UIViewController {
     
-    private let diaryPageView: DiaryDetailView = DiaryDetailView()
+    let diaryPageView: DiaryDetailView = DiaryDetailView()
     private var diaryPage = DiaryPage(title: " ", body: " ", createdAt: Date())
     
     override func viewDidLoad() {
@@ -42,10 +42,10 @@ class RegisterDiaryViewController: UIViewController {
 
 extension RegisterDiaryViewController: UITextViewDelegate {
 
-    func textViewDidBeginEditing(_ textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         diaryPageView.removePlaceHolder()
     }
-    
+
     func textViewDidEndEditing(_ textView: UITextView) {
         diaryPageView.setupPlaceHolder()
     }

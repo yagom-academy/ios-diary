@@ -9,7 +9,6 @@ import UIKit
 
 final class DiaryDetailViewController: RegisterDiaryViewController {
     
-    private let diaryDetailView: DiaryDetailView = DiaryDetailView()
     private var diaryPage: DiaryPage
     
     init(diary: DiaryPage) {
@@ -23,16 +22,15 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = diaryDetailView
         setupNavigationBar()
         configureDiary()
         setupNotification()
-        diaryDetailView.addTextViewsDelegate(self)
+        diaryPageView.addTextViewsDelegate(self)
     }
     
     private func configureDiary() {
-        diaryDetailView.configureTitle(diaryPage.title)
-        diaryDetailView.configureBody(diaryPage.body)
+        diaryPageView.configureTitle(diaryPage.title)
+        diaryPageView.configureBody(diaryPage.body)
     }
     
     override func setupNavigationBar() {
@@ -42,17 +40,6 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
                                                  target: self,
                                                  action: #selector(showActionSheet))
         self.navigationItem.rightBarButtonItem = alphaBarButtonItem
-    }
-}
-
-extension DiaryDetailViewController {
-    
-    override func textViewDidBeginEditing(_ textView: UITextView) {
-        diaryDetailView.removePlaceHolder()
-    }
-    
-    override func textViewDidEndEditing(_ textView: UITextView) {
-        diaryDetailView.setupPlaceHolder()
     }
 }
 
