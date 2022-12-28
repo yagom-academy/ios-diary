@@ -87,4 +87,17 @@ class CoreDataMananger {
         
         return lastDiaryModel
     }
+    
+    func deleteDiary(_ diaryModel: DiaryModel) {
+        do {
+            guard let diaryID = diaryModel.id,
+                  let item = try context.existingObject(with: diaryID) as? Diary else { return }
+            
+            context.delete(item)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        saveToContext()
+    }
 }

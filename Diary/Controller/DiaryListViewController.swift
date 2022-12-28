@@ -10,8 +10,9 @@ import UIKit
 import CoreData
 
 final class DiaryListViewController: UIViewController {
-    private let collectionView: UICollectionView = {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+    private lazy var collectionView: UICollectionView = {
+        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        config.trailingSwipeActionsConfigurationProvider = self.makeSwipeAction
         let collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         
@@ -33,6 +34,20 @@ final class DiaryListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         fetchDiary()
+    }
+    
+    func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
+        guard let indexPath = indexPath,
+              let diaryWillDelete = dataSource?.itemIdentifier(for: indexPath) else {
+            return nil
+        }
+        
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: "delete") { _, _, _ in
+            CoreDataMananger.shared.deleteDiary(diaryWillDelete)
+            self.fetchDiary()
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
     
     private func fetchDiary() {
