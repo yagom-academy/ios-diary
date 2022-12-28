@@ -8,7 +8,7 @@
 import UIKit
 
 class EditDiaryViewController: UIViewController {
-    private let editDiaryView = EditDiaryView()
+    let editDiaryView = EditDiaryView()
     private var diaryModel: DiaryModel!
     
     override func loadView() {
@@ -32,7 +32,7 @@ class EditDiaryViewController: UIViewController {
         self.diaryModel = diaryData
     }
     
-    private func createDiaryModel(with diaryContent: String) -> DiaryModel {
+    func createDiaryModel(with diaryContent: String) -> DiaryModel {
         if diaryContent == "" {
             self.diaryModel.title = ""
             self.diaryModel.body = ""
