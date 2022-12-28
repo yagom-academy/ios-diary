@@ -10,6 +10,7 @@ final class DiaryListViewController: UIViewController {
     private enum Constant {
         static let title = "일기장"
         static let sampleDataName = "sample"
+        static let firstDiary: IndexPath = .init(row: 0, section: 0)
     }
     
     private let diaryTableView: UITableView = {
@@ -79,9 +80,6 @@ final class DiaryListViewController: UIViewController {
         navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
-    @objc
-    private func tappedAddButton(_ sender: UIBarButtonItem) {
-        pushDiaryViewController()
     private func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(loadDiary),
@@ -89,12 +87,24 @@ final class DiaryListViewController: UIViewController {
                                                object: nil)
     }
     
-    private func pushDiaryViewController(with diary: Diary = Diary(content: "", createdAt: Date())) {
+    private func pushDiaryViewController(with diary: Diary) {
         let diaryViewController = DiaryViewController(diary: diary)
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
+    @objc
+    private func tappedAddButton(_ sender: UIBarButtonItem) {
+        let diaryDataManager = DiaryDataManager()
+        diaryDataManager.addNewDiary()
+        guard let diary = diaryDataSource.itemIdentifier(for: Constant.firstDiary) else {
+            return
+        }
+        pushDiaryViewController(with: diary)
+    }
+    
+    @objc
     private func loadDiary() {
+        guard navigationController?.topViewController == self else { return }
         let manager = DiaryDataManager()
         let sampleDiary: [Diary] = manager.fetchDiaries()
 
