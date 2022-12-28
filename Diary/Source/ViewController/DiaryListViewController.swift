@@ -93,7 +93,7 @@ final class DiaryListViewController: UIViewController {
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
-    private func showShareView(_ diary: Diary) {
+    private func showShareActivityView(for diary: Diary) {
         let activityViewController = UIActivityViewController(activityItems: [diary.content],
                                                               applicationActivities: nil)
         
@@ -118,11 +118,11 @@ final class DiaryListViewController: UIViewController {
     @objc
     private func loadDiary() {
         guard navigationController?.topViewController == self else { return }
-        let sampleDiary: [Diary] = diaryDataManager.fetchDiaries()
+        let diaries: [Diary] = diaryDataManager.fetchDiaries()
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
         
         snapshot.appendSections([.main])
-        snapshot.appendItems(sampleDiary)
+        snapshot.appendItems(diaries)
         diaryDataSource.apply(snapshot)
     }
 }
@@ -140,9 +140,9 @@ extension DiaryListViewController: UITableViewDelegate {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive,
-                                              title: nil) { (_, _, success) in
-            if let diary = self.diaryDataSource.itemIdentifier(for: indexPath) {
-                self.delete(diary)
+                                              title: nil) { [weak self] (_, _, success) in
+            if let diary = self?.diaryDataSource.itemIdentifier(for: indexPath) {
+                self?.delete(diary)
                 success(true)
             } else {
                 success(false)
@@ -151,9 +151,9 @@ extension DiaryListViewController: UITableViewDelegate {
         deleteAction.image = UIImage(systemName: "trash.fill")
         
         let shareAction = UIContextualAction(style: .normal,
-                                             title: nil) { (_, _, success) in
-            if let diary = self.diaryDataSource.itemIdentifier(for: indexPath) {
-                self.showShareView(diary)
+                                             title: nil) { [weak self] (_, _, success) in
+            if let diary = self?.diaryDataSource.itemIdentifier(for: indexPath) {
+                self?.showShareActivityView(for: diary)
                 success(true)
             } else {
                 success(false)

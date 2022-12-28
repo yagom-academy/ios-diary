@@ -124,8 +124,7 @@ final class DiaryViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    private func showShareView() {
-        diary.content = contentTextView.text
+    private func showShareActivityView() {
         let activityViewController = UIActivityViewController(activityItems: [diary.content],
                                                               applicationActivities: nil)
         
@@ -137,7 +136,8 @@ final class DiaryViewController: UIViewController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: Constant.shareActionTitle,
                                         style: .default) { [weak self] _ in
-            self?.showShareView()
+            self?.saveDiary()
+            self?.showShareActivityView()
         }
         let deleteAction = UIAlertAction(title: Constant.deleteActionTitle,
                                          style: .destructive) { [weak self] _ in
