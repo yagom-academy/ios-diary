@@ -85,7 +85,7 @@ extension DiaryListViewController: UITableViewDelegate {
 // MARK: Swipe Action
 extension DiaryListViewController {
     private func configureDeleteButton(item: Diary) -> UIContextualAction {
-        let handler: UIContextualAction.Handler = { [weak self] _, view, handler in
+        let handler: UIContextualAction.Handler = { [weak self] _, _, handler in
             guard let self = self else { return }
             
             let alert = UIAlertController(
