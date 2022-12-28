@@ -54,7 +54,10 @@ extension DiaryListViewController {
 
 // MARK: UITableView Delegate
 extension DiaryListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
         guard let items = diaries else { return }
         let diary = items[indexPath.row]
         
@@ -110,7 +113,7 @@ extension DiaryListViewController {
         let handler: UIContextualAction.Handler = { _, _, handler in
             
             let activityView = UIActivityViewController(
-                activityItems: [item.content],
+                activityItems: [item.convertShareContent()],
                 applicationActivities: nil
             )
             
@@ -140,9 +143,7 @@ extension DiaryListViewController {
     }
     
     private func setSnapshot() {
-        guard let diaries = diaries else {
-            return
-        }
+        guard let diaries = diaries else { return }
         
         var snapshot = NSDiffableDataSourceSnapshot<Int, Diary>()
         snapshot.appendSections([.zero])
