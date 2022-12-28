@@ -30,3 +30,18 @@ extension UIViewController {
         }
     }
 }
+
+extension UIViewController {
+    func moveToActivityView(data: DiaryData?) {
+        guard let sendingText = data?.contentText else { return }
+        
+        let activiyController = UIActivityViewController(activityItems: [sendingText],
+                                                         applicationActivities: nil)
+        activiyController.excludedActivityTypes = [.addToReadingList,
+                                                   .assignToContact,
+                                                   .openInIBooks,
+                                                   .saveToCameraRoll]
+        
+        self.present(activiyController, animated: true, completion: nil)
+    }
+}

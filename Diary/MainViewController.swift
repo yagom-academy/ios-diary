@@ -119,13 +119,10 @@ extension MainViewController: SwipeConfigurable {
             }
         }
         
-        
-        //TODO: Baem's Mission
         let shareActionTitle = NSLocalizedString("Share", comment: "Share action title")
-        let shareAction = UIContextualAction(style: .normal, title: shareActionTitle) {
-            [weak self] UIContextualAction, UIView, completion in
-            self?.applySnapshot(animatingDifferences: false)
-            completion(false)
+        let shareAction = UIContextualAction(style: .normal,
+                                             title: shareActionTitle) { [weak self] _, _, _ in
+            self?.moveToActivityView(data: self?.diaryDatas[indexPath.item])
         }
         deleteAction.backgroundColor = .systemPink
         shareAction.backgroundColor = .systemBlue

@@ -133,7 +133,6 @@ extension EditViewController {
     }
 }
 
-
 // MARK: - Action
 extension EditViewController {
     @objc private func optionButtonTapped() {
@@ -142,7 +141,7 @@ extension EditViewController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            self.moveToActivityView()
+            self.moveToActivityView(data: self.diaryData)
         }
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
@@ -165,18 +164,6 @@ extension EditViewController {
             alert.addAction($0)
         }
         self.present(alert, animated: true)
-    }
-    
-    private func moveToActivityView() {
-        guard let sendingText = self.diaryData?.contentText else { return }
-        let activiyController = UIActivityViewController(activityItems: [sendingText],
-                                                         applicationActivities: nil)
-        activiyController.excludedActivityTypes = [.addToReadingList,
-                                                   .assignToContact,
-                                                   .openInIBooks,
-                                                   .saveToCameraRoll]
-        
-        self.present(activiyController, animated: true, completion: nil)
     }
 }
 
