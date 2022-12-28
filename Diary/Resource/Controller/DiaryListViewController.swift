@@ -99,9 +99,7 @@ extension DiaryListViewController: UITableViewDelegate {
 
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _  in
             CoreDataStack.shared.deleteDiary(with: self.diaryModels[indexPath.row].id)
-            DispatchQueue.main.async {
-                self.diaryListTableView.reloadData()
-            }
+            self.diaryModels = CoreDataStack.shared.fetchAllDiaryModels()
         }
         
         actions.append(deleteAction)
