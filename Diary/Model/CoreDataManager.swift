@@ -31,17 +31,17 @@ struct CoreDataManager {
     private init() { }
     
     func saveDiary(_ diaryPage: DiaryPage) {
+        guard searchDiary(diaryPage.id).first == nil else {
+            return
+        }
+        
         let diary = Diary(context: persistentContainer.viewContext)
         diary.title = diaryPage.title
         diary.body = diaryPage.body
         diary.createdAt = diaryPage.createdAt
         diary.id = diaryPage.id
         
-        do {
-            try context.save()
-        } catch {
-            print(error.localizedDescription)
-        }
+        saveContext()
     }
     
     func fetchDiary() -> [DiaryPage] {
@@ -62,33 +62,20 @@ struct CoreDataManager {
     }
     
     func updateDiary(_ diaryPage: DiaryPage) {
-        let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
-        request.predicate = .init(format: "id = %@", diaryPage.id.uuidString)
+        let fetchedData = searchDiary(diaryPage.id)
+        fetchedData[0].title = diaryPage.title
+        fetchedData[0].body = diaryPage.body
         
-        do {
-            let fetchedData = try context.fetch(request)
-            fetchedData[0].title = diaryPage.title
-            fetchedData[0].body = diaryPage.body
-            
-            try context.save()
-        } catch {
-            print(error.localizedDescription)
-        }
+        saveContext()
     }
     
     func deleteDiary(_ diaryPage: DiaryPage) {
-        let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
-        request.predicate = .init(format: "id = %@", diaryPage.id.uuidString)
-        
-        do {
-            guard let dataWillRemove = try context.fetch(request).first else {
-                return
-            }
-            context.delete(dataWillRemove)
-            try context.save()
-        } catch {
-            print(error.localizedDescription)
+        guard let diaryWillDelete = searchDiary(diaryPage.id).first else {
+            return
         }
+        
+        context.delete(diaryWillDelete)
+        saveContext()
     }
     
     func deleteAllDiary() {
@@ -99,6 +86,28 @@ struct CoreDataManager {
             _ = fetchedData.map {
                 context.delete($0)
             }
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        saveContext()
+    }
+    
+    func searchDiary(_ id: UUID) -> [Diary] {
+        let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
+        request.predicate = .init(format: "id = %@", id.uuidString)
+        
+        do {
+            return try context.fetch(request)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        return []
+    }
+    
+    func saveContext() {
+        do {
             try context.save()
         } catch {
             print(error.localizedDescription)

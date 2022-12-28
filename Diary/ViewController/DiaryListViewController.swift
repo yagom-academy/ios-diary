@@ -84,7 +84,8 @@ extension DiaryListViewController {
     }
     
     @objc private func registerDiary() {
-        let registerDiaryViewController = RegisterDiaryViewController()
+        let registerDiaryViewController = RegisterDiaryViewController(
+            diary: DiaryPage(title: "", body: "", createdAt: Date()))
     
         self.navigationController?.pushViewController(registerDiaryViewController, animated: true)
     }

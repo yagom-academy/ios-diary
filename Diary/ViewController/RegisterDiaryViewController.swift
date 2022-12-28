@@ -9,8 +9,18 @@ import UIKit
 
 class RegisterDiaryViewController: UIViewController {
     
-    let diaryPageView: DiaryDetailView = DiaryDetailView()
-    private var diaryPage = DiaryPage(title: " ", body: " ", createdAt: Date())
+    private let diaryPageView: DiaryDetailView
+    private var diaryPage: DiaryPage
+
+    init(diaryPageView: DiaryDetailView = DiaryDetailView(), diary: DiaryPage) {
+        self.diaryPageView = diaryPageView
+        self.diaryPage = diary
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

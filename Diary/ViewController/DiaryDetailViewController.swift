@@ -9,11 +9,13 @@ import UIKit
 
 final class DiaryDetailViewController: RegisterDiaryViewController {
     
-    private var diaryPage: DiaryPage
+    private let diaryPageView: DiaryDetailView
+    private var diaryPage: DiaryPage 
     
-    init(diary: DiaryPage) {
+    override init(diaryPageView: DiaryDetailView = DiaryDetailView(), diary: DiaryPage) {
         self.diaryPage = diary
-        super.init(nibName: nil, bundle: nil)
+        self.diaryPageView = diaryPageView
+        super.init(diaryPageView: diaryPageView, diary: diary)
     }
     
     required init?(coder: NSCoder) {
