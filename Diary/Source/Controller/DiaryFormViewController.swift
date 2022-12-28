@@ -12,6 +12,7 @@ final class DiaryFormViewController: UIViewController {
     
     private let diaryFormView = DiaryFormView()
     private let selectedDiary: Diary?
+    private var alertControllerManager = AlertControllerManager()
     
     init(diary: Diary? = nil) {
         selectedDiary = diary
@@ -35,6 +36,7 @@ final class DiaryFormViewController: UIViewController {
         view.backgroundColor = .white
         configureDiaryViewLayout()
         configureNavigationBar()
+//        alertControllerManager.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -47,6 +49,13 @@ final class DiaryFormViewController: UIViewController {
         super.viewDidAppear(animated)
         
         diaryFormView.diaryTextView.becomeFirstResponder()
+        present(alertControllerManager.createActionSheet(completionHandler: showDeleteAlert),
+                animated: true,
+                completion: nil)
+    }
+    
+    func showDeleteAlert() {
+        present(alertControllerManager.createDeleteAlert(), animated: true, completion: nil)
     }
    
     // MARK: - Internal Methods
@@ -147,3 +156,9 @@ extension DiaryFormViewController {
         }
     }
 }
+
+//extension DiaryFormViewController: AlertDelegate {
+//    func deleteSelected() {
+//        present(alertControllerManager.createDeleteAlert(), animated: true, completion: nil)
+//    }
+//}
