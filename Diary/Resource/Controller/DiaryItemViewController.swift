@@ -86,12 +86,10 @@ class DiaryItemViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
         
         let date = Date()
-        
-        if title == nil {
-            title = DateFormatterManager().formatDate(date)
-        }
+        title = (title == nil ? DateFormatterManager().formatDate(date) : title)
     }
     
     private func configureMainStackView() {
@@ -135,6 +133,26 @@ class DiaryItemViewController: UIViewController {
         titleTextView.text = data.title
         bodyTextView.text = data.body
         title = DateFormatterManager().formatDate(data.createdAt)
+    }
+    
+    @objc private func showActionSheet() {
+        let alert: UIAlertController = UIAlertController(title: nil,
+                                                         message: nil,
+                                                         preferredStyle: .actionSheet)
+        
+        alert.addAction(UIAlertAction(title: AlertNamespace.share, style: .default) { _ in
+            self.present(self.activityViewController, animated: true)
+        })
+        alert.addAction(UIAlertAction(title: AlertNamespace.delete, style: .destructive))
+        alert.addAction(UIAlertAction(title: AlertNamespace.cancel, style: .cancel))
+        
+        self.present(alert, animated: true)
+    }
+    
+    private enum AlertNamespace {
+        static let share = "Share"
+        static let delete = "Delete"
+        static let cancel = "Cancel"
     }
     
     private enum LayoutConstant {
