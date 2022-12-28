@@ -35,6 +35,12 @@ class DiaryItemViewController: UIViewController {
         return textView
     }()
     
+    private lazy var activityViewController: UIActivityViewController = {
+        let diaryForm: String = diaryItemManager.createDiaryShareForm()
+        let activityViewController = UIActivityViewController(activityItems: [diaryForm], applicationActivities: nil)
+        return activityViewController
+    }()
+    
     private lazy var titleHeightConstraint =
     titleTextView.heightAnchor.constraint(equalToConstant: LayoutConstant.titleTextViewMaxHeight)
     
