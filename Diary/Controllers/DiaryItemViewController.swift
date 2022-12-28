@@ -22,6 +22,7 @@ class DiaryItemViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureNotificationCenter()
+        contentTextView.becomeFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -52,7 +53,6 @@ class DiaryItemViewController: UIViewController {
     
     func updateContentText(content: String?) {
         self.contentTextView.text = content
-        self.contentTextView.textColor = .black
     }
 }
 
