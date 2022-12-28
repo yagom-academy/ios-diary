@@ -78,20 +78,21 @@ extension EditViewController {
             if diaryData == nil {
                 coreDataManager.saveData(titleText: data.title,
                                          contentText: data.content,
-                                         date: currentDate,
-                                         completion: nil)
+                                         date: currentDate) { _ in
+                    //TODO: Success
+                }
             } else {
                 guard let id = diaryData?.id else { return }
                 coreDataManager.updateData(id: id,
                                            titleText: data.title,
-                                           contentText: data.content,
-                                           completion: nil)
+                                           contentText: data.content) { _ in
+                    //TODO: Success
+                }
             }
         case .failure(let error):
             self.showCustomAlert(alertText: "저장 실패하였습니다.",
                                  alertMessage: error.errorDescription ?? "",
-                                 bool: false,
-                                 completion: nil)
+                                 bool: false, completion: nil)
         }
     }
 }

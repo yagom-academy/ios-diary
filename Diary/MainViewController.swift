@@ -31,8 +31,6 @@ final class MainViewController: UIViewController {
         self.view = mainDiaryView
         mainDiaryView.collectionView.delegate = self
         setNavigationBar()
-        setupData()
-        applySnapshot()
     }
     
     private func setNavigationBar() {

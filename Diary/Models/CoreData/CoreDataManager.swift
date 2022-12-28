@@ -40,21 +40,20 @@ final class CoreDataManager {
     func saveData(titleText: String,
                   contentText: String,
                   date: Date,
-                  completion: (() -> Void)?) {
-        guard let completion = completion else { return }
+                  completion: @escaping (Bool) -> Void) {
         
         guard let context = context else {
-            completion()
+            completion(false)
             return
         }
         guard let entity = NSEntityDescription.entity(forEntityName: self.modelName,
                                                       in: context) else {
-            completion()
+            completion(false)
             return
         }
         guard let content = NSManagedObject(entity: entity,
                                             insertInto: context) as? DiaryData else {
-            completion()
+            completion(false)
             return
         }
         
@@ -66,20 +65,18 @@ final class CoreDataManager {
         if context.hasChanges {
             do {
                 try context.save()
-                completion()
+                completion(true)
             } catch {
-                completion()
+                completion(false)
             }
         }
-        completion()
+        completion(true)
     }
     
     func updateData(id: UUID,
                     titleText: String,
                     contentText: String,
-                    completion: (() -> Void)?) {
-        
-        guard let completion = completion else { return }
+                    completion: @escaping (Bool) -> Void) {
         
         if let context = context {
             let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
@@ -95,13 +92,13 @@ final class CoreDataManager {
                 if context.hasChanges {
                     do {
                         try context.save()
-                        completion()
+                        completion(true)
                     } catch {
-                        print(error)
+                        completion(false)
                     }
                 }
             } catch {
-                print(error)
+                completion(false)
             }
         }
     }

@@ -59,7 +59,8 @@ final class EditDiaryView: UIView {
                                                  distribution: .fill)
     
     func packageData() -> Result<(title: String, content: String), DataError> {
-        guard let titleText = titleTextField.text else {
+        guard let titleText = titleTextField.text,
+              titleText.count != .zero else {
             return .failure(.noneTitleError)
         }
         
