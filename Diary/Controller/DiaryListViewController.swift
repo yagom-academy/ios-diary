@@ -108,4 +108,38 @@ extension DiaryListViewController: UITableViewDelegate {
         navigationController?.pushViewController(diaryViewController, animated: true)
         diaryListTableView.deselectRow(at: indexPath, animated: true)
     }
+
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shareAction = UIContextualAction(style: .normal, title: nil) { (_, _, success) in
+            success(true)
+        }
+        shareAction.backgroundColor = .systemBlue
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, success) in
+            self.showDeleteActionAlert(diary: self.diaryList[indexPath.row])
+            success(true)
+        }
+        deleteAction.image = UIImage(systemName: "trash")
+
+        let swipeActionConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        swipeActionConfiguration.performsFirstActionWithFullSwipe = false
+
+        return swipeActionConfiguration
+    }
+
+    private func showDeleteActionAlert(diary: Diary) {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            CoreDataManager.shared.delete(diary: diary)
+            self.configureSnapshot()
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+
+        present(alert, animated: true)
+    }
 }
