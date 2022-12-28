@@ -10,10 +10,11 @@ import UIKit
 final class DiaryViewController: UIViewController {
     private let diary: Diary
 
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
+    private let scrollView: DiaryScrollView = {
+        let scrollView = DiaryScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+        scrollView.keyboardDismissMode = .interactive
 
         return scrollView
     }()
@@ -64,9 +65,21 @@ final class DiaryViewController: UIViewController {
         configureLayout()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if !titleTextView.hasText {
+            titleTextView.becomeFirstResponder()
+        } else if !bodyTextView.hasText {
+            bodyTextView.becomeFirstResponder()
+        }
+    }
+
     private func configureHierarchy() {
         scrollView.addSubview(containerStackView)
         view.addSubview(scrollView)
+        titleTextView.delegate = self
+        bodyTextView.delegate = self
     }
 
     private func configureView(with diary: Diary) {
@@ -88,5 +101,14 @@ final class DiaryViewController: UIViewController {
             containerStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             containerStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
+    }
+}
+
+extension DiaryViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n", textView == titleTextView {
+            bodyTextView.becomeFirstResponder()
+        }
+        return true
     }
 }
