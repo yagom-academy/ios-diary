@@ -65,7 +65,7 @@ final class EditViewController: UIViewController {
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
                                                  style: .plain,
                                                  target: self,
-                                                 action: #selector(shareButtonTapped))
+                                                 action: #selector(optionButtonTapped))
         
         navigationItem.rightBarButtonItem = rightBarButtonItem
     }
@@ -85,14 +85,35 @@ final class EditViewController: UIViewController {
     }
     
     @objc func saveWhenBackground() {
-        saveEditData()
+        self.saveEditData()
     }
 }
 
 // MARK: - Action
 extension EditViewController {
-    @objc private func shareButtonTapped() {
-        //TODO: 추후 구현
+    @objc private func optionButtonTapped() {
+        self.saveEditData()
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
+            guard let sendingText = self.diaryData?.contentText else { return }
+            let activiyController = UIActivityViewController(activityItems: [sendingText],
+                                                             applicationActivities: nil)
+            activiyController.excludedActivityTypes = [.addToReadingList,
+                                                       .assignToContact,
+                                                       .openInIBooks,
+                                                       .saveToCameraRoll]
+            
+            self.present(activiyController, animated: true, completion: nil)
+        }
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        [shareAction, deleteAction, cancelAction].forEach {
+            alert.addAction($0)
+        }
+        
+        self.present(alert, animated: true)
     }
     
     private func saveEditData() {
