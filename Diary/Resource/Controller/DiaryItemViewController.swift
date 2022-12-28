@@ -9,7 +9,7 @@ import UIKit
 
 class DiaryItemViewController: UIViewController {
     var hasTitle: Bool = false
-    var diaryData: DiaryModel
+    var diaryData: DiaryModel?
     
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -49,15 +49,6 @@ class DiaryItemViewController: UIViewController {
             titleHeightConstraint.isActive = !oldValue
             titleTextView.setNeedsUpdateConstraints()
         }
-    }
-    
-    init(diary: DiaryModel = DiaryModel(id: UUID(), title: "제목 없음", body: "", createdAt: Date())) {
-        self.diaryData = diary
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     override func loadView() {
@@ -124,13 +115,13 @@ class DiaryItemViewController: UIViewController {
     }
     
     func updateDiaryModel() {
-        diaryData.title = titleTextView.text
-        diaryData.body = bodyTextView.text
-        diaryData.createdAt = Date()
+        diaryData?.title = titleTextView.text
+        diaryData?.body = bodyTextView.text
+        diaryData?.createdAt = Date()
     }
     
     @objc func saveOrUpdate() {
-        guard CoreDataStack.shared.fetchDiary(with: diaryData.id) != nil else {
+        guard CoreDataStack.shared.fetchDiary(with: diaryData?.id) != nil else {
             CoreDataStack.shared.insertDiary(diaryData)
             return
         }
