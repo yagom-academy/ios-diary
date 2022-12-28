@@ -61,10 +61,18 @@ class DiaryItemViewController: UIViewController {
     }
     
     @objc func showActionSheet() {
+        self.contentTextView.resignFirstResponder()
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: "Share", style: .default))
-        alert.addAction(UIAlertAction(title: "Delete", style: .destructive))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: showDeleteAlert))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showDeleteAlert(_ action: UIAlertAction) {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "취소", style: .default))
+        alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: deleteCoreData))
         self.present(alert, animated: true, completion: nil)
     }
 }
@@ -111,8 +119,7 @@ extension DiaryItemViewController {
     
     func createCoreData() {
         do {
-            guard let text = contentTextView.text,
-                  text != "" else { return }
+            guard let text = contentTextView.text else { return }
             
             self.diary = try CoreDataManager.shared.createDiary(text: text, createdAt: Date().timeIntervalSince1970)
         } catch {
@@ -131,5 +138,16 @@ extension DiaryItemViewController {
         } catch {
             print(error)
         }
+    }
+    
+    func deleteCoreData(action: UIAlertAction) {
+        guard let diary else { return }
+        do {
+            try CoreDataManager.shared.deleteDiary(diary: diary)
+        } catch {
+            print(error)
+        }
+        self.diary = nil
+        self.navigationController?.popViewController(animated: true)
     }
 }
