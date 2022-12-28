@@ -24,6 +24,13 @@ final class DiaryViewController: UIViewController {
         configure()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if contentTextView.hasText {
+            contentTextView.contentOffset = .zero
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if contentTextView.hasText == false {
