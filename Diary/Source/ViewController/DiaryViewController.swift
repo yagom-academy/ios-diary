@@ -87,11 +87,36 @@ final class DiaryViewController: UIViewController {
                                                object: nil)
     }
     
+    private func showDeleteAlert() {
+        let alert = UIAlertController(title: "진짜요?",
+                                      message: "정말로 삭제 하시겠어요?",
+                                      preferredStyle: .alert)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.deleteDiary()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        [cancelAction, deleteAction].forEach { action in
+            alert.addAction(action)
+        }
+        
+        present(alert, animated: true)
+    }
+    
+    private func deleteDiary() {
+        let diaryDataManager = DiaryDataManager()
+        
+        diaryDataManager.remove(diary)
+        navigationController?.popViewController(animated: true)
+    }
+    
     @objc
     private func tappedDetailButton() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...", style: .default)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.showDeleteAlert()
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
         [shareAction, deleteAction, cancelAction].forEach { action in
