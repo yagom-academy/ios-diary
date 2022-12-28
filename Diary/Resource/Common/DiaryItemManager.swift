@@ -20,16 +20,14 @@ struct DiaryItemManager {
                diaryItem?.body == "" { return }
             
             CoreDataStack.shared.insertDiary(diaryItem)
+            CoreDataStack.shared.fetchDiaryModels(diaryModel: diaryItem)
         } else {
             CoreDataStack.shared.updateDiary(diaryItem)
         }
     }
     
     mutating func generateDiary() {
-        diaryItem = DiaryModel(id: UUID(),
-                               title: "",
-                               body: "",
-                               createdAt: Date())
+        diaryItem = DiaryModel(title: "", body: "", createdAt: Date())
     }
     
     mutating func updateDiaryWith(title: String, body: String) {
@@ -46,7 +44,6 @@ struct DiaryItemManager {
         guard let diaryItem = diaryItem else { return "" }
         
         let form: String = """
-            id: \(diaryItem.id)
             title: \(diaryItem.title)
             body: \(diaryItem.body)
             created at: \(diaryItem.createdAt)

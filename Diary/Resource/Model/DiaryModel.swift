@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import CoreData
 
 struct DiaryModel {
-    var id: UUID
+    var id: NSManagedObjectID?
     var title: String
     var body: String
     var createdAt: Date
