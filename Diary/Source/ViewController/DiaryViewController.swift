@@ -4,10 +4,6 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private enum Constant {
-        static let endEditingVelocity = -2.0
-    }
-    
     private let contentTextView = DiaryTextView(font: .preferredFont(forTextStyle: .body),
                                                 textAlignment: .left,
                                                 textColor: .black)
@@ -26,7 +22,6 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        contentTextView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -40,6 +35,9 @@ final class DiaryViewController: UIViewController {
         title = DateFormatter.converted(date: diary.createdAt,
                                         locale: Locale.preference,
                                         dateStyle: .long)
+        contentTextView.delegate = self
+        contentTextView.keyboardDismissMode = .interactive
+        
         setupView()
         setupData()
     }
@@ -81,16 +79,6 @@ final class DiaryViewController: UIViewController {
 }
 
 extension DiaryViewController: UITextViewDelegate {
-    func scrollViewWillEndDragging(
-        _ scrollView: UIScrollView,
-        withVelocity velocity: CGPoint,
-        targetContentOffset: UnsafeMutablePointer<CGPoint>
-    ) {
-        if velocity.y < Constant.endEditingVelocity {
-            contentTextView.endEditing(true)
-        }
-    }
-    
     func textViewDidEndEditing(_ textView: UITextView) {
         saveDiary()
     }
