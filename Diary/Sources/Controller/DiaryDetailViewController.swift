@@ -92,7 +92,7 @@ extension DiaryDetailViewController {
         item = Diary(
             title: titleTextField.text,
             body: contentTextView.text,
-            createdIntervalValue: 0,
+            createdIntervalValue: Int(Date().timeIntervalSince1970),
             uuid: UUID()
         )
         coreDataManager.createDiary(diary: item)
