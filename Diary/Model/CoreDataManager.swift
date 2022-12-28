@@ -55,7 +55,6 @@ class CoreDataMananger {
     func insertDiary(_ diaryModel: DiaryModel) {
         if let diaryEntity = self.diaryEntity {
             let managedObject = NSManagedObject(entity: diaryEntity, insertInto: self.context)
-//            managedObject.setValue(diaryModel.id, forKey: "id")
             managedObject.setValue(diaryModel.title, forKey: "title")
             managedObject.setValue(diaryModel.body, forKey: "body")
             managedObject.setValue(diaryModel.createdAt, forKey: "createdAt")
@@ -65,17 +64,27 @@ class CoreDataMananger {
     
     func updateDiary(_ diaryModel: DiaryModel) {
         do {
-            guard let item = try context.existingObject(with: diaryModel.id) as? Diary else { return }
+            guard let diaryID = diaryModel.id,
+                  let item = try context.existingObject(with: diaryID) as? Diary else { return }
             
-            if item.objectID == diaryModel.id {
-                item.title = diaryModel.title
-                item.body = diaryModel.body
-                item.createdAt = diaryModel.createdAt
-            }
+            item.title = diaryModel.title
+            item.body = diaryModel.body
         } catch {
             print(error.localizedDescription)
         }
         
         saveToContext()
+    }
+    
+    func fetchLastObject() -> DiaryModel {
+        guard let lastDiary = fetchDiaries().last else {
+            return DiaryModel()
+        }
+        let lastDiaryModel = DiaryModel(id: lastDiary.objectID,
+                                        title: lastDiary.title ?? "",
+                                        body: lastDiary.body ?? "",
+                                        createdAt: lastDiary.createdAt)
+        
+        return lastDiaryModel
     }
 }

@@ -9,8 +9,7 @@ import UIKit
 
 class EditDiaryViewController: UIViewController {
     private let editDiaryView = EditDiaryView()
-    private var tmpDiaryModel: DiaryModel = DiaryModel()
-    var diaryModel: DiaryModel!
+    private var diaryModel: DiaryModel!
     
     override func loadView() {
         self.view = editDiaryView
@@ -19,7 +18,7 @@ class EditDiaryViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        CoreDataMananger.shared.updateDiary(createDiaryModel(with: editDiaryView.fetchTextViewContent()))
+        CoreDataMananger.shared.updateDiary(self.createDiaryModel(with: self.editDiaryView.fetchTextViewContent()))
     }
     
     override func viewDidLoad() {
@@ -33,7 +32,7 @@ class EditDiaryViewController: UIViewController {
         self.diaryModel = diaryData
     }
     
-    func createDiaryModel(with diaryContent: String) -> DiaryModel {
+    private func createDiaryModel(with diaryContent: String) -> DiaryModel {
         if diaryContent == "" {
             self.diaryModel.title = ""
             self.diaryModel.body = ""
