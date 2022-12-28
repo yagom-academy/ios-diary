@@ -144,21 +144,37 @@ class DiaryItemViewController: UIViewController {
         alert.addAction(UIAlertAction(title: Namespace.share, style: .default) { _ in
             self.present(self.activityViewController, animated: true)
         })
-        alert.addAction(UIAlertAction(title: AlertNamespace.delete, style: .destructive) { _ in
-            self.titleTextView.text = ""
-            self.bodyTextView.text = ""
-            self.diaryItemManager.deleteDiary()
-            self.navigationController?.popViewController(animated: false)
+        alert.addAction(UIAlertAction(title: Namespace.delete, style: .destructive) { _ in
+            self.showDeleteAlert(for: self.diaryItemManager.diaryItem)
         })
-        alert.addAction(UIAlertAction(title: AlertNamespace.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: Namespace.cancel, style: .cancel))
         
         self.present(alert, animated: true)
     }
     
-    private enum AlertNamespace {
-        static let share = "Share"
-        static let delete = "Delete"
-        static let cancel = "Cancel"
+    private func showDeleteAlert(for diaryModel: DiaryModel?) {
+        let alert: UIAlertController = UIAlertController(title: Namespace.deleteDiary,
+                                                         message: Namespace.deleteMessage,
+                                                         preferredStyle: .alert)
+        let cancelAction: UIAlertAction = UIAlertAction(title: Namespace.cancel,
+                                                        style: .cancel)
+        let deleteAction: UIAlertAction = UIAlertAction(title: Namespace.delete,
+                                                        style: .destructive,
+                                                        handler: { _ in
+            self.delete(diaryModel)
+            self.navigationController?.popViewController(animated: false)
+        })
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
+    }
+    
+    private func delete(_ diaryModel: DiaryModel?) {
+        CoreDataStack.shared.deleteDiary(with: diaryModel?.id)
+        self.titleTextView.text = Namespace.emptyString
+        self.bodyTextView.text = Namespace.emptyString
+        self.diaryItemManager.deleteDiary()
     }
     
     private enum LayoutConstant {
