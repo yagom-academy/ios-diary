@@ -20,7 +20,8 @@ struct DiaryItemManager {
                diaryItem?.body == Namespace.emptyString { return }
             
             CoreDataStack.shared.insertDiary(diaryItem)
-            CoreDataStack.shared.fetchDiaryModels(diaryModel: diaryItem)
+            let id = CoreDataStack.shared.fetchID(of: diaryItem)
+            diaryItem?.id = id
         } else {
             CoreDataStack.shared.updateDiary(diaryItem)
         }
@@ -55,7 +56,6 @@ struct DiaryItemManager {
     }
     
     mutating func deleteDiary() {
-        CoreDataStack.shared.deleteDiary(with: diaryItem?.id)
         diaryItem = nil
     }
 }
