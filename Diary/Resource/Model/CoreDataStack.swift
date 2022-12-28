@@ -87,6 +87,23 @@ class CoreDataStack {
         return diaryModels
     }
     
+    func fetchDiaryModels(diaryModel: DiaryModel?) -> NSManagedObjectID? {
+        guard let diaryModel = diaryModel else { return nil }
+
+        let fetchedRequest = Diary.fetchRequest()
+        fetchedRequest.predicate = NSPredicate(format: "title == %@ AND body == %@ AND createdAt == %@",
+                                               argumentArray: [diaryModel.title, diaryModel.body, diaryModel.createdAt])
+        
+        do {
+            let result = try viewContext.fetch(fetchedRequest)
+            return result.first?.objectID
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        return nil
+    }
+    
     func updateDiary(_ diaryModel: DiaryModel?) {
         guard let diaryModel = diaryModel,
               let id = diaryModel.id else { return }
