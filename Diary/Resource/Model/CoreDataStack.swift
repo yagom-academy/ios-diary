@@ -115,11 +115,11 @@ class CoreDataStack {
         }
     }
     
-    func deleteDiary(_ diaryModel: DiaryModel?) {
-        guard let diaryModel = diaryModel else { return }
-        
+    func deleteDiary(with id: UUID?) {
+        guard let id = id else { return }
+
         let fetchRequest: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", diaryModel.id.uuidString)
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
         
         do {
             let diaries = try viewContext.fetch(fetchRequest)

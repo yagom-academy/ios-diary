@@ -54,4 +54,9 @@ struct DiaryItemManager {
 
         return form
     }
+    
+    mutating func deleteDiary() {
+        CoreDataStack.shared.deleteDiary(with: diaryItem?.id)
+        diaryItem = nil
+    }
 }

@@ -149,7 +149,12 @@ class DiaryItemViewController: UIViewController {
         alert.addAction(UIAlertAction(title: AlertNamespace.share, style: .default) { _ in
             self.present(self.activityViewController, animated: true)
         })
-        alert.addAction(UIAlertAction(title: AlertNamespace.delete, style: .destructive))
+        alert.addAction(UIAlertAction(title: AlertNamespace.delete, style: .destructive) { _ in
+            self.titleTextView.text = ""
+            self.bodyTextView.text = ""
+            self.diaryItemManager.deleteDiary()
+            self.navigationController?.popViewController(animated: false)
+        })
         alert.addAction(UIAlertAction(title: AlertNamespace.cancel, style: .cancel))
         
         self.present(alert, animated: true)
