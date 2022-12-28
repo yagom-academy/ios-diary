@@ -7,7 +7,7 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    
+ 
     private var diaries: [Diary]?
     
     private let tableView: UITableView = {
@@ -57,7 +57,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        self.navigationItem.title = "일기장"
+        self.navigationItem.title = Constant.listTitle
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addDiary))
     }
     

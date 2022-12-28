@@ -50,10 +50,10 @@ class DiaryItemViewController: UIViewController {
         self.view.addSubview(contentTextView)
         
         NSLayoutConstraint.activate([
-            contentTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
-            contentTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
+            contentTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10),
+            contentTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 10),
             contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                      constant: -10),
+                                                      constant: 10),
             contentTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
@@ -63,23 +63,23 @@ class DiaryItemViewController: UIViewController {
     }
     
     func configureNavigationItem() {
-        let ellipsisImage = UIImage(systemName: "ellipsis.circle")
+        let ellipsisImage = UIImage(systemName: Constant.moreImageName)
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: ellipsisImage, style: .plain, target: self, action: #selector(showActionSheet))
     }
     
     @objc func showActionSheet() {
         self.contentTextView.resignFirstResponder()
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "공유", style: .default, handler: showActivityViewController))
-        alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: showDeleteAlert))
-        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
+        alert.addAction(UIAlertAction(title: Constant.share, style: .default, handler: showActivityViewController))
+        alert.addAction(UIAlertAction(title: Constant.cancel, style: .cancel))
+        alert.addAction(UIAlertAction(title: Constant.delete, style: .destructive, handler: showDeleteAlert))
         self.present(alert, animated: true, completion: nil)
     }
     
     func showDeleteAlert(_ action: UIAlertAction) {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: deleteCoreData))
-        alert.addAction(UIAlertAction(title: "취소", style: .default))
+        let alert = UIAlertController(title: Constant.deleteAlertTitle, message: Constant.deleteAlertMessage, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: Constant.delete, style: .destructive, handler: deleteCoreData))
+        alert.addAction(UIAlertAction(title: Constant.cancel, style: .default))
         self.present(alert, animated: true, completion: nil)
     }
     

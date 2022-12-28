@@ -11,8 +11,6 @@ final class DiaryCell: UITableViewCell {
     
     static let identifier = "CustomCell"
     
-    private let spacing: CGFloat = 10
-    
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -84,14 +82,14 @@ final class DiaryCell: UITableViewCell {
         self.contentLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         NSLayoutConstraint.activate([
-            self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: spacing),
-            self.titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: spacing),
-            self.titleLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, constant: -(spacing * 2)),
+            self.titleLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: Constant.spacing),
+            self.titleLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: Constant.spacing),
+            self.titleLabel.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, constant: -(Constant.spacing * 2)),
             
-            self.stackView.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: spacing),
-            self.stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: spacing),
-            self.stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -spacing),
-            self.stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -spacing),
+            self.stackView.topAnchor.constraint(equalTo: self.titleLabel.bottomAnchor, constant: Constant.spacing),
+            self.stackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: Constant.spacing),
+            self.stackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -Constant.spacing),
+            self.stackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -Constant.spacing),
             
             self.dateLabel.leadingAnchor.constraint(equalTo: self.stackView.leadingAnchor),
             self.contentLabel.trailingAnchor.constraint(equalTo: self.stackView.trailingAnchor)
