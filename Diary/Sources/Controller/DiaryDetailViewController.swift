@@ -136,6 +136,7 @@ extension DiaryDetailViewController {
     
     @objc private func willHideKeyboard(notification: Notification) {
         contentTextView.contentInset.bottom = 0
+        updateAndCreateData()
     }
 }
 
@@ -226,6 +227,8 @@ extension DiaryDetailViewController {
     }
     
     private func presentActionSheet(_ action: UIAction) {
+        view.endEditing(true)
+        
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let shareAction = UIAlertAction(type: .share, handler: shareHandler(_:))
