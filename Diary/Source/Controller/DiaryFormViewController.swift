@@ -42,16 +42,16 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         setUpNotification()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        selectSaveOrUpdate()
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         diaryFormView.diaryTextView.becomeFirstResponder()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        selectSaveOrUpdate()
     }
     
     // MARK: - Internal Methods
@@ -84,27 +84,41 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
     private func configureNavigationBar() {
         navigationItem.title = DateFormatter.koreanDateFormatter.string(from: Date())
         navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis.circle"),
+            image: UIImage(systemName: NameSpace.rightBarButtonImage),
             style: .plain,
             target: self,
             action: #selector(showActionSheet)
         )
     }
     
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
     private func createDiary() -> Diary {
-        var components = diaryFormView.diaryTextView.text.components(separatedBy: "\n")
-        let title = components.removeFirst()
-        let body = components.filter { !$0.isEmpty }.first ?? ""
         var uuid = UUID()
+        var components = diaryFormView.diaryTextView.text.components(separatedBy: NameSpace.lineBreak)
+        let title = components.removeFirst()
+        let body = components.filter { !$0.isEmpty }.first ?? String()
+        
         if let id = selectedDiary?.id {
             uuid = id
         }
         
-        let diary = Diary(title: title,
-                          body: body,
-                          createdAt: Int(Date().timeIntervalSince1970),
-                          totalText: diaryFormView.diaryTextView.text,
-                          id: uuid)
+        let diary = Diary(
+            title: title,
+            body: body,
+            createdAt: Int(Date().timeIntervalSince1970),
+            totalText: diaryFormView.diaryTextView.text,
+            id: uuid
+        )
 
         return diary
     }
@@ -126,17 +140,6 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         }
     }
     
-    private func setUpNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-    }
-    
     // MARK: - Action Methods
     
     @objc private func showActionSheet() {
@@ -150,10 +153,12 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         
         if let userInfo = notification.userInfo,
            let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-            let contentInset = UIEdgeInsets(top: 0.0,
-                                            left: 0.0,
-                                            bottom: keyboardFrame.size.height,
-                                            right: 0.0)
+            let contentInset = UIEdgeInsets(
+                top: 0.0,
+                left: 0.0,
+                bottom: keyboardFrame.size.height,
+                right: 0.0
+            )
             
             textView.contentInset = contentInset
             textView.scrollIndicatorInsets = contentInset
@@ -168,4 +173,9 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         
         selectSaveOrUpdate()
     }
+}
+
+private enum NameSpace {
+    static let rightBarButtonImage = "ellipsis.circle"
+    static let lineBreak = "\n"
 }

@@ -8,8 +8,10 @@ import UIKit
 
 struct ActivityControllerManager {
     func showActivity(textToShare: String) -> UIActivityViewController {
-        let activity = UIActivityViewController(activityItems: [textToShare],
-                                                applicationActivities: nil)
+        let activity = UIActivityViewController(
+            activityItems: [textToShare],
+            applicationActivities: nil
+        )
         
         return activity
     }

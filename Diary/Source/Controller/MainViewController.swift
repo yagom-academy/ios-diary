@@ -23,7 +23,6 @@ final class MainViewController: UIViewController, CoreDataProcessable {
         view = mainDiaryView
         configureNavigationItem()
         setUpTableView()
-        decodeDiaryData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -46,19 +45,6 @@ final class MainViewController: UIViewController, CoreDataProcessable {
     private func setUpTableView() {
         mainDiaryView.diaryTableView.dataSource = self
         mainDiaryView.diaryTableView.delegate = self
-    }
-    
-    private func decodeDiaryData() {
-        guard let dataAsset = NSDataAsset(name: NameSpace.assetName) else { return }
-        
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        do {
-            diaries = try decoder.decode([Diary].self, from: dataAsset.data)
-        } catch {
-            print(error.localizedDescription)
-        }
     }
     
     private func fetchDiaryFromCoreData() {
@@ -149,18 +135,22 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt
                    indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let share = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
-            let diary = self.diaries[indexPath.row]
-            
-            self.showActivityController(with: diary.totalText)
-        }
+        let share = UIContextualAction(
+            style: .normal,
+            title: NameSpace.swipeShareTitle) { _, _, _ in
+                let diary = self.diaries[indexPath.row]
+                
+                self.showActivityController(with: diary.totalText)
+            }
         share.backgroundColor = .systemBlue
         
-        let delete = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
-            let diary = self.diaries[indexPath.row]
-            
-            self.showDeleteAlert(diary: diary)
-        }
+        let delete = UIContextualAction(
+            style: .destructive,
+            title: NameSpace.swipeDeleteTitle) { _, _, _ in
+                let diary = self.diaries[indexPath.row]
+                
+                self.showDeleteAlert(diary: diary)
+            }
         
         return UISwipeActionsConfiguration(actions: [delete, share])
     }
@@ -171,4 +161,6 @@ extension MainViewController: UITableViewDelegate {
 private enum NameSpace {
     static let navigationTitle = "일기장"
     static let assetName = "sample"
+    static let swipeShareTitle = "Share"
+    static let swipeDeleteTitle = "Delete"
 }

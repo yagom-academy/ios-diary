@@ -19,17 +19,17 @@ extension CoreDataProcessable {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
         guard let entity = NSEntityDescription.entity(
-            forEntityName: "Entity",
+            forEntityName: NameSpace.entityName,
             in: managedContext) else {
             return
         }
         let object = NSManagedObject(entity: entity, insertInto: managedContext)
         
-        object.setValue(diary.body, forKey: "body")
-        object.setValue(diary.createdAt.description, forKey: "createdDate")
-        object.setValue(diary.title, forKey: "title")
-        object.setValue(diary.totalText, forKey: "totalText")
-        object.setValue(diary.id, forKey: "id")
+        object.setValue(diary.title, forKey: NameSpace.entityTitle)
+        object.setValue(diary.body, forKey: NameSpace.entityBody)
+        object.setValue(diary.createdAt.description, forKey: NameSpace.entityCreatedDate)
+        object.setValue(diary.totalText, forKey: NameSpace.entityTotalText)
+        object.setValue(diary.id, forKey: NameSpace.entityID)
         
         do {
             try managedContext.save()
@@ -41,7 +41,7 @@ extension CoreDataProcessable {
     func readCoreData() -> [Entity]? {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<Entity>(entityName: "Entity")
+        let fetchRequest = NSFetchRequest<Entity>(entityName: NameSpace.entityName)
         let result = try? managedContext.fetch(fetchRequest)
         
         return result
@@ -50,17 +50,17 @@ extension CoreDataProcessable {
     func updateCoreData(diary: Diary) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Entity")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: NameSpace.entityName)
         
-        fetchRequest.predicate = NSPredicate(format: "id = %@", diary.id.uuidString)
+        fetchRequest.predicate = NSPredicate(format: NameSpace.idFormat, diary.id.uuidString)
         
         guard let result = try? managedContext.fetch(fetchRequest),
               let object = result.first as? NSManagedObject else { return }
         
-        object.setValue(diary.title, forKey: "title")
-        object.setValue(diary.body, forKey: "body")
-        object.setValue(diary.createdAt.description, forKey: "createdDate")
-        object.setValue(diary.totalText, forKey: "totalText")
+        object.setValue(diary.title, forKey: NameSpace.entityTitle)
+        object.setValue(diary.body, forKey: NameSpace.entityBody)
+        object.setValue(diary.createdAt.description, forKey: NameSpace.entityCreatedDate)
+        object.setValue(diary.totalText, forKey: NameSpace.entityTotalText)
         
         do {
             try managedContext.save()
@@ -72,9 +72,9 @@ extension CoreDataProcessable {
     func deleteCoreData(diary: Diary) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "Entity")
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: NameSpace.entityName)
         
-        fetchRequest.predicate = NSPredicate(format: "id = %@", diary.id.uuidString)
+        fetchRequest.predicate = NSPredicate(format: NameSpace.idFormat, diary.id.uuidString)
         
         guard let result = try? managedContext.fetch(fetchRequest),
               let objectToDelete = result.first as? NSManagedObject else { return }
@@ -84,7 +84,17 @@ extension CoreDataProcessable {
         do {
             try managedContext.save()
         } catch let error as NSError {
-            print("Could not update. \(error), \(error.userInfo)")
+            print("Could not delete. \(error), \(error.userInfo)")
         }
     }
+}
+
+private enum NameSpace {
+    static let entityName = "Entity"
+    static let entityTitle = "title"
+    static let entityBody = "body"
+    static let entityCreatedDate = "createdDate"
+    static let entityTotalText = "totalText"
+    static let entityID = "id"
+    static let idFormat = "id = %@"
 }
