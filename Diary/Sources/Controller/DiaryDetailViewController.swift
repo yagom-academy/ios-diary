@@ -209,15 +209,20 @@ extension DiaryDetailViewController {
     }
     
     private func setNavigationBar() {
-        let currentDate = Date().convertString()
-        navigationItem.setNavigationTitle(title: currentDate)
-        
         let presentAction = UIAction(handler: presentActionSheet)
         navigationItem.setRightButton(
             systemName: Constant.rightBarButtonName,
             action: presentAction
         )
         navigationItem.rightBarButtonItem?.isEnabled = isNotEmpty
+        
+        var currentDate = Date().convertString()
+        
+        if let diaryDate = item?.createdDate {
+            currentDate = diaryDate
+        }
+        
+        navigationItem.setNavigationTitle(title: currentDate)
     }
     
     private func presentActionSheet(_ action: UIAction) {
