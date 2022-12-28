@@ -99,6 +99,10 @@ extension DiaryDetailViewController {
     }
     
     func updateAndCreateData() {
+        guard let title = titleTextField.text,
+              let body = contentTextView.text,
+              title.isNotEmpty || body.isNotEmpty else { return }
+        
         if item == nil {
             createWithCoreData()
         } else {
@@ -214,5 +218,11 @@ extension DiaryDetailViewController {
         )
         
         self.present(activityView, animated: true)
+    }
+}
+
+private extension String {
+    var isNotEmpty: Bool {
+        return !isEmpty
     }
 }
