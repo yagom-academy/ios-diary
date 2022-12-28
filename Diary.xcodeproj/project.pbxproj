@@ -26,6 +26,7 @@
 		D06F92D52952C2B4008FEAEA /* DiaryFormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F92D42952C2B4008FEAEA /* DiaryFormViewController.swift */; };
 		D06F92DC295A8F6A008FEAEA /* Entity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F92DB295A8F6A008FEAEA /* Entity+CoreDataClass.swift */; };
 		D06F92DE295A8F72008FEAEA /* Entity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D06F92DD295A8F72008FEAEA /* Entity+CoreDataProperties.swift */; };
+		D090ECC8295C269F007EABE7 /* CoreDataProcessable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D090ECC7295C269F007EABE7 /* CoreDataProcessable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		D06F92D42952C2B4008FEAEA /* DiaryFormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryFormViewController.swift; sourceTree = "<group>"; };
 		D06F92DB295A8F6A008FEAEA /* Entity+CoreDataClass.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Entity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D06F92DD295A8F72008FEAEA /* Entity+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Entity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D090ECC7295C269F007EABE7 /* CoreDataProcessable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataProcessable.swift; sourceTree = "<group>"; };
 		DF9002312F598A21D2A35F51 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -132,6 +134,7 @@
 				B2EDA1C42951760E00617C23 /* Diary.swift */,
 				B2B5A8DE295BDF0A000EA754 /* AlertControllerManager.swift */,
 				B2B5A8E0295C1776000EA754 /* ActivityControllerManager.swift */,
+				D090ECC7295C269F007EABE7 /* CoreDataProcessable.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				B2B5A8DF295BDF0A000EA754 /* AlertControllerManager.swift in Sources */,
 				B2EDA1C82951955700617C23 /* DateFormatter + Extension.swift in Sources */,
 				B2B5A8E1295C1776000EA754 /* ActivityControllerManager.swift in Sources */,
+				D090ECC8295C269F007EABE7 /* CoreDataProcessable.swift in Sources */,
 				D06F92D229517834008FEAEA /* CustomDiaryCell.swift in Sources */,
 				D06F92DE295A8F72008FEAEA /* Entity+CoreDataProperties.swift in Sources */,
 				B2EDA1CC2952C1DB00617C23 /* DiaryFormView.swift in Sources */,
