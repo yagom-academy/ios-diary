@@ -55,7 +55,7 @@ extension CoreDataProcessable {
         fetchRequest.predicate = NSPredicate(format: "id = %@", diary.id.uuidString)
         
         guard let result = try? managedContext.fetch(fetchRequest),
-              let object = result[0] as? NSManagedObject else { return }
+              let object = result.first as? NSManagedObject else { return }
         
         object.setValue(diary.title, forKey: "title")
         object.setValue(diary.body, forKey: "body")
@@ -77,7 +77,7 @@ extension CoreDataProcessable {
         fetchRequest.predicate = NSPredicate(format: "id = %@", diary.id.uuidString)
         
         guard let result = try? managedContext.fetch(fetchRequest),
-              let objectToDelete = result[0] as? NSManagedObject else { return }
+              let objectToDelete = result.first as? NSManagedObject else { return }
         
         managedContext.delete(objectToDelete)
             

@@ -17,7 +17,6 @@ final class DiaryFormView: UIView {
         super.init(frame: frame)
         
         configureLayout()
-        setUpNotification()
     }
     
     required init?(coder: NSCoder) {
@@ -34,34 +33,5 @@ final class DiaryFormView: UIView {
             diaryTextView.trailingAnchor.constraint(equalTo: trailingAnchor),
             diaryTextView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
-    }
-    
-    private func setUpNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-    }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        if let userInfo = notification.userInfo,
-           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-            let contentInset = UIEdgeInsets(top: 0.0,
-                                            left: 0.0,
-                                            bottom: keyboardFrame.size.height,
-                                            right: 0.0)
-            
-            diaryTextView.contentInset = contentInset
-            diaryTextView.scrollIndicatorInsets = contentInset
-        }
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        diaryTextView.contentInset = UIEdgeInsets.zero
-        diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
 }

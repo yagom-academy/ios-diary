@@ -39,6 +39,7 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         view.backgroundColor = .white
         configureDiaryViewLayout()
         configureNavigationBar()
+        setUpNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -113,6 +114,7 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         
         present(alertControllerManager.createDeleteAlert({
             self.deleteCoreData(diary: diary)
+            self.navigationController?.popViewController(animated: true)
         }), animated: true)
     }
     
@@ -124,11 +126,46 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         }
     }
     
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
     // MARK: - Action Methods
     
     @objc private func showActionSheet() {
         present(alertControllerManager.createActionSheet(showActivityController, showDeleteAlert),
                 animated: true,
                 completion: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        let textView = diaryFormView.diaryTextView
+        
+        if let userInfo = notification.userInfo,
+           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
+            let contentInset = UIEdgeInsets(top: 0.0,
+                                            left: 0.0,
+                                            bottom: keyboardFrame.size.height,
+                                            right: 0.0)
+            
+            textView.contentInset = contentInset
+            textView.scrollIndicatorInsets = contentInset
+        }
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        let textView = diaryFormView.diaryTextView
+        
+        textView.contentInset = UIEdgeInsets.zero
+        textView.scrollIndicatorInsets = textView.contentInset
+        
+        selectSaveOrUpdate()
     }
 }
