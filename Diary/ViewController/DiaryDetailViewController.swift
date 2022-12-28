@@ -74,13 +74,8 @@ extension DiaryDetailViewController {
     private func showActivityView() {
         let title = diaryPage.title
         let body = diaryPage.body
-        let activityViewController = UIActivityViewController(activityItems: [title, body],
-                                                              applicationActivities: nil)
-        activityViewController.excludedActivityTypes = [UIActivity.ActivityType.postToFlickr,
-                                                        UIActivity.ActivityType.saveToCameraRoll,
-                                                        UIActivity.ActivityType.postToVimeo,
-                                                        UIActivity.ActivityType.postToWeibo]
-        
+        let activityViewController = CustomActivityViewController(activityItems: [title, body])
+
         self.present(activityViewController, animated: true)
     }
     

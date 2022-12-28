@@ -21,6 +21,7 @@ final class DiaryListViewController: UIViewController {
         snapShot()
         setupNavigationBar()
         diaryListView?.diaryList?.delegate = self
+        diaryListView?.delegate = self
     }
     
     private func convertDiaryData() {
@@ -94,5 +95,38 @@ extension DiaryListViewController: UICollectionViewDelegate {
         let detailViewController = DiaryDetailViewController(diary: diary[indexPath.item])
         collectionView.deselectItem(at: indexPath, animated: false)
         self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+}
+
+extension DiaryListViewController: DiaryListViewDelegate {
+    func configureSwipeActions(indexPath: IndexPath) -> UISwipeActionsConfiguration {
+        let deleteAction = UIContextualAction(style: .destructive,
+                                        title: "delete") {
+            _, _, handler in
+
+            CoreDataManager.shared.deleteDiary(self.diary[indexPath.item])
+            guard let dataSource = self.dataSource else { return }
+            guard let id = dataSource.itemIdentifier(for: indexPath) else { return }
+            var currentData = dataSource.snapshot()
+            currentData.deleteItems([id])
+            dataSource.apply(currentData)
+            handler(true)
+        }
+        
+        let shareAction = UIContextualAction(style: .normal,
+                                             title: "share") {
+            _, _, handler in
+        
+            let title = self.diary[indexPath.item].title
+            let body = self.diary[indexPath.item].body
+            let activityViewController = CustomActivityViewController(activityItems: [title, body])
+        
+            self.present(activityViewController, animated: true)
+            handler(true)
+        }
+        shareAction.backgroundColor = .systemBlue
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }

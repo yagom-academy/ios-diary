@@ -9,6 +9,7 @@ import UIKit
 
 final class DiaryListView: UIView {
     
+    weak var delegate: DiaryListViewDelegate?
     private(set) var diaryList: UICollectionView?
     
     override init(frame: CGRect) {
@@ -21,9 +22,12 @@ final class DiaryListView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func createLayout() -> UICollectionViewLayout {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        config.trailingSwipeActionsConfigurationProvider = { indexPath in
+            return self.delegate?.configureSwipeActions(indexPath: indexPath)
+        }
         
         return UICollectionViewCompositionalLayout.list(using: config)
     }
@@ -51,4 +55,8 @@ final class DiaryListView: UIView {
                 equalTo: safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+}
+
+protocol DiaryListViewDelegate: AnyObject {
+    func configureSwipeActions(indexPath: IndexPath) -> UISwipeActionsConfiguration
 }
