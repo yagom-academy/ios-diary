@@ -44,4 +44,13 @@ struct Diary: Decodable, Hashable {
         
         return uuid
     }
+    
+    var content: String {
+        guard let title = title,
+              let body = body else {
+            return ""
+        }
+        
+        return title + "\n\n" + body
+    }
 }

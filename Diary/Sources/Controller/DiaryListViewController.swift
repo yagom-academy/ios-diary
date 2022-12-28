@@ -77,7 +77,7 @@ extension DiaryListViewController: UITableViewDelegate {
               let item = dataSource.itemIdentifier(for: indexPath) else { return nil }
         
         let deleteAction = configureDeleteButton(item: item)
-        let shareAction = configureShareButton()
+        let shareAction = configureShareButton(item: item)
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
@@ -113,10 +113,16 @@ extension DiaryListViewController {
         return action
     }
     
-    private func configureShareButton() -> UIContextualAction {
+    private func configureShareButton(item: Diary) -> UIContextualAction {
         let handler: UIContextualAction.Handler = { _, _, handler in
-            // TODO: ActivityView 띄우는 메서드 추가하기
-            // MARK: 넌 누구냐...handler
+            
+            let activityView = UIActivityViewController(
+                activityItems: [item.content],
+                applicationActivities: nil
+            )
+            
+            self.present(activityView, animated: true)
+            
             handler(false)
         }
         

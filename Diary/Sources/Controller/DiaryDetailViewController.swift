@@ -204,6 +204,15 @@ extension DiaryDetailViewController {
     }
     
     private func shareHandler(_ action: UIAlertAction) {
-        // TODO: 공유 액션 구현
+        guard let item = item else {
+            return
+        }
+        
+        let activityView = UIActivityViewController(
+            activityItems: [item.content],
+            applicationActivities: nil
+        )
+        
+        self.present(activityView, animated: true)
     }
 }
