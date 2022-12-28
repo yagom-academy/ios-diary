@@ -47,6 +47,7 @@ final class DiaryViewController: UIViewController {
         
         setupView()
         setupData()
+        setupNotification()
     }
     
     private func setupView() {
@@ -69,6 +70,14 @@ final class DiaryViewController: UIViewController {
         contentTextView.text = diary.content
     }
     
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(saveDiary),
+                                               name: .didEnterBackground,
+                                               object: nil)
+    }
+    
+    @objc
     private func saveDiary() {
         guard contentTextView.hasText == true else { return }
         diary.content = contentTextView.text
