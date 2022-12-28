@@ -9,9 +9,9 @@ struct DiaryDataManager: DiaryManageable {
         guard let entity = DiaryCoreDataStack.shared.fetchEntity(forEntityName: "DiaryData") else {
             return
         }
-        
         let diaryObject = NSManagedObject(entity: entity,
-                                    insertInto: DiaryCoreDataStack.shared.context)
+                                          insertInto: DiaryCoreDataStack.shared.context)
+        
         diaryObject.setValue(diary.title, forKey: "title")
         diaryObject.setValue(diary.body, forKey: "body")
         diaryObject.setValue(diary.createdAt, forKey: "createdAt")
@@ -22,6 +22,7 @@ struct DiaryDataManager: DiaryManageable {
     func fetchDiaries() -> [Diary] {
         let fetchRequest: NSFetchRequest<DiaryData> = DiaryData.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        
         guard let result = try? DiaryCoreDataStack.shared.context.fetch(fetchRequest) else {
             return []
         }
@@ -57,7 +58,8 @@ struct DiaryDataManager: DiaryManageable {
     }
     
     private func fetchObjectID(from diaryID: String?) -> NSManagedObjectID? {
-        guard let diaryID = diaryID, let objectURL = URL(string: diaryID),
+        guard let diaryID = diaryID,
+              let objectURL = URL(string: diaryID),
               let storeCoordinator = DiaryCoreDataStack.shared.context.persistentStoreCoordinator,
               let objectID = storeCoordinator.managedObjectID(forURIRepresentation: objectURL) else {
             return nil

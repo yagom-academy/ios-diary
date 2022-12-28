@@ -4,9 +4,17 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
+    private enum Constant {
+        static let deleteAlertTitle = "진짜요??🤔"
+        static let deleteAlertMessage = "정말로 삭제 하시겠어요??🙏"
+        static let deleteActionTitle = "삭제"
+        static let shareActionTitle = "공유"
+        static let cancelActionTitle = "취소"
+    }
     private let contentTextView = DiaryTextView(font: .preferredFont(forTextStyle: .body),
                                                 textAlignment: .left,
                                                 textColor: .black)
+    private let diaryDataManager = DiaryDataManager()
     private var diary: Diary
 
     init(diary: Diary) {
@@ -41,8 +49,6 @@ final class DiaryViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if contentTextView.hasText == false {
-            let diaryDataManager = DiaryDataManager()
-            
             diaryDataManager.remove(diary)
         }
     }
@@ -97,13 +103,14 @@ final class DiaryViewController: UIViewController {
     }
     
     private func showDeleteAlert() {
-        let alert = UIAlertController(title: "진짜요?",
-                                      message: "정말로 삭제 하시겠어요?",
+        let alert = UIAlertController(title: Constant.deleteAlertTitle,
+                                      message: Constant.deleteAlertMessage,
                                       preferredStyle: .alert)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+        let deleteAction = UIAlertAction(title: Constant.deleteActionTitle,
+                                         style: .destructive) { [weak self] _ in
             self?.deleteDiary()
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let cancelAction = UIAlertAction(title: Constant.cancelActionTitle, style: .cancel)
         
         [cancelAction, deleteAction].forEach { action in
             alert.addAction(action)
@@ -113,8 +120,6 @@ final class DiaryViewController: UIViewController {
     }
     
     private func deleteDiary() {
-        let diaryDataManager = DiaryDataManager()
-        
         diaryDataManager.remove(diary)
         navigationController?.popViewController(animated: true)
     }
@@ -130,13 +135,15 @@ final class DiaryViewController: UIViewController {
     @objc
     private func tappedDetailButton() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
+        let shareAction = UIAlertAction(title: Constant.shareActionTitle,
+                                        style: .default) { [weak self] _ in
             self?.showShareView()
         }
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+        let deleteAction = UIAlertAction(title: Constant.deleteActionTitle,
+                                         style: .destructive) { [weak self] _ in
             self?.showDeleteAlert()
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: Constant.cancelActionTitle, style: .cancel)
         
         [shareAction, deleteAction, cancelAction].forEach { action in
             actionSheet.addAction(action)
@@ -147,8 +154,6 @@ final class DiaryViewController: UIViewController {
     
     @objc
     private func saveDiary() {
-        let diaryDataManager = DiaryDataManager()
-        
         diary.content = contentTextView.text
         diaryDataManager.update(diary)
     }

@@ -12,6 +12,7 @@ final class DiaryListViewController: UIViewController {
         static let sampleDataName = "sample"
         static let firstDiary: IndexPath = .init(row: 0, section: 0)
     }
+    private let diaryDataManager = DiaryDataManager()
     
     private let diaryTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -92,11 +93,6 @@ final class DiaryListViewController: UIViewController {
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
-    private func delete(_ diary: Diary) {
-        let manager = DiaryDataManager()
-        manager.remove(diary)
-    }
-    
     private func showShareView(_ diary: Diary) {
         let activityViewController = UIActivityViewController(activityItems: [diary.content],
                                                               applicationActivities: nil)
@@ -104,21 +100,25 @@ final class DiaryListViewController: UIViewController {
         present(activityViewController, animated: true)
     }
     
+    private func delete(_ diary: Diary) {
+        diaryDataManager.remove(diary)
+    }
+    
     @objc
     private func tappedAddButton(_ sender: UIBarButtonItem) {
-        let diaryDataManager = DiaryDataManager()
         diaryDataManager.addNewDiary()
+        
         guard let diary = diaryDataSource.itemIdentifier(for: Constant.firstDiary) else {
             return
         }
+        
         pushDiaryViewController(with: diary)
     }
     
     @objc
     private func loadDiary() {
         guard navigationController?.topViewController == self else { return }
-        let manager = DiaryDataManager()
-        let sampleDiary: [Diary] = manager.fetchDiaries()
+        let sampleDiary: [Diary] = diaryDataManager.fetchDiaries()
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
         
         snapshot.appendSections([.main])
