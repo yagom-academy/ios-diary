@@ -30,8 +30,8 @@ struct CoreDataManager {
     
     private init() { }
     
-    func saveDiary(_ diaryPage: DiaryPage) {
-        guard searchDiary(diaryPage.id).first == nil else {
+    func save(_ diaryPage: DiaryPage) {
+        guard searchDiary(using: diaryPage.id).first == nil else {
             return
         }
         
@@ -44,10 +44,13 @@ struct CoreDataManager {
         saveContext()
     }
     
-    func fetchDiary() -> [DiaryPage] {
+    func fetchDiaryPages() -> [DiaryPage] {
         var diaryList: [DiaryPage] = []
+        let request = Diary.fetchRequest()
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+       
         do {
-            let fetchedData = try context.fetch(Diary.fetchRequest())
+            let fetchedData = try context.fetch(request)
             _ = fetchedData.map {
                 diaryList.append(DiaryPage(title: $0.title ?? "",
                                            body: $0.body ?? "",
@@ -61,16 +64,16 @@ struct CoreDataManager {
         return diaryList
     }
     
-    func updateDiary(_ diaryPage: DiaryPage) {
-        let fetchedData = searchDiary(diaryPage.id)
+    func update(_ diaryPage: DiaryPage) {
+        let fetchedData = searchDiary(using: diaryPage.id)
         fetchedData[0].title = diaryPage.title
         fetchedData[0].body = diaryPage.body
         
         saveContext()
     }
     
-    func deleteDiary(_ diaryPage: DiaryPage) {
-        guard let diaryWillDelete = searchDiary(diaryPage.id).first else {
+    func delete(_ diaryPage: DiaryPage) {
+        guard let diaryWillDelete = searchDiary(using: diaryPage.id).first else {
             return
         }
         
@@ -93,7 +96,7 @@ struct CoreDataManager {
         saveContext()
     }
     
-    func searchDiary(_ id: UUID) -> [Diary] {
+    func searchDiary(using id: UUID) -> [Diary] {
         let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
         request.predicate = .init(format: "id = %@", id.uuidString)
         

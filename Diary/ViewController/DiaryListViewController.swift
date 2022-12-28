@@ -16,16 +16,19 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         diaryListView = DiaryListView()
         self.view = diaryListView
-        convertDiaryData()
-        configureDiaryListDataSource()
-        snapShot()
         setupNavigationBar()
         diaryListView?.diaryList?.delegate = self
         diaryListView?.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        convertDiaryData()
+        configureDiaryListDataSource()
+        snapShot()
+    }
+    
     private func convertDiaryData() {
-        diary = CoreDataManager.shared.fetchDiary()
+        diary = CoreDataManager.shared.fetchDiaryPages()
     }
     
     private func configureDiaryListDataSource() {
@@ -105,7 +108,7 @@ extension DiaryListViewController: DiaryListViewDelegate {
                                         title: "delete") {
             _, _, handler in
 
-            CoreDataManager.shared.deleteDiary(self.diary[indexPath.item])
+            CoreDataManager.shared.delete(self.diary[indexPath.item])
             guard let dataSource = self.dataSource else { return }
             guard let id = dataSource.itemIdentifier(for: indexPath) else { return }
             var currentData = dataSource.snapshot()

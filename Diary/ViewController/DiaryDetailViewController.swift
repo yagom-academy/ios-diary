@@ -13,8 +13,8 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
     private var diaryPage: DiaryPage 
     
     override init(diaryPageView: DiaryDetailView = DiaryDetailView(), diary: DiaryPage) {
-        self.diaryPage = diary
         self.diaryPageView = diaryPageView
+        self.diaryPage = diary
         super.init(diaryPageView: diaryPageView, diary: diary)
     }
     
@@ -24,10 +24,7 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         configureDiary()
-        setupNotification()
-        diaryPageView.addTextViewsDelegate(self)
     }
     
     private func configureDiary() {
@@ -74,7 +71,7 @@ extension DiaryDetailViewController {
                                                 preferredStyle: .alert)
         alertController.addAction(UIAlertAction(title: "취소", style: .cancel))
         alertController.addAction(UIAlertAction(title: "삭제", style: .destructive) { _ in
-            CoreDataManager.shared.deleteDiary(self.diaryPage)
+            CoreDataManager.shared.delete(self.diaryPage)
         })
         
         self.present(alertController, animated: true)

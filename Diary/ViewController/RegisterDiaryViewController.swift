@@ -25,12 +25,16 @@ class RegisterDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = diaryPageView
-        CoreDataManager.shared.saveDiary(diaryPage)
+        CoreDataManager.shared.save(diaryPage)
         diaryPageView.addTextViewsDelegate(self)
         setupNavigationBar()
         setupNotification()
-        diaryPageView.makeTitleTextViewFirstResponder()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
         diaryPageView.setupPlaceHolder()
+        diaryPageView.makeTitleTextViewFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -42,7 +46,7 @@ class RegisterDiaryViewController: UIViewController {
         diaryPage.title = diaryPageView.title
         diaryPage.body = diaryPageView.body
         
-        CoreDataManager.shared.updateDiary(diaryPage)
+        CoreDataManager.shared.update(diaryPage)
     }
     
     func setupNavigationBar() {
