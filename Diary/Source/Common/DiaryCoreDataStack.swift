@@ -32,6 +32,7 @@ final class DiaryCoreDataStack {
         if context.hasChanges {
             do {
                 try context.save()
+                NotificationCenter.default.post(name: .didChangeDiaryCoreData, object: nil)
             } catch {
                 print(error.localizedDescription)
             }

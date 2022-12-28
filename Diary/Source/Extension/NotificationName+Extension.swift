@@ -5,4 +5,5 @@ import Foundation
 
 extension Notification.Name {
     static let didEnterBackground = Notification.Name("didEnterBackground")
+    static let didChangeDiaryCoreData = Notification.Name("didChangeDiaryCoreData")
 }
