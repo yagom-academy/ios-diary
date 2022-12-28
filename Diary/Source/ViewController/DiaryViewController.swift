@@ -46,6 +46,7 @@ final class DiaryViewController: UIViewController {
         contentTextView.keyboardDismissMode = .interactive
         
         setupView()
+        setupBarButtonItem()
         setupData()
         setupNotification()
     }
@@ -66,6 +67,15 @@ final class DiaryViewController: UIViewController {
         ])
     }
     
+    private func setupBarButtonItem() {
+        let rightBarButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"),
+                                             style: .plain,
+                                             target: self,
+                                             action: #selector(tappedDetailButton))
+        
+        navigationItem.setRightBarButton(rightBarButton, animated: true)
+    }
+    
     private func setupData() {
         contentTextView.text = diary.content
     }
@@ -75,6 +85,20 @@ final class DiaryViewController: UIViewController {
                                                selector: #selector(saveDiary),
                                                name: .didEnterBackground,
                                                object: nil)
+    }
+    
+    @objc
+    private func tappedDetailButton() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        [shareAction, deleteAction, cancelAction].forEach { action in
+            actionSheet.addAction(action)
+        }
+        
+        present(actionSheet, animated: true)
     }
     
     @objc
