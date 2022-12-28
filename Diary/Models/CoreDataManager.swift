@@ -20,7 +20,7 @@ class CoreDataManager {
     
     let entityName = "Diary"
     
-    func createDiary(title: String?, content: String?, createdAt: Double) throws -> Diary {
+    func createDiary(text: String, createdAt: Double) throws -> Diary {
         
         guard let context else { throw DataError.contextUndifined }
     
@@ -33,8 +33,7 @@ class CoreDataManager {
         }
         
         diaryData.id = UUID()
-        diaryData.title = title
-        diaryData.content = content
+        diaryData.text = text
         diaryData.createdAt = createdAt
         
         if context.hasChanges {

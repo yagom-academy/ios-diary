@@ -11,19 +11,6 @@ class DiaryItemViewController: UIViewController {
     
     var diary: Diary?
     
-    enum Constant {
-        static let contentPlaceholder = "내용을 입력하세요."
-        static let titlePlaceholder = "제목"
-    }
-    
-    private let titleTextField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = Constant.titlePlaceholder
-        textField.font = .preferredFont(forTextStyle: .body)
-        return textField
-    }()
-    
     private let contentTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,7 +21,6 @@ class DiaryItemViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureTextView()
         configureNotificationCenter()
     }
     
@@ -53,32 +39,15 @@ class DiaryItemViewController: UIViewController {
     private func configureUI() {
         self.view.backgroundColor = .white
         
-        self.view.addSubview(titleTextField)
         self.view.addSubview(contentTextView)
         
         NSLayoutConstraint.activate([
-            titleTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            titleTextField.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor,
-                                                    constant: 10),
-            titleTextField.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
-                                                     constant: -10),
-            
-            contentTextView.topAnchor.constraint(equalTo: titleTextField.bottomAnchor, constant: 15),
+            contentTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 15),
             contentTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
             contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor,
                                                       constant: -10),
             contentTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    private func configureTextView() {
-        self.contentTextView.delegate = self
-        updateContentText(content: Constant.contentPlaceholder)
-        self.contentTextView.textColor = .lightGray
-    }
-    
-    func updateTitleText(title: String?) {
-        self.titleTextField.text = title
     }
     
     func updateContentText(content: String?) {
@@ -119,8 +88,6 @@ extension DiaryItemViewController {
 extension DiaryItemViewController {
     
     @objc func manageCoreData() {
-        if titleTextField.text == "" { return }
-        
         if self.diary != nil {
             updateCoreData()
             return
@@ -131,40 +98,25 @@ extension DiaryItemViewController {
     
     func createCoreData() {
         do {
-            let title = titleTextField.text
-            let content = contentTextView.text
-            self.diary = try CoreDataManager.shared.createDiary(title: title, content: content, createdAt: Date().timeIntervalSince1970)
+            guard let text = contentTextView.text,
+                  text != "" else { return }
+            
+            self.diary = try CoreDataManager.shared.createDiary(text: text, createdAt: Date().timeIntervalSince1970)
         } catch {
             print(error)
         }
     }
     
     func updateCoreData() {
-        guard let diary else { return }
-        diary.title = titleTextField.text
-        diary.content = contentTextView.text
+        guard let diary,
+              let text = contentTextView.text else { return }
+        
+        diary.text = text
         
         do {
             try CoreDataManager.shared.updateDiary(updatedDiary: diary)
         } catch {
             print(error)
-        }
-    }
-}
-
-// MARK: - TextView Method
-extension DiaryItemViewController: UITextViewDelegate {
-    
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == Constant.contentPlaceholder {
-            updateContentText(content: nil)
-        }
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            updateContentText(content: Constant.contentPlaceholder)
-            textView.textColor = .lightGray
         }
     }
 }

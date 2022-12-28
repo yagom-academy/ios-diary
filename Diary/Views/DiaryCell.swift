@@ -66,10 +66,11 @@ final class DiaryCell: UITableViewCell {
     }
     
     func configureData(diary: Diary?) {
-        self.titleLabel.text = diary?.title
-        self.contentLabel.text = diary?.content
+        guard let diary = diary else { return}
+        let (title, content) = diary.text.sliceTitleAndContent()
         
-        guard let diary else { return }
+        self.titleLabel.text = title
+        self.contentLabel.text = content
         
         let date = Date(timeIntervalSince1970: diary.createdAt)
         
