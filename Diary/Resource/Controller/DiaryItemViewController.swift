@@ -73,6 +73,15 @@ class DiaryItemViewController: UIViewController {
     private func configureTextView() {
         titleTextView.delegate = self
         bodyTextView.delegate = self
+        setPlaceholder(for: titleTextView)
+        setPlaceholder(for: bodyTextView)
+    }
+    
+    private func setPlaceholder(for textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.textColor = .systemGray3
+            textView.text = Placeholder.editText
+        }
     }
     
     private func configureNavigationBar() {
@@ -138,6 +147,13 @@ extension DiaryItemViewController {
 }
 
 extension DiaryItemViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.text == Placeholder.editText {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
+    
     func textViewDidChange(_ textView: UITextView) {
         guard textView == titleTextView else { return }
         
@@ -156,6 +172,10 @@ extension DiaryItemViewController: UITextViewDelegate {
             titleTextView.resignFirstResponder()
             bodyTextView.becomeFirstResponder()
         }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        setPlaceholder(for: textView)
     }
 }
 
