@@ -9,3 +9,6 @@
 "Share" = "공유";
 "Cancel" = "취소";
 "Delete" = "삭제";
+
+// PlaceHolder
+"TextFieldPlaceHolder" = "제목을 입력해주세요.";
