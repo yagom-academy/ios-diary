@@ -42,9 +42,10 @@ final class DiaryListViewController: UIViewController {
                                                             action: #selector(tappedPlusButton))
     }
     
+    // TODO: DiaryItemVC로 수정
     @objc private func tappedPlusButton(_ sender: UIBarButtonItem) {
-        let registerViewController = RegisterViewController()
-        navigationController?.pushViewController(registerViewController, animated: true)
+//        let registerViewController = RegisterViewController()
+//        navigationController?.pushViewController(registerViewController, animated: true)
     }
     
     private func configureDiaryListTableView() {
@@ -79,10 +80,11 @@ extension DiaryListViewController: UITableViewDataSource {
 }
 
 extension DiaryListViewController: UITableViewDelegate {
+    // TODO: DiaryItemVC로 수정, configure할 방법 생각
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailViewController = DetailViewController()
+//        let detailViewController = DetailViewController()
         
-        navigationController?.pushViewController(detailViewController, animated: true)
+//        navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 

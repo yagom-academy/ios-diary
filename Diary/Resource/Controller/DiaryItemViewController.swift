@@ -8,10 +8,10 @@
 import UIKit
 
 class DiaryItemViewController: UIViewController {
-    var hasTitle: Bool = false
-    var diaryItemManager = DiaryItemManager()
+    private var hasTitle: Bool = false
+    private var diaryItemManager = DiaryItemManager()
     
-    let mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -19,22 +19,18 @@ class DiaryItemViewController: UIViewController {
         return stackView
     }()
     
-    let titleTextView: UITextView = {
+    private let titleTextView: UITextView = {
         let textView = UITextView()
         textView.isScrollEnabled = false
         textView.setContentCompressionResistancePriority(.required, for: .vertical)
-        textView.textColor = .systemGray3
         textView.font = UIFont.preferredFont(forTextStyle: .title2)
-        textView.text = Placeholder.editText
         textView.textContainerInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
         return textView
     }()
     
-    let bodyTextView: UITextView = {
+    private let bodyTextView: UITextView = {
         let textView = UITextView()
-        textView.textColor = .systemGray3
         textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.text = Placeholder.editText
         textView.textContainerInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
         return textView
     }()
@@ -79,14 +75,14 @@ class DiaryItemViewController: UIViewController {
         bodyTextView.delegate = self
     }
     
-    func configureNavigationBar() {
+    private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
         
         let date = Date()
         title = DateFormatterManager().formatDate(date)
     }
     
-    func configureMainStackView() {
+    private func configureMainStackView() {
         mainStackView.addArrangedSubview(titleTextView)
         mainStackView.addArrangedSubview(bodyTextView)
         mainStackView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: LayoutConstant.mainStackViewTopMargin,
@@ -103,7 +99,7 @@ class DiaryItemViewController: UIViewController {
         ])
     }
     
-    func addObserver() {
+    private func addObserver() {
         let notificationName = Notification.Name("sceneDidEnterBackground")
         
         NotificationCenter.default.addObserver(self, selector: #selector(save),
@@ -114,7 +110,7 @@ class DiaryItemViewController: UIViewController {
                                                object: nil)
     }
     
-    @objc func save() {
+    @objc private func save() {
         diaryItemManager.saveDiaryWith(title: titleTextView.text, body: bodyTextView.text)
     }
     
@@ -129,14 +125,14 @@ class DiaryItemViewController: UIViewController {
 }
 
 extension DiaryItemViewController {
-    func addKeyboardDismissAction() {
+    private func addKeyboardDismissAction() {
         let swipeGesture: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self,
                                                                               action: #selector(dismissKeyboard))
         swipeGesture.direction = .down
         bodyTextView.addGestureRecognizer(swipeGesture)
     }
     
-    @objc func dismissKeyboard() {
+    @objc private func dismissKeyboard() {
         bodyTextView.resignFirstResponder()
     }
 }
@@ -144,6 +140,7 @@ extension DiaryItemViewController {
 extension DiaryItemViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         guard textView == titleTextView else { return }
+        
         let titleTextViewHeight = textView.contentSize.height
         
         if titleTextViewHeight > LayoutConstant.titleTextViewMaxHeight {
@@ -151,9 +148,17 @@ extension DiaryItemViewController: UITextViewDelegate {
         } else {
             isOversized = false
         }
+        
+        if !hasTitle,
+           titleTextView.text.firstIndex(of: "\n") != nil {
+            hasTitle = true
+            titleTextView.text = titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            titleTextView.resignFirstResponder()
+            bodyTextView.becomeFirstResponder()
+        }
     }
 }
 
 enum Placeholder {
-    static let editText = "일기를 입력해주세요."
+    static let editText = "내용을 입력해주세요."
 }
