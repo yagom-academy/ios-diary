@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private let diary: Diary
+    private var diary: Diary
 
     private let scrollView: DiaryScrollView = {
         let scrollView = DiaryScrollView()
@@ -88,8 +88,45 @@ final class DiaryViewController: UIViewController {
         bodyTextView.delegate = self
     }
 
-    private func configureView(with diary: Diary) {
+    private func showDeleteActionAlert() {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.navigationController?.popViewController(animated: true)
+            CoreDataManager.shared.delete(diary: self.diary)
+        }
+
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+
+        present(alert, animated: true)
+    }
+
+    private func makeMenu() -> UIMenu {
+        let shareAction = UIAction(title: "공유",
+                                   image: UIImage(systemName: "square.and.arrow.up")) { _ in }
+        let deleteAction = UIAction(title: "삭제",
+                                    image: UIImage(systemName: "trash"),
+                                    attributes: .destructive) { _ in
+            self.showDeleteActionAlert()
+        }
+        let cancelAction = UIAction(title: "취소",
+                                    image: UIImage(systemName: "xmark")) { _ in }
+        let menu = UIMenu(identifier: nil,
+                          options: .displayInline,
+                          children: [shareAction, deleteAction, cancelAction])
+
+        return menu
+    }
+
+    private func configureNavigationBar() {
         navigationItem.title = diary.createdAt.localeFormattedText
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                            menu: makeMenu())
+    }
+
+    private func configureView(with diary: Diary) {
+        configureNavigationBar()
         titleTextView.text = diary.title
         bodyTextView.text = diary.body
     }
@@ -109,16 +146,17 @@ final class DiaryViewController: UIViewController {
         ])
     }
 
-    func generateDiary() -> Diary {
+    private func generateDiary() -> Diary {
         return Diary(title: titleTextView.text,
                      body: bodyTextView.text,
                      createdAt: diary.createdAt,
                      uuid: diary.uuid)
     }
 
-    private func updateCoreDataIfNeeded() {
+    func updateCoreDataIfNeeded() {
         if diary.title != titleTextView.text || diary.body != bodyTextView.text {
-            CoreDataManager.shared.update(diary: generateDiary())
+            diary = generateDiary()
+            CoreDataManager.shared.update(diary: diary)
         }
     }
 }
