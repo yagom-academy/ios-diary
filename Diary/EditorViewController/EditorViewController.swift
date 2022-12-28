@@ -5,9 +5,11 @@
 //  Created by JPush, Wonbi on 2022/12/21.
 //
 
+import CoreData
 import UIKit
 
 final class EditorViewController: UIViewController {
+    private let container: NSPersistentContainer
     private let editorView: EditorView = EditorView()
     private let content: DiaryContent?
     
@@ -23,9 +25,9 @@ final class EditorViewController: UIViewController {
         configureEditorView()
     }
     
-    init(with content: DiaryContent?) {
+    init(with content: DiaryContent?, _ container: NSPersistentContainer) {
         self.content = content
-        
+        self.container = container
         super.init(nibName: nil, bundle: nil)
     }
     

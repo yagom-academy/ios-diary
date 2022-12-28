@@ -5,9 +5,12 @@
 //  Created by JPush, Wonbi on 2022/12/20.
 //
 
+import CoreData
 import UIKit
 
 final class DiaryViewController: UIViewController {
+    private let container: NSPersistentContainer
+    
     private let diaryView: DiaryView = DiaryView()
     private var diaryContents: [DiaryContent] = []
 
@@ -16,6 +19,15 @@ final class DiaryViewController: UIViewController {
         self.view = diaryView
     }
 
+    init(with container: NSPersistentContainer) {
+        self.container = container
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -45,14 +57,14 @@ final class DiaryViewController: UIViewController {
         self.navigationItem.rightBarButtonItem?.action = #selector(tappedAddButton)
     }
     
-    private func pushEditorViewController(with content: DiaryContent? = nil) {
-        let editorViewController = EditorViewController(with: content)
+    private func pushEditorViewControllerWith(_ container: NSPersistentContainer, _ content: DiaryContent? = nil) {
+        let editorViewController = EditorViewController(with: content, container)
         
         self.navigationController?.pushViewController(editorViewController, animated: true)
     }
     
     @objc private func tappedAddButton(_ sender: UIBarButtonItem) {
-        pushEditorViewController()
+        pushEditorViewControllerWith(self.container)
     }
 }
 
@@ -60,7 +72,7 @@ extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        pushEditorViewController(with: diaryContents[indexPath.row])
+        pushEditorViewControllerWith(self.container, diaryContents[indexPath.row])
     }
 }
 
