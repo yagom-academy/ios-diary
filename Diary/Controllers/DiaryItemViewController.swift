@@ -54,6 +54,11 @@ class DiaryItemViewController: UIViewController {
     func updateContentText(content: String?) {
         self.contentTextView.text = content
     }
+    
+    func configureNavigationItem() {
+        let ellipsisImage = UIImage(systemName: "ellipsis.circle")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: ellipsisImage, style: .plain, target: self, action: nil)
+    }
 }
 
 // MARK: - Keyboard adjusting

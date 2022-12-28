@@ -28,7 +28,8 @@ final class EditDiaryViewController: DiaryItemViewController {
         updateContentText(content: diary?.text)
     }
     
-    private func configureNavigationItem() {
+    override func configureNavigationItem() {
+        super.configureNavigationItem()
         guard let timeInterval = diary?.createdAt else { return }
         let currentDate = DateFormatter.conversionLocalDate(date: Date(timeIntervalSince1970: timeInterval), locale: .current, dateStyle: .long)
         self.navigationItem.title = currentDate
