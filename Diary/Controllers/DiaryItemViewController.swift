@@ -70,9 +70,9 @@ class DiaryItemViewController: UIViewController {
     @objc func showActionSheet() {
         self.contentTextView.resignFirstResponder()
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        alert.addAction(UIAlertAction(title: "Share", style: .default))
-        alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: showDeleteAlert))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "공유", style: .default, handler: showActivityViewController))
+        alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: showDeleteAlert))
+        alert.addAction(UIAlertAction(title: "취소", style: .cancel))
         self.present(alert, animated: true, completion: nil)
     }
     
@@ -81,6 +81,13 @@ class DiaryItemViewController: UIViewController {
         alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: deleteCoreData))
         alert.addAction(UIAlertAction(title: "취소", style: .default))
         self.present(alert, animated: true, completion: nil)
+    }
+    
+    func showActivityViewController(_ action: UIAlertAction) {
+        manageCoreData()
+        let activityViewController = UIActivityViewController(activityItems: [diary?.text ?? ""], applicationActivities: nil)
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }
 
