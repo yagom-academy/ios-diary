@@ -42,6 +42,10 @@ struct DiaryItemManager {
     mutating func fetchDiary(data: DiaryModel) {
         diaryItem = data
     }
+
+    func returnDiaryItem() -> DiaryModel? {
+        return diaryItem
+    }
     
     func createDiaryShareForm() -> String {
         guard let diaryItem = diaryItem else { return Namespace.emptyString }

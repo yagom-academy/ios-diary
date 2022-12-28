@@ -145,7 +145,8 @@ class DiaryItemViewController: UIViewController {
             self.present(self.activityViewController, animated: true)
         })
         alert.addAction(UIAlertAction(title: Namespace.delete, style: .destructive) { _ in
-            self.showDeleteAlert(for: self.diaryItemManager.diaryItem)
+            let diaryItem = self.diaryItemManager.returnDiaryItem()
+            self.showDeleteAlert(for: diaryItem)
         })
         alert.addAction(UIAlertAction(title: Namespace.cancel, style: .cancel))
         
