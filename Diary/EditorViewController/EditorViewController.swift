@@ -8,10 +8,10 @@
 import CoreData
 import UIKit
 
-final class EditorViewController: UIViewController {
-    private let container: NSPersistentContainer
+final class EditorViewController: UIViewController, PersistentContainer {
+    let container: NSPersistentContainer
     private let editorView: EditorView = EditorView()
-    private let content: DiaryContent?
+    private let content: Diary?
     
     override func loadView() {
         super.loadView()
@@ -20,12 +20,19 @@ final class EditorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.editorView.scrollToTop()
+//        self.editorView.scrollToTop()
+        configureNavigationBar()
         configureNotification()
         configureEditorView()
     }
     
-    init(with content: DiaryContent?, _ container: NSPersistentContainer) {
+    override func viewDidAppear(_ animated: Bool) {
+        if content == nil {
+            self.editorView.focusTextView()
+        }
+    }
+    
+    init(with content: Diary?, _ container: NSPersistentContainer) {
         self.content = content
         self.container = container
         super.init(nibName: nil, bundle: nil)
@@ -33,6 +40,16 @@ final class EditorViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureNavigationBar() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
+                                                                 target: self,
+                                                                 action: #selector(tappedDoneButton))
+    }
+    
+    @objc func tappedDoneButton() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func configureNotification() {
@@ -54,8 +71,17 @@ final class EditorViewController: UIViewController {
     private func configureEditorView() {
         self.navigationItem.title = self.content?.createdDateString ?? Date().localizedString()
         
-        guard let content = content else { return }
-        let text = content.title + Constant.doubleBreak + content.body
+        guard let content = content,
+              let title = content.title,
+              let body = content.body else {
+            return
+        }
+        
+        let text = title + Constant.doubleBreak + body
         self.editorView.setupTextView(from: text)
+    }
+    
+    func focusTextView() {
+        self.editorView.focusTextView()
     }
 }

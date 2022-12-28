@@ -12,7 +12,7 @@ final class DiaryViewController: UIViewController, PersistentContainer {
     let container: NSPersistentContainer
     
     private let diaryView: DiaryView = DiaryView()
-    private var diaryContents: [DiaryContent] = []
+    private var diaryContents: [Diary] = []
 
     override func loadView() {
         super.loadView()
@@ -41,9 +41,7 @@ final class DiaryViewController: UIViewController, PersistentContainer {
     }
     
     private func setupDiaryContents() {
-        guard let contents = JSONDecoder.decode([DiaryContent].self, from: Constant.jsonAssetName) else { return }
-        
-        self.diaryContents = contents
+        // core data 불러오기
     }
     
     private func configureTableView() {
@@ -57,7 +55,7 @@ final class DiaryViewController: UIViewController, PersistentContainer {
         self.navigationItem.rightBarButtonItem?.action = #selector(tappedAddButton)
     }
     
-    private func pushEditorViewControllerWith(_ container: NSPersistentContainer, _ content: DiaryContent? = nil) {
+    private func pushEditorViewControllerWith(_ container: NSPersistentContainer, _ content: Diary? = nil) {
         let editorViewController = EditorViewController(with: content, container)
         
         self.navigationController?.pushViewController(editorViewController, animated: true)

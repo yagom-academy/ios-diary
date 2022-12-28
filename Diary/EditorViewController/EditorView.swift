@@ -53,6 +53,10 @@ final class EditorView: UIView {
         textView.contentOffset = CGPoint(x: 0, y: -contentOffset)
     }
     
+    func focusTextView() {
+        self.textView.becomeFirstResponder()
+    }
+    
     private func changeBottomConstant(to constant: CGFloat) {
         self.textViewBottomConstraint.constant = constant
     }
