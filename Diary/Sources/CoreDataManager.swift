@@ -73,6 +73,9 @@ final class CoreDataManager {
 
     func fetchDiary() -> [Diary] {
         let fetchRequest = DiaryEntity.fetchRequest()
+        let dateSort = NSSortDescriptor(key: "createdIntervalValue", ascending: false)
+        fetchRequest.sortDescriptors = [dateSort]
+        
         guard let entities = try? context.fetch(fetchRequest) else {
             return []
         }
