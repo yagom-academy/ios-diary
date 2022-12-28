@@ -9,14 +9,17 @@ import Foundation
 import CoreData
 
 extension DiaryEntity {
-    var diaryDTO: Diary? {
+    var diary: Diary? {
+        let createdInt = Int(self.createdIntervalValue)
+        let timeInterval = TimeInterval(createdInt)
+        
         guard let title = self.title,
-              let body = self.body else {
+              let body = self.body,
+              let id = self.id else {
             return nil
         }
         
-        let createdInt = Int(self.createdIntervalValue)
-        return Diary(title: title, body: body, createdIntervalValue: createdInt, uuid: self.id)
+        return Diary(id: id, title: title, body: body, timeInterval: timeInterval)
     }
 }
 
@@ -46,8 +49,8 @@ final class CoreDataManager {
         
         diaryEntity.title = diary.title
         diaryEntity.body = diary.body
-        diaryEntity.createdIntervalValue = diary.createInt64
-        diaryEntity.id = diary.uuid
+        diaryEntity.createdIntervalValue = Int64(diary.createdDate.timeIntervalSince1970)
+        diaryEntity.id = diary.id
         
         save()
     }
@@ -64,8 +67,8 @@ final class CoreDataManager {
            let object = updateObjects.first {
             object.title = diary.title
             object.body = diary.body
-            object.createdIntervalValue = diary.createInt64
-            object.id = diary.uuid
+            object.createdIntervalValue = Int64(diary.createdDate.timeIntervalSince1970)
+            object.id = diary.id
             
             save()
         }
@@ -80,7 +83,7 @@ final class CoreDataManager {
             return []
         }
         
-        return entities.compactMap { $0.diaryDTO }
+        return entities.compactMap { $0.diary }
     }
 
     func deleteDiary(id: UUID) {

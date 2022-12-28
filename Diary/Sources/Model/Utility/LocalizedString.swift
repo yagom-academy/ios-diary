@@ -32,4 +32,11 @@ enum LocalizedConstant {
         static let deleteTitle = NSLocalizedString("DeleteTitle", comment: "삭제 Alert 제목")
         static let deleteMessage = NSLocalizedString("DeleteMessage", comment: "삭제 Alert 본문")
     }
+    
+    enum TextField {
+        static let titlePlaceholder = NSLocalizedString(
+            "TextFieldPlaceHolder",
+            comment: "텍스트 필드 제목"
+        )
+    }
 }
