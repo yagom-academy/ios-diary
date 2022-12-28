@@ -51,6 +51,11 @@ struct DiaryDataManager: DiaryManageable {
         DiaryCoreDataStack.shared.save()
     }
     
+    func addNewDiary() {
+        let newDiary = Diary(content: .init(), createdAt: Date.now)
+        add(newDiary)
+    }
+    
     private func fetchObjectID(from diaryID: String?) -> NSManagedObjectID? {
         guard let diaryID = diaryID, let objectURL = URL(string: diaryID),
               let storeCoordinator = DiaryCoreDataStack.shared.context.persistentStoreCoordinator,
