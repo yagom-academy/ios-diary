@@ -12,7 +12,7 @@ final class DiaryFormViewController: UIViewController {
     
     private let diaryFormView = DiaryFormView()
     private let selectedDiary: Diary?
-    private var alertControllerManager = AlertControllerManager()
+    private let alertControllerManager = AlertControllerManager()
     
     init(diary: Diary? = nil) {
         selectedDiary = diary
@@ -36,7 +36,6 @@ final class DiaryFormViewController: UIViewController {
         view.backgroundColor = .white
         configureDiaryViewLayout()
         configureNavigationBar()
-//        alertControllerManager.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -49,15 +48,8 @@ final class DiaryFormViewController: UIViewController {
         super.viewDidAppear(animated)
         
         diaryFormView.diaryTextView.becomeFirstResponder()
-        present(alertControllerManager.createActionSheet(completionHandler: showDeleteAlert),
-                animated: true,
-                completion: nil)
     }
     
-    func showDeleteAlert() {
-        present(alertControllerManager.createDeleteAlert(), animated: true, completion: nil)
-    }
-   
     // MARK: - Internal Methods
     
     func selectSaveOrUpdate() {
@@ -87,9 +79,15 @@ final class DiaryFormViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = DateFormatter.koreanDateFormatter.string(from: Date())
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(showActionSheet)
+        )
     }
     
-    func createDiary() -> Diary {
+    private func createDiary() -> Diary {
         var components = diaryFormView.diaryTextView.text.components(separatedBy: "\n")
         let title = components.removeFirst()
         let body = components.filter { !$0.isEmpty }.first ?? ""
@@ -105,6 +103,18 @@ final class DiaryFormViewController: UIViewController {
                           id: uuid)
 
         return diary
+    }
+    
+    private func showDeleteAlert() {
+        present(alertControllerManager.createDeleteAlert(), animated: true, completion: nil)
+    }
+    
+    // MARK: - Action Methods
+    
+    @objc private func showActionSheet() {
+        present(alertControllerManager.createActionSheet(completionHandler: showDeleteAlert),
+                animated: true,
+                completion: nil)
     }
 }
 
@@ -156,9 +166,3 @@ extension DiaryFormViewController {
         }
     }
 }
-
-//extension DiaryFormViewController: AlertDelegate {
-//    func deleteSelected() {
-//        present(alertControllerManager.createDeleteAlert(), animated: true, completion: nil)
-//    }
-//}
