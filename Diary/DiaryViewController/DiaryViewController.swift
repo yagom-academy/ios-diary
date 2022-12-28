@@ -8,8 +8,8 @@
 import CoreData
 import UIKit
 
-final class DiaryViewController: UIViewController {
-    private let container: NSPersistentContainer
+final class DiaryViewController: UIViewController, PersistentContainer {
+    let container: NSPersistentContainer
     
     private let diaryView: DiaryView = DiaryView()
     private var diaryContents: [DiaryContent] = []

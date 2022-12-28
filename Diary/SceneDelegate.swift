@@ -7,8 +7,8 @@
 import CoreData
 import UIKit
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-    let persistentContainer: NSPersistentContainer = {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, PersistentContainer {
+    let container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -22,7 +22,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let scene = scene as? UIWindowScene else { return }
-        let rootViewController = DiaryViewController(with: self.persistentContainer)
+        let rootViewController = DiaryViewController(with: self.container)
         let navigationController = UINavigationController(rootViewController: rootViewController)
         
         window = UIWindow(frame: scene.coordinateSpace.bounds)
@@ -59,6 +59,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // to restore the scene back to its current state.
 
         // Save changes in the application's managed object context when the application transitions to the background.
-        self.persistentContainer.saveContext()
+        saveContext()
     }
 }
