@@ -102,6 +102,13 @@ final class DiaryViewController: UIViewController {
             containerStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
     }
+
+    func generateDiary() -> Diary {
+        return Diary(title: titleTextView.text,
+                     body: bodyTextView.text,
+                     createdAt: diary.createdAt,
+                     uuid: diary.uuid)
+    }
 }
 
 extension DiaryViewController: UITextViewDelegate {
@@ -110,5 +117,9 @@ extension DiaryViewController: UITextViewDelegate {
             bodyTextView.becomeFirstResponder()
         }
         return true
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        CoreDataManager.shared.update(diary: generateDiary())
     }
 }

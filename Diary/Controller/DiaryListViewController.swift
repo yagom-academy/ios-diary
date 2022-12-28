@@ -45,6 +45,13 @@ final class DiaryListViewController: UIViewController {
         configureDataSource()
         configureSnapshot()
     }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        snapshot.reloadSections([0])
+        dataSource?.apply(snapshot)
+    }
 }
 
 extension DiaryListViewController {
@@ -85,34 +92,13 @@ extension DiaryListViewController {
     }
 
     private func configureSnapshot() {
-        guard let items = decodeSampleData() else {
-            return
-        }
-
+        let items = CoreDataManager.shared.read()
         diaryList = items
 
         snapshot.appendSections([0])
         snapshot.appendItems(items)
 
         dataSource?.apply(snapshot)
-    }
-
-    private func loadSampleData() -> Data? {
-        guard let path = Bundle.main.path(forResource: "sample", ofType: "json"),
-              let data = try? Data(contentsOf: URL(fileURLWithPath: path)) else {
-            return nil
-        }
-
-        return data
-    }
-
-    private func decodeSampleData() -> [Diary]? {
-        guard let data = loadSampleData(),
-              let items = try? JSONDecoder().decode([DiaryResponseDTO].self, from: data) else {
-            return nil
-        }
-
-        return items.map { $0.toDomain() }
     }
 }
 
