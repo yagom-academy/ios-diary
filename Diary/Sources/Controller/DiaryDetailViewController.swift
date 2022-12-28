@@ -40,10 +40,18 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
+    private var isNotEmpty: Bool = false {
+        didSet {
+            navigationItem.rightBarButtonItem?.isEnabled = isNotEmpty
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
+        titleTextField.delegate = self
+        contentTextView.delegate = self
         setNavigationBar()
         configureLayout()
         bindKeyboardObserver()
@@ -77,6 +85,7 @@ extension DiaryDetailViewController {
     
     func setDiary(with item: Diary? = nil) {
         self.item = item
+        isNotEmpty = item != nil
     }
     
     private func createWithCoreData() {
@@ -124,6 +133,38 @@ extension DiaryDetailViewController {
     
     @objc private func willHideKeyboard(notification: Notification) {
         contentTextView.contentInset.bottom = 0
+    }
+}
+
+// MARK: UITextField Delegate
+extension DiaryDetailViewController: UITextFieldDelegate {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+        guard let title = textField.text,
+              let body = contentTextView.text else { return true }
+        
+        isNotEmpty = title.isNotEmpty && body.isNotEmpty
+        
+        return true
+    }
+}
+
+// MARK: UITextView Delegate
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textView(
+        _ textView: UITextView,
+        shouldChangeTextIn range: NSRange,
+        replacementText text: String
+    ) -> Bool {
+        guard let title = titleTextField.text,
+              let body = textView.text else { return true }
+        
+        isNotEmpty = title.isNotEmpty && body.isNotEmpty
+        
+        return true
     }
 }
 
@@ -176,6 +217,7 @@ extension DiaryDetailViewController {
             systemName: Constant.rightBarButtonName,
             action: presentAction
         )
+        navigationItem.rightBarButtonItem?.isEnabled = isNotEmpty
     }
     
     private func presentActionSheet(_ action: UIAction) {
@@ -221,6 +263,7 @@ extension DiaryDetailViewController {
     }
 }
 
+// MARK: String+
 private extension String {
     var isNotEmpty: Bool {
         return !isEmpty
