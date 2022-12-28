@@ -57,7 +57,15 @@ class DiaryItemViewController: UIViewController {
     
     func configureNavigationItem() {
         let ellipsisImage = UIImage(systemName: "ellipsis.circle")
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: ellipsisImage, style: .plain, target: self, action: nil)
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: ellipsisImage, style: .plain, target: self, action: #selector(showActionSheet))
+    }
+    
+    @objc func showActionSheet() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Share", style: .default))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        self.present(alert, animated: true, completion: nil)
     }
 }
 
