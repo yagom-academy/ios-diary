@@ -37,7 +37,7 @@ final class DiaryListViewController: UIViewController {
     private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance =
         navigationController?.navigationBar.standardAppearance
-        title = Namespace.navigationTitle
+        title = Namespace.diary
         
         let rightBarButtonImage = UIImage(systemName: Namespace.plusImage)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarButtonImage,
@@ -92,13 +92,13 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         var actions: [UIContextualAction] = []
 
-        let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _  in
+        let shareAction = UIContextualAction(style: .normal, title: Namespace.share) { _, _, _  in
             self.present(self.activityViewController, animated: true)
         }
         shareAction.backgroundColor = .blue
 
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _  in
-            CoreDataStack.shared.deleteDiary(with: self.diaryModels[indexPath.row].id)
+        let deleteAction = UIContextualAction(style: .destructive, title: Namespace.delete) { _, _, _  in
+//            self.showDeleteAlert(for: self.diaryModels[indexPath.row])
             self.diaryModels = CoreDataStack.shared.fetchAllDiaryModels()
         }
         
@@ -107,10 +107,4 @@ extension DiaryListViewController: UITableViewDelegate {
         
         return UISwipeActionsConfiguration(actions: actions)
     }
-}
-
-// MARK: Namespace
-fileprivate enum Namespace {
-    static let navigationTitle = "일기장"
-    static let plusImage = "plus"
 }

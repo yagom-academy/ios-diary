@@ -93,12 +93,12 @@ final class DiaryListTableViewCell: UITableViewCell {
         createdDateLabel.text = DateFormatterManager().formatDate(data.createdAt)
         previewLabel.text = data.body
     }
-}
-
-fileprivate enum LayoutConstant {
-    static let stackViewSpacing = CGFloat(4)
-    static let contentViewTopMargin = CGFloat(4)
-    static let contentViewLeadingMargin = CGFloat(16)
-    static let contentViewBottomMargin = CGFloat(4)
-    static let contentViewTrailingMargin = CGFloat(8)
+    
+    private enum LayoutConstant {
+        static let stackViewSpacing = CGFloat(4)
+        static let contentViewTopMargin = CGFloat(4)
+        static let contentViewLeadingMargin = CGFloat(16)
+        static let contentViewBottomMargin = CGFloat(4)
+        static let contentViewTrailingMargin = CGFloat(8)
+    }
 }

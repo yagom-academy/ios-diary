@@ -87,7 +87,7 @@ class DiaryItemViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showActionSheet))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Namespace.moreImage), style: .plain, target: self, action: #selector(showActionSheet))
         
         let date = Date()
         title = (title == nil ? DateFormatterManager().formatDate(date) : title)
@@ -141,7 +141,7 @@ class DiaryItemViewController: UIViewController {
                                                          message: nil,
                                                          preferredStyle: .actionSheet)
         
-        alert.addAction(UIAlertAction(title: AlertNamespace.share, style: .default) { _ in
+        alert.addAction(UIAlertAction(title: Namespace.share, style: .default) { _ in
             self.present(self.activityViewController, animated: true)
         })
         alert.addAction(UIAlertAction(title: AlertNamespace.delete, style: .destructive) { _ in
@@ -169,8 +169,13 @@ class DiaryItemViewController: UIViewController {
         static let mainStackViewTrailingMargin = CGFloat(8)
         static let titleTextViewMaxHeight = CGFloat(100)
     }
+    
+    private enum Placeholder {
+        static let editText = "내용을 입력해주세요."
+    }
 }
 
+// MARK: dismiss keyboard
 extension DiaryItemViewController {
     private func addKeyboardDismissAction() {
         let swipeGesture: UISwipeGestureRecognizer = UISwipeGestureRecognizer(target: self,
@@ -215,8 +220,4 @@ extension DiaryItemViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         setPlaceholder(for: textView)
     }
-}
-
-enum Placeholder {
-    static let editText = "내용을 입력해주세요."
 }

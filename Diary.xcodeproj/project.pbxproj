@@ -11,6 +11,8 @@
 		5702294929518BEA00877268 /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5702294829518BEA00877268 /* DateFormatterManager.swift */; };
 		570FF1362959475B001D2022 /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FF1352959475B001D2022 /* NSAttributedString+.swift */; };
 		574241C7295C2B0D004CA539 /* UIActivityViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574241C6295C2B0D004CA539 /* UIActivityViewController+.swift */; };
+		574241C9295C426F004CA539 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574241C8295C426F004CA539 /* UIViewController+.swift */; };
+		574241CB295C691E004CA539 /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574241CA295C691E004CA539 /* Namespace.swift */; };
 		8434E2E9CCABFA94F5FE525F /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A2BD80F680330B0BDB9F36F /* Pods_Diary.framework */; };
 		AEBCABCA2959673B0038B64A /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCABC92959673B0038B64A /* Diary+CoreDataProperties.swift */; };
 		AEBCABCC295967400038B64A /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCABCB295967400038B64A /* Diary+CoreDataClass.swift */; };
@@ -32,6 +34,8 @@
 		5702294829518BEA00877268 /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
 		570FF1352959475B001D2022 /* NSAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+.swift"; sourceTree = "<group>"; };
 		574241C6295C2B0D004CA539 /* UIActivityViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityViewController+.swift"; sourceTree = "<group>"; };
+		574241C8295C426F004CA539 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
+		574241CA295C691E004CA539 /* Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namespace.swift; sourceTree = "<group>"; };
 		7A2BD80F680330B0BDB9F36F /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FB44081E726E3ACBB89DA4A /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		AEBCABC92959673B0038B64A /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -116,6 +120,7 @@
 			children = (
 				5702294829518BEA00877268 /* DateFormatterManager.swift */,
 				AED1657C295BCE57004ACF2A /* DiaryItemManager.swift */,
+				574241CA295C691E004CA539 /* Namespace.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -134,6 +139,7 @@
 			children = (
 				570FF1352959475B001D2022 /* NSAttributedString+.swift */,
 				574241C6295C2B0D004CA539 /* UIActivityViewController+.swift */,
+				574241C8295C426F004CA539 /* UIViewController+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -297,7 +303,9 @@
 				AEBCABCC295967400038B64A /* Diary+CoreDataClass.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				AEFFA496295142F000954852 /* DiaryModel.swift in Sources */,
+				574241C9295C426F004CA539 /* UIViewController+.swift in Sources */,
 				AED1657D295BCE57004ACF2A /* DiaryItemManager.swift in Sources */,
+				574241CB295C691E004CA539 /* Namespace.swift in Sources */,
 				570FF1362959475B001D2022 /* NSAttributedString+.swift in Sources */,
 				AEBCABD22959715E0038B64A /* CoreDataStack.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
