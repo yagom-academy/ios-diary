@@ -96,10 +96,17 @@ extension DiaryDetailViewController {
     }
     
     private func updateWithCoreData() {
-        guard var item = item else { return }
+        guard var item = item,
+              let createdIntervalValue = item.createdIntervalValue else { return }
         
         item.title = titleTextField.text
         item.body = contentTextView.text
+        
+        let currentInterval = Int(Date().timeIntervalSince1970)
+        if (currentInterval - createdIntervalValue) < 86400 {
+            item.createdIntervalValue = currentInterval
+        }
+        
         coreDataManager.updateDiary(diary: item)
     }
     
