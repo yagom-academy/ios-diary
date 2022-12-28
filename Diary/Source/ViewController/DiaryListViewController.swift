@@ -92,6 +92,11 @@ final class DiaryListViewController: UIViewController {
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
+    private func delete(_ diary: Diary) {
+        let manager = DiaryDataManager()
+        manager.remove(diary)
+    }
+    
     @objc
     private func tappedAddButton(_ sender: UIBarButtonItem) {
         let diaryDataManager = DiaryDataManager()
@@ -107,7 +112,6 @@ final class DiaryListViewController: UIViewController {
         guard navigationController?.topViewController == self else { return }
         let manager = DiaryDataManager()
         let sampleDiary: [Diary] = manager.fetchDiaries()
-
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
         
         snapshot.appendSections([.main])
@@ -122,5 +126,30 @@ extension DiaryListViewController: UITableViewDelegate {
         
         guard let diary = diaryDataSource.itemIdentifier(for: indexPath) else { return }
         pushDiaryViewController(with: diary)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: nil) { (_, _, success) in
+            if let diary = self.diaryDataSource.itemIdentifier(for: indexPath) {
+                self.delete(diary)
+                success(true)
+            } else {
+                success(false)
+            }
+        }
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        
+        let shareAction = UIContextualAction(style: .normal,
+                                             title: nil) { (_, _, success) in
+            success(true)
+        }
+        shareAction.backgroundColor = UIColor(named: "CustomBlue")
+        shareAction.image = UIImage(systemName: "square.and.arrow.up.fill")
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
