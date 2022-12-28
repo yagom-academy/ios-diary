@@ -10,6 +10,7 @@ import UIKit
 class DiaryItemViewController: UIViewController {
     private var hasTitle: Bool = false
     private var diaryItemManager = DiaryItemManager()
+    lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -34,13 +35,7 @@ class DiaryItemViewController: UIViewController {
         textView.textContainerInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
         return textView
     }()
-    
-    private lazy var activityViewController: UIActivityViewController = {
-        let diaryForm: String = diaryItemManager.createDiaryShareForm()
-        let activityViewController = UIActivityViewController(activityItems: [diaryForm], applicationActivities: nil)
-        return activityViewController
-    }()
-    
+
     private lazy var titleHeightConstraint =
     titleTextView.heightAnchor.constraint(equalToConstant: LayoutConstant.titleTextViewMaxHeight)
     
