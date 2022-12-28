@@ -8,6 +8,8 @@
 import UIKit
 
 final class EditDiaryView: UIView {
+    var keyboardDelegate: KeyboardActionProtocol?
+    
     private enum Placeholder: String {
         case textFieldPlaceHolder = "Title"
         case textViewPlaceHolder = "Content"
@@ -59,8 +61,7 @@ final class EditDiaryView: UIView {
                                                  distribution: .fill)
     
     func packageData() -> Result<(title: String, content: String), DataError> {
-        guard let titleText = titleTextField.text,
-              titleText.count != .zero else {
+        guard let titleText = titleTextField.text else {
             return .failure(.noneTitleError)
         }
         
@@ -68,7 +69,9 @@ final class EditDiaryView: UIView {
             return .failure(.noneDataError)
         }
         
-        if contentText == Placeholder.textViewPlaceHolder.sentence {
+        if titleText.count == .zero && contentText == Placeholder.textViewPlaceHolder.sentence {
+            return .failure(.noneDataError)
+        } else if contentText == Placeholder.textViewPlaceHolder.sentence {
             return .success((titleText, ""))
         }
         
@@ -165,8 +168,8 @@ extension EditDiaryView {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(showKeyboard),
                                                name: UIResponder.keyboardWillShowNotification,
-                                               object: nil) 
-
+                                               object: nil)
+        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(hideKeyboard),
                                                name: UIResponder.keyboardWillHideNotification,
@@ -176,7 +179,7 @@ extension EditDiaryView {
     @objc private func showKeyboard(_ notification: NSNotification) {
         if let keyboardFrame: NSValue = notification.userInfo?[
             UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-            titleTextField.isFirstResponder {
+           titleTextField.isFirstResponder {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             self.setupTextViewBottomConstraints(constant: -(keyboardHeight + 10))
@@ -185,5 +188,6 @@ extension EditDiaryView {
     
     @objc private func hideKeyboard() {
         self.setupTextViewBottomConstraints(constant: -10)
+        keyboardDelegate?.saveWhenHideKeyboard()
     }
 }

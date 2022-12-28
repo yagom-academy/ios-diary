@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol KeyboardActionProtocol {
+    func saveWhenHideKeyboard()
+}
+
 final class EditViewController: UIViewController {
     var status: Status?
     
@@ -46,7 +50,9 @@ final class EditViewController: UIViewController {
         super.viewDidLoad()
         self.view = editView
         self.editView.bindData(diaryData)
+        self.editView.keyboardDelegate = self
         setNavigation()
+        addNotification()
     }
     
     private func setNavigation() {
@@ -62,6 +68,24 @@ final class EditViewController: UIViewController {
                                                  action: #selector(shareButtonTapped))
         
         navigationItem.rightBarButtonItem = rightBarButtonItem
+    }
+    
+    private func addNotification() {
+        if #available(iOS 13.0, *) {
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(saveWhenBackground),
+                                                   name: UIScene.willDeactivateNotification,
+                                                   object: nil)
+        } else {
+            NotificationCenter.default.addObserver(self,
+                                                   selector: #selector(saveWhenBackground),
+                                                   name: UIApplication.willResignActiveNotification,
+                                                   object: nil)
+        }
+    }
+    
+    @objc func saveWhenBackground() {
+        saveEditData()
     }
 }
 
@@ -94,5 +118,11 @@ extension EditViewController {
                                  alertMessage: error.errorDescription ?? "",
                                  bool: false, completion: nil)
         }
+    }
+}
+
+extension EditViewController: KeyboardActionProtocol {
+    func saveWhenHideKeyboard() {
+        saveEditData()
     }
 }
