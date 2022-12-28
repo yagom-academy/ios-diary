@@ -9,6 +9,7 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private var diary: Diary
+    private let isExistDiary: Bool
 
     private let scrollView: DiaryScrollView = {
         let scrollView = DiaryScrollView()
@@ -46,8 +47,9 @@ final class DiaryViewController: UIViewController {
         return stackView
     }()
 
-    init(diary: Diary) {
+    init(diary: Diary, isExistDiary: Bool = true) {
         self.diary = diary
+        self.isExistDiary = isExistDiary
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -121,8 +123,10 @@ final class DiaryViewController: UIViewController {
 
     private func configureNavigationBar() {
         navigationItem.title = diary.createdAt.localeFormattedText
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
-                                                            menu: makeMenu())
+        if isExistDiary {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                                menu: makeMenu())
+        }
     }
 
     private func configureView(with diary: Diary) {

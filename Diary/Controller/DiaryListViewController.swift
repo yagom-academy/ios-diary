@@ -12,7 +12,7 @@ final class DiaryListViewController: UIViewController {
 
     private lazy var presentNewDiaryViewAction = UIAction { _ in
         let newDiary = Diary(title: "", body: "", createdAt: Date())
-        let diaryViewController = DiaryViewController(diary: newDiary)
+        let diaryViewController = DiaryViewController(diary: newDiary, isExistDiary: false)
 
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
@@ -72,7 +72,7 @@ extension DiaryListViewController {
         dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
             let cell = tableView.dequeueReusableCell(cellType: DiaryListCell.self, for: indexPath)
 
-            cell.titleLabel.text = diary.title
+            cell.titleLabel.text = diary.title.isEmpty ? "제목 없음" : diary.title
             cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdAt, diary.body)
 
             return cell
