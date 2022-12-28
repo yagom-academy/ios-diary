@@ -13,7 +13,7 @@
 		0CCBFD4D295155860070FE99 /* DiaryContentConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCBFD4C295155860070FE99 /* DiaryContentConfiguration.swift */; };
 		0CCBFD4F295181A10070FE99 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCBFD4E295181A10070FE99 /* Diary.swift */; };
 		18135D17295C1DEC00C2269D /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18135D19295C1DEC00C2269D /* Localizable.strings */; };
-		18135D1D295C222D00C2269D /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D1C295C222D00C2269D /* LocalizedString.swift */; };
+		18135D1D295C222D00C2269D /* LocalizedConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D1C295C222D00C2269D /* LocalizedConstant.swift */; };
 		18135D20295C26BF00C2269D /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D1F295C26BF00C2269D /* Constant.swift */; };
 		18135D22295C36B000C2269D /* TimeInterval+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D21295C36B000C2269D /* TimeInterval+.swift */; };
 		185A5F382951610800AF523D /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A5F372951610800AF523D /* DiaryListCell.swift */; };
@@ -43,7 +43,7 @@
 		18135D14295C1DCF00C2269D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		18135D1A295C1DEE00C2269D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		18135D1B295C1E0200C2269D /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
-		18135D1C295C222D00C2269D /* LocalizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
+		18135D1C295C222D00C2269D /* LocalizedConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedConstant.swift; sourceTree = "<group>"; };
 		18135D1F295C26BF00C2269D /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		18135D21295C36B000C2269D /* TimeInterval+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+.swift"; sourceTree = "<group>"; };
 		185A5F372951610800AF523D /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
@@ -84,7 +84,7 @@
 			isa = PBXGroup;
 			children = (
 				18135D1F295C26BF00C2269D /* Constant.swift */,
-				18135D1C295C222D00C2269D /* LocalizedString.swift */,
+				18135D1C295C222D00C2269D /* LocalizedConstant.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -339,7 +339,7 @@
 				18D381342952E014002BB2F1 /* UIFont+.swift in Sources */,
 				0C396FD8295AB6CF00934C79 /* UIAlertAction+.swift in Sources */,
 				18135D20295C26BF00C2269D /* Constant.swift in Sources */,
-				18135D1D295C222D00C2269D /* LocalizedString.swift in Sources */,
+				18135D1D295C222D00C2269D /* LocalizedConstant.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				18BB1831295ACAE400F84C47 /* UIAlertController+.swift in Sources */,
 				18D381382952F19B002BB2F1 /* UINavigationController+.swift in Sources */,
