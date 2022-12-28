@@ -80,7 +80,7 @@ extension DiaryListViewController: UITableViewDataSource {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let detailViewController = DetailViewController(diary: diaryModels[indexPath.row])
+        let detailViewController = DetailViewController()
         
         navigationController?.pushViewController(detailViewController, animated: true)
     }

@@ -11,15 +11,15 @@ class DetailViewController: DiaryItemViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
+//        configureUI()
     }
     
-    func configureUI() {
-        titleTextView.text = diaryData.title
-        bodyTextView.text = diaryData.body
-        title = DateFormatterManager().formatDate(diaryData.createdAt)
-        
-        titleTextView.textColor = .black
-        bodyTextView.textColor = .black
-    }
+//    func configureUI() {
+//        titleTextView.text = diaryData.title
+//        bodyTextView.text = diaryData.body
+//        title = DateFormatterManager().formatDate(diaryData.createdAt)
+//
+//        titleTextView.textColor = .black
+//        bodyTextView.textColor = .black
+//    }
 }

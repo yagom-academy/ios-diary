@@ -9,7 +9,7 @@ import UIKit
 
 class DiaryItemViewController: UIViewController {
     var hasTitle: Bool = false
-    var diaryData: DiaryModel?
+    var diaryItemManager = DiaryItemManager()
     
     let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -71,7 +71,7 @@ class DiaryItemViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        saveOrUpdate()
+        save()
     }
     
     private func configureTextView() {
@@ -106,28 +106,16 @@ class DiaryItemViewController: UIViewController {
     func addObserver() {
         let notificationName = Notification.Name("sceneDidEnterBackground")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(saveOrUpdate),
+        NotificationCenter.default.addObserver(self, selector: #selector(save),
                                                name: notificationName,
                                                object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(saveOrUpdate),
+        NotificationCenter.default.addObserver(self, selector: #selector(save),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
     
-    func updateDiaryModel() {
-        diaryData?.title = titleTextView.text
-        diaryData?.body = bodyTextView.text
-        diaryData?.createdAt = Date()
-    }
-    
-    @objc func saveOrUpdate() {
-        guard CoreDataStack.shared.fetchDiary(with: diaryData?.id) != nil else {
-            CoreDataStack.shared.insertDiary(diaryData)
-            return
-        }
-        
-        updateDiaryModel()
-        CoreDataStack.shared.updateDiary(diaryData)
+    @objc func save() {
+        diaryItemManager.saveDiaryWith(title: titleTextView.text, body: bodyTextView.text)
     }
     
     private enum LayoutConstant {

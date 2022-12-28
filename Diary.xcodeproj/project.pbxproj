@@ -16,6 +16,7 @@
 		AEBCABCE295968E20038B64A /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCABCD295968E20038B64A /* DetailViewController.swift */; };
 		AEBCABD0295969620038B64A /* DiaryItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCABCF295969620038B64A /* DiaryItemViewController.swift */; };
 		AEBCABD22959715E0038B64A /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEBCABD12959715E0038B64A /* CoreDataStack.swift */; };
+		AED1657D295BCE57004ACF2A /* DiaryItemManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AED1657C295BCE57004ACF2A /* DiaryItemManager.swift */; };
 		AEFFA496295142F000954852 /* DiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFA495295142F000954852 /* DiaryModel.swift */; };
 		AEFFA498295180FE00954852 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFA497295180FE00954852 /* RegisterViewController.swift */; };
 		AEFFA49B29519A6100954852 /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEFFA49A29519A6100954852 /* UIViewController+.swift */; };
@@ -39,6 +40,7 @@
 		AEBCABCD295968E20038B64A /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		AEBCABCF295969620038B64A /* DiaryItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryItemViewController.swift; sourceTree = "<group>"; };
 		AEBCABD12959715E0038B64A /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		AED1657C295BCE57004ACF2A /* DiaryItemManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryItemManager.swift; sourceTree = "<group>"; };
 		AEFFA495295142F000954852 /* DiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModel.swift; sourceTree = "<group>"; };
 		AEFFA497295180FE00954852 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		AEFFA49A29519A6100954852 /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
@@ -119,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				5702294829518BEA00877268 /* DateFormatterManager.swift */,
+				AED1657C295BCE57004ACF2A /* DiaryItemManager.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -299,6 +302,7 @@
 				AEBCABCC295967400038B64A /* Diary+CoreDataClass.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				AEFFA496295142F000954852 /* DiaryModel.swift in Sources */,
+				AED1657D295BCE57004ACF2A /* DiaryItemManager.swift in Sources */,
 				AEFFA49B29519A6100954852 /* UIViewController+.swift in Sources */,
 				570FF1362959475B001D2022 /* NSAttributedString+.swift in Sources */,
 				AEBCABD22959715E0038B64A /* CoreDataStack.swift in Sources */,
