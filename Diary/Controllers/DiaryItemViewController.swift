@@ -20,6 +20,7 @@ class DiaryItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureDiaryData()
         configureUI()
         configureNotificationCenter()
         contentTextView.becomeFirstResponder()
@@ -35,6 +36,12 @@ class DiaryItemViewController: UIViewController {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+    }
+    
+    private func configureDiaryData() {
+        if self.diary == nil {
+            self.diary = createCoreData()
+        }
     }
     
     private func configureUI() {
@@ -71,8 +78,8 @@ class DiaryItemViewController: UIViewController {
     
     func showDeleteAlert(_ action: UIAlertAction) {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "취소", style: .default))
         alert.addAction(UIAlertAction(title: "삭제", style: .destructive, handler: deleteCoreData))
+        alert.addAction(UIAlertAction(title: "취소", style: .default))
         self.present(alert, animated: true, completion: nil)
     }
 }
@@ -111,20 +118,16 @@ extension DiaryItemViewController {
     @objc func manageCoreData() {
         if self.diary != nil {
             updateCoreData()
-            return
         }
-        
-        createCoreData()
     }
     
-    func createCoreData() {
+    func createCoreData() -> Diary? {
         do {
-            guard let text = contentTextView.text else { return }
-            
-            self.diary = try CoreDataManager.shared.createDiary(text: text, createdAt: Date().timeIntervalSince1970)
+            return try CoreDataManager.shared.createDiary(text: "", createdAt: Date().timeIntervalSince1970)
         } catch {
             print(error)
         }
+        return nil
     }
     
     func updateCoreData() {
