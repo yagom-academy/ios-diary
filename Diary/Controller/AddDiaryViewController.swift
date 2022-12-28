@@ -26,7 +26,7 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        self.addNewDiary()
+        CoreDataMananger.shared.insertDiary(createDiaryModel())
     }
     
     func keyboardWillShow(notification: NSNotification) {
@@ -64,27 +64,5 @@ final class AddDiaryViewController: UIViewController, AddKeyboardNotification {
         let body = String(splitedText[1])
         
         return DiaryModel(title: title, body: body)
-    }
-    
-    func addNewDiary() {
-        let diaryModel = createDiaryModel()
-        
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let context = appDelegate.persistentContainer.viewContext
-        let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context)
-        
-        if let entity = entity {
-            let newDiary = NSManagedObject(entity: entity, insertInto: context)
-            newDiary.setValue(diaryModel.title, forKey: "title")
-            newDiary.setValue(diaryModel.body, forKey: "body")
-            newDiary.setValue(diaryModel.createdAt, forKey: "createdAt")
-            newDiary.setValue(diaryModel.id, forKey: "id")
-            
-            do {
-                try context.save()
-            } catch {
-                print(error.localizedDescription)
-            }
-        }
     }
 }

@@ -36,20 +36,16 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchDiary() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
-        let context = appDelegate.persistentContainer.viewContext
+        let diaries = CoreDataMananger.shared.fetchDiaries()
+        var diaryModels: [DiaryModel] = []
         
-        do {
-            guard let diary = try context.fetch(Diary.fetchRequest()) as? [Diary] else { return }
-            var diaries: [DiaryModel] = []
-            
-            diary.forEach {
-                diaries.append(DiaryModel(title: $0.title ?? "", body: $0.body ?? "", createdAt: $0.createdAt))
-            }
-            applySnapshot(with: diaries)
-        } catch {
-            print(error.localizedDescription)
+        diaries.forEach {
+            diaryModels.append(DiaryModel(title: $0.title ?? "",
+                                          body: $0.body ?? "",
+                                          createdAt: $0.createdAt))
         }
+        
+        applySnapshot(with: diaryModels)
     }
     
     private func configureView() {

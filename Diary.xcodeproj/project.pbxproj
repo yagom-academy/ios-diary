@@ -10,6 +10,7 @@
 		2639A763295487DE00F312ED /* AddKeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2639A762295487DE00F312ED /* AddKeyboardNotification.swift */; };
 		263B2E892951986C00848F18 /* ListCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263B2E882951986C00848F18 /* ListCollectionViewCell.swift */; };
 		263B2E8B2951B3D500848F18 /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263B2E8A2951B3D500848F18 /* DateFormatter+Extension.swift */; };
+		2643159A295BD18C00B49D87 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26431599295BD18C00B49D87 /* CoreDataManager.swift */; };
 		264BF24D295AC63A004CE124 /* EditDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264BF24C295AC63A004CE124 /* EditDiaryView.swift */; };
 		264BF24F295AC789004CE124 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264BF24E295AC789004CE124 /* DiaryView.swift */; };
 		264BF251295AC813004CE124 /* EditDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264BF250295AC813004CE124 /* EditDiaryViewController.swift */; };
@@ -36,6 +37,7 @@
 		2639A762295487DE00F312ED /* AddKeyboardNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddKeyboardNotification.swift; sourceTree = "<group>"; };
 		263B2E882951986C00848F18 /* ListCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCollectionViewCell.swift; sourceTree = "<group>"; };
 		263B2E8A2951B3D500848F18 /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
+		26431599295BD18C00B49D87 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		264BF24C295AC63A004CE124 /* EditDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDiaryView.swift; sourceTree = "<group>"; };
 		264BF24E295AC789004CE124 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
 		264BF250295AC813004CE124 /* EditDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDiaryViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			children = (
 				264FE2E029515264003D79CB /* DiaryModel.swift */,
 				2666394129529BF700369B6B /* ErrorAlert.swift */,
+				26431599295BD18C00B49D87 /* CoreDataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -310,6 +313,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				572EE6452952A3F600D40C1B /* AddDiaryView.swift in Sources */,
+				2643159A295BD18C00B49D87 /* CoreDataManager.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
