@@ -36,11 +36,12 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchDiary() {
-        let diaries = CoreDataMananger.shared.fetchDiaries()
+        let diaries: [Diary] = CoreDataMananger.shared.fetchDiaries()
         var diaryModels: [DiaryModel] = []
         
         diaries.forEach {
-            diaryModels.append(DiaryModel(title: $0.title ?? "",
+            diaryModels.append(DiaryModel(id: $0.objectID,
+                                          title: $0.title ?? "",
                                           body: $0.body ?? "",
                                           createdAt: $0.createdAt))
         }

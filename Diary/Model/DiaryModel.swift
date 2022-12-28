@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import CoreData
 
 struct DiaryModel: Decodable, Hashable {
-    let id = UUID()
+    var id: NSManagedObjectID!
     var title: String = ""
     var body: String = ""
     var createdAt: Double = DateFormatter().convertDateToDouble()

@@ -20,5 +20,4 @@ final class AddDiaryView: DiaryView {
     func fetchTextViewContent() -> String {
         return self.textView.text
     }
-    
 }

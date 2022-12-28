@@ -11,4 +11,8 @@ final class EditDiaryView: DiaryView {
     func configureView(with diaryData: DiaryModel) {
         self.textView.text = diaryData.title + "\n" + diaryData.body
     }
+    
+    func fetchTextViewContent() -> String {
+        return self.textView.text
+    }
 }

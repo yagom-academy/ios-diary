@@ -9,6 +9,7 @@ import UIKit
 
 final class AddDiaryViewController: UIViewController {
     private let addDiaryView = AddDiaryView()
+    private var tmpDiaryModel: DiaryModel = DiaryModel()
     
     override func loadView() {
         self.view = addDiaryView
@@ -24,27 +25,7 @@ final class AddDiaryViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        CoreDataMananger.shared.insertDiary(createDiaryModel())
-    }
-    
-    func createDiaryModel() -> DiaryModel {
-        let diaryContent = self.addDiaryView.fetchTextViewContent()
-        guard diaryContent != "" else {
-            return DiaryModel()
-        }
-        
-        if diaryContent.contains("\n") {
-            let splitedText = diaryContent.split(separator: "\n",
-                                                 maxSplits: 1,
-                                                 omittingEmptySubsequences: false)
-            
-            let title = String(splitedText[0])
-            let body = String(splitedText[1])
-            
-            return DiaryModel(title: title, body: body)
-        } else {
-            return DiaryModel(title: diaryContent)
-        }
+        addDiaryCoreData()
     }
     
     func setKeyboardHideObserver() {
@@ -55,6 +36,33 @@ final class AddDiaryViewController: UIViewController {
     }
     
     @objc func keyboardDidHide() {
-        CoreDataMananger.shared.insertDiary(createDiaryModel())
+        addDiaryCoreData()
+    }
+    
+    func addDiaryCoreData() {
+        let tmpDiaryModelContent = tmpDiaryModel.title + "\n" + tmpDiaryModel.body
+        let diaryContent = self.addDiaryView.fetchTextViewContent()
+        
+        guard tmpDiaryModelContent != diaryContent else { return }
+        
+        CoreDataMananger.shared.insertDiary(createDiaryModel(with: diaryContent))
+    }
+    
+    func createDiaryModel(with diaryContent: String) -> DiaryModel {
+        if diaryContent == "" {
+            tmpDiaryModel = DiaryModel()
+        } else if diaryContent.contains("\n") {
+            let splitedText = diaryContent.split(separator: "\n",
+                                                 maxSplits: 1,
+                                                 omittingEmptySubsequences: false)
+            let title = String(splitedText[0])
+            let body = String(splitedText[1])
+            
+            tmpDiaryModel = DiaryModel(title: title, body: body)
+        } else {
+            tmpDiaryModel = DiaryModel(title: diaryContent)
+        }
+        
+        return tmpDiaryModel
     }
 }

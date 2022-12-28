@@ -55,11 +55,27 @@ class CoreDataMananger {
     func insertDiary(_ diaryModel: DiaryModel) {
         if let diaryEntity = self.diaryEntity {
             let managedObject = NSManagedObject(entity: diaryEntity, insertInto: self.context)
-            managedObject.setValue(diaryModel.id, forKey: "id")
+//            managedObject.setValue(diaryModel.id, forKey: "id")
             managedObject.setValue(diaryModel.title, forKey: "title")
             managedObject.setValue(diaryModel.body, forKey: "body")
             managedObject.setValue(diaryModel.createdAt, forKey: "createdAt")
             saveToContext()
         }
+    }
+    
+    func updateDiary(_ diaryModel: DiaryModel) {
+        do {
+            guard let item = try context.existingObject(with: diaryModel.id) as? Diary else { return }
+            
+            if item.objectID == diaryModel.id {
+                item.title = diaryModel.title
+                item.body = diaryModel.body
+                item.createdAt = diaryModel.createdAt
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        saveToContext()
     }
 }
