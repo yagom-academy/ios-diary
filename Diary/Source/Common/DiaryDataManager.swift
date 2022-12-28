@@ -5,16 +5,16 @@ import Foundation
 import CoreData
 
 struct DiaryDataManager: DiaryManageable {
-    func add(title: String, body: String, createdAt: Date) {
+    func add(_ diary: Diary) {
         guard let entity = DiaryCoreDataStack.shared.fetchEntity(forEntityName: "DiaryData") else {
             return
         }
         
-        let diary = NSManagedObject(entity: entity,
+        let diaryObject = NSManagedObject(entity: entity,
                                     insertInto: DiaryCoreDataStack.shared.context)
-        diary.setValue(title, forKey: "title")
-        diary.setValue(body, forKey: "body")
-        diary.setValue(createdAt, forKey: "createdAt")
+        diaryObject.setValue(diary.title, forKey: "title")
+        diaryObject.setValue(diary.body, forKey: "body")
+        diaryObject.setValue(diary.createdAt, forKey: "createdAt")
         
         DiaryCoreDataStack.shared.save()
     }
