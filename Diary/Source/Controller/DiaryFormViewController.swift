@@ -8,14 +8,14 @@ import UIKit
 import CoreData
 
 final class DiaryFormViewController: UIViewController, CoreDataProcessable {
-    // MARK: - Properties
+    // MARK: Properties
     
     private let diaryFormView = DiaryFormView()
     private var selectedDiary: Diary?
     private let alertControllerManager = AlertControllerManager()
     private let activityControllerManager = ActivityControllerManager()
     
-    // MARK: - Initializer
+    // MARK: Initializer
     
     init(diary: Diary? = nil) {
         selectedDiary = diary
@@ -31,7 +31,7 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Life Cycle
+    // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,7 +54,7 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         selectSaveOrUpdate()
     }
     
-    // MARK: - Internal Methods
+    // MARK: Internal Methods
     
     func selectSaveOrUpdate() {
         let diary = createDiary()
@@ -62,14 +62,14 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         if selectedDiary != nil {
             updateCoreData(diary: diary)
         } else {
-            if !diary.title.isEmpty, !diary.body.isEmpty {
+            if !diary.totalText.isEmpty {
                 selectedDiary = diary
                 saveCoreData(diary: diary)
             }
         }
     }
     
-    // MARK: - Private Methods
+    // MARK: Private Methods
     
     private func configureDiaryViewLayout() {
         view.addSubview(diaryFormView)
@@ -106,11 +106,15 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
     private func createDiary() -> Diary {
         var uuid = UUID()
         var components = diaryFormView.diaryTextView.text.components(separatedBy: NameSpace.lineBreak)
-        let title = components.removeFirst()
+        var title = components.removeFirst()
         let body = components.filter { !$0.isEmpty }.first ?? String()
         
         if let id = selectedDiary?.id {
             uuid = id
+        }
+        
+        if title.isEmpty {
+            title = NameSpace.emptyTitle
         }
         
         let diary = Diary(
@@ -141,7 +145,7 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         }
     }
     
-    // MARK: - Action Methods
+    // MARK: Action Methods
     
     @objc private func showActionSheet() {
         present(alertControllerManager.createActionSheet(showActivityController, showDeleteAlert),
@@ -176,7 +180,10 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
     }
 }
 
+// MARK: - NameSpace
+
 private enum NameSpace {
     static let rightBarButtonImage = "ellipsis.circle"
     static let lineBreak = "\n"
+    static let emptyTitle = "[제목없음]"
 }

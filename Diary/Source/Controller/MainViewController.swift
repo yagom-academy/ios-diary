@@ -8,14 +8,14 @@ import UIKit
 import CoreData
 
 final class MainViewController: UIViewController, CoreDataProcessable {
-    // MARK: - Properties
+    // MARK: Properties
     
     private let mainDiaryView = MainDiaryView()
     private var diaries: [Diary] = []
     private let alertControllerManager = AlertControllerManager()
     private let activityControllerManager = ActivityControllerManager()
     
-    // MARK: - Life Cycle
+    // MARK: Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,7 +31,7 @@ final class MainViewController: UIViewController, CoreDataProcessable {
         fetchDiaryFromCoreData()
     }
     
-    // MARK: - Private Methods
+    // MARK: Private Methods
     
     private func configureNavigationItem() {
         navigationItem.title = NameSpace.navigationTitle
@@ -90,7 +90,7 @@ final class MainViewController: UIViewController, CoreDataProcessable {
                 completion: nil)
     }
     
-    // MARK: - Action Methods
+    // MARK: Action Methods
 
     @objc private func addDiary() {
         navigationController?.pushViewController(DiaryFormViewController(), animated: true)
