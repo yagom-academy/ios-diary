@@ -93,11 +93,10 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func pressAddButton() {
         CoreDataMananger.shared.insertDiary(DiaryModel())
-        
-        let editDiaryViewController = EditDiaryViewController()
         let currentDiaryModel = CoreDataMananger.shared.fetchLastObject()
+        let editDiaryViewController = EditDiaryViewController(diaryModel: currentDiaryModel)
         
-        editDiaryViewController.configureView(with: currentDiaryModel)
+        editDiaryViewController.configureView()
         self.navigationController?.pushViewController(editDiaryViewController, animated: true)
     }
     
@@ -141,11 +140,10 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-        let editDiaryViewController = EditDiaryViewController()
-        
         guard let diaryItem: DiaryModel = dataSource?.itemIdentifier(for: indexPath) else { return }
+        let editDiaryViewController = EditDiaryViewController(diaryModel: diaryItem)
         
-        editDiaryViewController.configureView(with: diaryItem)
+        editDiaryViewController.configureView()
         
         self.navigationController?.pushViewController(editDiaryViewController, animated: true)
     }

@@ -9,7 +9,16 @@ import UIKit
 
 final class EditDiaryViewController: UIViewController {
     let editDiaryView = EditDiaryView()
-    private var diaryModel: DiaryModel = DiaryModel()
+    private var diaryModel: DiaryModel
+    
+    init(diaryModel: DiaryModel) {
+        self.diaryModel = diaryModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func loadView() {
         self.view = editDiaryView
@@ -41,14 +50,13 @@ final class EditDiaryViewController: UIViewController {
         CoreDataMananger.shared.updateDiary(self.createDiaryModel(with: self.editDiaryView.fetchTextViewContent()))
     }
     
-    func configureView(with diaryData: DiaryModel) {
-        self.navigationItem.title = diaryData.createdAt.convertDate()
+    func configureView() {
+        self.navigationItem.title = self.diaryModel.createdAt.convertDate()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"),
                                                                  style: .plain,
                                                                  target: self,
                                                                  action: #selector(tappedActionButton))
-        self.editDiaryView.configureView(with: diaryData)
-        self.diaryModel = diaryData
+        self.editDiaryView.configureView(with: self.diaryModel)
     }
     
     @objc private func tappedActionButton() {
@@ -56,7 +64,7 @@ final class EditDiaryViewController: UIViewController {
                                                                message: nil,
                                                                preferredStyle: .actionSheet)
         let shareAction: UIAlertAction = UIAlertAction(title: "Share...",
-                                                       style: .default)  { _ in
+                                                       style: .default) { _ in
             var objectsToShare: [String] = []
             objectsToShare.append(self.diaryModel.title + "\n" + self.diaryModel.body)
             self.showActivityContoller(objectsToShare)
