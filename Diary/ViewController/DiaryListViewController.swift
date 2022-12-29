@@ -105,6 +105,7 @@ extension DiaryListViewController: UICollectionViewDelegate {
 }
 
 extension DiaryListViewController: DiaryListViewDelegate {
+    
     func configureSwipeActions(indexPath: IndexPath) -> UISwipeActionsConfiguration {
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: "delete") {

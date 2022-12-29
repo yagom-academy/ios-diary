@@ -12,7 +12,7 @@ struct CoreDataManager {
     
     static let shared: CoreDataManager = CoreDataManager()
     
-    let persistentContainer: NSPersistentContainer = {
+    private let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         
         container.loadPersistentStores(completionHandler: { (_, error) in
@@ -24,7 +24,7 @@ struct CoreDataManager {
         return container
     }()
     
-    var context: NSManagedObjectContext {
+    private var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
@@ -42,6 +42,19 @@ struct CoreDataManager {
         diary.id = diaryPage.id
         
         saveContext()
+    }
+    
+    func searchDiary(using id: UUID) -> [Diary] {
+        let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
+        request.predicate = .init(format: "id = %@", id.uuidString)
+        
+        do {
+            return try context.fetch(request)
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        return []
     }
     
     func fetchDiaryPages() -> [DiaryPage] {
@@ -66,6 +79,26 @@ struct CoreDataManager {
         return diaryList
     }
     
+    func update(_ diaryPage: DiaryPage) {
+        guard let fetchedData = searchDiary(using: diaryPage.id).first else {
+            return
+        }
+        
+        fetchedData.title = diaryPage.title
+        fetchedData.body = diaryPage.body
+        
+        saveContext()
+    }
+    
+    func delete(_ diaryPage: DiaryPage) {
+        guard let diaryWillDelete = searchDiary(using: diaryPage.id).first else {
+            return
+        }
+        
+        context.delete(diaryWillDelete)
+        saveContext()
+    }
+    
     func deleteAllNoDataDiaries() {
         let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
         let predicateOfTitle = NSPredicate(format: "title = %@", "")
@@ -83,26 +116,7 @@ struct CoreDataManager {
         saveContext()
     }
     
-    func update(_ diaryPage: DiaryPage) {
-        guard let fetchedData = searchDiary(using: diaryPage.id).first else {
-            return
-        }
-        fetchedData.title = diaryPage.title
-        fetchedData.body = diaryPage.body
-        
-        saveContext()
-    }
-    
-    func delete(_ diaryPage: DiaryPage) {
-        guard let diaryWillDelete = searchDiary(using: diaryPage.id).first else {
-            return
-        }
-        
-        context.delete(diaryWillDelete)
-        saveContext()
-    }
-    
-    func deleteAllDiary() {
+    func deleteAllDiaries() {
         let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
         
         do {
@@ -115,20 +129,7 @@ struct CoreDataManager {
         saveContext()
     }
     
-    func searchDiary(using id: UUID) -> [Diary] {
-        let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
-        request.predicate = .init(format: "id = %@", id.uuidString)
-        
-        do {
-            return try context.fetch(request)
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        return []
-    }
-    
-    func saveContext() {
+    private func saveContext() {
         do {
             try context.save()
         } catch {

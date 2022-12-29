@@ -10,7 +10,7 @@ import UIKit
 final class DiaryDetailViewController: RegisterDiaryViewController {
     
     private let diaryPageView: DiaryDetailView
-    private var diaryPage: DiaryPage 
+    private var diaryPage: DiaryPage
     
     override init(diaryPageView: DiaryDetailView = DiaryDetailView(), diary: DiaryPage) {
         self.diaryPageView = diaryPageView
@@ -36,6 +36,7 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
     
     override func setupNavigationBar() {
         super.setupNavigationBar()
+        
         let alphaBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
                                                  style: .plain,
                                                  target: self,
@@ -46,8 +47,8 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
 }
 
 extension DiaryDetailViewController {
-
-    @objc func showActionSheet() {
+    
+    @objc private func showActionSheet() {
         let actionSheet = UIAlertController()
         actionSheet.addAction(UIAlertAction(title: "Share", style: .default) { _ in
             self.showActivityView()
@@ -64,7 +65,7 @@ extension DiaryDetailViewController {
         let title = diaryPage.title
         let body = diaryPage.body
         let activityViewController = CustomActivityViewController(activityItems: [title, body])
-
+        
         self.present(activityViewController, animated: true)
     }
     

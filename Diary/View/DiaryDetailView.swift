@@ -11,8 +11,6 @@ final class DiaryDetailView: UIView {
     
     private let titleTextView = CustomTextView(font: .title1)
     private let bodyTextView = CustomTextView(font: .body)
-    var title: String { titleTextView.text }
-    var body: String { bodyTextView.text }
     private let titlePlaceHolder = CustomLabel(text: Constant.titlePlaceHolder,
                                                textColor: .systemGray2,
                                                font: .title1)
@@ -28,9 +26,7 @@ final class DiaryDetailView: UIView {
         
         return scrollView
     }()
-    
-    var scrollViewBottomInset: CGFloat { diaryTextScrollView.contentInset.bottom }
-    
+
     private let diaryTextStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 10
@@ -40,6 +36,16 @@ final class DiaryDetailView: UIView {
         
         return stackView
     }()
+    
+    var title: String {
+        return titleTextView.text
+    }
+    var body: String {
+        return bodyTextView.text
+    }
+    var scrollViewBottomInset: CGFloat {
+        return diaryTextScrollView.contentInset.bottom
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -85,8 +91,12 @@ final class DiaryDetailView: UIView {
         bodyTextView.textColor = .black
     }
     
-    func changeScrollViewBottomInset(_ inset: CGFloat ) {
-        diaryTextScrollView.contentInset.bottom += inset
+    func makeTitleTextViewFirstResponder() {
+        titleTextView.becomeFirstResponder()
+    }
+    
+    func resignTitleTextViewFirstResponder() {
+        titleTextView.resignFirstResponder()
     }
     
     func addTextViewsDelegate(_ controller: UIViewController) {
@@ -98,6 +108,10 @@ final class DiaryDetailView: UIView {
         bodyTextView.delegate = controller
     }
     
+    func changeScrollViewBottomInset(_ inset: CGFloat ) {
+        diaryTextScrollView.contentInset.bottom += inset
+    }
+
     func removePlaceHolder() {
         if title != Constant.empty {
             titlePlaceHolder.removeFromSuperview()
@@ -134,14 +148,6 @@ final class DiaryDetailView: UIView {
                     equalTo: bodyTextView.frameLayoutGuide.heightAnchor)
             ])
         }
-    }
-    
-    func makeTitleTextViewFirstResponder() {
-        titleTextView.becomeFirstResponder()
-    }
-    
-    func resignTitleTextViewFirstResponder() {
-        titleTextView.resignFirstResponder()
     }
 }
 

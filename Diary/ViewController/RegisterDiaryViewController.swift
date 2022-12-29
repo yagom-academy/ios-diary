@@ -42,7 +42,7 @@ class RegisterDiaryViewController: UIViewController {
         updateDiary()
     }
     
-    @objc func updateDiary() {
+    @objc private func updateDiary() {
         diaryPage.title = diaryPageView.title
         diaryPage.body = diaryPageView.body
         CoreDataManager.shared.update(diaryPage)
@@ -53,20 +53,9 @@ class RegisterDiaryViewController: UIViewController {
     }
 }
 
-extension RegisterDiaryViewController: UITextViewDelegate {
-
-    func textViewDidChange(_ textView: UITextView) {
-        diaryPageView.removePlaceHolder()
-    }
-
-    func textViewDidEndEditing(_ textView: UITextView) {
-        diaryPageView.setupPlaceHolder()
-    }
-}
-
 extension RegisterDiaryViewController {
     
-    func setupNotification() {
+    private func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(controlKeyboard),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -81,7 +70,7 @@ extension RegisterDiaryViewController {
                                                object: nil)
     }
     
-    @objc func controlKeyboard(_ notification: NSNotification) {
+    @objc private func controlKeyboard(_ notification: NSNotification) {
         guard let keyboardFrame: NSValue
                 = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
@@ -98,5 +87,16 @@ extension RegisterDiaryViewController {
             self.diaryPageView.changeScrollViewBottomInset(-keyboardHeight)
             updateDiary()
         }
+    }
+}
+
+extension RegisterDiaryViewController: UITextViewDelegate {
+
+    func textViewDidChange(_ textView: UITextView) {
+        diaryPageView.removePlaceHolder()
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        diaryPageView.setupPlaceHolder()
     }
 }
