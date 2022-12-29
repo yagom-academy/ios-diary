@@ -49,11 +49,12 @@ final class DiaryListViewController: UIViewController {
         }
         
         let shareAction = UIContextualAction(style: .normal,
-                                              title: "share") { _, _, _ in
-            var objectsToShare = [String]()
+                                              title: "share") { _, _, completion in
+            var objectsToShare: [String] = []
             objectsToShare.append(diaryWillDelete.title + "\n" + diaryWillDelete.body)
             
             self.showActivityContoller(objectsToShare)
+            completion(true)
         }
         
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])

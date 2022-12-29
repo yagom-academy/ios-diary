@@ -9,7 +9,7 @@ import UIKit
 
 final class EditDiaryViewController: UIViewController {
     let editDiaryView = EditDiaryView()
-    private var diaryModel: DiaryModel!
+    private var diaryModel: DiaryModel = DiaryModel()
     
     override func loadView() {
         self.view = editDiaryView
@@ -43,8 +43,48 @@ final class EditDiaryViewController: UIViewController {
     
     func configureView(with diaryData: DiaryModel) {
         self.navigationItem.title = diaryData.createdAt.convertDate()
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"),
+                                                                 style: .plain,
+                                                                 target: self,
+                                                                 action: #selector(tappedActionButton))
         self.editDiaryView.configureView(with: diaryData)
         self.diaryModel = diaryData
+    }
+    
+    @objc private func tappedActionButton() {
+        let actionSheet: UIAlertController = UIAlertController(title: nil,
+                                                               message: nil,
+                                                               preferredStyle: .actionSheet)
+        let shareAction: UIAlertAction = UIAlertAction(title: "Share...",
+                                                       style: .default)  { _ in
+            var objectsToShare: [String] = []
+            objectsToShare.append(self.diaryModel.title + "\n" + self.diaryModel.body)
+            self.showActivityContoller(objectsToShare)
+        }
+        
+        let deleteAction: UIAlertAction = UIAlertAction(title: "Delete",
+                                                        style: .destructive) { _ in
+            let alert: UIAlertController = UIAlertController(title: "진짜요?",
+                                                             message: "정말로 삭제하시겠어요?",
+                                                             preferredStyle: .alert)
+            let cancelAction: UIAlertAction = UIAlertAction(title: "취소", style: .cancel)
+            let deleteAction: UIAlertAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                CoreDataMananger.shared.deleteDiary(self.diaryModel)
+                self.navigationController?.popViewController(animated: true)
+            }
+            
+            alert.addAction(cancelAction)
+            alert.addAction(deleteAction)
+            self.present(alert, animated: true)
+        }
+        
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel",
+                                                        style: .cancel)
+        
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        present(actionSheet, animated: true)
     }
     
     private func createDiaryModel(with diaryContent: String) -> DiaryModel {
