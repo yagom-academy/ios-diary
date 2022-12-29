@@ -2,7 +2,7 @@
 //  Namespace.swift
 //  Diary
 //
-//  Created by Jiyoung Lee on 2022/12/28.
+//  Created by SummerCat and som on 2022/12/28.
 //
 
 import Foundation
