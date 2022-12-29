@@ -47,7 +47,16 @@ final class DiaryListViewController: UIViewController {
             CoreDataMananger.shared.deleteDiary(diaryWillDelete)
             self.fetchDiary()
         }
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        
+        let shareAction = UIContextualAction(style: .normal,
+                                              title: "share") { _, _, _ in
+            var objectsToShare = [String]()
+            objectsToShare.append(diaryWillDelete.title + "\n" + diaryWillDelete.body)
+            
+            self.showActivityContoller(objectsToShare)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
     
     private func fetchDiary() {
