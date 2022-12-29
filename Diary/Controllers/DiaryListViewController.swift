@@ -14,11 +14,7 @@ final class DiaryListViewController: UICollectionViewController {
     private var diaries: [Diary] = []
 
     init() {
-        var config = UICollectionLayoutListConfiguration(appearance: .plain)
-        config.showsSeparators = true
-        let viewLayout = UICollectionViewCompositionalLayout.list(using: config)
-
-        super.init(collectionViewLayout: viewLayout)
+        super.init(collectionViewLayout: UICollectionViewLayout())
     }
 
     required init?(coder: NSCoder) {
@@ -28,10 +24,45 @@ final class DiaryListViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureCollectionViewLayout()
         configureNavigationItem()
         configureDataSource()
         diaries = persistentContainerManager.fetchDiaries()
         updateSnapshot()
+    }
+
+    private func configureCollectionViewLayout() {
+        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        config.showsSeparators = true
+        config.leadingSwipeActionsConfigurationProvider = makeSwipeAction
+        config.trailingSwipeActionsConfigurationProvider = makeSwipeAction
+        let viewLayout = UICollectionViewCompositionalLayout.list(using: config)
+        collectionView.collectionViewLayout = viewLayout
+    }
+
+    private func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
+        guard let indexPath = indexPath,
+              let id = dataSource?.itemIdentifier(for: indexPath),
+              let diary = diary(diaryID: id) else { return nil }
+        let shareActionTitle = "Share..."
+        let shareAction = UIContextualAction(style: .normal, title: shareActionTitle) { [weak self] _, _, _ in
+            self?.showActivityView(diary)
+        }
+        let deleteActionTitle = "Delete"
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: deleteActionTitle) { [weak self] _, _, _ in
+            self?.persistentContainerManager.deleteDiary(diary)
+            self?.delete(diary: diary)
+            self?.updateSnapshot()
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+
+    private func showActivityView(_ diary: Diary) {
+        let activityItems = [diary.title, diary.createdAt.currentLocalizedText(), diary.body]
+        let activityViewController = UIActivityViewController(activityItems: activityItems,
+                                                              applicationActivities: nil)
+        present(activityViewController, animated: true, completion: nil)
     }
 
     private func configureNavigationItem() {

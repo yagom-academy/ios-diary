@@ -135,7 +135,7 @@ final class DiaryDetailViewController: UIViewController {
     }
 
     private func showActivityView() {
-        var activityItems = [diary.title, diary.createdAt.currentLocalizedText(), diary.body]
+        let activityItems = [diary.title, diary.createdAt.currentLocalizedText(), diary.body]
         let activityViewController = UIActivityViewController(activityItems: activityItems,
                                                               applicationActivities: nil)
         present(activityViewController, animated: true, completion: nil)
