@@ -12,7 +12,7 @@ final class EditorViewController: UIViewController, PersistentContainer {
     let container: NSPersistentContainer
     private let editorView: EditorView = EditorView()
     private let content: Diary
-        
+    
     override func loadView() {
         super.loadView()
         self.view = editorView
@@ -50,14 +50,22 @@ final class EditorViewController: UIViewController, PersistentContainer {
     
     @objc func tappedDoneButton() {
         let diaryData = editorView.fetchDiaryData()
-        let diary = Diary(context: context)
-        let splitedDiary = diaryData.split(separator: Constant.lineBreak, maxSplits: 1, omittingEmptySubsequences: true)
+        let splitedDiary = diaryData.split(separator: Constant.lineBreak,
+                                           maxSplits: 1,
+                                           omittingEmptySubsequences: true)
         
-        diary.title = splitedDiary[0].description
-        diary.body = splitedDiary[1].description
-        diary.createdAt = content.createdAt
+        let title = splitedDiary[0].description
+        let body = splitedDiary[1].description
+        let diary = DiaryContent(title: title,
+                                 body: body,
+                                 createdAt: content.createdAt)
         
-//        context.insertDiary(diary)
+        if title.isEmpty && body.isEmpty {
+            context.delete(objectID: content.objectID)
+        } else {
+            context.insertDiary(info: diary, to: content)
+        }
+        
         self.navigationController?.popViewController(animated: true)
     }
     

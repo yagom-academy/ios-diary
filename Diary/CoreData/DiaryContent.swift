@@ -7,16 +7,8 @@
 
 import Foundation
 
-//struct DiaryContent: Decodable {
-//    let title, body: String
-//    let createdAt: Double
-//
-//    var createdDateString: String {
-//        return Date(timeIntervalSince1970: createdAt).localizedString()
-//    }
-//
-//    enum CodingKeys: String, CodingKey {
-//        case title, body
-//        case createdAt = "created_at"
-//    }
-//}
+struct DiaryContent {
+    let title: String
+    let body: String
+    let createdAt: Double
+}

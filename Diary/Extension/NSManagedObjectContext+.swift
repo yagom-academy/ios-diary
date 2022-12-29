@@ -24,16 +24,11 @@ extension NSManagedObjectContext {
     }
     
     @discardableResult
-    func insertDiary(_ diary: Diary) -> Bool {
-        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: self) else {
-            return false
-        }
+    func insertDiary(info diary: DiaryContent, to coreDataObject: NSManagedObject) -> Bool {
         
-        let managedObject = NSManagedObject(entity: entity, insertInto: self)
-        
-        managedObject.setValue(diary.title, forKey: "title")
-        managedObject.setValue(diary.body, forKey: "body")
-        managedObject.setValue(diary.createdAt, forKey: "createdAt")
+        coreDataObject.setValue(diary.title, forKey: "title")
+        coreDataObject.setValue(diary.body, forKey: "body")
+        coreDataObject.setValue(diary.createdAt, forKey: "createdAt")
         
         do {
             try self.save()
