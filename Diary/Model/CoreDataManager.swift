@@ -40,7 +40,7 @@ final class CoreDataMananger {
         }
     }
     
-    func fetchDiaries() throws -> [Diary]  {
+    func fetchDiaries() throws -> [Diary] {
         do {
             let request = Diary.fetchRequest()
             let results = try self.context.fetch(request)
@@ -48,8 +48,6 @@ final class CoreDataMananger {
         } catch {
             throw DiaryError.fetchFailed
         }
-        
-        return []
     }
     
     func insertDiary(_ diaryModel: DiaryModel) {

@@ -101,7 +101,9 @@ final class EditDiaryViewController: UIViewController {
     
     func updateCurrentDiary() {
         do {
-            try CoreDataMananger.shared.updateDiary(self.createDiaryModel(with: self.editDiaryView.fetchTextViewContent()))
+            let diaryContent = self.editDiaryView.fetchTextViewContent()
+            
+            try CoreDataMananger.shared.updateDiary(self.createDiaryModel(with: diaryContent))
         } catch {
             self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.updateFailed.alertTitle,
                                                      message: DiaryError.updateFailed.alertMessage,
