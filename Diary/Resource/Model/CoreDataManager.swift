@@ -15,7 +15,7 @@ final class CoreDataManager {
         let container = NSPersistentContainer(name: CoreDataNamespace.diary)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+                AlertManager.shared.sendError(title: "데이터 로딩 실패")
             }
         })
         return container
@@ -35,7 +35,7 @@ final class CoreDataManager {
             do {
                 try context.save()
             } catch {
-                fatalError(error.localizedDescription)
+                AlertManager.shared.sendError(title: "데이터 저장 실패")
             }
         }
     }
@@ -66,7 +66,7 @@ final class CoreDataManager {
             
             return results
         } catch {
-            print(error.localizedDescription)
+            AlertManager.shared.sendError(title: "데이터 로딩 실패")
         }
         
         return []
@@ -98,7 +98,7 @@ final class CoreDataManager {
             let result = try viewContext.fetch(fetchRequest)
             return result.first?.objectID
         } catch {
-            print(error.localizedDescription)
+            AlertManager.shared.sendError(title: "데이터 로딩 실패")
         }
         
         return nil

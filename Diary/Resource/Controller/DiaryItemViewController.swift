@@ -116,16 +116,29 @@ class DiaryItemViewController: UIViewController {
     private func addObserver() {
         let notificationName = Notification.Name("sceneDidEnterBackground")
         
-        NotificationCenter.default.addObserver(self, selector: #selector(save),
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(save),
                                                name: notificationName,
                                                object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(save),
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(save),
                                                name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showAlert(_:)),
+                                               name: Notification.Name("CoreDataError"),
                                                object: nil)
     }
     
     @objc private func save() {
         diaryItemManager.saveDiaryWith(title: titleTextView.text, body: bodyTextView.text)
+    }
+    
+    @objc private func showAlert(_ noti: Notification) {
+        guard let userInfo = noti.userInfo,
+              let title = userInfo["title", default: ""] as? String else { return }
+        
+        showErrorAlert(title: title)
     }
     
     func receive(data: DiaryModel) {

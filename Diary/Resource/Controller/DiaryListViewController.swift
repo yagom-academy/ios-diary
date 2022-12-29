@@ -27,13 +27,25 @@ final class DiaryListViewController: UIViewController {
         super.viewDidAppear(animated)
         fetchCoreData()
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
         configureDiaryListTableView()
+        
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showAlert(_:)),
+                                               name: Notification.Name("CoreDataError"),
+                                               object: nil)
     }
     
+    @objc private func showAlert(_ noti: Notification) {
+        guard let userInfo = noti.userInfo,
+              let title = userInfo["title", default: ""] as? String else { return }
+        
+        showErrorAlert(title: title)
+    }
+
     private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance =
         navigationController?.navigationBar.standardAppearance

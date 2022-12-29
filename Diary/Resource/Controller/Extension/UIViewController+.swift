@@ -22,4 +22,14 @@ extension UIViewController {
         alert.addAction(deleteAction)
         present(alert, animated: true)
     }
+    
+    func showErrorAlert(title: String) {
+        let alert: UIAlertController = UIAlertController(title: title,
+                                                         message: nil,
+                                                         preferredStyle: .alert)
+        let confirmAction: UIAlertAction = UIAlertAction(title: "확인",
+                                                         style: .default)
+        alert.addAction(confirmAction)
+        present(alert, animated: true)
+    }
 }
