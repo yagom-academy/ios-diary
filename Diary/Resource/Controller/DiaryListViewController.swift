@@ -17,7 +17,7 @@ final class DiaryListViewController: UIViewController {
         }
     }
     
-    lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)
+    private lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)
     
     override func loadView() {
         view = diaryListTableView

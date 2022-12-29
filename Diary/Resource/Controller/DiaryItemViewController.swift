@@ -10,7 +10,7 @@ import UIKit
 class DiaryItemViewController: UIViewController {
     private var hasTitle: Bool = false
     private var diaryItemManager = DiaryItemManager.shared
-    lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)
+    private lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -87,7 +87,10 @@ class DiaryItemViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Namespace.moreImage), style: .plain, target: self, action: #selector(showActionSheet))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Namespace.moreImage),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(showActionSheet))
         
         let date = Date()
         title = (title == nil ? DateFormatterManager().formatDate(date) : title)
@@ -155,7 +158,7 @@ class DiaryItemViewController: UIViewController {
         })
         alert.addAction(UIAlertAction(title: Namespace.cancel, style: .cancel))
         
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     private func delete(_ diaryModel: DiaryModel?) {
