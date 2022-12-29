@@ -105,8 +105,7 @@ extension EditViewController {
         switch data {
         case .success(let data):
             if status == .new {
-                coreDataManager.saveData(titleText: data.title,
-                                         contentText: data.content,
+                coreDataManager.saveData(contentText: data,
                                          date: currentDate) { result in
                     switch result {
                     case .success(let data):
@@ -121,8 +120,7 @@ extension EditViewController {
             } else {
                 guard let id = diaryData?.id else { return }
                 coreDataManager.updateData(id: id,
-                                           titleText: data.title,
-                                           contentText: data.content) { _ in }
+                                           contentText: data) { _ in }
             }
         case .failure(let error):
             self.status = .new

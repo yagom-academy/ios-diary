@@ -11,7 +11,6 @@ final class EditDiaryView: UIView {
     weak var delegate: KeyboardActionSavable?
     
     private enum Placeholder: String {
-        case textFieldPlaceHolder = "Title"
         case textViewPlaceHolder = "Content"
         
         var sentence: String {
@@ -25,7 +24,6 @@ final class EditDiaryView: UIView {
         super.init(frame: frame)
         setupUI()
         setupConstraints()
-        titleTextField.delegate = self
         contentsTextView.delegate = self
         setupNotification()
     }
@@ -34,84 +32,46 @@ final class EditDiaryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var titleTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.returnKeyType = .done
-        textfield.leftViewMode = .always
-        textfield.leftView = UIView(frame: CGRect(x: .zero, y: .zero, width: 5, height: .zero))
-        textfield.font = .preferredFont(forTextStyle: .title1)
-        textfield.layer.borderColor = UIColor.systemGray5.cgColor
-        textfield.placeholder = Placeholder.textFieldPlaceHolder.sentence
-        return textfield
-    }()
-    
     private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .lightGray
         textView.font = .preferredFont(forTextStyle: .body)
         textView.layer.borderColor = UIColor.systemGray5.cgColor
         textView.text = Placeholder.textViewPlaceHolder.sentence
+        textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
-    private lazy var textStackView = UIStackView(subview: [titleTextField, contentsTextView],
-                                                 spacing: 5,
-                                                 axis: .vertical,
-                                                 alignment: .fill,
-                                                 distribution: .fill)
-    
-    func packageData() -> Result<(title: String, content: String), DataError> {
-        guard let titleText = titleTextField.text else {
-            return .failure(.noneTitleError)
-        }
+    func packageData() -> Result<String, DataError> {
         
         guard let contentText = contentsTextView.text else {
             return .failure(.noneDataError)
         }
         
-        if titleText.count == .zero && contentText == Placeholder.textViewPlaceHolder.sentence {
+        if contentText == Placeholder.textViewPlaceHolder.sentence {
             return .failure(.noneDataError)
         } else if contentText == Placeholder.textViewPlaceHolder.sentence {
-            return .success((titleText, ""))
+            return .success("")
         }
         
-        return .success((titleText, contentText))
+        return .success(contentText)
     }
     
     func bindData(_ data: DiaryData?) {
         guard let data = data else { return }
         contentsTextView.textColor = .black
-        self.titleTextField.text = data.titleText
         self.contentsTextView.text = data.contentText
     }
     
     func presentKeyboard() {
-        titleTextField.becomeFirstResponder()
+        contentsTextView.becomeFirstResponder()
     }
 }
 
-// MARK: - UITextFieldDelegate, UITextViewDelegate
-extension EditDiaryView: UITextFieldDelegate, UITextViewDelegate {
+// MARK: - UITextViewDelegate
+extension EditDiaryView: UITextViewDelegate {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.titleTextField.resignFirstResponder()
         self.contentsTextView.resignFirstResponder()
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if titleTextField.text != "" {
-            self.contentsTextView.becomeFirstResponder()
-            return true
-        }
-        return false
-    }
-
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        guard let text = textField.text else { return }
-        if text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-            textField.text = nil
-            textField.placeholder = Placeholder.textFieldPlaceHolder.sentence
-        }
-        delegate?.saveWhenHideKeyboard()
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -134,24 +94,24 @@ extension EditDiaryView: UITextFieldDelegate, UITextViewDelegate {
 extension EditDiaryView {
     private func setupUI() {
         self.backgroundColor = .white
-        textStackView.layer.borderWidth = 1
-        textStackView.layer.cornerRadius = 10
-        textStackView.layer.borderColor = UIColor.systemGray4.cgColor
-        self.addSubview(textStackView)
+        contentsTextView.layer.borderWidth = 1
+        contentsTextView.layer.cornerRadius = 10
+        contentsTextView.layer.borderColor = UIColor.systemGray4.cgColor
+        self.addSubview(contentsTextView)
     }
     
     private func setupConstraints() {
         let safeArea = self.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
-            textStackView.topAnchor.constraint(
+            contentsTextView.topAnchor.constraint(
                 equalTo: safeArea.topAnchor, constant: 10),
-            textStackView.leadingAnchor.constraint(
+            contentsTextView.leadingAnchor.constraint(
                 equalTo: safeArea.leadingAnchor, constant: 10),
-            textStackView.trailingAnchor.constraint(
+            contentsTextView.trailingAnchor.constraint(
                 equalTo: safeArea.trailingAnchor, constant: -10)
         ])
         
-        textStackViewBottomConstraints = textStackView.bottomAnchor.constraint(
+        textStackViewBottomConstraints = contentsTextView.bottomAnchor.constraint(
             equalTo: safeArea.bottomAnchor, constant: -10)
         textStackViewBottomConstraints?.isActive = true
     }

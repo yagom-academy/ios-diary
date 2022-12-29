@@ -36,8 +36,7 @@ final class CoreDataManager {
         return .success(diaryDataList)
     }
     
-    func saveData(titleText: String,
-                  contentText: String,
+    func saveData(contentText: String,
                   date: Date,
                   completion: @escaping ((Result<DiaryData, DataError>) -> Void)) {
         
@@ -58,7 +57,6 @@ final class CoreDataManager {
         
         content.id = UUID()
         content.createdAt = date
-        content.titleText = titleText
         content.contentText = contentText
         
         if context.hasChanges {
@@ -73,7 +71,6 @@ final class CoreDataManager {
     }
     
     func updateData(id: UUID,
-                    titleText: String,
                     contentText: String,
                     completion: @escaping (Bool) -> Void) {
         
@@ -86,7 +83,6 @@ final class CoreDataManager {
             guard let fetchedDatas = try context.fetch(request) as? [DiaryData] else { return }
             guard let diaryData = fetchedDatas.first else { return }
             
-            diaryData.setValue(titleText, forKey: "titleText")
             diaryData.setValue(contentText, forKey: "contentText")
             if context.hasChanges {
                 do {
