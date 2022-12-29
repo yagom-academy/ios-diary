@@ -32,9 +32,10 @@ final class DiaryDetailViewController: UIViewController {
             persistentContainerManager.updateDiary(diary)
         }
     }
-    private let completion: (Diary) -> Void
+    private var action = Action.update
+    private let completion: (Diary, Action) -> Void
 
-    init(diary: Diary, completion: @escaping (Diary) -> Void) {
+    init(diary: Diary, completion: @escaping (Diary, Action) -> Void) {
         self.diary = diary
         self.completion = completion
         super.init(nibName: nil, bundle: nil)
@@ -54,6 +55,8 @@ final class DiaryDetailViewController: UIViewController {
     }
 
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         if #unavailable(iOS 15.0) {
             addKeyboardObserver()
         }
@@ -61,12 +64,14 @@ final class DiaryDetailViewController: UIViewController {
     }
 
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
         if #unavailable(iOS 15.0) {
             removeKeyboardObserver()
         }
         removeEnterBackgroundObserver()
         updateDiary()
-        completion(diary)
+        completion(diary, action)
     }
 
     private func updateDiary() {
@@ -78,6 +83,10 @@ final class DiaryDetailViewController: UIViewController {
 
     private func configureNavigationItem() {
         navigationItem.title = diary.createdAt.currentLocalizedText()
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                            style: .done,
+                                                            target: self,
+                                                            action: #selector(showAlert))
     }
 
     private func configureSubViews() {
@@ -106,6 +115,23 @@ final class DiaryDetailViewController: UIViewController {
     private func configureDiaryText() {
         titleTextField.text = diary.title
         bodyTextView.text = diary.body
+    }
+
+    private func showDeleteAlert() {
+        let alert = UIAlertController(title: "진짜요?",
+                                      message: "정말로 삭제하시겠어요?",
+                                      preferredStyle: .alert)
+        let cancleAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            guard let diary = self?.diary else { return }
+            self?.persistentContainerManager.deleteDiary(diary)
+            self?.action = .delete
+            self?.navigationController?.popViewController(animated: true)
+        }
+
+        alert.addAction(cancleAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
     }
 }
 
@@ -178,5 +204,36 @@ extension DiaryDetailViewController: UITextFieldDelegate {
 extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         diary.body = bodyTextView.text
+    }
+}
+
+// MARK: - objc
+extension DiaryDetailViewController {
+    @objc private func showAlert() {
+        let alert = UIAlertController(title: nil,
+                                      message: nil,
+                                      preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...",
+                                        style: .default) { _ in
+            print("share 클릭")
+        }
+        let deleteAction = UIAlertAction(title: "Delete",
+                                         style: .destructive) { [weak self] _ in
+            self?.showDeleteAlert()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+}
+
+// MARK: - nested type
+extension DiaryDetailViewController {
+    enum Action {
+        case update
+        case delete
     }
 }

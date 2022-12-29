@@ -54,12 +54,23 @@ final class DiaryListViewController: UICollectionViewController {
         diaries[index] = diary
     }
 
+    private func delete(diary: Diary) {
+        guard let index = diaries.firstIndex(where: { $0.id == diary.id }) else { return }
+        diaries.remove(at: index)
+    }
+
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let diaryID = dataSource?.itemIdentifier(for: indexPath),
               let diary = diary(diaryID: diaryID) else { return }
-        let diaryDetailViewController = DiaryDetailViewController(diary: diary) { [weak self] diary in
-            self?.update(diary: diary)
-            self?.updateSnapshot([diary.id])
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary) { [weak self] diary, action in
+            switch action {
+            case .update:
+                self?.update(diary: diary)
+                self?.updateSnapshot([diary.id])
+            case .delete:
+                self?.delete(diary: diary)
+                self?.updateSnapshot()
+            }
         }
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
@@ -104,9 +115,15 @@ extension DiaryListViewController {
         let newDiary = Diary(title: "", body: "", createdAt: Date().timeIntervalSince1970)
         persistentContainerManager.insertDiary(newDiary)
         diaries.append(newDiary)
-        let diaryDetailViewController = DiaryDetailViewController(diary: newDiary) { [weak self] diary in
-            self?.update(diary: diary)
-            self?.updateSnapshot([diary.id])
+        let diaryDetailViewController = DiaryDetailViewController(diary: newDiary) { [weak self] diary, action in
+            switch action {
+            case .update:
+                self?.update(diary: diary)
+                self?.updateSnapshot([diary.id])
+            case .delete:
+                self?.delete(diary: diary)
+                self?.updateSnapshot()
+            }
         }
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
