@@ -88,6 +88,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C796315295D362E0027310D /* Errors */ = {
+			isa = PBXGroup;
+			children = (
+				5472B0FC295AC1CF00BC3986 /* DataError.swift */,
+			);
+			path = Errors;
+			sourceTree = "<group>";
+		};
+		3C796316295D363A0027310D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				54E58E00295A8504005DD067 /* CoreDataManager.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		3C796317295D36780027310D /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				54E64BB6295C76B2002E96D1 /* Constant.swift */,
+				3C796315295D362E0027310D /* Errors */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		54CB5410295347BF006D9E8C /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -112,9 +137,6 @@
 				54890CEC295BD7C20054CFE8 /* Diary+CoreDataClass.swift */,
 				54890CED295BD7C20054CFE8 /* Diary+CoreDataProperties.swift */,
 				3C4528442952F08A00E59E94 /* DiaryData.swift */,
-				54E58E00295A8504005DD067 /* CoreDataManager.swift */,
-				5472B0FC295AC1CF00BC3986 /* DataError.swift */,
-				54E64BB6295C76B2002E96D1 /* Constant.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -175,6 +197,8 @@
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				3C796317295D36780027310D /* Common */,
+				3C796316295D363A0027310D /* Utilities */,
 				54CB5410295347BF006D9E8C /* Extension */,
 				54ED313529533AD600BB9C01 /* Models */,
 				54ED313729533AF300BB9C01 /* Views */,
