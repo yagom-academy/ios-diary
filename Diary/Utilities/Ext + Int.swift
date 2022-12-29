@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension Int {
+extension Int64 {
     func convertDate() -> String {
         let dateFormatter = DateFormatter()
         let date = Date(timeIntervalSince1970: TimeInterval(self))

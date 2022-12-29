@@ -7,18 +7,13 @@
 
 import UIKit
 
-protocol DetailViewControllerDelegate: AnyObject {
-    func sendData(title: String, body: String, indexPath: IndexPath)
-}
 
 final class DetailViewController: UIViewController {
     @IBOutlet weak private var detailTextViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak private var detailTextView: UITextView!
     // 타이틀,바디가 isEmpty면, textView에서 Placeholder를 표기(create).
 
-    var diaryData: SampleData?
-    var indexPath: IndexPath?
-    weak var delegate: DetailViewControllerDelegate?
+    var diaryData: DiaryData?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,21 +24,14 @@ final class DetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeNotificationObserver()
-        shareChangedData()
-    }
-    
-    private func shareChangedData() {
-        guard let indexPath = indexPath else { return }
-        let data = detailTextView.text.seperateTitleAndBody(titleWordsLimit: 20)
-        delegate?.sendData(title: data.title,
-                           body: data.body,
-                           indexPath: indexPath)
     }
     
     private func configureView() {
-        guard let diaryData = diaryData else { return }
+        guard let diaryData = diaryData,
+              let title = diaryData.title,
+              let body = diaryData.body else { return }
         navigationItem.title = diaryData.createdAt.convertDate()
-        detailTextView.text = "\(diaryData.title)\n\n\(diaryData.body)"
+        detailTextView.text = "\(title)\n\n\(body)"
     }
 }
 

@@ -19,7 +19,7 @@ final class DiaryTableViewCell: UITableViewCell {
         bodyLabel.text = nil
     }
     
-    func configureCell(data: SampleData) {
+    func configureCell(data: DiaryData) {
         titleLabel.text = data.title
         createdAtLabel.text = data.createdAt.convertDate()
         bodyLabel.text = data.body

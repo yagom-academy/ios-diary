@@ -7,8 +7,8 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private var sampleData: [SampleData] = []
-    private var dataSource: UITableViewDiffableDataSource<Section, SampleData>?
+    private var diaryData: [DiaryData] = []
+    private var dataSource: UITableViewDiffableDataSource<Section, DiaryData>?
     private var coreDataManager: CoreDataManager = CoreDataManager()
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -18,7 +18,6 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        getSampleData()
         view.addSubview(tableView)
         configureDataSource()
         configureSnapshot()
@@ -34,12 +33,17 @@ final class DiaryViewController: UIViewController {
     
     @IBAction func tapAddBarButtonItem(_ sender: UIBarButtonItem) {
         coreDataManager.create()
-        
-        let detailViewControll = storyboard?.instantiateViewController(identifier: "detailView") as? DetailViewController ?? DetailViewController()
-        self.navigationController?.pushViewController(detailViewControll, animated: true)
+        getDiaryData()
+//        let detailViewController = storyboard?.instantiateViewController(identifier: "detailView") as? DetailViewController ?? DetailViewController()
+//        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
-    
+    private func getDiaryData() {
+        diaryData = coreDataManager.fetch()
+        DispatchQueue.main.async {
+            self.configureSnapshot()
+        }
+    }
     private func configureTableViewConstraint() {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -54,19 +58,6 @@ final class DiaryViewController: UIViewController {
         tableView.register(UINib(nibName: "DiaryTableViewCell", bundle: nil),
                            forCellReuseIdentifier: "diaryTableViewCell")
     }
-    
-    private func getSampleData() {
-        let asset = NSDataAsset(name: "sample")
-        guard let data = asset?.data else { return }
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        do {
-            sampleData = try jsonDecoder.decode([SampleData].self, from: data)
-        } catch {
-            print(error)
-        }
-    }
 }
 
 // MARK: - TableView Delegate
@@ -75,20 +66,10 @@ extension DiaryViewController: UITableViewDelegate {
         guard let detailViewController: DetailViewController =
                 storyboard?.instantiateViewController(withIdentifier: "DetailView")
                 as? DetailViewController else { return }
-        detailViewController.delegate = self
-        detailViewController.diaryData = sampleData[indexPath.row]
-        detailViewController.indexPath = indexPath
+        detailViewController.diaryData = diaryData[indexPath.row]
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
-
-extension DiaryViewController: DetailViewControllerDelegate {
-    func sendData(title: String, body: String, indexPath: IndexPath) {
-        sampleData[indexPath.row].title = title
-        sampleData[indexPath.row].body = body
-    }
-}
-
 
 // MARK: - TableView DataSource
 extension DiaryViewController {
@@ -97,7 +78,7 @@ extension DiaryViewController {
     }
     
     private func configureDataSource() {
-        dataSource = UITableViewDiffableDataSource<Section, SampleData>(tableView: tableView,
+        dataSource = UITableViewDiffableDataSource<Section, DiaryData>(tableView: tableView,
                                                    cellProvider: { tableView, indexPath, data in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "diaryTableViewCell",
                                                            for: indexPath) as? DiaryTableViewCell
@@ -111,9 +92,9 @@ extension DiaryViewController {
     }
     
     private func configureSnapshot() {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, SampleData>()
+        var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryData>()
         snapShot.appendSections([.main])
-        snapShot.appendItems(sampleData)
+        snapShot.appendItems(diaryData)
         dataSource?.apply(snapShot)
     }
 }
