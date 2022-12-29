@@ -9,7 +9,7 @@ import UIKit
 
 class DiaryItemViewController: UIViewController {
     private var hasTitle: Bool = false
-    private var diaryItemManager = DiaryItemManager()
+    private var diaryItemManager = DiaryItemManager.shared
     lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)
     
     private let mainStackView: UIStackView = {

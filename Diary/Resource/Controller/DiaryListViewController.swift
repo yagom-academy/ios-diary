@@ -8,15 +8,15 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    private let diaryListTableView = UITableView()
+    private var diaryItemManager = DiaryItemManager.shared
     
+    private let diaryListTableView = UITableView()
     private var diaryModels: [DiaryModel] = [] {
         didSet {
             diaryListTableView.reloadData()
         }
     }
     
-    private var diaryItemManager = DiaryItemManager()
     lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)
     
     override func loadView() {

@@ -8,6 +8,7 @@
 import Foundation
 
 final class DiaryItemManager {
+    static let shared = DiaryItemManager()
     private var diaryItem: DiaryModel?
     
     func saveDiaryWith(title: String, body: String) {
