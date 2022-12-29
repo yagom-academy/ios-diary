@@ -7,10 +7,11 @@
 
 import Foundation
 
-struct SampleData: Decodable {
+struct SampleData: Decodable, Hashable {
     var title: String
     var body: String
     let createdAt: Int
+    let uuid: UUID = UUID()
     
     enum CodingKeys: String, CodingKey {
         case title

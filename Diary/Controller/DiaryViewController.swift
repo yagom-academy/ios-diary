@@ -8,6 +8,7 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private var sampleData: [SampleData] = []
+    private var dataSource: UITableViewDiffableDataSource<Section, SampleData>?
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -16,10 +17,12 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getSampleData()
         view.addSubview(tableView)
+        configureDataSource()
+        configureSnapshot()
         setTableView()
         configureTableViewConstraint()
-        getSampleData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -39,7 +42,6 @@ final class DiaryViewController: UIViewController {
     
     private func setTableView() {
         tableView.delegate = self
-        tableView.dataSource = self
         tableView.register(UINib(nibName: "DiaryTableViewCell", bundle: nil),
                            forCellReuseIdentifier: "diaryTableViewCell")
     }
@@ -61,28 +63,13 @@ final class DiaryViewController: UIViewController {
 // MARK: - TableView Delegate
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detailViewController: DetailViewController = storyboard?.instantiateViewController(withIdentifier: "DetailView") as? DetailViewController else { return }
+        guard let detailViewController: DetailViewController =
+                storyboard?.instantiateViewController(withIdentifier: "DetailView")
+                as? DetailViewController else { return }
         detailViewController.delegate = self
         detailViewController.diaryData = sampleData[indexPath.row]
         detailViewController.indexPath = indexPath
         navigationController?.pushViewController(detailViewController, animated: true)
-    }
-}
-
-// MARK: - TableView DataSource
-extension DiaryViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return sampleData.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "diaryTableViewCell",
-                                                 for: indexPath) as? DiaryTableViewCell ?? DiaryTableViewCell()
-        let data = sampleData[indexPath.row]
-        cell.configureCell(data: data)
-        
-        return cell
     }
 }
 
@@ -92,3 +79,33 @@ extension DiaryViewController: DetailViewControllerDelegate {
         sampleData[indexPath.row].body = body
     }
 }
+
+
+// MARK: - TableView DataSource
+extension DiaryViewController {
+    private enum Section {
+        case main
+    }
+    
+    private func configureDataSource() {
+        dataSource = UITableViewDiffableDataSource<Section, SampleData>(tableView: tableView,
+                                                   cellProvider: { tableView, indexPath, data in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "diaryTableViewCell",
+                                                           for: indexPath) as? DiaryTableViewCell
+            else {
+                return UITableViewCell()
+            }
+            cell.configureCell(data: data)
+            
+            return cell
+        })
+    }
+    
+    private func configureSnapshot() {
+        var snapShot = NSDiffableDataSourceSnapshot<Section, SampleData>()
+        snapShot.appendSections([.main])
+        snapShot.appendItems(sampleData)
+        dataSource?.apply(snapShot)
+    }
+}
+
