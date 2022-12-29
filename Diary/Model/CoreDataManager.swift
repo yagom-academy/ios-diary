@@ -45,13 +45,15 @@ struct CoreDataManager {
     }
     
     func fetchDiaryPages() -> [DiaryPage] {
+        deleteAllNoDataDiaries()
+        
         var diaryList: [DiaryPage] = []
         let request = Diary.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
        
         do {
             let fetchedData = try context.fetch(request)
-            _ = fetchedData.map {
+            fetchedData.forEach {
                 diaryList.append(DiaryPage(title: $0.title ?? "",
                                            body: $0.body ?? "",
                                            createdAt: $0.createdAt ?? Date(),
@@ -64,8 +66,27 @@ struct CoreDataManager {
         return diaryList
     }
     
+    func deleteAllNoDataDiaries() {
+        let request: NSFetchRequest<Diary> = NSFetchRequest(entityName: "Diary")
+        let predicateOfTitle = NSPredicate(format: "title = %@", "")
+        let predicateOfBody = NSPredicate(format: "body = %@", "")
+        request.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [predicateOfTitle,
+                                                                                predicateOfBody])
+        
+        do {
+            let noDataDiaries = try context.fetch(request)
+            noDataDiaries.forEach { context.delete($0) }
+        } catch {
+            print(error.localizedDescription)
+        }
+
+        saveContext()
+    }
+    
     func update(_ diaryPage: DiaryPage) {
-        guard let fetchedData = searchDiary(using: diaryPage.id).first else { return }
+        guard let fetchedData = searchDiary(using: diaryPage.id).first else {
+            return
+        }
         fetchedData.title = diaryPage.title
         fetchedData.body = diaryPage.body
         
@@ -86,9 +107,7 @@ struct CoreDataManager {
         
         do {
             let fetchedData = try context.fetch(request)
-            _ = fetchedData.map {
-                context.delete($0)
-            }
+            fetchedData.forEach { context.delete($0) }
         } catch {
             print(error.localizedDescription)
         }

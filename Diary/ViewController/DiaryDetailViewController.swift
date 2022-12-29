@@ -40,6 +40,7 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
                                                  style: .plain,
                                                  target: self,
                                                  action: #selector(showActionSheet))
+        
         self.navigationItem.rightBarButtonItem = alphaBarButtonItem
     }
 }

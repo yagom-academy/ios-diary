@@ -7,19 +7,11 @@
 
 import Foundation
 
-struct DiaryPage: Decodable, Hashable {
+struct DiaryPage: Hashable {
     
     var title: String
     var body: String
     let createdAt: Date
     var id = UUID()
-    
-    enum CodingKeys: String, CodingKey {
-        case title, body
-        case createdAt = "created_at"
-    }
-    
-    var createdDate: String {
-        return createdAt.localizedDateFormat
-    }
+    var createdDate: String { createdAt.localizedDateFormat }
 }

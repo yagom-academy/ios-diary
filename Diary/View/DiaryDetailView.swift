@@ -11,12 +11,8 @@ final class DiaryDetailView: UIView {
     
     private let titleTextView = CustomTextView(font: .title1)
     private let bodyTextView = CustomTextView(font: .body)
-    var title: String {
-        return titleTextView.text
-    }
-    var body: String {
-        return bodyTextView.text
-    }
+    var title: String { titleTextView.text }
+    var body: String { bodyTextView.text }
     private let titlePlaceHolder = CustomLabel(text: Constant.titlePlaceHolder,
                                                textColor: .systemGray2,
                                                font: .title1)
@@ -33,6 +29,8 @@ final class DiaryDetailView: UIView {
         return scrollView
     }()
     
+    var scrollViewBottomInset: CGFloat { diaryTextScrollView.contentInset.bottom }
+    
     private let diaryTextStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 10
@@ -42,10 +40,6 @@ final class DiaryDetailView: UIView {
         
         return stackView
     }()
-    
-    var scrollViewBottomInset: CGFloat {
-        return diaryTextScrollView.contentInset.bottom
-    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -71,9 +65,9 @@ final class DiaryDetailView: UIView {
                 equalTo: readableContentGuide.topAnchor),
             diaryTextScrollView.frameLayoutGuide.bottomAnchor.constraint(
                 equalTo: readableContentGuide.bottomAnchor),
-            
             diaryTextScrollView.contentLayoutGuide.widthAnchor.constraint(
                 equalTo: diaryTextScrollView.frameLayoutGuide.widthAnchor),
+            
             diaryTextStackView.widthAnchor.constraint(
                 equalTo: diaryTextScrollView.contentLayoutGuide.widthAnchor),
             diaryTextStackView.heightAnchor.constraint(
@@ -127,6 +121,7 @@ final class DiaryDetailView: UIView {
                     equalTo: titleTextView.frameLayoutGuide.heightAnchor)
             ])
         }
+        
         if body == Constant.empty {
             bodyTextView.addSubview(bodyPlaceHolder)
             

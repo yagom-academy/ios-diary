@@ -2,7 +2,7 @@
 //  RegisterDiaryViewController.swift
 //  Diary
 //
-//  Created by 맹선아 on 2022/12/21.
+//  Created by 써니쿠키, LJ on 2022/12/21.
 //
 
 import UIKit
@@ -45,7 +45,6 @@ class RegisterDiaryViewController: UIViewController {
     @objc func updateDiary() {
         diaryPage.title = diaryPageView.title
         diaryPage.body = diaryPageView.body
-        
         CoreDataManager.shared.update(diaryPage)
     }
     

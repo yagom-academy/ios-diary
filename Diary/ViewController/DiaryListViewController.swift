@@ -95,8 +95,10 @@ extension DiaryListViewController {
 }
 
 extension DiaryListViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailViewController = DiaryDetailViewController(diary: diary[indexPath.item])
+        
         collectionView.deselectItem(at: indexPath, animated: false)
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
@@ -105,12 +107,14 @@ extension DiaryListViewController: UICollectionViewDelegate {
 extension DiaryListViewController: DiaryListViewDelegate {
     func configureSwipeActions(indexPath: IndexPath) -> UISwipeActionsConfiguration {
         let deleteAction = UIContextualAction(style: .destructive,
-                                        title: "delete") {
+                                              title: "delete") {
             _, _, handler in
-
             CoreDataManager.shared.delete(self.diary[indexPath.item])
-            guard let dataSource = self.dataSource else { return }
-            guard let id = dataSource.itemIdentifier(for: indexPath) else { return }
+            guard let dataSource = self.dataSource,
+                  let id = dataSource.itemIdentifier(for: indexPath) else {
+                return
+            }
+            
             var currentData = dataSource.snapshot()
             currentData.deleteItems([id])
             dataSource.apply(currentData)
@@ -120,7 +124,6 @@ extension DiaryListViewController: DiaryListViewDelegate {
         let shareAction = UIContextualAction(style: .normal,
                                              title: "share") {
             _, _, handler in
-        
             let title = self.diary[indexPath.item].title
             let body = self.diary[indexPath.item].body
             let activityViewController = CustomActivityViewController(activityItems: [title, body])
@@ -128,6 +131,7 @@ extension DiaryListViewController: DiaryListViewDelegate {
             self.present(activityViewController, animated: true)
             handler(true)
         }
+        
         shareAction.backgroundColor = .systemBlue
         shareAction.image = UIImage(systemName: "square.and.arrow.up")
         
