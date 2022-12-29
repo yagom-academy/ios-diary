@@ -91,13 +91,16 @@ extension EditDiaryView: UITextViewDelegate {
     func textView(_ textView: UITextView,
                   shouldChangeTextIn range: NSRange,
                   replacementText text: String) -> Bool {
-        var seperateText = self.contentsTextView.text.components(separatedBy: "\n")
-        let range = (seperateText.first! as NSString).range(of: seperateText.removeFirst())
-        self.contentsTextView.attributedText = NSMutableAttributedString.customAttributeTitle(
-            text: self.contentsTextView.text,
-            range: range
-        )
         
+        //TODO: Fix
+        if text == "\n" {
+            var seperateText = self.contentsTextView.text.components(separatedBy: "\n")
+            let range = (seperateText.first! as NSString).range(of: seperateText.removeFirst())
+            self.contentsTextView.attributedText = NSMutableAttributedString.customAttributeTitle(
+                text: self.contentsTextView.text,
+                range: range
+            )
+        }
         return true
     }
 }

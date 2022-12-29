@@ -59,5 +59,7 @@ extension CustomListCell {
             labelStackView.trailingAnchor.constraint(
                 equalTo: self.contentView.trailingAnchor, constant: -20)
         ])
+        
+        dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
 }
