@@ -11,7 +11,7 @@ import CoreData
 final class CoreDataManager {
     static let shared = CoreDataManager()
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: CoreDataNamespace.diary)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -21,15 +21,15 @@ final class CoreDataManager {
         return container
     }()
     
-    var viewContext: NSManagedObjectContext {
+    private var viewContext: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
-    var diaryEntity: NSEntityDescription? {
+    private var diaryEntity: NSEntityDescription? {
         return NSEntityDescription.entity(forEntityName: CoreDataNamespace.diary, in: viewContext)
     }
     
-    func saveContext() {
+    private func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
