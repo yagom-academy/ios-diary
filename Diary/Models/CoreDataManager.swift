@@ -66,15 +66,15 @@ class CoreDataManager {
         return diaryList
     }
     
-    func updateDiary(updatedDiary: Diary) throws {
+    func updateDiary(updatedDiary: Diary) throws -> Diary? {
         guard let context else { throw DataError.contextUndifined }
         
         let request = NSFetchRequest<Diary>(entityName: self.entityName)
         request.predicate = NSPredicate(format: "id == %@", updatedDiary.id as CVarArg)
+        var diary: Diary?
         
         do {
-            var diary = try context.fetch(request).first
-            
+            diary = try context.fetch(request).first
             diary = updatedDiary
         } catch {
             throw DataError.emptyData
@@ -87,6 +87,8 @@ class CoreDataManager {
                 throw DataError.unChangedData
             }
         }
+        
+        return diary
     }
     
     func deleteDiary(diary: Diary) throws {

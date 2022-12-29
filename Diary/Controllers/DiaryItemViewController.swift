@@ -144,7 +144,7 @@ extension DiaryItemViewController {
         diary.text = text
         
         do {
-            try CoreDataManager.shared.updateDiary(updatedDiary: diary)
+            self.diary = try CoreDataManager.shared.updateDiary(updatedDiary: diary)
         } catch {
             print(error)
         }
