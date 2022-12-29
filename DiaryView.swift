@@ -52,13 +52,13 @@ class DiaryView: UIView {
 
 extension DiaryView: AddKeyboardNotification {
     func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardHeight = getKeyboardHeight(from: notification) else { return }
+        guard let keyboardHeight = self.getKeyboardHeight(from: notification) else { return }
         
         self.changeTextViewContentInset(for: keyboardHeight)
     }
     
     func keyboardWillHide(notification: NSNotification) {
-        guard let keyboardHeight = getKeyboardHeight(from: notification) else { return }
+        guard let keyboardHeight = self.getKeyboardHeight(from: notification) else { return }
         
         self.changeTextViewContentInset(for: -keyboardHeight)
     }

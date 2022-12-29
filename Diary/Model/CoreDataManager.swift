@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-class CoreDataMananger {
+final class CoreDataMananger {
     static var shared: CoreDataMananger = CoreDataMananger()
     
     lazy var persistentContainer: NSPersistentContainer = {
@@ -21,15 +21,15 @@ class CoreDataMananger {
         return container
     }()
     
-    var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
+    private var context: NSManagedObjectContext {
+        return self.persistentContainer.viewContext
     }
     
-    var diaryEntity: NSEntityDescription? {
-        return NSEntityDescription.entity(forEntityName: "Diary", in: context)
+    private var diaryEntity: NSEntityDescription? {
+        return NSEntityDescription.entity(forEntityName: "Diary", in: self.context)
     }
     
-    func saveToContext () {
+    private func saveToContext() {
         if self.context.hasChanges {
             do {
                 try self.context.save()
@@ -40,13 +40,13 @@ class CoreDataMananger {
         }
     }
     
-    func fetchDiaries() -> [Diary] {
+    func fetchDiaries() throws -> [Diary]  {
         do {
             let request = Diary.fetchRequest()
-            let results = try context.fetch(request)
+            let results = try self.context.fetch(request)
             return results
         } catch {
-            print(error.localizedDescription)
+            throw DiaryError.fetchFailed
         }
         
         return []
@@ -58,11 +58,11 @@ class CoreDataMananger {
             managedObject.setValue(diaryModel.title, forKey: "title")
             managedObject.setValue(diaryModel.body, forKey: "body")
             managedObject.setValue(diaryModel.createdAt, forKey: "createdAt")
-            saveToContext()
+            self.saveToContext()
         }
     }
     
-    func updateDiary(_ diaryModel: DiaryModel) {
+    func updateDiary(_ diaryModel: DiaryModel) throws {
         do {
             guard let diaryID = diaryModel.id,
                   let item = try context.existingObject(with: diaryID) as? Diary else { return }
@@ -70,34 +70,35 @@ class CoreDataMananger {
             item.title = diaryModel.title
             item.body = diaryModel.body
         } catch {
-            print(error.localizedDescription)
+            throw DiaryError.updateFailed
         }
         
-        saveToContext()
+        self.saveToContext()
     }
     
-    func fetchLastObject() -> DiaryModel {
-        guard let lastDiary = fetchDiaries().last else {
-            return DiaryModel()
+    func deleteDiary(_ diaryModel: DiaryModel) throws {
+        do {
+            guard let diaryID = diaryModel.id,
+                  let item = try self.context.existingObject(with: diaryID) as? Diary else { return }
+            
+            self.context.delete(item)
+        } catch {
+            throw DiaryError.deleteFailed
         }
+        
+        self.saveToContext()
+    }
+    
+    func fetchLastObject() throws -> DiaryModel {
+        guard let lastDiary = try self.fetchDiaries().last else {
+            throw DiaryError.fetchFailed
+        }
+        
         let lastDiaryModel = DiaryModel(id: lastDiary.objectID,
                                         title: lastDiary.title ?? "",
                                         body: lastDiary.body ?? "",
                                         createdAt: lastDiary.createdAt)
         
         return lastDiaryModel
-    }
-    
-    func deleteDiary(_ diaryModel: DiaryModel) {
-        do {
-            guard let diaryID = diaryModel.id,
-                  let item = try context.existingObject(with: diaryID) as? Diary else { return }
-            
-            context.delete(item)
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        saveToContext()
     }
 }

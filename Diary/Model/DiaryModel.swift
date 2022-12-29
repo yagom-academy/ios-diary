@@ -7,14 +7,9 @@
 
 import CoreData
 
-struct DiaryModel: Decodable, Hashable {
+struct DiaryModel: Hashable {
     var id: NSManagedObjectID?
     var title: String = ""
     var body: String = ""
     var createdAt: Double = DateFormatter().convertDateToDouble()
-    
-    private enum CodingKeys: String, CodingKey {
-        case title, body
-        case createdAt = "created_at"
-    }
 }

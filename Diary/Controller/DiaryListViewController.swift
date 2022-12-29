@@ -33,45 +33,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        fetchDiary()
-    }
-    
-    private func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
-        guard let indexPath = indexPath,
-              let diaryWillDelete = dataSource?.itemIdentifier(for: indexPath) else {
-            return nil
-        }
-        
-        let deleteAction = UIContextualAction(style: .destructive,
-                                              title: "delete") { _, _, _ in
-            CoreDataMananger.shared.deleteDiary(diaryWillDelete)
-            self.fetchDiary()
-        }
-        
-        let shareAction = UIContextualAction(style: .normal,
-                                              title: "share") { _, _, completion in
-            var objectsToShare: [String] = []
-            objectsToShare.append(diaryWillDelete.title + "\n" + diaryWillDelete.body)
-            
-            self.showActivityContoller(objectsToShare)
-            completion(true)
-        }
-        
-        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
-    }
-    
-    private func fetchDiary() {
-        let diaries: [Diary] = CoreDataMananger.shared.fetchDiaries()
-        var diaryModels: [DiaryModel] = []
-        
-        diaries.forEach {
-            diaryModels.append(DiaryModel(id: $0.objectID,
-                                          title: $0.title ?? "",
-                                          body: $0.body ?? "",
-                                          createdAt: $0.createdAt))
-        }
-        
-        applySnapshot(with: diaryModels)
+        self.fetchDiary()
     }
     
     private func configureView() {
@@ -93,11 +55,40 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func pressAddButton() {
         CoreDataMananger.shared.insertDiary(DiaryModel())
-        let currentDiaryModel = CoreDataMananger.shared.fetchLastObject()
-        let editDiaryViewController = EditDiaryViewController(diaryModel: currentDiaryModel)
         
-        editDiaryViewController.configureView()
-        self.navigationController?.pushViewController(editDiaryViewController, animated: true)
+        do {
+            let currentDiaryModel = try CoreDataMananger.shared.fetchLastObject()
+            let editDiaryViewController = EditDiaryViewController(diaryModel: currentDiaryModel)
+            
+            editDiaryViewController.configureView()
+            self.navigationController?.pushViewController(editDiaryViewController, animated: true)
+        } catch {
+            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
+                                                          message: DiaryError.fetchFailed.alertMessage,
+                                                          actionTitle: "확인"),
+                         animated: true)
+        }
+    }
+    
+    private func fetchDiary() {
+        do {
+            let diaries: [Diary] = try CoreDataMananger.shared.fetchDiaries()
+            var diaryModels: [DiaryModel] = []
+            
+            diaries.forEach {
+                diaryModels.append(DiaryModel(id: $0.objectID,
+                                              title: $0.title ?? "",
+                                              body: $0.body ?? "",
+                                              createdAt: $0.createdAt))
+            }
+            
+            self.applySnapshot(with: diaryModels)
+        } catch {
+            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
+                                                     message: DiaryError.fetchFailed.alertMessage,
+                                                     actionTitle: "확인"),
+                    animated: true)
+        }
     }
     
     private func configureCollectionView() {
@@ -140,11 +131,44 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
+        
         guard let diaryItem: DiaryModel = dataSource?.itemIdentifier(for: indexPath) else { return }
+        
         let editDiaryViewController = EditDiaryViewController(diaryModel: diaryItem)
         
         editDiaryViewController.configureView()
-        
         self.navigationController?.pushViewController(editDiaryViewController, animated: true)
+    }
+    
+    private func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
+        guard let indexPath = indexPath,
+              let diaryWillDelete = self.dataSource?.itemIdentifier(for: indexPath) else {
+            return nil
+        }
+        
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: "delete") { _, _, _ in
+            do {
+                try CoreDataMananger.shared.deleteDiary(diaryWillDelete)
+            } catch {
+                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
+                                                              message: DiaryError.deleteFailed.alertMessage,
+                                                              actionTitle: "확인"),
+                             animated: true)
+            }
+            
+            self.fetchDiary()
+        }
+        
+        let shareAction = UIContextualAction(style: .normal,
+                                             title: "share") { _, _, completion in
+            var objectsToShare: [String] = []
+            objectsToShare.append(diaryWillDelete.title + "\n" + diaryWillDelete.body)
+            
+            self.showActivityContoller(objectsToShare)
+            completion(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }

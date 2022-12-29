@@ -27,27 +27,12 @@ final class EditDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
-        setKeyboardHideObserver()
+        self.setKeyboardHideObserver()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        updateCurrentDiary()
-    }
-    
-    private func setKeyboardHideObserver() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(self.keyboardDidHide),
-                                               name: UIResponder.keyboardDidHideNotification,
-                                               object: nil)
-    }
-    
-    @objc private func keyboardDidHide() {
-        updateCurrentDiary()
-    }
-    
-    func updateCurrentDiary() {
-        CoreDataMananger.shared.updateDiary(self.createDiaryModel(with: self.editDiaryView.fetchTextViewContent()))
+        self.updateCurrentDiary()
     }
     
     func configureView() {
@@ -77,7 +62,15 @@ final class EditDiaryViewController: UIViewController {
                                                              preferredStyle: .alert)
             let cancelAction: UIAlertAction = UIAlertAction(title: "취소", style: .cancel)
             let deleteAction: UIAlertAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-                CoreDataMananger.shared.deleteDiary(self.diaryModel)
+                do {
+                    try CoreDataMananger.shared.deleteDiary(self.diaryModel)
+                } catch {
+                    self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
+                                                             message: DiaryError.deleteFailed.alertMessage,
+                                                             actionTitle: "확인"),
+                            animated: true)
+                }
+                
                 self.navigationController?.popViewController(animated: true)
             }
             
@@ -95,6 +88,28 @@ final class EditDiaryViewController: UIViewController {
         present(actionSheet, animated: true)
     }
     
+    private func setKeyboardHideObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardDidHide),
+                                               name: UIResponder.keyboardDidHideNotification,
+                                               object: nil)
+    }
+    
+    @objc private func keyboardDidHide() {
+        self.updateCurrentDiary()
+    }
+    
+    func updateCurrentDiary() {
+        do {
+            try CoreDataMananger.shared.updateDiary(self.createDiaryModel(with: self.editDiaryView.fetchTextViewContent()))
+        } catch {
+            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.updateFailed.alertTitle,
+                                                     message: DiaryError.updateFailed.alertMessage,
+                                                     actionTitle: "확인"),
+                    animated: true)
+        }
+    }
+
     private func createDiaryModel(with diaryContent: String) -> DiaryModel {
         if diaryContent == "" {
             self.diaryModel.title = ""

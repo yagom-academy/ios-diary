@@ -6,24 +6,29 @@
 //
 
 enum DiaryError: Error {
-    case decodeFailed
-    case dataAssetLoadFailed
+    case fetchFailed
+    case updateFailed
+    case deleteFailed
     
     var alertTitle: String {
         switch self {
-        case .decodeFailed:
-            return "데이터 디코딩 실패"
-        case .dataAssetLoadFailed:
-            return "데이터 에셋 로딩 실패"
+        case .fetchFailed:
+            return "일기 불러오기 실패"
+        case .updateFailed:
+            return "일기 업데이트 실패"
+        case .deleteFailed:
+            return "일기 삭제 실패"
         }
     }
     
     var alertMessage: String {
         switch self {
-        case .decodeFailed:
-            return "데이터 디코딩 에러가 발생했습니다."
-        case .dataAssetLoadFailed:
-            return "해당하는 데이터 에셋이 존재하지 않습니다."
+        case .fetchFailed:
+            return "데이터를 불러오기가 실패했습니다."
+        case .updateFailed:
+            return "데이터 업데이트가 실패했습니다."
+        case .deleteFailed:
+            return "데이터 삭제가 실패했습니다."
         }
     }
 }
