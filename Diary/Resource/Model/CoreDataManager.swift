@@ -15,7 +15,7 @@ final class CoreDataManager {
         let container = NSPersistentContainer(name: CoreDataNamespace.diary)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
-                AlertManager.shared.sendError(title: "데이터 로딩 실패")
+                AlertManager.shared.sendError(title: ErrorNamespace.loadingFailure)
             }
         })
         return container
@@ -35,7 +35,7 @@ final class CoreDataManager {
             do {
                 try context.save()
             } catch {
-                AlertManager.shared.sendError(title: "데이터 저장 실패")
+                AlertManager.shared.sendError(title: ErrorNamespace.saveError)
             }
         }
     }
@@ -66,7 +66,7 @@ final class CoreDataManager {
             
             return results
         } catch {
-            AlertManager.shared.sendError(title: "데이터 로딩 실패")
+            AlertManager.shared.sendError(title: ErrorNamespace.loadingFailure)
         }
         
         return []
@@ -89,7 +89,7 @@ final class CoreDataManager {
     
     func fetchID(of diaryModel: DiaryModel?) -> NSManagedObjectID? {
         guard let diaryModel = diaryModel else { return nil }
-
+        
         let fetchRequest = Diary.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: CoreDataNamespace.regex,
                                              argumentArray: [diaryModel.title, diaryModel.body, diaryModel.createdAt])
@@ -127,5 +127,10 @@ final class CoreDataManager {
         static let createAt = "createdAt"
         static let diary = "Diary"
         static let regex = "title == %@ AND body == %@ AND createdAt == %@"
+    }
+    
+    private enum ErrorNamespace {
+        static let loadingFailure = "데이터 로딩 실패"
+        static let saveError = "데이터 저장 실패"
     }
 }

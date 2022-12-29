@@ -12,6 +12,8 @@ class AlertManager {
     
     func sendError(title: String) {
         let notificationName = Notification.Name("CoreDataError")
-        NotificationCenter.default.post(name: notificationName, object: nil, userInfo: ["title": title])
+        NotificationCenter.default.post(name: notificationName,
+                                        object: nil,
+                                        userInfo: [Namespace.alertTitle: title])
     }
 }

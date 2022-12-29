@@ -35,7 +35,7 @@ class DiaryItemViewController: UIViewController {
         textView.textContainerInset = UIEdgeInsets(top: .zero, left: .zero, bottom: .zero, right: .zero)
         return textView
     }()
-
+    
     private lazy var titleHeightConstraint =
     titleTextView.heightAnchor.constraint(equalToConstant: LayoutConstant.titleTextViewMaxHeight)
     
@@ -134,9 +134,9 @@ class DiaryItemViewController: UIViewController {
         diaryItemManager.saveDiaryWith(title: titleTextView.text, body: bodyTextView.text)
     }
     
-    @objc private func showAlert(_ noti: Notification) {
-        guard let userInfo = noti.userInfo,
-              let title = userInfo["title", default: ""] as? String else { return }
+    @objc private func showAlert(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let title = userInfo[Namespace.alertTitle, default: Namespace.emptyString] as? String else { return }
         
         showErrorAlert(title: title)
     }

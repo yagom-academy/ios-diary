@@ -42,7 +42,7 @@ final class DiaryItemManager {
     func fetchDiary(data: DiaryModel) {
         diaryItem = data
     }
-
+    
     func returnDiaryItem() -> DiaryModel? {
         return diaryItem
     }

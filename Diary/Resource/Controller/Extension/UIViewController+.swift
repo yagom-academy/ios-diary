@@ -27,7 +27,7 @@ extension UIViewController {
         let alert: UIAlertController = UIAlertController(title: title,
                                                          message: nil,
                                                          preferredStyle: .alert)
-        let confirmAction: UIAlertAction = UIAlertAction(title: "확인",
+        let confirmAction: UIAlertAction = UIAlertAction(title: Namespace.emptyString,
                                                          style: .default)
         alert.addAction(confirmAction)
         present(alert, animated: true)

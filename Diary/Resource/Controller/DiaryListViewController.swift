@@ -9,7 +9,6 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private var diaryItemManager = DiaryItemManager.shared
-    
     private let diaryListTableView = UITableView()
     private var diaryModels: [DiaryModel] = [] {
         didSet {
@@ -34,7 +33,7 @@ final class DiaryListViewController: UIViewController {
         configureDiaryListTableView()
         addObserver()
     }
-
+    
     private func fetchCoreData() {
         diaryModels = CoreDataManager.shared.fetchAllDiaryModels()
     }
@@ -68,9 +67,9 @@ final class DiaryListViewController: UIViewController {
                                                object: nil)
     }
     
-    @objc private func showAlert(_ noti: Notification) {
-        guard let userInfo = noti.userInfo,
-              let title = userInfo["title", default: ""] as? String else { return }
+    @objc private func showAlert(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let title = userInfo[Namespace.alertTitle, default: Namespace.emptyString] as? String else { return }
         
         showErrorAlert(title: title)
     }
