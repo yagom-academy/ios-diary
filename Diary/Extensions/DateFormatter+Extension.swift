@@ -11,7 +11,7 @@ extension DateFormatter {
     var longDate: String {
         self.dateStyle = .long
         self.timeStyle = .none
-
+        
         let localeLanguage = Locale.preferredLanguages.first
         self.locale = Locale(identifier: localeLanguage ?? "ko-kr")
         

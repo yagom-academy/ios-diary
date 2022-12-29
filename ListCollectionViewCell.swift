@@ -72,7 +72,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             self.mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
             self.mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
         ])
-
+        
         self.dateLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
     }
     

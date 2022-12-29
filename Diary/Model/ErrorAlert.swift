@@ -13,8 +13,11 @@ final class ErrorAlert {
     private init() {}
     
     func showErrorAlert(title: String, message: String, actionTitle: String) -> UIAlertController {
-        let alert: UIAlertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let alertAction: UIAlertAction = UIAlertAction(title: actionTitle, style: .default)
+        let alert: UIAlertController = UIAlertController(title: title,
+                                                         message: message,
+                                                         preferredStyle: .alert)
+        let alertAction: UIAlertAction = UIAlertAction(title: actionTitle,
+                                                       style: .default)
         
         alert.addAction(alertAction)
         return alert

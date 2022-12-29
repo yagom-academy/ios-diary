@@ -66,9 +66,9 @@ final class EditDiaryViewController: UIViewController {
                     try CoreDataMananger.shared.deleteDiary(self.diaryModel)
                 } catch {
                     self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
-                                                             message: DiaryError.deleteFailed.alertMessage,
-                                                             actionTitle: "확인"),
-                            animated: true)
+                                                                  message: DiaryError.deleteFailed.alertMessage,
+                                                                  actionTitle: "확인"),
+                                 animated: true)
                 }
                 
                 self.navigationController?.popViewController(animated: true)
@@ -106,12 +106,12 @@ final class EditDiaryViewController: UIViewController {
             try CoreDataMananger.shared.updateDiary(self.createDiaryModel(with: diaryContent))
         } catch {
             self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.updateFailed.alertTitle,
-                                                     message: DiaryError.updateFailed.alertMessage,
-                                                     actionTitle: "확인"),
-                    animated: true)
+                                                          message: DiaryError.updateFailed.alertMessage,
+                                                          actionTitle: "확인"),
+                         animated: true)
         }
     }
-
+    
     private func createDiaryModel(with diaryContent: String) -> DiaryModel {
         if diaryContent == "" {
             self.diaryModel.title = ""

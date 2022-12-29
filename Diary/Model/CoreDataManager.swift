@@ -9,9 +9,9 @@ import Foundation
 import CoreData
 
 final class CoreDataMananger {
-    static var shared: CoreDataMananger = CoreDataMananger()
+    static let shared: CoreDataMananger = CoreDataMananger()
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {

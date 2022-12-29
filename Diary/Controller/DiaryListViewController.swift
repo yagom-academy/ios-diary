@@ -85,9 +85,9 @@ final class DiaryListViewController: UIViewController {
             self.applySnapshot(with: diaryModels)
         } catch {
             self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
-                                                     message: DiaryError.fetchFailed.alertMessage,
-                                                     actionTitle: "확인"),
-                    animated: true)
+                                                          message: DiaryError.fetchFailed.alertMessage,
+                                                          actionTitle: "확인"),
+                         animated: true)
         }
     }
     
