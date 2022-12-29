@@ -31,9 +31,15 @@ final class DiaryViewController: UIViewController, PersistentContainer {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
-        setupDiaryContents()
         configureTableView()
         configureNavigationBar()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupDiaryContents()
+        self.diaryView.updateT()
     }
     
     private func configureView() {
@@ -41,7 +47,9 @@ final class DiaryViewController: UIViewController, PersistentContainer {
     }
     
     private func setupDiaryContents() {
-        // core data 불러오기
+        guard let contents = context.fetch(request: Diary.fetchRequest()) else { return }
+        
+        diaryContents = contents
     }
     
     private func configureTableView() {
@@ -55,14 +63,18 @@ final class DiaryViewController: UIViewController, PersistentContainer {
         self.navigationItem.rightBarButtonItem?.action = #selector(tappedAddButton)
     }
     
-    private func pushEditorViewControllerWith(_ container: NSPersistentContainer, _ content: Diary? = nil) {
+    private func pushEditorViewControllerWith(_ container: NSPersistentContainer, _ content: Diary) {
         let editorViewController = EditorViewController(with: content, container)
         
         self.navigationController?.pushViewController(editorViewController, animated: true)
     }
     
     @objc private func tappedAddButton(_ sender: UIBarButtonItem) {
-        pushEditorViewControllerWith(self.container)
+        let newDiary = Diary(context: context)
+        
+        newDiary.createdAt = Date().timeIntervalSince1970
+        
+        pushEditorViewControllerWith(self.container, newDiary)
     }
 }
 

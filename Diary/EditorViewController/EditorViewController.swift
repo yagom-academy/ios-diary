@@ -11,8 +11,8 @@ import UIKit
 final class EditorViewController: UIViewController, PersistentContainer {
     let container: NSPersistentContainer
     private let editorView: EditorView = EditorView()
-    private let content: Diary?
-    
+    private let content: Diary
+        
     override func loadView() {
         super.loadView()
         self.view = editorView
@@ -20,19 +20,19 @@ final class EditorViewController: UIViewController, PersistentContainer {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.editorView.scrollToTop()
         configureNavigationBar()
         configureNotification()
         configureEditorView()
+        self.editorView.scrollToTop()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if content == nil {
+        if content.title == nil {
             self.editorView.focusTextView()
         }
     }
     
-    init(with content: Diary?, _ container: NSPersistentContainer) {
+    init(with content: Diary, _ container: NSPersistentContainer) {
         self.content = content
         self.container = container
         super.init(nibName: nil, bundle: nil)
@@ -49,6 +49,15 @@ final class EditorViewController: UIViewController, PersistentContainer {
     }
     
     @objc func tappedDoneButton() {
+        let diaryData = editorView.fetchDiaryData()
+        let diary = Diary(context: context)
+        let splitedDiary = diaryData.split(separator: Constant.lineBreak, maxSplits: 1, omittingEmptySubsequences: true)
+        
+        diary.title = splitedDiary[0].description
+        diary.body = splitedDiary[1].description
+        diary.createdAt = content.createdAt
+        
+//        context.insertDiary(diary)
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -69,15 +78,14 @@ final class EditorViewController: UIViewController, PersistentContainer {
     }
     
     private func configureEditorView() {
-        self.navigationItem.title = self.content?.createdDateString ?? Date().localizedString()
+        self.navigationItem.title = self.content.createdDateString
         
-        guard let content = content,
-              let title = content.title,
+        guard let title = content.title,
               let body = content.body else {
             return
         }
         
-        let text = title + Constant.doubleBreak + body
+        let text = title + "\(Constant.lineBreak)" + body
         self.editorView.setupTextView(from: text)
     }
     

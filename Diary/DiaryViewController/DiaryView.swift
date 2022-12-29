@@ -42,4 +42,8 @@ final class DiaryView: UIView {
         self.tableView.dataSource = dataSource
         self.tableView.delegate = delegate
     }
+    
+    func updateT() {
+        tableView.reloadData()
+    }
 }

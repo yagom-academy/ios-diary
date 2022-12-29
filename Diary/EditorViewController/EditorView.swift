@@ -42,6 +42,10 @@ final class EditorView: UIView {
         ])
     }
     
+    func fetchDiaryData() -> String {
+        return textView.text
+    }
+    
     func setupTextView(from text: String) {
         textView.text = text
     }
