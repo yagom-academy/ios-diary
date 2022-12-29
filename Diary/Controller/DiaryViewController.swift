@@ -32,6 +32,14 @@ final class DiaryViewController: UIViewController {
         tableView.reloadData()
     }
     
+    @IBAction func tapAddBarButtonItem(_ sender: UIBarButtonItem) {
+        coreDataManager.create()
+        
+        let detailViewControll = storyboard?.instantiateViewController(identifier: "detailView") as? DetailViewController ?? DetailViewController()
+        self.navigationController?.pushViewController(detailViewControll, animated: true)
+    }
+    
+    
     private func configureTableViewConstraint() {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),

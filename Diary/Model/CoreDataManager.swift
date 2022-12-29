@@ -26,4 +26,25 @@ struct CoreDataManager {
         }
         return diaryData
     }
+    
+    mutating func create() {
+        if let context = context {
+            let newDiary = DiaryData(context: context)
+            newDiary.title = ""
+            newDiary.body = ""
+            newDiary.createdAt = 10000
+            newDiary.uuid = UUID()
+            saveContext()
+        }
+    }
+    
+    private mutating func saveContext() {
+        if let context = context {
+            do {
+                try context.save()
+            } catch {
+                print(error)
+            }
+        }
+    }
 }

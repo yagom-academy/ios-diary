@@ -14,6 +14,8 @@ protocol DetailViewControllerDelegate: AnyObject {
 final class DetailViewController: UIViewController {
     @IBOutlet weak private var detailTextViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak private var detailTextView: UITextView!
+    // 타이틀,바디가 isEmpty면, textView에서 Placeholder를 표기(create).
+
     var diaryData: SampleData?
     var indexPath: IndexPath?
     weak var delegate: DetailViewControllerDelegate?
