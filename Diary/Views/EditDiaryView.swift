@@ -42,19 +42,11 @@ final class EditDiaryView: UIView {
         return textView
     }()
     
-    func packageData() -> Result<String, DataError> {
-        
-        guard let contentText = contentsTextView.text else {
-            return .failure(.noneDataError)
+    func packageData() -> String {
+        if contentsTextView.text == Placeholder.textViewPlaceHolder.sentence {
+            return ""
         }
-        
-        if contentText == Placeholder.textViewPlaceHolder.sentence {
-            return .failure(.noneDataError)
-        } else if contentText == Placeholder.textViewPlaceHolder.sentence {
-            return .success("")
-        }
-        
-        return .success(contentText)
+        return contentsTextView.text
     }
     
     func bindData(_ data: DiaryData?) {

@@ -12,22 +12,14 @@ protocol KeyboardActionSavable: AnyObject {
 }
 
 final class EditViewController: UIViewController {
-    var status: Status?
-    
-    enum Status {
-        case new
-        case edit
-    }
-    
     private let editView = EditDiaryView()
     private let coreDataManager = CoreDataManager.shared
     private let currentDate = Date()
     private var diaryData: DiaryData?
     
-    init(diaryData: DiaryData?, status: Status) {
+    init(diaryData: DiaryData?) {
         super.init(nibName: nil, bundle: nil)
         self.diaryData = diaryData
-        self.status = status
     }
     
     required init?(coder: NSCoder) {
@@ -36,12 +28,13 @@ final class EditViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.changeStatusToSave()
+        self.checkToSave()
+        self.checkToDelete()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if status == .new {
+        if diaryData == nil {
             editView.presentKeyboard()
         }
     }
@@ -85,48 +78,40 @@ final class EditViewController: UIViewController {
     }
 }
 
-// MARK: - Associate Save Logic
+// MARK: - Associate Save, Delete Logic
 extension EditViewController {
     @objc func saveWhenBackground() {
-        self.changeStatusToSave()
+        self.checkToSave()
     }
     
-    private func changeStatusToSave() {
-        if status == .new {
-            saveEditData()
-            status = .edit
+    private func checkToSave() {
+        let data = editView.packageData()
+        
+        if let diaryData = diaryData {
+            guard let id = diaryData.id else { return }
+            coreDataManager.updateData(id: id, contentText: data) { _ in }
         } else {
-            saveEditData()
+            coreDataManager.saveData(contentText: data, date: currentDate) { result in
+                switch result {
+                case .success(let data):
+                    self.diaryData = data
+                case .failure(let error):
+                    self.showCustomAlert(alertText: error.localizedDescription,
+                                         alertMessage: error.errorDescription ?? "",
+                                         useAction: true,
+                                         completion: nil)
+                }
+            }
         }
     }
     
-    private func saveEditData() {
-        let data = editView.packageData()
-        switch data {
-        case .success(let data):
-            if status == .new {
-                coreDataManager.saveData(contentText: data,
-                                         date: currentDate) { result in
-                    switch result {
-                    case .success(let data):
-                        self.diaryData = data
-                    case .failure(let error):
-                        self.showCustomAlert(alertText: error.localizedDescription,
-                                             alertMessage: error.errorDescription ?? "",
-                                             useAction: true,
-                                             completion: nil)
-                    }
-                }
-            } else {
-                guard let id = diaryData?.id else { return }
-                coreDataManager.updateData(id: id,
-                                           contentText: data) { _ in }
-            }
-        case .failure(let error):
-            self.status = .new
-            self.showCustomAlert(alertText: "저장 실패",
-                                 alertMessage: error.errorDescription ?? "",
-                                 completion: nil)
+    private func checkToDelete() {
+        guard let data = diaryData,
+              let contentText = diaryData?.contentText?.trimmingCharacters(
+                in: .whitespacesAndNewlines) else { return }
+        
+        if let id = data.id, contentText.count == .zero {
+            coreDataManager.deleteData(id: id) { _ in }
         }
     }
 }
@@ -134,7 +119,7 @@ extension EditViewController {
 // MARK: - Action
 extension EditViewController {
     @objc private func optionButtonTapped() {
-        changeStatusToSave()
+        self.checkToSave()
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
@@ -167,6 +152,6 @@ extension EditViewController {
 
 extension EditViewController: KeyboardActionSavable {
     func saveWhenHideKeyboard() {
-        changeStatusToSave()
+        self.checkToSave()
     }
 }

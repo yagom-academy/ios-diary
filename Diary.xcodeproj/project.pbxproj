@@ -10,6 +10,7 @@
 		3C03E2882959689900E0DB67 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C03E2872959689900E0DB67 /* CoreDataManager.swift */; };
 		3C03E28C295978CE00E0DB67 /* DiaryData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C03E28A295978CE00E0DB67 /* DiaryData+CoreDataClass.swift */; };
 		3C03E28D295978CE00E0DB67 /* DiaryData+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C03E28B295978CE00E0DB67 /* DiaryData+CoreDataProperties.swift */; };
+		3C0AE9E5295D40D800D2D473 /* NSMutableAttributedString+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C0AE9E4295D40D800D2D473 /* NSMutableAttributedString+Extension.swift */; };
 		3C3D08882952A60D007DB5E7 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3C3D08872952A60D007DB5E7 /* .swiftlint.yml */; };
 		3C59F5EC2950637E0045C66A /* MainDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C59F5EB2950637E0045C66A /* MainDiaryView.swift */; };
 		3C59F5F32950A8AF0045C66A /* Formatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C59F5F22950A8AF0045C66A /* Formatter+Extension.swift */; };
@@ -33,6 +34,7 @@
 		3C03E2872959689900E0DB67 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		3C03E28A295978CE00E0DB67 /* DiaryData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryData+CoreDataClass.swift"; path = "Diary/DiaryData+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		3C03E28B295978CE00E0DB67 /* DiaryData+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryData+CoreDataProperties.swift"; path = "Diary/DiaryData+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		3C0AE9E4295D40D800D2D473 /* NSMutableAttributedString+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSMutableAttributedString+Extension.swift"; sourceTree = "<group>"; };
 		3C3D08872952A60D007DB5E7 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3C59F5EB2950637E0045C66A /* MainDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDiaryView.swift; sourceTree = "<group>"; };
 		3C59F5F22950A8AF0045C66A /* Formatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Formatter+Extension.swift"; sourceTree = "<group>"; };
@@ -78,6 +80,15 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		3C0AE9E3295D2D7700D2D473 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE28284DF28600741E8F /* MainViewController.swift */,
+				F633D22C295169EE0037DD81 /* EditViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
 		3C59F5ED295063810045C66A /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -104,6 +115,7 @@
 				3C59F5F22950A8AF0045C66A /* Formatter+Extension.swift */,
 				FCEA9EC829545A4200ACA37D /* UIComponent+Extension.swift */,
 				3CDDF8E0295996ED00D03BD5 /* UIViewController+Extension.swift */,
+				3C0AE9E4295D40D800D2D473 /* NSMutableAttributedString+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -150,10 +162,9 @@
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
 				3C59F5F12950A89A0045C66A /* Extensions */,
-				C739AE28284DF28600741E8F /* MainViewController.swift */,
-				F633D22C295169EE0037DD81 /* EditViewController.swift */,
 				3C59F5EE295068B40045C66A /* Models */,
 				3C59F5ED295063810045C66A /* Views */,
+				3C0AE9E3295D2D7700D2D473 /* Controllers */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
@@ -289,6 +300,7 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				F63447C629506B8D00A43B7D /* DecoderManager.swift in Sources */,
 				F633D22B295165D10037DD81 /* EditDiaryView.swift in Sources */,
+				3C0AE9E5295D40D800D2D473 /* NSMutableAttributedString+Extension.swift in Sources */,
 				3C59F5EC2950637E0045C66A /* MainDiaryView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				F63447CC29508CCB00A43B7D /* CustomListCell.swift in Sources */,

@@ -61,7 +61,7 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        let addViewController = EditViewController(diaryData: nil, status: .new)
+        let addViewController = EditViewController(diaryData: nil)
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
@@ -69,8 +69,7 @@ final class MainViewController: UIViewController {
 // MARK: - UICollectionViewDelegate
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let addViewController = EditViewController(diaryData: diaryDatas[indexPath.item],
-                                                   status: .edit)
+        let addViewController = EditViewController(diaryData: diaryDatas[indexPath.item])
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
@@ -112,8 +111,7 @@ extension MainViewController: SwipeConfigurable {
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: deleteActionTitle) { [weak self] _, _, _ in
             
-            self?.coreDataManager.deleteData(id: id) { bool in
-                print(bool)
+            self?.coreDataManager.deleteData(id: id) { _ in
                 self?.setupData()
                 self?.applySnapshot(animatingDifferences: true)
             }
