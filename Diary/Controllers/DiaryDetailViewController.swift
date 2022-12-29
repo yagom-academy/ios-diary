@@ -32,9 +32,11 @@ final class DiaryDetailViewController: UIViewController {
             persistentContainerManager.updateDiary(diary)
         }
     }
+    private let completion: (Diary) -> Void
 
-    init(diary: Diary) {
+    init(diary: Diary, completion: @escaping (Diary) -> Void) {
         self.diary = diary
+        self.completion = completion
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -64,6 +66,7 @@ final class DiaryDetailViewController: UIViewController {
         }
         removeEnterBackgroundObserver()
         updateDiary()
+        completion(diary)
     }
 
     private func updateDiary() {

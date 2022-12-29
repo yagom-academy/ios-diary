@@ -29,13 +29,8 @@ final class DiaryListViewController: UICollectionViewController {
         super.viewDidLoad()
 
         configureNavigationItem()
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        diaries = persistentContainerManager.fetchDiaries()
         configureDataSource()
+        diaries = persistentContainerManager.fetchDiaries()
         updateSnapshot()
     }
 
@@ -54,10 +49,18 @@ final class DiaryListViewController: UICollectionViewController {
         return diary
     }
 
+    private func update(diary: Diary) {
+        guard let index = diaries.firstIndex(where: { $0.id == diary.id }) else { return }
+        diaries[index] = diary
+    }
+
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let diaryID = dataSource?.itemIdentifier(for: indexPath),
               let diary = diary(diaryID: diaryID) else { return }
-        let diaryDetailViewController = DiaryDetailViewController(diary: diary)
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary) { [weak self] diary in
+            self?.update(diary: diary)
+            self?.updateSnapshot([diary.id])
+        }
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
@@ -86,10 +89,11 @@ extension DiaryListViewController {
         })
     }
 
-    private func updateSnapshot() {
+    private func updateSnapshot(_ reloadItemIds: [Diary.ID] = []) {
         var snapshot = Snapshot()
         snapshot.appendSections([0])
         snapshot.appendItems(diaries.map { $0.id }, toSection: 0)
+        snapshot.reloadItems(reloadItemIds)
         dataSource?.apply(snapshot)
     }
 }
@@ -99,7 +103,11 @@ extension DiaryListViewController {
     @objc private func touchUpAddButton(_ sender: UIBarButtonItem) {
         let newDiary = Diary(title: "", body: "", createdAt: Date().timeIntervalSince1970)
         persistentContainerManager.insertDiary(newDiary)
-        let diaryDetailViewController = DiaryDetailViewController(diary: newDiary)
+        diaries.append(newDiary)
+        let diaryDetailViewController = DiaryDetailViewController(diary: newDiary) { [weak self] diary in
+            self?.update(diary: diary)
+            self?.updateSnapshot([diary.id])
+        }
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
