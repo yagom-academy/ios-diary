@@ -53,6 +53,13 @@ final class EditDiaryView: UIView {
         guard let data = data else { return }
         contentsTextView.textColor = .black
         self.contentsTextView.text = data.contentText
+        
+        var seperateText = self.contentsTextView.text.components(separatedBy: "\n")
+        let range = (seperateText.first! as NSString).range(of: seperateText.removeFirst())
+        self.contentsTextView.attributedText = NSMutableAttributedString.customAttributeTitle(
+            text: self.contentsTextView.text,
+            range: range
+        )
     }
     
     func presentKeyboard() {
@@ -79,6 +86,19 @@ extension EditDiaryView: UITextViewDelegate {
             textView.textColor = .lightGray
         }
         delegate?.saveWhenHideKeyboard()
+    }
+    
+    func textView(_ textView: UITextView,
+                  shouldChangeTextIn range: NSRange,
+                  replacementText text: String) -> Bool {
+        var seperateText = self.contentsTextView.text.components(separatedBy: "\n")
+        let range = (seperateText.first! as NSString).range(of: seperateText.removeFirst())
+        self.contentsTextView.attributedText = NSMutableAttributedString.customAttributeTitle(
+            text: self.contentsTextView.text,
+            range: range
+        )
+        
+        return true
     }
 }
 
