@@ -8,7 +8,7 @@
 import Foundation
 
 enum Namespace {
-    static let emptyString = ""
+    static let empty = ""
     static let alertTitle = "title"
     static let deleteDiary = "일기 삭제"
     static let deleteMessage = "정말로 삭제하시겠습니까?"

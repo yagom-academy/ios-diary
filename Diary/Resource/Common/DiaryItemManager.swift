@@ -17,8 +17,8 @@ final class DiaryItemManager {
         if CoreDataManager.shared.fetchDiary(with: diaryItem?.id) == nil {
             generateDiary()
             
-            if diaryItem?.title == Namespace.emptyString,
-               diaryItem?.body == Namespace.emptyString { return }
+            if diaryItem?.title == Namespace.empty,
+               diaryItem?.body == Namespace.empty { return }
             
             CoreDataManager.shared.insertDiary(diaryItem)
             let id = CoreDataManager.shared.fetchID(of: diaryItem)
@@ -29,8 +29,8 @@ final class DiaryItemManager {
     }
     
     private func generateDiary() {
-        diaryItem = DiaryModel(title: Namespace.emptyString,
-                               body: Namespace.emptyString,
+        diaryItem = DiaryModel(title: Namespace.empty,
+                               body: Namespace.empty,
                                createdAt: Date())
     }
     
@@ -48,7 +48,7 @@ final class DiaryItemManager {
     }
     
     func createDiaryShareForm() -> String {
-        guard let diaryItem = diaryItem else { return Namespace.emptyString }
+        guard let diaryItem = diaryItem else { return Namespace.empty }
         
         let form: String = """
             title: \(diaryItem.title)

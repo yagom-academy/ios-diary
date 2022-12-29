@@ -136,7 +136,7 @@ class DiaryItemViewController: UIViewController {
     
     @objc private func showAlert(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
-              let title = userInfo[Namespace.alertTitle, default: Namespace.emptyString] as? String else { return }
+              let title = userInfo[Namespace.alertTitle, default: Namespace.empty] as? String else { return }
         
         showErrorAlert(title: title)
     }
@@ -175,8 +175,8 @@ class DiaryItemViewController: UIViewController {
     }
     
     private func delete(_ diaryModel: DiaryModel?) {
-        self.titleTextView.text = Namespace.emptyString
-        self.bodyTextView.text = Namespace.emptyString
+        self.titleTextView.text = Namespace.empty
+        self.bodyTextView.text = Namespace.empty
         self.diaryItemManager.deleteDiary(data: diaryModel)
     }
     

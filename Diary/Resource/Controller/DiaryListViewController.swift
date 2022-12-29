@@ -69,7 +69,7 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func showAlert(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
-              let title = userInfo[Namespace.alertTitle, default: Namespace.emptyString] as? String else { return }
+              let title = userInfo[Namespace.alertTitle, default: Namespace.empty] as? String else { return }
         
         showErrorAlert(title: title)
     }

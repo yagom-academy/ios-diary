@@ -78,8 +78,8 @@ final class CoreDataManager {
         
         for result in fetchedResults {
             let diary = DiaryModel(id: result.objectID,
-                                   title: result.title ?? Namespace.emptyString,
-                                   body: result.body ?? Namespace.emptyString,
+                                   title: result.title ?? Namespace.empty,
+                                   body: result.body ?? Namespace.empty,
                                    createdAt: result.createdAt ?? Date())
             diaryModels.append(diary)
         }
