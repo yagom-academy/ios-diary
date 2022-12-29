@@ -146,29 +146,16 @@ class DiaryItemViewController: UIViewController {
         })
         alert.addAction(UIAlertAction(title: Namespace.delete, style: .destructive) { _ in
             let diaryItem = self.diaryItemManager.returnDiaryItem()
-            self.showDeleteAlert(for: diaryItem)
+            let handler: (UIAlertAction) -> Void = { _ in
+                self.delete(diaryItem)
+                self.navigationController?.popViewController(animated: false)
+            }
+            
+            self.showDeleteAlert(for: diaryItem, handler: handler)
         })
         alert.addAction(UIAlertAction(title: Namespace.cancel, style: .cancel))
         
         self.present(alert, animated: true)
-    }
-    
-    private func showDeleteAlert(for diaryModel: DiaryModel?) {
-        let alert: UIAlertController = UIAlertController(title: Namespace.deleteDiary,
-                                                         message: Namespace.deleteMessage,
-                                                         preferredStyle: .alert)
-        let cancelAction: UIAlertAction = UIAlertAction(title: Namespace.cancel,
-                                                        style: .cancel)
-        let deleteAction: UIAlertAction = UIAlertAction(title: Namespace.delete,
-                                                        style: .destructive,
-                                                        handler: { _ in
-            self.delete(diaryModel)
-            self.navigationController?.popViewController(animated: false)
-        })
-        
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-        present(alert, animated: true)
     }
     
     private func delete(_ diaryModel: DiaryModel?) {
