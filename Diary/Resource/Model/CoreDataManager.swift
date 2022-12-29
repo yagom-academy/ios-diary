@@ -92,16 +92,14 @@ final class CoreDataManager {
 
         let fetchRequest = Diary.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: CoreDataNamespace.regex,
-                                               argumentArray: [diaryModel.title, diaryModel.body, diaryModel.createdAt])
+                                             argumentArray: [diaryModel.title, diaryModel.body, diaryModel.createdAt])
         
-        do {
-            let result = try viewContext.fetch(fetchRequest)
-            return result.first?.objectID
-        } catch {
-            AlertManager.shared.sendError(title: "데이터 로딩 실패")
+        let result = try? viewContext.fetch(fetchRequest)
+        if result?.first?.objectID == nil {
+            return nil
+        } else {
+            return result?.first?.objectID
         }
-        
-        return nil
     }
     
     func updateDiary(_ diaryModel: DiaryModel?) {

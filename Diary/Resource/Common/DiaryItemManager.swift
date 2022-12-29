@@ -37,7 +37,6 @@ final class DiaryItemManager {
     private func updateDiaryTo(title: String, body: String) {
         diaryItem?.title = title
         diaryItem?.body = body
-        diaryItem?.createdAt = Date()
     }
     
     func fetchDiary(data: DiaryModel) {
