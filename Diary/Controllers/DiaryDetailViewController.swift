@@ -1,5 +1,5 @@
 //
-//  DiaryRegistrationViewController.swift
+//  DiaryDetailViewController.swift
 //  Diary
 //
 //  Created by Mangdi, junho on 2022/12/22.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiaryRegistrationViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController {
     private var keyboardConstraints: NSLayoutConstraint?
     private let spacing = CGFloat(8)
     private let titleTextField: UITextField = {
@@ -26,6 +26,16 @@ final class DiaryRegistrationViewController: UIViewController {
         textView.textContainer.lineFragmentPadding = 0
         return textView
     }()
+    private var diary: Diary
+
+    init(diary: Diary) {
+        self.diary = diary
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +43,7 @@ final class DiaryRegistrationViewController: UIViewController {
         view.backgroundColor = .systemBackground
         configureNavigationItem()
         configureSubViews()
+        configureDiaryText()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -48,8 +59,7 @@ final class DiaryRegistrationViewController: UIViewController {
     }
 
     private func configureNavigationItem() {
-        let timeInterval = Date().timeIntervalSince1970
-        navigationItem.title = timeInterval.currentLocalizedText()
+        navigationItem.title = diary.createdAt.currentLocalizedText()
     }
 
     private func configureSubViews() {
@@ -72,10 +82,15 @@ final class DiaryRegistrationViewController: UIViewController {
             keyboardConstraints?.isActive = true
         }
     }
+
+    private func configureDiaryText() {
+        titleTextField.text = diary.title
+        bodyTextView.text = diary.body
+    }
 }
 
 // MARK: - Keyboard
-extension DiaryRegistrationViewController {
+extension DiaryDetailViewController {
     private func addKeyboardObserver() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(_:)),

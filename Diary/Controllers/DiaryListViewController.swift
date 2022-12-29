@@ -53,6 +53,13 @@ final class DiaryListViewController: UICollectionViewController {
         }) else { return nil }
         return diary
     }
+
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let diaryID = dataSource?.itemIdentifier(for: indexPath),
+              let diary = diary(diaryID: diaryID) else { return }
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
 }
 
 // MARK: - DataSource
@@ -90,7 +97,9 @@ extension DiaryListViewController {
 // MARK: - objc
 extension DiaryListViewController {
     @objc private func touchUpAddButton(_ sender: UIBarButtonItem) {
-        let diaryRegistrationViewController = DiaryRegistrationViewController()
-        navigationController?.pushViewController(diaryRegistrationViewController, animated: true)
+        let newDiary = Diary(title: "", body: "", createdAt: Date().timeIntervalSince1970)
+        persistentContainerManager.insertDiary(newDiary)
+        let diaryDetailViewController = DiaryDetailViewController(diary: newDiary)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
