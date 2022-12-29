@@ -36,7 +36,7 @@ final class DiaryListViewController: UIViewController {
         fetchDiary()
     }
     
-    func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
+    private func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
         guard let indexPath = indexPath,
               let diaryWillDelete = dataSource?.itemIdentifier(for: indexPath) else {
             return nil
@@ -85,11 +85,9 @@ final class DiaryListViewController: UIViewController {
         CoreDataMananger.shared.insertDiary(DiaryModel())
         
         let editDiaryViewController = EditDiaryViewController()
-        
         let currentDiaryModel = CoreDataMananger.shared.fetchLastObject()
         
         editDiaryViewController.configureView(with: currentDiaryModel)
-        
         self.navigationController?.pushViewController(editDiaryViewController, animated: true)
     }
     

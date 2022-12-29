@@ -50,8 +50,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneDidEnterBackground(_ scene: UIScene) {
         guard let navigationController = window?.rootViewController as? UINavigationController,
         let currentViewController = navigationController.topViewController as? EditDiaryViewController else { return }
-        let diaryContent = currentViewController.editDiaryView.fetchTextViewContent()
         
-        CoreDataMananger.shared.updateDiary(currentViewController.createDiaryModel(with: diaryContent))
+        currentViewController.updateCurrentDiary()
     }
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class EditDiaryViewController: UIViewController {
+final class EditDiaryViewController: UIViewController {
     let editDiaryView = EditDiaryView()
     private var diaryModel: DiaryModel!
     
@@ -15,15 +15,30 @@ class EditDiaryViewController: UIViewController {
         self.view = editDiaryView
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        CoreDataMananger.shared.updateDiary(self.createDiaryModel(with: self.editDiaryView.fetchTextViewContent()))
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.white
+        setKeyboardHideObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        updateCurrentDiary()
+    }
+    
+    private func setKeyboardHideObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.keyboardDidHide),
+                                               name: UIResponder.keyboardDidHideNotification,
+                                               object: nil)
+    }
+    
+    @objc private func keyboardDidHide() {
+        updateCurrentDiary()
+    }
+    
+    func updateCurrentDiary() {
+        CoreDataMananger.shared.updateDiary(self.createDiaryModel(with: self.editDiaryView.fetchTextViewContent()))
     }
     
     func configureView(with diaryData: DiaryModel) {
@@ -32,7 +47,7 @@ class EditDiaryViewController: UIViewController {
         self.diaryModel = diaryData
     }
     
-    func createDiaryModel(with diaryContent: String) -> DiaryModel {
+    private func createDiaryModel(with diaryContent: String) -> DiaryModel {
         if diaryContent == "" {
             self.diaryModel.title = ""
             self.diaryModel.body = ""
@@ -42,14 +57,14 @@ class EditDiaryViewController: UIViewController {
                                                  omittingEmptySubsequences: false)
             let title = String(splitedText[0])
             let body = String(splitedText[1])
-
+            
             self.diaryModel.title = title
             self.diaryModel.body = body
         } else {
             self.diaryModel.title = diaryContent
             self.diaryModel.body = ""
         }
-
+        
         return diaryModel
     }
 }
