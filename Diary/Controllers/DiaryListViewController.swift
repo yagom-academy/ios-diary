@@ -29,13 +29,13 @@ final class DiaryListViewController: UICollectionViewController {
         super.viewDidLoad()
 
         configureNavigationItem()
-        configureDataSource()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         diaries = persistentContainerManager.fetchDiaries()
+        configureDataSource()
         updateSnapshot()
     }
 

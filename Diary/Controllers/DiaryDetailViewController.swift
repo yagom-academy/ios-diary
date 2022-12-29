@@ -26,7 +26,12 @@ final class DiaryDetailViewController: UIViewController {
         textView.textContainer.lineFragmentPadding = 0
         return textView
     }()
-    private var diary: Diary
+    private let persistentContainerManager = PersistentContainerManager(PersistentContainer.shared)
+    private var diary: Diary {
+        didSet {
+            persistentContainerManager.updateDiary(diary)
+        }
+    }
 
     init(diary: Diary) {
         self.diary = diary
@@ -50,12 +55,22 @@ final class DiaryDetailViewController: UIViewController {
         if #unavailable(iOS 15.0) {
             addKeyboardObserver()
         }
+        addEnterBackgroundObserver()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         if #unavailable(iOS 15.0) {
             removeKeyboardObserver()
         }
+        removeEnterBackgroundObserver()
+        updateDiary()
+    }
+
+    private func updateDiary() {
+        diary = Diary(id: diary.id,
+                      title: titleTextField.text ?? "",
+                      body: bodyTextView.text,
+                      createdAt: diary.createdAt)
     }
 
     private func configureNavigationItem() {
@@ -65,6 +80,8 @@ final class DiaryDetailViewController: UIViewController {
     private func configureSubViews() {
         view.addSubview(titleTextField)
         view.addSubview(bodyTextView)
+        titleTextField.delegate = self
+        bodyTextView.delegate = self
 
         NSLayoutConstraint.activate([
             titleTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -126,5 +143,37 @@ extension DiaryDetailViewController {
 
     @objc private func keyboardWillHide(_ notification: NSNotification) {
         keyboardConstraints?.constant = 0
+    }
+}
+
+// MARK: - background
+extension DiaryDetailViewController {
+    private func addEnterBackgroundObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(enterBackground),
+                                               name: UIScene.didEnterBackgroundNotification,
+                                               object: nil)
+    }
+
+    private func removeEnterBackgroundObserver() {
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIScene.didEnterBackgroundNotification,
+                                                  object: nil)
+    }
+
+    @objc private func enterBackground() {
+        updateDiary()
+    }
+}
+
+extension DiaryDetailViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        diary.title = titleTextField.text ?? ""
+    }
+}
+
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        diary.body = bodyTextView.text
     }
 }
