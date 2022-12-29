@@ -133,6 +133,13 @@ final class DiaryDetailViewController: UIViewController {
         alert.addAction(deleteAction)
         present(alert, animated: true)
     }
+
+    private func showActivityView() {
+        var activityItems = [diary.title, diary.createdAt.currentLocalizedText(), diary.body]
+        let activityViewController = UIActivityViewController(activityItems: activityItems,
+                                                              applicationActivities: nil)
+        present(activityViewController, animated: true, completion: nil)
+    }
 }
 
 // MARK: - Keyboard
@@ -214,8 +221,8 @@ extension DiaryDetailViewController {
                                       message: nil,
                                       preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...",
-                                        style: .default) { _ in
-            print("share 클릭")
+                                        style: .default) { [weak self] _ in
+            self?.showActivityView()
         }
         let deleteAction = UIAlertAction(title: "Delete",
                                          style: .destructive) { [weak self] _ in
