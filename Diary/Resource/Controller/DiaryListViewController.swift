@@ -32,20 +32,13 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureDiaryListTableView()
-        
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(showAlert(_:)),
-                                               name: Notification.Name("CoreDataError"),
-                                               object: nil)
-    }
-    
-    @objc private func showAlert(_ noti: Notification) {
-        guard let userInfo = noti.userInfo,
-              let title = userInfo["title", default: ""] as? String else { return }
-        
-        showErrorAlert(title: title)
+        addObserver()
     }
 
+    private func fetchCoreData() {
+        diaryModels = CoreDataManager.shared.fetchAllDiaryModels()
+    }
+    
     private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance =
         navigationController?.navigationBar.standardAppearance
@@ -68,8 +61,18 @@ final class DiaryListViewController: UIViewController {
         diaryListTableView.delegate = self
     }
     
-    private func fetchCoreData() {
-        diaryModels = CoreDataManager.shared.fetchAllDiaryModels()
+    private func addObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(showAlert(_:)),
+                                               name: Notification.Name("CoreDataError"),
+                                               object: nil)
+    }
+    
+    @objc private func showAlert(_ noti: Notification) {
+        guard let userInfo = noti.userInfo,
+              let title = userInfo["title", default: ""] as? String else { return }
+        
+        showErrorAlert(title: title)
     }
 }
 
