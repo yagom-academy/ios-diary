@@ -34,7 +34,7 @@
         <!--Detail View Controller-->
         <scene sceneID="G2u-KM-m9w">
             <objects>
-                <viewController storyboardIdentifier="DetailView" id="pUG-Xa-hjl" customClass="DetailViewController" customModule="Diary" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="detailViewController" id="pUG-Xa-hjl" customClass="DetailViewController" customModule="Diary" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Dpd-ay-T6X">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -64,7 +64,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m2e-EG-N57" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1806" y="-34"/>
+            <point key="canvasLocation" x="1848" y="291"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="ahx-AA-gLI">

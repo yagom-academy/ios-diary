@@ -28,14 +28,15 @@ final class DiaryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        tableView.reloadData()
+        getDiaryData()
     }
     
     @IBAction func tapAddBarButtonItem(_ sender: UIBarButtonItem) {
         coreDataManager.create()
-        getDiaryData()
-//        let detailViewController = storyboard?.instantiateViewController(identifier: "detailView") as? DetailViewController ?? DetailViewController()
-//        self.navigationController?.pushViewController(detailViewController, animated: true)
+        diaryData = coreDataManager.fetch()
+        let detailViewController = storyboard?.instantiateViewController(identifier: "detailViewController") as? DetailViewController ?? DetailViewController()
+        detailViewController.diaryData = self.diaryData.last
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
     private func getDiaryData() {
@@ -64,7 +65,7 @@ final class DiaryViewController: UIViewController {
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailViewController: DetailViewController =
-                storyboard?.instantiateViewController(withIdentifier: "DetailView")
+                storyboard?.instantiateViewController(withIdentifier: "detailViewController")
                 as? DetailViewController else { return }
         detailViewController.diaryData = diaryData[indexPath.row]
         navigationController?.pushViewController(detailViewController, animated: true)
