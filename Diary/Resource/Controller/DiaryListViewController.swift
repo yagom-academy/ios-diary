@@ -57,7 +57,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchCoreData() {
-        diaryModels = CoreDataStack.shared.fetchAllDiaryModels()
+        diaryModels = CoreDataManager.shared.fetchAllDiaryModels()
     }
 }
 
@@ -101,7 +101,7 @@ extension DiaryListViewController: UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: Namespace.delete) { _, _, _  in
             let handler: (UIAlertAction) -> Void = { _ in
                 self.diaryItemManager.deleteDiary(data: self.diaryModels[indexPath.row])
-                self.diaryModels = CoreDataStack.shared.fetchAllDiaryModels()
+                self.diaryModels = CoreDataManager.shared.fetchAllDiaryModels()
             }
             
             self.showDeleteAlert(for: self.diaryModels[indexPath.row], handler: handler)

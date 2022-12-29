@@ -1,5 +1,5 @@
 //
-//  CoreDataStack.swift
+//  CoreDataManager.swift
 //  Diary
 //
 //  Created by SummerCat and som on 2022/12/26.
@@ -8,8 +8,8 @@
 import Foundation
 import CoreData
 
-class CoreDataStack {
-    static let shared = CoreDataStack()
+final class CoreDataManager {
+    static let shared = CoreDataManager()
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
