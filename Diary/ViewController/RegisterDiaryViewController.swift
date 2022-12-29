@@ -75,18 +75,10 @@ extension RegisterDiaryViewController {
                 = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
         }
-        
+    
         let keyboardHeight = keyboardFrame.cgRectValue.height
-        let bottomInset = self.diaryPageView.scrollViewBottomInset
-        let keyboardShowNotification = UIResponder.keyboardWillShowNotification
-        let keyboardHideNotification = UIResponder.keyboardWillHideNotification
         
-        if notification.name == keyboardShowNotification && bottomInset == 0 {
-            self.diaryPageView.changeScrollViewBottomInset(keyboardHeight)
-        } else if notification.name == keyboardHideNotification && bottomInset != 0 {
-            self.diaryPageView.changeScrollViewBottomInset(-keyboardHeight)
-            updateDiary()
-        }
+        self.diaryPageView.changeScrollViewBottomInset(keyboardHeight)
     }
 }
 

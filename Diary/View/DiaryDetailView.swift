@@ -109,7 +109,7 @@ final class DiaryDetailView: UIView {
     }
     
     func changeScrollViewBottomInset(_ inset: CGFloat ) {
-        diaryTextScrollView.contentInset.bottom += inset
+        diaryTextScrollView.contentInset.bottom = inset
     }
 
     func removePlaceHolder() {
