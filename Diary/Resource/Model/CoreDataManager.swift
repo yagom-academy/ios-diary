@@ -12,7 +12,7 @@ final class CoreDataManager {
     static let shared = CoreDataManager()
     
     lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Diary")
+        let container = NSPersistentContainer(name: CoreDataNamespace.diary)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -26,7 +26,7 @@ final class CoreDataManager {
     }
     
     var diaryEntity: NSEntityDescription? {
-        return NSEntityDescription.entity(forEntityName: "Diary", in: viewContext)
+        return NSEntityDescription.entity(forEntityName: CoreDataNamespace.diary, in: viewContext)
     }
     
     func saveContext() {
@@ -45,9 +45,9 @@ final class CoreDataManager {
               let diaryEntity = diaryEntity else { return }
         
         let managedObject = NSManagedObject(entity: diaryEntity, insertInto: viewContext)
-        managedObject.setValue(diaryModel.title, forKey: "title")
-        managedObject.setValue(diaryModel.body, forKey: "body")
-        managedObject.setValue(diaryModel.createdAt, forKey: "createdAt")
+        managedObject.setValue(diaryModel.title, forKey: CoreDataNamespace.title)
+        managedObject.setValue(diaryModel.body, forKey: CoreDataNamespace.body)
+        managedObject.setValue(diaryModel.createdAt, forKey: CoreDataNamespace.createAt)
         saveContext()
     }
     
@@ -78,8 +78,8 @@ final class CoreDataManager {
         
         for result in fetchedResults {
             let diary = DiaryModel(id: result.objectID,
-                                  title: result.title ?? "",
-                                  body: result.body ?? "",
+                                   title: result.title ?? Namespace.emptyString,
+                                   body: result.body ?? Namespace.emptyString,
                                    createdAt: result.createdAt ?? Date())
             diaryModels.append(diary)
         }
@@ -91,7 +91,7 @@ final class CoreDataManager {
         guard let diaryModel = diaryModel else { return nil }
 
         let fetchRequest = Diary.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "title == %@ AND body == %@ AND createdAt == %@",
+        fetchRequest.predicate = NSPredicate(format: CoreDataNamespace.regex,
                                                argumentArray: [diaryModel.title, diaryModel.body, diaryModel.createdAt])
         
         do {
@@ -110,8 +110,8 @@ final class CoreDataManager {
         
         guard let object = viewContext.object(with: id) as? Diary else { return }
         
-        object.setValue(diaryModel.title, forKeyPath: "title")
-        object.setValue(diaryModel.body, forKey: "body")
+        object.setValue(diaryModel.title, forKey: CoreDataNamespace.title)
+        object.setValue(diaryModel.body, forKey: CoreDataNamespace.body)
         saveContext()
     }
     
@@ -121,5 +121,13 @@ final class CoreDataManager {
         let object = viewContext.object(with: id)
         viewContext.delete(object)
         saveContext()
+    }
+    
+    private enum CoreDataNamespace {
+        static let title = "title"
+        static let body = "body"
+        static let createAt = "createdAt"
+        static let diary = "Diary"
+        static let regex = "title == %@ AND body == %@ AND createdAt == %@"
     }
 }
