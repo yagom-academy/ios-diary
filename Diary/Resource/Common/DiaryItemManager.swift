@@ -12,7 +12,7 @@ final class DiaryItemManager {
     private var diaryItem: DiaryModel?
     
     func saveDiaryWith(title: String, body: String) {
-        updateDiaryWith(title: title, body: body)
+        updateDiaryTo(title: title, body: body)
         
         if CoreDataManager.shared.fetchDiary(with: diaryItem?.id) == nil {
             generateDiary()
@@ -34,7 +34,7 @@ final class DiaryItemManager {
                                createdAt: Date())
     }
     
-    private func updateDiaryWith(title: String, body: String) {
+    private func updateDiaryTo(title: String, body: String) {
         diaryItem?.title = title
         diaryItem?.body = body
         diaryItem?.createdAt = Date()
