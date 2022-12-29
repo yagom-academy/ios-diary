@@ -9,6 +9,7 @@ import UIKit
 final class DiaryViewController: UIViewController {
     private var sampleData: [SampleData] = []
     private var dataSource: UITableViewDiffableDataSource<Section, SampleData>?
+    private var coreDataManager: CoreDataManager = CoreDataManager()
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
