@@ -27,11 +27,11 @@
 
 ## 🧭 팀 위키
 
-#### [🤙 Ground Rule](https://github.com/jjpush/ios-diary/wiki/🤙-Ground-Rule)
+#### [🤙 Ground Rule](https://github.com/jjpush/ios-diary/wiki/1.-Ground-Rule)
 
-#### [🖋 Code Convention](https://github.com/jjpush/ios-diary/wiki/🖋-Code-Convention)
+#### [🖋 Code Convention](https://github.com/jjpush/ios-diary/wiki/2.-Code-Convention)
 
-#### [📝 일일 스크럼](https://github.com/jjpush/ios-diary/wiki/📝-일일-스크럼)
+#### [📝 일일 스크럼](https://github.com/jjpush/ios-diary/wiki/3.-일일-스크럼)
 
 ## 🛠 실행 화면
 
