@@ -30,8 +30,8 @@ struct CoreDataManager {
     mutating func create() {
         if let context = context {
             let newDiary = DiaryData(context: context)
-            newDiary.title = ""
-            newDiary.body = ""
+            newDiary.title = nil
+            newDiary.body = nil
             newDiary.createdAt = Date()
             newDiary.uuid = UUID()
             update()

@@ -34,14 +34,19 @@ final class DetailViewController: UIViewController {
     }
     
     private func configureView() {
-        guard let diaryData = diaryData,
-              let title = diaryData.title,
-              let body = diaryData.body else { return }
+        guard let diaryData = diaryData else { return }
         navigationItem.title = diaryData.createdAt?.convertDate()
+        guard let title = diaryData.title,
+              let body = diaryData.body else {
+            detailTextView.text = "제목과 내용을 입력해주세요!"
+            detailTextView.textColor = .gray
+            return
+        }
         detailTextView.text = "\(title)\n\n\(body)"
     }
     
     private func setDiaryDataFromTextView() {
+        detailTextView.delegate = self
         let result = detailTextView.text.separateTitleAndBody(titleWordsLimit: 20)
         diaryData?.body = result.body
         diaryData?.title = result.title
@@ -85,6 +90,7 @@ extension DetailViewController {
     
     @objc
     private func keyboardWillHide(_ notification: Notification) {
+        print("keyboardHide")
         handleScrollView(notification, isAppearing: false)
         setDiaryDataFromTextView()
         coreDataManager.update()
@@ -156,5 +162,13 @@ extension DetailViewController {
         alert.addAction(okAction)
         alert.addAction(noAction)
         present(alert, animated: true)
+    }
+}
+
+// MARK: - TextViewDelegate
+extension DetailViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        detailTextView.text = ""
+        detailTextView.textColor = .black
     }
 }
