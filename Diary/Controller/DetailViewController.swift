@@ -11,8 +11,8 @@ import UIKit
 final class DetailViewController: UIViewController {
     @IBOutlet weak private var detailTextViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak private var detailTextView: UITextView!
-    // 타이틀,바디가 isEmpty면, textView에서 Placeholder를 표기(create).
-
+    private var coreDataManager: CoreDataManager = CoreDataManager()
+    // TODO: 타이틀,바디가 isEmpty면, textView에서 Placeholder를 표기(create).
     var diaryData: DiaryData?
     
     override func viewDidLoad() {
@@ -24,14 +24,22 @@ final class DetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         removeNotificationObserver()
+        setDiaryDataFromTextView()
+        coreDataManager.update()
     }
     
     private func configureView() {
         guard let diaryData = diaryData,
               let title = diaryData.title,
               let body = diaryData.body else { return }
-        navigationItem.title = diaryData.createdAt.convertDate()
+        navigationItem.title = diaryData.createdAt?.convertDate()
         detailTextView.text = "\(title)\n\n\(body)"
+    }
+    
+    private func setDiaryDataFromTextView() {
+        let result = detailTextView.text.seperateTitleAndBody(titleWordsLimit: 20)
+        diaryData?.body = result.body
+        diaryData?.title = result.title
     }
 }
 
@@ -66,6 +74,8 @@ extension DetailViewController {
     @objc
     private func keyboardWillHide(_ notification: Notification) {
         handleScrollView(notification, isAppearing: false)
+        setDiaryDataFromTextView()
+        coreDataManager.update()
     }
     
     private func handleScrollView(_ notification: Notification, isAppearing: Bool) {

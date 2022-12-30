@@ -10,7 +10,7 @@ import UIKit
 
 struct CoreDataManager {
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    lazy private var context = appDelegate?.persistentContainer.viewContext
+    lazy var context = appDelegate?.persistentContainer.viewContext
     
     mutating func fetch() -> [DiaryData] {
         var diaryData = [DiaryData]()
@@ -32,13 +32,13 @@ struct CoreDataManager {
             let newDiary = DiaryData(context: context)
             newDiary.title = ""
             newDiary.body = ""
-            newDiary.createdAt = 10000
+            newDiary.createdAt = Date()
             newDiary.uuid = UUID()
-            saveContext()
+            update()
         }
     }
     
-    private mutating func saveContext() {
+    mutating func update() {
         if let context = context {
             do {
                 try context.save()
