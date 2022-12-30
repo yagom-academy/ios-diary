@@ -5,13 +5,20 @@
 1. [팀 소개](#-팀-소개)
 2. [팀 위키](#-팀-위키)
 3. [실행 화면](#-실행-화면)
+4. [폴더 구조](#-폴더-구조)
+5. [타임라인](#-타임라인)
+6. [기술적 도전](#-기술적-도전)
+7. [트러블 슈팅 및 고민](#-트러블-슈팅-및-고민)
+8. [참고 링크](#-참고-링크)
+
+<!-- 
 4. [Diagram](#-diagram)
 5. [폴더 구조](#-폴더-구조)
 6. [타임라인](#-타임라인)
 7. [기술적 도전](#-기술적-도전)
 8. [트러블 슈팅 및 고민](#-트러블-슈팅-및-고민)
 9. [참고 링크](#-참고-링크)
-
+ -->
 
 ## 🌱 팀 소개
 |[Wonbi](https://github.com/wonbi92)|[jpush](https://github.com/jjpush)|
@@ -36,21 +43,28 @@
 
 ### 실행화면
 
-| 실행 화면 |
-|:--:|
-|![step1 실행화면](https://user-images.githubusercontent.com/82566116/208919392-8c0fac1a-1282-42a2-ae0c-c6e54debbdb0.gif)|
+| 실행 화면 | 메모 생성 화면 | 
+|:--:|:--:|
+|![step1 실행화면](https://user-images.githubusercontent.com/82566116/208919392-8c0fac1a-1282-42a2-ae0c-c6e54debbdb0.gif)| ![](https://i.imgur.com/QeBfmLF.gif) | 
 
+| 빈 내용 입력 시 메모 생성하지 않음 | 메모 수정 화면 |
+|:--:|:--:|
+|![](https://i.imgur.com/3CJvJjE.gif) | ![](https://i.imgur.com/R08mrDl.gif)
+
+
+
+<!--
 ## 👀 Diagram
 
 ### 🧬 Class Diagram
 ![](https://i.imgur.com/14dtqyj.png)
-
+-->
  
 ## 🗂 폴더 구조
 > DiaryViewController: 일기장의 리스트를 보여주는 뷰 컨트롤러 <br>
 > EditorViewController: 일기장을 편집하는 뷰를 보여주는 뷰 컨트롤러 <br>
 > Extension: 기존 타입의 확장 기능을 정의 <br>
-> Model: decode될 Json 데이터 모델
+> CoreData: CoreData 관련 파일
 ```
 ├── Diary
 │   ├── Info.plist
@@ -59,8 +73,12 @@
 │   ├── Assets
 │   │   ├── Contents.json
 │   │   └── sample.dataset
+│   ├── CoreData
+│   │   ├── Diary+CoreDataClass.swift
+│   │   ├── Diary+CoreDataProperties.swift
+│   │   ├── DiaryData.swift
+│   │   └── DiaryDataStore.swift
 │   ├── Constant
-│   ├── DateLocalizer
 │   ├── DiaryViewController
 │   │   ├── DiaryListCell
 │   │   ├── DiaryView
@@ -69,9 +87,10 @@
 │   │   ├── EditorView
 │   │   └── EditorViewController
 │   ├── Extension
-│   │   └── JSONDecoder+
-│   ├── Model
-│   │   └── DiaryContent
+│   │   ├── CellIdentifiable+.swift
+│   │   ├── Collection+.swift
+│   │   ├── Date+.swift
+│   │   └── JSONDecoder+.swift
 ├── Pods
 │   └── SwiftLint
 └── README
@@ -81,12 +100,16 @@
 
 #### 👟 Step 1
 - SwiftLint 적용
-    - ✅ SwiftLint이용해 코드 컨벤션 지키기
+    ✅ SwiftLint이용해 코드 컨벤션 지키기
 - Date Formatter 활용하기
-    - ✅ DateFormatter를 활용해 사용자의 지역 포맷에 맞게 날짜 출력하기
+    ✅ DateFormatter를 활용해 사용자의 지역 포맷에 맞게 날짜 출력하기
 - NotificationCenter 활용하기
-    - ✅ 키보드가 나타나고 사라질 때 키보드의 위치 정보 구하기 
+    ✅ 키보드가 나타나고 사라질 때 키보드의 위치 정보 구하기 
 
+#### 👟 Step 2
+- CoreData 적용
+    ✅ CoreData를 이용해 메모장의 데이터를 저장 및 로드
+    ✅ 데이터의 상태에 따라 분기처리를 통한 UX 개선
 
 ## 🏃🏻 기술적 도전
 
@@ -111,10 +134,18 @@
 
 </details>
 
+#### ⚙️ CoreData 
+<details>
+<summary>펼쳐보기</summary>
+    
+- CoreData는 애플리케이션의 모델 계층의 객체를 관리하기 위한 프레임워크입니다. 이 프레임워크는 객체의 영속 기능을 포함한 객체 생명주기 및 객체 관계도 관리 작업에 대한 일반적이고 자동화 된 방법을 제시합니다.
+- 코어데이터를 사용하면 앱이 종료되어도 앱 내에 작성했던 데이터를 영속적으로 보관할 수 있고, 사용자의 입력값에 따라 새로운 데이터를 만들거나, 기존 데이터를 수정하거나, 데이터를 제거하는 동작을 자동화 된 방법으로 활용할 수 있습니다.
+    <br><br>
+- 💡 이번 프로젝트에서는 이 코어데이터를 통해 사용자가 입력한 일기를 앱이 종료되어도 영속적으로 보관하도록 하고, 사용자가 내용을 수정하거나 삭제할 수 있는 방법을 제시하여 활용하도록 사용했습니다.
+</details>
 
 ## 🏔 트러블 슈팅 및 고민
     
-
 # 고민했던 점
 
 #### 🚀 Locale.current에 접근하기
@@ -186,11 +217,51 @@ class TestTableViewDelegate: NSObject, UITableViewDelegate {
 }
 ```
 
-- 결과적으로 데이터소스와 델리게이트 역할을 하는 컨트롤러 객체만 더 생겼을 뿐이고, 이는 `DiaryViewController+UITableViewDataSource`와 같은 파일을 만들어서 분리하는 것이 로직적으로 더 간편한 방법이라는 생각이 들었습니다.
+- 결과적으로 데이터소스와 델리게이트 역할을 하는 컨트롤러 객체만 더 생겼을 뿐이고, 이는 방대해진 뷰 컨트롤러를 줄이기 위해 너무 많은 사이드 이팩트를 가져간다고 생각했습니다. 뷰 컨트롤러가 조금 방대하더라도 중간에 객체를 거쳐서 로직이 진행되는 것보다 다이렉트로 컨트롤 하는 것이 더 좋은 방향이라 생각했습니다.
 - 이런 고민을 거듭한 결과, 이는 좋은 방향성이 아니라는 생각이 들어 적용하지 않았습니다.
     
 </details>
     
+    
+#### 💭 Container를 어디서 가지게 할 것인가?
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+- 먼저, 코어데이터를 사용하기위한 패턴을 어떻게 가져가야 할지에 대한 고민을 했습니다. 단순히 뷰 컨트롤러가 NSPersistentContainer 객체를 가지는 방식으로 간다면, 코어데이터의 데이터를 여기저기서 접근할 수 있게되어 어디서 언제 이 데이터가 생성, 수정, 삭제가 일어나는지에 대한 시점을 알기 힘들어지기 때문에 이 방법은 좋은 방법이 아니라 생각했습니다. 그래서 좀 더 좋은 방법은 없을까 고민해보았습니다.
+
+    
+1. 시작할 때 rootViewController에 주입해서 사용하는 방법
+    - NSPersistentContainer객체를 하나 만든 후, 그 객체를 뷰 컨트롤러에 주입하여 사용하는 방식을 생각했습니다. 그리고 프로토콜을 이용해 이 프로토콜을 채택하는 객체만 Container를 주입받아 사용하도록 로직을 구성하였습니다. 
+    - 하지만, 이 방법은 뷰컨트롤러가 Container를 가지고 있는 것은 동일하기에 context에 직접 접근이 가능해 코어데이터가 뷰 컨트롤러에 직접 노출되는 문제가 있었습니다.
+    
+    
+2. 전역으로 사용한 Appdelegate의 container를 가져오는 방법
+    - 그래서 NSPersistentContainer객체를 Appdelegate가 가지도록 하고, 그 Container를 매니징하는 Store 싱글톤 객체를 만들어 context에 직접 접근하지 않고 데이터의 생성, 수정, 삭제를 요청하기만 하도록 하여 context를 숨기면서 데이터의 변화를 추적하기 편하도록 구성하게 되었습니다.
+    
+    
+    
+    
+</details>
+
+#### 💭 textView focus 시, 키보드를 올리는 방법
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+- iOS 15 버전 이후부터는 KeyboardGuideLayout이 있어 사용이 간편하나 이번 프로젝트는 14버전을 기준으로 잡았기 때문에 NotificationCenter를 활용해서 키보드를 불러주는 방법을 사용했습니다.
+    - 키보드를 불러오는 순간 textView의 Bottom 제약조건을 수정해서 키보드의 높이만큼 constant를 주었습니다.
+    - 새 메모를 생성 시 키보드가 올라오는 애니메이션을 보여주고 UX를 향상시키기 위해서 viewDidAppear에서 조정하도록 했습니다.
+    
+    - 키보드를 올릴 때 textview가 tap되었을 때 NotificationCenter.post를 하고 싶었으나 작동하지 않았습니다. 왜 그런지는 아직 파악하지 못했고 firstResponder를 불러오는 becomefirstResponder를 사용했습니다.
+    
+</details>
+
+#### 
+
+
 ## 🔗 참고 링크
 
 [공식문서]
@@ -198,7 +269,9 @@ class TestTableViewDelegate: NSObject, UITableViewDelegate {
 - [localizedString](https://developer.apple.com/documentation/foundation/dateformatter/1415241-localizedstring) <br>
 - [Locale](https://developer.apple.com/documentation/foundation/locale) <br>
 - [Creating Great Localized Experiences with Xcode 11](https://developer.apple.com/videos/play/wwdc2019/403/) <br>
-- [Move TextView Up when keyboard appear](https://stackoverflow.com/questions/25693130/move-textfield-when-keyboard-appears-swift)
+- [Move TextView Up when keyboard appear](https://stackoverflow.com/questions/25693130/move-textfield-when-keyboard-appears-swift) <br>
+- [CoreData](https://developer.apple.com/documentation/coredata) <br>
 ---
+
 
 [⬆️ 맨 위로 이동하기](#-diary)
