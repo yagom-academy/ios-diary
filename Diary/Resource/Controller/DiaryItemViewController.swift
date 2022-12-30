@@ -54,6 +54,7 @@ final class DiaryItemViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         titleTextView.becomeFirstResponder()
     }
     
@@ -68,6 +69,7 @@ final class DiaryItemViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         save()
         diaryItemManager.resetDiaryItem()
     }
