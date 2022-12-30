@@ -24,3 +24,4 @@ disabled_rules:
   - unused_closure_parameter
   - private_over_fileprivate
   - empty_string
+  - statement_position
