@@ -22,16 +22,16 @@ final class DiaryListViewController: UIViewController {
         view = diaryListTableView
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        fetchCoreData()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigationBar()
         configureDiaryListTableView()
         addObserver()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        fetchCoreData()
     }
     
     private func fetchCoreData() {
