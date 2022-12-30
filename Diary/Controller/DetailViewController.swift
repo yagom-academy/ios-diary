@@ -29,7 +29,7 @@ final class DetailViewController: UIViewController {
         coreDataManager.update()
     }
     
-    func setAddButton() {
+    private func setAddButton() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(moreButtonAlert))
     }
     
@@ -42,7 +42,7 @@ final class DetailViewController: UIViewController {
     }
     
     private func setDiaryDataFromTextView() {
-        let result = detailTextView.text.seperateTitleAndBody(titleWordsLimit: 20)
+        let result = detailTextView.text.separateTitleAndBody(titleWordsLimit: 20)
         diaryData?.body = result.body
         diaryData?.title = result.title
     }
@@ -60,6 +60,10 @@ extension DetailViewController {
                                                selector: #selector(keyboardWillHide(_ :)),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(sceneWillDeactivate),
+                                               name: UIScene.willDeactivateNotification,
+                                               object: nil)
     }
     
     private func removeNotificationObserver() {
@@ -68,6 +72,9 @@ extension DetailViewController {
                                                   object: nil)
         NotificationCenter.default.removeObserver(self,
                                                   name: UIResponder.keyboardWillHideNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIScene.willDeactivateNotification,
                                                   object: nil)
     }
     
@@ -79,6 +86,12 @@ extension DetailViewController {
     @objc
     private func keyboardWillHide(_ notification: Notification) {
         handleScrollView(notification, isAppearing: false)
+        setDiaryDataFromTextView()
+        coreDataManager.update()
+    }
+    
+    @objc
+    private func sceneWillDeactivate() {
         setDiaryDataFromTextView()
         coreDataManager.update()
     }
@@ -97,7 +110,7 @@ extension DetailViewController {
 // MARK: - extnesion: seperate detailTextView Title & Body
 
 fileprivate extension String {
-    func seperateTitleAndBody(titleWordsLimit: Int) -> (title: String, body: String) {
+    func separateTitleAndBody(titleWordsLimit: Int) -> (title: String, body: String) {
         var components = components(separatedBy: "\n\n")
         if components.count > 1 {
             let title = components.removeFirst()
@@ -117,7 +130,7 @@ fileprivate extension String {
 extension DetailViewController {
     
     @objc
-    func moreButtonAlert() {
+    private func moreButtonAlert() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share..", style: .default) { action in
             // TODO: 액티비티뷰 호출
@@ -136,7 +149,7 @@ extension DetailViewController {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "삭제", style: .destructive) { action in
             guard let diaryData = self.diaryData else { return }
-            self.coreDataManager.delte(data: diaryData)
+            self.coreDataManager.delete(data: diaryData)
             self.navigationController?.popViewController(animated: true)
         }
         let noAction = UIAlertAction(title: "취소", style: .default)
@@ -144,5 +157,4 @@ extension DetailViewController {
         alert.addAction(noAction)
         present(alert, animated: true)
     }
-    
 }

@@ -48,7 +48,7 @@ struct CoreDataManager {
         }
     }
     
-    mutating func delte(data: DiaryData) {
+    mutating func delete(data: DiaryData) {
         if let context = context {
             context.delete(data)
             update()
