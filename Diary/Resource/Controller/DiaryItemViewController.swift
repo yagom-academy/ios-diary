@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryItemViewController: UIViewController {
+final class DiaryItemViewController: UIViewController {
     private var hasTitle: Bool = false
     private var diaryItemManager = DiaryItemManager.shared
     private lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)

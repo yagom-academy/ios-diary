@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AlertManager {
+final class AlertManager {
     static let shared = AlertManager()
     
     func sendError(title: String) {
