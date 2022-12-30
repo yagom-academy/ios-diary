@@ -112,9 +112,7 @@ final class DiaryViewController: UIViewController {
         }
         let cancelAction = UIAlertAction(title: Constant.cancelActionTitle, style: .cancel)
         
-        [cancelAction, deleteAction].forEach { action in
-            alert.addAction(action)
-        }
+        [cancelAction, deleteAction].forEach(alert.addAction(_:))
         
         present(alert, animated: true)
     }
@@ -145,9 +143,7 @@ final class DiaryViewController: UIViewController {
         }
         let cancelAction = UIAlertAction(title: Constant.cancelActionTitle, style: .cancel)
         
-        [shareAction, deleteAction, cancelAction].forEach { action in
-            actionSheet.addAction(action)
-        }
+        [shareAction, deleteAction, cancelAction].forEach(actionSheet.addAction(_:))
         
         present(actionSheet, animated: true)
     }
