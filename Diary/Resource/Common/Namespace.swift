@@ -20,3 +20,8 @@ enum Namespace {
     static let plusImage = "plus"
     static let moreImage = "ellipsis.circle"
 }
+
+enum Placeholder {
+    static let title = "제목 없음"
+    static let body = "내용 없음"
+}

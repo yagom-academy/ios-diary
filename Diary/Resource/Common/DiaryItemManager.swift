@@ -15,9 +15,8 @@ final class DiaryItemManager {
         if CoreDataManager.shared.fetchDiary(with: diaryItem?.id) == nil {
             generateDiary()
             updateDiaryTo(title: title, body: body)
-
-            if diaryItem?.title == Namespace.empty,
-               diaryItem?.body == Namespace.empty { return }
+            
+            if !validate(diaryItem: diaryItem) { return }
             
             CoreDataManager.shared.insertDiary(diaryItem)
             let id = CoreDataManager.shared.fetchID(of: diaryItem)
@@ -37,6 +36,13 @@ final class DiaryItemManager {
     private func updateDiaryTo(title: String, body: String) {
         diaryItem?.title = title
         diaryItem?.body = body
+    }
+    
+    private func validate(diaryItem: DiaryModel?) -> Bool {
+        if diaryItem?.title == Placeholder.title, diaryItem?.body == Namespace.empty { return false }
+        else if diaryItem?.title == Namespace.empty, diaryItem?.body == Placeholder.body { return false }
+        else if diaryItem?.title == Placeholder.title, diaryItem?.body == Placeholder.body { return false }
+        else { return true }
     }
     
     func fetchDiary(data: DiaryModel) {
