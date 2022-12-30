@@ -75,9 +75,14 @@ final class DiaryCell: UITableViewCell, ReusableView {
         contentsStackView.addArrangedSubview(dateAndBodyStackView)
         contentView.addSubview(contentsStackView)
         
+        let contentsStackViewBottomConstraint = contentsStackView.bottomAnchor.constraint(
+            equalTo: contentView.bottomAnchor,
+            constant: -8)
+        contentsStackViewBottomConstraint.priority = .defaultHigh
+        
         NSLayoutConstraint.activate([
             contentsStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            contentsStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            contentsStackViewBottomConstraint,
             contentsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
             contentsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
