@@ -42,6 +42,7 @@ final class DiaryItemManager {
         if diaryItem?.title == Placeholder.title, diaryItem?.body == Namespace.empty { return false }
         else if diaryItem?.title == Namespace.empty, diaryItem?.body == Placeholder.body { return false }
         else if diaryItem?.title == Placeholder.title, diaryItem?.body == Placeholder.body { return false }
+        else if diaryItem?.title == Namespace.empty, diaryItem?.body == Namespace.empty { return false }
         else { return true }
     }
     
