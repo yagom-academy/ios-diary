@@ -80,6 +80,7 @@ final class DiaryItemViewController: UIViewController {
     private func setPlaceholder(for textView: UITextView) {
         if textView.text.isEmpty {
             textView.textColor = .systemGray3
+            textView.text = (textView == titleTextView) ? Placeholder.title : Placeholder.body
         } else {
             titleTextView.resignFirstResponder()
         }
@@ -187,10 +188,6 @@ final class DiaryItemViewController: UIViewController {
         static let mainStackViewBottomMargin = CGFloat(8)
         static let mainStackViewTrailingMargin = CGFloat(8)
         static let titleTextViewMaxHeight = CGFloat(100)
-    }
-    
-    private enum Placeholder {
-        static let editText = "내용을 입력해주세요."
     }
 }
 
