@@ -52,12 +52,12 @@ final class DiaryListCell: UITableViewCell, CellIdentifiable {
         return label
     }()
     
-    func configure(with content: Diary) {
+    func configure(with content: DiaryData) {
         configureCell()
         setupLabelText(from: content)
     }
     
-    private func setupLabelText(from content: Diary) {
+    private func setupLabelText(from content: DiaryData) {
         let dateString = content.createdDateString
         
         titleLabel.text = content.title

@@ -8,10 +8,9 @@
 import CoreData
 import UIKit
 
-final class EditorViewController: UIViewController, PersistentContainer {
-    let container: NSPersistentContainer
+final class EditorViewController: UIViewController {
     private let editorView: EditorView = EditorView()
-    private let content: Diary
+    private let content: DiaryData
     
     override func loadView() {
         super.loadView()
@@ -32,9 +31,19 @@ final class EditorViewController: UIViewController, PersistentContainer {
         }
     }
     
-    init(with content: Diary, _ container: NSPersistentContainer) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let diaryText = editorView.fetchDiaryData()
+
+        if diaryText.isEmpty {
+            DiaryDataStore.shared.delete(objectID: content.objectID)
+        } else {
+            updateDiaryText(with: diaryText)
+        }
+    }
+    
+    init(with content: DiaryData) {
         self.content = content
-        self.container = container
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -49,23 +58,6 @@ final class EditorViewController: UIViewController, PersistentContainer {
     }
     
     @objc func tappedDoneButton() {
-        let diaryData = editorView.fetchDiaryData()
-        let splitedDiary = diaryData.split(separator: Constant.lineBreak,
-                                           maxSplits: 1,
-                                           omittingEmptySubsequences: true)
-        
-        let title = splitedDiary[0].description
-        let body = splitedDiary[1].description
-        let diary = DiaryContent(title: title,
-                                 body: body,
-                                 createdAt: content.createdAt)
-        
-        if title.isEmpty && body.isEmpty {
-            context.delete(objectID: content.objectID)
-        } else {
-            context.insertDiary(info: diary, to: content)
-        }
-        
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -88,13 +80,35 @@ final class EditorViewController: UIViewController, PersistentContainer {
     private func configureEditorView() {
         self.navigationItem.title = self.content.createdDateString
         
-        guard let title = content.title,
-              let body = content.body else {
+        guard let title = content.title else {
             return
         }
+        let text: String
         
-        let text = title + "\(Constant.lineBreak)" + body
+        if let body = content.body {
+            text = title + "\(Constant.lineBreak)" + body
+        } else {
+            text = title
+        }
+        
         self.editorView.setupTextView(from: text)
+    }
+    
+    private func updateDiaryText(with diaryText: String) {
+        let splitedText = diaryText.split(separator: Constant.lineBreak,
+                                           maxSplits: 1,
+                                           omittingEmptySubsequences: false)
+        let title = splitedText[0].description
+        let body = splitedText[valid: 1]?.description
+        
+        DiaryDataStore.shared.updateDiary(
+            DiaryData(
+                title: title,
+                body: body,
+                createdAt: content.createdAt,
+                objectID: content.objectID
+            )
+        )
     }
     
     func focusTextView() {

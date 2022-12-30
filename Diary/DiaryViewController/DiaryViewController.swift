@@ -8,26 +8,15 @@
 import CoreData
 import UIKit
 
-final class DiaryViewController: UIViewController, PersistentContainer {
-    let container: NSPersistentContainer
-    
+final class DiaryViewController: UIViewController {
     private let diaryView: DiaryView = DiaryView()
-    private var diaryContents: [Diary] = []
+    private var diaryContents: [DiaryData] = []
 
     override func loadView() {
         super.loadView()
         self.view = diaryView
     }
 
-    init(with container: NSPersistentContainer) {
-        self.container = container
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureView()
@@ -47,9 +36,13 @@ final class DiaryViewController: UIViewController, PersistentContainer {
     }
     
     private func setupDiaryContents() {
-        guard let contents = context.fetch(request: Diary.fetchRequest()) else { return }
+        let contents = DiaryDataStore.shared.fetch(request: Diary.fetchRequest())
         
-        diaryContents = contents
+        diaryContents = contents.sorted(
+            by: { lhs, rhs in
+                lhs.createdAt > rhs.createdAt
+            }
+        )
     }
     
     private func configureTableView() {
@@ -63,18 +56,16 @@ final class DiaryViewController: UIViewController, PersistentContainer {
         self.navigationItem.rightBarButtonItem?.action = #selector(tappedAddButton)
     }
     
-    private func pushEditorViewControllerWith(_ container: NSPersistentContainer, _ content: Diary) {
-        let editorViewController = EditorViewController(with: content, container)
+    private func pushEditorViewController(with content: DiaryData) {
+        let editorViewController = EditorViewController(with: content)
         
         self.navigationController?.pushViewController(editorViewController, animated: true)
     }
     
     @objc private func tappedAddButton(_ sender: UIBarButtonItem) {
-        let newDiary = Diary(context: context)
+        guard let diaryData = DiaryDataStore.shared.generateDiary() else { return }
         
-        newDiary.createdAt = Date().timeIntervalSince1970
-        
-        pushEditorViewControllerWith(self.container, newDiary)
+        pushEditorViewController(with: diaryData)
     }
 }
 
@@ -82,7 +73,7 @@ extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        pushEditorViewControllerWith(self.container, diaryContents[indexPath.row])
+        pushEditorViewController(with: diaryContents[indexPath.row])
     }
 }
 
