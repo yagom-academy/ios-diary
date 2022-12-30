@@ -12,11 +12,10 @@ final class DiaryItemManager {
     private var diaryItem: DiaryModel?
     
     func saveDiaryWith(title: String, body: String) {
-        updateDiaryTo(title: title, body: body)
-        
         if CoreDataManager.shared.fetchDiary(with: diaryItem?.id) == nil {
             generateDiary()
-            
+            updateDiaryTo(title: title, body: body)
+
             if diaryItem?.title == Namespace.empty,
                diaryItem?.body == Namespace.empty { return }
             
@@ -24,6 +23,7 @@ final class DiaryItemManager {
             let id = CoreDataManager.shared.fetchID(of: diaryItem)
             diaryItem?.id = id
         } else {
+            updateDiaryTo(title: title, body: body)
             CoreDataManager.shared.updateDiary(diaryItem)
         }
     }
