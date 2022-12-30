@@ -12,7 +12,6 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak private var detailTextViewBottomConstraint: NSLayoutConstraint!
     @IBOutlet weak private var detailTextView: UITextView!
     private var coreDataManager: CoreDataManager = CoreDataManager()
-    // TODO: 타이틀,바디가 isEmpty면, textView에서 Placeholder를 표기(create).
     var diaryData: DiaryData?
     
     override func viewDidLoad() {
@@ -36,6 +35,7 @@ final class DetailViewController: UIViewController {
     private func configureView() {
         guard let diaryData = diaryData else { return }
         navigationItem.title = diaryData.createdAt?.convertDate()
+        detailTextView.delegate = self
         guard let title = diaryData.title,
               let body = diaryData.body else {
             detailTextView.text = "제목과 내용을 입력해주세요!"
@@ -46,7 +46,6 @@ final class DetailViewController: UIViewController {
     }
     
     private func setDiaryDataFromTextView() {
-        detailTextView.delegate = self
         let result = detailTextView.text.separateTitleAndBody(titleWordsLimit: 20)
         diaryData?.body = result.body
         diaryData?.title = result.title
@@ -123,13 +122,17 @@ fileprivate extension String {
             let body = components.filter { $0 != ""}.joined(separator: "\n\n")
             return (title, body)
         }
+        if self.count < 20 {
+            return (self, "")
+        }
         let limitIndex = index(startIndex, offsetBy: titleWordsLimit)
         let title = self[startIndex..<limitIndex]
         let body = self[limitIndex..<endIndex]
-        
         return (title.description, body.description)
     }
 }
+
+
 
 // MARK: - extension: Delete & Share Alert
 
@@ -168,7 +171,9 @@ extension DetailViewController {
 // MARK: - TextViewDelegate
 extension DetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        detailTextView.text = ""
-        detailTextView.textColor = .black
+        if detailTextView.text == "제목과 내용을 입력해주세요!" {
+            detailTextView.text = "\n\n"
+            detailTextView.textColor = .black
+        }
     }
 }
