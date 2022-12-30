@@ -9,7 +9,7 @@ import UIKit
 final class DiaryListViewController: UICollectionViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Diary.ID>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Diary.ID>
-    private let persistentContainerManager = PersistentContainerManager(PersistentContainer.shared)
+    private var persistentContainerManager = PersistentContainerManager()
     private var dataSource: DataSource?
     private var diaries: [Diary] = []
 

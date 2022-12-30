@@ -17,4 +17,13 @@ class PersistentContainer: NSPersistentContainer {
         }
         return container
     }()
+
+    func saveContext() {
+        guard viewContext.hasChanges else { return }
+        do {
+            try viewContext.save()
+        } catch let error as NSError {
+            print("Error: \(error), \(error.userInfo)")
+        }
+    }
 }

@@ -26,7 +26,7 @@ final class DiaryDetailViewController: UIViewController {
         textView.textContainer.lineFragmentPadding = 0
         return textView
     }()
-    private let persistentContainerManager = PersistentContainerManager(PersistentContainer.shared)
+    private var persistentContainerManager = PersistentContainerManager()
     private var diary: Diary {
         didSet {
             persistentContainerManager.updateDiary(diary)
