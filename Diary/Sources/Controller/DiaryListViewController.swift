@@ -139,6 +139,8 @@ extension DiaryListViewController {
         snapshot.deleteItems([item])
         dataSource.apply(snapshot)
         coreDataManager.deleteDiary(id: item.id)
+        
+        diaries = coreDataManager.fetchDiary()
         return true
     }
     
