@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIViewController {
-    func showDeleteAlert(for diaryModel: DiaryModel?, handler: @escaping ((UIAlertAction) -> Void)) {
+    func showDeleteAlert(handler: @escaping ((UIAlertAction) -> Void)) {
         let alert: UIAlertController = UIAlertController(title: Namespace.deleteDiary,
                                                          message: Namespace.deleteMessage,
                                                          preferredStyle: .alert)

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		570229402951449000877268 /* DiaryListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5702293F2951449000877268 /* DiaryListTableViewCell.swift */; };
 		5702294929518BEA00877268 /* DateFormatterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5702294829518BEA00877268 /* DateFormatterManager.swift */; };
-		570FF1362959475B001D2022 /* NSAttributedString+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570FF1352959475B001D2022 /* NSAttributedString+.swift */; };
 		574241C7295C2B0D004CA539 /* UIActivityViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574241C6295C2B0D004CA539 /* UIActivityViewController+.swift */; };
 		574241CB295C691E004CA539 /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 574241CA295C691E004CA539 /* Namespace.swift */; };
 		8434E2E9CCABFA94F5FE525F /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A2BD80F680330B0BDB9F36F /* Pods_Diary.framework */; };
@@ -33,7 +32,6 @@
 		03EEF61FDA69209F9B32FD3D /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		5702293F2951449000877268 /* DiaryListTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListTableViewCell.swift; sourceTree = "<group>"; };
 		5702294829518BEA00877268 /* DateFormatterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterManager.swift; sourceTree = "<group>"; };
-		570FF1352959475B001D2022 /* NSAttributedString+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+.swift"; sourceTree = "<group>"; };
 		574241C6295C2B0D004CA539 /* UIActivityViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityViewController+.swift"; sourceTree = "<group>"; };
 		574241CA295C691E004CA539 /* Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namespace.swift; sourceTree = "<group>"; };
 		7A2BD80F680330B0BDB9F36F /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -140,7 +138,6 @@
 		AEFFA49929519A3D00954852 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				570FF1352959475B001D2022 /* NSAttributedString+.swift */,
 				574241C6295C2B0D004CA539 /* UIActivityViewController+.swift */,
 				AEC35609295D8540006D934D /* UIViewController+.swift */,
 			);
@@ -309,7 +306,6 @@
 				AEFFA496295142F000954852 /* DiaryModel.swift in Sources */,
 				AED1657D295BCE57004ACF2A /* DiaryItemManager.swift in Sources */,
 				574241CB295C691E004CA539 /* Namespace.swift in Sources */,
-				570FF1362959475B001D2022 /* NSAttributedString+.swift in Sources */,
 				AEBCABD22959715E0038B64A /* CoreDataManager.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				AEC3560A295D8540006D934D /* UIViewController+.swift in Sources */,

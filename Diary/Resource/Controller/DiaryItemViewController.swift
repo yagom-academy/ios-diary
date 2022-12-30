@@ -167,7 +167,7 @@ final class DiaryItemViewController: UIViewController {
                 self.navigationController?.popViewController(animated: false)
             }
             
-            self.showDeleteAlert(for: diaryItem, handler: handler)
+            self.showDeleteAlert(handler: handler)
         })
         alert.addAction(UIAlertAction(title: Namespace.cancel, style: .cancel))
         

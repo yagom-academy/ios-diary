@@ -118,7 +118,7 @@ extension DiaryListViewController: UITableViewDelegate {
                 self.diaryModels = CoreDataManager.shared.fetchAllDiaryModels()
             }
             
-            self.showDeleteAlert(for: self.diaryModels[indexPath.row], handler: handler)
+            self.showDeleteAlert(handler: handler)
         }
         
         actions.append(deleteAction)
