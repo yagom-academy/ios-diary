@@ -116,6 +116,9 @@ extension DetailViewController {
 
 fileprivate extension String {
     func separateTitleAndBody(titleWordsLimit: Int) -> (title: String, body: String) {
+        guard self != "제목과 내용을 입력해주세요!" else {
+            return ("","")
+        }
         var components = components(separatedBy: "\n\n")
         if components.count > 1 {
             let title = components.removeFirst()
@@ -142,7 +145,7 @@ extension DetailViewController {
     private func moreButtonAlert() {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share..", style: .default) { action in
-            // TODO: 액티비티뷰 호출
+            self.presentActivityController()
         }
         let delteAction = UIAlertAction(title: "Delete", style: .destructive) { action in
             self.deleteAlert()
@@ -152,6 +155,15 @@ extension DetailViewController {
         alert.addAction(delteAction)
         alert.addAction(cancelAction)
         present(alert, animated: true)
+    }
+    
+    private func presentActivityController() {
+        guard let title = diaryData?.title! else { return }
+        let textToShare: String = title
+        let activityController = UIActivityViewController(activityItems: [textToShare],
+                                                          applicationActivities: nil)
+        activityController.excludedActivityTypes = [.addToReadingList]
+        self.present(activityController, animated: true)
     }
     
     private func deleteAlert() {
