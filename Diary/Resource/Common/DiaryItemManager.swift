@@ -61,6 +61,10 @@ final class DiaryItemManager {
     
     func deleteDiary(data: DiaryModel?) {
         CoreDataManager.shared.deleteDiary(with: data?.id)
+        resetDiaryItem()
+    }
+    
+    func resetDiaryItem() {
         diaryItem = nil
     }
 }

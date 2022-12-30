@@ -69,6 +69,7 @@ final class DiaryItemViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         save()
+        diaryItemManager.resetDiaryItem()
     }
     
     private func configureTextView() {
