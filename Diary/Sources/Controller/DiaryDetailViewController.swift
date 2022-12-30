@@ -146,6 +146,13 @@ extension DiaryDetailViewController: UITextFieldDelegate, UITextViewDelegate {
         return true
     }
     
+    func textFieldShouldReturn(
+        _ textField: UITextField
+    ) -> Bool {
+        textField.resignFirstResponder()
+        return true
+    }
+    
     func textView(
         _ textView: UITextView,
         shouldChangeTextIn range: NSRange,
@@ -289,6 +296,9 @@ private extension UITextView {
         self.textContainer.lineFragmentPadding = lineFragmentPadding
         self.textContainerInset = textContainerInset
         self.showsVerticalScrollIndicator = false
+        self.returnKeyType = .continue
+        self.keyboardDismissMode = .onDragWithAccessory
+        self.alwaysBounceVertical = true
     }
     
     var filteredText: String {
@@ -305,6 +315,7 @@ private extension UITextField {
         self.font = font
         self.placeholder = placeholder
         self.adjustsFontForContentSizeCategory = true
+        self.returnKeyType = .done
     }
     
     var filteredText: String {
