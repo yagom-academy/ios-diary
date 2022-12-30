@@ -135,8 +135,6 @@ fileprivate extension String {
     }
 }
 
-
-
 // MARK: - extension: Delete & Share Alert
 
 extension DetailViewController {
@@ -180,7 +178,8 @@ extension DetailViewController {
     }
 }
 
-// MARK: - TextViewDelegate
+// MARK: - extension: TextViewDelegate
+
 extension DetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if detailTextView.text == "제목과 내용을 입력해주세요!" {

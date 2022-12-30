@@ -2,13 +2,10 @@
 //  DiaryData+CoreDataProperties.swift
 //  Diary
 //
-//  Created by 서현웅 on 2022/12/29.
-//
-//
+//  Copyright (c) 2022 woong, jeremy All rights reserved.
 
 import Foundation
 import CoreData
-
 
 extension DiaryData {
 
@@ -23,6 +20,4 @@ extension DiaryData {
 
 }
 
-extension DiaryData : Identifiable {
-
-}
+extension DiaryData : Identifiable {}
