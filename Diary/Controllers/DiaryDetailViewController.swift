@@ -118,18 +118,20 @@ final class DiaryDetailViewController: UIViewController {
     }
 
     private func showDeleteAlert() {
-        let alert = UIAlertController(title: "진짜요?",
-                                      message: "정말로 삭제하시겠어요?",
+        let alert = UIAlertController(title: NSLocalizedString("Really?", comment: ""),
+                                      message: NSLocalizedString("Are you want to delete it?", comment: ""),
                                       preferredStyle: .alert)
-        let cancleAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+                                         style: .cancel)
+        let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""),
+                                         style: .destructive) { [weak self] _ in
             guard let diary = self?.diary else { return }
             self?.persistentContainerManager.deleteDiary(diary)
             self?.action = .delete
             self?.navigationController?.popViewController(animated: true)
         }
 
-        alert.addAction(cancleAction)
+        alert.addAction(cancelAction)
         alert.addAction(deleteAction)
         present(alert, animated: true)
     }
@@ -220,15 +222,16 @@ extension DiaryDetailViewController {
         let alert = UIAlertController(title: nil,
                                       message: nil,
                                       preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...",
+        let shareAction = UIAlertAction(title: NSLocalizedString("Share...", comment: ""),
                                         style: .default) { [weak self] _ in
             self?.showActivityView()
         }
-        let deleteAction = UIAlertAction(title: "Delete",
+        let deleteAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""),
                                          style: .destructive) { [weak self] _ in
             self?.showDeleteAlert()
         }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""),
+                                         style: .cancel)
 
         alert.addAction(shareAction)
         alert.addAction(deleteAction)

@@ -34,7 +34,6 @@ final class DiaryListViewController: UICollectionViewController {
     private func configureCollectionViewLayout() {
         var config = UICollectionLayoutListConfiguration(appearance: .plain)
         config.showsSeparators = true
-        config.leadingSwipeActionsConfigurationProvider = makeSwipeAction
         config.trailingSwipeActionsConfigurationProvider = makeSwipeAction
         let viewLayout = UICollectionViewCompositionalLayout.list(using: config)
         collectionView.collectionViewLayout = viewLayout
@@ -44,11 +43,11 @@ final class DiaryListViewController: UICollectionViewController {
         guard let indexPath = indexPath,
               let id = dataSource?.itemIdentifier(for: indexPath),
               let diary = diary(diaryID: id) else { return nil }
-        let shareActionTitle = "Share..."
+        let shareActionTitle = NSLocalizedString("Share...", comment: "")
         let shareAction = UIContextualAction(style: .normal, title: shareActionTitle) { [weak self] _, _, _ in
             self?.showActivityView(diary)
         }
-        let deleteActionTitle = "Delete"
+        let deleteActionTitle = NSLocalizedString("Delete", comment: "")
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: deleteActionTitle) { [weak self] _, _, _ in
             self?.persistentContainerManager.deleteDiary(diary)
