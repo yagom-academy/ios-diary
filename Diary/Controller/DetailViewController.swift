@@ -19,6 +19,7 @@ final class DetailViewController: UIViewController {
         super.viewDidLoad()
         configureView()
         addNotificationObserver()
+        setAddButton()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -26,6 +27,10 @@ final class DetailViewController: UIViewController {
         removeNotificationObserver()
         setDiaryDataFromTextView()
         coreDataManager.update()
+    }
+    
+    func setAddButton() {
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(moreButtonAlert))
     }
     
     private func configureView() {
@@ -105,4 +110,39 @@ fileprivate extension String {
         
         return (title.description, body.description)
     }
+}
+
+// MARK: - extension: Delete & Share Alert
+
+extension DetailViewController {
+    
+    @objc
+    func moreButtonAlert() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share..", style: .default) { action in
+            // TODO: 액티비티뷰 호출
+        }
+        let delteAction = UIAlertAction(title: "Delete", style: .destructive) { action in
+            self.deleteAlert()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alert.addAction(shareAction)
+        alert.addAction(delteAction)
+        alert.addAction(cancelAction)
+        present(alert, animated: true)
+    }
+    
+    private func deleteAlert() {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "삭제", style: .destructive) { action in
+            guard let diaryData = self.diaryData else { return }
+            self.coreDataManager.delte(data: diaryData)
+            self.navigationController?.popViewController(animated: true)
+        }
+        let noAction = UIAlertAction(title: "취소", style: .default)
+        alert.addAction(okAction)
+        alert.addAction(noAction)
+        present(alert, animated: true)
+    }
+    
 }
