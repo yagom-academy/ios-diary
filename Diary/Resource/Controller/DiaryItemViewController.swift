@@ -53,14 +53,10 @@ final class DiaryItemViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        titleTextView.becomeFirstResponder()
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(mainStackView)
+        titleTextView.becomeFirstResponder()
         configureTextView()
         configureNavigationBar()
         configureMainStackView()
@@ -68,8 +64,8 @@ final class DiaryItemViewController: UIViewController {
         addObserver()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         save()
         diaryItemManager.resetDiaryItem()
     }
@@ -84,7 +80,8 @@ final class DiaryItemViewController: UIViewController {
     private func setPlaceholder(for textView: UITextView) {
         if textView.text.isEmpty {
             textView.textColor = .systemGray3
-            textView.text = Placeholder.editText
+        } else {
+            titleTextView.resignFirstResponder()
         }
     }
     
@@ -213,7 +210,7 @@ extension DiaryItemViewController {
 
 extension DiaryItemViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.text == Placeholder.editText {
+        if textView.textColor == .systemGray3 {
             textView.text = nil
             textView.textColor = .black
         }
