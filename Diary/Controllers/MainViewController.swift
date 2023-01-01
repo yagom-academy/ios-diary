@@ -111,10 +111,17 @@ extension MainViewController: SwipeConfigurable {
         let deleteAction = UIContextualAction(style: .destructive,
                                               title: deleteActionTitle) { [weak self] _, _, _ in
             
-            self?.coreDataManager.deleteData(id: id) { _ in
-                self?.setupData()
-                self?.applySnapshot(animatingDifferences: true)
+            do {
+                try self?.coreDataManager.deleteData(id: id)
+            } catch {
+                guard let error = error as? DataError else { return }
+                self?.showCustomAlert(alertText: error.localizedDescription,
+                                     alertMessage: "삭제 실패하였습니다.",
+                                     useAction: true,
+                                     completion: nil)
             }
+            self?.setupData()
+            self?.applySnapshot(animatingDifferences: true)
         }
         
         let shareActionTitle = NSLocalizedString("Share", comment: "Share action title")

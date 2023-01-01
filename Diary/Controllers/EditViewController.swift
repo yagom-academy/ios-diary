@@ -86,21 +86,26 @@ extension EditViewController {
     
     private func checkToSave() {
         let data = editView.packageData()
-        
         if let diaryData = diaryData {
             guard let id = diaryData.id else { return }
-            coreDataManager.updateData(id: id, contentText: data) { _ in }
+            do {
+                try coreDataManager.updateData(id: id, contentText: data)
+            } catch {
+                guard let error = error as? DataError else { return }
+                self.showCustomAlert(alertText: error.localizedDescription,
+                                     alertMessage: error.errorDescription ?? "",
+                                     useAction: true,
+                                     completion: nil)
+            }
         } else {
-            coreDataManager.saveData(contentText: data, date: currentDate) { result in
-                switch result {
-                case .success(let data):
-                    self.diaryData = data
-                case .failure(let error):
-                    self.showCustomAlert(alertText: error.localizedDescription,
-                                         alertMessage: error.errorDescription ?? "",
-                                         useAction: true,
-                                         completion: nil)
-                }
+            do {
+                self.diaryData = try coreDataManager.saveData(contentText: data, date: currentDate)
+            } catch {
+                guard let error = error as? DataError else { return }
+                self.showCustomAlert(alertText: error.localizedDescription,
+                                     alertMessage: error.errorDescription ?? "",
+                                     useAction: true,
+                                     completion: nil)
             }
         }
     }
@@ -111,7 +116,15 @@ extension EditViewController {
                 in: .whitespacesAndNewlines) else { return }
         
         if let id = data.id, contentText.count == .zero {
-            coreDataManager.deleteData(id: id) { _ in }
+            do {
+                try coreDataManager.deleteData(id: id)
+            } catch {
+                guard let error = error as? DataError else { return }
+                self.showCustomAlert(alertText: error.localizedDescription,
+                                     alertMessage: "삭제 실패하였습니다.",
+                                     useAction: true,
+                                     completion: nil)
+            }
         }
     }
 }
@@ -130,15 +143,16 @@ extension EditViewController {
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             guard let id = self.diaryData?.id else { return }
             
-            self.coreDataManager.deleteData(id: id) { result in
-                if !result {
-                    self.showCustomAlert(alertText: "삭제 실패",
-                                         alertMessage: "삭제 실패하였습니다.",
-                                         completion: nil)
-                }
-                
-                self.navigationController?.popViewController(animated: true)
+            do {
+                try self.coreDataManager.deleteData(id: id)
+            } catch {
+                guard let error = error as? DataError else { return }
+                self.showCustomAlert(alertText: error.localizedDescription,
+                                     alertMessage: "삭제 실패하였습니다.",
+                                     useAction: true,
+                                     completion: nil)
             }
+            self.navigationController?.popViewController(animated: true)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)

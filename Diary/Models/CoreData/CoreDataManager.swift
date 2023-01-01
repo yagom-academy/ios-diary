@@ -36,23 +36,17 @@ final class CoreDataManager {
         return .success(diaryDataList)
     }
     
-    func saveData(contentText: String,
-                  date: Date,
-                  completion: @escaping ((Result<DiaryData, DataError>) -> Void)) {
-        
+    func saveData(contentText: String, date: Date) throws -> DiaryData {
         guard let context = context else {
-            completion(.failure(.noneDataError))
-            return
+            throw DataError.coreDataError
         }
         guard let entity = NSEntityDescription.entity(forEntityName: self.modelName,
                                                       in: context) else {
-            completion(.failure(.noneDataError))
-            return
+            throw DataError.coreDataError
         }
         guard let content = NSManagedObject(entity: entity,
                                             insertInto: context) as? DiaryData else {
-            completion(.failure(.noneDataError))
-            return
+            throw DataError.coreDataError
         }
         
         content.id = UUID()
@@ -62,63 +56,72 @@ final class CoreDataManager {
         if context.hasChanges {
             do {
                 try context.save()
-                completion(.success(content))
+                return content
             } catch {
-                completion(.failure(.noneDataError))
+                throw DataError.coreDataError
             }
         }
-        completion(.success(content))
+        return content
     }
     
-    func updateData(id: UUID,
-                    contentText: String,
-                    completion: @escaping (Bool) -> Void) {
-        
-        guard let context = context else { return }
-        
+    func updateData(id: UUID, contentText: String) throws {
+        guard let context = context else {
+            throw DataError.coreDataError
+        }
         let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
         request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
         
         do {
-            guard let fetchedDatas = try context.fetch(request) as? [DiaryData] else { return }
-            guard let diaryData = fetchedDatas.first else { return }
+            guard let fetchedDatas = try context.fetch(request) as? [DiaryData] else {
+                throw DataError.coreDataError
+            }
+            guard let diaryData = fetchedDatas.first else {
+                throw DataError.coreDataError
+            }
             
             diaryData.setValue(contentText, forKey: "contentText")
             if context.hasChanges {
                 do {
                     try context.save()
-                    completion(true)
+                    return
                 } catch {
-                    completion(false)
+                    throw DataError.coreDataError
                 }
             }
         } catch {
-            completion(false)
+            throw DataError.coreDataError
         }
+        return
     }
 
-    func deleteData(id: UUID,
-                    completion: @escaping (Bool) -> Void) {
-        guard let context = context else { return }
+    func deleteData(id: UUID) throws {
+        guard let context = context else {
+            throw DataError.coreDataError
+        }
         let request = NSFetchRequest<NSManagedObject>(entityName: self.modelName)
         request.predicate = NSPredicate(format: "id = %@", id as CVarArg)
         
         do {
-            guard let fetchedDatas = try context.fetch(request) as? [DiaryData] else { return }
-            guard let diaryData = fetchedDatas.first else { return }
+            guard let fetchedDatas = try context.fetch(request) as? [DiaryData] else {
+                throw DataError.coreDataError
+            }
+            guard let diaryData = fetchedDatas.first else {
+                throw DataError.coreDataError
+            }
             
             context.delete(diaryData)
             
             if context.hasChanges {
                 do {
                     try context.save()
-                    completion(true)
+                    return
                 } catch {
-                    completion(false)
+                    throw DataError.coreDataError
                 }
             }
         } catch {
-            completion(false)
+            throw DataError.coreDataError
         }
+        return
     }
 }
