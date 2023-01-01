@@ -16,7 +16,7 @@ extension UIViewController {
                                       message: alertMessage,
                                       preferredStyle: .alert)
         
-        if useAction == true {
+        if useAction {
             let confirm = UIAlertAction(title: "취소", style: .destructive) {  _ in
                 if let completion = completion {
                     completion()
