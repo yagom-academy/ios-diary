@@ -4,9 +4,11 @@
 import Foundation
 import CoreData
 
-protocol DiaryManageable {
-    func add(_ diary: Diary)
-    func fetchDiaries() -> [Diary]
-    func update(_ diary: Diary)
-    func remove(_ diary: Diary)
+protocol CoreDataManageable {
+    associatedtype Object: ManagedObjectModel
+    
+    func add(_ object: Object?)
+    func fetchObjects() -> [Object]
+    func update(_ object: Object)
+    func remove(_ object: Object)
 }

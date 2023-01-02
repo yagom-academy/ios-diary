@@ -4,8 +4,8 @@
 import Foundation
 import CoreData
 
-struct DiaryDataManager: DiaryManageable {
-    func add(_ diary: Diary) {
+struct DiaryManager: CoreDataManageable {
+    func add(_ diary: Diary?) {
         guard let entity = DiaryCoreDataStack.shared.fetchEntity(forEntityName: "DiaryData") else {
             return
         }
@@ -18,7 +18,7 @@ struct DiaryDataManager: DiaryManageable {
         DiaryCoreDataStack.shared.save()
     }
     
-    func fetchDiaries() -> [Diary] {
+    func fetchObjects() -> [Diary] {
         let fetchRequest: NSFetchRequest<DiaryData> = DiaryData.fetchRequest()
         fetchRequest.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
         
