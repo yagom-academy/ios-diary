@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		B414FEE22952D2C400E7AC2A /* DateFormatter+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B414FEE12952D2C400E7AC2A /* DateFormatter+Extension.swift */; };
 		B414FEE42952D8AC00E7AC2A /* Locale+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B414FEE32952D8AC00E7AC2A /* Locale+Extension.swift */; };
+		B4182F6529627CD3009D3CA0 /* DiaryExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4182F6429627CD3009D3CA0 /* DiaryExtractor.swift */; };
 		B48B3663295550CF00D40CC1 /* DiaryTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48B3662295550CF00D40CC1 /* DiaryTextView.swift */; };
 		B48B36812959425B00D40CC1 /* DiaryCoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48B36802959425B00D40CC1 /* DiaryCoreDataStack.swift */; };
 		B48B369D295AE8BB00D40CC1 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B48B369C295AE8BB00D40CC1 /* String+Extension.swift */; };
@@ -36,6 +37,7 @@
 		9B62CDBF03119E61C8407448 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B414FEE12952D2C400E7AC2A /* DateFormatter+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+Extension.swift"; sourceTree = "<group>"; };
 		B414FEE32952D8AC00E7AC2A /* Locale+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Locale+Extension.swift"; sourceTree = "<group>"; };
+		B4182F6429627CD3009D3CA0 /* DiaryExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryExtractor.swift; sourceTree = "<group>"; };
 		B48B3662295550CF00D40CC1 /* DiaryTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTextView.swift; sourceTree = "<group>"; };
 		B48B36802959425B00D40CC1 /* DiaryCoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCoreDataStack.swift; sourceTree = "<group>"; };
 		B48B369C295AE8BB00D40CC1 /* String+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extension.swift"; sourceTree = "<group>"; };
@@ -133,6 +135,7 @@
 			children = (
 				D349380829593DDD00AC4697 /* DiaryDataManager.swift */,
 				B48B36802959425B00D40CC1 /* DiaryCoreDataStack.swift */,
+				B4182F6429627CD3009D3CA0 /* DiaryExtractor.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				B48B36812959425B00D40CC1 /* DiaryCoreDataStack.swift in Sources */,
 				B4C1C51229544CA4008A130F /* ReusableView.swift in Sources */,
+				B4182F6529627CD3009D3CA0 /* DiaryExtractor.swift in Sources */,
 				D34F1E6E2952AD0C00C1CF62 /* DiaryViewController.swift in Sources */,
 				B48B369D295AE8BB00D40CC1 /* String+Extension.swift in Sources */,
 				B414FEE22952D2C400E7AC2A /* DateFormatter+Extension.swift in Sources */,

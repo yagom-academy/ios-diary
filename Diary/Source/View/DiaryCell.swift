@@ -4,10 +4,6 @@
 import UIKit
 
 final class DiaryCell: UITableViewCell, ReusableView {
-    private enum Constant {
-        static let defaultTitle = "제목 없음"
-    }
-    
     private let titleLabel: UILabel = {
         let label = UILabel()
         
@@ -92,10 +88,9 @@ final class DiaryCell: UITableViewCell, ReusableView {
     }
     
     func configure(with diary: Diary) {
-        titleLabel.text = diary.title.hasText() ? diary.title : Constant.defaultTitle
-        createdDateLabel.text = DateFormatter.converted(date: diary.createdAt,
-                                                        locale: Locale.preference,
-                                                        dateStyle: .long)
-        bodyLabel.text = diary.body
+        let cellContents = DiaryExtractor.extract(diary: diary)
+        titleLabel.text = cellContents.title
+        bodyLabel.text = cellContents.body
+        createdDateLabel.text = cellContents.createdAt
     }
 }
