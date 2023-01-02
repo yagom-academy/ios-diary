@@ -9,30 +9,19 @@ import CoreData
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private let diaryView: DiaryView = DiaryView()
+    private let tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
     private var diaryContents: [DiaryData] = []
 
-    override func loadView() {
-        super.loadView()
-        self.view = diaryView
-    }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureView()
-        configureTableView()
-        configureNavigationBar()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         setupDiaryContents()
-        self.diaryView.updateT()
-    }
-    
-    private func configureView() {
-        self.view.backgroundColor = .systemBackground
+        self.tableView.reloadData()
     }
     
     private func setupDiaryContents() {
@@ -45,8 +34,31 @@ final class DiaryViewController: UIViewController {
         )
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureView()
+        configureTableView()
+        configureNavigationBar()
+    }
+    
+    private func configureView() {
+        self.view.addSubview(tableView)
+        self.view.backgroundColor = .systemBackground
+        
+        let safeArea = self.view.safeAreaLayoutGuide
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
+    }
+    
     private func configureTableView() {
-        self.diaryView.configureTableView(delegate: self, dataSource: self)
+        self.tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
+        self.tableView.dataSource = self
+        self.tableView.delegate = self
     }
 
     private func configureNavigationBar() {
@@ -61,7 +73,10 @@ final class DiaryViewController: UIViewController {
         
         self.navigationController?.pushViewController(editorViewController, animated: true)
     }
-    
+}
+
+// MARK: - objc method
+extension DiaryViewController {
     @objc private func tappedAddButton(_ sender: UIBarButtonItem) {
         guard let diaryData = DiaryDataStore.shared.generateDiary() else { return }
         
@@ -69,6 +84,7 @@ final class DiaryViewController: UIViewController {
     }
 }
 
+// MARK: - tableView Delegate
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -77,6 +93,7 @@ extension DiaryViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - tableView DataSource
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return diaryContents.count
