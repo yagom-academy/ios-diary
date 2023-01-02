@@ -20,12 +20,8 @@ final class EditDiaryViewController: DiaryViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateTexts()
-        configureNavigationItem()
-    }
-    
-    private func updateTexts() {
         updateContentText(content: diary?.text)
+        configureNavigationItem()
     }
     
     override func configureNavigationItem() {
