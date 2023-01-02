@@ -32,15 +32,17 @@ class DiaryViewController: UIViewController {
     }
     
     private func configureDiaryData() {
-        if self.diary == nil {
-            do {
-                try CoreDataManager.shared.createDiary(text: "",
-                                                       createdAt: Date().timeIntervalSince1970) { diary in
-                    self.diary = diary
-                }
-            } catch {
-                print(error)
+        guard let text = contentTextView.text,
+              text.count > 0
+        else { return }
+        
+        do {
+            try CoreDataManager.shared.createDiary(text: text,
+                                                   createdAt: Date().timeIntervalSince1970) { diary in
+                self.diary = diary
             }
+        } catch {
+            print(error)
         }
     }
     
@@ -68,19 +70,22 @@ class DiaryViewController: UIViewController {
     }
     
     @objc func updateDiary() {
-        if self.diary != nil {
-            guard let diary,
-                  let text = contentTextView.text else { return }
+        if self.diary == nil {
+            configureDiaryData()
+            return
+        }
+        
+        guard let diary,
+              let text = contentTextView.text else { return }
 
-            diary.text = text
+        diary.text = text
 
-            do {
-                try CoreDataManager.shared.updateDiary(updatedDiary: diary) { diary in
-                    self.diary = diary
-                }
-            } catch {
-                print(error)
+        do {
+            try CoreDataManager.shared.updateDiary(updatedDiary: diary) { diary in
+                self.diary = diary
             }
+        } catch {
+            print(error)
         }
     }
     
