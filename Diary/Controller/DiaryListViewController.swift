@@ -33,6 +33,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         self.fetchDiary()
     }
     
