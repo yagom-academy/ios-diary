@@ -4,8 +4,8 @@
 //  Created by inho, dragon on 2022/12/28.
 //
 
-import UIKit
 import CoreData
+import UIKit
 
 protocol CoreDataProcessable {
     func saveCoreData(diary: Diary)

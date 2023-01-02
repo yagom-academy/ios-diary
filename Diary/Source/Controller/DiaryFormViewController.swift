@@ -4,8 +4,8 @@
 //  Created by inho, dragon on 2022/12/21.
 //
 
-import UIKit
 import CoreData
+import UIKit
 
 final class DiaryFormViewController: UIViewController, CoreDataProcessable {
     // MARK: Properties

@@ -4,8 +4,8 @@
 //  Created by inho, dragon on 2022/12/27.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 extension Entity {
 

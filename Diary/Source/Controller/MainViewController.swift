@@ -4,8 +4,8 @@
 //  Copyright © yagom. All rights reserved.
 // 
 
-import UIKit
 import CoreData
+import UIKit
 
 final class MainViewController: UIViewController, CoreDataProcessable {
     // MARK: Properties

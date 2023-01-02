@@ -4,8 +4,8 @@
 //  Copyright © yagom. All rights reserved.
 // 
 
-import UIKit
 import CoreData
+import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
