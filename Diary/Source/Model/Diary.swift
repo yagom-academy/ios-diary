@@ -3,29 +3,10 @@
 
 import Foundation
 
-struct Diary: Hashable {
+struct Diary: ManagedObjectModel {
     var content: String
     var createdAt: Date
     var objectID: String?
-    
-    var firstNewLineIndex: String.Index? {
-        return content.firstIndex(of: "\n")
-    }
-    var title: String {
-        if let firstNewLineIndex = firstNewLineIndex {
-            return String(content.prefix(through: firstNewLineIndex))
-        } else {
-            return content
-        }
-    }
-    var body: String {
-        if let firstNewLineIndex = firstNewLineIndex {
-            let firstIndexOfBody = content.index(firstNewLineIndex, offsetBy: 1)
-            return String(content.suffix(from: firstIndexOfBody))
-        } else {
-            return .init()
-        }
-    }
     
     init?(from diaryData: DiaryData) {
         guard let title = diaryData.title,
@@ -36,10 +17,5 @@ struct Diary: Hashable {
         self.content = title + body
         self.createdAt = createdAt
         self.objectID = diaryData.objectID.uriRepresentation().absoluteString
-    }
-    
-    init(content: String, createdAt: Date) {
-        self.content = content
-        self.createdAt = createdAt
     }
 }

@@ -27,6 +27,7 @@
 		D349380929593DDD00AC4697 /* DiaryDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D349380829593DDD00AC4697 /* DiaryDataManager.swift */; };
 		D34F1E6E2952AD0C00C1CF62 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34F1E6D2952AD0C00C1CF62 /* DiaryViewController.swift */; };
 		D384D892295BDA820062E040 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D384D891295BDA820062E040 /* NotificationName+Extension.swift */; };
+		D3960B8E296272060098FBC7 /* ManagedObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3960B8D296272060098FBC7 /* ManagedObjectModel.swift */; };
 		F4791F2149ED5B1B66DA319A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B62CDBF03119E61C8407448 /* Pods_Diary.framework */; };
 /* End PBXBuildFile section */
 
@@ -56,6 +57,7 @@
 		D349380829593DDD00AC4697 /* DiaryDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDataManager.swift; sourceTree = "<group>"; };
 		D34F1E6D2952AD0C00C1CF62 /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		D384D891295BDA820062E040 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
+		D3960B8D296272060098FBC7 /* ManagedObjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 			children = (
 				B4C1C51129544CA4008A130F /* ReusableView.swift */,
 				D349380529593A9D00AC4697 /* DiaryManageable.swift */,
+				D3960B8D296272060098FBC7 /* ManagedObjectModel.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				D34F1E6E2952AD0C00C1CF62 /* DiaryViewController.swift in Sources */,
 				B48B369D295AE8BB00D40CC1 /* String+Extension.swift in Sources */,
 				B414FEE22952D2C400E7AC2A /* DateFormatter+Extension.swift in Sources */,
+				D3960B8E296272060098FBC7 /* ManagedObjectModel.swift in Sources */,
 				B48B3663295550CF00D40CC1 /* DiaryTextView.swift in Sources */,
 				B4CEA6A2295193790079FBDF /* DiaryCell.swift in Sources */,
 				D34938032959352300AC4697 /* DiaryData+CoreDataClass.swift in Sources */,
