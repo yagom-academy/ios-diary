@@ -28,7 +28,7 @@ class CoreDataManager {
         return container
     }()
     
-    func createDiary(text: String, createdAt: Double) throws -> Diary {
+    func createDiary(text: String, createdAt: Double, completion: (Diary) -> Void) throws {
             
         guard let entity = NSEntityDescription.entity(forEntityName: self.entityName, in: context) else {
             throw DataError.entityUndifined
@@ -50,10 +50,10 @@ class CoreDataManager {
             }
         }
         
-        return diaryData
+        completion(diaryData)
     }
     
-    func fetchDiaryList() throws -> [Diary] {
+    func fetchDiaryList(completion: ([Diary]) -> Void) throws {
         
         var diaryList: [Diary] = []
         
@@ -68,13 +68,14 @@ class CoreDataManager {
             throw DataError.emptyData
         }
         
-        return diaryList
+        completion(diaryList)
     }
     
-    func updateDiary(updatedDiary: Diary) throws -> Diary? {
+    func updateDiary(updatedDiary: Diary, completion: (Diary?) -> Void) throws {
         
         let request = NSFetchRequest<Diary>(entityName: self.entityName)
         request.predicate = NSPredicate(format: "id == %@", updatedDiary.id as CVarArg)
+        
         var diary: Diary?
         
         do {
@@ -92,10 +93,10 @@ class CoreDataManager {
             }
         }
         
-        return diary
+        completion(diary)
     }
     
-    func deleteDiary(diary: Diary) throws {
+    func deleteDiary(diary: Diary, completion: (() -> Void)?) throws {
         
         let request = NSFetchRequest<Diary>(entityName: self.entityName)
         request.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
@@ -115,6 +116,7 @@ class CoreDataManager {
                 throw DataError.unChangedData
             }
         }
+        completion?()
     }
     
 }

@@ -31,7 +31,9 @@ final class DiaryListViewController: UIViewController {
     
     private func fetchData() {
         do {
-            self.diaries = try CoreDataManager.shared.fetchDiaryList()
+            try CoreDataManager.shared.fetchDiaryList { diaryList in
+                self.diaries = diaryList
+            }
         } catch {
             print(error)
         }
@@ -137,12 +139,13 @@ extension DiaryListViewController {
         let alert = UIAlertController(title: Constant.deleteAlertTitle, message: Constant.deleteAlertMessage, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: Constant.delete, style: .destructive) { _ in
             do {
-                try CoreDataManager.shared.deleteDiary(diary: diary)
+                try CoreDataManager.shared.deleteDiary(diary: diary) {
+                    self.fetchData()
+                    self.tableView.reloadData()
+                }
             } catch {
                 print(error)
             }
-            self.fetchData()
-            self.tableView.reloadData()
         })
                 
         alert.addAction(UIAlertAction(title: Constant.cancel, style: .default))
