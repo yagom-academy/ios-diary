@@ -225,8 +225,8 @@ extension DiaryDetailViewController {
         
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let shareAction = UIAlertAction(type: .share, handler: didTappedShareButton(_:))
-        let deleteAction = UIAlertAction(type: .delete, handler: didTappedDeleteButton(_:))
+        let shareAction = UIAlertAction(type: .share, handler: didTapShareButton)
+        let deleteAction = UIAlertAction(type: .delete, handler: didTapDeleteButton)
         let cancelAction = UIAlertAction(type: .cancel)
         
         [shareAction, deleteAction, cancelAction].forEach {
@@ -236,7 +236,7 @@ extension DiaryDetailViewController {
         self.present(alert, animated: true)
     }
     
-    private func didTappedDeleteButton(_ action: UIAlertAction) {
+    private func didTapDeleteButton(_ action: UIAlertAction) {
         guard let item = item else { return }
         let alert = UIAlertController(
             title: LocalizedConstant.AlertController.deleteTitle,
@@ -251,7 +251,7 @@ extension DiaryDetailViewController {
         present(alert, animated: true)
     }
     
-    private func didTappedShareButton(_ action: UIAlertAction) {
+    private func didTapShareButton(_ action: UIAlertAction) {
         guard let item = item else {
             return
         }
