@@ -10,11 +10,11 @@ final class DiaryListViewController: UIViewController {
     typealias DiaryDataSource = UITableViewDiffableDataSource<Int, Diary>
     typealias DiarySnapShot = NSDiffableDataSourceSnapshot<Int, Diary>
 
-    private lazy var presentNewDiaryViewAction = UIAction { _ in
+    private lazy var presentNewDiaryViewAction = UIAction { [weak self] _ in
         let newDiary = Diary(title: "", body: "", createdAt: Date())
         let diaryViewController = DiaryViewController(diary: newDiary)
 
-        self.navigationController?.pushViewController(diaryViewController, animated: true)
+        self?.navigationController?.pushViewController(diaryViewController, animated: true)
     }
 
     private lazy var addDiaryButton: UIBarButtonItem = {

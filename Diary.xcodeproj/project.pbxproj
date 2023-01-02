@@ -12,7 +12,6 @@
 		1137175729515FC900302E84 /* JSONDecodingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1137175629515FC900302E84 /* JSONDecodingTest.swift */; };
 		113717602952E02600302E84 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1137175F2952E02600302E84 /* DiaryViewController.swift */; };
 		11371765295AB82600302E84 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11371764295AB82600302E84 /* CoreDataManager.swift */; };
-		11CA3555295C12E900973CAC /* UIApplication+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11CA3554295C12E900973CAC /* UIApplication+.swift */; };
 		1AE0A2E72951A6C60083BA6C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 1AE0A2E62951A6C60083BA6C /* .swiftlint.yml */; };
 		1AE0A2FB29558F0B0083BA6C /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE0A2FA29558F0B0083BA6C /* sample.json */; };
 		1AE0A2FE295593EB0083BA6C /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0A2FD295593EB0083BA6C /* ReusableCell.swift */; };
@@ -45,7 +44,6 @@
 		1137175629515FC900302E84 /* JSONDecodingTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDecodingTest.swift; sourceTree = "<group>"; };
 		1137175F2952E02600302E84 /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		11371764295AB82600302E84 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		11CA3554295C12E900973CAC /* UIApplication+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+.swift"; sourceTree = "<group>"; };
 		131FEEBE70FCC84FFEEA2044 /* Pods_DiaryTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DiaryTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1AE0A2E62951A6C60083BA6C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		1AE0A2FA29558F0B0083BA6C /* sample.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = sample.json; sourceTree = "<group>"; };
@@ -185,7 +183,6 @@
 			children = (
 				BF8EC7CC295299920054CD03 /* Date+.swift */,
 				BFC014A0295A7EB3005AD105 /* UITableView+.swift */,
-				11CA3554295C12E900973CAC /* UIApplication+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -405,7 +402,6 @@
 			files = (
 				1AE0A2FE295593EB0083BA6C /* ReusableCell.swift in Sources */,
 				BF8EC7CD295299920054CD03 /* Date+.swift in Sources */,
-				11CA3555295C12E900973CAC /* UIApplication+.swift in Sources */,
 				113717602952E02600302E84 /* DiaryViewController.swift in Sources */,
 				BFC014A1295A7EB3005AD105 /* UITableView+.swift in Sources */,
 				1137174D2951573B00302E84 /* Diary.swift in Sources */,

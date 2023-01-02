@@ -49,6 +49,11 @@ final class DiaryViewController: UIViewController {
     init(diary: Diary) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateCoreDataIfNeeded),
+                                               name: UIScene.willDeactivateNotification,
+                                               object: nil)
     }
 
     @available(*, unavailable)
@@ -111,13 +116,13 @@ final class DiaryViewController: UIViewController {
 
     private func makeEllipsisMenu() -> UIMenu {
         let shareAction = UIAction(title: "공유",
-                                   image: UIImage(systemName: "square.and.arrow.up")) { _ in
-            self.showActivityViewController()
+                                   image: UIImage(systemName: "square.and.arrow.up")) { [weak self] _ in
+            self?.showActivityViewController()
         }
         let deleteAction = UIAction(title: "삭제",
                                     image: UIImage(systemName: "trash"),
-                                    attributes: .destructive) { _ in
-            self.showDeleteActionAlert()
+                                    attributes: .destructive) { [weak self] _ in
+            self?.showDeleteActionAlert()
         }
         let cancelAction = UIAction(title: "취소",
                                     image: UIImage(systemName: "xmark")) { _ in }
@@ -162,6 +167,7 @@ final class DiaryViewController: UIViewController {
                      uuid: diary.uuid)
     }
 
+    @objc
     func updateCoreDataIfNeeded() {
         if diary.title != titleTextView.text || diary.body != bodyTextView.text {
             diary = generateDiary()

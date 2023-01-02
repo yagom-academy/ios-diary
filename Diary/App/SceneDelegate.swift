@@ -19,11 +19,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.backgroundColor = .systemBackground
         window?.makeKeyAndVisible()
     }
-
-    func sceneWillResignActive(_ scene: UIScene) {
-        let rootViewController = UIApplication.shared.keyWindow?.rootViewController
-        if let topViewController = UIApplication.topViewController(rootViewController) as? DiaryViewController {
-            topViewController.updateCoreDataIfNeeded()
-        }
-    }
 }
