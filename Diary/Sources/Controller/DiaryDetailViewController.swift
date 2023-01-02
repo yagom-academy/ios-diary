@@ -265,13 +265,14 @@ extension DiaryDetailViewController {
     }
     
     func setDiary(with item: Diary? = nil) {
-        self.item = item
-        isNotEmpty = (item != nil)
-        if !isNotEmpty {
+        if item == nil {
             titleTextField.becomeFirstResponder()
+        } else {
+            self.item = item
+            isNotEmpty = true
+            titleTextField.text = item?.title
+            contentTextView.text = item?.body
         }
-        titleTextField.text = item?.title
-        contentTextView.text = item?.body
     }
 }
 
