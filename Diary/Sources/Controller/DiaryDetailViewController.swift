@@ -308,7 +308,6 @@ private extension UITextView {
 
 // MARK: UITextField+
 private extension UITextField {
-    
     convenience init(font: UIFont?, placeholder: String? = nil) {
         self.init()
         
