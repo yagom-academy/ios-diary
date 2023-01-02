@@ -14,16 +14,22 @@ class CoreDataManager {
     
     private init() { }
     
-    let appdelegate = UIApplication.shared.delegate as? AppDelegate
-
-    lazy var context = appdelegate?.persistentContainer.viewContext
+    lazy var context = self.persistentContainer.viewContext
     
     let entityName = "Diary"
     
-    func createDiary(text: String, createdAt: Double) throws -> Diary {
-        
-        guard let context else { throw DataError.contextUndifined }
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: entityName)
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
     
+    func createDiary(text: String, createdAt: Double) throws -> Diary {
+            
         guard let entity = NSEntityDescription.entity(forEntityName: self.entityName, in: context) else {
             throw DataError.entityUndifined
         }
@@ -48,7 +54,6 @@ class CoreDataManager {
     }
     
     func fetchDiaryList() throws -> [Diary] {
-        guard let context else { throw DataError.contextUndifined }
         
         var diaryList: [Diary] = []
         
@@ -67,7 +72,6 @@ class CoreDataManager {
     }
     
     func updateDiary(updatedDiary: Diary) throws -> Diary? {
-        guard let context else { throw DataError.contextUndifined }
         
         let request = NSFetchRequest<Diary>(entityName: self.entityName)
         request.predicate = NSPredicate(format: "id == %@", updatedDiary.id as CVarArg)
@@ -92,7 +96,6 @@ class CoreDataManager {
     }
     
     func deleteDiary(diary: Diary) throws {
-        guard let context else { throw DataError.contextUndifined }
         
         let request = NSFetchRequest<Diary>(entityName: self.entityName)
         request.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
