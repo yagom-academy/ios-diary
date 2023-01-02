@@ -34,21 +34,21 @@ final class DiaryViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if contentTextView.hasText {
+        if diary.content.isEmpty == false {
             contentTextView.contentOffset = .zero
         }
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if contentTextView.hasText == false {
+        if diary.content.isEmpty == true {
             contentTextView.becomeFirstResponder()
         }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        if contentTextView.hasText == false {
+        if diary.content.isEmpty == true {
             do {
                 try diaryManager.remove(diary)
             } catch {
