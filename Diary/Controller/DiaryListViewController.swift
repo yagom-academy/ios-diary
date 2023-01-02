@@ -12,7 +12,7 @@ final class DiaryListViewController: UIViewController {
 
     private lazy var presentNewDiaryViewAction = UIAction { _ in
         let newDiary = Diary(title: "", body: "", createdAt: Date())
-        let diaryViewController = DiaryViewController(diary: newDiary, isNewDiary: true)
+        let diaryViewController = DiaryViewController(diary: newDiary)
 
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
@@ -88,9 +88,16 @@ extension DiaryListViewController {
         return attributedString
     }
 
+    private func fetchDiaryList() -> [Diary] {
+        let fetchResults = CoreDataManager.shared.readDiaryEntity()
+        let diaryList: [Diary] = fetchResults.map { $0.toDomain() }
+
+        return diaryList
+    }
+
     private func configureSnapshot() {
         var snapshot = DiarySnapShot()
-        let sortedByLatestItems: [Diary] = CoreDataManager.shared.readDiaryList().reversed()
+        let sortedByLatestItems: [Diary] = fetchDiaryList().reversed()
 
         snapshot.appendSections([0])
         snapshot.appendItems(sortedByLatestItems)

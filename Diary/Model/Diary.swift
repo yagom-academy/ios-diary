@@ -42,3 +42,14 @@ struct Diary: Hashable {
         self.uuid = uuid
     }
 }
+
+extension DiaryEntity {
+    func toDomain() -> Diary {
+        let diary = Diary(title: title ?? "",
+                          body: body ?? "",
+                          createdAt: createdAt ?? Date(),
+                          uuid: uuid ?? UUID())
+
+        return diary
+    }
+}

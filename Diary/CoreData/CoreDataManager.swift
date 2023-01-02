@@ -55,8 +55,8 @@ class CoreDataManager {
     }
 
     // MARK: - READ
-    func readDiaryList() -> [Diary] {
-        return fetchDiaryList()
+    func readDiaryEntity() -> [DiaryEntity] {
+        return fetchDiaryEntity()
     }
 
     private func fetchDiaryEntity() -> [DiaryEntity] {
@@ -70,20 +70,6 @@ class CoreDataManager {
         }
 
         return []
-    }
-
-    private func fetchDiaryList() -> [Diary] {
-        var diaryList: [Diary] = []
-        let fetchResults = fetchDiaryEntity()
-        for result in fetchResults {
-            let diary = Diary(title: result.title ?? "",
-                              body: result.body ?? "",
-                              createdAt: result.createdAt ?? Date(),
-                              uuid: result.uuid ?? UUID())
-            diaryList.append(diary)
-        }
-
-        return diaryList
     }
 
     // MARK: - UPDATE
@@ -105,7 +91,10 @@ class CoreDataManager {
     // MARK: - DELETE
     func delete(diary: Diary) {
         let fetchResults = fetchDiaryEntity()
-        let diaryEntity = fetchResults.filter({ $0.uuid == diary.uuid })[0]
+        guard let diaryEntity = fetchResults.first(where: { $0.uuid == diary.uuid }) else {
+            return
+        }
+
         context.delete(diaryEntity)
         saveContext()
     }
