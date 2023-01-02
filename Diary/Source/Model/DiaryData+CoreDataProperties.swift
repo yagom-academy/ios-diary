@@ -9,9 +9,6 @@ extension DiaryData {
         return NSFetchRequest<DiaryData>(entityName: "DiaryData")
     }
 
-    @NSManaged public var title: String?
-    @NSManaged public var body: String?
+    @NSManaged public var content: String?
     @NSManaged public var createdAt: Date?
 }
-
-extension DiaryData: Identifiable {}

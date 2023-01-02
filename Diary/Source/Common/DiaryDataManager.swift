@@ -12,9 +12,8 @@ struct DiaryDataManager: DiaryManageable {
         let diaryObject = NSManagedObject(entity: entity,
                                           insertInto: DiaryCoreDataStack.shared.context)
         
-        diaryObject.setValue(diary.title, forKey: "title")
-        diaryObject.setValue(diary.body, forKey: "body")
-        diaryObject.setValue(diary.createdAt, forKey: "createdAt")
+        diaryObject.setValue(diary?.content ?? String.init(), forKey: "content")
+        diaryObject.setValue(diary?.createdAt ?? Date.now, forKey: "createdAt")
         
         DiaryCoreDataStack.shared.save()
     }
@@ -36,8 +35,7 @@ struct DiaryDataManager: DiaryManageable {
         }
         let object = DiaryCoreDataStack.shared.context.object(with: objectID)
         
-        object.setValue(diary.title, forKey: "title")
-        object.setValue(diary.body, forKey: "body")
+        object.setValue(diary.content, forKey: "content")
         
         DiaryCoreDataStack.shared.save()
     }
@@ -50,11 +48,6 @@ struct DiaryDataManager: DiaryManageable {
         
         DiaryCoreDataStack.shared.context.delete(object)
         DiaryCoreDataStack.shared.save()
-    }
-    
-    func addNewDiary() {
-        let newDiary = Diary(content: .init(), createdAt: Date.now)
-        add(newDiary)
     }
     
     private func fetchObjectID(from diaryID: String?) -> NSManagedObjectID? {

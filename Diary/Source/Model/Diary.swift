@@ -9,12 +9,11 @@ struct Diary: ManagedObjectModel {
     var objectID: String?
     
     init?(from diaryData: DiaryData) {
-        guard let title = diaryData.title,
-              let body = diaryData.body,
+        guard let content = diaryData.content,
               let createdAt = diaryData.createdAt else {
             return nil
         }
-        self.content = title + body
+        self.content = content
         self.createdAt = createdAt
         self.objectID = diaryData.objectID.uriRepresentation().absoluteString
     }
