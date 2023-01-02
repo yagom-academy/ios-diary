@@ -10,6 +10,8 @@ final class DiaryViewController: UIViewController {
         static let deleteActionTitle = "삭제"
         static let shareActionTitle = "공유"
         static let cancelActionTitle = "취소"
+        static let deleteFailAlertTitle = "다이어리 삭제 실패"
+        static let saveFailAlertTitle = "다이어리 저장 실패"
     }
     private let contentTextView = DiaryTextView(font: .preferredFont(forTextStyle: .body),
                                                 textAlignment: .left,
@@ -52,7 +54,7 @@ final class DiaryViewController: UIViewController {
             do {
                 try diaryManager.remove(diary)
             } catch {
-                print("실패")
+                NSLog("Diary Delete Failed")
             }
         }
     }
@@ -124,11 +126,12 @@ final class DiaryViewController: UIViewController {
     private func deleteDiary() {
         do {
             try diaryManager.remove(diary)
+            navigationController?.popViewController(animated: true)
         } catch {
-            print("실패")
+            NSLog("Diary Delete Failed")
+            let alert = AlertFactory.make(.failure(title: Constant.deleteFailAlertTitle, message: nil))
+            present(alert, animated: true)
         }
-        
-        navigationController?.popViewController(animated: true)
     }
     
     private func showShareActivityView() {
@@ -164,7 +167,9 @@ final class DiaryViewController: UIViewController {
         do {
             try diaryManager.update(diary)
         } catch {
-            print("실패")
+            NSLog("Diary Save Failed")
+            let alert = AlertFactory.make(.failure(title: Constant.saveFailAlertTitle, message: nil))
+            present(alert, animated: true)
         }
     }
 }

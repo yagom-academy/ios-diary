@@ -11,6 +11,8 @@ final class DiaryListViewController: UIViewController {
         static let title = "일기장"
         static let sampleDataName = "sample"
         static let firstDiary: IndexPath = .init(row: 0, section: 0)
+        static let deleteFailAlertTitle = "다이어리 삭제 실패"
+        static let addFailAlertTitle = "다이어리 생성 실패"
     }
     private let diaryManager = DiaryManager.shared
     
@@ -101,7 +103,9 @@ final class DiaryListViewController: UIViewController {
             try diaryManager.remove(diary)
             deleteDiaryItem(of: diary)
         } catch {
-            print("실패")
+            NSLog("Diary Delete Failed")
+            let alert = AlertFactory.make(.failure(title: Constant.deleteFailAlertTitle, message: nil))
+            present(alert, animated: true)
         }
     }
     
@@ -127,7 +131,9 @@ final class DiaryListViewController: UIViewController {
             fetchDiaries()
             pushDiaryViewController(with: Constant.firstDiary)
         } catch {
-            print("실패")
+            NSLog("Diary Add Failed")
+            let alert = AlertFactory.make(.failure(title: Constant.addFailAlertTitle, message: nil))
+            present(alert, animated: true)
         }
     }
     
@@ -137,7 +143,9 @@ final class DiaryListViewController: UIViewController {
             let diaries = try diaryManager.fetchObjects()
             apply(diaries)
         } catch {
-            print("실패")
+            NSLog("Diaries Fetch Failed")
+            let alert = AlertFactory.make(.exit)
+            present(alert, animated: true)
         }
     }
 }
