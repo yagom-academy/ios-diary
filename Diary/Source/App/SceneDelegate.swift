@@ -24,8 +24,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneDidEnterBackground(_ scene: UIScene) {
         if let navigationController = window?.rootViewController as? UINavigationController,
-           let topViewController = navigationController.topViewController as? DiaryFormViewController {
-            topViewController.selectSaveOrUpdate()
+           let diaryFormViewController = navigationController.topViewController as? DiaryFormViewController {
+            diaryFormViewController.selectSaveOrUpdate()
         }
     }
 }
