@@ -27,7 +27,7 @@ final class DiaryManager: CoreDataManageable {
     
     func add(_ diary: Diary?) throws {
         guard let entity = NSEntityDescription.entity(forEntityName: "DiaryData", in: context) else {
-            return
+            throw DiaryError.failedFetchEntity
         }
         let diaryObject = NSManagedObject(entity: entity, insertInto: context)
         
@@ -47,7 +47,7 @@ final class DiaryManager: CoreDataManageable {
     
     func update(_ diary: Diary) throws {
         guard let objectID = fetchObjectID(from: diary.objectID) else {
-            return
+            throw DiaryError.invalidObjectID
         }
         let object = context.object(with: objectID)
         
@@ -58,7 +58,7 @@ final class DiaryManager: CoreDataManageable {
     
     func remove(_ diary: Diary) throws {
         guard let objectID = fetchObjectID(from: diary.objectID) else {
-            return
+            throw DiaryError.invalidObjectID
         }
         let object = context.object(with: objectID)
         

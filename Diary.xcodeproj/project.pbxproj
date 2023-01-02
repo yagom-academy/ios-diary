@@ -31,6 +31,7 @@
 		D34F1E6E2952AD0C00C1CF62 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34F1E6D2952AD0C00C1CF62 /* DiaryViewController.swift */; };
 		D384D892295BDA820062E040 /* NotificationName+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D384D891295BDA820062E040 /* NotificationName+Extension.swift */; };
 		D3960B8E296272060098FBC7 /* ManagedObjectModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3960B8D296272060098FBC7 /* ManagedObjectModel.swift */; };
+		D3960BB2296313040098FBC7 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3960BB1296313040098FBC7 /* DiaryError.swift */; };
 		F4791F2149ED5B1B66DA319A /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B62CDBF03119E61C8407448 /* Pods_Diary.framework */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		D34F1E6D2952AD0C00C1CF62 /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		D384D891295BDA820062E040 /* NotificationName+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+Extension.swift"; sourceTree = "<group>"; };
 		D3960B8D296272060098FBC7 /* ManagedObjectModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedObjectModel.swift; sourceTree = "<group>"; };
+		D3960BB1296313040098FBC7 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -149,6 +151,7 @@
 			children = (
 				D349380829593DDD00AC4697 /* DiaryManager.swift */,
 				B4182F6429627CD3009D3CA0 /* DiaryExtractor.swift */,
+				D3960BB1296313040098FBC7 /* DiaryError.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -346,6 +349,7 @@
 				D349380629593A9D00AC4697 /* DiaryManageable.swift in Sources */,
 				D34938042959352300AC4697 /* DiaryData+CoreDataProperties.swift in Sources */,
 				B4CEA6A0295192090079FBDF /* Diary.swift in Sources */,
+				D3960BB2296313040098FBC7 /* DiaryError.swift in Sources */,
 				D384D892295BDA820062E040 /* NotificationName+Extension.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				B4C1C51229544CA4008A130F /* ReusableView.swift in Sources */,
