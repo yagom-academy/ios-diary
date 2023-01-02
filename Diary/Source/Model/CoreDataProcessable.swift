@@ -8,22 +8,26 @@ import CoreData
 import UIKit
 
 protocol CoreDataProcessable {
-    func saveCoreData(diary: Diary)
-    func readCoreData() -> [Entity]?
-    func updateCoreData(diary: Diary)
-    func deleteCoreData(diary: Diary)
+    func saveCoreData(diary: Diary) -> Result<Bool, CoreDataError>
+    func readCoreData() -> Result<[Entity], CoreDataError>
+    func updateCoreData(diary: Diary) -> Result<Bool, CoreDataError>
+    func deleteCoreData(diary: Diary) -> Result<Bool, CoreDataError>
 }
 
 extension CoreDataProcessable {
-    func saveCoreData(diary: Diary) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    func saveCoreData(diary: Diary) -> Result<Bool, CoreDataError> {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return .failure(.appDelegateError)
+        }
+        
         let managedContext = appDelegate.persistentContainer.viewContext
         guard let entity = NSEntityDescription.entity(
             forEntityName: NameSpace.entityName,
             in: managedContext
         ) else {
-            return
+            return .failure(.entityError)
         }
+        
         let object = NSManagedObject(entity: entity, insertInto: managedContext)
         
         object.setValue(diary.title, forKey: NameSpace.entityTitle)
@@ -34,29 +38,43 @@ extension CoreDataProcessable {
         
         do {
             try managedContext.save()
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+            return .success(true)
+        } catch {
+            return .failure(.saveError)
         }
     }
     
-    func readCoreData() -> [Entity]? {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
+    func readCoreData() -> Result<[Entity], CoreDataError> {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return .failure(.appDelegateError)
+        }
+        
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<Entity>(entityName: NameSpace.entityName)
-        let result = try? managedContext.fetch(fetchRequest)
         
-        return result
+        do {
+            let result = try managedContext.fetch(fetchRequest)
+            return .success(result)
+        } catch {
+            return .failure(.fetchError)
+        }
     }
     
-    func updateCoreData(diary: Diary) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    func updateCoreData(diary: Diary) -> Result<Bool, CoreDataError> {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return .failure(.appDelegateError)
+        }
+        
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: NameSpace.entityName)
         
         fetchRequest.predicate = NSPredicate(format: NameSpace.idFormat, diary.id.uuidString)
         
         guard let result = try? managedContext.fetch(fetchRequest),
-              let object = result.first as? NSManagedObject else { return }
+              let object = result.first as? NSManagedObject
+        else {
+            return .failure(.fetchError)
+        }
         
         object.setValue(diary.title, forKey: NameSpace.entityTitle)
         object.setValue(diary.body, forKey: NameSpace.entityBody)
@@ -65,27 +83,35 @@ extension CoreDataProcessable {
         
         do {
             try managedContext.save()
-        } catch let error as NSError {
-            print("Could not update. \(error), \(error.userInfo)")
+            return .success(true)
+        } catch {
+            return .failure(.saveError)
         }
     }
     
-    func deleteCoreData(diary: Diary) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return }
+    func deleteCoreData(diary: Diary) -> Result<Bool, CoreDataError> {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return .failure(.appDelegateError)
+        }
+        
         let managedContext = appDelegate.persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: NameSpace.entityName)
         
         fetchRequest.predicate = NSPredicate(format: NameSpace.idFormat, diary.id.uuidString)
         
         guard let result = try? managedContext.fetch(fetchRequest),
-              let objectToDelete = result.first as? NSManagedObject else { return }
+              let objectToDelete = result.first as? NSManagedObject
+        else {
+            return .failure(.fetchError)
+        }
         
         managedContext.delete(objectToDelete)
             
         do {
             try managedContext.save()
-        } catch let error as NSError {
-            print("Could not delete. \(error), \(error.userInfo)")
+            return .success(true)
+        } catch {
+            return .failure(.saveError)
         }
     }
 }

@@ -60,11 +60,11 @@ final class DiaryFormViewController: UIViewController {
         let diary = createDiary()
         
         if selectedDiary != nil {
-            updateCoreData(diary: diary)
+            update(diary: diary)
         } else {
             if !diary.totalText.isEmpty {
                 selectedDiary = diary
-                saveCoreData(diary: diary)
+                save(diary: diary)
             }
         }
     }
@@ -136,7 +136,7 @@ final class DiaryFormViewController: UIViewController {
         
         present(
             alertControllerManager.createDeleteAlert({
-                self.deleteCoreData(diary: diary)
+                self.delete(diary: diary)
                 self.navigationController?.popViewController(animated: true)
             }),
             animated: true
@@ -192,7 +192,49 @@ final class DiaryFormViewController: UIViewController {
 
 // MARK: - CoreDataProcessable
 
-extension DiaryFormViewController: CoreDataProcessable {}
+extension DiaryFormViewController: CoreDataProcessable {
+    func save(diary: Diary) {
+        let result = saveCoreData(diary: diary)
+        
+        switch result {
+        case .success(_):
+            break
+        case .failure(let error):
+            present(
+                alertControllerManager.createErrorAlert(error),
+                animated: true
+            )
+        }
+    }
+    
+    func update(diary: Diary) {
+        let result = updateCoreData(diary: diary)
+        
+        switch result {
+        case .success(_):
+            break
+        case .failure(let error):
+            present(
+                alertControllerManager.createErrorAlert(error),
+                animated: true
+            )
+        }
+    }
+    
+    func delete(diary: Diary) {
+        let result = deleteCoreData(diary: diary)
+        
+        switch result {
+        case .success(_):
+            break
+        case .failure(let error):
+            present(
+                alertControllerManager.createErrorAlert(error),
+                animated: true
+            )
+        }
+    }
+}
 
 // MARK: - NameSpace
 

@@ -48,12 +48,29 @@ struct AlertControllerManager {
         
         return alert
     }
+    
+    func createErrorAlert(_ error: Error) -> UIAlertController {
+        let alert = UIAlertController(
+            title: nil,
+            message: error.localizedDescription,
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(
+            title: NameSpace.okTitle,
+            style: .default
+        )
+        
+        alert.addAction(okAction)
+        
+        return alert
+    }
 }
 
 private enum NameSpace {
     static let shareTitle = "Share"
     static let deleteTitle = "Delete"
     static let cancelTitle = "Cancel"
+    static let okTitle = "확인"
     
     static let alertTitle = "진짜요?"
     static let alertMessage = "정말로 삭제하시겠어요?"

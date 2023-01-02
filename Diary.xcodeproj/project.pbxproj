@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		15D5CE536DBE52929D2FDCF5 /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DF9002312F598A21D2A35F51 /* Pods_Diary.framework */; };
+		B2328AC2296307C90088958D /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2328AC1296307C90088958D /* CoreDataError.swift */; };
 		B299685529514A4C0080AB59 /* MainDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B299685429514A4C0080AB59 /* MainDiaryView.swift */; };
 		B2B5A8DF295BDF0A000EA754 /* AlertControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B5A8DE295BDF0A000EA754 /* AlertControllerManager.swift */; };
 		B2B5A8E1295C1776000EA754 /* ActivityControllerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B2B5A8E0295C1776000EA754 /* ActivityControllerManager.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		1588547FEA836A6E584512D6 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
+		B2328AC1296307C90088958D /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		B299685429514A4C0080AB59 /* MainDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainDiaryView.swift; sourceTree = "<group>"; };
 		B2B5A8DE295BDF0A000EA754 /* AlertControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerManager.swift; sourceTree = "<group>"; };
 		B2B5A8E0295C1776000EA754 /* ActivityControllerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityControllerManager.swift; sourceTree = "<group>"; };
@@ -76,6 +78,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		B2328AC0296307B70088958D /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				B2328AC1296307C90088958D /* CoreDataError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		B299684E295148920080AB59 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
@@ -119,6 +129,7 @@
 		B2996852295148EC0080AB59 /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				B2328AC0296307B70088958D /* Error */,
 				B2EDA1C62951951D00617C23 /* Extension */,
 				B2996851295148B70080AB59 /* App */,
 				B2996853295149330080AB59 /* Model */,
@@ -314,6 +325,7 @@
 				B2B5A8E1295C1776000EA754 /* ActivityControllerManager.swift in Sources */,
 				D090ECC8295C269F007EABE7 /* CoreDataProcessable.swift in Sources */,
 				D06F92D229517834008FEAEA /* CustomDiaryCell.swift in Sources */,
+				B2328AC2296307C90088958D /* CoreDataError.swift in Sources */,
 				D06F92DE295A8F72008FEAEA /* Entity+CoreDataProperties.swift in Sources */,
 				B2EDA1CC2952C1DB00617C23 /* DiaryFormView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,

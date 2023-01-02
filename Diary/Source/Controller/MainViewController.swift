@@ -48,7 +48,7 @@ final class MainViewController: UIViewController {
     }
     
     private func fetchDiaryFromCoreData() {
-        if let entity = readCoreData() {
+        if let entity = fetchDiaryData() {
             diaries = convertToDiary(from: entity)
             mainDiaryView.diaryTableView.reloadData()
         }
@@ -80,7 +80,7 @@ final class MainViewController: UIViewController {
     private func showDeleteAlert(diary: Diary) {
         present(
             alertControllerManager.createDeleteAlert({
-                self.deleteCoreData(diary: diary)
+                self.delete(diary: diary)
                 self.fetchDiaryFromCoreData()
             }),
             animated: true
@@ -165,7 +165,36 @@ extension MainViewController: UITableViewDelegate {
 
 // MARK: - CoreDataProcessable
 
-extension MainViewController: CoreDataProcessable {}
+extension MainViewController: CoreDataProcessable {
+    func fetchDiaryData() -> [Entity]? {
+        let result = readCoreData()
+        
+        switch result {
+        case .success(let entity):
+            return entity
+        case .failure(let error):
+            present(
+                alertControllerManager.createErrorAlert(error),
+                animated: true
+            )
+            return nil
+        }
+    }
+    
+    func delete(diary: Diary) {
+        let result = deleteCoreData(diary: diary)
+        
+        switch result {
+        case .success(_):
+            break
+        case .failure(let error):
+            present(
+                alertControllerManager.createErrorAlert(error),
+                animated: true
+            )
+        }
+    }
+}
 
 // MARK: - NameSpace
 
