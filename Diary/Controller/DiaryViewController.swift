@@ -40,9 +40,7 @@ final class DiaryViewController: UIViewController {
     
     private func getDiaryData() {
         diaryData = coreDataManager.fetch()
-        DispatchQueue.main.async {
-            self.configureSnapshot()
-        }
+        self.configureSnapshot()
     }
     
     private func configureTableViewConstraint() {
@@ -96,7 +94,6 @@ extension DiaryViewController {
         var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryData>()
         snapShot.appendSections([.main])
         snapShot.appendItems(diaryData)
-//        snapShot.reloadSections([.main])
         dataSource?.apply(snapShot, animatingDifferences: false)
     }
 }
