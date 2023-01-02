@@ -88,7 +88,7 @@ final class DiaryCell: UITableViewCell, ReusableView {
     }
     
     func configure(with diary: Diary) {
-        let cellContents = DiaryExtractor.extract(diary: diary)
+        let cellContents = DiaryExtractor.extract(of: diary)
         titleLabel.text = cellContents.title
         bodyLabel.text = cellContents.body
         createdDateLabel.text = cellContents.createdAt

@@ -11,8 +11,10 @@ enum DiaryExtractor {
         static let defaultBody = "내용 없음"
     }
     
-    static func extract(diary: Diary) -> DiaryCellContents {
-        let contents = diary.content.components(separatedBy: .newlines)
+    static func extract(of diary: Diary) -> DiaryCellContents {
+        let contents = diary.content
+            .components(separatedBy: .newlines)
+            .filter { $0.isEmpty == false }
         let title = contents.first ?? Constant.defaultTitle
         let body = contents.count >= 2 ? contents[1] : Constant.defaultBody
         let createdAt = DateFormatter.converted(date: diary.createdAt,
