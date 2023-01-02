@@ -29,14 +29,17 @@ struct AlertControllerManager {
         let alert = UIAlertController(
             title: NameSpace.alertTitle,
             message: NameSpace.alertMessage,
-            preferredStyle: .alert)
+            preferredStyle: .alert
+        )
         let cancelAction = UIAlertAction(
             title: NameSpace.cancelKoreanTitle,
             style: .default,
-            handler: nil)
+            handler: nil
+        )
         let deleteAction = UIAlertAction(
             title: NameSpace.deleteKoreanTitle,
-            style: .destructive) { _ in
+            style: .destructive
+        ) { _ in
             deleteHandler()
         }
         

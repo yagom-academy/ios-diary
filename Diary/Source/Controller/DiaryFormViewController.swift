@@ -93,14 +93,18 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
     }
     
     private func setUpNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     private func createDiary() -> Diary {
@@ -131,26 +135,33 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
     private func showDeleteAlert() {
         guard let diary = selectedDiary else { return }
         
-        present(alertControllerManager.createDeleteAlert({
-            self.deleteCoreData(diary: diary)
-            self.navigationController?.popViewController(animated: true)
-        }), animated: true)
+        present(
+            alertControllerManager.createDeleteAlert({
+                self.deleteCoreData(diary: diary)
+                self.navigationController?.popViewController(animated: true)
+            }),
+            animated: true
+        )
     }
     
     private func showActivityController() {
         if let totalText = diaryFormView.diaryTextView.text, !totalText.isEmpty {
-            present(activityControllerManager.showActivity(textToShare: totalText),
-                    animated: true,
-                    completion: nil)
+            present(
+                activityControllerManager.showActivity(textToShare: totalText),
+                animated: true,
+                completion: nil
+            )
         }
     }
     
     // MARK: Action Methods
     
     @objc private func showActionSheet() {
-        present(alertControllerManager.createActionSheet(showActivityController, showDeleteAlert),
-                animated: true,
-                completion: nil)
+        present(
+            alertControllerManager.createActionSheet(showActivityController, showDeleteAlert),
+            animated: true,
+            completion: nil
+        )
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {

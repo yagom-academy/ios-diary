@@ -20,7 +20,8 @@ extension CoreDataProcessable {
         let managedContext = appDelegate.persistentContainer.viewContext
         guard let entity = NSEntityDescription.entity(
             forEntityName: NameSpace.entityName,
-            in: managedContext) else {
+            in: managedContext
+        ) else {
             return
         }
         let object = NSManagedObject(entity: entity, insertInto: managedContext)

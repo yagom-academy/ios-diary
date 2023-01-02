@@ -42,7 +42,7 @@ class CustomDiaryCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super .init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         accessoryType = .disclosureIndicator
         setUpStackView()
         configureLayout()
@@ -64,14 +64,22 @@ class CustomDiaryCell: UITableViewCell {
         contentView.addSubview(totalStackView)
         
         NSLayoutConstraint.activate([
-            totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                    constant: 20),
-            totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                                constant: 10),
-            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                     constant: -20),
-            totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                   constant: -10)
+            totalStackView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: 20
+            ),
+            totalStackView.topAnchor.constraint(
+                equalTo: contentView.topAnchor,
+                constant: 10
+            ),
+            totalStackView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -20
+            ),
+            totalStackView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -10
+            )
         ])
     }
     

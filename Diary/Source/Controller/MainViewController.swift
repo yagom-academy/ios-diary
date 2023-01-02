@@ -78,20 +78,25 @@ final class MainViewController: UIViewController, CoreDataProcessable {
     }
     
     private func showDeleteAlert(diary: Diary) {
-        present(alertControllerManager.createDeleteAlert({
-            self.deleteCoreData(diary: diary)
-            self.fetchDiaryFromCoreData()
-        }), animated: true)
+        present(
+            alertControllerManager.createDeleteAlert({
+                self.deleteCoreData(diary: diary)
+                self.fetchDiaryFromCoreData()
+            }),
+            animated: true
+        )
     }
     
     private func showActivityController(with text: String) {
-        present(activityControllerManager.showActivity(textToShare: text),
-                animated: true,
-                completion: nil)
+        present(
+            activityControllerManager.showActivity(textToShare: text),
+            animated: true,
+            completion: nil
+        )
     }
     
     // MARK: Action Methods
-
+    
     @objc private func addDiary() {
         navigationController?.pushViewController(DiaryFormViewController(), animated: true)
     }
@@ -137,20 +142,22 @@ extension MainViewController: UITableViewDelegate {
                    indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let share = UIContextualAction(
             style: .normal,
-            title: NameSpace.swipeShareTitle) { _, _, _ in
-                let diary = self.diaries[indexPath.row]
-                
-                self.showActivityController(with: diary.totalText)
-            }
+            title: NameSpace.swipeShareTitle
+        ) { _, _, _ in
+            let diary = self.diaries[indexPath.row]
+            
+            self.showActivityController(with: diary.totalText)
+        }
         share.backgroundColor = .systemBlue
         
         let delete = UIContextualAction(
             style: .destructive,
-            title: NameSpace.swipeDeleteTitle) { _, _, _ in
-                let diary = self.diaries[indexPath.row]
-                
-                self.showDeleteAlert(diary: diary)
-            }
+            title: NameSpace.swipeDeleteTitle
+        ) { _, _, _ in
+            let diary = self.diaries[indexPath.row]
+            
+            self.showDeleteAlert(diary: diary)
+        }
         
         return UISwipeActionsConfiguration(actions: [delete, share])
     }
