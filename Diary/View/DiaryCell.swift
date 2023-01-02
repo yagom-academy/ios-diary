@@ -27,6 +27,7 @@ final class DiaryCell: UICollectionViewListCell {
         stackView.spacing = 5
         stackView.axis = .vertical
         stackView.alignment = .leading
+        stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView

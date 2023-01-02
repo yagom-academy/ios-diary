@@ -8,16 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		32C84D4842F0D5E3BAB84D3E /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE65955D4EE889636C048E48 /* Pods_Diary.framework */; };
+		4174808C29592DDF00739399 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4174808B29592DDF00739399 /* CoreDataManager.swift */; };
 		41AF40FC29518C0200AC33CE /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41AF40FB29518C0200AC33CE /* .swiftlint.yml */; };
 		41AF40FE2952AFF100AC33CE /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AF40FD2952AFF100AC33CE /* Date+Extension.swift */; };
 		41BE025329533C9E006053FD /* RegisterDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BE025229533C9E006053FD /* RegisterDiaryViewController.swift */; };
+		41C6A0FC295BDAD600304FC2 /* CustomActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C6A0FB295BDAD600304FC2 /* CustomActivityViewController.swift */; };
 		905456EF2952CC1900AAFEB0 /* DiaryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905456EE2952CC1900AAFEB0 /* DiaryDetailView.swift */; };
 		905456F22952CCF200AAFEB0 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905456F12952CCF200AAFEB0 /* DiaryDetailViewController.swift */; };
 		90DC5C8829519711003D6684 /* DiaryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DC5C8729519711003D6684 /* DiaryListView.swift */; };
 		90DC5C8A2951A059003D6684 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DC5C892951A059003D6684 /* DiaryCell.swift */; };
 		90DC5C8C2951A6E1003D6684 /* CustomUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DC5C8B2951A6E1003D6684 /* CustomUI.swift */; };
-		90DC5C8E2951CAF8003D6684 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DC5C8D2951CAF8003D6684 /* Diary.swift */; };
-		90DC5C902951CFA1003D6684 /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DC5C8F2951CFA1003D6684 /* DecodeManager.swift */; };
+		90DC5C8E2951CAF8003D6684 /* DiaryInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DC5C8D2951CAF8003D6684 /* DiaryInfo.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryListViewController.swift */; };
@@ -28,17 +29,18 @@
 
 /* Begin PBXFileReference section */
 		1114409FF5A6310C3267558B /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
+		4174808B29592DDF00739399 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		41AF40FB29518C0200AC33CE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		41AF40FD2952AFF100AC33CE /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		41BE025229533C9E006053FD /* RegisterDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDiaryViewController.swift; sourceTree = "<group>"; };
+		41C6A0FB295BDAD600304FC2 /* CustomActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActivityViewController.swift; sourceTree = "<group>"; };
 		449857F28E91002F94820D83 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		905456EE2952CC1900AAFEB0 /* DiaryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailView.swift; sourceTree = "<group>"; };
 		905456F12952CCF200AAFEB0 /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		90DC5C8729519711003D6684 /* DiaryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListView.swift; sourceTree = "<group>"; };
 		90DC5C892951A059003D6684 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		90DC5C8B2951A6E1003D6684 /* CustomUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUI.swift; sourceTree = "<group>"; };
-		90DC5C8D2951CAF8003D6684 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
-		90DC5C8F2951CFA1003D6684 /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
+		90DC5C8D2951CAF8003D6684 /* DiaryInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryInfo.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,8 +68,9 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
-				905456F12952CCF200AAFEB0 /* DiaryDetailViewController.swift */,
 				41BE025229533C9E006053FD /* RegisterDiaryViewController.swift */,
+				905456F12952CCF200AAFEB0 /* DiaryDetailViewController.swift */,
+				41C6A0FB295BDAD600304FC2 /* CustomActivityViewController.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -75,8 +78,8 @@
 		41AF41002952DD2D00AC33CE /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				90DC5C8D2951CAF8003D6684 /* Diary.swift */,
-				90DC5C8F2951CFA1003D6684 /* DecodeManager.swift */,
+				90DC5C8D2951CAF8003D6684 /* DiaryInfo.swift */,
+				4174808B29592DDF00739399 /* CoreDataManager.swift */,
 				41AF40FD2952AFF100AC33CE /* Date+Extension.swift */,
 			);
 			path = Model;
@@ -270,9 +273,10 @@
 				90DC5C8829519711003D6684 /* DiaryListView.swift in Sources */,
 				905456EF2952CC1900AAFEB0 /* DiaryDetailView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
-				90DC5C8E2951CAF8003D6684 /* Diary.swift in Sources */,
+				90DC5C8E2951CAF8003D6684 /* DiaryInfo.swift in Sources */,
+				41C6A0FC295BDAD600304FC2 /* CustomActivityViewController.swift in Sources */,
 				41AF40FE2952AFF100AC33CE /* Date+Extension.swift in Sources */,
-				90DC5C902951CFA1003D6684 /* DecodeManager.swift in Sources */,
+				4174808C29592DDF00739399 /* CoreDataManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,7 +345,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -396,7 +400,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;

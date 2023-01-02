@@ -8,9 +8,12 @@
 import UIKit
 
 final class CustomLabel: UILabel {
-    init(font: UIFont.TextStyle = .body) {
+    init(text: String = "", textColor: UIColor = .black, font: UIFont.TextStyle = .body) {
         super.init(frame: .zero)
+        self.text = text
+        self.textColor = textColor
         self.font = .preferredFont(forTextStyle: font)
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {
@@ -24,6 +27,7 @@ final class CustomTextView: UITextView {
         self.font = .preferredFont(forTextStyle: font)
         self.isEditable = true
         self.isScrollEnabled = false
+        self.translatesAutoresizingMaskIntoConstraints = false
     }
     
     required init?(coder: NSCoder) {

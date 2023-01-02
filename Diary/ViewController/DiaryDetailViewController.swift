@@ -7,14 +7,15 @@
 
 import UIKit
 
-final class DiaryDetailViewController: UIViewController {
-    private let diaryDetailView: DiaryDetailView
-    private var diary: Diary?
+final class DiaryDetailViewController: RegisterDiaryViewController {
     
-    init(diary: Diary) {
-        self.diary = diary
-        self.diaryDetailView = DiaryDetailView()
-        super.init(nibName: nil, bundle: nil)
+    private let diaryDetailView: DiaryDetailView
+    private var diaryInfo: DiaryInfo
+    
+    override init(diaryDetailView: DiaryDetailView = DiaryDetailView(), diaryInfo: DiaryInfo) {
+        self.diaryDetailView = diaryDetailView
+        self.diaryInfo = diaryInfo
+        super.init(diaryDetailView: diaryDetailView, diaryInfo: diaryInfo)
     }
     
     required init?(coder: NSCoder) {
@@ -23,53 +24,80 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = diaryDetailView
         configureDiary()
-        setupNavigationBar()
-        setupNotification()
+        diaryDetailView.resignTitleTextViewFirstResponder()
+        diaryDetailView.resignFirstResponder()
     }
     
     private func configureDiary() {
-        guard let diary = diary else {
-            return
-        }
+        diaryDetailView.configureTitle(diaryInfo.title)
+        diaryDetailView.configureBody(diaryInfo.body)
+    }
+    
+    override func setupNavigationBar() {
+        super.setupNavigationBar()
         
-        diaryDetailView.configureTextView(title: diary.title, body: diary.body)
+        let alphaBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Constant.shareIcon),
+                                                 style: .plain,
+                                                 target: self,
+                                                 action: #selector(showActionSheet))
+        
+        self.navigationItem.rightBarButtonItem = alphaBarButtonItem
     }
 }
 
 extension DiaryDetailViewController {
     
-    private func setupNavigationBar() {
-        self.navigationItem.title = diary?.createdDate
+    @objc private func showActionSheet() {
+        let actionSheet = UIAlertController()
+        actionSheet.addAction(UIAlertAction(title: Constant.actionSheetShareTitle,
+                                            style: .default) { _ in
+            self.showActivityView()
+        })
+        actionSheet.addAction(UIAlertAction(title: Constant.actionSheetDeleteTitle,
+                                            style: .destructive) { _ in
+            self.showDeleteAlert()
+        })
+        actionSheet.addAction(UIAlertAction(title: Constant.actionSheetCancelTitle,
+                                            style: .cancel))
+        
+        self.present(actionSheet, animated: true)
     }
     
-    private func setupNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(controlKeyboard),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(controlKeyboard),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
+    private func showActivityView() {
+        let title = diaryInfo.title
+        let body = diaryInfo.body
+        let activityViewController = CustomActivityViewController(activityItems: [title, body])
+        
+        self.present(activityViewController, animated: true)
     }
     
-    @objc private func controlKeyboard(_ notification: NSNotification) {
-        guard let keyboardFrame: NSValue
-                = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-            return
-        }
+    private func showDeleteAlert() {
+        let alertController = UIAlertController(title: Constant.deleteAlertTitle,
+                                                message: Constant.deleteAlertMessage,
+                                                preferredStyle: .alert)
+        alertController.addAction(UIAlertAction(title: Constant.alertActionCancelTitle,
+                                                style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constant.alertActionOkTitle,
+                                                style: .destructive) { _ in
+            CoreDataManager.shared.delete(self.diaryInfo)
+            self.navigationController?.popViewController(animated: true)
+        })
         
-        let keyboardHeight = keyboardFrame.cgRectValue.height
-        let bottomInset = self.diaryDetailView.scrollViewBottomInset
-        let keyboardShowNotification = UIResponder.keyboardWillShowNotification
-        let keyboardHideNotification = UIResponder.keyboardWillHideNotification
-        
-        if notification.name == keyboardShowNotification && bottomInset == 0 {
-            self.diaryDetailView.changeScrollViewBottomInset(keyboardHeight)
-        } else if notification.name == keyboardHideNotification && bottomInset != 0 {
-            self.diaryDetailView.changeScrollViewBottomInset(-keyboardHeight)
-        }
+        self.present(alertController, animated: true)
+    }
+}
+
+extension DiaryDetailViewController {
+
+    private enum Constant {
+        static let actionSheetShareTitle = "Share"
+        static let actionSheetDeleteTitle = "Delete"
+        static let actionSheetCancelTitle = "Cancel"
+        static let shareIcon = "square.and.arrow.up"
+        static let deleteAlertTitle = "진짜요?"
+        static let deleteAlertMessage = "정말로 삭제하시겠어요?"
+        static let alertActionCancelTitle = "취소"
+        static let alertActionOkTitle = "삭제"
     }
 }
