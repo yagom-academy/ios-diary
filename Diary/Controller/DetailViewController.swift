@@ -36,16 +36,19 @@ final class DetailViewController: UIViewController {
         guard let diaryData = diaryData else { return }
         navigationItem.title = diaryData.createdAt?.convertDate()
         detailTextView.delegate = self
-        guard let title = diaryData.title,
-              let body = diaryData.body else {
+        guard let title = diaryData.title, !title.isEmpty,
+              let body = diaryData.body, !body.isEmpty else {
             detailTextView.text = "제목과 내용을 입력해주세요!"
             detailTextView.textColor = .gray
             return
         }
-        detailTextView.text = "\(title)\n\n\(body)"
+        detailTextView.text = "\(title)\n\n\(body)".trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private func setDiaryDataFromTextView() {
+        if detailTextView.text.contains("제목과 내용을 입력해주세요!") {
+            detailTextView.text = ""
+        }
         let result = detailTextView.text.separateTitleAndBody(titleWordsLimit: 20)
         diaryData?.body = result.body
         diaryData?.title = result.title
@@ -63,6 +66,10 @@ extension DetailViewController {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide(_ :)),
                                                name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(sceneWillDeactivate),
+                                               name: UIApplication.willResignActiveNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(sceneWillDeactivate),
@@ -89,7 +96,6 @@ extension DetailViewController {
     
     @objc
     private func keyboardWillHide(_ notification: Notification) {
-        print("keyboardHide")
         handleScrollView(notification, isAppearing: false)
         setDiaryDataFromTextView()
         coreDataManager.update()
@@ -116,21 +122,17 @@ extension DetailViewController {
 
 fileprivate extension String {
     func separateTitleAndBody(titleWordsLimit: Int) -> (title: String, body: String) {
-        guard self != "제목과 내용을 입력해주세요!" else {
-            return ("","")
-        }
-        var components = components(separatedBy: "\n\n")
+        guard self.count > 20 else { return (self, "") }
+        let data = self.trimmingCharacters(in: .whitespacesAndNewlines)
+        var components = data.components(separatedBy: "\n\n")
         if components.count > 1 {
             let title = components.removeFirst()
             let body = components.filter { $0 != ""}.joined(separator: "\n\n")
             return (title, body)
         }
-        if self.count < 20 {
-            return (self, "")
-        }
-        let limitIndex = index(startIndex, offsetBy: titleWordsLimit)
-        let title = self[startIndex..<limitIndex]
-        let body = self[limitIndex..<endIndex]
+        let limitIndex = data.index(startIndex, offsetBy: titleWordsLimit)
+        let title = self[data.startIndex..<limitIndex]
+        let body = self[limitIndex..<data.endIndex]
         return (title.description, body.description)
     }
 }
@@ -183,7 +185,7 @@ extension DetailViewController {
 extension DetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if detailTextView.text == "제목과 내용을 입력해주세요!" {
-            detailTextView.text = "\n\n"
+            detailTextView.text = ""
             detailTextView.textColor = .black
         }
     }

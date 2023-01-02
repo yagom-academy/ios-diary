@@ -10,7 +10,7 @@ import Foundation
 extension Date {
     func convertDate() -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.setLocalizedDateFormatFromTemplate("YYYYMMMMd")
+        dateFormatter.setLocalizedDateFormatFromTemplate("yyyyMMMd")
         dateFormatter.locale = Locale(identifier: "ko_KO")
         return dateFormatter.string(from: self)
     }
