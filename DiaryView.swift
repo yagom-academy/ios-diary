@@ -14,6 +14,7 @@ class DiaryView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
         textView.keyboardDismissMode = .interactive
+        textView.alwaysBounceVertical = true
         
         return textView
     }()
@@ -46,7 +47,7 @@ class DiaryView: UIView {
     }
     
     func changeTextViewContentInset(for height: CGFloat) {
-        self.textView.contentInset.bottom += height
+        self.textView.contentInset.bottom = height
     }
 }
 
