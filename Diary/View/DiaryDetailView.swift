@@ -151,8 +151,11 @@ final class DiaryDetailView: UIView {
     }
 }
 
-private enum Constant {
-    static let titlePlaceHolder = "일기 제목"
-    static let bodyPlaceHolder = "일기 내용"
-    static let empty = ""
+extension DiaryDetailView {
+    
+    private enum Constant {
+        static let titlePlaceHolder = "일기 제목"
+        static let bodyPlaceHolder = "일기 내용"
+        static let empty = ""
+    }
 }

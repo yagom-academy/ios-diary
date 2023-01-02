@@ -33,7 +33,7 @@ final class DiaryListViewController: UIViewController {
     
     private func configureDiaryListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<DiaryCell, DiaryPage> {
-            cell, indexPath, diary in
+            cell, indexPath, _ in
             cell.configureCell(title: self.diary[indexPath.item].title,
                                date: self.diary[indexPath.item].createdDate,
                                preview: self.diary[indexPath.item].body)
@@ -71,14 +71,14 @@ extension DiaryListViewController {
 extension DiaryListViewController {
     
     private func setupNavigationBar() {
-        self.navigationItem.title = "일기장"
+        self.navigationItem.title = Constant.navigationTitle
         
         let appearance = UINavigationBarAppearance()
         appearance.backgroundColor = .systemBackground
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
         
-        let addBarButtonItem = UIBarButtonItem(title: "+",
+        let addBarButtonItem = UIBarButtonItem(title: Constant.barButtonTitle,
                                                style: .plain,
                                                target: self,
                                                action: #selector(registerDiary))
@@ -88,7 +88,7 @@ extension DiaryListViewController {
     
     @objc private func registerDiary() {
         let registerDiaryViewController = RegisterDiaryViewController(
-            diary: DiaryPage(title: "", body: "", createdAt: Date()))
+            diary: DiaryPage(title: Constant.empty, body: Constant.empty, createdAt: Date()))
     
         self.navigationController?.pushViewController(registerDiaryViewController, animated: true)
     }
@@ -108,7 +108,7 @@ extension DiaryListViewController: DiaryListViewDelegate {
     
     func configureSwipeActions(indexPath: IndexPath) -> UISwipeActionsConfiguration {
         let deleteAction = UIContextualAction(style: .destructive,
-                                              title: "delete") {
+                                              title: Constant.deleteActionTitle) {
             _, _, handler in
             CoreDataManager.shared.delete(self.diary[indexPath.item])
             guard let dataSource = self.dataSource,
@@ -123,7 +123,7 @@ extension DiaryListViewController: DiaryListViewDelegate {
         }
         
         let shareAction = UIContextualAction(style: .normal,
-                                             title: "share") {
+                                             title: Constant.shareActionTitle) {
             _, _, handler in
             let title = self.diary[indexPath.item].title
             let body = self.diary[indexPath.item].body
@@ -134,8 +134,20 @@ extension DiaryListViewController: DiaryListViewDelegate {
         }
         
         shareAction.backgroundColor = .systemBlue
-        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        shareAction.image = UIImage(systemName: Constant.shareIcon)
         
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+}
+
+extension DiaryListViewController {
+    
+    private enum Constant {
+        static let navigationTitle = "일기장"
+        static let barButtonTitle = "+"
+        static let deleteActionTitle = "delete"
+        static let shareActionTitle = "share"
+        static let shareIcon = "square.and.arrow.up"
+        static let empty = ""
     }
 }

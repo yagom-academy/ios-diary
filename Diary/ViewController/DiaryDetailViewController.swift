@@ -37,7 +37,7 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
     override func setupNavigationBar() {
         super.setupNavigationBar()
         
-        let alphaBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
+        let alphaBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Constant.shareIcon),
                                                  style: .plain,
                                                  target: self,
                                                  action: #selector(showActionSheet))
@@ -50,13 +50,16 @@ extension DiaryDetailViewController {
     
     @objc private func showActionSheet() {
         let actionSheet = UIAlertController()
-        actionSheet.addAction(UIAlertAction(title: "Share", style: .default) { _ in
+        actionSheet.addAction(UIAlertAction(title: Constant.actionSheetShareTitle,
+                                            style: .default) { _ in
             self.showActivityView()
         })
-        actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive) { _ in
+        actionSheet.addAction(UIAlertAction(title: Constant.actionSheetDeleteTitle,
+                                            style: .destructive) { _ in
             self.showDeleteAlert()
         })
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        actionSheet.addAction(UIAlertAction(title: Constant.actionSheetCancelTitle,
+                                            style: .cancel))
         
         self.present(actionSheet, animated: true)
     }
@@ -70,15 +73,31 @@ extension DiaryDetailViewController {
     }
     
     private func showDeleteAlert() {
-        let alertController = UIAlertController(title: "진짜요?",
-                                                message: "정말로 삭제하시겠어요?",
+        let alertController = UIAlertController(title: Constant.deleteAlertTitle,
+                                                message: Constant.deleteAlertMessage,
                                                 preferredStyle: .alert)
-        alertController.addAction(UIAlertAction(title: "취소", style: .cancel))
-        alertController.addAction(UIAlertAction(title: "삭제", style: .destructive) { _ in
+        alertController.addAction(UIAlertAction(title: Constant.alertActionCancelTitle,
+                                                style: .cancel))
+        alertController.addAction(UIAlertAction(title: Constant.alertActionOkTitle,
+                                                style: .destructive) { _ in
             CoreDataManager.shared.delete(self.diaryPage)
             self.navigationController?.popViewController(animated: true)
         })
         
         self.present(alertController, animated: true)
+    }
+}
+
+extension DiaryDetailViewController {
+
+    private enum Constant {
+        static let actionSheetShareTitle = "Share"
+        static let actionSheetDeleteTitle = "Delete"
+        static let actionSheetCancelTitle = "Cancel"
+        static let shareIcon = "square.and.arrow.up"
+        static let deleteAlertTitle = "진짜요?"
+        static let deleteAlertMessage = "정말로 삭제하시겠어요?"
+        static let alertActionCancelTitle = "취소"
+        static let alertActionOkTitle = "삭제"
     }
 }
