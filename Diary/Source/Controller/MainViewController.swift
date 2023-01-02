@@ -7,7 +7,7 @@
 import CoreData
 import UIKit
 
-final class MainViewController: UIViewController, CoreDataProcessable {
+final class MainViewController: UIViewController {
     // MARK: Properties
     
     private let mainDiaryView = MainDiaryView()
@@ -162,6 +162,10 @@ extension MainViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [delete, share])
     }
 }
+
+// MARK: - CoreDataProcessable
+
+extension MainViewController: CoreDataProcessable {}
 
 // MARK: - NameSpace
 

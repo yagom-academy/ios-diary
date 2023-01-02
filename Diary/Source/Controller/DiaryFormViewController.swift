@@ -7,7 +7,7 @@
 import CoreData
 import UIKit
 
-final class DiaryFormViewController: UIViewController, CoreDataProcessable {
+final class DiaryFormViewController: UIViewController {
     // MARK: Properties
     
     private let diaryFormView = DiaryFormView()
@@ -189,6 +189,10 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
         selectSaveOrUpdate()
     }
 }
+
+// MARK: - CoreDataProcessable
+
+extension DiaryFormViewController: CoreDataProcessable {}
 
 // MARK: - NameSpace
 
