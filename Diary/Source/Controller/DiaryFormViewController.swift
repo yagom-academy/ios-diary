@@ -109,9 +109,8 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
     
     private func createDiary() -> Diary {
         var uuid = UUID()
-        var components = diaryFormView.diaryTextView.text.components(separatedBy: NameSpace.lineBreak)
-        var title = components.removeFirst()
-        let body = components.filter { !$0.isEmpty }.first ?? String()
+        var title = diaryFormView.diaryTitle
+        let body = diaryFormView.diaryBody
         
         if let id = selectedDiary?.id {
             uuid = id
@@ -195,6 +194,5 @@ final class DiaryFormViewController: UIViewController, CoreDataProcessable {
 
 private enum NameSpace {
     static let rightBarButtonImage = "ellipsis.circle"
-    static let lineBreak = "\n"
     static let emptyTitle = "[제목없음]"
 }

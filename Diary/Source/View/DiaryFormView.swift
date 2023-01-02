@@ -12,6 +12,18 @@ final class DiaryFormView: UIView {
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
+    var components: [String] {
+        return diaryTextView.text.components(separatedBy: NameSpace.lineBreak)
+    }
+    var diaryTitle: String {
+        return components.first ?? String()
+    }
+    var diaryBody: String {
+        var components = components
+        components.removeFirst()
+        
+        return components.filter { !$0.isEmpty }.first ?? String()
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -34,4 +46,8 @@ final class DiaryFormView: UIView {
             diaryTextView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+}
+
+private enum NameSpace {
+    static let lineBreak = "\n"
 }
