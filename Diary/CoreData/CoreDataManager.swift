@@ -47,6 +47,10 @@ class CoreDataManager {
     }
 
     private func saveContext() {
+        if !context.hasChanges {
+            return
+        }
+
         do {
             try context.save()
         } catch {
@@ -75,16 +79,15 @@ class CoreDataManager {
     // MARK: - UPDATE
     func update(diary: Diary) {
         let fetchResults = fetchDiaryEntity()
-        if fetchResults.filter({ diaryEntity in
-            diaryEntity.uuid == diary.uuid
-        }).isEmpty {
-            create(diary: diary)
-        } else {
+        if fetchResults.contains(where: { $0.uuid == diary.uuid }) {
             for result in fetchResults where result.uuid == diary.uuid {
                 result.title = diary.title
                 result.body = diary.body
             }
+        } else {
+            create(diary: diary)
         }
+
         saveContext()
     }
 
