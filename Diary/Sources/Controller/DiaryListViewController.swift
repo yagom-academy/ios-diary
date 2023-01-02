@@ -58,8 +58,7 @@ extension DiaryListViewController: UITableViewDelegate {
         _ tableView: UITableView,
         didSelectRowAt indexPath: IndexPath
     ) {
-        guard let items = diaries else { return }
-        let diary = items[indexPath.row]
+        guard let diary = dataSource?.itemIdentifier(for: indexPath) else { return }
         
         presentDiaryDetailView(diary: diary)
         tableView.deselectRow(at: indexPath, animated: true)
@@ -69,8 +68,7 @@ extension DiaryListViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        guard let dataSource = dataSource,
-              let item = dataSource.itemIdentifier(for: indexPath) else { return nil }
+        guard let item = dataSource?.itemIdentifier(for: indexPath) else { return nil }
         
         let deleteAction = configureDeleteButton(item: item)
         let shareAction = configureShareButton(item: item)
