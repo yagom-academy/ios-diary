@@ -9,15 +9,14 @@ import CoreData
 import UIKit
 
 final class EditorViewController: UIViewController {
-    lazy var textViewBottomConstraint = self.textView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+    private lazy var textViewBottomConstraint = self.textView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+    private let content: DiaryData
     
     private let textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
-    
-    private let content: DiaryData
     
     override func viewDidAppear(_ animated: Bool) {
         if content.title == nil {
@@ -27,12 +26,12 @@ final class EditorViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        let diaryText = textView.text ?? ""
+        let diaryText: String = textView.text
         
         if diaryText.isEmpty {
             DiaryDataStore.shared.delete(objectID: content.objectID)
         } else {
-            updateDiaryText(with: diaryText)
+            updateDiaryText()
         }
     }
     
@@ -56,9 +55,12 @@ final class EditorViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done,
-                                                                 target: self,
-                                                                 action: #selector(tappedDoneButton))
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis.circle"),
+            style: .plain,
+            target: self,
+            action: #selector(tappedEllipsisButton)
+        )
     }
     
     private func configureNotification() {
@@ -73,6 +75,13 @@ final class EditorViewController: UIViewController {
             self,
             selector: #selector(self.keyboardWillAppear),
             name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.updateDiaryText),
+            name: UIScene.willDeactivateNotification,
             object: nil
         )
     }
@@ -122,10 +131,65 @@ final class EditorViewController: UIViewController {
         textView.contentOffset = CGPoint(x: 0, y: -contentOffset)
     }
     
-    private func updateDiaryText(with diaryText: String) {
-        let splitedText = diaryText.split(separator: Constant.lineBreak,
-                                          maxSplits: 1,
-                                          omittingEmptySubsequences: false)
+    private func tappedShareAction(_ sender: UIAlertAction) {
+        let shareText: String = textView.text
+        
+        let activityViewController = UIActivityViewController(
+            activityItems: [shareText],
+            applicationActivities: nil
+        )
+        present(activityViewController, animated: true)
+    }
+}
+
+// MARK: - objc method
+extension EditorViewController {
+    @objc private func downPanAction(_ sender: UIPanGestureRecognizer) {
+        let velocity = sender.velocity(in: textView)
+        let location = sender.location(in: textView)
+        
+        if abs(velocity.y) > abs(velocity.x),
+            velocity.y > 0,
+            location.y >= textView.bounds.maxY {
+            textView.endEditing(true)
+        }
+    }
+    
+    @objc private func tappedEllipsisButton() {
+        let alert = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        let share = UIAlertAction(title: "Share...", style: .default, handler: tappedShareAction)
+        let delete = UIAlertAction(title: "Delete", style: .destructive)
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        [share, delete, cancel].forEach { alert.addAction($0) }
+        
+        present(alert, animated: true)
+    }
+    
+    @objc private func keyboardWillAppear(_ notification: NSNotification) {
+        if let userInfokey = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
+           let keyboardSize = (userInfokey as? NSValue)?.cgRectValue {
+            self.textViewBottomConstraint.constant = -keyboardSize.height
+            self.textView.layoutIfNeeded()
+        }
+    }
+    
+    @objc private func keyboardWillDisappear(_ notification: NSNotification) {
+        self.textViewBottomConstraint.constant = 0
+        updateDiaryText()
+        self.textView.layoutIfNeeded()
+    }
+    
+    @objc private func updateDiaryText() {
+        let splitedText = textView.text.split(
+            separator: Constant.lineBreak,
+            maxSplits: 1,
+            omittingEmptySubsequences: false
+        )
         let title = splitedText[0].description
         let body = splitedText[valid: 1]?.description
         
@@ -137,38 +201,6 @@ final class EditorViewController: UIViewController {
                 objectID: content.objectID
             )
         )
-    }
-}
-
-// MARK: - objc method
-extension EditorViewController {
-    @objc func downPanAction(_ sender: UIPanGestureRecognizer) {
-        let velocity = sender.velocity(in: textView)
-        let location = sender.location(in: textView)
-        
-        if abs(velocity.y) > abs(velocity.x), velocity.y > 0 {
-            if location.y >= textView.bounds.maxY {
-                textView.endEditing(true)
-            }
-        }
-    }
-    
-    @objc func tappedDoneButton() {
-        self.navigationController?.popViewController(animated: true)
-    }
-    
-    @objc func keyboardWillAppear(_ notification: NSNotification) {
-        if let userInfokey = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey],
-           let keyboardSize = (userInfokey as? NSValue)?.cgRectValue {
-            self.textViewBottomConstraint.constant = -keyboardSize.height
-            self.textView.layoutIfNeeded()
-        }
-    }
-    
-    @objc func keyboardWillDisappear(_ notification: NSNotification) {
-        self.textViewBottomConstraint.constant = 0
-        updateDiaryText(with: textView.text)
-        self.textView.layoutIfNeeded()
     }
 }
 
