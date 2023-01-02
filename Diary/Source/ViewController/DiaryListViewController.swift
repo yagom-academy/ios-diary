@@ -47,7 +47,7 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        loadDiary()
+        fetchDiaries()
     }
     
     private func configure() {
@@ -57,7 +57,6 @@ final class DiaryListViewController: UIViewController {
         
         setupViews()
         setupBarButtonItem()
-        setupNotification()
     }
     
     private func setupViews() {
@@ -81,15 +80,12 @@ final class DiaryListViewController: UIViewController {
         navigationItem.setRightBarButton(rightBarButton, animated: true)
     }
     
-    private func setupNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(loadDiary),
-                                               name: .didChangeDiaryCoreData,
-                                               object: nil)
-    }
-    
-    private func pushDiaryViewController(with diary: Diary) {
+    private func pushDiaryViewController(with indexPath: IndexPath) {
+        guard let diary = diaryDataSource.itemIdentifier(for: indexPath) else {
+            return
+        }
         let diaryViewController = DiaryViewController(diary: diary)
+        
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
@@ -116,47 +112,40 @@ final class DiaryListViewController: UIViewController {
         diaryDataSource.apply(currentSnapshot)
     }
     
-    @objc
-    private func tappedAddButton(_ sender: UIBarButtonItem) {
-        do {
-            try diaryManager.add(nil)
-            loadDiary()
-        } catch {
-            print("실패")
-        }
-        
-        guard let diary = diaryDataSource.itemIdentifier(for: Constant.firstDiary) else {
-            return
-        }
-        
-        pushDiaryViewController(with: diary)
-    }
-    
-    @objc
-    private func loadDiary() {
-        guard navigationController?.topViewController == self else { return }
-        var diaries: [Diary] = []
-        
-        do {
-            diaries = try diaryManager.fetchObjects()
-        } catch {
-            print("실패")
-        }
-        
+    private func apply(_ diaries: [Diary]) {
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
         
         snapshot.appendSections([.main])
         snapshot.appendItems(diaries)
         diaryDataSource.apply(snapshot)
     }
+    
+    @objc
+    private func tappedAddButton(_ sender: UIBarButtonItem) {
+        do {
+            try diaryManager.add(nil)
+            fetchDiaries()
+            pushDiaryViewController(with: Constant.firstDiary)
+        } catch {
+            print("실패")
+        }
+    }
+    
+    @objc
+    private func fetchDiaries() {
+        do {
+            let diaries = try diaryManager.fetchObjects()
+            apply(diaries)
+        } catch {
+            print("실패")
+        }
+    }
 }
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
-        
-        guard let diary = diaryDataSource.itemIdentifier(for: indexPath) else { return }
-        pushDiaryViewController(with: diary)
+        pushDiaryViewController(with: indexPath)
     }
     
     func tableView(
