@@ -55,7 +55,7 @@ class CoreDataManager {
     }
 
     // MARK: - READ
-    func read() -> [Diary] {
+    func readDiaryList() -> [Diary] {
         return fetchDiaryList()
     }
 

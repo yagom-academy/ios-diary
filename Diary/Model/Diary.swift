@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import UIKit
 
 struct DiaryResponseDTO: Decodable {
     let title: String
