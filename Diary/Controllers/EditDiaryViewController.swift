@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class EditDiaryViewController: DiaryItemViewController {
+final class EditDiaryViewController: DiaryViewController {
 
     init(diary: Diary?) {
         super.init(nibName: nil, bundle: nil)

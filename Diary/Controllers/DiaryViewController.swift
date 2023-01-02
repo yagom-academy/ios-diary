@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryItemViewController: UIViewController {
+class DiaryViewController: UIViewController {
     
     var diary: Diary?
     
@@ -92,7 +92,7 @@ class DiaryItemViewController: UIViewController {
 }
 
 // MARK: - Keyboard adjusting
-extension DiaryItemViewController {
+extension DiaryViewController {
     
     private func configureNotificationCenter() {
         NotificationCenter.default.addObserver(self, selector: #selector(self.adjustForKeyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -120,7 +120,7 @@ extension DiaryItemViewController {
 }
 
 // MARK: - CoreData
-extension DiaryItemViewController {
+extension DiaryViewController {
     
     @objc func manageCoreData() {
         if self.diary != nil {
