@@ -65,6 +65,12 @@ final class DiaryListViewController: UIViewController {
         let addDiaryViewController = AddDiaryViewController()
         self.navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
+    
+    func sliceTitleAndContent(text: String) -> (String, String) {
+        let title = text.components(separatedBy: "\n").filter { $0 != ""}.first ?? ""
+        let content = text.components(separatedBy: "\n").filter { $0 != ""}[safe: 1] ?? ""
+        return (title, content)
+    }
 }
 
 // MARK: - TableView Method
@@ -75,9 +81,14 @@ extension DiaryListViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier) as? DiaryCell else { return UITableViewCell() }
-        let diary = diaries?[indexPath.row]
-        cell.configureData(diary: diary)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier) as? DiaryCell,
+              let diary = diaries?[indexPath.row] else { return DiaryCell() }
+        
+        let (title, content) = sliceTitleAndContent(text: diary.text)
+        let date = Date(timeIntervalSince1970: diary.createdAt)
+        let dateString = DateFormatter.conversionLocalDate(date: date, locale: .current, dateStyle: .long)
+        
+        cell.configureData(title: title, content: content, dateString: dateString)
         return cell
     }
     
@@ -103,6 +114,7 @@ extension DiaryListViewController: UITableViewDelegate, UITableViewDataSource {
             success(true)
         }
         share.backgroundColor = .systemBlue
+        
         let delete = UIContextualAction(style: .normal, title: Constant.delete) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             guard let diary = self.diaries?[indexPath.row] else {
                 success(false)

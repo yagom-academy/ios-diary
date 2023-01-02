@@ -63,18 +63,10 @@ final class DiaryCell: UITableViewCell {
         fatalError("init(coder:) has not been impl")
     }
     
-    func configureData(diary: Diary?) {
-        guard let diary = diary else { return}
-        let (title, content) = diary.text.sliceTitleAndContent()
-        
+    func configureData(title: String, content: String, dateString: String) {
         self.titleLabel.text = title
         self.contentLabel.text = content
-        
-        let date = Date(timeIntervalSince1970: diary.createdAt)
-        
-        let localDate = DateFormatter.conversionLocalDate(date: date, locale: .current, dateStyle: .long)
-        
-        self.dateLabel.text = localDate
+        self.dateLabel.text = dateString
     }
     
     private func configureConstraints() {
