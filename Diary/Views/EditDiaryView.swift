@@ -9,29 +9,9 @@ import UIKit
 
 final class EditDiaryView: UIView {
     weak var delegate: KeyboardActionSavable?
-    
-    private enum Placeholder: String {
-        case textViewPlaceHolder = "Content"
-        
-        var sentence: String {
-            return self.rawValue
-        }
-    }
-    
     private var textStackViewBottomConstraints: NSLayoutConstraint?
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
-        setupConstraints()
-        contentsTextView.delegate = self
-        setupNotification()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+    private let diaryData: DiaryData?
+        
     private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .lightGray
@@ -42,14 +22,22 @@ final class EditDiaryView: UIView {
         return textView
     }()
     
-    func packageData() -> String {
-        if contentsTextView.text == Placeholder.textViewPlaceHolder.sentence {
-            return ""
-        }
-        return contentsTextView.text
+    init(diaryData: DiaryData?) {
+        self.diaryData = diaryData
+        super.init(frame: .zero)
+        setupUI()
+        bindData(diaryData)
+        setupConstraints()
+        presentKeyboard()
+        contentsTextView.delegate = self
+        setupNotification()
     }
     
-    func bindData(_ data: DiaryData?) {
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func bindData(_ data: DiaryData?) {
         guard let data = data else { return }
         contentsTextView.textColor = .black
         self.contentsTextView.text = data.contentText
@@ -62,8 +50,17 @@ final class EditDiaryView: UIView {
         )
     }
     
-    func presentKeyboard() {
-        contentsTextView.becomeFirstResponder()
+    private func presentKeyboard() {
+        if diaryData == nil {
+            contentsTextView.becomeFirstResponder()
+        }
+    }
+    
+    func packageData() -> String {
+        if contentsTextView.text == Placeholder.textViewPlaceHolder.sentence {
+            return ""
+        }
+        return contentsTextView.text
     }
 }
 
@@ -164,5 +161,16 @@ extension EditDiaryView {
     
     @objc private func hideKeyboard() {
         self.setupTextViewBottomConstraints(constant: -10)
+    }
+}
+
+// MARK: - Nested Type
+extension EditDiaryView {
+    private enum Placeholder: String {
+        case textViewPlaceHolder = "Content"
+        
+        var sentence: String {
+            return self.rawValue
+        }
     }
 }

@@ -12,7 +12,7 @@ protocol KeyboardActionSavable: AnyObject {
 }
 
 final class EditViewController: UIViewController {
-    private let editView = EditDiaryView()
+    private lazy var editView = EditDiaryView(diaryData: diaryData)
     private let coreDataManager = CoreDataManager.shared
     private let currentDate = Date()
     private var diaryData: DiaryData?
@@ -32,17 +32,9 @@ final class EditViewController: UIViewController {
         self.checkToDelete()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        if diaryData == nil {
-            editView.presentKeyboard()
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = editView
-        self.editView.bindData(diaryData)
         self.editView.delegate = self
         setNavigation()
         addNotification()

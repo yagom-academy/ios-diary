@@ -8,15 +8,6 @@
 import UIKit
 
 final class CustomListCell: UICollectionViewListCell {
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     private let titleLabel = UILabel(textStyle: .title3)
     private let dateLabel = UILabel(textStyle: .body)
     private let previewLabel = UILabel(textStyle: .caption1)
@@ -31,6 +22,15 @@ final class CustomListCell: UICollectionViewListCell {
                                                   axis: .vertical,
                                                   alignment: .leading,
                                                   distribution: .fillEqually)
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     func bindData(_ data: DiaryData) {
         guard var contents = data.contentText?.components(separatedBy: "\n") else { return }
