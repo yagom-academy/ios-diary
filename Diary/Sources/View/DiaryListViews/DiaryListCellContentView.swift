@@ -26,7 +26,7 @@ final class DiaryListCellContentView: UIView, UIContentView {
     init(configuration: DiaryContentConfiguration) {
         super.init(frame: .zero)
         configureDynamicFont()
-        setupInternalViews()
+        setupSubviews()
         apply(configuration: configuration)
     }
     
@@ -50,7 +50,7 @@ extension DiaryListCellContentView {
         let insideStackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
-        insideStackView.distribution = .fill
+        insideStackView.distribution = .equalCentering
         insideStackView.spacing = 8
         
         let totalStackView = UIStackView(arrangedSubviews: [headerLabel, insideStackView])
@@ -71,18 +71,20 @@ extension DiaryListCellContentView {
         }
     }
     
-    private func setupInternalViews() {
+    private func setupSubviews() {
         let contentStackView = defaultContentStackView()
         
         addSubview(contentStackView)
         
         layoutMargins.left += 10
         
-        contentStackView.anchor(
-            top: layoutMarginsGuide.topAnchor,
-            leading: layoutMarginsGuide.leadingAnchor,
-            bottom: layoutMarginsGuide.bottomAnchor,
-            trailing: layoutMarginsGuide.trailingAnchor
-        )
+        NSLayoutConstraint.activate([
+            contentStackView.leadingAnchor.constraint(equalTo: layoutMarginsGuide.leadingAnchor),
+            contentStackView.trailingAnchor.constraint(equalTo: layoutMarginsGuide.trailingAnchor),
+            contentStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
+            contentStackView
+                .bottomAnchor
+                .constraint(greaterThanOrEqualTo: layoutMarginsGuide.bottomAnchor)
+        ])
     }
 }

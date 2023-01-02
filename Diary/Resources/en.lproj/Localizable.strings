@@ -1,0 +1,14 @@
+// App
+"AppTitle" = "Diary";
+
+// AlertController title & message
+"DeleteTitle" = "Really";
+"DeleteMessage" = "Are you sure you want to delete it?";
+
+// ActionSheet Title
+"Share" = "Share";
+"Cancel" = "Cancel";
+"Delete" = "Delete";
+
+// PlaceHolder
+"TextFieldPlaceHolder" = "Enter Subject";

@@ -1,0 +1,14 @@
+// App
+"AppTitle" = "일기장";
+
+// AlertController title & message
+"DeleteTitle" = "정말요";
+"DeleteMessage" = "정말 삭제하실거에요?";
+
+// ActionSheet Title
+"Share" = "공유";
+"Cancel" = "취소";
+"Delete" = "삭제";
+
+// PlaceHolder
+"TextFieldPlaceHolder" = "제목을 입력해주세요.";

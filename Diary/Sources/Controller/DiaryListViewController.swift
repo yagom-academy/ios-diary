@@ -7,21 +7,24 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    enum Constant {
-        static let assetName = "sample"
-        static let navigationTitle = "일기장"
-    }
+    private var diaries: [Diary]?
+    private let coreDataManager = CoreDataManager.shared
     
     private let tableView: UITableView = UITableView(frame: .zero, style: .plain)
     private var dataSource: UITableViewDiffableDataSource<Int, Diary>?
-    private var diaries: [Diary]?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.delegate = self
         setNavigationBar()
-        fetchData()
         setTableViewAnchor()
         setUpTableViewDataSource()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        diaries = coreDataManager.fetchDiary()
         setSnapshot()
     }
 }
@@ -43,38 +46,118 @@ extension DiaryListViewController {
             
             cell.diary = item
             cell.accessoryType = .disclosureIndicator
-
+            
             return cell
         }
     }
 }
 
-// MARK: Business Logic
+// MARK: UITableView Delegate
+extension DiaryListViewController: UITableViewDelegate {
+    func tableView(
+        _ tableView: UITableView,
+        didSelectRowAt indexPath: IndexPath
+    ) {
+        guard let diary = dataSource?.itemIdentifier(for: indexPath) else { return }
+        
+        presentDiaryDetailView(diary: diary)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        guard let item = dataSource?.itemIdentifier(for: indexPath) else { return nil }
+        
+        let deleteAction = configureDeleteButton(item: item)
+        let shareAction = configureShareButton(item: item)
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+}
+
+// MARK: Swipe Action
 extension DiaryListViewController {
-    private func fetchData() {
-        guard let dataAsset = NSDataAsset(name: Constant.assetName) else {
-            return
+    private func configureDeleteButton(item: Diary) -> UIContextualAction {
+        let handler: UIContextualAction.Handler = { [weak self] _, _, handler in
+            guard let self = self else { return }
+            
+            let alert = UIAlertController(
+                title: LocalizedConstant.AlertController.deleteTitle,
+                message: LocalizedConstant.AlertController.deleteMessage,
+                diary: item,
+                deleteCompletion: { [weak self] _ in
+                    guard let self = self else { return }
+                    
+                    let result = self.deleteSnapshot(item: item)
+                    handler(result)
+                },
+                cancelCompletion: { _ in
+                    handler(false)
+                }
+            )
+            
+            self.present(alert, animated: true)
         }
         
-        diaries = try? JSONDecoder().decode([Diary].self, from: dataAsset.data)
+        let action = UIContextualAction(style: .destructive, title: nil, handler: handler)
+        action.backgroundColor = .systemRed
+        action.image = Constant.Images.deleteImage
+        
+        return action
+    }
+    
+    private func configureShareButton(item: Diary) -> UIContextualAction {
+        let handler: UIContextualAction.Handler = { _, _, handler in
+            
+            let activityView = UIActivityViewController(
+                activityItems: [item.convertShareContent()],
+                applicationActivities: nil
+            )
+            
+            self.present(activityView, animated: true)
+            
+            handler(false)
+        }
+        
+        let action = UIContextualAction(style: .normal, title: nil, handler: handler)
+        action.backgroundColor = .systemBlue
+        action.image = Constant.Images.shareImage
+        
+        return action
+    }
+}
+
+// MARK: Business Logic
+extension DiaryListViewController {
+    private func deleteSnapshot(item: Diary) -> Bool {
+        guard let dataSource = dataSource else { return false }
+        
+        var snapshot = dataSource.snapshot()
+        snapshot.deleteItems([item])
+        dataSource.apply(snapshot)
+        coreDataManager.deleteDiary(id: item.id)
+        
+        diaries = coreDataManager.fetchDiary()
+        return true
     }
     
     private func setSnapshot() {
-        guard let diaries = diaries else {
-            return
-        }
-
+        guard let diaries = diaries else { return }
+        
         var snapshot = NSDiffableDataSourceSnapshot<Int, Diary>()
         snapshot.appendSections([.zero])
         snapshot.appendItems(diaries)
-        dataSource?.apply(snapshot)
+        dataSource?.apply(snapshot, animatingDifferences: false)
     }
 }
 
 // MARK: Present Method
 extension DiaryListViewController {
-    private func didTappedAddDiaryButton() {
-        let viewController = DiaryWriteViewController()
+    private func presentDiaryDetailView(diary: Diary? = nil) {
+        let viewController = DiaryDetailViewController()
+        viewController.setDiary(with: diary)
+        
         navigationController?.pushViewController(viewController, animated: true)
     }
 }
@@ -96,10 +179,10 @@ extension DiaryListViewController {
     }
     
     private func setNavigationBar() {
-        navigationItem.setNavigationTitle(title: Constant.navigationTitle)
+        navigationItem.setNavigationTitle(title: LocalizedConstant.App.appTitle)
         
         let presentAction = UIAction { _ in
-            self.didTappedAddDiaryButton()
+            self.presentDiaryDetailView()
         }
         navigationItem.setRightButton(systemName: .add, action: presentAction)
         navigationController?.setDefaultNavigationAppearance()
