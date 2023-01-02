@@ -22,7 +22,7 @@ final class MainViewController: UIViewController {
         
         view = mainDiaryView
         configureNavigationItem()
-        setUpTableView()
+        mainDiaryView.setUpTableView(with: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -42,15 +42,10 @@ final class MainViewController: UIViewController {
         )
     }
     
-    private func setUpTableView() {
-        mainDiaryView.diaryTableView.dataSource = self
-        mainDiaryView.diaryTableView.delegate = self
-    }
-    
     private func fetchDiaryFromCoreData() {
         if let entity = fetchDiaryData() {
             diaries = convertToDiary(from: entity)
-            mainDiaryView.diaryTableView.reloadData()
+            mainDiaryView.reloadTableView()
         }
     }
     

@@ -21,7 +21,7 @@ final class DiaryFormViewController: UIViewController {
         selectedDiary = diary
         
         if let diary = diary {
-            diaryFormView.diaryTextView.text = diary.totalText
+            diaryFormView.setupTextView(with: diary.totalText)
         }
         
         super.init(nibName: nil, bundle: nil)
@@ -45,7 +45,7 @@ final class DiaryFormViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        diaryFormView.diaryTextView.becomeFirstResponder()
+        diaryFormView.assignTextViewToFirstResponder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -95,12 +95,6 @@ final class DiaryFormViewController: UIViewController {
     private func setUpNotification() {
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
             object: nil
@@ -124,7 +118,7 @@ final class DiaryFormViewController: UIViewController {
             title: title,
             body: body,
             createdAt: Int(Date().timeIntervalSince1970),
-            totalText: diaryFormView.diaryTextView.text,
+            totalText: diaryFormView.diaryTotalText,
             id: uuid
         )
 
@@ -144,7 +138,8 @@ final class DiaryFormViewController: UIViewController {
     }
     
     private func showActivityController() {
-        if let totalText = diaryFormView.diaryTextView.text, !totalText.isEmpty {
+        let totalText = diaryFormView.diaryTotalText
+        if !totalText.isEmpty {
             present(
                 activityControllerManager.showActivity(textToShare: totalText),
                 animated: true,
@@ -163,29 +158,7 @@ final class DiaryFormViewController: UIViewController {
         )
     }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        let textView = diaryFormView.diaryTextView
-        
-        if let userInfo = notification.userInfo,
-           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
-            let contentInset = UIEdgeInsets(
-                top: 0.0,
-                left: 0.0,
-                bottom: keyboardFrame.size.height,
-                right: 0.0
-            )
-            
-            textView.contentInset = contentInset
-            textView.scrollIndicatorInsets = contentInset
-        }
-    }
-    
     @objc private func keyboardWillHide(_ notification: Notification) {
-        let textView = diaryFormView.diaryTextView
-        
-        textView.contentInset = UIEdgeInsets.zero
-        textView.scrollIndicatorInsets = textView.contentInset
-        
         selectSaveOrUpdate()
     }
 }

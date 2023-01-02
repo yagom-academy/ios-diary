@@ -7,12 +7,16 @@
 import UIKit
 
 final class MainDiaryView: UIView {
-    let diaryTableView: UITableView = {
+    // MARK: Properties
+    
+    private let diaryTableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(CustomDiaryCell.self, forCellReuseIdentifier: CustomDiaryCell.identifier)
         return tableView
     }()
+    
+    // MARK: Initializer
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -23,6 +27,19 @@ final class MainDiaryView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: Internal Methods
+    
+    func reloadTableView() {
+        diaryTableView.reloadData()
+    }
+    
+    func setUpTableView(with mainViewController: MainViewController) {
+        diaryTableView.delegate = mainViewController
+        diaryTableView.dataSource = mainViewController
+    }
+    
+    // MARK: Private Methods
     
     private func configureLayout() {
         addSubview(diaryTableView)
