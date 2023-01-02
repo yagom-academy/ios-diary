@@ -16,7 +16,7 @@
 ## 🗣 소개
 [Ayaan🦖](https://github.com/oneStar92), [zhilly🔥](https://github.com/zhilly11) 이 만든 Core Data를 활용한 일기장 애플리케이션 입니다.
 
-***개발 기간 : 2022-12-19 ~ 2022-12-23***
+***개발 기간 : 2022-12-19 ~ 2022-12-30***
 
 <br>
 
@@ -50,20 +50,112 @@
     - 코드 리팩터링
     - 매직 리터럴 제거
 
+### STEP 2 - [22.12.26 ~ 22.12.30]
+- 22.12.26
+    - CoreData에 DiaryData Entity 구현
+    - DiaryManageable Protocol 구현
+    - DiaryDataManager Type 구현
+    - Diary Type 재정의
+    - DiaryCoreDataStack Type 구현
+- 22.12.27
+    - DiaryViewController 리팩토링
+    - 키보드관련 기능구현
+    - ObjectID를 활용하여 CoreData를 수정, 삭제할 수 있도록 구현
+- 22.12.28
+    - Diary 상세 화면에 더보기 버튼 기능(공유, 삭제) 구현
+    - CoreData의 데이터를 관찰하는 NotificationCenter 구현
+    - Cell의 Swipe 기능 구현
+    - Activity View 기능 구현
+    - 코드 리팩터링
+    - 매직 리터럴 제거 및 네이밍 변경 
+
 <br>
 
 ## 📊 UML
-Step2 CoreData Model 구현 후 작성 예정
+Step2 리뷰내용 반영하면 대거 수정예정됨.. 추후 작성할 예정
 
 <br>
 
 ## 💻 실행 화면
-Step2 구현 후 추가 예정
 
+### 기본 기능
+<details>
+<summary>자세히보기</summary>
+<div markdown="1">
+    
+|새로운 일기 추가|백그라운드 진입 시 자동 저장|빈 다이어리 자동 삭제|
+|:---:|:---:|:---:|
+|![](https://i.imgur.com/aPMKZuA.gif)|![](https://i.imgur.com/PkyxizR.gif)|![](https://i.imgur.com/G2GAhH2.gif)|
+
+|가로모드|
+|:---:|
+|![](https://i.imgur.com/E1iFEE9.gif)|
+
+</div>
+</details>
+
+### 상세화면
+
+<details>
+<summary>자세히보기</summary>
+<div markdown="1">
+    
+|상세화면에서 일기 삭제|상세화면에서 공유 기능|
+|:---:|:---:|
+|![](https://i.imgur.com/ZttmuOn.gif)|![](https://i.imgur.com/SeDvWzq.gif)|
+        
+</div>
+</details>
+
+### 스와이프
+
+<details>
+<summary>자세히보기</summary>
+<div markdown="1">
+    
+|스와이프를 이용하여 일기 삭제|스와이프를 이용하여 공유 기능|
+|:---:|:---:|
+|![](https://i.imgur.com/jpPwcAh.gif)|![](https://i.imgur.com/6SNlduZ.gif)|
+        
+</div>
+</details>
 
 <br>
 
 ## 🎯 트러블 슈팅 및 고민
+
+### CoreDataStack, DataManager 구현
+- CRUD를 구현하기 위해서 CoreData의 Container를 이용해야했습니다.
+- `AppDelegate`에 구현을 해두면 사용할 때마다 `AppDelegate`에서 가져오고 언래핑하고 할당해주는 번거로움이 있었습니다.
+- CoreData를 사용하기 위해 접근해야 되는 Container는 `DiaryCoreDataStack`이라는 싱글톤 객체로 만들었고 `DiaryDataManager`객체를 통해 CRUD의 역할을 수행했습니다.
+
+### 모델 분리
+- CoreData로 사용하는 모델 하나로 구현을 해야할까, 아니면 앱에서 실질적으로 사용하는 모델 타입 하나를 추가로 만들어 두개의 모델로 구현을 해야할 까 고민했습니다.
+- 한 개로 하면 CoreData 모델이 비즈니스 로직을 담당할 수는 있겠지만, CoreData 모델의 역할이 많아진다고 판단했습니다.
+- 그렇다고 `ViewController`에서 비즈니스 로직을 담당하는 것도 아키텍처 관점에서 어긋난다고 생각했습니다.
+- 따라서 실질적으로 사용하는 모델 타입을 만들어 비즈니스 로직을 처리하게 하여 이를 해결하였습니다.
+
+### ObjectID 사용
+- CoreData의 Object에서 `UUID`를 `id`로 사용하여 관리할지 제공되는 `ObjectID`를 이용할지를 고민했습니다.
+- `UUID`를 사용하면 특정 object를 얻으려면 `fetch`작업을 따로 정의해서 사용해야 하는 단점이 있었습니다.
+- `objectID`를 사용하면 context의 메서드를 이용해서 `update`, `delete`를 손쉽게 사용할 수 있기 때문에 `objectID`를 사용했습니다.
+
+### **Locale(추가 수정 예정)**
+- 지역 및 언어에 맞는 작성일자를 표현해주려고 했습니다. 하지만 `Locale.current`의 값이 지역을 변경하고 언어를 변경해도 `eu_KR`과 같이 언어 부분이 `eu`로 표현되는 문제가 발생했습니다.
+
+<details>
+<summary>이미지 보기</summary>
+<div markdown="1">
+    
+|Locale Current|Device Setting|
+|:---:|:---:|
+|![](https://i.imgur.com/KDKMb8l.png)|![](https://i.imgur.com/vW4CMqj.png)|
+    
+</div>
+</details>
+    
+- `Locale.preferredLanguages.first`를 사용하여 설정된 언어 중 첫번째 언어에 해당하는 값으로 작성일자를 표현되게 해주어 문제를 해결했습니다.
+- `Locale.current`는 현재 App의 지원되는 `Localization`에 영향을 받는 것을 알게되었습니다. 어떤 `Localization`을 사용할지 결정해서 `Locale.current`에 따라서 UI를 다르게 표현해 줄 예정입니다.
 
 ### **MainStoryboard없이 Code로 구현** 
 - 요구사항에 코드로만 UI를 작성하라는 문구가 있어서 시도해보았습니다.
@@ -96,32 +188,6 @@ navigationController.navigationBar.scrollEdgeAppearance = navigationBarAppearanc
     
 </div>
 </details>
-
-### **UITableDataSource**
-- `TableView`의 `DataSource`로 `UITableViewDiffableDataSource`를 사용했습니다. `UITableViewDiffableDataSource`의 경우 `ItemIdentifier`가 `Hashable`해야했으며 `ItemIdentifier`에 해당하는 `Diary` Type은 `Hashable`하지 못하는 문제가 발생했습니다.
-- `Diary` Type이 인스턴스화 될 때 프로퍼티로 `UUID`를 할당해 줌으로 해당 문제를 해결했습니다.
-- `Diary` Type이 `UUID`를 프로퍼티로 가지고 있는 것이 좋은 방향성인지 많은 고민을 했으나 추후 `CoreData`에서 검색등의 작업을 할때도 이러한 프로퍼티가 있으면 좋을 것 같다고 판단했습니다.
-
-### **Locale(추가 수정 예정)**
-- 지역 및 언어에 맞는 작성일자를 표현해주려고 했습니다. 하지만 `Locale.current`의 값이 지역을 변경하고 언어를 변경해도 `eu_KR`과 같이 언어 부분이 `eu`로 표현되는 문제가 발생했습니다.
-
-<details>
-<summary>이미지 보기</summary>
-<div markdown="1">
-    
-|Locale Current|Device Setting|
-|:---:|:---:|
-|![](https://i.imgur.com/KDKMb8l.png)|![](https://i.imgur.com/vW4CMqj.png)|
-    
-</div>
-</details>
-    
-- `Locale.preferredLanguages.first`를 사용하여 설정된 언어 중 첫번째 언어에 해당하는 값으로 작성일자를 표현되게 해주어 문제를 해결했습니다.
-- `Locale.current`는 현재 App의 지원되는 `Localization`에 영향을 받는 것을 알게되었습니다. 어떤 `Localization`을 사용할지 결정해서 `Locale.current`에 따라서 UI를 다르게 표현해 줄 예정입니다.
-
-### **DiaryView 재사용 고민**   
--  Diary 수정화면과 작성화면을 구현하는 과정에서 ViewController를 2개로 구현해야할까 라는 고민을 했었습니다.
-- 고민해본 결과 2개의 ViewController보다는 1개에서 처리를 해서 재사용을 하자라는 방식으로 진행했습니다.
 
 ### **Cell의 identifier**
     
