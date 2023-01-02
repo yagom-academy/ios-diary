@@ -31,10 +31,6 @@ class DiaryViewController: UIViewController {
         updateDiary()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.view.endEditing(true)
-    }
-    
     private func configureDiaryData() {
         if self.diary == nil {
             do {
