@@ -9,13 +9,13 @@ import UIKit
 
 final class DiaryDetailViewController: RegisterDiaryViewController {
     
-    private let diaryPageView: DiaryDetailView
-    private var diaryPage: DiaryPage
+    private let diaryDetailView: DiaryDetailView
+    private var diaryInfo: DiaryInfo
     
-    override init(diaryPageView: DiaryDetailView = DiaryDetailView(), diary: DiaryPage) {
-        self.diaryPageView = diaryPageView
-        self.diaryPage = diary
-        super.init(diaryPageView: diaryPageView, diary: diary)
+    override init(diaryDetailView: DiaryDetailView = DiaryDetailView(), diaryInfo: DiaryInfo) {
+        self.diaryDetailView = diaryDetailView
+        self.diaryInfo = diaryInfo
+        super.init(diaryDetailView: diaryDetailView, diaryInfo: diaryInfo)
     }
     
     required init?(coder: NSCoder) {
@@ -25,13 +25,13 @@ final class DiaryDetailViewController: RegisterDiaryViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureDiary()
-        diaryPageView.resignTitleTextViewFirstResponder()
-        diaryPageView.resignFirstResponder()
+        diaryDetailView.resignTitleTextViewFirstResponder()
+        diaryDetailView.resignFirstResponder()
     }
     
     private func configureDiary() {
-        diaryPageView.configureTitle(diaryPage.title)
-        diaryPageView.configureBody(diaryPage.body)
+        diaryDetailView.configureTitle(diaryInfo.title)
+        diaryDetailView.configureBody(diaryInfo.body)
     }
     
     override func setupNavigationBar() {
@@ -65,8 +65,8 @@ extension DiaryDetailViewController {
     }
     
     private func showActivityView() {
-        let title = diaryPage.title
-        let body = diaryPage.body
+        let title = diaryInfo.title
+        let body = diaryInfo.body
         let activityViewController = CustomActivityViewController(activityItems: [title, body])
         
         self.present(activityViewController, animated: true)
@@ -80,7 +80,7 @@ extension DiaryDetailViewController {
                                                 style: .cancel))
         alertController.addAction(UIAlertAction(title: Constant.alertActionOkTitle,
                                                 style: .destructive) { _ in
-            CoreDataManager.shared.delete(self.diaryPage)
+            CoreDataManager.shared.delete(self.diaryInfo)
             self.navigationController?.popViewController(animated: true)
         })
         

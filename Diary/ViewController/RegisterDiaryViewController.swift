@@ -9,12 +9,12 @@ import UIKit
 
 class RegisterDiaryViewController: UIViewController {
     
-    private let diaryPageView: DiaryDetailView
-    private var diaryPage: DiaryPage
+    private let diaryDetailView: DiaryDetailView
+    private var diaryInfo: DiaryInfo
 
-    init(diaryPageView: DiaryDetailView = DiaryDetailView(), diary: DiaryPage) {
-        self.diaryPageView = diaryPageView
-        self.diaryPage = diary
+    init(diaryDetailView: DiaryDetailView = DiaryDetailView(), diaryInfo: DiaryInfo) {
+        self.diaryDetailView = diaryDetailView
+        self.diaryInfo = diaryInfo
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -24,17 +24,17 @@ class RegisterDiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view = diaryPageView
-        CoreDataManager.shared.save(diaryPage)
-        diaryPageView.addTextViewsDelegate(self)
+        self.view = diaryDetailView
+        CoreDataManager.shared.save(diaryInfo)
+        diaryDetailView.addTextViewsDelegate(self)
         setupNavigationBar()
         setupNotification()
-        diaryPageView.makeTitleTextViewFirstResponder()
+        diaryDetailView.makeTitleTextViewFirstResponder()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        diaryPageView.setupPlaceHolder()
+        diaryDetailView.setupPlaceHolder()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -43,13 +43,13 @@ class RegisterDiaryViewController: UIViewController {
     }
     
     @objc private func updateDiary() {
-        diaryPage.title = diaryPageView.title
-        diaryPage.body = diaryPageView.body
-        CoreDataManager.shared.update(diaryPage)
+        diaryInfo.title = diaryDetailView.title
+        diaryInfo.body = diaryDetailView.body
+        CoreDataManager.shared.update(diaryInfo)
     }
     
     func setupNavigationBar() {
-        self.navigationItem.title = diaryPage.createdDate
+        self.navigationItem.title = diaryInfo.createdDate
     }
 }
 
@@ -78,17 +78,17 @@ extension RegisterDiaryViewController {
     
         let keyboardHeight = keyboardFrame.cgRectValue.height
         
-        self.diaryPageView.changeScrollViewBottomInset(keyboardHeight)
+        self.diaryDetailView.changeScrollViewBottomInset(keyboardHeight)
     }
 }
 
 extension RegisterDiaryViewController: UITextViewDelegate {
 
     func textViewDidChange(_ textView: UITextView) {
-        diaryPageView.removePlaceHolder()
+        diaryDetailView.removePlaceHolder()
     }
 
     func textViewDidEndEditing(_ textView: UITextView) {
-        diaryPageView.setupPlaceHolder()
+        diaryDetailView.setupPlaceHolder()
     }
 }

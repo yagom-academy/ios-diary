@@ -9,8 +9,8 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     
     private var diaryListView: DiaryListView?
-    private var dataSource: UICollectionViewDiffableDataSource<Section, DiaryPage>?
-    private var diary: [DiaryPage] = []
+    private var dataSource: UICollectionViewDiffableDataSource<Section, DiaryInfo>?
+    private var diary: [DiaryInfo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,11 +28,11 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func convertDiaryData() {
-        diary = CoreDataManager.shared.fetchDiaryPages()
+        diary = CoreDataManager.shared.fetchDiaries()
     }
     
     private func configureDiaryListDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<DiaryCell, DiaryPage> {
+        let cellRegistration = UICollectionView.CellRegistration<DiaryCell, DiaryInfo> {
             cell, indexPath, _ in
             cell.configureCell(title: self.diary[indexPath.item].title,
                                date: self.diary[indexPath.item].createdDate,
@@ -54,7 +54,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func snapShot() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryPage>()
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryInfo>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diary)
         dataSource?.apply(snapshot)
@@ -88,7 +88,7 @@ extension DiaryListViewController {
     
     @objc private func registerDiary() {
         let registerDiaryViewController = RegisterDiaryViewController(
-            diary: DiaryPage(title: Constant.empty, body: Constant.empty, createdAt: Date()))
+            diaryInfo: DiaryInfo(title: Constant.empty, body: Constant.empty, createdAt: Date()))
     
         self.navigationController?.pushViewController(registerDiaryViewController, animated: true)
     }
@@ -97,7 +97,7 @@ extension DiaryListViewController {
 extension DiaryListViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let detailViewController = DiaryDetailViewController(diary: diary[indexPath.item])
+        let detailViewController = DiaryDetailViewController(diaryInfo: diary[indexPath.item])
         
         collectionView.deselectItem(at: indexPath, animated: false)
         self.navigationController?.pushViewController(detailViewController, animated: true)

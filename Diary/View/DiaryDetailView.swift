@@ -23,6 +23,7 @@ final class DiaryDetailView: UIView {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.keyboardDismissMode = .interactive
+        scrollView.alwaysBounceVertical = true
         
         return scrollView
     }()

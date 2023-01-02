@@ -30,16 +30,16 @@ struct CoreDataManager {
     
     private init() { }
     
-    func save(_ diaryPage: DiaryPage) {
-        guard searchDiary(using: diaryPage.id).first == nil else {
+    func save(_ diaryInfo: DiaryInfo) {
+        guard searchDiary(using: diaryInfo.id).first == nil else {
             return
         }
         
         let diary = Diary(context: persistentContainer.viewContext)
-        diary.title = diaryPage.title
-        diary.body = diaryPage.body
-        diary.createdAt = diaryPage.createdAt
-        diary.id = diaryPage.id
+        diary.title = diaryInfo.title
+        diary.body = diaryInfo.body
+        diary.createdAt = diaryInfo.createdAt
+        diary.id = diaryInfo.id
         
         saveContext()
     }
@@ -57,17 +57,17 @@ struct CoreDataManager {
         return []
     }
     
-    func fetchDiaryPages() -> [DiaryPage] {
+    func fetchDiaries() -> [DiaryInfo] {
         deleteAllNoDataDiaries()
         
-        var diaryList: [DiaryPage] = []
+        var diaryList: [DiaryInfo] = []
         let request = Diary.fetchRequest()
         request.sortDescriptors = [NSSortDescriptor(key: Constant.createdAt, ascending: false)]
        
         do {
             let fetchedData = try context.fetch(request)
             fetchedData.forEach {
-                diaryList.append(DiaryPage(title: $0.title ?? Constant.empty,
+                diaryList.append(DiaryInfo(title: $0.title ?? Constant.empty,
                                            body: $0.body ?? Constant.empty,
                                            createdAt: $0.createdAt ?? Date(),
                                            id: $0.id ?? UUID() ))
@@ -79,19 +79,19 @@ struct CoreDataManager {
         return diaryList
     }
     
-    func update(_ diaryPage: DiaryPage) {
-        guard let fetchedData = searchDiary(using: diaryPage.id).first else {
+    func update(_ diaryInfo: DiaryInfo) {
+        guard let fetchedData = searchDiary(using: diaryInfo.id).first else {
             return
         }
         
-        fetchedData.title = diaryPage.title
-        fetchedData.body = diaryPage.body
+        fetchedData.title = diaryInfo.title
+        fetchedData.body = diaryInfo.body
         
         saveContext()
     }
     
-    func delete(_ diaryPage: DiaryPage) {
-        guard let diaryWillDelete = searchDiary(using: diaryPage.id).first else {
+    func delete(_ diaryInfo: DiaryInfo) {
+        guard let diaryWillDelete = searchDiary(using: diaryInfo.id).first else {
             return
         }
         
