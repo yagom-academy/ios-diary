@@ -14,7 +14,7 @@ final class DiaryViewController: UIViewController {
     private let contentTextView = DiaryTextView(font: .preferredFont(forTextStyle: .body),
                                                 textAlignment: .left,
                                                 textColor: .black)
-    private let diaryManager = DiaryManager()
+    private let diaryManager = DiaryManager.shared
     private var diary: Diary
 
     init(diary: Diary) {
@@ -49,7 +49,11 @@ final class DiaryViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         if contentTextView.hasText == false {
-            diaryManager.remove(diary)
+            do {
+                try diaryManager.remove(diary)
+            } catch {
+                print("실패")
+            }
         }
     }
     
@@ -118,7 +122,12 @@ final class DiaryViewController: UIViewController {
     }
     
     private func deleteDiary() {
-        diaryManager.remove(diary)
+        do {
+            try diaryManager.remove(diary)
+        } catch {
+            print("실패")
+        }
+        
         navigationController?.popViewController(animated: true)
     }
     
@@ -151,7 +160,12 @@ final class DiaryViewController: UIViewController {
     @objc
     private func saveDiary() {
         diary.content = contentTextView.text
-        diaryManager.update(diary)
+        
+        do {
+            try diaryManager.update(diary)
+        } catch {
+            print("실패")
+        }
     }
 }
 
