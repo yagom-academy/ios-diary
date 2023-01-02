@@ -28,10 +28,7 @@ class DiaryViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        if self.isMovingFromParent {
-            updateDiary()
-        }
+        updateDiary()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
