@@ -19,7 +19,7 @@ final class DiaryDetailViewController: UIViewController {
     )
     
     private let coreDataManager = CoreDataManager.shared
-    private var item: Diary?
+    private var diary: Diary?
     private var isNotEmpty: Bool = false {
         didSet {
             navigationItem.rightBarButtonItem?.isEnabled = isNotEmpty
@@ -64,21 +64,21 @@ extension DiaryDetailViewController {
     }
     
     private func createWithCoreData() {
-        createContents()
-        coreDataManager.createDiary(diary: item)
+        createDiary()
+        coreDataManager.createDiary(diary: diary)
         return
     }
     
     private func updateWithCoreData() {
-        updateContents()
-        coreDataManager.updateDiary(diary: item)
+        updateDiary()
+        coreDataManager.updateDiary(diary: diary)
     }
     
-    private func createContents(
+    private func createDiary(
         id: UUID = UUID(),
         timeInterval: TimeInterval = Date().timeIntervalSince1970
     ) {
-        self.item = Diary(
+        self.diary = Diary(
             id: id,
             title: titleTextField.filteredText,
             body: contentTextView.filteredText,
@@ -86,18 +86,18 @@ extension DiaryDetailViewController {
         )
     }
     
-    private func updateContents() {
-        guard let createdDate = item?.createdDate,
-              let id = item?.id else {
+    private func updateDiary() {
+        guard let createdDate = diary?.createdDate,
+              let id = diary?.id else {
             return
         }
         
         let createdInterval = createdDate.timeIntervalSince1970
         if createdInterval.isToday() {
-            createContents(id: id)
+            createDiary(id: id)
         }
         
-        createContents(id: id, timeInterval: createdInterval)
+        createDiary(id: id, timeInterval: createdInterval)
     }
     
     private func checkButtonEnable() {
@@ -110,7 +110,7 @@ extension DiaryDetailViewController {
     func updateAndCreateData() {
         guard isNotEmpty else { return }
         
-        if item == nil {
+        if diary == nil {
             createWithCoreData()
         } else {
             updateWithCoreData()
@@ -213,7 +213,7 @@ extension DiaryDetailViewController {
         
         var currentDate = Date().convertString()
         
-        if let diaryDate = item?.createdDate.convertString() {
+        if let diaryDate = diary?.createdDate.convertString() {
             currentDate = diaryDate
         }
         
@@ -237,7 +237,7 @@ extension DiaryDetailViewController {
     }
     
     private func didTapDeleteButton(_ action: UIAlertAction) {
-        guard let item = item else { return }
+        guard let item = diary else { return }
         let alert = UIAlertController(
             title: LocalizedConstant.AlertController.deleteTitle,
             message: LocalizedConstant.AlertController.deleteMessage,
@@ -252,7 +252,7 @@ extension DiaryDetailViewController {
     }
     
     private func didTapShareButton(_ action: UIAlertAction) {
-        guard let item = item else {
+        guard let item = diary else {
             return
         }
         
@@ -268,7 +268,7 @@ extension DiaryDetailViewController {
         if item == nil {
             titleTextField.becomeFirstResponder()
         } else {
-            self.item = item
+            self.diary = item
             isNotEmpty = true
             titleTextField.text = item?.title
             contentTextView.text = item?.body
