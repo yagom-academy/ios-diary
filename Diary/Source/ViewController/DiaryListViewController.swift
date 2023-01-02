@@ -103,9 +103,17 @@ final class DiaryListViewController: UIViewController {
     private func delete(_ diary: Diary) {
         do {
             try diaryManager.remove(diary)
+            deleteDiaryItem(of: diary)
         } catch {
             print("실패")
         }
+    }
+    
+    private func deleteDiaryItem(of diary: Diary) {
+        var currentSnapshot = diaryDataSource.snapshot()
+        
+        currentSnapshot.deleteItems([diary])
+        diaryDataSource.apply(currentSnapshot)
     }
     
     @objc
