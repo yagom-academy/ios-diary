@@ -28,8 +28,6 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureView()
-        self.configureDataSource()
-        self.collectionView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,28 +69,9 @@ final class DiaryListViewController: UIViewController {
         }
     }
     
-    private func fetchDiary() {
-        do {
-            let diaries: [Diary] = try CoreDataMananger.shared.fetchDiaries()
-            var diaryModels: [DiaryModel] = []
-            
-            diaries.forEach {
-                diaryModels.append(DiaryModel(id: $0.objectID,
-                                              title: $0.title ?? "",
-                                              body: $0.body ?? "",
-                                              createdAt: $0.createdAt))
-            }
-            
-            self.applySnapshot(with: diaryModels)
-        } catch {
-            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
-                                                          message: DiaryError.fetchFailed.alertMessage,
-                                                          actionTitle: "확인"),
-                         animated: true)
-        }
-    }
-    
     private func configureCollectionView() {
+        self.configureDataSource()
+        self.collectionView.delegate = self
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.collectionView)
         
@@ -118,6 +97,27 @@ final class DiaryListViewController: UIViewController {
             return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
                                                                 for: indexPath,
                                                                 item: diary)
+        }
+    }
+    
+    private func fetchDiary() {
+        do {
+            let diaries: [Diary] = try CoreDataMananger.shared.fetchDiaries()
+            var diaryModels: [DiaryModel] = []
+            
+            diaries.forEach {
+                diaryModels.append(DiaryModel(id: $0.objectID,
+                                              title: $0.title ?? "",
+                                              body: $0.body ?? "",
+                                              createdAt: $0.createdAt))
+            }
+            
+            self.applySnapshot(with: diaryModels)
+        } catch {
+            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
+                                                          message: DiaryError.fetchFailed.alertMessage,
+                                                          actionTitle: "확인"),
+                         animated: true)
         }
     }
     
