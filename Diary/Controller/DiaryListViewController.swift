@@ -27,12 +27,12 @@ final class DiaryListViewController: UIViewController {
     
     private lazy var dataSource = UICollectionViewDiffableDataSource<DiarySection, DiaryModel>(
         collectionView: self.collectionView) {
-        collectionView, indexPath, diary in
-        
-        return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration,
-                                                            for: indexPath,
-                                                            item: diary)
-    }
+            collectionView, indexPath, diary in
+            
+            return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration,
+                                                                for: indexPath,
+                                                                item: diary)
+        }
     
     private enum DiarySection: Hashable {
         case main
@@ -154,12 +154,19 @@ extension DiaryListViewController: UICollectionViewDelegate {
     
     private func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
         guard let indexPath = indexPath,
-              let diaryWillDelete = self.dataSource.itemIdentifier(for: indexPath) else {
+              let diaryOfIndexPath = self.dataSource.itemIdentifier(for: indexPath) else {
             return nil
         }
         
-        let deleteAction = UIContextualAction(style: .destructive,
-                                              title: "delete") { _, _, _ in
+        let deleteAction = makeDeleteAction(diaryOfIndexPath)
+        let shareAction = makeShareAction(diaryOfIndexPath)
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+    
+    func makeDeleteAction(_ diaryWillDelete: DiaryModel) -> UIContextualAction {
+        UIContextualAction(style: .destructive,
+                           title: "delete") { _, _, _ in
             do {
                 try CoreDataMananger.shared.deleteDiary(diaryWillDelete)
             } catch {
@@ -171,16 +178,16 @@ extension DiaryListViewController: UICollectionViewDelegate {
             
             self.fetchDiary()
         }
-        
-        let shareAction = UIContextualAction(style: .normal,
-                                             title: "share") { _, _, completion in
+    }
+    
+    func makeShareAction(_ diaryWillShare: DiaryModel) -> UIContextualAction {
+        UIContextualAction(style: .normal,
+                           title: "share") { _, _, completion in
             var objectsToShare: [String] = []
-            objectsToShare.append(diaryWillDelete.title + "\n" + diaryWillDelete.body)
+            objectsToShare.append(diaryWillShare.title + "\n" + diaryWillShare.body)
             
             self.showActivityContoller(objectsToShare)
             completion(true)
         }
-        
-        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
