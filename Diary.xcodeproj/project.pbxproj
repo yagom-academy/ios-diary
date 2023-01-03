@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		32C84D4842F0D5E3BAB84D3E /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE65955D4EE889636C048E48 /* Pods_Diary.framework */; };
+		4143E3112963FA3900744B00 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E3102963FA3900744B00 /* URLSessionProvider.swift */; };
+		4143E31529640BE400744B00 /* WeatherURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E31429640BE400744B00 /* WeatherURL.swift */; };
 		4174808C29592DDF00739399 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4174808B29592DDF00739399 /* CoreDataManager.swift */; };
 		41AF40FC29518C0200AC33CE /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41AF40FB29518C0200AC33CE /* .swiftlint.yml */; };
 		41AF40FE2952AFF100AC33CE /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AF40FD2952AFF100AC33CE /* Date+Extension.swift */; };
@@ -30,6 +32,8 @@
 
 /* Begin PBXFileReference section */
 		1114409FF5A6310C3267558B /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
+		4143E3102963FA3900744B00 /* URLSessionProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProvider.swift; sourceTree = "<group>"; };
+		4143E31429640BE400744B00 /* WeatherURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherURL.swift; sourceTree = "<group>"; };
 		4174808B29592DDF00739399 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		41AF40FB29518C0200AC33CE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		41AF40FD2952AFF100AC33CE /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
@@ -66,6 +70,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4143E313296400E100744B00 /* URLSessionModel */ = {
+			isa = PBXGroup;
+			children = (
+				4143E3102963FA3900744B00 /* URLSessionProvider.swift */,
+				4143E31429640BE400744B00 /* WeatherURL.swift */,
+			);
+			path = URLSessionModel;
+			sourceTree = "<group>";
+		};
 		41AF40FF2952DD1400AC33CE /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +93,7 @@
 		41AF41002952DD2D00AC33CE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4143E313296400E100744B00 /* URLSessionModel */,
 				41AF40FD2952AFF100AC33CE /* Date+Extension.swift */,
 				90DC5C8D2951CAF8003D6684 /* DiaryInfo.swift */,
 				4174808B29592DDF00739399 /* CoreDataManager.swift */,
@@ -267,10 +281,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
+				4143E31529640BE400744B00 /* WeatherURL.swift in Sources */,
 				905456F22952CCF200AAFEB0 /* DiaryDetailViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				41BE025329533C9E006053FD /* RegisterDiaryViewController.swift in Sources */,
+				4143E3112963FA3900744B00 /* URLSessionProvider.swift in Sources */,
 				90DC5C8C2951A6E1003D6684 /* CustomUI.swift in Sources */,
 				90DC5C8A2951A059003D6684 /* DiaryCell.swift in Sources */,
 				90DC5C8829519711003D6684 /* DiaryListView.swift in Sources */,
