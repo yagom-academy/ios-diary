@@ -11,6 +11,7 @@ final class DiaryListViewController: UIViewController {
     private var diaryListView: DiaryListView?
     private var dataSource: UICollectionViewDiffableDataSource<Section, DiaryInfo>?
     private var diary: [DiaryInfo] = []
+    private let weatherManager = WeatherManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
