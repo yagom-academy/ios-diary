@@ -34,12 +34,14 @@ struct Diary: Hashable {
     let body: String
     let createdAt: Date
     let uuid: UUID
+    let weather: Weather
 
-    init(title: String, body: String, createdAt: Date, uuid: UUID = UUID()) {
+    init(title: String, body: String, createdAt: Date, uuid: UUID = UUID(), weather: Weather = Weather()) {
         self.title = title
         self.body = body
         self.createdAt = createdAt
         self.uuid = uuid
+        self.weather = weather
     }
 }
 
@@ -48,7 +50,8 @@ extension DiaryEntity {
         let diary = Diary(title: title ?? "",
                           body: body ?? "",
                           createdAt: createdAt ?? Date(),
-                          uuid: uuid ?? UUID())
+                          uuid: uuid ?? UUID(),
+                          weather: Weather())
 
         return diary
     }
