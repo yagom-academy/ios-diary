@@ -9,6 +9,7 @@ enum DiaryError: Error {
     case fetchFailed
     case updateFailed
     case deleteFailed
+    case saveContextFailed
     
     var alertTitle: String {
         switch self {
@@ -18,6 +19,8 @@ enum DiaryError: Error {
             return "일기 업데이트 실패"
         case .deleteFailed:
             return "일기 삭제 실패"
+        case .saveContextFailed:
+            return "일기 저장 실패"
         }
     }
     
@@ -29,6 +32,8 @@ enum DiaryError: Error {
             return "데이터 업데이트가 실패했습니다."
         case .deleteFailed:
             return "데이터 삭제가 실패했습니다."
+        case .saveContextFailed:
+            return "데이터 저장이 실패했습니다."
         }
     }
 }

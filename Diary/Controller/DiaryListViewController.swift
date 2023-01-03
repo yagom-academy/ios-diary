@@ -66,18 +66,28 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func pressAddButton() {
-        CoreDataMananger.shared.insert(diary: DiaryModel())
-        
         do {
+            try CoreDataMananger.shared.insert(diary: DiaryModel())
+            
             let currentDiaryModel = try CoreDataMananger.shared.fetchLastObject()
             let editDiaryViewController = EditDiaryViewController(diaryModel: currentDiaryModel)
             
             self.navigationController?.pushViewController(editDiaryViewController, animated: true)
         } catch {
-            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
-                                                          message: DiaryError.fetchFailed.alertMessage,
-                                                          actionTitle: "확인"),
-                         animated: true)
+            switch error {
+            case DiaryError.fetchFailed:
+                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
+                                                              message: DiaryError.fetchFailed.alertMessage,
+                                                              actionTitle: "확인"),
+                             animated: true)
+            case DiaryError.saveContextFailed:
+                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
+                                                              message: DiaryError.saveContextFailed.alertMessage,
+                                                              actionTitle: "확인"),
+                             animated: true)
+            default:
+                break
+            }
         }
     }
     
@@ -175,10 +185,20 @@ extension DiaryListViewController: UICollectionViewDelegate {
                 snapshot.deleteItems([diaryWillDelete])
                 self?.dataSource.apply(snapshot)
             } catch {
-                self?.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
-                                                              message: DiaryError.deleteFailed.alertMessage,
-                                                              actionTitle: "확인"),
-                             animated: true)
+                switch error {
+                case DiaryError.deleteFailed:
+                    self?.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
+                                                                  message: DiaryError.deleteFailed.alertMessage,
+                                                                  actionTitle: "확인"),
+                                 animated: true)
+                case DiaryError.saveContextFailed:
+                    self?.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
+                                                                  message: DiaryError.saveContextFailed.alertMessage,
+                                                                  actionTitle: "확인"),
+                                 animated: true)
+                default:
+                    break
+                }
             }
         }
     }

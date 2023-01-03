@@ -31,13 +31,12 @@ final class CoreDataMananger {
         return NSEntityDescription.entity(forEntityName: "Diary", in: self.context)
     }
     
-    private func saveToContext() {
+    private func saveToContext() throws {
         if self.context.hasChanges {
             do {
                 try self.context.save()
             } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                throw DiaryError.saveContextFailed
             }
         }
     }
@@ -52,14 +51,14 @@ final class CoreDataMananger {
         }
     }
     
-    func insert(diary: DiaryModel) {
-        if let diaryEntity = self.diaryEntity {
-            let managedObject = NSManagedObject(entity: diaryEntity, insertInto: self.context)
-            managedObject.setValue(diary.title, forKey: "title")
-            managedObject.setValue(diary.body, forKey: "body")
-            managedObject.setValue(diary.createdAt, forKey: "createdAt")
-            self.saveToContext()
-        }
+    func insert(diary: DiaryModel) throws {
+        guard let diaryEntity = self.diaryEntity else { return }
+        
+        let managedObject = NSManagedObject(entity: diaryEntity, insertInto: self.context)
+        managedObject.setValue(diary.title, forKey: "title")
+        managedObject.setValue(diary.body, forKey: "body")
+        managedObject.setValue(diary.createdAt, forKey: "createdAt")
+        try self.saveToContext()
     }
     
     func update(diary: DiaryModel) throws {
@@ -73,7 +72,7 @@ final class CoreDataMananger {
             throw DiaryError.updateFailed
         }
         
-        self.saveToContext()
+        try self.saveToContext()
     }
     
     func delete(diary: DiaryModel) throws {
@@ -86,7 +85,7 @@ final class CoreDataMananger {
             throw DiaryError.deleteFailed
         }
         
-        self.saveToContext()
+        try self.saveToContext()
     }
     
     func fetchLastObject() throws -> DiaryModel {

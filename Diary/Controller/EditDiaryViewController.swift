@@ -49,15 +49,29 @@ final class EditDiaryViewController: UIViewController {
         let actionSheet: UIAlertController = UIAlertController(title: nil,
                                                                message: nil,
                                                                preferredStyle: .actionSheet)
-        let shareAction: UIAlertAction = UIAlertAction(title: "Share...",
-                                                       style: .default) { _ in
+        let shareAction: UIAlertAction = makeShareAction()
+        
+        let deleteAction: UIAlertAction = makeDeleteAction()
+        
+        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel",
+                                                        style: .cancel)
+        
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        present(actionSheet, animated: true)
+    }
+    
+    private func makeShareAction() -> UIAlertAction {
+        UIAlertAction(title: "Share...", style: .default) { _ in
             var objectsToShare: [String] = []
             objectsToShare.append(self.diaryModel.title + "\n" + self.diaryModel.body)
             self.showActivityContoller(objectsToShare)
         }
-        
-        let deleteAction: UIAlertAction = UIAlertAction(title: "Delete",
-                                                        style: .destructive) { _ in
+    }
+    
+    private func makeDeleteAction() -> UIAlertAction {
+        UIAlertAction(title: "Delete", style: .destructive) { _ in
             let alert: UIAlertController = UIAlertController(title: "진짜요?",
                                                              message: "정말로 삭제하시겠어요?",
                                                              preferredStyle: .alert)
@@ -66,10 +80,22 @@ final class EditDiaryViewController: UIViewController {
                 do {
                     try CoreDataMananger.shared.delete(diary: self.diaryModel)
                 } catch {
-                    self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
-                                                                  message: DiaryError.deleteFailed.alertMessage,
-                                                                  actionTitle: "확인"),
-                                 animated: true)
+                    switch error {
+                    case DiaryError.deleteFailed:
+                        self.present(ErrorAlert.shared.showErrorAlert(
+                            title: DiaryError.deleteFailed.alertTitle,
+                            message: DiaryError.deleteFailed.alertMessage,
+                            actionTitle: "확인"),
+                                     animated: true)
+                    case DiaryError.saveContextFailed:
+                        self.present(ErrorAlert.shared.showErrorAlert(
+                            title: DiaryError.saveContextFailed.alertTitle,
+                            message: DiaryError.saveContextFailed.alertMessage,
+                            actionTitle: "확인"),
+                                     animated: true)
+                    default:
+                        break
+                    }
                 }
                 
                 self.navigationController?.popViewController(animated: true)
@@ -79,14 +105,6 @@ final class EditDiaryViewController: UIViewController {
             alert.addAction(deleteAction)
             self.present(alert, animated: true)
         }
-        
-        let cancelAction: UIAlertAction = UIAlertAction(title: "Cancel",
-                                                        style: .cancel)
-        
-        actionSheet.addAction(shareAction)
-        actionSheet.addAction(deleteAction)
-        actionSheet.addAction(cancelAction)
-        present(actionSheet, animated: true)
     }
     
     private func setKeyboardHideObserver() {
@@ -105,10 +123,20 @@ final class EditDiaryViewController: UIViewController {
             let newDiary: DiaryModel = createDiaryModel()
             try CoreDataMananger.shared.update(diary: newDiary)
         } catch {
-            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.updateFailed.alertTitle,
-                                                          message: DiaryError.updateFailed.alertMessage,
-                                                          actionTitle: "확인"),
-                         animated: true)
+            switch error {
+            case DiaryError.updateFailed:
+                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.updateFailed.alertTitle,
+                                                              message: DiaryError.updateFailed.alertMessage,
+                                                              actionTitle: "확인"),
+                             animated: true)
+            case DiaryError.saveContextFailed:
+                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
+                                                              message: DiaryError.saveContextFailed.alertMessage,
+                                                              actionTitle: "확인"),
+                             animated: true)
+            default:
+                break
+            }
         }
     }
     
