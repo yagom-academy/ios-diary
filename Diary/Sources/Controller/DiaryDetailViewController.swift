@@ -8,9 +8,7 @@ import UIKit
 import CoreLocation
 
 final class DiaryDetailViewController: UIViewController {
-    enum Constants {
-        static let key: String = "eff332b31ce61b1c3ce23c3c9f2bd3ed"
-    }
+
     private let titleTextField = UITextField(
         font: UIFont.boldTitle1,
         placeholder: LocalizedConstant.TextField.titlePlaceholder
@@ -192,25 +190,19 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
         _ manager: CLLocationManager,
         didUpdateLocations locations: [CLLocation]
     ) {
-        // TODO: 위치 정보 가공 후 네트워킹
-        let latitude = locations.first?.coordinate.latitude
-        let longitude = locations.first?.coordinate.longitude
-        var component = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather")
-        component?.queryItems = [
-            URLQueryItem(name: "lat", value: latitude?.description),
-            URLQueryItem(name: "lon", value: longitude?.description),
-            URLQueryItem(name: "appid", value: Constants.key)
-        ]
+        guard let location = locations.first?.coordinate else { return }
         
-        guard let url = component?.url else {
-            return
-        }
+        let request = SearchWeatherAPI(location: location)
         
-        var task = URLSession.shared.dataTask(with: url) { _, response, _ in
-            guard let response = response as? HTTPURLResponse else {
+        guard let url = request.convertURL() else { return }
+        
+        let task = URLSession.shared.dataTask(with: url) { _, response, error in
+            guard let response = response as? HTTPURLResponse,
+                  (200...299) ~= response.statusCode else {
                 return
             }
             
+            // TODO: 받아온 날씨 데이터 가공하기
         }
         
         task.resume()

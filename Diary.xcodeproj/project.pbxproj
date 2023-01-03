@@ -17,6 +17,7 @@
 		18135D1D295C222D00C2269D /* LocalizedConstant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D1C295C222D00C2269D /* LocalizedConstant.swift */; };
 		18135D20295C26BF00C2269D /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D1F295C26BF00C2269D /* Constant.swift */; };
 		18135D22295C36B000C2269D /* TimeInterval+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D21295C36B000C2269D /* TimeInterval+.swift */; };
+		18247549296413EC0030F177 /* Requesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18247548296413EC0030F177 /* Requesting.swift */; };
 		185A5F382951610800AF523D /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A5F372951610800AF523D /* DiaryListCell.swift */; };
 		185A5F3A295196C000AF523D /* DiaryListCellContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A5F39295196C000AF523D /* DiaryListCellContentView.swift */; };
 		18ACF3D62951A4F6006906D5 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ACF3D52951A4F6006906D5 /* DiaryDetailViewController.swift */; };
@@ -48,6 +49,7 @@
 		18135D1C295C222D00C2269D /* LocalizedConstant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizedConstant.swift; sourceTree = "<group>"; };
 		18135D1F295C26BF00C2269D /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		18135D21295C36B000C2269D /* TimeInterval+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+.swift"; sourceTree = "<group>"; };
+		18247548296413EC0030F177 /* Requesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requesting.swift; sourceTree = "<group>"; };
 		185A5F372951610800AF523D /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
 		185A5F39295196C000AF523D /* DiaryListCellContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCellContentView.swift; sourceTree = "<group>"; };
 		1869999049069E7A29788939 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -91,6 +93,14 @@
 			path = Utility;
 			sourceTree = "<group>";
 		};
+		18247547296413DD0030F177 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				18247548296413EC0030F177 /* Requesting.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
 		18ACF3CE2951A428006906D5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -120,6 +130,7 @@
 		18ACF3D02951A444006906D5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				18247547296413DD0030F177 /* Networking */,
 				18135D1E295C26B100C2269D /* Utility */,
 				0CCBFD4E295181A10070FE99 /* Diary.swift */,
 				0C0F6302296405F2004EEAA5 /* WeatherEntity.swift */,
@@ -341,6 +352,7 @@
 				18F2A53C2951DF14008D9CCD /* Date+.swift in Sources */,
 				18D381342952E014002BB2F1 /* UIFont+.swift in Sources */,
 				0C396FD8295AB6CF00934C79 /* UIAlertAction+.swift in Sources */,
+				18247549296413EC0030F177 /* Requesting.swift in Sources */,
 				18135D20295C26BF00C2269D /* Constant.swift in Sources */,
 				18135D1D295C222D00C2269D /* LocalizedConstant.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
