@@ -9,33 +9,17 @@ import Foundation
 
 final class DiaryItemManager {
     static let shared = DiaryItemManager()
-    private var diaryItem: DiaryModel?
+    private init() { }
     
-    func saveDiaryWith(title: String, body: String) {
-        if CoreDataManager.shared.isExistingDiaryID(diaryItem?.id) == false {
-            generateDiary()
-            updateDiaryTo(title: title, body: body)
-            
-            if !validate(diaryItem: diaryItem) { return }
-            
-            CoreDataManager.shared.insertDiary(diaryItem)
-            let id = CoreDataManager.shared.fetchID(of: diaryItem)
-            diaryItem?.id = id
-        } else {
-            updateDiaryTo(title: title, body: body)
-            CoreDataManager.shared.updateDiary(diaryItem)
-        }
+    func update(diaryItem: DiaryModel?) {
+        CoreDataManager.shared.updateDiary(diaryItem)
     }
     
-    private func generateDiary() {
-        diaryItem = DiaryModel(title: Namespace.empty,
-                               body: Namespace.empty,
-                               createdAt: Date())
-    }
-    
-    private func updateDiaryTo(title: String, body: String) {
-        diaryItem?.title = title
-        diaryItem?.body = body
+    func create() -> DiaryModel {
+        let date = Date()
+        CoreDataManager.shared.insertDiary(date: date)
+        let id = CoreDataManager.shared.fetchID(date: date)
+        return DiaryModel(id: id, title: "", body: "", createdAt: date)
     }
     
     private func isValid(_ diaryItem: DiaryModel?) -> Bool {
@@ -50,15 +34,7 @@ final class DiaryItemManager {
         return body != Placeholder.body && body != Namespace.empty
     }
     
-    func fetchDiary(data: DiaryModel) {
-        diaryItem = data
-    }
-    
-    func returnDiaryItem() -> DiaryModel? {
-        return diaryItem
-    }
-    
-    func createDiaryShareForm() -> String {
+    func createDiaryShareForm(diaryItem: DiaryModel?) -> String {
         guard let diaryItem = diaryItem else { return Namespace.empty }
         
         let form: String = """
@@ -72,10 +48,5 @@ final class DiaryItemManager {
     
     func deleteDiary(data: DiaryModel?) {
         CoreDataManager.shared.deleteDiary(with: data?.id)
-        resetDiaryItem()
-    }
-    
-    func resetDiaryItem() {
-        diaryItem = nil
     }
 }

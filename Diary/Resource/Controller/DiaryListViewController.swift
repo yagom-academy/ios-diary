@@ -8,15 +8,12 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    private var diaryItemManager = DiaryItemManager.shared
     private let diaryListTableView = UITableView()
     private var diaryModels: [DiaryModel] = [] {
         didSet {
             diaryListTableView.reloadData()
         }
     }
-    
-    private lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)
     
     override func loadView() {
         view = diaryListTableView
@@ -98,8 +95,8 @@ extension DiaryListViewController: UITableViewDataSource {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryItemViewController = DiaryItemViewController()
-        diaryItemViewController.receive(data: diaryModels[indexPath.row])
+        let diaryItemViewController = DiaryItemViewController(diaryItem: diaryModels[indexPath.row])
+        diaryItemViewController.fillTextView(with: diaryModels[indexPath.row])
         navigationController?.pushViewController(diaryItemViewController, animated: true)
     }
     
@@ -107,14 +104,15 @@ extension DiaryListViewController: UITableViewDelegate {
         var actions: [UIContextualAction] = []
         
         let shareAction = UIContextualAction(style: .normal, title: Namespace.share) { _, _, _  in
-            self.diaryItemManager.fetchDiary(data: self.diaryModels[indexPath.row])
-            self.present(self.activityViewController, animated: true)
+            let diaryForm = DiaryItemManager.shared.createDiaryShareForm(diaryItem: self.diaryModels[indexPath.row])
+            let activityVC = UIActivityViewController(activityItems: [diaryForm], applicationActivities: nil)
+            self.present(activityVC, animated: true)
         }
         shareAction.backgroundColor = .blue
         
         let deleteAction = UIContextualAction(style: .destructive, title: Namespace.delete) { _, _, _  in
             let handler: (UIAlertAction) -> Void = { _ in
-                self.diaryItemManager.deleteDiary(data: self.diaryModels[indexPath.row])
+                DiaryItemManager.shared.deleteDiary(data: self.diaryModels[indexPath.row])
                 self.diaryModels = CoreDataManager.shared.fetchAllDiaryModels()
             }
             

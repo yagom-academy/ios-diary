@@ -10,6 +10,7 @@ import CoreData
 
 final class CoreDataManager {
     static let shared = CoreDataManager()
+    private init() { }
     
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: CoreDataNamespace.diary)
@@ -40,24 +41,21 @@ final class CoreDataManager {
         }
     }
     
-    func insertDiary(_ diaryModel: DiaryModel?) {
-        guard let diaryModel = diaryModel,
-              let diaryEntity = diaryEntity else { return }
+    func insertDiary(date: Date) {
+        guard let diaryEntity = diaryEntity else { return }
         
         let managedObject = NSManagedObject(entity: diaryEntity, insertInto: viewContext)
-        managedObject.setValue(diaryModel.title, forKey: CoreDataNamespace.title)
-        managedObject.setValue(diaryModel.body, forKey: CoreDataNamespace.body)
-        managedObject.setValue(diaryModel.createdAt, forKey: CoreDataNamespace.createAt)
+        managedObject.setValue(date, forKey: CoreDataNamespace.createAt)
         saveContext()
     }
     
-    func isExistingDiaryID(_ id: NSManagedObjectID?) -> Bool {
-        guard let id = id else { return false }
-        
-        guard viewContext.object(with: id) as? Diary != nil else { return false }
-        
-        return true
-    }
+//    func fetchDiary(with id: NSManagedObjectID?) -> DiaryModel? {
+//        guard let id = id else { return nil }
+//
+//        guard viewContext.object(with: id) as? Diary != nil else { return false }
+//
+//        return true
+//    }
     
     func fetchAllDiaries() -> [Diary] {
         do {
@@ -87,12 +85,10 @@ final class CoreDataManager {
         return diaryModels
     }
     
-    func fetchID(of diaryModel: DiaryModel?) -> NSManagedObjectID? {
-        guard let diaryModel = diaryModel else { return nil }
-        
+    func fetchID(date: Date) -> NSManagedObjectID? {
         let fetchRequest = Diary.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: CoreDataNamespace.regex,
-                                             argumentArray: [diaryModel.title, diaryModel.body, diaryModel.createdAt])
+                                             argumentArray: [date])
         
         let result = try? viewContext.fetch(fetchRequest)
         if result?.first?.objectID == nil {
@@ -126,7 +122,7 @@ final class CoreDataManager {
         static let body = "body"
         static let createAt = "createdAt"
         static let diary = "Diary"
-        static let regex = "title == %@ AND body == %@ AND createdAt == %@"
+        static let regex = "createdAt == %@"
     }
     
     private enum ErrorNamespace {

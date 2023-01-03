@@ -8,9 +8,8 @@
 import UIKit
 
 final class DiaryItemViewController: UIViewController {
+    private var diaryItem: DiaryModel?
     private var hasTitle: Bool = false
-    private var diaryItemManager = DiaryItemManager.shared
-    private lazy var activityViewController = UIActivityViewController(diaryItemManager: diaryItemManager)
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -48,6 +47,20 @@ final class DiaryItemViewController: UIViewController {
         }
     }
     
+    init(diaryItem: DiaryModel) {
+        self.diaryItem = diaryItem
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init() {
+        self.diaryItem = DiaryItemManager.shared.create()
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         view = UIView(frame: .zero)
         view.backgroundColor = .systemBackground
@@ -67,7 +80,6 @@ final class DiaryItemViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         save()
-        diaryItemManager.resetDiaryItem()
     }
     
     private func configureTextView() {
@@ -132,7 +144,9 @@ final class DiaryItemViewController: UIViewController {
     }
     
     @objc private func save() {
-        diaryItemManager.saveDiaryWith(title: titleTextView.text, body: bodyTextView.text)
+        diaryItem?.title = titleTextView.text
+        diaryItem?.body = bodyTextView.text
+        DiaryItemManager.shared.update(diaryItem: diaryItem)
     }
     
     @objc private func showAlert(_ notification: Notification) {
@@ -142,12 +156,7 @@ final class DiaryItemViewController: UIViewController {
         showErrorAlert(title: title)
     }
     
-    func receive(data: DiaryModel) {
-        diaryItemManager.fetchDiary(data: data)
-        fillTextView(with: data)
-    }
-    
-    private func fillTextView(with data: DiaryModel) {
+    func fillTextView(with data: DiaryModel) {
         titleTextView.text = data.title
         bodyTextView.text = data.body
         title = DateFormatterManager().formatDate(data.createdAt)
@@ -159,12 +168,13 @@ final class DiaryItemViewController: UIViewController {
                                                          preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: Namespace.share, style: .default) { _ in
-            self.present(self.activityViewController, animated: true)
+            let diaryForm = DiaryItemManager.shared.createDiaryShareForm(diaryItem: self.diaryItem)
+            let activityVC = UIActivityViewController(activityItems: [diaryForm], applicationActivities: nil)
+            self.present(activityVC, animated: true)
         })
         alert.addAction(UIAlertAction(title: Namespace.delete, style: .destructive) { _ in
-            let diaryItem = self.diaryItemManager.returnDiaryItem()
             let handler: (UIAlertAction) -> Void = { _ in
-                self.delete(diaryItem)
+                self.delete()
                 self.navigationController?.popViewController(animated: false)
             }
             
@@ -175,10 +185,10 @@ final class DiaryItemViewController: UIViewController {
         present(alert, animated: true)
     }
     
-    private func delete(_ diaryModel: DiaryModel?) {
+    private func delete() {
         self.titleTextView.text = Namespace.empty
         self.bodyTextView.text = Namespace.empty
-        self.diaryItemManager.deleteDiary(data: diaryModel)
+        DiaryItemManager.shared.deleteDiary(data: diaryItem)
     }
     
     private enum LayoutConstant {
