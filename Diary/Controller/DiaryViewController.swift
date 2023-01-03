@@ -93,36 +93,18 @@ final class DiaryViewController: UIViewController {
         bodyTextView.delegate = self
     }
 
-    private func showDeleteActionAlert() {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.navigationController?.popViewController(animated: true)
-            CoreDataManager.shared.delete(diary: self.diary)
-        }
-
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-
-        present(alert, animated: true)
-    }
-
-    private func showActivityViewController() {
-        let textToShare: String = "\(diary.title)\n\(diary.body)"
-        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
-
-        self.present(activityViewController, animated: true, completion: nil)
-    }
-
     private func makeEllipsisMenu() -> UIMenu {
+        let diary = diary
         let shareAction = UIAction(title: "공유",
                                    image: UIImage(systemName: "square.and.arrow.up")) { [weak self] _ in
-            self?.showActivityViewController()
+            self?.showActivityViewController(diary: diary)
         }
         let deleteAction = UIAction(title: "삭제",
                                     image: UIImage(systemName: "trash"),
                                     attributes: .destructive) { [weak self] _ in
-            self?.showDeleteActionAlert()
+            self?.showDeleteActionAlert(diary: diary) {
+                self?.navigationController?.popViewController(animated: true)
+            }
         }
         let cancelAction = UIAction(title: "취소",
                                     image: UIImage(systemName: "xmark")) { _ in }
@@ -188,3 +170,5 @@ extension DiaryViewController: UITextViewDelegate {
         updateCoreDataIfNeeded()
     }
 }
+
+extension DiaryViewController: DiaryPresentable {}

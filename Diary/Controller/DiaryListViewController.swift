@@ -126,7 +126,9 @@ extension DiaryListViewController: UITableViewDelegate {
         shareAction.image = UIImage(systemName: "square.and.arrow.up")
 
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, success) in
-            self.showDeleteActionAlert(diary: self.diaryList[indexPath.row])
+            self.showDeleteActionAlert(diary: self.diaryList[indexPath.row]) {
+                self.configureSnapshot()
+            }
             success(true)
         }
         deleteAction.image = UIImage(systemName: "trash")
@@ -136,25 +138,6 @@ extension DiaryListViewController: UITableViewDelegate {
 
         return swipeActionConfiguration
     }
-
-    private func showDeleteActionAlert(diary: Diary) {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            CoreDataManager.shared.delete(diary: diary)
-            self.configureSnapshot()
-        }
-
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-
-        present(alert, animated: true)
-    }
-
-    private func showActivityViewController(diary: Diary) {
-        let textToShare: String = "\(diary.title)\n\(diary.body)"
-        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
-
-        self.present(activityViewController, animated: true, completion: nil)
-    }
 }
+
+extension DiaryListViewController: DiaryPresentable {}
