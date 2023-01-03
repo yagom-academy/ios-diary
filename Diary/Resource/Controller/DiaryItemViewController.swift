@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryItemViewController: UIViewController {
     private var diaryItem: DiaryModel?
-    private var hasTitle: Bool = false
+    private let textViewManager = TextViewManager()
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -84,17 +84,14 @@ final class DiaryItemViewController: UIViewController {
     private func configureTextView() {
         titleTextView.delegate = self
         bodyTextView.delegate = self
-        setPlaceholder(for: titleTextView)
-        setPlaceholder(for: bodyTextView)
+        setPlaceholder()
     }
     
-    private func setPlaceholder(for textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.textColor = .systemGray3
-            textView.text = (textView == titleTextView) ? Placeholder.title : Placeholder.body
-        } else {
-            titleTextView.resignFirstResponder()
-        }
+    private func setPlaceholder() {
+        textViewManager.setPlaceholder(textView: titleTextView,
+                                       text: Placeholder.title)
+        textViewManager.setPlaceholder(textView: bodyTextView,
+                                       text: Placeholder.body)
     }
     
     private func configureNavigationBar() {
@@ -228,7 +225,9 @@ extension DiaryItemViewController {
 
 extension DiaryItemViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == .systemGray3 {
+        let isPlaceholder: Bool = textView.textColor == .systemGray3
+        
+        if isPlaceholder {
             textView.text = nil
             textView.textColor = .black
         }
@@ -239,22 +238,12 @@ extension DiaryItemViewController: UITextViewDelegate {
         
         let titleTextViewHeight = textView.contentSize.height
         
-        if titleTextViewHeight > LayoutConstant.titleTextViewMaxHeight {
-            isOversized = true
-        } else {
-            isOversized = false
-        }
-        
-        if !hasTitle,
-           titleTextView.text.firstIndex(of: "\n") != nil {
-            hasTitle = true
-            titleTextView.text = titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
-            titleTextView.resignFirstResponder()
-            bodyTextView.becomeFirstResponder()
-        }
+        isOversized = textViewManager.isOversized(height: titleTextViewHeight,
+                                                        maxHeight: LayoutConstant.titleTextViewMaxHeight)
+        textViewManager.enter(from: titleTextView, to: bodyTextView)
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        setPlaceholder(for: textView)
+        setPlaceholder()
     }
 }
