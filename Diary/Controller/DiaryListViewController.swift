@@ -166,15 +166,16 @@ extension DiaryListViewController: UICollectionViewDelegate {
     
     func makeDeleteAction(_ diaryWillDelete: DiaryModel) -> UIContextualAction {
         UIContextualAction(style: .destructive,
-                           title: "delete") { _, _, _ in
+                           title: "delete") { [weak self] _, _, _ in
             do {
                 try CoreDataMananger.shared.deleteDiary(diaryWillDelete)
                 
-                var snapshot = self.dataSource.snapshot()
+                guard var snapshot = self?.dataSource.snapshot() else { return }
+                
                 snapshot.deleteItems([diaryWillDelete])
-                self.dataSource.apply(snapshot)
+                self?.dataSource.apply(snapshot)
             } catch {
-                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
+                self?.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
                                                               message: DiaryError.deleteFailed.alertMessage,
                                                               actionTitle: "확인"),
                              animated: true)
@@ -184,11 +185,11 @@ extension DiaryListViewController: UICollectionViewDelegate {
     
     func makeShareAction(_ diaryWillShare: DiaryModel) -> UIContextualAction {
         UIContextualAction(style: .normal,
-                           title: "share") { _, _, completion in
+                           title: "share") { [weak self] _, _, completion in
             var objectsToShare: [String] = []
             objectsToShare.append(diaryWillShare.title + "\n" + diaryWillShare.body)
             
-            self.showActivityContoller(objectsToShare)
+            self?.showActivityContoller(objectsToShare)
             completion(true)
         }
     }
