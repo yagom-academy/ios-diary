@@ -6,16 +6,21 @@
 //
 
 import UIKit
+import CoreLocation
 
 protocol KeyboardActionSavable: AnyObject {
     func saveWhenHideKeyboard()
 }
 
 final class EditViewController: UIViewController {
-    private lazy var editView = EditDiaryView(diaryData: diaryData)
+    private let networkManager = NetworkManager.shared
     private let coreDataManager = CoreDataManager.shared
     private let currentDate = Date()
+    
+    private var locationManager: CLLocationManager?
     private var diaryData: DiaryData?
+    private lazy var editView = EditDiaryView(diaryData: diaryData)
+    
     
     init(diaryData: DiaryData?) {
         super.init(nibName: nil, bundle: nil)
@@ -35,6 +40,7 @@ final class EditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view = editView
+        setupCoreLocationManager()
         self.editView.delegate = self
         setNavigation()
         addNotification()
@@ -159,5 +165,46 @@ extension EditViewController {
 extension EditViewController: KeyboardActionSavable {
     func saveWhenHideKeyboard() {
         self.checkToSave()
+    }
+}
+
+// MARK: - Core Location
+extension EditViewController: CLLocationManagerDelegate {
+    private func setupCoreLocationManager() {
+        if diaryData == nil {
+            locationManager = CLLocationManager()
+            locationManager?.delegate = self
+            
+            locationManager?.requestWhenInUseAuthorization()
+            locationManager?.desiredAccuracy = kCLLocationAccuracyBest
+            locationManager?.startUpdatingLocation()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let coordinate = locations.last?.coordinate {
+            let url = NetworkRequest.fetchData(lat: String(coordinate.latitude),
+                                     lon: String(coordinate.longitude)).generateURL()
+            saveWeatherData(url: url)
+            
+        }
+        
+        locationManager?.stopUpdatingLocation()
+    }
+}
+
+// MARK: - Network
+extension EditViewController {
+    private func saveWeatherData(url: URL?) {
+        guard let url = url else { return }
+        networkManager.fetchData(url: url) { result in
+            switch result {
+            case .success(let data):
+                // 코어 데이터에 저장
+                print(data)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
