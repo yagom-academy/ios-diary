@@ -83,11 +83,7 @@ final class CoreDataManager {
                                              argumentArray: [date])
         
         let result = try? viewContext.fetch(fetchRequest)
-        if result?.first?.objectID == nil {
-            return nil
-        } else {
-            return result?.first?.objectID
-        }
+    return result?.first?.objectID
     }
     
     func update(_ diaryModel: DiaryModel?) {
