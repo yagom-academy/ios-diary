@@ -38,7 +38,6 @@ final class DiaryDetailViewController: UIViewController {
         setNavigationBar()
         configureLayout()
         bindKeyboardObserver()
-        locationManager.requestWhenInUseAuthorization()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -174,7 +173,10 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
             break
         case .restricted, .notDetermined:
             manager.requestWhenInUseAuthorization()
-        default:
+        case .denied:
+            manager.stopUpdatingLocation()
+            presentAccessPermissionAlert()
+        @unknown default:
             return
         }
     }
@@ -251,6 +253,20 @@ extension DiaryDetailViewController {
         }
         
         self.present(alert, animated: true)
+    }
+    
+    private func presentAccessPermissionAlert() {
+        let alert = UIAlertController(
+            title: "위치 정보를 승인하지 않으셨습니다.",
+            message: "위치 정보 승인을 위해서 설정 앱에서 변경할 수 있습니다.",
+            preferredStyle: .alert
+        )
+        
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        
+        alert.addAction(okAction)
+        
+        present(alert, animated: true)
     }
     
     private func didTapDeleteButton(_ action: UIAlertAction) {
