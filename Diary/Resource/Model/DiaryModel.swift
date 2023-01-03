@@ -9,8 +9,8 @@ import Foundation
 import CoreData
 
 struct DiaryModel {
-    var id: NSManagedObjectID?
+    let id: UUID
     var title: String
     var body: String
-    var createdAt: Date
+    let createdAt: Date
 }

@@ -33,12 +33,19 @@ final class CoreDataManager {
         }
     }
     
-    func insert(date: Date) throws {
+    func insert(with id: UUID) throws {
         guard let diaryEntity = diaryEntity else { return }
         
         let managedObject = NSManagedObject(entity: diaryEntity, insertInto: persistentContainer.viewContext)
-        managedObject.setValue(date, forKey: CoreDataNamespace.createAt)
+        managedObject.setValue(id, forKey: CoreDataNamespace.id)
         try saveContext()
+        
+    }
+    
+    func fetch(with id: NSManagedObjectID?) -> Diary? {
+        guard let id = id else { return nil }
+        
+        return persistentContainer.viewContext.object(with: id) as? Diary
     }
     
     func fetchAllEntities() throws -> [Diary] {
@@ -46,23 +53,22 @@ final class CoreDataManager {
         return try persistentContainer.viewContext.fetch(request)
     }
     
-    func fetchID(date: Date) -> NSManagedObjectID? {
+    func fetchObjectID(with id: UUID) -> NSManagedObjectID? {
         let fetchRequest = Diary.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: CoreDataNamespace.regex,
-                                             argumentArray: [date])
+                                             argumentArray: [id])
         
         let result = try? persistentContainer.viewContext.fetch(fetchRequest)
         return result?.first?.objectID
     }
     
-    func update(_ diaryItem: DiaryModel?) throws {
-        guard let diaryItem = diaryItem,
-              let id = diaryItem.id else { return }
+    func update(objectID: NSManagedObjectID?, title: String?, body: String?) throws {
+        guard let objectID = objectID else { return }
         
-        guard let object = persistentContainer.viewContext.object(with: id) as? Diary else { return }
+        guard let object = persistentContainer.viewContext.object(with: objectID) as? Diary else { return }
         
-        object.setValue(diaryItem.title, forKey: CoreDataNamespace.title)
-        object.setValue(diaryItem.body, forKey: CoreDataNamespace.body)
+        object.setValue(title, forKey: CoreDataNamespace.title)
+        object.setValue(body, forKey: CoreDataNamespace.body)
         try saveContext()
     }
     
@@ -75,11 +81,12 @@ final class CoreDataManager {
     }
     
     private enum CoreDataNamespace {
+        static let id = "id"
         static let title = "title"
         static let body = "body"
         static let createAt = "createdAt"
         static let diary = "Diary"
-        static let regex = "createdAt == %@"
+        static let regex = "id == %@"
     }
     
     private enum ErrorNamespace {

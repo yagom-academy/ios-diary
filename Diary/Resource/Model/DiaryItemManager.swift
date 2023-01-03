@@ -6,41 +6,37 @@
 //
 
 import Foundation
+import CoreData
 
 final class DiaryItemManager {
-    static let shared = DiaryItemManager()
-    private init() { }
+    private var objectID: NSManagedObjectID?
     
     func create() throws -> DiaryModel {
-        let date = Date()
-        try CoreDataManager.shared.insert(date: date)
-        let id = CoreDataManager.shared.fetchID(date: date)
-        return DiaryModel(id: id, title: Namespace.empty, body: Namespace.empty, createdAt: date)
+        let id = UUID()
+        try CoreDataManager.shared.insert(with: id)
+        objectID = CoreDataManager.shared.fetchObjectID(with: id)
+        return DiaryModel(id: id, title: Namespace.empty, body: Namespace.empty, createdAt: Date())
     }
     
-    func update(diaryItem: DiaryModel?) throws {
-        if isValid(diaryItem) == false { return }
-        try CoreDataManager.shared.update(diaryItem)
+    func update(title: String?, body: String?) throws {
+        if isTitleValid(title) || isBodyValid(body) { return }
+        try CoreDataManager.shared.update(objectID: objectID, title: title, body: body)
     }
     
-    func validate(diaryItem: DiaryModel?) {
-        if isValid(diaryItem) == false {
+    func validate(title: String?, body: String?) {
+        if isTitleValid(title) && isBodyValid(body) == false {
             do {
-                try deleteDiary(data: diaryItem)
+                try deleteDiary()
             } catch {
                 return
             }
             return
         }
         do {
-            try CoreDataManager.shared.update(diaryItem)
+            try CoreDataManager.shared.update(objectID: objectID, title: title, body: body)
         } catch {
             return
         }
-    }
-    
-    private func isValid(_ diaryItem: DiaryModel?) -> Bool {
-        return isTitleValid(diaryItem?.title) || isBodyValid(diaryItem?.body)
     }
     
     private func isTitleValid(_ title: String?) -> Bool {
@@ -51,13 +47,13 @@ final class DiaryItemManager {
         return body != Placeholder.body && body != Namespace.empty
     }
     
-    func createDiaryShareForm(diaryItem: DiaryModel?) -> String {
-        guard let diaryItem = diaryItem else { return Namespace.empty }
+    func createDiaryShareForm() -> String {
+        let entity = CoreDataManager.shared.fetch(with: objectID)
         
         let form: String = """
-            title: \(diaryItem.title)
-            body: \(diaryItem.body)
-            created at: \(diaryItem.createdAt)
+            title: \(entity?.title ?? Namespace.empty)
+            body: \(entity?.body ?? Namespace.empty)
+            created at: \(entity?.createdAt ?? Date())
             """
 
         return form
@@ -68,7 +64,7 @@ final class DiaryItemManager {
         let fetchedResults = try CoreDataManager.shared.fetchAllEntities()
         
         for result in fetchedResults {
-            let diary = DiaryModel(id: result.objectID,
+            let diary = DiaryModel(id: result.id ?? UUID(),
                                    title: result.title ?? Namespace.empty,
                                    body: result.body ?? Namespace.empty,
                                    createdAt: result.createdAt ?? Date())
@@ -78,7 +74,7 @@ final class DiaryItemManager {
         return diaryItems
     }
     
-    func deleteDiary(data: DiaryModel?) throws {
-        try CoreDataManager.shared.delete(with: data?.id)
+    func deleteDiary() throws {
+        try CoreDataManager.shared.delete(with: objectID)
     }
 }

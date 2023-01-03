@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryItemViewController: UIViewController {
-    private var diaryItem: DiaryModel?
+    private var diaryItemManager = DiaryItemManager()
     private let textViewManager = TextViewManager()
     
     private let mainStackView: UIStackView = {
@@ -47,15 +47,6 @@ final class DiaryItemViewController: UIViewController {
         }
     }
     
-    init(diaryItem: DiaryModel) {
-        self.diaryItem = diaryItem
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func loadView() {
         view = UIView(frame: .zero)
         view.backgroundColor = .systemBackground
@@ -68,7 +59,7 @@ final class DiaryItemViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        DiaryItemManager.shared.validate(diaryItem: diaryItem)
+        diaryItemManager.validate(title: titleTextView.text, body: bodyTextView.text)
     }
     
     private func configureUI() {
@@ -140,10 +131,10 @@ final class DiaryItemViewController: UIViewController {
     }
     
     @objc private func save() {
-        diaryItem?.title = titleTextView.text
-        diaryItem?.body = bodyTextView.text
+        let title = titleTextView.text
+        let body = bodyTextView.text
         do {
-            try DiaryItemManager.shared.update(diaryItem: diaryItem)
+            try diaryItemManager.update(title: title, body: body)
         } catch {
             showErrorAlert(title: "저장 실패")
         }
@@ -168,7 +159,7 @@ final class DiaryItemViewController: UIViewController {
                                                          preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: Namespace.share, style: .default) { _ in
-            let diaryForm = DiaryItemManager.shared.createDiaryShareForm(diaryItem: self.diaryItem)
+            let diaryForm = self.diaryItemManager.createDiaryShareForm()
             let activityVC = UIActivityViewController(activityItems: [diaryForm], applicationActivities: nil)
             self.present(activityVC, animated: true)
         })
@@ -189,7 +180,7 @@ final class DiaryItemViewController: UIViewController {
         self.titleTextView.text = Namespace.empty
         self.bodyTextView.text = Namespace.empty
         do {
-            try DiaryItemManager.shared.deleteDiary(data: diaryItem)
+            try diaryItemManager.deleteDiary()
         } catch {
             showErrorAlert(title: Namespace.alertTitle)
         }
