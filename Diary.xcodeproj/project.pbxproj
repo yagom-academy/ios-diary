@@ -18,6 +18,7 @@
 		18135D20295C26BF00C2269D /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D1F295C26BF00C2269D /* Constant.swift */; };
 		18135D22295C36B000C2269D /* TimeInterval+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D21295C36B000C2269D /* TimeInterval+.swift */; };
 		18247549296413EC0030F177 /* Requesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18247548296413EC0030F177 /* Requesting.swift */; };
+		1824754B29642BF70030F177 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1824754A29642BF70030F177 /* NetworkManager.swift */; };
 		185A5F382951610800AF523D /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A5F372951610800AF523D /* DiaryListCell.swift */; };
 		185A5F3A295196C000AF523D /* DiaryListCellContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A5F39295196C000AF523D /* DiaryListCellContentView.swift */; };
 		18ACF3D62951A4F6006906D5 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ACF3D52951A4F6006906D5 /* DiaryDetailViewController.swift */; };
@@ -50,6 +51,7 @@
 		18135D1F295C26BF00C2269D /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
 		18135D21295C36B000C2269D /* TimeInterval+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+.swift"; sourceTree = "<group>"; };
 		18247548296413EC0030F177 /* Requesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requesting.swift; sourceTree = "<group>"; };
+		1824754A29642BF70030F177 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		185A5F372951610800AF523D /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
 		185A5F39295196C000AF523D /* DiaryListCellContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCellContentView.swift; sourceTree = "<group>"; };
 		1869999049069E7A29788939 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				18247548296413EC0030F177 /* Requesting.swift */,
+				1824754A29642BF70030F177 /* NetworkManager.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -343,6 +346,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1824754B29642BF70030F177 /* NetworkManager.swift in Sources */,
 				18D381362952E311002BB2F1 /* UIView+.swift in Sources */,
 				18135D22295C36B000C2269D /* TimeInterval+.swift in Sources */,
 				18F2A5382951ABD4008D9CCD /* UINavigationItem+.swift in Sources */,

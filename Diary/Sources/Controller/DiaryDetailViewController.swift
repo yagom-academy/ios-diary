@@ -192,23 +192,12 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
     ) {
         guard let location = locations.first?.coordinate else { return }
         
-        let request = SearchWeatherAPI(location: location)
+        let networkManger = NetworkManager()
+        let endPoint = SearchWeatherAPI(location: location)
         
-        guard let url = request.convertURL() else { return }
-        
-        let task = URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let response = response as? HTTPURLResponse,
-                  (200...299) ~= response.statusCode else {
-                return
-            }
-            
-            guard let data = data,
-                  let _ = try? JSONDecoder().decode(WeatherEntity.self, from: data) else { return }
-            
-            // TODO: 디코딩된 데이터 처리하기
+        networkManger.requestData(endPoint: endPoint, type: WeatherEntity.self) { data in
+            print(data)
         }
-        
-        task.resume()
     }
     
     func locationManager(
