@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let diaryListTableView = UITableView()
-    private var diaryModels: [DiaryModel] = [] {
+    private var diaryItems: [DiaryModel] = [] {
         didSet {
             diaryListTableView.reloadData()
         }
@@ -33,7 +33,7 @@ final class DiaryListViewController: UIViewController {
     
     private func fetchCoreData() {
         do {
-            diaryModels = try CoreDataManager.shared.fetchAllModels()
+            diaryItems = try DiaryItemManager.shared.fetchAllDiaries()
         } catch {
             showErrorAlert(title: Namespace.alertTitle)
         }
@@ -84,7 +84,7 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryModels.count
+        return diaryItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -96,7 +96,7 @@ extension DiaryListViewController: UITableViewDataSource {
             for: indexPath
         ) as? DiaryListTableViewCell else { return UITableViewCell() }
         
-        cell.updateContent(data: diaryModels[indexPath.row])
+        cell.updateContent(data: diaryItems[indexPath.row])
         cell.accessoryType = .disclosureIndicator
         
         return cell
@@ -105,8 +105,8 @@ extension DiaryListViewController: UITableViewDataSource {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryItemViewController = DiaryItemViewController(diaryItem: diaryModels[indexPath.row])
-        diaryItemViewController.fillTextView(with: diaryModels[indexPath.row])
+        let diaryItemViewController = DiaryItemViewController(diaryItem: diaryItems[indexPath.row])
+        diaryItemViewController.fillTextView(with: diaryItems[indexPath.row])
         navigationController?.pushViewController(diaryItemViewController, animated: true)
     }
     
@@ -114,7 +114,7 @@ extension DiaryListViewController: UITableViewDelegate {
         var actions: [UIContextualAction] = []
         
         let shareAction = UIContextualAction(style: .normal, title: Namespace.share) { _, _, _  in
-            let diaryForm = DiaryItemManager.shared.createDiaryShareForm(diaryItem: self.diaryModels[indexPath.row])
+            let diaryForm = DiaryItemManager.shared.createDiaryShareForm(diaryItem: self.diaryItems[indexPath.row])
             let activityVC = UIActivityViewController(activityItems: [diaryForm], applicationActivities: nil)
             self.present(activityVC, animated: true)
         }
@@ -123,8 +123,8 @@ extension DiaryListViewController: UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: Namespace.delete) { _, _, _  in
             let handler: (UIAlertAction) -> Void = { _ in
                 do {
-                    try DiaryItemManager.shared.deleteDiary(data: self.diaryModels[indexPath.row])
-                    self.diaryModels = try CoreDataManager.shared.fetchAllModels()
+                    try DiaryItemManager.shared.deleteDiary(data: self.diaryItems[indexPath.row])
+                    self.diaryItems = try DiaryItemManager.shared.fetchAllDiaries()
                 } catch {
                     self.showErrorAlert(title: Namespace.alertTitle)
                 }

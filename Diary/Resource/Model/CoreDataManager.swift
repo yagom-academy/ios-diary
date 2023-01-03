@@ -70,14 +70,14 @@ final class CoreDataManager {
         return result?.first?.objectID
     }
     
-    func update(_ diaryModel: DiaryModel?) throws {
-        guard let diaryModel = diaryModel,
-              let id = diaryModel.id else { return }
+    func update(_ diaryItem: DiaryModel?) throws {
+        guard let diaryItem = diaryItem,
+              let id = diaryItem.id else { return }
         
         guard let object = persistentContainer.viewContext.object(with: id) as? Diary else { return }
         
-        object.setValue(diaryModel.title, forKey: CoreDataNamespace.title)
-        object.setValue(diaryModel.body, forKey: CoreDataNamespace.body)
+        object.setValue(diaryItem.title, forKey: CoreDataNamespace.title)
+        object.setValue(diaryItem.body, forKey: CoreDataNamespace.body)
         try saveContext()
     }
     
