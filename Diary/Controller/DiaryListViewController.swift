@@ -72,7 +72,6 @@ final class DiaryListViewController: UIViewController {
             let currentDiaryModel = try CoreDataMananger.shared.fetchLastObject()
             let editDiaryViewController = EditDiaryViewController(diaryModel: currentDiaryModel)
             
-            editDiaryViewController.configureView()
             self.navigationController?.pushViewController(editDiaryViewController, animated: true)
         } catch {
             self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
@@ -150,7 +149,6 @@ extension DiaryListViewController: UICollectionViewDelegate {
         
         let editDiaryViewController = EditDiaryViewController(diaryModel: diaryItem)
         
-        editDiaryViewController.configureView()
         self.navigationController?.pushViewController(editDiaryViewController, animated: true)
     }
     

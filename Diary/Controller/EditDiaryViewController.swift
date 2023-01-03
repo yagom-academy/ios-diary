@@ -22,6 +22,7 @@ final class EditDiaryViewController: UIViewController {
     
     override func loadView() {
         self.view = editDiaryView
+        self.configureView()
     }
     
     override func viewDidLoad() {
@@ -35,7 +36,7 @@ final class EditDiaryViewController: UIViewController {
         self.updateCurrentDiary()
     }
     
-    func configureView() {
+    private func configureView() {
         self.navigationItem.title = self.diaryModel.createdAt.convertDate()
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis"),
                                                                  style: .plain,
