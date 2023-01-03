@@ -21,7 +21,7 @@ enum WeatherURL {
                                         URLQueryItem(name: "appid", value: apiKey)
                                        ])
         case .weatherIcon(let icon):
-            return makeURL(baseURL: URL(string: "http://openweathermap.org"),
+            return makeURL(baseURL: URL(string: "https://openweathermap.org"),
                            path: ["img", "wn", icon],
                            queryItems: nil)
         }
