@@ -100,7 +100,7 @@ final class DiaryItemViewController: UIViewController {
     
     private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Namespace.moreImage),
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: Content.moreImage),
                                                             style: .plain,
                                                             target: self,
                                                             action: #selector(showActionSheet))
@@ -198,6 +198,10 @@ final class DiaryItemViewController: UIViewController {
         static let mainStackViewBottomMargin = CGFloat(8)
         static let mainStackViewTrailingMargin = CGFloat(8)
         static let titleTextViewMaxHeight = CGFloat(100)
+    }
+    
+    private enum Content {
+        static let moreImage = "ellipsis.circle"
     }
 }
 

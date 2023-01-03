@@ -38,9 +38,9 @@ final class DiaryListViewController: UIViewController {
     private func configureNavigationBar() {
         navigationController?.navigationBar.scrollEdgeAppearance =
         navigationController?.navigationBar.standardAppearance
-        title = Namespace.diary
+        title = Content.diary
         
-        let rightBarButtonImage = UIImage(systemName: Namespace.plusImage)
+        let rightBarButtonImage = UIImage(systemName: Content.plusImage)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: rightBarButtonImage,
                                                             style: .plain,
                                                             target: self,
@@ -69,6 +69,11 @@ final class DiaryListViewController: UIViewController {
               let title = userInfo[Namespace.alertTitle, default: Namespace.empty] as? String else { return }
         
         showErrorAlert(title: title)
+    }
+    
+    private enum Content {
+        static let plusImage = "plus"
+        static let diary = "일기장"
     }
 }
 
