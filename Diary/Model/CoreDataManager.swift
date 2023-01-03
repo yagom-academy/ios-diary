@@ -16,8 +16,8 @@ final class CoreDataMananger {
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
+            if let error = error {
+                print("ERROR: fail to load Persistent Stores \(error.localizedDescription)")
             }
         })
         return container
