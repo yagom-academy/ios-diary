@@ -38,12 +38,16 @@ final class DiaryItemManager {
         diaryItem?.body = body
     }
     
-    private func validate(diaryItem: DiaryModel?) -> Bool {
-        if diaryItem?.title == Placeholder.title, diaryItem?.body == Namespace.empty { return false }
-        else if diaryItem?.title == Namespace.empty, diaryItem?.body == Placeholder.body { return false }
-        else if diaryItem?.title == Placeholder.title, diaryItem?.body == Placeholder.body { return false }
-        else if diaryItem?.title == Namespace.empty, diaryItem?.body == Namespace.empty { return false }
-        else { return true }
+    private func isValid(_ diaryItem: DiaryModel?) -> Bool {
+        return isTitleValid(diaryItem?.title) && isBodyValid(diaryItem?.body)
+    }
+    
+    private func isTitleValid(_ title: String?) -> Bool {
+        return title != Placeholder.title && title != Namespace.empty
+    }
+    
+    private func isBodyValid(_ body: String?) -> Bool {
+        return body != Placeholder.body && body != Namespace.empty
     }
     
     func fetchDiary(data: DiaryModel) {
