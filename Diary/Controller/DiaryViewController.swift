@@ -94,6 +94,7 @@ extension DiaryViewController {
         var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryData>()
         snapShot.appendSections([.main])
         snapShot.appendItems(diaryData)
+        snapShot.reloadSections([.main])
         dataSource?.apply(snapShot, animatingDifferences: false)
     }
 }

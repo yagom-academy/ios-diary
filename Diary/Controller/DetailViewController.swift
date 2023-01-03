@@ -37,7 +37,7 @@ final class DetailViewController: UIViewController {
         navigationItem.title = diaryData.createdAt?.convertDate()
         detailTextView.delegate = self
         guard let title = diaryData.title, !title.isEmpty,
-              let body = diaryData.body, !body.isEmpty else {
+              let body = diaryData.body else {
             detailTextView.text = "제목과 내용을 입력해주세요!"
             detailTextView.textColor = .gray
             return
@@ -122,9 +122,11 @@ extension DetailViewController {
 
 fileprivate extension String {
     func separateTitleAndBody(titleWordsLimit: Int) -> (title: String, body: String) {
-        guard self.count > 20 else { return (self, "") }
         let data = self.trimmingCharacters(in: .whitespacesAndNewlines)
         var components = data.components(separatedBy: "\n\n")
+        if components[0].isEmpty {
+            return ("", "")
+        }
         if components.count > 1 {
             let title = components.removeFirst()
             let body = components.filter { $0 != ""}.joined(separator: "\n\n")
