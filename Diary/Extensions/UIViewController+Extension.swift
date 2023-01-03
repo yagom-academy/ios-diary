@@ -32,7 +32,7 @@ extension UIViewController {
 }
 
 extension UIViewController {
-    func moveToActivityView(data: DiaryData?) {
+    func moveToActivityView(data: CurrentDiary?) {
         guard let sendingText = data?.contentText else { return }
         
         let activiyController = UIActivityViewController(activityItems: [sendingText],

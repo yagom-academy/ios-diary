@@ -10,7 +10,7 @@ import UIKit
 final class EditDiaryView: UIView {
     weak var delegate: KeyboardActionSavable?
     private var textStackViewBottomConstraints: NSLayoutConstraint?
-    private let diaryData: DiaryData?
+    private let currentDiaryData: CurrentDiary?
         
     private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
@@ -22,11 +22,11 @@ final class EditDiaryView: UIView {
         return textView
     }()
     
-    init(diaryData: DiaryData?) {
-        self.diaryData = diaryData
+    init(currentDiaryData: CurrentDiary?) {
+        self.currentDiaryData = currentDiaryData
         super.init(frame: .zero)
         setupUI()
-        bindData(diaryData)
+        bindData(currentDiaryData)
         setupConstraints()
         presentKeyboard()
         contentsTextView.delegate = self
@@ -37,7 +37,7 @@ final class EditDiaryView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func bindData(_ data: DiaryData?) {
+    private func bindData(_ data: CurrentDiary?) {
         guard let data = data else { return }
         contentsTextView.textColor = .black
         self.contentsTextView.text = data.contentText
@@ -51,7 +51,7 @@ final class EditDiaryView: UIView {
     }
     
     private func presentKeyboard() {
-        if diaryData == nil {
+        if currentDiaryData == nil {
             contentsTextView.becomeFirstResponder()
         }
     }

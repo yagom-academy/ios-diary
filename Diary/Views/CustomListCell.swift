@@ -11,7 +11,7 @@ final class CustomListCell: UICollectionViewListCell {
     private let titleLabel = UILabel(textStyle: .title3)
     private let dateLabel = UILabel(textStyle: .body)
     private let previewLabel = UILabel(textStyle: .caption1)
-    private let iconImageView = UIImageView(image: .init(systemName: "applelogo"))
+    private let iconImageView = UIImageView()
     
     private lazy var bottomStackView = UIStackView(subview: [dateLabel,
                                                              iconImageView,
@@ -35,12 +35,17 @@ final class CustomListCell: UICollectionViewListCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func bindData(_ data: DiaryData) {
+    func setupData(_ data: DiaryData) {
         guard var contents = data.contentText?.components(separatedBy: "\n") else { return }
         self.titleLabel.text = contents.removeFirst()
         self.previewLabel.text = contents.joined(separator: " ")
         guard let date = data.createdAt else { return }
         self.dateLabel.text = Formatter.changeCustomDate(date)
+    }
+    
+    func setupImage(image: UIImage? = nil) {
+        guard let image = image else { return }
+        self.iconImageView.image = image
     }
 }
 

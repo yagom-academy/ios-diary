@@ -12,7 +12,12 @@ enum NetworkRequest {
     case loadImage(id: String)
     
     private var baseURL: String {
-        return "https://api.openweathermap.org"
+        switch self {
+        case .fetchData(lat: _, lon: _):
+            return "https://api.openweathermap.org"
+        case .loadImage(id: _):
+            return "https://openweathermap.org"
+        }
     }
     
     private var path: String {
@@ -20,7 +25,7 @@ enum NetworkRequest {
         case .fetchData(lat: _, lon: _):
             return "/data/2.5/weather"
         case .loadImage(let id):
-            return "/img/wn/\(id)/@2x.png"
+            return "/img/wn/\(id).png"
         }
     }
     

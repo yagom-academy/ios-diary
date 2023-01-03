@@ -17,15 +17,13 @@ final class EditViewController: UIViewController {
     private let coreDataManager = CoreDataManager.shared
     private let currentDate = Date()
     
+    private var currentDiaryData: CurrentDiary? = CurrentDiary()
     private var locationManager: CLLocationManager?
-    private var diaryData: DiaryData?
-    private var main: String?
-    private var iconID: String?
-    private lazy var editView = EditDiaryView(diaryData: diaryData)
+    private lazy var editView = EditDiaryView(currentDiaryData: currentDiaryData)
     
-    init(diaryData: DiaryData?) {
+    init(currentDiaryData: CurrentDiary? = CurrentDiary()) {
         super.init(nibName: nil, bundle: nil)
-        self.diaryData = diaryData
+        self.currentDiaryData = currentDiaryData
     }
     
     required init?(coder: NSCoder) {
@@ -48,7 +46,7 @@ final class EditViewController: UIViewController {
     }
     
     private func setNavigation() {
-        if let date = diaryData?.createdAt {
+        if let date = currentDiaryData?.createdAt {
             self.title = Formatter.changeCustomDate(date)
         } else {
             self.title = Formatter.changeCustomDate(currentDate)
@@ -85,8 +83,7 @@ extension EditViewController {
     
     private func checkToSave() {
         let data = editView.packageData()
-        if let diaryData = diaryData {
-            guard let id = diaryData.id else { return }
+        if let id = currentDiaryData?.id {
             do {
                 try coreDataManager.updateData(id: id, contentText: data)
             } catch {
@@ -98,10 +95,10 @@ extension EditViewController {
             }
         } else {
             do {
-                self.diaryData = try coreDataManager.saveData(contentText: data,
-                                                              date: currentDate,
-                                                              main: main,
-                                                              iconID: iconID)
+                currentDiaryData?.id = UUID()
+                currentDiaryData?.contentText = data
+                currentDiaryData?.createdAt = currentDate
+                try coreDataManager.saveData(data: currentDiaryData)
             } catch {
                 guard let error = error as? DataError else { return }
                 self.showCustomAlert(alertText: error.localizedDescription,
@@ -113,8 +110,8 @@ extension EditViewController {
     }
     
     private func checkToDelete() {
-        guard let data = diaryData,
-              let contentText = diaryData?.contentText?.trimmingCharacters(
+        guard let data = currentDiaryData,
+              let contentText = currentDiaryData?.contentText?.trimmingCharacters(
                 in: .whitespacesAndNewlines) else { return }
         
         if let id = data.id, contentText.count == .zero {
@@ -139,11 +136,11 @@ extension EditViewController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            self.moveToActivityView(data: self.diaryData)
+            self.moveToActivityView(data: self.currentDiaryData)
         }
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            guard let id = self.diaryData?.id else { return }
+            guard let id = self.currentDiaryData?.id else { return }
             
             do {
                 try self.coreDataManager.deleteData(id: id)
@@ -175,7 +172,7 @@ extension EditViewController: KeyboardActionSavable {
 // MARK: - Core Location
 extension EditViewController: CLLocationManagerDelegate {
     private func setupCoreLocationManager() {
-        if diaryData == nil {
+        if currentDiaryData?.id == nil {
             locationManager = CLLocationManager()
             locationManager?.delegate = self
             
@@ -192,7 +189,6 @@ extension EditViewController: CLLocationManagerDelegate {
             saveWeatherData(url: url)
             
         }
-        
         locationManager?.stopUpdatingLocation()
     }
 }
@@ -204,11 +200,14 @@ extension EditViewController {
         networkManager.fetchData(url: url) { result in
             switch result {
             case .success(let data):
-                self.iconID = data.weather.icon
-                self.main = data.weather.main
-                print(data)
+                guard let data = data.weather.first else { return }
+                self.currentDiaryData?.main = data.main
+                self.currentDiaryData?.iconID = data.icon
             case .failure(let error):
-                print(error)
+                self.showCustomAlert(alertText: error.localizedDescription,
+                                     alertMessage: "위치 정보를 사용하지 못하였습니다.",
+                                     useAction: true,
+                                     completion: nil)
             }
         }
     }

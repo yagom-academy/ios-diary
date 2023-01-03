@@ -49,8 +49,8 @@ final class NetworkManager {
         }.resume()
     }
     
-    func fetchImage(url: URL, completion: @escaping (UIImage) -> Void) {
-        let imageURL = url
+    func fetchImage(url: URL?, completion: @escaping (UIImage) -> Void) {
+        guard let imageURL = url else { return }
         
         DispatchQueue.global().async {
             guard let data = try? Data(contentsOf: imageURL),

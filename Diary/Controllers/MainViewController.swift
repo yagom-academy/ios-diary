@@ -14,6 +14,7 @@ final class MainViewController: UIViewController {
     private lazy var mainDiaryView = MainDiaryView()
     private var diaryDatas: [DiaryData] = []
     
+    private let networkManager = NetworkManager.shared
     private let coreDataManager = CoreDataManager.shared
     
     enum Section {
@@ -61,7 +62,7 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func addButtonTapped() {
-        let addViewController = EditViewController(diaryData: nil)
+        let addViewController = EditViewController()
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
@@ -69,7 +70,14 @@ final class MainViewController: UIViewController {
 // MARK: - UICollectionViewDelegate
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let addViewController = EditViewController(diaryData: diaryDatas[indexPath.item])
+        
+        let item = diaryDatas[indexPath.item]
+        let currentDiary = CurrentDiary(id: item.id,
+                                        contentText: item.contentText,
+                                        createdAt: item.createdAt,
+                                        main: item.main,
+                                        iconID: item.iconID)
+        let addViewController = EditViewController(currentDiaryData: currentDiary)
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
@@ -79,7 +87,18 @@ extension MainViewController {
     private func configureDataSource() -> DataSource {
         let cellRegistration = UICollectionView
             .CellRegistration<CustomListCell, DiaryData> { cell, _, diaryData in
-                cell.bindData(diaryData)
+                
+                if let iconID = diaryData.iconID {
+                    let url = NetworkRequest.loadImage(id: iconID).generateURL()
+                    
+                    self.networkManager.fetchImage(url: url) { image in
+                        DispatchQueue.main.async {
+                            cell.setupImage(image: image)
+                        }
+                    }
+                }
+                cell.setupData(diaryData)
+                
                 cell.accessories = [.disclosureIndicator()]
             }
         
@@ -124,10 +143,17 @@ extension MainViewController: SwipeConfigurable {
             self?.applySnapshot(animatingDifferences: true)
         }
         
+        let item = diaryDatas[indexPath.item]
+        let currentData = CurrentDiary(id: item.id,
+                                       contentText: item.contentText,
+                                       createdAt: item.createdAt,
+                                       main: item.main,
+                                       iconID: item.iconID)
+        
         let shareActionTitle = NSLocalizedString("Share", comment: "Share action title")
         let shareAction = UIContextualAction(style: .normal,
                                              title: shareActionTitle) { [weak self] _, _, _ in
-            self?.moveToActivityView(data: self?.diaryDatas[indexPath.item])
+            self?.moveToActivityView(data: currentData)
         }
         deleteAction.backgroundColor = .systemPink
         shareAction.backgroundColor = .systemBlue
