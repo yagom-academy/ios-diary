@@ -17,9 +17,8 @@ final class DiaryViewController: UIViewController {
     
     private var diaryContents: [DiaryData] = []
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         setupDiaryContents()
         self.tableView.reloadData()
     }
@@ -90,6 +89,41 @@ extension DiaryViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         
         pushEditorViewController(with: diaryContents[indexPath.row])
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completionHandler) in
+            let diary = self.diaryContents[indexPath.row]
+            self.diaryContents.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            DiaryDataStore.shared.delete(objectID: diary.objectID)
+            
+            completionHandler(true)
+        }
+        
+        let shareAction = UIContextualAction(style: .normal, title: "Share") { (_, _, completionHandler) in
+            let diary = self.diaryContents[indexPath.row]
+            let title = (diary.title ?? "")
+            let body = (diary.body ?? "")
+            let shareText: String = title + Constant.doubleBreak + body
+            
+            let activityViewController = UIActivityViewController(
+                activityItems: [shareText],
+                applicationActivities: nil
+            )
+            self.present(activityViewController, animated: true)
+            
+            completionHandler(true)
+        }
+        shareAction.backgroundColor = .systemPurple
+        
+        let swipeConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        swipeConfiguration.performsFirstActionWithFullSwipe = false
+        
+        return swipeConfiguration
     }
 }
 
