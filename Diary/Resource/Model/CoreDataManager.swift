@@ -38,8 +38,8 @@ final class CoreDataManager {
         
         let managedObject = NSManagedObject(entity: diaryEntity, insertInto: persistentContainer.viewContext)
         managedObject.setValue(id, forKey: CoreDataNamespace.id)
+        managedObject.setValue(Date(), forKey: CoreDataNamespace.createdAt)
         try saveContext()
-        
     }
     
     func fetch(with id: NSManagedObjectID?) -> Diary? {
@@ -55,8 +55,7 @@ final class CoreDataManager {
     
     func fetchObjectID(with id: UUID) -> NSManagedObjectID? {
         let fetchRequest = Diary.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: CoreDataNamespace.regex,
-                                             argumentArray: [id])
+        fetchRequest.predicate = NSPredicate(format: CoreDataNamespace.regex, id.uuidString)
         
         let result = try? persistentContainer.viewContext.fetch(fetchRequest)
         return result?.first?.objectID
@@ -84,7 +83,7 @@ final class CoreDataManager {
         static let id = "id"
         static let title = "title"
         static let body = "body"
-        static let createAt = "createdAt"
+        static let createdAt = "createdAt"
         static let diary = "Diary"
         static let regex = "id == %@"
     }
