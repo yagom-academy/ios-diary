@@ -68,6 +68,15 @@ final class DiaryItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureUI()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        DiaryItemManager.shared.validate(diaryItem: diaryItem)
+    }
+    
+    private func configureUI() {
         view.addSubview(mainStackView)
         titleTextView.becomeFirstResponder()
         configureTextView()
@@ -75,11 +84,6 @@ final class DiaryItemViewController: UIViewController {
         configureMainStackView()
         addKeyboardDismissAction()
         addObserver()
-    }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        DiaryItemManager.shared.validate(diaryItem: diaryItem)
     }
     
     private func configureTextView() {
