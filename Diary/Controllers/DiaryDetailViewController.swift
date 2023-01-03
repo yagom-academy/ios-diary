@@ -171,10 +171,8 @@ extension DiaryDetailViewController {
     }
 
     @objc private func keyboardWillShow(_ notification: NSNotification) {
-        guard bodyTextView.isFirstResponder,
-              let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-            return
-        }
+        guard bodyTextView.isFirstResponder else { return }
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
         let keyboardHeight = keyboardFrame.cgRectValue.height
         keyboardConstraints?.constant = -(keyboardHeight + spacing)
     }
