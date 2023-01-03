@@ -8,7 +8,7 @@
 import UIKit
 
 final class EditDiaryViewController: UIViewController {
-    let editDiaryView = EditDiaryView()
+    private let editDiaryView = EditDiaryView()
     private var diaryModel: DiaryModel
     
     init(diaryModel: DiaryModel) {
@@ -103,8 +103,8 @@ final class EditDiaryViewController: UIViewController {
     func updateCurrentDiary() {
         do {
             let diaryContent = self.editDiaryView.fetchTextViewContent()
-            
-            try CoreDataMananger.shared.updateDiary(self.createDiaryModel(with: diaryContent))
+            let newDiary: DiaryModel = createDiaryModel(with: diaryContent)
+            try CoreDataMananger.shared.updateDiary(newDiary)
         } catch {
             self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.updateFailed.alertTitle,
                                                           message: DiaryError.updateFailed.alertMessage,
