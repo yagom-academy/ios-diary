@@ -110,7 +110,7 @@ final class DiaryItemViewController: UIViewController {
                                                             action: #selector(showActionSheet))
         
         let date = Date()
-        title = (title == nil ? DateFormatterManager().formatDate(date) : title)
+        title = title ?? DateFormatterManager().formatDate(date)
     }
     
     private func configureMainStackView() {
