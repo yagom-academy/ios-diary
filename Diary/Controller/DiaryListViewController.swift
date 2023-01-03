@@ -19,7 +19,20 @@ final class DiaryListViewController: UIViewController {
         return collectionView
     }()
     
-    private var dataSource: UICollectionViewDiffableDataSource<DiarySection, DiaryModel>?
+    private let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, DiaryModel> {
+        (cell, indexPath, diary) in
+        cell.configureContents(with: diary)
+        cell.accessories = [.disclosureIndicator()]
+    }
+    
+    private lazy var dataSource = UICollectionViewDiffableDataSource<DiarySection, DiaryModel>(
+        collectionView: self.collectionView) {
+        collectionView, indexPath, diary in
+        
+        return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration,
+                                                            for: indexPath,
+                                                            item: diary)
+    }
     
     private enum DiarySection: Hashable {
         case main
@@ -125,7 +138,7 @@ final class DiaryListViewController: UIViewController {
         var snapshot = NSDiffableDataSourceSnapshot<DiarySection, DiaryModel>()
         snapshot.appendSections([.main])
         snapshot.appendItems(diaries)
-        self.dataSource?.apply(snapshot)
+        self.dataSource.apply(snapshot)
     }
 }
 
@@ -133,7 +146,7 @@ extension DiaryListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        guard let diaryItem: DiaryModel = dataSource?.itemIdentifier(for: indexPath) else { return }
+        guard let diaryItem: DiaryModel = dataSource.itemIdentifier(for: indexPath) else { return }
         
         let editDiaryViewController = EditDiaryViewController(diaryModel: diaryItem)
         
@@ -143,7 +156,7 @@ extension DiaryListViewController: UICollectionViewDelegate {
     
     private func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
         guard let indexPath = indexPath,
-              let diaryWillDelete = self.dataSource?.itemIdentifier(for: indexPath) else {
+              let diaryWillDelete = self.dataSource.itemIdentifier(for: indexPath) else {
             return nil
         }
         
