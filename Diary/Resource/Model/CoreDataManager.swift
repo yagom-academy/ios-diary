@@ -46,21 +46,6 @@ final class CoreDataManager {
         return try persistentContainer.viewContext.fetch(request)
     }
     
-    func fetchAllModels() throws -> [DiaryModel] {
-        var diaryModels: [DiaryModel] = []
-        let fetchedResults = try fetchAllEntities()
-        
-        for result in fetchedResults {
-            let diary = DiaryModel(id: result.objectID,
-                                   title: result.title ?? Namespace.empty,
-                                   body: result.body ?? Namespace.empty,
-                                   createdAt: result.createdAt ?? Date())
-            diaryModels.append(diary)
-        }
-        
-        return diaryModels
-    }
-    
     func fetchID(date: Date) -> NSManagedObjectID? {
         let fetchRequest = Diary.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: CoreDataNamespace.regex,

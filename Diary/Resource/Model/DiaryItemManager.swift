@@ -63,6 +63,21 @@ final class DiaryItemManager {
         return form
     }
     
+    func fetchAllDiaries() throws -> [DiaryModel] {
+        var diaryItems: [DiaryModel] = []
+        let fetchedResults = try CoreDataManager.shared.fetchAllEntities()
+        
+        for result in fetchedResults {
+            let diary = DiaryModel(id: result.objectID,
+                                   title: result.title ?? Namespace.empty,
+                                   body: result.body ?? Namespace.empty,
+                                   createdAt: result.createdAt ?? Date())
+            diaryItems.append(diary)
+        }
+        
+        return diaryItems
+    }
+    
     func deleteDiary(data: DiaryModel?) throws {
         try CoreDataManager.shared.delete(with: data?.id)
     }
