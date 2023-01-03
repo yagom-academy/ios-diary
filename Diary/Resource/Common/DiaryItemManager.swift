@@ -11,15 +11,24 @@ final class DiaryItemManager {
     static let shared = DiaryItemManager()
     private init() { }
     
-    func update(diaryItem: DiaryModel?) {
-        CoreDataManager.shared.updateDiary(diaryItem)
-    }
-    
     func create() -> DiaryModel {
         let date = Date()
         CoreDataManager.shared.insertDiary(date: date)
         let id = CoreDataManager.shared.fetchID(date: date)
-        return DiaryModel(id: id, title: "", body: "", createdAt: date)
+        return DiaryModel(id: id, title: Namespace.empty, body: Namespace.empty, createdAt: date)
+    }
+    
+    func update(diaryItem: DiaryModel?) {
+        if isValid(diaryItem) == false { return }
+        CoreDataManager.shared.update(diaryItem)
+    }
+    
+    func validate(diaryItem: DiaryModel?) {
+        if isValid(diaryItem) == false {
+            deleteDiary(data: diaryItem)
+            return
+        }
+        CoreDataManager.shared.update(diaryItem)
     }
     
     private func isValid(_ diaryItem: DiaryModel?) -> Bool {

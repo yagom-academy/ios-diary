@@ -79,7 +79,7 @@ final class DiaryItemViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        save()
+        DiaryItemManager.shared.validate(diaryItem: diaryItem)
     }
     
     private func configureTextView() {
