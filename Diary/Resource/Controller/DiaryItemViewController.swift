@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryItemViewController: UIViewController {
-    private var diaryItemManager = DiaryItemManager()
+    var diaryItemManager: DiaryItemManager?
     private let textViewManager = TextViewManager()
     
     private let mainStackView: UIStackView = {
@@ -47,6 +47,15 @@ final class DiaryItemViewController: UIViewController {
         }
     }
     
+    init(diaryItemManager: DiaryItemManager) {
+        self.diaryItemManager = diaryItemManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func loadView() {
         view = UIView(frame: .zero)
         view.backgroundColor = .systemBackground
@@ -59,7 +68,7 @@ final class DiaryItemViewController: UIViewController {
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        diaryItemManager.validate(title: titleTextView.text, body: bodyTextView.text)
+        diaryItemManager?.validate(title: titleTextView.text, body: bodyTextView.text)
     }
     
     private func configureUI() {
@@ -134,7 +143,7 @@ final class DiaryItemViewController: UIViewController {
         let title = titleTextView.text
         let body = bodyTextView.text
         do {
-            try diaryItemManager.update(title: title, body: body)
+            try diaryItemManager?.update(title: title, body: body)
         } catch {
             showErrorAlert(title: "저장 실패")
         }
@@ -159,9 +168,10 @@ final class DiaryItemViewController: UIViewController {
                                                          preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: Namespace.share, style: .default) { _ in
-            let diaryForm = self.diaryItemManager.createDiaryShareForm()
-            let activityVC = UIActivityViewController(activityItems: [diaryForm], applicationActivities: nil)
-            self.present(activityVC, animated: true)
+            let diaryForm = self.diaryItemManager?.createDiaryShareForm()
+            let activityViewController = UIActivityViewController(activityItems: [diaryForm ?? Namespace.empty],
+                                                      applicationActivities: nil)
+            self.present(activityViewController, animated: true)
         })
         alert.addAction(UIAlertAction(title: Namespace.delete, style: .destructive) { _ in
             let handler: (UIAlertAction) -> Void = { _ in
@@ -180,7 +190,7 @@ final class DiaryItemViewController: UIViewController {
         self.titleTextView.text = Namespace.empty
         self.bodyTextView.text = Namespace.empty
         do {
-            try diaryItemManager.deleteDiary()
+            try diaryItemManager?.deleteDiary()
         } catch {
             showErrorAlert(title: Namespace.alertTitle)
         }

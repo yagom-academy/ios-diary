@@ -8,6 +8,7 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
+    private var diaryItemManager = DiaryItemManager()
     private let diaryListTableView = UITableView()
     private var diaryItems: [DiaryModel] = [] {
         didSet {
@@ -33,7 +34,7 @@ final class DiaryListViewController: UIViewController {
     
     private func fetchCoreData() {
         do {
-            diaryItems = try DiaryItemManager.shared.fetchAllDiaries()
+            diaryItems = try diaryItemManager.fetchAllDiaries()
         } catch {
             showErrorAlert(title: Namespace.alertTitle)
         }
@@ -52,8 +53,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func tappedPlusButton(_ sender: UIBarButtonItem) {
-        guard let diaryItem = try? DiaryItemManager.shared.create() else { return }
-        let diaryItemViewController = DiaryItemViewController(diaryItem: diaryItem)
+        let diaryItemViewController = DiaryItemViewController(diaryItemManager: DiaryItemManager())
+        try? diaryItemViewController.diaryItemManager?.create()
         navigationController?.pushViewController(diaryItemViewController, animated: true)
     }
     
@@ -105,16 +106,18 @@ extension DiaryListViewController: UITableViewDataSource {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryItemViewController = DiaryItemViewController(diaryItem: diaryItems[indexPath.row])
+        let diaryItemViewController = DiaryItemViewController(diaryItemManager: DiaryItemManager())
+        diaryItemViewController.diaryItemManager?.fetchID(id: diaryItems[indexPath.row].id)
         diaryItemViewController.fillTextView(with: diaryItems[indexPath.row])
         navigationController?.pushViewController(diaryItemViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         var actions: [UIContextualAction] = []
+        diaryItemManager.fetchID(id: diaryItems[indexPath.row].id)
         
         let shareAction = UIContextualAction(style: .normal, title: Namespace.share) { _, _, _  in
-            let diaryForm = DiaryItemManager.shared.createDiaryShareForm(diaryItem: self.diaryItems[indexPath.row])
+            let diaryForm = self.diaryItemManager.createDiaryShareForm()
             let activityVC = UIActivityViewController(activityItems: [diaryForm], applicationActivities: nil)
             self.present(activityVC, animated: true)
         }
@@ -123,8 +126,8 @@ extension DiaryListViewController: UITableViewDelegate {
         let deleteAction = UIContextualAction(style: .destructive, title: Namespace.delete) { _, _, _  in
             let handler: (UIAlertAction) -> Void = { _ in
                 do {
-                    try DiaryItemManager.shared.deleteDiary(data: self.diaryItems[indexPath.row])
-                    self.diaryItems = try DiaryItemManager.shared.fetchAllDiaries()
+                    try self.diaryItemManager.deleteDiary()
+                    self.diaryItems = try self.diaryItemManager.fetchAllDiaries()
                 } catch {
                     self.showErrorAlert(title: Namespace.alertTitle)
                 }
