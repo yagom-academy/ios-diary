@@ -13,7 +13,7 @@ final class DiaryItemManager {
     
     func create() -> DiaryModel {
         let date = Date()
-        CoreDataManager.shared.insertDiary(date: date)
+        CoreDataManager.shared.insert(date: date)
         let id = CoreDataManager.shared.fetchID(date: date)
         return DiaryModel(id: id, title: Namespace.empty, body: Namespace.empty, createdAt: date)
     }
@@ -56,6 +56,6 @@ final class DiaryItemManager {
     }
     
     func deleteDiary(data: DiaryModel?) {
-        CoreDataManager.shared.deleteDiary(with: data?.id)
+        CoreDataManager.shared.delete(with: data?.id)
     }
 }

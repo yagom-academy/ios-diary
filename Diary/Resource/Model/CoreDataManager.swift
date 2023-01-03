@@ -41,7 +41,7 @@ final class CoreDataManager {
         }
     }
     
-    func insertDiary(date: Date) {
+    func insert(date: Date) {
         guard let diaryEntity = diaryEntity else { return }
         
         let managedObject = NSManagedObject(entity: diaryEntity, insertInto: viewContext)
@@ -49,15 +49,7 @@ final class CoreDataManager {
         saveContext()
     }
     
-//    func fetchDiary(with id: NSManagedObjectID?) -> DiaryModel? {
-//        guard let id = id else { return nil }
-//
-//        guard viewContext.object(with: id) as? Diary != nil else { return false }
-//
-//        return true
-//    }
-    
-    func fetchAllDiaries() -> [Diary] {
+    func fetchAllEntities() -> [Diary] {
         do {
             let request = Diary.fetchRequest()
             let results = try viewContext.fetch(request)
@@ -70,9 +62,9 @@ final class CoreDataManager {
         return []
     }
     
-    func fetchAllDiaryModels() -> [DiaryModel] {
+    func fetchAllModels() -> [DiaryModel] {
         var diaryModels: [DiaryModel] = []
-        let fetchedResults = fetchAllDiaries()
+        let fetchedResults = fetchAllEntities()
         
         for result in fetchedResults {
             let diary = DiaryModel(id: result.objectID,
@@ -98,7 +90,7 @@ final class CoreDataManager {
         }
     }
     
-    func updateDiary(_ diaryModel: DiaryModel?) {
+    func update(_ diaryModel: DiaryModel?) {
         guard let diaryModel = diaryModel,
               let id = diaryModel.id else { return }
         
@@ -109,7 +101,7 @@ final class CoreDataManager {
         saveContext()
     }
     
-    func deleteDiary(with id: NSManagedObjectID?) {
+    func delete(with id: NSManagedObjectID?) {
         guard let id = id else { return }
         
         let object = viewContext.object(with: id)
