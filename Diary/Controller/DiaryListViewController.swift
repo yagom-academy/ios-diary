@@ -169,14 +169,16 @@ extension DiaryListViewController: UICollectionViewDelegate {
                            title: "delete") { _, _, _ in
             do {
                 try CoreDataMananger.shared.deleteDiary(diaryWillDelete)
+                
+                var snapshot = self.dataSource.snapshot()
+                snapshot.deleteItems([diaryWillDelete])
+                self.dataSource.apply(snapshot)
             } catch {
                 self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
                                                               message: DiaryError.deleteFailed.alertMessage,
                                                               actionTitle: "확인"),
                              animated: true)
             }
-            
-            self.fetchDiary()
         }
     }
     
