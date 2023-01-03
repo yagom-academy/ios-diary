@@ -66,7 +66,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func pressAddButton() {
-        CoreDataMananger.shared.insertDiary(DiaryModel())
+        CoreDataMananger.shared.insert(diary: DiaryModel())
         
         do {
             let currentDiaryModel = try CoreDataMananger.shared.fetchLastObject()
@@ -168,7 +168,7 @@ extension DiaryListViewController: UICollectionViewDelegate {
         UIContextualAction(style: .destructive,
                            title: "delete") { [weak self] _, _, _ in
             do {
-                try CoreDataMananger.shared.deleteDiary(diaryWillDelete)
+                try CoreDataMananger.shared.delete(diary: diaryWillDelete)
                 
                 guard var snapshot = self?.dataSource.snapshot() else { return }
                 

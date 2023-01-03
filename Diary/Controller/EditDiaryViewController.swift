@@ -64,7 +64,7 @@ final class EditDiaryViewController: UIViewController {
             let cancelAction: UIAlertAction = UIAlertAction(title: "취소", style: .cancel)
             let deleteAction: UIAlertAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
                 do {
-                    try CoreDataMananger.shared.deleteDiary(self.diaryModel)
+                    try CoreDataMananger.shared.delete(diary: self.diaryModel)
                 } catch {
                     self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
                                                                   message: DiaryError.deleteFailed.alertMessage,
@@ -102,9 +102,8 @@ final class EditDiaryViewController: UIViewController {
     
     func updateCurrentDiary() {
         do {
-            let diaryContent = self.editDiaryView.fetchTextViewContent()
-            let newDiary: DiaryModel = createDiaryModel(with: diaryContent)
-            try CoreDataMananger.shared.updateDiary(newDiary)
+            let newDiary: DiaryModel = createDiaryModel()
+            try CoreDataMananger.shared.update(diary: newDiary)
         } catch {
             self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.updateFailed.alertTitle,
                                                           message: DiaryError.updateFailed.alertMessage,
@@ -113,8 +112,10 @@ final class EditDiaryViewController: UIViewController {
         }
     }
     
-    private func createDiaryModel(with diaryContent: String) -> DiaryModel {
-        if diaryContent == "" {
+    private func createDiaryModel() -> DiaryModel {
+        let diaryContent = self.editDiaryView.fetchTextViewContent()
+        
+        if diaryContent.isEmpty {
             self.diaryModel.title = ""
             self.diaryModel.body = ""
         } else if diaryContent.contains("\n") {
@@ -131,6 +132,6 @@ final class EditDiaryViewController: UIViewController {
             self.diaryModel.body = ""
         }
         
-        return diaryModel
+        return self.diaryModel
     }
 }

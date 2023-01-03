@@ -11,6 +11,8 @@ import CoreData
 final class CoreDataMananger {
     static let shared: CoreDataMananger = CoreDataMananger()
     
+    private init() {}
+    
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
@@ -50,23 +52,23 @@ final class CoreDataMananger {
         }
     }
     
-    func insertDiary(_ diaryModel: DiaryModel) {
+    func insert(diary: DiaryModel) {
         if let diaryEntity = self.diaryEntity {
             let managedObject = NSManagedObject(entity: diaryEntity, insertInto: self.context)
-            managedObject.setValue(diaryModel.title, forKey: "title")
-            managedObject.setValue(diaryModel.body, forKey: "body")
-            managedObject.setValue(diaryModel.createdAt, forKey: "createdAt")
+            managedObject.setValue(diary.title, forKey: "title")
+            managedObject.setValue(diary.body, forKey: "body")
+            managedObject.setValue(diary.createdAt, forKey: "createdAt")
             self.saveToContext()
         }
     }
     
-    func updateDiary(_ diaryModel: DiaryModel) throws {
+    func update(diary: DiaryModel) throws {
         do {
-            guard let diaryID = diaryModel.id,
+            guard let diaryID = diary.id,
                   let item = try context.existingObject(with: diaryID) as? Diary else { return }
             
-            item.title = diaryModel.title
-            item.body = diaryModel.body
+            item.title = diary.title
+            item.body = diary.body
         } catch {
             throw DiaryError.updateFailed
         }
@@ -74,9 +76,9 @@ final class CoreDataMananger {
         self.saveToContext()
     }
     
-    func deleteDiary(_ diaryModel: DiaryModel) throws {
+    func delete(diary: DiaryModel) throws {
         do {
-            guard let diaryID = diaryModel.id,
+            guard let diaryID = diary.id,
                   let item = try self.context.existingObject(with: diaryID) as? Diary else { return }
             
             self.context.delete(item)
