@@ -166,19 +166,37 @@ extension DiaryDetailViewController: UITextFieldDelegate, UITextViewDelegate {
     }
 }
 
+// MARK: Core Location Delegate
 extension DiaryDetailViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
-            break
+            locationManager.requestLocation()
+            
         case .restricted, .notDetermined:
             manager.requestWhenInUseAuthorization()
+            
         case .denied:
             manager.stopUpdatingLocation()
             presentAccessPermissionAlert()
+            
         @unknown default:
             return
         }
+    }
+    
+    func locationManager(
+        _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
+        // TODO: 위치 정보 가공 후 네트워킹
+    }
+    
+    func locationManager(
+        _ manager: CLLocationManager,
+        didFailWithError error: Error
+    ) {
+        // TODO: 에러 핸들링
     }
 }
 
