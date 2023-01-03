@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Diary: Codable, Identifiable {
-    private(set) var id: UUID = UUID()
+struct Diary: Identifiable {
+    let id: UUID
     var title, body: String
     let createdAt: TimeInterval
 
@@ -17,10 +17,5 @@ struct Diary: Codable, Identifiable {
         self.title = title
         self.body = body
         self.createdAt = createdAt
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case title, body
-        case createdAt = "created_at"
     }
 }
