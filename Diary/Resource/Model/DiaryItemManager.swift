@@ -11,16 +11,20 @@ import CoreData
 final class DiaryItemManager {
     private var objectID: NSManagedObjectID?
     
-    func create() throws -> DiaryModel {
+    func create() throws {
         let id = UUID()
         try CoreDataManager.shared.insert(with: id)
         objectID = CoreDataManager.shared.fetchObjectID(with: id)
-        return DiaryModel(id: id, title: Namespace.empty, body: Namespace.empty, createdAt: Date())
+    }
+    
+    func fetchID(id: UUID) {
+        objectID = CoreDataManager.shared.fetchObjectID(with: id)
     }
     
     func update(title: String?, body: String?) throws {
-        if isTitleValid(title) || isBodyValid(body) { return }
-        try CoreDataManager.shared.update(objectID: objectID, title: title, body: body)
+        if isTitleValid(title) || isBodyValid(body) {
+            try CoreDataManager.shared.update(objectID: objectID, title: title, body: body)
+        }
     }
     
     func validate(title: String?, body: String?) {
