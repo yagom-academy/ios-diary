@@ -40,7 +40,7 @@ final class DiaryItemManager {
     }
     
     private func isValid(_ diaryItem: DiaryModel?) -> Bool {
-        return isTitleValid(diaryItem?.title) && isBodyValid(diaryItem?.body)
+        return isTitleValid(diaryItem?.title) || isBodyValid(diaryItem?.body)
     }
     
     private func isTitleValid(_ title: String?) -> Bool {
