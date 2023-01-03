@@ -75,6 +75,7 @@
 		57022942295153E900877268 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AED1657C295BCE57004ACF2A /* DiaryItemManager.swift */,
 				AEFFA495295142F000954852 /* DiaryModel.swift */,
 				AEBCABC92959673B0038B64A /* Diary+CoreDataProperties.swift */,
 				AEBCABCB295967400038B64A /* Diary+CoreDataClass.swift */,
@@ -117,7 +118,6 @@
 			isa = PBXGroup;
 			children = (
 				5702294829518BEA00877268 /* DateFormatterManager.swift */,
-				AED1657C295BCE57004ACF2A /* DiaryItemManager.swift */,
 				AEC3560D295DA820006D934D /* AlertManager.swift */,
 				574241CA295C691E004CA539 /* Namespace.swift */,
 			);
