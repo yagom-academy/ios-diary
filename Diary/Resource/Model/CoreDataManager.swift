@@ -51,12 +51,12 @@ final class CoreDataManager {
         saveContext()
     }
     
-    func fetchDiary(with id: NSManagedObjectID?) -> Diary? {
-        guard let id = id else { return nil }
+    func isExistingDiaryID(_ id: NSManagedObjectID?) -> Bool {
+        guard let id = id else { return false }
         
-        guard let object = viewContext.object(with: id) as? Diary else { return nil }
+        guard viewContext.object(with: id) as? Diary != nil else { return false }
         
-        return object
+        return true
     }
     
     func fetchAllDiaries() -> [Diary] {

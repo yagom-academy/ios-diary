@@ -12,7 +12,7 @@ final class DiaryItemManager {
     private var diaryItem: DiaryModel?
     
     func saveDiaryWith(title: String, body: String) {
-        if CoreDataManager.shared.fetchDiary(with: diaryItem?.id) == nil {
+        if CoreDataManager.shared.isExistingDiaryID(diaryItem?.id) == false {
             generateDiary()
             updateDiaryTo(title: title, body: body)
             
