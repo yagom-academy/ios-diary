@@ -14,9 +14,11 @@ extension DiaryData {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<DiaryData> {
         return NSFetchRequest<DiaryData>(entityName: "DiaryData")
     }
-
+    
     @NSManaged public var contentText: String?
     @NSManaged public var createdAt: Date?
+    @NSManaged public var iconID: String?
+    @NSManaged public var main: String?
     @NSManaged public var id: UUID?
 }
 

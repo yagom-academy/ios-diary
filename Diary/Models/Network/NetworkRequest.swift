@@ -17,7 +17,7 @@ enum NetworkRequest {
     
     private var path: String {
         switch self {
-        case .fetchData(_, _):
+        case .fetchData(lat: _, lon: _):
             return "/data/2.5/weather"
         case .loadImage(let id):
             return "/img/wn/\(id)/@2x.png"

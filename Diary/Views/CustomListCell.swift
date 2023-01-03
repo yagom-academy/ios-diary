@@ -11,8 +11,11 @@ final class CustomListCell: UICollectionViewListCell {
     private let titleLabel = UILabel(textStyle: .title3)
     private let dateLabel = UILabel(textStyle: .body)
     private let previewLabel = UILabel(textStyle: .caption1)
+    private let iconImageView = UIImageView(image: .init(systemName: "applelogo"))
     
-    private lazy var bottomStackView = UIStackView(subview: [dateLabel, previewLabel],
+    private lazy var bottomStackView = UIStackView(subview: [dateLabel,
+                                                             iconImageView,
+                                                             previewLabel],
                                                    spacing: 5,
                                                    axis: .horizontal,
                                                    alignment: .firstBaseline,
@@ -61,5 +64,6 @@ extension CustomListCell {
         ])
         
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        iconImageView.setContentCompressionResistancePriority(.required, for: .horizontal)
     }
 }

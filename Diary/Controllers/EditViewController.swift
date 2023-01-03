@@ -19,8 +19,9 @@ final class EditViewController: UIViewController {
     
     private var locationManager: CLLocationManager?
     private var diaryData: DiaryData?
+    private var main: String?
+    private var iconID: String?
     private lazy var editView = EditDiaryView(diaryData: diaryData)
-    
     
     init(diaryData: DiaryData?) {
         super.init(nibName: nil, bundle: nil)
@@ -97,7 +98,10 @@ extension EditViewController {
             }
         } else {
             do {
-                self.diaryData = try coreDataManager.saveData(contentText: data, date: currentDate)
+                self.diaryData = try coreDataManager.saveData(contentText: data,
+                                                              date: currentDate,
+                                                              main: main,
+                                                              iconID: iconID)
             } catch {
                 guard let error = error as? DataError else { return }
                 self.showCustomAlert(alertText: error.localizedDescription,
@@ -200,7 +204,8 @@ extension EditViewController {
         networkManager.fetchData(url: url) { result in
             switch result {
             case .success(let data):
-                // 코어 데이터에 저장
+                self.iconID = data.weather.icon
+                self.main = data.weather.main
                 print(data)
             case .failure(let error):
                 print(error)

@@ -30,6 +30,7 @@
 		F63447CC29508CCB00A43B7D /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447CB29508CCB00A43B7D /* CustomListCell.swift */; };
 		F6ED23FE2963BBCA00807F78 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6ED23FD2963BBC900807F78 /* NetworkManager.swift */; };
 		F6ED24002963BDAF00807F78 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6ED23FF2963BDAF00807F78 /* WeatherData.swift */; };
+		FC9C15FD29640ADF00272838 /* CurrentDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC9C15FC29640ADF00272838 /* CurrentDiary.swift */; };
 		FCEA9EC929545A4200ACA37D /* UIComponent+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA9EC829545A4200ACA37D /* UIComponent+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -61,6 +62,8 @@
 		F63447CB29508CCB00A43B7D /* CustomListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
 		F6ED23FD2963BBC900807F78 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		F6ED23FF2963BDAF00807F78 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		FC9C15F9296400AA00272838 /* Diary_v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Diary_v2.xcdatamodel; sourceTree = "<group>"; };
+		FC9C15FC29640ADF00272838 /* CurrentDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDiary.swift; sourceTree = "<group>"; };
 		FCEA9EC829545A4200ACA37D /* UIComponent+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIComponent+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -108,6 +111,7 @@
 		3C59F5EE295068B40045C66A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FC9C15FC29640ADF00272838 /* CurrentDiary.swift */,
 				3C7F9BAE2963C2A7006CAA4B /* Network */,
 				3C03E2892959731900E0DB67 /* CoreData */,
 				F63447C529506B8D00A43B7D /* DecoderManager.swift */,
@@ -323,6 +327,7 @@
 				3C0AE9E5295D40D800D2D473 /* NSMutableAttributedString+Extension.swift in Sources */,
 				3C59F5EC2950637E0045C66A /* MainDiaryView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				FC9C15FD29640ADF00272838 /* CurrentDiary.swift in Sources */,
 				F63447CC29508CCB00A43B7D /* CustomListCell.swift in Sources */,
 				3C03E2882959689900E0DB67 /* CoreDataManager.swift in Sources */,
 			);
@@ -541,9 +546,10 @@
 		C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				FC9C15F9296400AA00272838 /* Diary_v2.xcdatamodel */,
 				C739AE2E284DF28600741E8F /* Diary.xcdatamodel */,
 			);
-			currentVersion = C739AE2E284DF28600741E8F /* Diary.xcdatamodel */;
+			currentVersion = FC9C15F9296400AA00272838 /* Diary_v2.xcdatamodel */;
 			path = Diary.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
