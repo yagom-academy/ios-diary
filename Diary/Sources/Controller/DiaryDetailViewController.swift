@@ -5,6 +5,7 @@
 //  Copyright (c) 2022 Minii All rights reserved.
 
 import UIKit
+import CoreLocation
 
 final class DiaryDetailViewController: UIViewController {
     private let titleTextField = UITextField(
@@ -19,6 +20,7 @@ final class DiaryDetailViewController: UIViewController {
     )
     
     private let coreDataManager = CoreDataManager.shared
+    private let locationManager = CLLocationManager()
     private var diary: Diary?
     private var isNotEmpty: Bool = false {
         didSet {
@@ -32,9 +34,11 @@ final class DiaryDetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
         titleTextField.delegate = self
         contentTextView.delegate = self
+        locationManager.delegate = self
         setNavigationBar()
         configureLayout()
         bindKeyboardObserver()
+        locationManager.requestWhenInUseAuthorization()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -160,6 +164,19 @@ extension DiaryDetailViewController: UITextFieldDelegate, UITextViewDelegate {
     ) -> Bool {
         checkButtonEnable()
         return true
+    }
+}
+
+extension DiaryDetailViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            break
+        case .restricted, .notDetermined:
+            manager.requestWhenInUseAuthorization()
+        default:
+            return
+        }
     }
 }
 
