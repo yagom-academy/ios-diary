@@ -61,7 +61,7 @@ final class DiaryViewController: UIViewController {
     }
 
     private func configureNavigationBar() {
-        self.navigationItem.title = Constant.diaryViewTitle
+        self.navigationItem.title = Constant.diaryViewTitle.localized
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add)
         self.navigationItem.rightBarButtonItem?.target = self
         self.navigationItem.rightBarButtonItem?.action = #selector(tappedAddButton)
@@ -95,7 +95,10 @@ extension DiaryViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, completionHandler) in
+        let deleteAction = UIContextualAction(
+            style: .destructive,
+            title: AlertMessage.delete.localized
+        ) { (_, _, completionHandler) in
             let diary = self.diaryContents[indexPath.row]
             self.diaryContents.remove(at: indexPath.row)
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -104,7 +107,10 @@ extension DiaryViewController: UITableViewDelegate {
             completionHandler(true)
         }
         
-        let shareAction = UIContextualAction(style: .normal, title: "Share") { (_, _, completionHandler) in
+        let shareAction = UIContextualAction(
+            style: .normal,
+            title: AlertMessage.share.localized
+        ) { (_, _, completionHandler) in
             let diary = self.diaryContents[indexPath.row]
             let title = (diary.title ?? "")
             let body = (diary.body ?? "")

@@ -18,6 +18,8 @@
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		E32F721B295EB53C009FC310 /* Collection+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32F721A295EB53C009FC310 /* Collection+.swift */; };
+		E32F724329641D80009FC310 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E32F724529641D80009FC310 /* Localizable.strings */; };
+		E32F724829641EAD009FC310 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E32F724729641EAD009FC310 /* String+.swift */; };
 		E3D8C9902951E0AE003273BF /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D8C98F2951E0AE003273BF /* DiaryData.swift */; };
 		E3D8C9922951E135003273BF /* JSONDecoder+.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D8C9912951E135003273BF /* JSONDecoder+.swift */; };
 		E3D8C9962952D436003273BF /* EditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D8C9952952D436003273BF /* EditorViewController.swift */; };
@@ -43,6 +45,9 @@
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C7A862BCD2F97B8927E578B2 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E32F721A295EB53C009FC310 /* Collection+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+.swift"; sourceTree = "<group>"; };
+		E32F724429641D80009FC310 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E32F724629641D93009FC310 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		E32F724729641EAD009FC310 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		E3D8C98F2951E0AE003273BF /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
 		E3D8C9912951E135003273BF /* JSONDecoder+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JSONDecoder+.swift"; sourceTree = "<group>"; };
 		E3D8C9952952D436003273BF /* EditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EditorViewController.swift; path = Diary/EditorViewController/EditorViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -119,6 +124,7 @@
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 				C739AE35284DF28600741E8F /* Info.plist */,
+				E32F724529641D80009FC310 /* Localizable.strings */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -140,6 +146,7 @@
 				AC69D63F295A8B1700208A2C /* CellIdentifiable+.swift */,
 				E3D8C9912951E135003273BF /* JSONDecoder+.swift */,
 				AC69D62329593D7100208A2C /* Date+.swift */,
+				E32F724729641EAD009FC310 /* String+.swift */,
 				E32F721A295EB53C009FC310 /* Collection+.swift */,
 			);
 			path = Extension;
@@ -197,6 +204,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = C739AE18284DF28600741E8F;
 			productRefGroup = C739AE22284DF28600741E8F /* Products */;
@@ -214,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE31284DF28600741E8F /* Assets.xcassets in Resources */,
+				E32F724329641D80009FC310 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -276,6 +285,7 @@
 				E3D8C9962952D436003273BF /* EditorViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				E3D8C9922951E135003273BF /* JSONDecoder+.swift in Sources */,
+				E32F724829641EAD009FC310 /* String+.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				E3D8CAE7295C18EC003273BF /* Diary+CoreDataProperties.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
@@ -286,11 +296,24 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXVariantGroup section */
+		E32F724529641D80009FC310 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				E32F724429641D80009FC310 /* en */,
+				E32F724629641D93009FC310 /* ko */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		C739AE36284DF28600741E8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -352,6 +375,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

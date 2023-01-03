@@ -142,12 +142,12 @@ final class EditorViewController: UIViewController {
     
     private func tappedDeleteAction(_ sender: UIAlertAction) {
         let alert = UIAlertController(
-            title: "진짜요?",
-            message: "정말로 삭제하시겠어요?",
+            title: AlertMessage.deleteTitle.localized,
+            message: AlertMessage.deleteMessage.localized,
             preferredStyle: .alert
         )
-        let cancel = UIAlertAction(title: "취소", style: .default)
-        let delete = UIAlertAction(title: "삭제", style: .destructive, handler: deleteDiary)
+        let cancel = UIAlertAction(title: AlertMessage.cancel.localized, style: .default)
+        let delete = UIAlertAction(title: AlertMessage.delete.localized, style: .destructive, handler: deleteDiary)
         
         [cancel, delete].forEach { alert.addAction($0) }
         
@@ -180,9 +180,17 @@ extension EditorViewController {
             message: nil,
             preferredStyle: .actionSheet
         )
-        let share = UIAlertAction(title: "Share...", style: .default, handler: tappedShareAction)
-        let delete = UIAlertAction(title: "Delete", style: .destructive, handler: tappedDeleteAction)
-        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        let share = UIAlertAction(
+            title: AlertMessage.share.localized + AlertMessage.ellipsis,
+            style: .default,
+            handler: tappedShareAction
+        )
+        let delete = UIAlertAction(
+            title: AlertMessage.delete.localized,
+            style: .destructive,
+            handler: tappedDeleteAction
+        )
+        let cancel = UIAlertAction(title: AlertMessage.cancel.localized, style: .cancel)
         
         [share, delete, cancel].forEach { alert.addAction($0) }
         
