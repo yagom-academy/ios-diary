@@ -14,6 +14,12 @@ enum DataError: Error {
     case coreDataError
 }
 
+enum SessionError: Error {
+    case noneDataError
+    case decodeError
+    case networkError
+}
+
 extension DataError: LocalizedError {
     var errorDescription: String? {
         switch self {

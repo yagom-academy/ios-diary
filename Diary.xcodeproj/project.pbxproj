@@ -27,6 +27,8 @@
 		F63447C629506B8D00A43B7D /* DecoderManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447C529506B8D00A43B7D /* DecoderManager.swift */; };
 		F63447CA29506D2E00A43B7D /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447C929506D2E00A43B7D /* Error.swift */; };
 		F63447CC29508CCB00A43B7D /* CustomListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63447CB29508CCB00A43B7D /* CustomListCell.swift */; };
+		F6ED23FE2963BBCA00807F78 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6ED23FD2963BBC900807F78 /* NetworkManager.swift */; };
+		F6ED24002963BDAF00807F78 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6ED23FF2963BDAF00807F78 /* WeatherData.swift */; };
 		FCEA9EC929545A4200ACA37D /* UIComponent+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEA9EC829545A4200ACA37D /* UIComponent+Extension.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,6 +57,8 @@
 		F63447C529506B8D00A43B7D /* DecoderManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecoderManager.swift; sourceTree = "<group>"; };
 		F63447C929506D2E00A43B7D /* Error.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
 		F63447CB29508CCB00A43B7D /* CustomListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomListCell.swift; sourceTree = "<group>"; };
+		F6ED23FD2963BBC900807F78 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		F6ED23FF2963BDAF00807F78 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		FCEA9EC829545A4200ACA37D /* UIComponent+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIComponent+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -85,6 +89,8 @@
 			children = (
 				C739AE28284DF28600741E8F /* MainViewController.swift */,
 				F633D22C295169EE0037DD81 /* EditViewController.swift */,
+				F6ED23FD2963BBC900807F78 /* NetworkManager.swift */,
+				F6ED23FF2963BDAF00807F78 /* WeatherData.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -288,6 +294,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F6ED24002963BDAF00807F78 /* WeatherData.swift in Sources */,
+				F6ED23FE2963BBCA00807F78 /* NetworkManager.swift in Sources */,
 				3CDDF8E1295996ED00D03BD5 /* UIViewController+Extension.swift in Sources */,
 				3C59F5F32950A8AF0045C66A /* Formatter+Extension.swift in Sources */,
 				F63447CA29506D2E00A43B7D /* Error.swift in Sources */,
