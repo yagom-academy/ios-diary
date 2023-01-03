@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0C0F6303296405F2004EEAA5 /* WeatherEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C0F6302296405F2004EEAA5 /* WeatherEntity.swift */; };
 		0C396FD8295AB6CF00934C79 /* UIAlertAction+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C396FD7295AB6CF00934C79 /* UIAlertAction+.swift */; };
 		0C396FDA295ACE5700934C79 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C396FD9295ACE5700934C79 /* CoreDataManager.swift */; };
 		0CCBFD492950645B0070FE99 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0CCBFD482950645B0070FE99 /* .swiftlint.yml */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0C0F6302296405F2004EEAA5 /* WeatherEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherEntity.swift; sourceTree = "<group>"; };
 		0C396FD7295AB6CF00934C79 /* UIAlertAction+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertAction+.swift"; sourceTree = "<group>"; };
 		0C396FD9295ACE5700934C79 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		0CCBFD482950645B0070FE99 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			children = (
 				18135D1E295C26B100C2269D /* Utility */,
 				0CCBFD4E295181A10070FE99 /* Diary.swift */,
+				0C0F6302296405F2004EEAA5 /* WeatherEntity.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				18135D1D295C222D00C2269D /* LocalizedConstant.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				18BB1831295ACAE400F84C47 /* UIAlertController+.swift in Sources */,
+				0C0F6303296405F2004EEAA5 /* WeatherEntity.swift in Sources */,
 				18D381382952F19B002BB2F1 /* UINavigationController+.swift in Sources */,
 				185A5F382951610800AF523D /* DiaryListCell.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
