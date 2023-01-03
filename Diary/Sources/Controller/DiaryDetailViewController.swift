@@ -196,13 +196,16 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
         
         guard let url = request.convertURL() else { return }
         
-        let task = URLSession.shared.dataTask(with: url) { _, response, error in
+        let task = URLSession.shared.dataTask(with: url) { data, response, error in
             guard let response = response as? HTTPURLResponse,
                   (200...299) ~= response.statusCode else {
                 return
             }
             
-            // TODO: 받아온 날씨 데이터 가공하기
+            guard let data = data,
+                  let _ = try? JSONDecoder().decode(WeatherEntity.self, from: data) else { return }
+            
+            // TODO: 디코딩된 데이터 처리하기
         }
         
         task.resume()

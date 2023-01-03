@@ -26,8 +26,8 @@ struct Main: Decodable {
     let tempMax: Double
     let pressure: Int
     let humidity: Int
-    let seaLevel: Int
-    let grndLevel: Int
+    let seaLevel: Int?
+    let grndLevel: Int?
     
     private enum CodingKeys: String, CodingKey {
         case temp
