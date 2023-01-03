@@ -30,8 +30,6 @@ final class EditorViewController: UIViewController {
         
         if diaryText.isEmpty {
             DiaryDataStore.shared.delete(objectID: content.objectID)
-        } else {
-            updateDiaryText()
         }
     }
     
@@ -101,6 +99,7 @@ final class EditorViewController: UIViewController {
     }
     
     private func configureTextView() {
+        self.textView.delegate = self
         self.navigationItem.title = self.content.createdDateString
         
         guard let title = content.title else {
@@ -140,6 +139,26 @@ final class EditorViewController: UIViewController {
         )
         present(activityViewController, animated: true)
     }
+    
+    private func tappedDeleteAction(_ sender: UIAlertAction) {
+        let alert = UIAlertController(
+            title: "진짜요?",
+            message: "정말로 삭제하시겠어요?",
+            preferredStyle: .alert
+        )
+        let cancel = UIAlertAction(title: "취소", style: .default)
+        let delete = UIAlertAction(title: "삭제", style: .destructive, handler: deleteDiary)
+        
+        [cancel, delete].forEach { alert.addAction($0) }
+        
+        present(alert, animated: true)
+    }
+    
+    private func deleteDiary( sender: UIAlertAction) {
+        DiaryDataStore.shared.delete(objectID: content.objectID)
+        
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 // MARK: - objc method
@@ -162,7 +181,7 @@ extension EditorViewController {
             preferredStyle: .actionSheet
         )
         let share = UIAlertAction(title: "Share...", style: .default, handler: tappedShareAction)
-        let delete = UIAlertAction(title: "Delete", style: .destructive)
+        let delete = UIAlertAction(title: "Delete", style: .destructive, handler: tappedDeleteAction)
         let cancel = UIAlertAction(title: "Cancel", style: .cancel)
         
         [share, delete, cancel].forEach { alert.addAction($0) }
@@ -180,7 +199,7 @@ extension EditorViewController {
     
     @objc private func keyboardWillDisappear(_ notification: NSNotification) {
         self.textViewBottomConstraint.constant = 0
-        updateDiaryText()
+        
         self.textView.layoutIfNeeded()
     }
     
@@ -201,6 +220,12 @@ extension EditorViewController {
                 objectID: content.objectID
             )
         )
+    }
+}
+
+extension EditorViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        updateDiaryText()
     }
 }
 

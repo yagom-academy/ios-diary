@@ -46,16 +46,23 @@ struct DiaryDataStore {
         guard let context = context else {
             return nil
         }
-
-        let newDiary = Diary(context: context)
-        let newDiaryData = DiaryData(
-            title: nil,
-            body: nil,
-            createdAt: Date().timeIntervalSince1970,
-            objectID: newDiary.objectID
-        )
         
-        return newDiaryData
+        let newDiary = Diary(context: context)
+        
+        do {
+            try context.save()
+            let newDiaryData = DiaryData(
+                title: nil,
+                body: nil,
+                createdAt: Date().timeIntervalSince1970,
+                objectID: newDiary.objectID
+            )
+            
+            return newDiaryData
+        } catch {
+            logger.error("\(error.localizedDescription)")
+            return nil
+        }
     }
 
     @discardableResult
