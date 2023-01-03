@@ -22,6 +22,7 @@
 		EB39A625295450B80029B9D6 /* DiaryListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB39A624295450B80029B9D6 /* DiaryListContentView.swift */; };
 		EB39A628295458320029B9D6 /* TimeInterval.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB39A627295458320029B9D6 /* TimeInterval.swift */; };
 		EB84FA3D295147260056999D /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = EB84FA3C295147260056999D /* .swiftlint.yml */; };
+		EBDA9B2A29643EED00568E3B /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBDA9B2929643EED00568E3B /* LocationManager.swift */; };
 		EBE77C7B2954B5D00050FDFF /* Locale.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBE77C7A2954B5D00050FDFF /* Locale.swift */; };
 		EBE77C7E2954BB110050FDFF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = EBE77C802954BB110050FDFF /* Localizable.strings */; };
 /* End PBXBuildFile section */
@@ -46,6 +47,7 @@
 		EB39A624295450B80029B9D6 /* DiaryListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListContentView.swift; sourceTree = "<group>"; };
 		EB39A627295458320029B9D6 /* TimeInterval.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeInterval.swift; sourceTree = "<group>"; };
 		EB84FA3C295147260056999D /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		EBDA9B2929643EED00568E3B /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		EBE77C7A2954B5D00050FDFF /* Locale.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Locale.swift; sourceTree = "<group>"; };
 		EBE77C7F2954BB110050FDFF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		EBE77C812954BB2A0050FDFF /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -80,6 +82,7 @@
 				09D5B5F3295150E700B5DFEC /* Diary.swift */,
 				09CA2F90295AE57900CE32A9 /* PersistentContainerManager.swift */,
 				09CA2F92295AEB0A00CE32A9 /* PersistentContainer.swift */,
+				EBDA9B2929643EED00568E3B /* LocationManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 				09CD6A7D29548EAD0025F1FA /* DiaryDetailViewController.swift in Sources */,
 				09CA2F93295AEB0A00CE32A9 /* PersistentContainer.swift in Sources */,
 				09CA2FB3295B28EA00CE32A9 /* DiaryModel.xcdatamodeld in Sources */,
+				EBDA9B2A29643EED00568E3B /* LocationManager.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				EB39A625295450B80029B9D6 /* DiaryListContentView.swift in Sources */,
 				EB39A628295458320029B9D6 /* TimeInterval.swift in Sources */,
