@@ -15,56 +15,40 @@ final class CoreDataManager {
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: CoreDataNamespace.diary)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            if let error = error as NSError? {
+            guard error == nil else {
                 AlertManager.shared.sendError(title: ErrorNamespace.loadingFailure)
+                return
             }
         })
         return container
     }()
     
-    private var viewContext: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
-    
     private var diaryEntity: NSEntityDescription? {
-        return NSEntityDescription.entity(forEntityName: CoreDataNamespace.diary, in: viewContext)
+        return NSEntityDescription.entity(forEntityName: CoreDataNamespace.diary, in: persistentContainer.viewContext)
     }
     
-    private func saveContext() {
-        let context = persistentContainer.viewContext
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                AlertManager.shared.sendError(title: ErrorNamespace.saveError)
-            }
+    private func saveContext() throws {
+        if persistentContainer.viewContext.hasChanges {
+            try persistentContainer.viewContext.save()
         }
     }
     
-    func insert(date: Date) {
+    func insert(date: Date) throws {
         guard let diaryEntity = diaryEntity else { return }
         
-        let managedObject = NSManagedObject(entity: diaryEntity, insertInto: viewContext)
+        let managedObject = NSManagedObject(entity: diaryEntity, insertInto: persistentContainer.viewContext)
         managedObject.setValue(date, forKey: CoreDataNamespace.createAt)
-        saveContext()
+        try saveContext()
     }
     
-    func fetchAllEntities() -> [Diary] {
-        do {
-            let request = Diary.fetchRequest()
-            let results = try viewContext.fetch(request)
-            
-            return results
-        } catch {
-            AlertManager.shared.sendError(title: ErrorNamespace.loadingFailure)
-        }
-        
-        return []
+    func fetchAllEntities() throws -> [Diary] {
+        let request = Diary.fetchRequest()
+        return try persistentContainer.viewContext.fetch(request)
     }
     
-    func fetchAllModels() -> [DiaryModel] {
+    func fetchAllModels() throws -> [DiaryModel] {
         var diaryModels: [DiaryModel] = []
-        let fetchedResults = fetchAllEntities()
+        let fetchedResults = try fetchAllEntities()
         
         for result in fetchedResults {
             let diary = DiaryModel(id: result.objectID,
@@ -82,31 +66,27 @@ final class CoreDataManager {
         fetchRequest.predicate = NSPredicate(format: CoreDataNamespace.regex,
                                              argumentArray: [date])
         
-        let result = try? viewContext.fetch(fetchRequest)
-        if result?.first?.objectID == nil {
-            return nil
-        } else {
-            return result?.first?.objectID
-        }
+        let result = try? persistentContainer.viewContext.fetch(fetchRequest)
+        return result?.first?.objectID
     }
     
-    func update(_ diaryModel: DiaryModel?) {
+    func update(_ diaryModel: DiaryModel?) throws {
         guard let diaryModel = diaryModel,
               let id = diaryModel.id else { return }
         
-        guard let object = viewContext.object(with: id) as? Diary else { return }
+        guard let object = persistentContainer.viewContext.object(with: id) as? Diary else { return }
         
         object.setValue(diaryModel.title, forKey: CoreDataNamespace.title)
         object.setValue(diaryModel.body, forKey: CoreDataNamespace.body)
-        saveContext()
+        try saveContext()
     }
     
-    func delete(with id: NSManagedObjectID?) {
+    func delete(with id: NSManagedObjectID?) throws {
         guard let id = id else { return }
         
-        let object = viewContext.object(with: id)
-        viewContext.delete(object)
-        saveContext()
+        let object = persistentContainer.viewContext.object(with: id)
+        persistentContainer.viewContext.delete(object)
+        try saveContext()
     }
     
     private enum CoreDataNamespace {

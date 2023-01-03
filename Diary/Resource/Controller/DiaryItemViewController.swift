@@ -52,11 +52,6 @@ final class DiaryItemViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
     
-    init() {
-        self.diaryItem = DiaryItemManager.shared.create()
-        super.init(nibName: nil, bundle: nil)
-    }
-    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -150,7 +145,11 @@ final class DiaryItemViewController: UIViewController {
     @objc private func save() {
         diaryItem?.title = titleTextView.text
         diaryItem?.body = bodyTextView.text
-        DiaryItemManager.shared.update(diaryItem: diaryItem)
+        do {
+            try DiaryItemManager.shared.update(diaryItem: diaryItem)
+        } catch {
+            showErrorAlert(title: "저장 실패")
+        }
     }
     
     @objc private func showAlert(_ notification: Notification) {
@@ -192,7 +191,11 @@ final class DiaryItemViewController: UIViewController {
     private func delete() {
         self.titleTextView.text = Namespace.empty
         self.bodyTextView.text = Namespace.empty
-        DiaryItemManager.shared.deleteDiary(data: diaryItem)
+        do {
+            try DiaryItemManager.shared.deleteDiary(data: diaryItem)
+        } catch {
+            showErrorAlert(title: Namespace.alertTitle)
+        }
     }
     
     private enum LayoutConstant {

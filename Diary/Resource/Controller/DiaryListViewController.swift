@@ -32,7 +32,11 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchCoreData() {
-        diaryModels = CoreDataManager.shared.fetchAllModels()
+        do {
+            diaryModels = try CoreDataManager.shared.fetchAllModels()
+        } catch {
+            showErrorAlert(title: Namespace.alertTitle)
+        }
     }
     
     private func configureNavigationBar() {
@@ -48,7 +52,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func tappedPlusButton(_ sender: UIBarButtonItem) {
-        let diaryItemViewController = DiaryItemViewController()
+        guard let diaryItem = try? DiaryItemManager.shared.create() else { return }
+        let diaryItemViewController = DiaryItemViewController(diaryItem: diaryItem)
         navigationController?.pushViewController(diaryItemViewController, animated: true)
     }
     
@@ -117,8 +122,12 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let deleteAction = UIContextualAction(style: .destructive, title: Namespace.delete) { _, _, _  in
             let handler: (UIAlertAction) -> Void = { _ in
-                DiaryItemManager.shared.deleteDiary(data: self.diaryModels[indexPath.row])
-                self.diaryModels = CoreDataManager.shared.fetchAllModels()
+                do {
+                    try DiaryItemManager.shared.deleteDiary(data: self.diaryModels[indexPath.row])
+                    self.diaryModels = try CoreDataManager.shared.fetchAllModels()
+                } catch {
+                    self.showErrorAlert(title: Namespace.alertTitle)
+                }
             }
             self.showDeleteAlert(handler: handler)
         }
