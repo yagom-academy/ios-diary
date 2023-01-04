@@ -102,4 +102,13 @@ final class DiaryItemManager {
             textView.resignFirstResponder()
         }
     }
+    
+    func removePlaceholder(textView: UITextView) {
+        let isPlaceholder: Bool = textView.textColor == .systemGray3
+        
+        if isPlaceholder {
+            textView.text = nil
+            textView.textColor = .black
+        }
+    }
 }

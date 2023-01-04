@@ -220,12 +220,7 @@ extension DiaryItemViewController {
 
 extension DiaryItemViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        let isPlaceholder: Bool = textView.textColor == .systemGray3
-        
-        if isPlaceholder {
-            textView.text = nil
-            textView.textColor = .black
-        }
+        diaryItemManager?.removePlaceholder(textView: textView)
     }
     
     func textViewDidChange(_ textView: UITextView) {
