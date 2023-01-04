@@ -74,7 +74,6 @@ class CustomDiaryCell: UITableViewCell {
         dateLabel.text = diary.createdDate
     }
     
-    
     // MARK: Private Methods
     
     private func setUpStackView() {

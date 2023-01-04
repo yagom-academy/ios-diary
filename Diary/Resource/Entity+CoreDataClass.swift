@@ -8,5 +8,5 @@ import CoreData
 import Foundation
 
 @objc(Entity)
-public class Entity: NSManagedObject {
+class Entity: NSManagedObject {
 }

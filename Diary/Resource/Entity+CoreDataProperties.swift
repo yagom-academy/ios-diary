@@ -8,14 +8,17 @@ import CoreData
 import Foundation
 
 extension Entity {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<Entity> {
-        return NSFetchRequest<Entity>(entityName: "Entity")
+    @nonobjc static func fetchRequest() -> NSFetchRequest<Entity> {
+        return NSFetchRequest<Entity>(entityName: NameSpace.entityName)
     }
 
-    @NSManaged public var title: String?
-    @NSManaged public var body: String?
-    @NSManaged public var createdDate: String?
-    @NSManaged public var totalText: String?
-    @NSManaged public var id: UUID?
+    @NSManaged var title: String?
+    @NSManaged var body: String?
+    @NSManaged var createdDate: String?
+    @NSManaged var totalText: String?
+    @NSManaged var id: UUID?
+}
+
+private enum NameSpace {
+    static let entityName = "Entity"
 }
