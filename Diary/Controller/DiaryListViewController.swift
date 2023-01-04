@@ -68,28 +68,37 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func pressAddButton() {
+        self.getWeatherData()
+        self.insertDefaultDiary()
+        self.moveToEditView()
+    }
+    
+    private func getWeatherData() {
+        
+    }
+    
+    private func insertDefaultDiary() {
         do {
             try CoreDataMananger.shared.insert(diary: DiaryModel())
-            
+        } catch {
+            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
+                                                          message: DiaryError.saveContextFailed.alertMessage,
+                                                          actionTitle: "확인"),
+                         animated: true)
+        }
+    }
+    
+    private func moveToEditView() {
+        do {
             let currentDiaryModel = try CoreDataMananger.shared.fetchLastObject()
             let editDiaryViewController = EditDiaryViewController(diaryModel: currentDiaryModel)
             
             self.navigationController?.pushViewController(editDiaryViewController, animated: true)
         } catch {
-            switch error {
-            case DiaryError.fetchFailed:
-                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
-                                                              message: DiaryError.fetchFailed.alertMessage,
-                                                              actionTitle: "확인"),
-                             animated: true)
-            case DiaryError.saveContextFailed:
-                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
-                                                              message: DiaryError.saveContextFailed.alertMessage,
-                                                              actionTitle: "확인"),
-                             animated: true)
-            default:
-                break
-            }
+            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
+                                                          message: DiaryError.fetchFailed.alertMessage,
+                                                          actionTitle: "확인"),
+                         animated: true)
         }
     }
     

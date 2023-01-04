@@ -11,7 +11,6 @@ struct DiaryModel: Hashable {
     var id: NSManagedObjectID?
     var title: String = ""
     var body: String = ""
-    var weatherMain: String = ""
     var weatherIconID: String = ""
     var createdAt: Double = DateFormatter().convertDateToDouble()
 }
