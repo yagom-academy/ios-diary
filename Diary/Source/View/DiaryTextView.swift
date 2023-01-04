@@ -4,36 +4,16 @@
 import UIKit.UITextView
 
 final class DiaryTextView: UITextView {
-    private let placeholder: String
-    private let placeholderColor: UIColor = .systemGray3
-    private let defaultTextColor: UIColor
-    
-    init(placeholder: String, defaultTextColor: UIColor) {
-        self.placeholder = placeholder
-        self.defaultTextColor = defaultTextColor
+    init(font: UIFont, textAlignment: NSTextAlignment, textColor: UIColor) {
         super.init(frame: .zero, textContainer: nil)
-        text = placeholder
-        textColor = placeholderColor
+        self.font = font
+        self.textAlignment = textAlignment
+        self.textColor = textColor
+        self.alwaysBounceVertical = true
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func configurePlaceholder() {
-        if hasText == false {
-            text = placeholder
-            textColor = placeholderColor
-        }
-    }
-    
-    override func becomeFirstResponder() -> Bool {
-        if textColor == placeholderColor {
-            text = .init()
-            textColor = defaultTextColor
-        }
-        
-        return super.becomeFirstResponder()
     }
 }

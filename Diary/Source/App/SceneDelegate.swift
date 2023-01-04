@@ -25,8 +25,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
-
+    
     func sceneDidEnterBackground(_ scene: UIScene) {
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        NotificationCenter.default.post(name: .didEnterBackground, object: nil)
     }
 }

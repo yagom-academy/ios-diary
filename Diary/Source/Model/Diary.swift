@@ -3,35 +3,18 @@
 
 import Foundation
 
-struct Diary: Decodable {
-    let id: UUID = UUID()
-    let title: String
-    let body: String
-    private let createdAt: Double
-    var date: String {
-        return DateFormatter.converted(date: Date(timeIntervalSince1970: createdAt),
-                                       locale: Locale.preference,
-                                       dateStyle: .long)
-    }
+struct Diary: ManagedObjectModel {
+    var content: String
+    var createdAt: Date
+    var objectID: String?
     
-    private enum CodingKeys: String, CodingKey {
-        case title, body
-        case createdAt = "created_at"
-    }
-    
-    init(
-        title: String = .init(),
-        body: String = .init(),
-        createdAt: Double = Date().timeIntervalSince1970.rounded()
-    ) {
-        self.title = title
-        self.body = body
+    init?(from diaryData: DiaryData) {
+        guard let content = diaryData.content,
+              let createdAt = diaryData.createdAt else {
+            return nil
+        }
+        self.content = content
         self.createdAt = createdAt
-    }
-}
-
-extension Diary: Hashable {
-    static func == (_ lhs: Diary, _ rhs: Diary) -> Bool {
-        return (lhs.id == rhs.id)
+        self.objectID = diaryData.objectID.uriRepresentation().absoluteString
     }
 }
