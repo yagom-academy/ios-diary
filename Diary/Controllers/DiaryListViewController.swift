@@ -9,15 +9,12 @@ import UIKit
 final class DiaryListViewController: UICollectionViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Diary.ID>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Diary.ID>
+    private var persistentContainerManager = PersistentContainerManager()
     private var dataSource: DataSource?
     private var diaries: [Diary] = []
 
     init() {
-        var config = UICollectionLayoutListConfiguration(appearance: .plain)
-        config.showsSeparators = true
-        let viewLayout = UICollectionViewCompositionalLayout.list(using: config)
-
-        super.init(collectionViewLayout: viewLayout)
+        super.init(collectionViewLayout: UICollectionViewLayout())
     }
 
     required init?(coder: NSCoder) {
@@ -27,10 +24,44 @@ final class DiaryListViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        configureCollectionViewLayout()
         configureNavigationItem()
-        configureDiariesWithSampleData()
         configureDataSource()
+        diaries = persistentContainerManager.fetchDiaries()
         updateSnapshot()
+    }
+
+    private func configureCollectionViewLayout() {
+        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        config.showsSeparators = true
+        config.trailingSwipeActionsConfigurationProvider = makeSwipeAction
+        let viewLayout = UICollectionViewCompositionalLayout.list(using: config)
+        collectionView.collectionViewLayout = viewLayout
+    }
+
+    private func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
+        guard let indexPath = indexPath,
+              let id = dataSource?.itemIdentifier(for: indexPath),
+              let diary = diary(diaryID: id) else { return nil }
+        let shareActionTitle = NSLocalizedString("Share...", comment: "")
+        let shareAction = UIContextualAction(style: .normal, title: shareActionTitle) { [weak self] _, _, _ in
+            self?.showActivityView(diary)
+        }
+        let deleteActionTitle = NSLocalizedString("Delete", comment: "")
+        let deleteAction = UIContextualAction(style: .destructive,
+                                              title: deleteActionTitle) { [weak self] _, _, _ in
+            self?.persistentContainerManager.deleteDiary(diary)
+            self?.delete(diary: diary)
+            self?.updateSnapshot()
+        }
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+
+    private func showActivityView(_ diary: Diary) {
+        let activityItems = [diary.title, diary.createdAt.currentLocalizedText(), diary.body]
+        let activityViewController = UIActivityViewController(activityItems: activityItems,
+                                                              applicationActivities: nil)
+        present(activityViewController, animated: true, completion: nil)
     }
 
     private func configureNavigationItem() {
@@ -41,17 +72,37 @@ final class DiaryListViewController: UICollectionViewController {
         navigationItem.rightBarButtonItem = addButton
     }
 
-    private func configureDiariesWithSampleData() {
-        guard let dataAsset = NSDataAsset(name: "sample"),
-              let data = try? JSONDecoder().decode([Diary].self, from: dataAsset.data) else { return }
-        diaries = data
-    }
-
     private func diary(diaryID: Diary.ID) -> Diary? {
         guard let diary = diaries.first(where: { diary in
             diary.id == diaryID
         }) else { return nil }
         return diary
+    }
+
+    private func update(diary: Diary) {
+        guard let index = diaries.firstIndex(where: { $0.id == diary.id }) else { return }
+        diaries[index] = diary
+    }
+
+    private func delete(diary: Diary) {
+        guard let index = diaries.firstIndex(where: { $0.id == diary.id }) else { return }
+        diaries.remove(at: index)
+    }
+
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let diaryID = dataSource?.itemIdentifier(for: indexPath),
+              let diary = diary(diaryID: diaryID) else { return }
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary) { [weak self] diary, action in
+            switch action {
+            case .update:
+                self?.update(diary: diary)
+                self?.updateSnapshot([diary.id])
+            case .delete:
+                self?.delete(diary: diary)
+                self?.updateSnapshot()
+            }
+        }
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
 
@@ -79,10 +130,11 @@ extension DiaryListViewController {
         })
     }
 
-    private func updateSnapshot() {
+    private func updateSnapshot(_ reloadItemIds: [Diary.ID] = []) {
         var snapshot = Snapshot()
         snapshot.appendSections([0])
         snapshot.appendItems(diaries.map { $0.id }, toSection: 0)
+        snapshot.reloadItems(reloadItemIds)
         dataSource?.apply(snapshot)
     }
 }
@@ -90,7 +142,19 @@ extension DiaryListViewController {
 // MARK: - objc
 extension DiaryListViewController {
     @objc private func touchUpAddButton(_ sender: UIBarButtonItem) {
-        let diaryRegistrationViewController = DiaryRegistrationViewController()
-        navigationController?.pushViewController(diaryRegistrationViewController, animated: true)
+        let newDiary = Diary(title: "", body: "", createdAt: Date().timeIntervalSince1970)
+        persistentContainerManager.insertDiary(newDiary)
+        diaries.append(newDiary)
+        let diaryDetailViewController = DiaryDetailViewController(diary: newDiary) { [weak self] diary, action in
+            switch action {
+            case .update:
+                self?.update(diary: diary)
+                self?.updateSnapshot([diary.id])
+            case .delete:
+                self?.delete(diary: diary)
+                self?.updateSnapshot()
+            }
+        }
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
