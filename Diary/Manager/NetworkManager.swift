@@ -44,7 +44,7 @@ final class NetworkManager {
                 return
             }
             
-            completion(.success(data))
+            completion(.success(data as NSData))
         }.resume()
     }
 }

@@ -21,7 +21,8 @@ final class WeatherNetworkManager: NetworkManageable {
                     return
                 }
                 completion(.success(data))
-            case .failure(_):
+            case .failure(let error):
+                completion(.failure(error))
                 return
             }
         }
@@ -40,7 +41,8 @@ final class WeatherNetworkManager: NetworkManageable {
                 ImageDataCacheManager.shared.setObject(data,
                                                        forKey: cachedKey)
                 completion(.success(data))
-            case .failure(_):
+            case .failure(let error):
+                completion(.failure(error))
                 return
             }
         }
