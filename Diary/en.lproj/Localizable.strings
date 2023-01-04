@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Diary
+
+  Created by JPush, Wonbi on 2023/01/04.
+  
+*/
+
+"Diary" = "Diary";
+"Share" = "Share";
+"Delete" = "Delete";
+"Cancel" = "Cancel";
+"Really?" = "Really?";
+"Are you sure want to delete?" = "Are you sure want to delete?";

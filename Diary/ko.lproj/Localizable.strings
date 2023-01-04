@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  Diary
+
+  Created by JPush, Wonbi on 2023/01/04.
+  
+*/
+"Diary" = "일기장";
+"Share" = "공유";
+"Delete" = "삭제";
+"Cancel" = "취소";
+"Really?" = "정말요?";
+"Are you sure want to delete?" = "정말로 삭제하시겠습니까?";
