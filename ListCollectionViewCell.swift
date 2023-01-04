@@ -72,7 +72,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             self.mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
             self.mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
         ])
-
+        
         self.dateLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
     }
     
@@ -87,9 +87,9 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         self.subStackView.addArrangedSubview(self.bodyLabel)
     }
     
-    func configureContents(with diary: Diary) {
+    func configureContents(with diary: DiaryModel) {
         self.titleLabel.text = diary.title
-        self.dateLabel.text = DateFormatter().longDate
+        self.dateLabel.text = diary.createdAt.convertDate()
         self.bodyLabel.text = diary.body
     }
 }

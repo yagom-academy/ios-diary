@@ -11,10 +11,15 @@ extension DateFormatter {
     var longDate: String {
         self.dateStyle = .long
         self.timeStyle = .none
-
+        
         let localeLanguage = Locale.preferredLanguages.first
         self.locale = Locale(identifier: localeLanguage ?? "ko-kr")
         
         return self.string(from: Date())
+    }
+    
+    func convertDateToDouble() -> Double {
+        let timeInterval = Date().timeIntervalSince1970
+        return timeInterval
     }
 }

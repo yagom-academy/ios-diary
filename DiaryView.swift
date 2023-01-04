@@ -1,18 +1,20 @@
 //
-//  AddDiaryView.swift
+//  DiaryView.swift
 //  Diary
 //
-//  Created by 애종, 애쉬 on 2022/12/20.
+//  Created by 애종, 애쉬 on 2022/12/27.
 //
 
 import UIKit
 
-final class AddDiaryView: UIView {
-    private let textView: UITextView = {
+class DiaryView: UIView {
+    let textView: UITextView = {
         let textView = UITextView()
         textView.isEditable = true
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
+        textView.keyboardDismissMode = .interactive
+        textView.alwaysBounceVertical = true
         
         return textView
     }()
@@ -21,6 +23,7 @@ final class AddDiaryView: UIView {
         super.init(frame: frame)
         self.configureView()
         self.configureAutoLayout()
+        self.setKeyboardObserver()
     }
     
     required init?(coder: NSCoder) {
@@ -44,6 +47,20 @@ final class AddDiaryView: UIView {
     }
     
     func changeTextViewContentInset(for height: CGFloat) {
-        self.textView.contentInset.bottom += height
+        self.textView.contentInset.bottom = height
+    }
+}
+
+extension DiaryView: AddKeyboardNotification {
+    func keyboardWillShow(notification: NSNotification) {
+        guard let keyboardHeight = self.getKeyboardHeight(from: notification) else { return }
+        
+        self.changeTextViewContentInset(for: keyboardHeight)
+    }
+    
+    func keyboardWillHide(notification: NSNotification) {
+        guard let keyboardHeight = self.getKeyboardHeight(from: notification) else { return }
+        
+        self.changeTextViewContentInset(for: -keyboardHeight)
     }
 }

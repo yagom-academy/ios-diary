@@ -7,18 +7,34 @@
 // 
 
 import UIKit
+import CoreData
 
 final class DiaryListViewController: UIViewController {
-    private let collectionView: UICollectionView = {
-        let config = UICollectionLayoutListConfiguration(appearance: .plain)
+    private lazy var collectionView: UICollectionView = {
+        var config = UICollectionLayoutListConfiguration(appearance: .plain)
+        config.trailingSwipeActionsConfigurationProvider = self.makeSwipeAction
         let collectionViewLayout = UICollectionViewCompositionalLayout.list(using: config)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
         
         return collectionView
     }()
     
-    private var dataSource: UICollectionViewDiffableDataSource<DiarySection, Diary>?
-    private var diary: [Diary] = []
+    private let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, DiaryModel> {
+        (cell, indexPath, diary) in
+        cell.configureContents(with: diary)
+        cell.accessories = [.disclosureIndicator()]
+    }
+    
+    private lazy var listCellProvider = {
+        (collectionView: UICollectionView, indexPath: IndexPath, diary: DiaryModel) -> UICollectionViewCell? in
+        
+        return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration,
+                                                            for: indexPath,
+                                                            item: diary)
+    }
+    
+    private lazy var dataSource = UICollectionViewDiffableDataSource<DiarySection, DiaryModel>(
+        collectionView: self.collectionView, cellProvider: self.listCellProvider)
     
     private enum DiarySection: Hashable {
         case main
@@ -27,18 +43,16 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureView()
-        self.configureListContents()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.fetchDiary()
     }
     
     private func configureView() {
         self.configureNavigationBar()
         self.configureCollectionView()
-    }
-    
-    private func configureListContents() {
-        self.decodeJsonData()
-        self.configureDataSource()
-        self.applySnapshot()
     }
     
     private func configureNavigationBar() {
@@ -54,11 +68,33 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func pressAddButton() {
-        let addDiaryViewController = AddDiaryViewController()
-        self.navigationController?.pushViewController(addDiaryViewController, animated: true)
+        do {
+            try CoreDataMananger.shared.insert(diary: DiaryModel())
+            
+            let currentDiaryModel = try CoreDataMananger.shared.fetchLastObject()
+            let editDiaryViewController = EditDiaryViewController(diaryModel: currentDiaryModel)
+            
+            self.navigationController?.pushViewController(editDiaryViewController, animated: true)
+        } catch {
+            switch error {
+            case DiaryError.fetchFailed:
+                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
+                                                              message: DiaryError.fetchFailed.alertMessage,
+                                                              actionTitle: "확인"),
+                             animated: true)
+            case DiaryError.saveContextFailed:
+                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
+                                                              message: DiaryError.saveContextFailed.alertMessage,
+                                                              actionTitle: "확인"),
+                             animated: true)
+            default:
+                break
+            }
+        }
     }
     
     private func configureCollectionView() {
+        self.collectionView.delegate = self
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.collectionView)
         
@@ -71,48 +107,100 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
-    private func decodeJsonData() {
-        guard let dataAsset: NSDataAsset = NSDataAsset(name: "sample") else {
-            let errorAlert = ErrorAlert.shared.showErrorAlert(title: DiaryError.dataAssetLoadFailed.alertTitle,
-                                                              message: DiaryError.dataAssetLoadFailed.alertMessage,
-                                                              actionTitle: "확인")
-            present(errorAlert, animated: true)
-            return
-        }
-        
-        let decodingResult: Result<[Diary], DiaryError> = JSONDecoder().decode(data: dataAsset.data)
-        
-        switch decodingResult {
-        case .success(let decodedDiary):
-            self.diary = decodedDiary
-        case .failure(let error):
-            let errorAlert = ErrorAlert.shared.showErrorAlert(title: error.alertTitle,
-                                                              message: error.alertMessage,
-                                                              actionTitle: "확인")
-            self.present(errorAlert, animated: true)
-        }
-    }
-    
-    private func configureDataSource() {
-        let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, Diary> {
-            (cell, indexPath, diary) in
-            cell.configureContents(with: diary)
-            cell.accessories = [.disclosureIndicator()]
-        }
-        
-        self.dataSource = UICollectionViewDiffableDataSource<DiarySection, Diary>(collectionView: collectionView) {
-            collectionView, indexPath, diary in
+    private func fetchDiary() {
+        do {
+            let diaries: [Diary] = try CoreDataMananger.shared.fetchDiaries()
+            var diaryModels: [DiaryModel] = []
             
-            return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
-                                                                for: indexPath,
-                                                                item: diary)
+            diaries.forEach {
+                diaryModels.append(DiaryModel(id: $0.objectID,
+                                              title: $0.title ?? "",
+                                              body: $0.body ?? "",
+                                              createdAt: $0.createdAt))
+            }
+            
+            self.applySnapshot(with: diaryModels)
+        } catch {
+            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.fetchFailed.alertTitle,
+                                                          message: DiaryError.fetchFailed.alertMessage,
+                                                          actionTitle: "확인"),
+                         animated: true)
         }
     }
     
-    private func applySnapshot() {
-        var snapshot = NSDiffableDataSourceSnapshot<DiarySection, Diary>()
+    private func applySnapshot(with diaries: [DiaryModel]) {
+        var snapshot = NSDiffableDataSourceSnapshot<DiarySection, DiaryModel>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(diary)
-        self.dataSource?.apply(snapshot)
+        snapshot.appendItems(diaries)
+        self.dataSource.apply(snapshot)
+    }
+}
+
+extension DiaryListViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        guard let diaryItem: DiaryModel = dataSource.itemIdentifier(for: indexPath) else { return }
+        
+        let editDiaryViewController = EditDiaryViewController(diaryModel: diaryItem)
+        
+        self.navigationController?.pushViewController(editDiaryViewController, animated: true)
+    }
+    
+    private func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
+        guard let indexPath = indexPath,
+              let diaryOfIndexPath = self.dataSource.itemIdentifier(for: indexPath) else {
+            return nil
+        }
+        
+        let deleteAction = makeDeleteAction(diaryOfIndexPath)
+        let shareAction = makeShareAction(diaryOfIndexPath)
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+    
+    private func makeDeleteAction(_ diaryWillDelete: DiaryModel) -> UIContextualAction {
+        UIContextualAction(style: .destructive,
+                           title: "delete") { [weak self] _, _, _ in
+            do {
+                try CoreDataMananger.shared.delete(diary: diaryWillDelete)
+                
+                self?.delete(diary: diaryWillDelete)
+                
+            } catch {
+                switch error {
+                case DiaryError.deleteFailed:
+                    self?.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
+                                                                   message: DiaryError.deleteFailed.alertMessage,
+                                                                   actionTitle: "확인"),
+                                  animated: true)
+                case DiaryError.saveContextFailed:
+                    self?.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
+                                                                   message: DiaryError.saveContextFailed.alertMessage,
+                                                                   actionTitle: "확인"),
+                                  animated: true)
+                default:
+                    break
+                }
+            }
+        }
+    }
+    
+    private func delete(diary: DiaryModel) {
+        var snapshot = self.dataSource.snapshot()
+        
+        snapshot.deleteItems([diary])
+        self.dataSource.apply(snapshot)
+    }
+    
+    private func makeShareAction(_ diaryWillShare: DiaryModel) -> UIContextualAction {
+        UIContextualAction(style: .normal,
+                           title: "share") { [weak self] _, _, completion in
+            var objectsToShare: [String] = []
+            objectsToShare.append(diaryWillShare.title + "\n" + diaryWillShare.body)
+            
+            self?.showActivityContoller(objectsToShare)
+            completion(true)
+        }
     }
 }
