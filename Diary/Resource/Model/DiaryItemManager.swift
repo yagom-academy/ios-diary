@@ -5,12 +5,13 @@
 //  Created by SummerCat and som on 2022/12/28.
 //
 
-import Foundation
+import UIKit
 import CoreData
 
 final class DiaryItemManager {
     private var coreDataManager: CoreDataManageable?
     private var objectID: NSManagedObjectID?
+    private var hasTitle: Bool = false
     
     init(coreDataManager: CoreDataManager = CoreDataManager.shared) {
         self.coreDataManager = coreDataManager
@@ -77,5 +78,28 @@ final class DiaryItemManager {
     
     func deleteDiary() throws {
         try coreDataManager?.delete(with: objectID)
+    }
+    
+    func isOversized(height: CGFloat, maxHeight: CGFloat) -> Bool {
+        return height > maxHeight
+    }
+    
+    func enter(from title: String) -> (trimmedTitle: String, hasTitle: Bool) {
+        if !hasTitle,
+           title.firstIndex(of: "\n") != nil {
+            hasTitle = true
+            return (title.trimmingCharacters(in: .whitespacesAndNewlines), hasTitle)
+        }
+        
+        return (title, false)
+    }
+    
+    func setPlaceholder(textView: UITextView, text: String) {
+        if textView.text.isEmpty {
+            textView.textColor = .systemGray3
+            textView.text = text
+        } else {
+            textView.resignFirstResponder()
+        }
     }
 }

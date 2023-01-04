@@ -9,7 +9,6 @@ import UIKit
 
 final class DiaryItemViewController: UIViewController {
     var diaryItemManager: DiaryItemManager?
-    private let textViewManager = TextViewManager()
     private let alertManager = AlertManager()
     weak var alertDelegate: AlertDelegate?
     
@@ -94,9 +93,9 @@ final class DiaryItemViewController: UIViewController {
     }
     
     private func setPlaceholder() {
-        textViewManager.setPlaceholder(textView: titleTextView,
+        diaryItemManager?.setPlaceholder(textView: titleTextView,
                                        text: Placeholder.title)
-        textViewManager.setPlaceholder(textView: bodyTextView,
+        diaryItemManager?.setPlaceholder(textView: bodyTextView,
                                        text: Placeholder.body)
     }
     
@@ -242,13 +241,20 @@ extension DiaryItemViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        guard textView == titleTextView else { return }
+        guard textView == titleTextView,
+              let diaryItemManager = diaryItemManager else { return }
         
         let titleTextViewHeight = textView.contentSize.height
         
-        isOversized = textViewManager.isOversized(height: titleTextViewHeight,
-                                                        maxHeight: LayoutConstant.titleTextViewMaxHeight)
-        textViewManager.enter(from: titleTextView, to: bodyTextView)
+        isOversized = diaryItemManager.isOversized(height: titleTextViewHeight,
+                                                   maxHeight: LayoutConstant.titleTextViewMaxHeight)
+        let tappedEnter = diaryItemManager.enter(from: titleTextView.text)
+        
+        if tappedEnter.hasTitle {
+            titleTextView.text = tappedEnter.trimmedTitle
+            titleTextView.resignFirstResponder()
+            bodyTextView.becomeFirstResponder()
+        }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
