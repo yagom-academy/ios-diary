@@ -13,6 +13,7 @@
 		2642EC432965434C00BE942E /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2642EC422965434C00BE942E /* NetworkError.swift */; };
 		2642EC452965436D00BE942E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2642EC442965436D00BE942E /* NetworkManager.swift */; };
 		2642EC492965539E00BE942E /* ImageDataCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2642EC482965539E00BE942E /* ImageDataCacheManager.swift */; };
+		2642EC4C296560FB00BE942E /* MappingModelV1ToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 2642EC4B296560FB00BE942E /* MappingModelV1ToV2.xcmappingmodel */; };
 		2643159A295BD18C00B49D87 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26431599295BD18C00B49D87 /* CoreDataManager.swift */; };
 		264BF24D295AC63A004CE124 /* EditDiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264BF24C295AC63A004CE124 /* EditDiaryView.swift */; };
 		264BF24F295AC789004CE124 /* DiaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 264BF24E295AC789004CE124 /* DiaryView.swift */; };
@@ -44,6 +45,8 @@
 		2642EC422965434C00BE942E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		2642EC442965436D00BE942E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		2642EC482965539E00BE942E /* ImageDataCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataCacheManager.swift; sourceTree = "<group>"; };
+		2642EC4A2965603F00BE942E /* Diary v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary v2.xcdatamodel"; sourceTree = "<group>"; };
+		2642EC4B296560FB00BE942E /* MappingModelV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
 		26431599295BD18C00B49D87 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		264BF24C295AC63A004CE124 /* EditDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDiaryView.swift; sourceTree = "<group>"; };
 		264BF24E295AC789004CE124 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
@@ -173,6 +176,7 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
+				2642EC4B296560FB00BE942E /* MappingModelV1ToV2.xcmappingmodel */,
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
 				1169A2E8A2C68344D142DBE4 /* Pods */,
@@ -323,6 +327,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2642EC4C296560FB00BE942E /* MappingModelV1ToV2.xcmappingmodel in Sources */,
 				5713CD94295A8FB500456A1B /* Diary+CoreDataProperties.swift in Sources */,
 				2639A763295487DE00F312ED /* AddKeyboardNotification.swift in Sources */,
 				2642EC492965539E00BE942E /* ImageDataCacheManager.swift in Sources */,
@@ -563,9 +568,10 @@
 		C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				2642EC4A2965603F00BE942E /* Diary v2.xcdatamodel */,
 				C739AE2E284DF28600741E8F /* Diary.xcdatamodel */,
 			);
-			currentVersion = C739AE2E284DF28600741E8F /* Diary.xcdatamodel */;
+			currentVersion = 2642EC4A2965603F00BE942E /* Diary v2.xcdatamodel */;
 			path = Diary.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
