@@ -10,7 +10,7 @@ import CoreLocation
 @testable import Diary
 
 final class WeatherAPITests: XCTestCase {
-    var sut: NetworkService!
+    var sut: StubNetworkManager!
     
     override func setUpWithError() throws {
         try super.setUpWithError()
@@ -28,17 +28,9 @@ final class WeatherAPITests: XCTestCase {
         let endPoint = SearchWeatherAPI(location: location)
         
         // when
-        var result: WeatherEntity?
-        sut.requestData(endPoint: endPoint, type: WeatherEntity.self) { value in
-            guard let resultedValue = value as? WeatherEntity else {
-                XCTFail("기대하는 타입과 반환된 타입이 다릅니다.")
-                return
-            }
-            
-            result = resultedValue
-        }
+        sut.requestData(endPoint: endPoint, type: WeatherEntity.self) { _ in }
         
         // then
-        XCTAssertTrue(result == WeatherEntity(main: "Clear", icon: "01d"))
+        XCTAssertTrue(sut.data == WeatherEntity.mockData)
     }
 }

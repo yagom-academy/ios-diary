@@ -10,7 +10,7 @@ protocol NetworkService {
     func requestData<T: Decodable>(
         endPoint: Requesting,
         type: T.Type,
-        completion: @escaping (Decodable) -> Void
+        completion: @escaping (T) -> Void
     )
 }
 
@@ -20,7 +20,7 @@ struct NetworkManager: NetworkService {
     func requestData<T: Decodable>(
         endPoint: Requesting,
         type: T.Type,
-        completion: @escaping (Decodable) -> Void
+        completion: @escaping (T) -> Void
     ) {
         guard let request = endPoint.convertURL() else { return }
         

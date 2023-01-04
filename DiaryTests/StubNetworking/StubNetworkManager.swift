@@ -2,27 +2,27 @@
 //  StubNetworkManager.swift
 //  DiaryTests
 //
-//  Copyright (c) 2023 Minii All rights reserved.
+//  Created by 이태영 on 2023/01/04.
+//
 
+import Foundation
 @testable import Diary
 
-extension WeatherEntity: Equatable {
-    public static func == (lhs: WeatherEntity, rhs: WeatherEntity) -> Bool {
-        return (lhs.main == rhs.main) && (lhs.icon == rhs.icon)
-    }
-    
-    static var mock: Self = WeatherEntity(main: "Clear", icon: "01d")
-}
-
-class StubNetworkManager: NetworkService {
-    var testedValue: WeatherEntity?
+final class StubNetworkManager: NetworkService {
+    private let session = StubURLSession()
+    var data: Data?
     
     func requestData<T>(
         endPoint: Requesting,
         type: T.Type,
-        completion: @escaping (Decodable) -> Void
+        completion: @escaping (T) -> Void
     ) {
-        testedValue = WeatherEntity.mock
-        completion(WeatherEntity.mock)
+        guard let request = endPoint.convertURL() else { return }
+        
+        let task = session.dataTask(with: request) { data, _, _ in
+            self.data = data
+        }
+        
+        task.resume()
     }
 }
