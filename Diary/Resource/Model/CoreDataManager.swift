@@ -22,20 +22,24 @@ final class CoreDataManager {
         return container
     }()
     
+    private lazy var context: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
     private var diaryEntity: NSEntityDescription? {
-        return NSEntityDescription.entity(forEntityName: CoreDataNamespace.diary, in: persistentContainer.viewContext)
+        return NSEntityDescription.entity(forEntityName: CoreDataNamespace.diary, in: context)
     }
     
     private func saveContext() throws {
-        if persistentContainer.viewContext.hasChanges {
-            try persistentContainer.viewContext.save()
+        if context.hasChanges {
+            try context.save()
         }
     }
     
     func insert(with id: UUID) throws {
         guard let diaryEntity = diaryEntity else { return }
         
-        let managedObject = NSManagedObject(entity: diaryEntity, insertInto: persistentContainer.viewContext)
+        let managedObject = NSManagedObject(entity: diaryEntity, insertInto: context)
         managedObject.setValue(id, forKey: CoreDataNamespace.id)
         managedObject.setValue(Date(), forKey: CoreDataNamespace.createdAt)
         try saveContext()
@@ -44,26 +48,26 @@ final class CoreDataManager {
     func fetch(with id: NSManagedObjectID?) -> Diary? {
         guard let id = id else { return nil }
         
-        return persistentContainer.viewContext.object(with: id) as? Diary
+        return context.object(with: id) as? Diary
     }
     
     func fetchAllEntities() throws -> [Diary] {
         let request = Diary.fetchRequest()
-        return try persistentContainer.viewContext.fetch(request)
+        return try context.fetch(request)
     }
     
     func fetchObjectID(with id: UUID) -> NSManagedObjectID? {
         let fetchRequest = Diary.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: CoreDataNamespace.regex, id.uuidString)
         
-        let result = try? persistentContainer.viewContext.fetch(fetchRequest)
+        let result = try? context.fetch(fetchRequest)
         return result?.first?.objectID
     }
     
     func update(objectID: NSManagedObjectID?, title: String?, body: String?) throws {
         guard let objectID = objectID else { return }
         
-        guard let object = persistentContainer.viewContext.object(with: objectID) as? Diary else { return }
+        guard let object = context.object(with: objectID) as? Diary else { return }
         
         object.setValue(title, forKey: CoreDataNamespace.title)
         object.setValue(body, forKey: CoreDataNamespace.body)
@@ -73,8 +77,8 @@ final class CoreDataManager {
     func delete(with id: NSManagedObjectID?) throws {
         guard let id = id else { return }
         
-        let object = persistentContainer.viewContext.object(with: id)
-        persistentContainer.viewContext.delete(object)
+        let object = context.object(with: id)
+        context.delete(object)
         try saveContext()
     }
     
