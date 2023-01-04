@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryItemViewController: UIViewController {
-    var diaryItemManager: DiaryItemManager?
+    let diaryItemManager: DiaryItemManager?
     private let alertManager = AlertManager()
     weak var alertDelegate: AlertDelegate?
     
