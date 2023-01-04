@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21513" systemVersion="22A380" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="DiaryEntity" representedClassName="DiaryEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="body" optional="YES" attributeType="String"/>
+        <attribute name="createdIntervalValue" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="condition" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Weather" inverseName="posted" inverseEntity="Weather"/>
+    </entity>
+    <entity name="Weather" representedClassName="Weather" parentEntity="DiaryEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="icon" optional="YES" attributeType="String"/>
+        <attribute name="main" optional="YES" attributeType="String"/>
+        <relationship name="posted" optional="YES" maxCount="1" deletionRule="Deny" destinationEntity="DiaryEntity" inverseName="condition" inverseEntity="DiaryEntity"/>
+    </entity>
+</model>
