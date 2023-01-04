@@ -16,7 +16,6 @@ final class CoreDataManager {
         let container = NSPersistentContainer(name: CoreDataNamespace.diary)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             guard error == nil else {
-                AlertManager.shared.sendError(title: ErrorNamespace.loadingFailure)
                 return
             }
         })
