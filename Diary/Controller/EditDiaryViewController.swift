@@ -152,13 +152,14 @@ final class EditDiaryViewController: UIViewController {
             return currentDiaryModel
         }
         
-        guard let firstLineIndex = content.firstIndex(of: "\n") else {
+        guard let indexOfReturn = content.firstIndex(of: "\n") else {
             currentDiaryModel.title = content
             currentDiaryModel.body = ""
             return currentDiaryModel
         }
         
-        let title: String = String(content[content.startIndex..<firstLineIndex])
+        let firstLineIndex: String.Index = content.index(after: indexOfReturn)
+        let title: String = String(content[content.startIndex..<indexOfReturn])
         let body: String = String(content[firstLineIndex..<content.endIndex])
         
         currentDiaryModel.title = title

@@ -45,11 +45,18 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
+    private let weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.image = UIImage(systemName: "plus")
+        
+        return imageView
+    }()
+    
     private let bodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
-        
         return label
     }()
     
@@ -84,6 +91,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     
     private func configureSubStackView() {
         self.subStackView.addArrangedSubview(self.dateLabel)
+        self.subStackView.addArrangedSubview(self.weatherImageView)
         self.subStackView.addArrangedSubview(self.bodyLabel)
     }
     
