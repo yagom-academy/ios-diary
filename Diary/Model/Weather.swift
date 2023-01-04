@@ -18,11 +18,11 @@ extension WeatherResponseDTO {
 }
 
 struct Weather: Hashable, Decodable {
-    let main: String?
-    let icon: String?
+    let main: String
+    let icon: String
 
-    init(main: String? = nil, icon: String? = nil) {
+    init(main: String, icon: String) {
         self.main = main
-        self.icon = main
+        self.icon = icon
     }
 }

@@ -11,11 +11,15 @@ struct DiaryResponseDTO: Decodable {
     let title: String
     let body: String
     let createdAt: Double
+    let weatherMain: String
+    let weatherIcon: String
 
     enum CodingKeys: String, CodingKey {
         case title
         case body
         case createdAt = "created_at"
+        case weatherMain = "main"
+        case weatherIcon = "icon"
     }
 }
 
@@ -23,7 +27,8 @@ extension DiaryResponseDTO {
     func toDomain() -> Diary {
         let diary = Diary(title: title,
                           body: body,
-                          createdAt: Date(timeIntervalSince1970: createdAt))
+                          createdAt: Date(timeIntervalSince1970: createdAt),
+                          weather: Weather(main: weatherMain, icon: weatherIcon))
 
         return diary
     }
@@ -34,9 +39,9 @@ struct Diary: Hashable {
     let body: String
     let createdAt: Date
     let uuid: UUID
-    let weather: Weather
+    var weather: Weather?
 
-    init(title: String, body: String, createdAt: Date, uuid: UUID = UUID(), weather: Weather = Weather()) {
+    init(title: String, body: String, createdAt: Date, uuid: UUID = UUID(), weather: Weather? = nil) {
         self.title = title
         self.body = body
         self.createdAt = createdAt
@@ -47,11 +52,16 @@ struct Diary: Hashable {
 
 extension DiaryEntity {
     func toDomain() -> Diary {
-        let diary = Diary(title: title ?? "",
+        var diary = Diary(title: title ?? "",
                           body: body ?? "",
                           createdAt: createdAt ?? Date(),
-                          uuid: uuid ?? UUID(),
-                          weather: Weather())
+                          uuid: uuid ?? UUID())
+
+        guard let main = weatherMain,
+              let icon = weatherIcon else {
+            return diary
+        }
+        diary.weather = Weather(main: main, icon: icon)
 
         return diary
     }
