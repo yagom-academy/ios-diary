@@ -7,15 +7,11 @@
 
 import UIKit
 
-class TextViewManager {
+final class TextViewManager {
     private var hasTitle: Bool = false
     
     func isOversized(height: CGFloat, maxHeight: CGFloat) -> Bool {
-        if height > maxHeight {
-            return true
-        } else {
-            return false
-        }
+        return height > maxHeight
     }
     
     func enter(from title: UITextView, to body: UITextView) {
