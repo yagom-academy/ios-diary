@@ -12,7 +12,7 @@ final class NetworkManager {
     
     private init() {}
     
-    func requestGet(url: String, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    func requestGet(url: String, completion: @escaping (Result<NSData, NetworkError>) -> Void) {
         guard let validURL = URL(string: url) else {
             completion(.failure(.clientError))
             return
@@ -25,7 +25,7 @@ final class NetworkManager {
     }
     
     private func requestToServer(with urlRequest: URLRequest,
-                                 completion: @escaping (Result<Data, NetworkError>) -> Void) {
+                                 completion: @escaping (Result<NSData, NetworkError>) -> Void) {
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
             guard let data = data else {
                 completion(.failure(.clientError))
