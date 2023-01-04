@@ -8,12 +8,13 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private let diary: Diary
+    private var diary: Diary
 
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
+    private let scrollView: DiaryScrollView = {
+        let scrollView = DiaryScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
+        scrollView.keyboardDismissMode = .interactive
 
         return scrollView
     }()
@@ -48,6 +49,11 @@ final class DiaryViewController: UIViewController {
     init(diary: Diary) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
+
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(updateCoreDataIfNeeded),
+                                               name: UIScene.willDeactivateNotification,
+                                               object: nil)
     }
 
     @available(*, unavailable)
@@ -64,13 +70,59 @@ final class DiaryViewController: UIViewController {
         configureLayout()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        if !titleTextView.hasText {
+            titleTextView.becomeFirstResponder()
+        } else if !bodyTextView.hasText {
+            bodyTextView.becomeFirstResponder()
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        updateCoreDataIfNeeded()
+    }
+
     private func configureHierarchy() {
         scrollView.addSubview(containerStackView)
         view.addSubview(scrollView)
+        titleTextView.delegate = self
+        bodyTextView.delegate = self
+    }
+
+    private func makeEllipsisMenu() -> UIMenu {
+        let diary = diary
+        let shareAction = UIAction(title: "공유",
+                                   image: UIImage(systemName: "square.and.arrow.up")) { [weak self] _ in
+            self?.showActivityViewController(diary: diary)
+        }
+        let deleteAction = UIAction(title: "삭제",
+                                    image: UIImage(systemName: "trash"),
+                                    attributes: .destructive) { [weak self] _ in
+            self?.showDeleteActionAlert(diary: diary) {
+                self?.navigationController?.popViewController(animated: true)
+            }
+        }
+        let cancelAction = UIAction(title: "취소",
+                                    image: UIImage(systemName: "xmark")) { _ in }
+        let menu = UIMenu(identifier: nil,
+                          options: .displayInline,
+                          children: [shareAction, deleteAction, cancelAction])
+
+        return menu
+    }
+
+    private func configureNavigationBar() {
+        navigationItem.title = diary.createdAt.localeFormattedText
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                            menu: makeEllipsisMenu())
     }
 
     private func configureView(with diary: Diary) {
-        navigationItem.title = diary.createdAt.localeFormattedText
+        configureNavigationBar()
         titleTextView.text = diary.title
         bodyTextView.text = diary.body
     }
@@ -89,4 +141,34 @@ final class DiaryViewController: UIViewController {
             containerStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
         ])
     }
+
+    private func generateDiary() -> Diary {
+        return Diary(title: titleTextView.text,
+                     body: bodyTextView.text,
+                     createdAt: diary.createdAt,
+                     uuid: diary.uuid)
+    }
+
+    @objc
+    func updateCoreDataIfNeeded() {
+        if diary.title != titleTextView.text || diary.body != bodyTextView.text {
+            diary = generateDiary()
+            CoreDataManager.shared.update(diary: diary)
+        }
+    }
 }
+
+extension DiaryViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n", textView == titleTextView {
+            bodyTextView.becomeFirstResponder()
+        }
+        return true
+    }
+
+    func textViewDidEndEditing(_ textView: UITextView) {
+        updateCoreDataIfNeeded()
+    }
+}
+
+extension DiaryViewController: DiaryPresentable {}

@@ -10,9 +10,11 @@ final class DiaryListViewController: UIViewController {
     typealias DiaryDataSource = UITableViewDiffableDataSource<Int, Diary>
     typealias DiarySnapShot = NSDiffableDataSourceSnapshot<Int, Diary>
 
-    private lazy var presentNewDiaryViewAction = UIAction { _ in
-        let newDiaryViewController = UINavigationController(rootViewController: NewDiaryViewController())
-        self.present(newDiaryViewController, animated: true)
+    private lazy var presentNewDiaryViewAction = UIAction { [weak self] _ in
+        let newDiary = Diary(title: "", body: "", createdAt: Date())
+        let diaryViewController = DiaryViewController(diary: newDiary)
+
+        self?.navigationController?.pushViewController(diaryViewController, animated: true)
     }
 
     private lazy var addDiaryButton: UIBarButtonItem = {
@@ -31,8 +33,7 @@ final class DiaryListViewController: UIViewController {
         return tableView
     }()
 
-    private lazy var dataSource: DiaryDataSource = configureDataSource()
-    private var snapshot = DiarySnapShot()
+    private var dataSource: DiaryDataSource?
     private var diaryList: [Diary] = []
 
     override func viewDidLoad() {
@@ -40,6 +41,12 @@ final class DiaryListViewController: UIViewController {
 
         configureNavigationBar()
         configureHierarchy()
+        configureDataSource()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
         configureSnapshot()
     }
 }
@@ -61,20 +68,15 @@ extension DiaryListViewController {
         ])
     }
 
-    private func configureDataSource() -> DiaryDataSource {
-        let dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.reuseIdentifier,
-                                                           for: indexPath) as? DiaryListCell else {
-                return DiaryListCell()
-            }
+    private func configureDataSource() {
+        dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
+            let cell = tableView.dequeueReusableCell(cellType: DiaryListCell.self, for: indexPath)
 
-            cell.titleLabel.text = diary.title
+            cell.titleLabel.text = diary.title.isEmpty ? "제목 없음" : diary.title
             cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdAt, diary.body)
 
             return cell
         })
-
-        return dataSource
     }
 
     private func configureSubtitleText(_ date: Date, _ body: String) -> NSMutableAttributedString {
@@ -86,27 +88,22 @@ extension DiaryListViewController {
         return attributedString
     }
 
-    private func configureSnapshot() {
-        guard let items = decodeSampleData() else {
-            return
-        }
+    private func fetchDiaryList() -> [Diary] {
+        let fetchResults = CoreDataManager.shared.readDiaryEntity()
+        let diaryList: [Diary] = fetchResults.map { $0.toDomain() }
 
-        diaryList = items
-
-        snapshot.appendSections([0])
-        snapshot.appendItems(items)
-
-        dataSource.apply(snapshot)
+        return diaryList
     }
 
-    private func decodeSampleData() -> [Diary]? {
-        guard let path = Bundle.main.path(forResource: "sample", ofType: "json"),
-              let data = try? Data(contentsOf: URL(fileURLWithPath: path)),
-              let items = try? JSONDecoder().decode([DiaryResponseDTO].self, from: data) else {
-            return nil
-        }
+    private func configureSnapshot() {
+        var snapshot = DiarySnapShot()
+        let sortedByLatestItems: [Diary] = fetchDiaryList().reversed()
 
-        return items.map { $0.toDomain() }
+        snapshot.appendSections([0])
+        snapshot.appendItems(sortedByLatestItems)
+
+        dataSource?.apply(snapshot)
+        diaryList = sortedByLatestItems
     }
 }
 
@@ -118,4 +115,29 @@ extension DiaryListViewController: UITableViewDelegate {
         navigationController?.pushViewController(diaryViewController, animated: true)
         diaryListTableView.deselectRow(at: indexPath, animated: true)
     }
+
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shareAction = UIContextualAction(style: .normal, title: nil) { (_, _, success) in
+            self.showActivityViewController(diary: self.diaryList[indexPath.row])
+            success(true)
+        }
+        shareAction.backgroundColor = .systemBlue
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, success) in
+            self.showDeleteActionAlert(diary: self.diaryList[indexPath.row]) {
+                self.configureSnapshot()
+            }
+            success(true)
+        }
+        deleteAction.image = UIImage(systemName: "trash")
+
+        let swipeActionConfiguration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        swipeActionConfiguration.performsFirstActionWithFullSwipe = false
+
+        return swipeActionConfiguration
+    }
 }
+
+extension DiaryListViewController: DiaryPresentable {}
