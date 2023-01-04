@@ -94,7 +94,6 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureCollectionView() {
-        self.configureDataSource()
         self.collectionView.delegate = self
         self.collectionView.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(self.collectionView)
@@ -106,22 +105,6 @@ final class DiaryListViewController: UIViewController {
             self.collectionView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             self.collectionView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
-    }
-    
-    private func configureDataSource() {
-        let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, DiaryModel> {
-            (cell, indexPath, diary) in
-            cell.configureContents(with: diary)
-            cell.accessories = [.disclosureIndicator()]
-        }
-        
-        self.dataSource = UICollectionViewDiffableDataSource<DiarySection, DiaryModel>(collectionView: collectionView) {
-            collectionView, indexPath, diary in
-            
-            return collectionView.dequeueConfiguredReusableCell(using: listCellRegistration,
-                                                                for: indexPath,
-                                                                item: diary)
-        }
     }
     
     private func fetchDiary() {
@@ -176,16 +159,14 @@ extension DiaryListViewController: UICollectionViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
     
-    func makeDeleteAction(_ diaryWillDelete: DiaryModel) -> UIContextualAction {
+    private func makeDeleteAction(_ diaryWillDelete: DiaryModel) -> UIContextualAction {
         UIContextualAction(style: .destructive,
                            title: "delete") { [weak self] _, _, _ in
             do {
                 try CoreDataMananger.shared.delete(diary: diaryWillDelete)
                 
-                guard var snapshot = self?.dataSource.snapshot() else { return }
+                self?.delete(diary: diaryWillDelete)
                 
-                snapshot.deleteItems([diaryWillDelete])
-                self?.dataSource.apply(snapshot)
             } catch {
                 switch error {
                 case DiaryError.deleteFailed:
@@ -205,7 +186,14 @@ extension DiaryListViewController: UICollectionViewDelegate {
         }
     }
     
-    func makeShareAction(_ diaryWillShare: DiaryModel) -> UIContextualAction {
+    private func delete(diary: DiaryModel) {
+        var snapshot = self.dataSource.snapshot()
+        
+        snapshot.deleteItems([diary])
+        self.dataSource.apply(snapshot)
+    }
+    
+    private func makeShareAction(_ diaryWillShare: DiaryModel) -> UIContextualAction {
         UIContextualAction(style: .normal,
                            title: "share") { [weak self] _, _, completion in
             var objectsToShare: [String] = []
