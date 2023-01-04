@@ -8,29 +8,20 @@
 import Foundation
 import CoreData
 
-final class CoreDataManager {
-    static let shared = CoreDataManager()
-    private init() { }
-    
-    private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: CoreDataNamespace.diary)
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            guard error == nil else {
-                fatalError("init(coder:) has not been implemented")
-            }
-        })
-        return container
-    }()
-    
-    private lazy var context: NSManagedObjectContext {
+protocol CoreDataManageable {
+    var persistentContainer: NSPersistentContainer { get }
+}
+
+extension CoreDataManageable {
+    var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
     
-    private var diaryEntity: NSEntityDescription? {
+    var diaryEntity: NSEntityDescription? {
         return NSEntityDescription.entity(forEntityName: CoreDataNamespace.diary, in: context)
     }
     
-    private func saveContext() throws {
+    func saveContext() throws {
         if context.hasChanges {
             try context.save()
         }
@@ -81,18 +72,28 @@ final class CoreDataManager {
         context.delete(object)
         try saveContext()
     }
+}
+
+final class CoreDataManager: CoreDataManageable {
+    static let shared = CoreDataManager()
+    private init() { }
     
-    private enum CoreDataNamespace {
-        static let id = "id"
-        static let title = "title"
-        static let body = "body"
-        static let createdAt = "createdAt"
-        static let diary = "Diary"
-        static let regex = "id == %@"
-    }
-    
-    private enum ErrorNamespace {
-        static let loadingFailure = "데이터 로딩 실패"
-        static let saveError = "데이터 저장 실패"
-    }
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: CoreDataNamespace.diary)
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            guard error == nil else {
+                fatalError("init(coder:) has not been implemented")
+            }
+        })
+        return container
+    }()
+}
+
+enum CoreDataNamespace {
+    static let id = "id"
+    static let title = "title"
+    static let body = "body"
+    static let createdAt = "createdAt"
+    static let diary = "Diary"
+    static let regex = "id == %@"
 }

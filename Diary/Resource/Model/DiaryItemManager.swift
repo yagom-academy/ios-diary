@@ -9,21 +9,26 @@ import Foundation
 import CoreData
 
 final class DiaryItemManager {
+    private var coreDataManager: CoreDataManageable?
     private var objectID: NSManagedObjectID?
+    
+    init(coreDataManager: CoreDataManager = CoreDataManager.shared) {
+        self.coreDataManager = coreDataManager
+    }
     
     func create() throws {
         let id = UUID()
-        try CoreDataManager.shared.insert(with: id)
-        objectID = CoreDataManager.shared.fetchObjectID(with: id)
+        try coreDataManager?.insert(with: id)
+        objectID = coreDataManager?.fetchObjectID(with: id)
     }
     
     func fetchID(id: UUID) {
-        objectID = CoreDataManager.shared.fetchObjectID(with: id)
+        objectID = coreDataManager?.fetchObjectID(with: id)
     }
     
     func update(title: String?, body: String?) throws {
         if isTitleValid(title) || isBodyValid(body) {
-            try CoreDataManager.shared.update(objectID: objectID, title: title, body: body)
+            try coreDataManager?.update(objectID: objectID, title: title, body: body)
         }
     }
     
@@ -37,7 +42,7 @@ final class DiaryItemManager {
             return
         }
         do {
-            try CoreDataManager.shared.update(objectID: objectID, title: title, body: body)
+            try coreDataManager?.update(objectID: objectID, title: title, body: body)
         } catch {
             return
         }
@@ -52,7 +57,7 @@ final class DiaryItemManager {
     }
     
     func createDiaryShareForm() -> String {
-        let entity = CoreDataManager.shared.fetch(with: objectID)
+        let entity = coreDataManager?.fetch(with: objectID)
         
         let form: String = """
             title: \(entity?.title ?? Namespace.empty)
@@ -65,7 +70,7 @@ final class DiaryItemManager {
     
     func fetchAllDiaries() throws -> [DiaryModel] {
         var diaryItems: [DiaryModel] = []
-        let fetchedResults = try CoreDataManager.shared.fetchAllEntities()
+        guard let fetchedResults = try coreDataManager?.fetchAllEntities() else { return diaryItems }
         
         for result in fetchedResults {
             let diary = DiaryModel(id: result.id ?? UUID(),
@@ -79,6 +84,6 @@ final class DiaryItemManager {
     }
     
     func deleteDiary() throws {
-        try CoreDataManager.shared.delete(with: objectID)
+        try coreDataManager?.delete(with: objectID)
     }
 }
