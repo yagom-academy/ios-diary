@@ -7,6 +7,8 @@
 import UIKit
 
 class CustomDiaryCell: UITableViewCell {
+    // MARK: Properties
+    
     static let identifier = "CustomDiaryCell"
     
     private let titleLabel: UILabel = {
@@ -23,6 +25,7 @@ class CustomDiaryCell: UITableViewCell {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
     private let bottomStackView: UIStackView = {
@@ -39,9 +42,11 @@ class CustomDiaryCell: UITableViewCell {
         return stackView
     }()
     
+    // MARK: Initializer
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super .init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         accessoryType = .disclosureIndicator
         setUpStackView()
         configureLayout()
@@ -50,6 +55,26 @@ class CustomDiaryCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    // MARK: PrepareForReuse
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        titleLabel.text = nil
+        bodyLabel.text = nil
+        dateLabel.text = nil
+    }
+    
+    // MARK: Internal Methods
+    
+    func configureCell(with diary: Diary) {
+        titleLabel.text = diary.title
+        bodyLabel.text = diary.body
+        dateLabel.text = diary.createdDate
+    }
+    
+    // MARK: Private Methods
     
     private func setUpStackView() {
         bottomStackView.addArrangedSubview(dateLabel)
@@ -63,28 +88,22 @@ class CustomDiaryCell: UITableViewCell {
         contentView.addSubview(totalStackView)
         
         NSLayoutConstraint.activate([
-            totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
-                                                    constant: 20),
-            totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor,
-                                                constant: 10),
-            totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
-                                                     constant: -20),
-            totalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor,
-                                                   constant: -10)
+            totalStackView.leadingAnchor.constraint(
+                equalTo: contentView.leadingAnchor,
+                constant: 20
+            ),
+            totalStackView.topAnchor.constraint(
+                equalTo: contentView.topAnchor,
+                constant: 10
+            ),
+            totalStackView.trailingAnchor.constraint(
+                equalTo: contentView.trailingAnchor,
+                constant: -20
+            ),
+            totalStackView.bottomAnchor.constraint(
+                equalTo: contentView.bottomAnchor,
+                constant: -10
+            )
         ])
-    }
-    
-    func configureCell(with diary: Diary) {
-        titleLabel.text = diary.title
-        bodyLabel.text = diary.body
-        dateLabel.text = diary.createdDate
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
-        titleLabel.text = nil
-        bodyLabel.text = nil
-        dateLabel.text = nil
     }
 }
