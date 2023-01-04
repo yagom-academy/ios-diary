@@ -48,8 +48,8 @@
 		2642EC482965539E00BE942E /* ImageDataCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDataCacheManager.swift; sourceTree = "<group>"; };
 		2642EC4A2965603F00BE942E /* Diary v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary v2.xcdatamodel"; sourceTree = "<group>"; };
 		2642EC4B296560FB00BE942E /* MappingModelV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
-		2642EC552965767D00BE942E /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Diary+CoreDataProperties.swift"; path = "/Users/yeon/Desktop/ashyou/ic_7_career/Project/ios-diary/Diary/Model/Diary+CoreDataProperties.swift"; sourceTree = "<absolute>"; };
-		2642EC572965767F00BE942E /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Diary+CoreDataClass.swift"; path = "/Users/yeon/Desktop/ashyou/ic_7_career/Project/ios-diary/Diary/Model/Diary+CoreDataClass.swift"; sourceTree = "<absolute>"; };
+		2642EC552965767D00BE942E /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		2642EC572965767F00BE942E /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
 		26431599295BD18C00B49D87 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		264BF24C295AC63A004CE124 /* EditDiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditDiaryView.swift; sourceTree = "<group>"; };
 		264BF24E295AC789004CE124 /* DiaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryView.swift; sourceTree = "<group>"; };
