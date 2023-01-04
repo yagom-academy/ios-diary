@@ -25,7 +25,6 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         configureDiaryListTableView()
-        addObserver()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -37,7 +36,7 @@ final class DiaryListViewController: UIViewController {
         do {
             diaryItems = try diaryItemManager.fetchAllDiaries()
         } catch {
-            showErrorAlert(title: Namespace.alertTitle)
+            showErrorAlert(title: Content.loadFailure)
         }
     }
     
@@ -64,23 +63,11 @@ final class DiaryListViewController: UIViewController {
         diaryListTableView.delegate = self
     }
     
-    private func addObserver() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(showAlert(_:)),
-                                               name: Notification.Name("CoreDataError"),
-                                               object: nil)
-    }
-    
-    @objc private func showAlert(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let title = userInfo[Namespace.alertTitle, default: Namespace.empty] as? String else { return }
-        
-        showErrorAlert(title: title)
-    }
-    
     private enum Content {
         static let plusImage = "plus"
         static let diary = "일기장"
+        static let loadFailure = "데이터 로딩 실패"
+        static let deleteFailure = "삭제 실패"
     }
 }
 
@@ -131,7 +118,7 @@ extension DiaryListViewController: UITableViewDelegate {
                     try self.diaryItemManager.deleteDiary()
                     self.diaryItems = try self.diaryItemManager.fetchAllDiaries()
                 } catch {
-                    self.showErrorAlert(title: Namespace.alertTitle)
+                    self.showErrorAlert(title: Content.deleteFailure)
                 }
             }
             self.present(self.alertManager.showDeleteAlert(handler: handler), animated: true)

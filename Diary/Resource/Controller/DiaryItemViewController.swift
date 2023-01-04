@@ -128,19 +128,13 @@ final class DiaryItemViewController: UIViewController {
     }
     
     private func addObserver() {
-        let notificationName = Notification.Name("sceneDidEnterBackground")
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(save),
-                                               name: notificationName,
+                                               name: UIApplication.didEnterBackgroundNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(save),
                                                name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(showAlert(_:)),
-                                               name: Notification.Name("CoreDataError"),
                                                object: nil)
     }
     
@@ -152,13 +146,6 @@ final class DiaryItemViewController: UIViewController {
         } catch {
             present(alertManager.showErrorAlert(title: Content.saveFailure), animated: true)
         }
-    }
-    
-    @objc private func showAlert(_ notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let title = userInfo[Namespace.alertTitle, default: Namespace.empty] as? String else { return }
-        
-        present(alertManager.showErrorAlert(title: title), animated: true)
     }
     
     func fillTextView(with data: DiaryModel) {
@@ -197,7 +184,7 @@ final class DiaryItemViewController: UIViewController {
         do {
             try diaryItemManager?.deleteDiary()
         } catch {
-            present(alertManager.showErrorAlert(title: Namespace.alertTitle), animated: true)
+            present(alertManager.showErrorAlert(title: Content.deleteFailure), animated: true)
         }
     }
     
@@ -213,6 +200,7 @@ final class DiaryItemViewController: UIViewController {
     private enum Content {
         static let moreImage = "ellipsis.circle"
         static let saveFailure = "저장 실패"
+        static let deleteFailure = "삭제 실패"
     }
 }
 

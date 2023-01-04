@@ -9,7 +9,6 @@ import Foundation
 
 enum Namespace {
     static let empty = ""
-    static let alertTitle = "title"
     static let confirm = "확인"
     static let cancel = "취소"
     static let delete = "삭제"
