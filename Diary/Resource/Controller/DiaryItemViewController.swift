@@ -10,6 +10,8 @@ import UIKit
 final class DiaryItemViewController: UIViewController {
     var diaryItemManager: DiaryItemManager?
     private let textViewManager = TextViewManager()
+    private let alertManager = AlertManager()
+    weak var alertDelegate: AlertDelegate?
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -69,6 +71,7 @@ final class DiaryItemViewController: UIViewController {
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         diaryItemManager?.validate(title: titleTextView.text, body: bodyTextView.text)
+        alertDelegate?.showErrorAlert(title: Content.saveFailure)
     }
     
     private func configureUI() {
@@ -145,7 +148,7 @@ final class DiaryItemViewController: UIViewController {
         do {
             try diaryItemManager?.update(title: title, body: body)
         } catch {
-            showErrorAlert(title: "저장 실패")
+            present(alertManager.showErrorAlert(title: Content.saveFailure), animated: true)
         }
     }
     
@@ -153,7 +156,7 @@ final class DiaryItemViewController: UIViewController {
         guard let userInfo = notification.userInfo,
               let title = userInfo[Namespace.alertTitle, default: Namespace.empty] as? String else { return }
         
-        showErrorAlert(title: title)
+        present(alertManager.showErrorAlert(title: title), animated: true)
     }
     
     func fillTextView(with data: DiaryModel) {
@@ -179,7 +182,7 @@ final class DiaryItemViewController: UIViewController {
                 self.navigationController?.popViewController(animated: false)
             }
             
-            self.showDeleteAlert(handler: handler)
+            self.present(self.alertManager.showDeleteAlert(handler: handler), animated: true)
         })
         alert.addAction(UIAlertAction(title: Namespace.cancel, style: .cancel))
         
@@ -192,7 +195,7 @@ final class DiaryItemViewController: UIViewController {
         do {
             try diaryItemManager?.deleteDiary()
         } catch {
-            showErrorAlert(title: Namespace.alertTitle)
+            present(alertManager.showErrorAlert(title: Namespace.alertTitle), animated: true)
         }
     }
     
@@ -207,6 +210,7 @@ final class DiaryItemViewController: UIViewController {
     
     private enum Content {
         static let moreImage = "ellipsis.circle"
+        static let saveFailure = "저장 실패"
     }
 }
 

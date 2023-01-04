@@ -9,6 +9,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private var diaryItemManager = DiaryItemManager()
+    private let alertManager = AlertManager()
     private let diaryListTableView = UITableView()
     private var diaryItems: [DiaryModel] = [] {
         didSet {
@@ -109,6 +110,7 @@ extension DiaryListViewController: UITableViewDelegate {
         let diaryItemViewController = DiaryItemViewController(diaryItemManager: DiaryItemManager())
         diaryItemViewController.diaryItemManager?.fetchID(id: diaryItems[indexPath.row].id)
         diaryItemViewController.fillTextView(with: diaryItems[indexPath.row])
+        diaryItemViewController.alertDelegate = self
         navigationController?.pushViewController(diaryItemViewController, animated: true)
     }
     
@@ -132,12 +134,18 @@ extension DiaryListViewController: UITableViewDelegate {
                     self.showErrorAlert(title: Namespace.alertTitle)
                 }
             }
-            self.showDeleteAlert(handler: handler)
+            self.present(self.alertManager.showDeleteAlert(handler: handler), animated: true)
         }
         
         actions.append(deleteAction)
         actions.append(shareAction)
         
         return UISwipeActionsConfiguration(actions: actions)
+    }
+}
+
+extension DiaryListViewController: AlertDelegate {
+    func showErrorAlert(title: String) {
+        self.present(self.alertManager.showErrorAlert(title: title), animated: true)
     }
 }
