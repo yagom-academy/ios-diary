@@ -5,7 +5,7 @@
 //  Created by Mangdi, junho on 2022/12/20.
 //
 
-import Foundation
+import UIKit
 
 struct Diary: Identifiable {
     let id: UUID
@@ -13,6 +13,7 @@ struct Diary: Identifiable {
     let createdAt: TimeInterval
     var main: String?
     var iconID: String?
+    var iconImage: UIImage?
 
     init(id: UUID = UUID(), title: String, body: String, createdAt: TimeInterval, main: String? = nil, iconID: String? = nil) {
         self.id = id

@@ -120,6 +120,14 @@ extension DiaryListViewController {
             contentConfiguration.title = diary.title
             contentConfiguration.body = diary.body
             contentConfiguration.createdAt = diary.createdAt
+            let hasIconID = diary.iconID != nil
+            if hasIconID {
+                if let iconImage = diary.iconImage {
+                    contentConfiguration.iconImage = iconImage
+                } else {
+                    self?.loadIconImage(for: diary.id)
+                }
+            }
             cell.contentConfiguration = contentConfiguration
             cell.accessories = [
                 UICellAccessory.disclosureIndicator()
@@ -137,6 +145,23 @@ extension DiaryListViewController {
         snapshot.appendItems(diaries.map { $0.id }, toSection: 0)
         snapshot.reloadItems(reloadItemIds)
         dataSource?.apply(snapshot)
+    }
+
+    private func loadIconImage(for diaryID: Diary.ID) {
+        guard var diary = diary(diaryID: diaryID),
+              let iconID = diary.iconID else { return }
+        WeatherIconLoader().load(iconID: iconID) { [weak self] image, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let image = image else { return }
+            diary.iconImage = image
+            DispatchQueue.main.async {
+                self?.update(diary: diary)
+                self?.updateSnapshot([diary.id])
+            }
+        }
     }
 }
 

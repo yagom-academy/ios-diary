@@ -12,6 +12,7 @@ final class DiaryListContentView: UIView, UIContentView {
         var title: String?
         var body: String?
         var createdAt: TimeInterval?
+        var iconImage: UIImage?
 
         func makeContentView() -> UIView & UIContentView {
             return DiaryListContentView(configuration: self)
