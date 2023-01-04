@@ -11,20 +11,37 @@ final class CustomListCell: UICollectionViewListCell {
     private let titleLabel = UILabel(textStyle: .title3)
     private let dateLabel = UILabel(textStyle: .body)
     private let previewLabel = UILabel(textStyle: .caption1)
-    private let iconImageView = UIImageView()
+    private let iconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    private lazy var imageStackview = UIStackView(subview: [iconImageView],
+                                                  spacing: 0,
+                                                  axis: .vertical,
+                                                  alignment: .fill,
+                                                  distribution: .fill)
     
     private lazy var bottomStackView = UIStackView(subview: [dateLabel,
-                                                             iconImageView,
+                                                             imageStackview,
                                                              previewLabel],
                                                    spacing: 5,
                                                    axis: .horizontal,
                                                    alignment: .firstBaseline,
                                                    distribution: .fill)
+    
     private lazy var labelStackView = UIStackView(subview: [titleLabel, bottomStackView],
-                                                  spacing: 3,
+                                                  spacing: 5,
                                                   axis: .vertical,
                                                   alignment: .leading,
                                                   distribution: .fillEqually)
+    override func prepareForReuse() {
+        titleLabel.text = ""
+        dateLabel.text = ""
+        previewLabel.text = ""
+        iconImageView.image = nil
+    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -44,7 +61,10 @@ final class CustomListCell: UICollectionViewListCell {
     }
     
     func setupImage(image: UIImage? = nil) {
-        guard let image = image else { return }
+        guard let image = image else {
+            self.iconImageView.image = nil
+            return
+        }
         self.iconImageView.image = image
     }
 }
@@ -68,7 +88,12 @@ extension CustomListCell {
                 equalTo: self.contentView.trailingAnchor, constant: -20)
         ])
         
+        titleLabel.setContentHuggingPriority(.required, for: .vertical)
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-        iconImageView.setContentCompressionResistancePriority(.required, for: .horizontal)
+        imageStackview.widthAnchor.constraint(equalTo: imageStackview.heightAnchor).isActive = true
+        imageStackview.heightAnchor.constraint(lessThanOrEqualTo: dateLabel.heightAnchor).isActive = true
     }
+    
+    //    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
+    //    }
 }

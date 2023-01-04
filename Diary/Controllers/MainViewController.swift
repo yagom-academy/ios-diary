@@ -86,14 +86,16 @@ extension MainViewController: UICollectionViewDelegate {
 extension MainViewController {
     private func configureDataSource() -> DataSource {
         let cellRegistration = UICollectionView
-            .CellRegistration<CustomListCell, DiaryData> { cell, _, diaryData in
+            .CellRegistration<CustomListCell, DiaryData> { cell, indexPath, diaryData in
                 
                 if let iconID = diaryData.iconID {
                     let url = NetworkRequest.loadImage(id: iconID).generateURL()
                     
                     self.networkManager.fetchImage(url: url) { image in
                         DispatchQueue.main.async {
-                            cell.setupImage(image: image)
+                            if indexPath == self.mainDiaryView.collectionView.indexPath(for: cell) {
+                                cell.setupImage(image: image)
+                            }
                         }
                     }
                 }

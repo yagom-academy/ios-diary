@@ -84,6 +84,7 @@ extension EditViewController {
     private func checkToSave() {
         let data = editView.packageData()
         if let id = currentDiaryData?.id {
+            guard data != "" else { return }
             do {
                 try coreDataManager.updateData(id: id, contentText: data)
             } catch {
@@ -111,7 +112,7 @@ extension EditViewController {
     
     private func checkToDelete() {
         guard let data = currentDiaryData,
-              let contentText = currentDiaryData?.contentText?.trimmingCharacters(
+              let contentText = data.contentText?.trimmingCharacters(
                 in: .whitespacesAndNewlines) else { return }
         
         if let id = data.id, contentText.count == .zero {
