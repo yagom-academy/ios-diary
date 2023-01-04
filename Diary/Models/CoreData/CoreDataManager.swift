@@ -36,7 +36,7 @@ final class CoreDataManager {
         return .success(diaryDataList)
     }
     
-    func saveData(data: CurrentDiary?) throws {
+    func saveData(data: CurrentDiary) throws -> UUID? {
         guard let context = context else {
             throw DataError.coreDataError
         }
@@ -49,21 +49,22 @@ final class CoreDataManager {
             throw DataError.coreDataError
         }
         
-        content.id = data?.id
-        content.createdAt = data?.createdAt
-        content.contentText = data?.contentText
-        content.main = data?.main
-        content.iconID = data?.iconID
+        content.id = UUID()
+        content.createdAt = data.createdAt
+        content.contentText = data.contentText
+        content.main = data.main
+        content.iconID = data.iconID
         
         if context.hasChanges {
             do {
                 try context.save()
-                return
+                return content.id
             } catch {
                 throw DataError.coreDataError
             }
         }
-        return 
+        
+        return content.id
     }
     
     func updateData(id: UUID, contentText: String) throws {

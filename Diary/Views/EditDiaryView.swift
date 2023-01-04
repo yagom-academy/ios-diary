@@ -51,7 +51,7 @@ final class EditDiaryView: UIView {
     }
     
     private func presentKeyboard() {
-        if currentDiaryData == nil {
+        if currentDiaryData?.id == nil {
             contentsTextView.becomeFirstResponder()
         }
     }

@@ -36,13 +36,7 @@ final class CustomListCell: UICollectionViewListCell {
                                                   axis: .vertical,
                                                   alignment: .leading,
                                                   distribution: .fillEqually)
-    override func prepareForReuse() {
-        titleLabel.text = ""
-        dateLabel.text = ""
-        previewLabel.text = ""
-        iconImageView.image = nil
-    }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -85,15 +79,14 @@ extension CustomListCell {
             labelStackView.leadingAnchor.constraint(
                 equalTo: self.contentView.leadingAnchor, constant: 20),
             labelStackView.trailingAnchor.constraint(
-                equalTo: self.contentView.trailingAnchor, constant: -20)
+                equalTo: self.contentView.trailingAnchor, constant: -20),
+            
+            imageStackview.widthAnchor.constraint(
+                equalTo: imageStackview.heightAnchor),
+            imageStackview.heightAnchor.constraint(
+                lessThanOrEqualTo: dateLabel.heightAnchor)
         ])
-        
         titleLabel.setContentHuggingPriority(.required, for: .vertical)
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-        imageStackview.widthAnchor.constraint(equalTo: imageStackview.heightAnchor).isActive = true
-        imageStackview.heightAnchor.constraint(lessThanOrEqualTo: dateLabel.heightAnchor).isActive = true
     }
-    
-    //    override func preferredLayoutAttributesFitting(_ layoutAttributes: UICollectionViewLayoutAttributes) -> UICollectionViewLayoutAttributes {
-    //    }
 }
