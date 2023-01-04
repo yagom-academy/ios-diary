@@ -5,7 +5,7 @@
 //  Created by Aaron, Gundy, Rhovin on 2023/01/03.
 //
 
-import Foundation
+import UIKit
 import CoreLocation
 
 enum NetworkError: Error {
@@ -15,7 +15,9 @@ enum NetworkError: Error {
     case decodingError
 }
 
-class NetworkManager {
+final class NetworkManager {
+    static let shared = NetworkManager()
+
     private var apikey: String {
         guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
             fatalError("plist를 찾을 수 없습니다.")
@@ -29,7 +31,7 @@ class NetworkManager {
     }
 
     private var coordinate: CLLocationCoordinate2D {
-        guard let coordinate = CLLocationManager.init().location?.coordinate else {
+        guard let coordinate = CLLocationManager().location?.coordinate else {
             fatalError("위치를 찾을 수 없습니다.")
         }
 
@@ -51,9 +53,9 @@ class NetworkManager {
             }
             guard let httpResponse = response as? HTTPURLResponse,
                   (200...299).contains(httpResponse.statusCode) else {
-                      completion(.failure(NetworkError.responseError))
-                      return
-                  }
+                completion(.failure(NetworkError.responseError))
+                return
+            }
             guard let data = data else {
                 completion(.failure(NetworkError.invalidData))
                 return
@@ -64,6 +66,35 @@ class NetworkManager {
                 return
             }
             completion(.success(weatherResponseDTO))
+        }
+        dataTask.resume()
+    }
+
+    func fetchWeatherIconImage(icon: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
+        guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") else {
+            completion(.failure(NetworkError.invalidURL))
+            return
+        }
+
+        let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse,
+                  (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(NetworkError.responseError))
+                return
+            }
+
+            guard let data = data,
+                  let weatherIconImage = UIImage(data: data) else {
+                completion(.failure(NetworkError.invalidData))
+                return
+            }
+
+            completion(.success(weatherIconImage))
         }
         dataTask.resume()
     }
