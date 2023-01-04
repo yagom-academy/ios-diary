@@ -5,11 +5,12 @@
 //
 
 import Foundation
+import CoreLocation
 
 struct WeatherManager {
     let networkManager = NetworkManager()
     
-    func fetchWeather(latitude: String, longitude: String) {
+    func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
         let url = "\(URL.weatherBaseURL)\(URL.apiKey)&lat=\(latitude)&lon=\(longitude)"
         
         networkManager.performRequest(urlString: url)

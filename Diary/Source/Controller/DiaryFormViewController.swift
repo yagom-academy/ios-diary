@@ -5,6 +5,7 @@
 //
 
 import CoreData
+import CoreLocation
 import UIKit
 
 final class DiaryFormViewController: UIViewController {
@@ -14,6 +15,8 @@ final class DiaryFormViewController: UIViewController {
     private var selectedDiary: Diary?
     private let alertControllerManager = AlertControllerManager()
     private let activityControllerManager = ActivityControllerManager()
+    private let locationManager = CLLocationManager()
+    private let weatherManager = WeatherManager()
     
     // MARK: Initializer
     
@@ -39,6 +42,7 @@ final class DiaryFormViewController: UIViewController {
         view.backgroundColor = .white
         configureDiaryViewLayout()
         configureNavigationBar()
+        configureCoreLocation()
         setUpNotification()
     }
     
@@ -125,6 +129,12 @@ final class DiaryFormViewController: UIViewController {
         return diary
     }
     
+    private func configureCoreLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+    }
+    
     private func showDeleteAlert() {
         guard let diary = selectedDiary else { return }
         
@@ -206,6 +216,23 @@ extension DiaryFormViewController: CoreDataProcessable {
                 animated: true
             )
         }
+    }
+}
+
+// MARK: - CLLocationManagerDelegate
+extension DiaryFormViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            locationManager.stopUpdatingLocation()
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            weatherManager.fetchWeather(latitude: latitude, longitude: longitude)
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
     }
 }
 
