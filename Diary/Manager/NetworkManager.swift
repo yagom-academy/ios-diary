@@ -24,7 +24,8 @@ final class NetworkManager {
         requestToServer(with: urlRequest, completion: completion)
     }
     
-    private func requestToServer(with urlRequest: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+    private func requestToServer(with urlRequest: URLRequest,
+                                 completion: @escaping (Result<Data, NetworkError>) -> Void) {
         URLSession.shared.dataTask(with: urlRequest) { data, urlResponse, error in
             guard let data = data else {
                 completion(.failure(.clientError))
