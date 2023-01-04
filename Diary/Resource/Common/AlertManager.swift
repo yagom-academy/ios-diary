@@ -31,7 +31,7 @@ final class AlertManager {
         let alert: UIAlertController = UIAlertController(title: title,
                                                          message: nil,
                                                          preferredStyle: .alert)
-        let confirmAction: UIAlertAction = UIAlertAction(title: Namespace.empty,
+        let confirmAction: UIAlertAction = UIAlertAction(title: Namespace.confirm,
                                                          style: .default)
         alert.addAction(confirmAction)
         return alert
