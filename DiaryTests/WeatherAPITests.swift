@@ -14,7 +14,7 @@ final class WeatherAPITests: XCTestCase {
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = NetworkManager()
+        sut = StubNetworkManager()
     }
     
     override func tearDownWithError() throws {
@@ -22,7 +22,7 @@ final class WeatherAPITests: XCTestCase {
         sut = nil
     }
     
-    func test_searchWeahterAPI네트워킹이잘되는지() {
+    func test_searchWeatherAPI네트워킹이잘되는지() {
         // given
         let location = CLLocationCoordinate2D(latitude: 37.5666805, longitude: 126.9784147)
         let endPoint = SearchWeatherAPI(location: location)
@@ -30,13 +30,15 @@ final class WeatherAPITests: XCTestCase {
         // when
         var result: WeatherEntity?
         sut.requestData(endPoint: endPoint, type: WeatherEntity.self) { value in
-            guard let weatherEntity = value as? WeatherEntity else {
-                XCTFail("개어렵네")
+            guard let resultedValue = value as? WeatherEntity else {
+                XCTFail("기대하는 타입과 반환된 타입이 다릅니다.")
                 return
             }
-            result = weatherEntity
+            
+            result = resultedValue
         }
+        
         // then
-        XCTAssertTrue(result?.main == "Clear" && result?.icon == "01d")
+        XCTAssertTrue(result == WeatherEntity(main: "Clear", icon: "01d"))
     }
 }

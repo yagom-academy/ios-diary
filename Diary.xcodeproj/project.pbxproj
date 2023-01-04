@@ -20,6 +20,7 @@
 		18135D22295C36B000C2269D /* TimeInterval+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D21295C36B000C2269D /* TimeInterval+.swift */; };
 		18247549296413EC0030F177 /* Requesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18247548296413EC0030F177 /* Requesting.swift */; };
 		1824754B29642BF70030F177 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1824754A29642BF70030F177 /* NetworkManager.swift */; };
+		184E8F562965534F006BB4F0 /* StubNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 184E8F552965534F006BB4F0 /* StubNetworkManager.swift */; };
 		185A5F382951610800AF523D /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A5F372951610800AF523D /* DiaryListCell.swift */; };
 		185A5F3A295196C000AF523D /* DiaryListCellContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A5F39295196C000AF523D /* DiaryListCellContentView.swift */; };
 		18ACF3D62951A4F6006906D5 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18ACF3D52951A4F6006906D5 /* DiaryDetailViewController.swift */; };
@@ -65,6 +66,7 @@
 		18135D21295C36B000C2269D /* TimeInterval+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+.swift"; sourceTree = "<group>"; };
 		18247548296413EC0030F177 /* Requesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requesting.swift; sourceTree = "<group>"; };
 		1824754A29642BF70030F177 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		184E8F552965534F006BB4F0 /* StubNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubNetworkManager.swift; sourceTree = "<group>"; };
 		185A5F372951610800AF523D /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
 		185A5F39295196C000AF523D /* DiaryListCellContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCellContentView.swift; sourceTree = "<group>"; };
 		1869999049069E7A29788939 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -109,6 +111,7 @@
 		0C1D52D3296522A300C97E35 /* DiaryTests */ = {
 			isa = PBXGroup;
 			children = (
+				184E8F5429655338006BB4F0 /* StubNetworking */,
 				0C1D52D4296522A300C97E35 /* WeatherAPITests.swift */,
 			);
 			path = DiaryTests;
@@ -130,6 +133,14 @@
 				1824754A29642BF70030F177 /* NetworkManager.swift */,
 			);
 			path = Networking;
+			sourceTree = "<group>";
+		};
+		184E8F5429655338006BB4F0 /* StubNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				184E8F552965534F006BB4F0 /* StubNetworkManager.swift */,
+			);
+			path = StubNetworking;
 			sourceTree = "<group>";
 		};
 		18ACF3CE2951A428006906D5 /* Resources */ = {
@@ -406,6 +417,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				184E8F562965534F006BB4F0 /* StubNetworkManager.swift in Sources */,
 				0C1D52D5296522A300C97E35 /* WeatherAPITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
