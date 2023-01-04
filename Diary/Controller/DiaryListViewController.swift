@@ -5,16 +5,18 @@
 // 
 
 import UIKit
+import CoreLocation
 
 final class DiaryListViewController: UIViewController {
     typealias DiaryDataSource = UITableViewDiffableDataSource<Int, Diary>
     typealias DiarySnapShot = NSDiffableDataSourceSnapshot<Int, Diary>
 
-    private lazy var presentNewDiaryViewAction = UIAction { [weak self] _ in
+    private lazy var presentNewDiaryViewAction = UIAction { _ in
         let newDiary = Diary(title: "", body: "", createdAt: Date())
-        let diaryViewController = DiaryViewController(diary: newDiary)
+        let diaryViewController = DiaryViewController(diary: newDiary,
+                                                      authorizationStatus: self.locationManager.authorizationStatus)
 
-        self?.navigationController?.pushViewController(diaryViewController, animated: true)
+        self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
 
     private lazy var addDiaryButton: UIBarButtonItem = {
@@ -35,10 +37,12 @@ final class DiaryListViewController: UIViewController {
 
     private var dataSource: DiaryDataSource?
     private var diaryList: [Diary] = []
+    private let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        requestLocationAuthorization()
         configureNavigationBar()
         configureHierarchy()
         configureDataSource()
@@ -52,6 +56,10 @@ final class DiaryListViewController: UIViewController {
 }
 
 extension DiaryListViewController {
+    private func requestLocationAuthorization() {
+        locationManager.requestWhenInUseAuthorization()
+    }
+
     private func configureNavigationBar() {
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = addDiaryButton
@@ -73,7 +81,21 @@ extension DiaryListViewController {
             let cell = tableView.dequeueReusableCell(cellType: DiaryListCell.self, for: indexPath)
 
             cell.titleLabel.text = diary.title.isEmpty ? "제목 없음" : diary.title
-            cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdAt, diary.body)
+            cell.creationDateLabel.text = diary.createdAt.localeFormattedText
+            cell.bodyPreviewLabel.text = diary.body
+
+            if let weather = diary.weather {
+                NetworkManager.shared.fetchWeatherIconImage(icon: weather.icon, completion: { result in
+                    switch result {
+                    case .success(let weatherIconImage):
+                        DispatchQueue.main.async {
+                            cell.weatherIconImageView.image = weatherIconImage
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
+                })
+            }
 
             return cell
         })
@@ -111,6 +133,9 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedDiary = diaryList[indexPath.row]
         let diaryViewController = DiaryViewController(diary: selectedDiary)
+        if let cell = tableView.cellForRow(at: indexPath) as? DiaryListCell {
+            diaryViewController.weatherIconImageView.image = cell.weatherIconImageView.image
+        }
 
         navigationController?.pushViewController(diaryViewController, animated: true)
         diaryListTableView.deselectRow(at: indexPath, animated: true)
