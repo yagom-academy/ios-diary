@@ -14,7 +14,7 @@ extension Date {
         dateStyle: DateFormatter.Style = .long,
         timeStyle: DateFormatter.Style = .none
     ) -> String {
-        let localeIdentifier = Locale.preferredLanguages.first ?? Locale.current.identifier
+        let localeIdentifier = Locale.current.identifier
         
         Date.formatter.locale = Locale(identifier: localeIdentifier)
         Date.formatter.dateStyle = dateStyle

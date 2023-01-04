@@ -11,21 +11,43 @@ import os.log
 import UIKit
 
 struct DiaryDataStore {
+    private enum DiaryKey {
+        static let title: String = "title"
+        static let body: String = "body"
+        static let createdAt: String = "createdAt"
+    }
+    
     static let shared: DiaryDataStore = DiaryDataStore()
     
-    private let entityName: String = "Diary"
+    private let persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "Diary")
+        container.loadPersistentStores(completionHandler: { (_, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        return container
+    }()
     private let logger: Logger = Logger()
-    private let context: NSManagedObjectContext?
+    private let context: NSManagedObjectContext
     
     private init() {
-        self.context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+        self.context = persistentContainer.viewContext
+    }
+    
+    private func saveContext() {
+        do {
+            try context.save()
+        } catch {
+            logger.error("\(error.localizedDescription)")
+        }
     }
     
     func fetch(request: NSFetchRequest<Diary>) -> [DiaryData] {
         do {
-            let fetchResult = try self.context?.fetch(request)
+            let fetchResult = try self.context.fetch(request)
             var result: [DiaryData] = []
-            fetchResult?.forEach {
+            fetchResult.forEach {
                 result.append(
                     DiaryData(
                         title: $0.title,
@@ -43,64 +65,33 @@ struct DiaryDataStore {
     }
     
     func generateDiary() -> DiaryData? {
-        guard let context = context else {
-            return nil
-        }
-        
         let newDiary = Diary(context: context)
+        saveContext()
         
-        do {
-            try context.save()
-            let newDiaryData = DiaryData(
-                title: nil,
-                body: nil,
-                createdAt: Date().timeIntervalSince1970,
-                objectID: newDiary.objectID
-            )
-            
-            return newDiaryData
-        } catch {
-            logger.error("\(error.localizedDescription)")
-            return nil
-        }
+        let newDiaryData = DiaryData(
+            title: nil,
+            body: nil,
+            createdAt: Date().timeIntervalSince1970,
+            objectID: newDiary.objectID
+        )
+        
+        return newDiaryData
     }
 
-    @discardableResult
-    func updateDiary(_ diaryData: DiaryData) -> Bool {
-        guard let context = context else {
-            return false
-        }
-        
+    func updateDiary(_ diaryData: DiaryData) {
         let coreDataObject = context.object(with: diaryData.objectID)
         
-        coreDataObject.setValue(diaryData.title, forKey: "title")
-        coreDataObject.setValue(diaryData.body, forKey: "body")
-        coreDataObject.setValue(diaryData.createdAt, forKey: "createdAt")
+        coreDataObject.setValue(diaryData.title, forKey: DiaryKey.title)
+        coreDataObject.setValue(diaryData.body, forKey: DiaryKey.body)
+        coreDataObject.setValue(diaryData.createdAt, forKey: DiaryKey.createdAt)
 
-        do {
-            try context.save()
-            return true
-        } catch {
-            logger.error("\(error.localizedDescription)")
-            return false
-        }
+        saveContext()
     }
 
-    @discardableResult
-    func delete(objectID: NSManagedObjectID) -> Bool {
-        guard let context = context else {
-            return false
-        }
-        
+    func delete(objectID: NSManagedObjectID) {
         let targetObject = context.object(with: objectID)
         
         context.delete(targetObject)
-        do {
-            try context.save()
-            return true
-        } catch {
-            logger.error("\(error.localizedDescription)")
-            return false
-        }
+        saveContext()
     }
 }
