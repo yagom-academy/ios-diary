@@ -5,7 +5,7 @@
 //  Created by 이태영 on 2023/01/03.
 //
 
-struct WeatherEntity {
+struct WeatherEntity: Hashable {
     let main: String
     let icon: String
     

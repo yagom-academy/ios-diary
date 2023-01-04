@@ -23,6 +23,7 @@ final class DiaryDetailViewController: UIViewController {
     private let coreDataManager = CoreDataManager.shared
     private let locationManager = CLLocationManager()
     private var diary: Diary?
+    private var currentWeather: WeatherEntity?
     private var isNotEmpty: Bool = false {
         didSet {
             navigationItem.rightBarButtonItem?.isEnabled = isNotEmpty
@@ -86,7 +87,8 @@ extension DiaryDetailViewController {
             id: id,
             title: titleTextField.filteredText,
             body: contentTextView.filteredText,
-            timeInterval: Date().timeIntervalSince1970
+            timeInterval: Date().timeIntervalSince1970,
+            condition: currentWeather
         )
     }
     
@@ -198,8 +200,8 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
         networkManger.requestData(
             endPoint: endPoint,
             type: WeatherEntity.self
-        ) { data in
-            print(data)
+        ) {
+            self.currentWeather = WeatherEntity(main: $0.main, icon: $0.icon)
         }
     }
     

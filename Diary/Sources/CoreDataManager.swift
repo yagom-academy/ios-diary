@@ -19,7 +19,21 @@ extension DiaryEntity {
             return nil
         }
         
-        return Diary(id: id, title: title, body: body, timeInterval: timeInterval)
+        return Diary(
+            id: id,
+            title: title,
+            body: body,
+            timeInterval: timeInterval,
+            condition: self.condition?.weather
+        )
+    }
+}
+
+extension Weather {
+    var weather: WeatherEntity? {
+        guard let main = self.main,
+              let icon = self.icon else { return nil }
+        return WeatherEntity(main: main, icon: icon)
     }
 }
 
@@ -44,13 +58,20 @@ final class CoreDataManager {
     private init() { }
     
     func createDiary(diary: Diary?) {
-        guard let diary = diary else { return }
+        guard let diary = diary,
+              let weather = diary.condition else { return }
         let diaryEntity = DiaryEntity(context: context)
         
         diaryEntity.title = diary.title
         diaryEntity.body = diary.body
         diaryEntity.createdIntervalValue = Int64(diary.createdDate.timeIntervalSince1970)
         diaryEntity.id = diary.id
+        
+        let weatherEntity = Weather(context: context)
+        weatherEntity.main = weather.main
+        weatherEntity.icon = weather.icon
+        
+        diaryEntity.condition = weatherEntity
         
         save()
     }
