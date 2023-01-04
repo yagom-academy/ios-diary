@@ -82,7 +82,7 @@ final class CoreDataManager: CoreDataManageable {
         let container = NSPersistentContainer(name: CoreDataNamespace.diary)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             guard error == nil else {
-                fatalError("init(coder:) has not been implemented")
+                return
             }
         })
         return container
