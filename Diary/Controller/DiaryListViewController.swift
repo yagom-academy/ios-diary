@@ -25,14 +25,16 @@ final class DiaryListViewController: UIViewController {
         cell.accessories = [.disclosureIndicator()]
     }
     
+    private lazy var listCellProvider = {
+        (collectionView: UICollectionView, indexPath: IndexPath, diary: DiaryModel) -> UICollectionViewCell? in
+        
+        return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration,
+                                                            for: indexPath,
+                                                            item: diary)
+    }
+    
     private lazy var dataSource = UICollectionViewDiffableDataSource<DiarySection, DiaryModel>(
-        collectionView: self.collectionView) {
-            collectionView, indexPath, diary in
-            
-            return collectionView.dequeueConfiguredReusableCell(using: self.listCellRegistration,
-                                                                for: indexPath,
-                                                                item: diary)
-        }
+        collectionView: self.collectionView, cellProvider: self.listCellProvider)
     
     private enum DiarySection: Hashable {
         case main
@@ -188,14 +190,14 @@ extension DiaryListViewController: UICollectionViewDelegate {
                 switch error {
                 case DiaryError.deleteFailed:
                     self?.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.deleteFailed.alertTitle,
-                                                                  message: DiaryError.deleteFailed.alertMessage,
-                                                                  actionTitle: "확인"),
-                                 animated: true)
+                                                                   message: DiaryError.deleteFailed.alertMessage,
+                                                                   actionTitle: "확인"),
+                                  animated: true)
                 case DiaryError.saveContextFailed:
                     self?.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
-                                                                  message: DiaryError.saveContextFailed.alertMessage,
-                                                                  actionTitle: "확인"),
-                                 animated: true)
+                                                                   message: DiaryError.saveContextFailed.alertMessage,
+                                                                   actionTitle: "확인"),
+                                  animated: true)
                 default:
                     break
                 }
