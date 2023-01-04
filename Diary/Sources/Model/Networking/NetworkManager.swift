@@ -6,13 +6,21 @@
 
 import Foundation
 
-class NetworkManager {
+protocol NetworkService {
+    func requestData<T: Decodable>(
+        endPoint: Requesting,
+        type: T.Type,
+        completion: @escaping (Decodable) -> Void
+    )
+}
+
+struct NetworkManager: NetworkService {
     let session = URLSession.shared
     
     func requestData<T: Decodable>(
         endPoint: Requesting,
         type: T.Type,
-        completion: @escaping (T) -> Void
+        completion: @escaping (Decodable) -> Void
     ) {
         guard let request = endPoint.convertURL() else { return }
         

@@ -195,8 +195,11 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
         let networkManger = NetworkManager()
         let endPoint = SearchWeatherAPI(location: location)
         
-        networkManger.requestData(endPoint: endPoint, type: WeatherEntity.self) { data in
-            print(data.icon)
+        networkManger.requestData(
+            endPoint: endPoint,
+            type: WeatherEntity.self
+        ) { data in
+            print(data)
         }
     }
     
