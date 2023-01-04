@@ -7,7 +7,7 @@
 import Foundation
 
 struct NetworkManager {
-    func performRequest(urlString: String) {
+    func performRequest(urlString: String, completion: @escaping (Data) -> Void) {
         guard let url = URL(string: urlString) else { return }
         
         let task = URLSession.shared.dataTask(with: url) { data, response, error in
@@ -23,7 +23,7 @@ struct NetworkManager {
                 return
             }
             
-            print(data)
+            completion(data)
         }
         
         task.resume()

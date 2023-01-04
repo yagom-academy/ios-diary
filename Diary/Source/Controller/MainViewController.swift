@@ -58,13 +58,19 @@ final class MainViewController: UIViewController {
                   let createdDate = entity.createdDate,
                   let createdAt = Int(createdDate),
                   let totalText = entity.totalText,
-                  let id = entity.id else { return }
+                  let id = entity.id
+            else {
+                return
+            }
             
-            let diary = Diary(title: title,
-                              body: body,
-                              createdAt: createdAt,
-                              totalText: totalText,
-                              id: id)
+            let diary = Diary(
+                title: title,
+                body: body,
+                createdAt: createdAt,
+                totalText: totalText,
+                id: id,
+                icon: entity.icon ?? String()
+            )
             
             diaryArray.append(diary)
         }

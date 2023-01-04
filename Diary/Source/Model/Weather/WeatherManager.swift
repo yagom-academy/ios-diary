@@ -10,16 +10,25 @@ import CoreLocation
 struct WeatherManager {
     let networkManager = NetworkManager()
     
-    func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+    func fetchWeather(latitude: CLLocationDegrees,
+                      longitude: CLLocationDegrees,
+                      completion: @escaping (Weather) -> Void) {
         let url = "\(URL.weatherBaseURL)\(URL.apiKey)&lat=\(latitude)&lon=\(longitude)"
         
-        networkManager.performRequest(urlString: url)
+        networkManager.performRequest(urlString: url) { data in
+            if let weatherAPI = JSONDecoder.decodeData(data: data, to: WeatherAPI.self),
+               let weather = weatherAPI.weather.first {
+                completion(weather)
+            }
+        }
     }
     
     func fetchWeatherIcon(of icon: String) {
         let url = "\(URL.iconBaseURL)\(icon).png"
         
-        networkManager.performRequest(urlString: url)
+        networkManager.performRequest(urlString: url) { data in
+            
+        }
     }
 }
 

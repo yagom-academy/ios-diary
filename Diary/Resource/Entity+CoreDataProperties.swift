@@ -17,6 +17,7 @@ extension Entity {
     @NSManaged var createdDate: String?
     @NSManaged var totalText: String?
     @NSManaged var id: UUID?
+    @NSManaged var icon: String?
 }
 
 private enum NameSpace {

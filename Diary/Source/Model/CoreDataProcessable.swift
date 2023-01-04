@@ -35,6 +35,7 @@ extension CoreDataProcessable {
         object.setValue(diary.createdAt.description, forKey: NameSpace.entityCreatedDate)
         object.setValue(diary.totalText, forKey: NameSpace.entityTotalText)
         object.setValue(diary.id, forKey: NameSpace.entityID)
+        object.setValue(diary.icon, forKey: NameSpace.entityIcon)
         
         do {
             try managedContext.save()
@@ -123,5 +124,6 @@ private enum NameSpace {
     static let entityCreatedDate = "createdDate"
     static let entityTotalText = "totalText"
     static let entityID = "id"
+    static let entityIcon = "icon"
     static let idFormat = "id = %@"
 }

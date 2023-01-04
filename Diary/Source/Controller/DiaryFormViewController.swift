@@ -13,10 +13,11 @@ final class DiaryFormViewController: UIViewController {
     
     private let diaryFormView = DiaryFormView()
     private var selectedDiary: Diary?
+    private var weather: Weather?
     private let alertControllerManager = AlertControllerManager()
     private let activityControllerManager = ActivityControllerManager()
     private let locationManager = CLLocationManager()
-    private let weatherManager = WeatherManager()
+    private var weatherManager = WeatherManager()
     
     // MARK: Initializer
     
@@ -123,7 +124,8 @@ final class DiaryFormViewController: UIViewController {
             body: body,
             createdAt: Int(Date().timeIntervalSince1970),
             totalText: diaryFormView.diaryTotalText,
-            id: uuid
+            id: uuid,
+            icon: weather?.icon ?? ""
         )
 
         return diary
@@ -227,7 +229,9 @@ extension DiaryFormViewController: CLLocationManagerDelegate {
             let latitude = location.coordinate.latitude
             let longitude = location.coordinate.longitude
             
-            weatherManager.fetchWeather(latitude: latitude, longitude: longitude)
+            weatherManager.fetchWeather(latitude: latitude, longitude: longitude) { weather in
+                self.weather = weather
+            }
         }
     }
     
