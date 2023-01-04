@@ -32,19 +32,11 @@ final class DiaryItemManager {
         }
     }
     
-    func validate(title: String?, body: String?) {
+    func validate(title: String?, body: String?) throws {
         if isTitleValid(title) && isBodyValid(body) == false {
-            do {
-                try deleteDiary()
-            } catch {
-                return
-            }
-            return
-        }
-        do {
+            try deleteDiary()
+        } else {
             try coreDataManager?.update(objectID: objectID, title: title, body: body)
-        } catch {
-            return
         }
     }
     

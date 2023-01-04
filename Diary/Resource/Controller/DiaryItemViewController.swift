@@ -67,11 +67,14 @@ final class DiaryItemViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
     }
-    
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        diaryItemManager?.validate(title: titleTextView.text, body: bodyTextView.text)
-        alertDelegate?.showErrorAlert(title: Content.saveFailure)
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        do {
+            try diaryItemManager?.validate(title: titleTextView.text, body: bodyTextView.text)
+        } catch {
+            alertDelegate?.showErrorAlert(title: Content.saveFailure)
+        }
     }
     
     private func configureUI() {
