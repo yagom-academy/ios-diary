@@ -25,7 +25,12 @@ struct PersistentContainerManager {
     mutating func fetchDiaries() -> [Diary] {
         let fetchedDiaryModelObjects = fetchDiaryModelObjects()
         let diaries = fetchedDiaryModelObjects.map {
-            Diary(id: $0.id, title: $0.title, body: $0.body, createdAt: $0.createdAt)
+            Diary(id: $0.id,
+                  title: $0.title,
+                  body: $0.body,
+                  createdAt: $0.createdAt,
+                  main: $0.main,
+                  iconID: $0.iconID)
         }
         return diaries
     }
@@ -36,6 +41,8 @@ struct PersistentContainerManager {
         diaryModelObejct.title = diary.title
         diaryModelObejct.body = diary.body
         diaryModelObejct.createdAt = diary.createdAt
+        diaryModelObejct.main = diary.main
+        diaryModelObejct.iconID = diary.iconID
         persistentContainer.saveContext()
     }
 
