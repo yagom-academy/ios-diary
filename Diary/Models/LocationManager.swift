@@ -39,10 +39,12 @@ extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let completion = completion else { return }
         completion(locations.last, nil)
+        self.completion = nil
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         guard let completion = completion else { return }
         completion(nil, error)
+        self.completion = nil
     }
 }
