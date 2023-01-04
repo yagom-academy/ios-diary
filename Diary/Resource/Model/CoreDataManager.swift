@@ -16,7 +16,7 @@ final class CoreDataManager {
         let container = NSPersistentContainer(name: CoreDataNamespace.diary)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             guard error == nil else {
-                return
+                fatalError("init(coder:) has not been implemented")
             }
         })
         return container
