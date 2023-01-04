@@ -122,6 +122,7 @@ final class EditDiaryViewController: UIViewController {
         do {
             let newDiary: DiaryModel = createDiaryModel()
             try CoreDataMananger.shared.update(diary: newDiary)
+            self.diaryModel = newDiary
         } catch {
             switch error {
             case DiaryError.updateFailed:
@@ -135,31 +136,33 @@ final class EditDiaryViewController: UIViewController {
                                                               actionTitle: "확인"),
                              animated: true)
             default:
-                break
+                print(error.localizedDescription)
             }
         }
     }
     
     private func createDiaryModel() -> DiaryModel {
-        let diaryContent = self.editDiaryView.fetchTextViewContent()
+        let content: String = self.editDiaryView.fetchTextViewContent()
+        var currentDiaryModel: DiaryModel = DiaryModel(id: self.diaryModel.id,
+                                                       createdAt: self.diaryModel.createdAt)
         
-        if diaryContent.isEmpty {
-            self.diaryModel.title = ""
-            self.diaryModel.body = ""
-        } else if diaryContent.contains("\n") {
-            let splitedText = diaryContent.split(separator: "\n",
-                                                 maxSplits: 1,
-                                                 omittingEmptySubsequences: false)
-            let title = String(splitedText[0])
-            let body = String(splitedText[1])
-            
-            self.diaryModel.title = title
-            self.diaryModel.body = body
-        } else {
-            self.diaryModel.title = diaryContent
-            self.diaryModel.body = ""
+        guard !content.isEmpty else {
+            currentDiaryModel.title = ""
+            currentDiaryModel.body = ""
+            return currentDiaryModel
         }
         
-        return self.diaryModel
+        guard let firstLineIndex = content.firstIndex(of: "\n") else {
+            currentDiaryModel.title = content
+            currentDiaryModel.body = ""
+            return currentDiaryModel
+        }
+        
+        let title: String = String(content[content.startIndex..<firstLineIndex])
+        let body: String = String(content[firstLineIndex..<content.endIndex])
+        
+        currentDiaryModel.title = title
+        currentDiaryModel.body = body
+        return currentDiaryModel
     }
 }
