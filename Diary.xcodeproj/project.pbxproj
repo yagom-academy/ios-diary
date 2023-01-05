@@ -19,7 +19,7 @@
 		905456F22952CCF200AAFEB0 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905456F12952CCF200AAFEB0 /* DiaryDetailViewController.swift */; };
 		90B1922F2963EAD200DEEE10 /* WeatherManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B1922E2963EAD200DEEE10 /* WeatherManager.swift */; };
 		90B1923129640D9900DEEE10 /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B1923029640D9900DEEE10 /* DecodeManager.swift */; };
-		90B1923329640DF700DEEE10 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B1923229640DF700DEEE10 /* Weather.swift */; };
+		90B1923329640DF700DEEE10 /* WeatherInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90B1923229640DF700DEEE10 /* WeatherInfo.swift */; };
 		90DC5C8829519711003D6684 /* DiaryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DC5C8729519711003D6684 /* DiaryListView.swift */; };
 		90DC5C8A2951A059003D6684 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DC5C892951A059003D6684 /* DiaryCell.swift */; };
 		90DC5C8C2951A6E1003D6684 /* CustomUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90DC5C8B2951A6E1003D6684 /* CustomUI.swift */; };
@@ -46,7 +46,7 @@
 		905456F12952CCF200AAFEB0 /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		90B1922E2963EAD200DEEE10 /* WeatherManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherManager.swift; sourceTree = "<group>"; };
 		90B1923029640D9900DEEE10 /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
-		90B1923229640DF700DEEE10 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
+		90B1923229640DF700DEEE10 /* WeatherInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInfo.swift; sourceTree = "<group>"; };
 		90DC5C8729519711003D6684 /* DiaryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListView.swift; sourceTree = "<group>"; };
 		90DC5C892951A059003D6684 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		90DC5C8B2951A6E1003D6684 /* CustomUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUI.swift; sourceTree = "<group>"; };
@@ -100,7 +100,7 @@
 				4143E313296400E100744B00 /* URLSessionModel */,
 				41AF40FD2952AFF100AC33CE /* Date+Extension.swift */,
 				90DC5C8D2951CAF8003D6684 /* DiaryInfo.swift */,
-				90B1923229640DF700DEEE10 /* Weather.swift */,
+				90B1923229640DF700DEEE10 /* WeatherInfo.swift */,
 				4174808B29592DDF00739399 /* CoreDataManager.swift */,
 				90B1922E2963EAD200DEEE10 /* WeatherManager.swift */,
 				90B1923029640D9900DEEE10 /* DecodeManager.swift */,
@@ -302,7 +302,7 @@
 				41C6A0FC295BDAD600304FC2 /* CustomActivityViewController.swift in Sources */,
 				90B1922F2963EAD200DEEE10 /* WeatherManager.swift in Sources */,
 				41AF40FE2952AFF100AC33CE /* Date+Extension.swift in Sources */,
-				90B1923329640DF700DEEE10 /* Weather.swift in Sources */,
+				90B1923329640DF700DEEE10 /* WeatherInfo.swift in Sources */,
 				4174808C29592DDF00739399 /* CoreDataManager.swift in Sources */,
 				90B1923129640D9900DEEE10 /* DecodeManager.swift in Sources */,
 			);
