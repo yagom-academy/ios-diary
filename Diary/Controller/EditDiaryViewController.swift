@@ -144,6 +144,8 @@ final class EditDiaryViewController: UIViewController {
     private func createDiaryModel() -> DiaryModel {
         let content: String = self.editDiaryView.fetchTextViewContent()
         var currentDiaryModel: DiaryModel = DiaryModel(id: self.diaryModel.id,
+                                                       weatherMain: self.diaryModel.weatherMain,
+                                                       weatherIconID: self.diaryModel.weatherIconID,
                                                        createdAt: self.diaryModel.createdAt)
         
         guard !content.isEmpty else {

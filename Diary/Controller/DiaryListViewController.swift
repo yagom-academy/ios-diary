@@ -52,13 +52,12 @@ final class DiaryListViewController: UIViewController {
     func configureLocationManager() {
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestAlwaysAuthorization()
+        locationManager.requestWhenInUseAuthorization()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.fetchDiary()
-//        self.locationManager.requestLocation()
         print(self.locationManager.authorizationStatus.rawValue)
     }
     
@@ -81,17 +80,16 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func pressAddButton() {
         self.getWeatherData()
-        self.insertDefaultDiary()
         self.moveToEditView()
     }
     
     private func getWeatherData() {
-        
+        self.locationManager.requestLocation()
     }
     
-    private func insertDefaultDiary() {
+    private func insertDefaultDiary(_ diary: DiaryModel) {
         do {
-            try CoreDataMananger.shared.insert(diary: DiaryModel())
+            try CoreDataMananger.shared.insert(diary: diary)
         } catch {
             self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
                                                           message: DiaryError.saveContextFailed.alertMessage,
@@ -137,6 +135,8 @@ final class DiaryListViewController: UIViewController {
                 diaryModels.append(DiaryModel(id: $0.objectID,
                                               title: $0.title ?? "",
                                               body: $0.body ?? "",
+                                              weatherMain: $0.weatherMain ?? "",
+                                              weatherIconID: $0.weatherIconID ?? "",
                                               createdAt: $0.createdAt))
             }
             
@@ -227,22 +227,22 @@ extension DiaryListViewController: UICollectionViewDelegate {
 }
 
 extension DiaryListViewController: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .authorizedAlways, .authorizedWhenInUse:
-            print("GPS 권한 설정됨")
-            self.locationManager.startUpdatingLocation()
-        case .restricted, .notDetermined:
-            print("GPS 권한 설정되지 않음")
-            locationManager.desiredAccuracy = kCLLocationAccuracyReduced
-            
-        case .denied:
-            print("GPS 권한 요청 거부됨")
-            self.locationManager.requestAlwaysAuthorization()
-        default:
-            print("GPS: Default")
-        }
-    }
+    //    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    //        switch manager.authorizationStatus {
+    //        case .authorizedAlways, .authorizedWhenInUse:
+    //            print("GPS 권한 설정됨")
+    //            self.locationManager.startUpdatingLocation()
+    //        case .restricted, .notDetermined:
+    //            print("GPS 권한 설정되지 않음")
+    //            locationManager.desiredAccuracy = kCLLocationAccuracyReduced
+    //
+    //        case .denied:
+    //            print("GPS 권한 요청 거부됨")
+    //            self.locationManager.requestAlwaysAuthorization()
+    //        default:
+    //            print("GPS: Default")
+    //        }
+    //    }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location: CLLocation = locations[locations.count - 1]
@@ -259,8 +259,12 @@ extension DiaryListViewController: CLLocationManagerDelegate {
         WeatherNetworkManager.shared.getJSONData(url: url, type: WeatherModel.self) { result in
             switch result {
             case .success(let data):
-                let iconID = data.weather[0].icon
+                guard let weatherMain = data.weather.first?.main,
+                      let iconID = data.weather.first?.icon else { return }
                 let imageURL = "https://openweathermap.org/img/wn/\(iconID)@2x.png"
+                
+                self.insertDefaultDiary(DiaryModel(weatherMain: weatherMain, weatherIconID: iconID))
+                
                 WeatherNetworkManager.shared.getImageData(url: imageURL) { result in
                     switch result {
                     case .success(let imageData):

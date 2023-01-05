@@ -57,6 +57,8 @@ final class CoreDataMananger {
         let managedObject = NSManagedObject(entity: diaryEntity, insertInto: self.context)
         managedObject.setValue(diary.title, forKey: "title")
         managedObject.setValue(diary.body, forKey: "body")
+        managedObject.setValue(diary.weatherMain, forKey: "weatherMain")
+        managedObject.setValue(diary.weatherIconID, forKey: "weatherIconID")
         managedObject.setValue(diary.createdAt, forKey: "createdAt")
         try self.saveToContext()
     }
@@ -96,6 +98,8 @@ final class CoreDataMananger {
         let lastDiaryModel = DiaryModel(id: lastDiary.objectID,
                                         title: lastDiary.title ?? "",
                                         body: lastDiary.body ?? "",
+                                        weatherMain: lastDiary.weatherMain ?? "",
+                                        weatherIconID: lastDiary.weatherIconID ?? "",
                                         createdAt: lastDiary.createdAt)
         
         return lastDiaryModel
