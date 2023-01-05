@@ -12,6 +12,12 @@ final class DiaryCell: UICollectionViewListCell {
     private let titleLabel = CustomLabel()
     private let dateLabel = CustomLabel(font: .subheadline)
     private let previewLabel = CustomLabel(font: .caption2)
+    private var weatherIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
     
     private let subStackView: UIStackView = {
         let stackView = UIStackView()
@@ -36,11 +42,14 @@ final class DiaryCell: UICollectionViewListCell {
     private func configureDiaryCellLayout() {
         configureAccessories()
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-        [dateLabel, previewLabel].forEach { subStackView.addArrangedSubview($0) }
+        [dateLabel, weatherIconView, previewLabel].forEach { subStackView.addArrangedSubview($0) }
         [titleLabel, subStackView].forEach { totalStackView.addArrangedSubview($0) }
         contentView.addSubview(totalStackView)
         
         NSLayoutConstraint.activate([
+            weatherIconView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.1),
+            weatherIconView.heightAnchor.constraint(equalTo: weatherIconView.widthAnchor),
+            
             totalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             totalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             totalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
@@ -52,10 +61,14 @@ final class DiaryCell: UICollectionViewListCell {
         self.accessories = [.disclosureIndicator(options: .init(tintColor: .systemGray))]
     }
     
-    func configureCell(title: String, date: String, preview: String) {
+    func configureCell(title: String, date: String, weatherIcon: UIImage?, preview: String) {
         configureDiaryCellLayout()
         titleLabel.text = title
         dateLabel.text = date
         previewLabel.text = preview
+        
+        if weatherIcon != nil {
+            weatherIconView.image = weatherIcon
+        }
     }
 }

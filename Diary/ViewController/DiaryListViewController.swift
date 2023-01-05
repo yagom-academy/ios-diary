@@ -34,10 +34,15 @@ final class DiaryListViewController: UIViewController {
     
     private func configureDiaryListDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<DiaryCell, DiaryInfo> {
-            cell, indexPath, _ in
-            cell.configureCell(title: self.diary[indexPath.item].title,
-                               date: self.diary[indexPath.item].createdDate,
-                               preview: self.diary[indexPath.item].body)
+            cell, _, diaryInfo in
+            
+            self.weatherManager.fetchWeatherIcon(icon: diaryInfo.weather?.icon ?? "") {
+                weatherIcon in
+                cell.configureCell(title: diaryInfo.title,
+                                   date: diaryInfo.createdDate,
+                                   weatherIcon: weatherIcon,
+                                   preview: diaryInfo.body)
+            }
         }
         
         guard let diaryListView = diaryListView,

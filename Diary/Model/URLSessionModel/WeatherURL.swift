@@ -22,7 +22,7 @@ enum WeatherURL {
                                        ])
         case .weatherIcon(let icon):
             return makeURL(baseURL: URL(string: "https://openweathermap.org"),
-                           path: ["img", "wn", icon],
+                           path: ["img", "wn", "\(icon)@2x.png"],
                            queryItems: nil)
         }
     }
