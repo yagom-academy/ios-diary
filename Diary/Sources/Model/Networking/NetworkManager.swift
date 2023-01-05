@@ -6,7 +6,9 @@
 
 import Foundation
 
-protocol NetworkService {
+protocol NetworkService { }
+
+protocol APINetworkService: NetworkService {
     func requestData<T: Decodable>(
         endPoint: Requesting,
         type: T.Type,
@@ -14,9 +16,7 @@ protocol NetworkService {
     )
 }
 
-struct NetworkManager: NetworkService {
-    let session = URLSession.shared
-    
+extension APINetworkService {
     func requestData<T: Decodable>(
         endPoint: Requesting,
         type: T.Type,
@@ -24,7 +24,7 @@ struct NetworkManager: NetworkService {
     ) {
         guard let request = endPoint.convertURL() else { return }
         
-        let task = session.dataTask(with: request) { data, response, error in
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print(error)
             }
@@ -43,3 +43,5 @@ struct NetworkManager: NetworkService {
         task.resume()
     }
 }
+
+struct NetworkManager: APINetworkService { }
