@@ -46,11 +46,19 @@ struct PersistentContainerManager {
         persistentContainer.saveContext()
     }
 
-    mutating func updateDiary(_ diary: Diary) {
+    mutating func updateDiaryDetail(_ diary: Diary) {
         let fetchedDiaryModelObjects = fetchDiaryModelObjects()
         guard let diaryModelObejct = fetchedDiaryModelObjects.first(where: { $0.id == diary.id }) else { return }
         diaryModelObejct.title = diary.title
         diaryModelObejct.body = diary.body
+        persistentContainer.saveContext()
+    }
+
+    mutating func updateDiaryWeatherInformation(_ diary: Diary) {
+        let fetchedDiaryModelObjects = fetchDiaryModelObjects()
+        guard let diaryModelObejct = fetchedDiaryModelObjects.first(where: { $0.id == diary.id }) else { return }
+        diaryModelObejct.main = diary.main
+        diaryModelObejct.iconID = diary.iconID
         persistentContainer.saveContext()
     }
 

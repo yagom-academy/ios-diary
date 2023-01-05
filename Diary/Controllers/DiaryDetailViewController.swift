@@ -29,7 +29,7 @@ final class DiaryDetailViewController: UIViewController {
     private var persistentContainerManager = PersistentContainerManager()
     private var diary: Diary {
         didSet {
-            persistentContainerManager.updateDiary(diary)
+            persistentContainerManager.updateDiaryDetail(diary)
         }
     }
     private var action = Action.update

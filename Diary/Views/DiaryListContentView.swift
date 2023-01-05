@@ -51,6 +51,7 @@ final class DiaryListContentView: UIView, UIContentView {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .gray
         return imageView
     }()
 
@@ -82,7 +83,6 @@ final class DiaryListContentView: UIView, UIContentView {
 
     private func configure(_ configuration: UIContentConfiguration) {
         let iconPlaceholder = UIImage(systemName: "questionmark.circle")
-        iconPlaceholder?.withTintColor(.gray, renderingMode: .alwaysOriginal)
         if let configuration = configuration as? Configuration {
             titleLabel.text = configuration.title
             bodyLabel.text = configuration.body
@@ -113,13 +113,15 @@ final class DiaryListContentView: UIView, UIContentView {
         stackView.addArrangedSubview(bodyLabel)
         addSubview(stackView)
 
+        createdAtLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
+        createdAtLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .vertical)
         createdAtLabel.setContentHuggingPriority(.defaultHigh + 1, for: .horizontal)
         createdAtLabel.setContentHuggingPriority(.defaultHigh + 1, for: .vertical)
         let spacing = CGFloat(8)
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: spacing),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
-            titleLabel.trailingAnchor.constraint(equalTo: bodyLabel.trailingAnchor),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
             weatherIconImageView.heightAnchor.constraint(equalTo: createdAtLabel.heightAnchor),
             weatherIconImageView.widthAnchor.constraint(equalTo: createdAtLabel.heightAnchor),
             stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),

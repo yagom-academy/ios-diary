@@ -16,6 +16,7 @@ final class DiaryListViewController: UICollectionViewController {
 
     init() {
         super.init(collectionViewLayout: UICollectionViewLayout())
+        collectionView.backgroundColor = .white
     }
 
     required init?(coder: NSCoder) {
@@ -96,8 +97,11 @@ final class DiaryListViewController: UICollectionViewController {
         let diaryDetailViewController = DiaryDetailViewController(diary: diary) { [weak self] diary, action in
             switch action {
             case .update:
-                self?.update(diary: diary)
-                self?.updateSnapshot([diary.id])
+                guard var updatingDiary = self?.diary(diaryID: diary.id) else { return }
+                updatingDiary.title = diary.title
+                updatingDiary.body = diary.body
+                self?.update(diary: updatingDiary)
+                self?.updateSnapshot([updatingDiary.id])
             case .delete:
                 self?.delete(diary: diary)
                 self?.updateSnapshot()
@@ -163,6 +167,33 @@ extension DiaryListViewController {
             }
         }
     }
+
+    private func loadWeatherInformation(for diaryID: Diary.ID) {
+        locationManager.currentLocation { [weak self] location, error in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            guard let location = location else { return }
+            WeatherInformationLoader().load(latitude: location.coordinate.latitude,
+                                            longitude: location.coordinate.longitude) { [weak self] weatherInformation, error in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                guard let weatherInformation = weatherInformation,
+                      let weather = weatherInformation.weather.first,
+                      var diary = self?.diary(diaryID: diaryID) else { return }
+                diary.main = weather.main
+                diary.iconID = weather.icon
+                DispatchQueue.main.async {
+                    self?.persistentContainerManager.updateDiaryWeatherInformation(diary)
+                    self?.update(diary: diary)
+                    self?.updateSnapshot([diary.id])
+                }
+            }
+        }
+    }
 }
 
 // MARK: - objc
@@ -171,11 +202,16 @@ extension DiaryListViewController {
         let newDiary = Diary(title: "", body: "", createdAt: Date().timeIntervalSince1970)
         persistentContainerManager.insertDiary(newDiary)
         diaries.append(newDiary)
+        loadWeatherInformation(for: newDiary.id)
+
         let diaryDetailViewController = DiaryDetailViewController(diary: newDiary) { [weak self] diary, action in
             switch action {
             case .update:
-                self?.update(diary: diary)
-                self?.updateSnapshot([diary.id])
+                guard var updatingDiary = self?.diary(diaryID: diary.id) else { return }
+                updatingDiary.title = diary.title
+                updatingDiary.body = diary.body
+                self?.update(diary: updatingDiary)
+                self?.updateSnapshot([updatingDiary.id])
             case .delete:
                 self?.delete(diary: diary)
                 self?.updateSnapshot()

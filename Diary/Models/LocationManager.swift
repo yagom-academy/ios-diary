@@ -38,6 +38,11 @@ extension LocationManager: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let completion = completion else { return }
+        guard isAuthorized else {
+            completion(nil, nil)
+            self.completion = nil
+            return
+        }
         completion(locations.last, nil)
         self.completion = nil
     }

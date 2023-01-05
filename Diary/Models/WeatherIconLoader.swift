@@ -16,7 +16,7 @@ struct WeatherIconLoader {
             return
         }
         let dataTask = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error != nil else {
+            guard error == nil else {
                 completion(nil, .unknownError)
                 return
             }
