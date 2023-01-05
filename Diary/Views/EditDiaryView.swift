@@ -11,6 +11,7 @@ final class EditDiaryView: UIView {
     weak var delegate: KeyboardActionSavable?
     private var textStackViewBottomConstraints: NSLayoutConstraint?
     private let currentDiaryData: CurrentDiary?
+    private var beforeCount = 0
     
     private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
@@ -86,13 +87,17 @@ extension EditDiaryView: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
+        guard let range = textView.selectedTextRange else { return }
+        guard let position = textView.position(from: range.start, offset: 0) else { return }
+        
         let seperateText = self.contentsTextView.text.components(separatedBy: "\n")
         guard let titleText = seperateText.first else { return }
-        let range = (titleText as NSString).range(of: titleText)
+        let ranges = (titleText as NSString).range(of: titleText)
         self.contentsTextView.attributedText = NSMutableAttributedString.customAttributeTitle(
             text: self.contentsTextView.text,
-            range: range
+            range: ranges
         )
+        textView.selectedTextRange = textView.textRange(from: position, to: position)
     }
 }
 
