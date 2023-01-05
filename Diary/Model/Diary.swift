@@ -11,8 +11,8 @@ struct DiaryResponseDTO: Decodable {
     let title: String
     let body: String
     let createdAt: Double
-    let weatherMain: String
-    let weatherIcon: String
+    let weatherMain: String?
+    let weatherIcon: String?
 
     enum CodingKeys: String, CodingKey {
         case title
@@ -25,10 +25,15 @@ struct DiaryResponseDTO: Decodable {
 
 extension DiaryResponseDTO {
     func toDomain() -> Diary {
-        let diary = Diary(title: title,
+        var diary = Diary(title: title,
                           body: body,
-                          createdAt: Date(timeIntervalSince1970: createdAt),
-                          weather: Weather(main: weatherMain, icon: weatherIcon))
+                          createdAt: Date(timeIntervalSince1970: createdAt))
+
+        guard let main = weatherMain,
+              let icon = weatherIcon else {
+            return diary
+        }
+        diary.weather = Weather(main: main, icon: icon)
 
         return diary
     }

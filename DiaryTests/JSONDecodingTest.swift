@@ -9,7 +9,7 @@ import XCTest
 @testable import Diary
 
 class DiaryTests: XCTestCase {
-    func test_JSON_sample_data를_decoding하면_nil이_아니어야_한다() throws {
+    func test_JSON_sample_data는_DiaryResponseDTO타입으로_decoding_된다() throws {
         guard let path = Bundle.main.path(forResource: "sample", ofType: "json") else {
             return XCTFail("sample data 경로 오류")
         }
