@@ -12,8 +12,8 @@ final class NetworkManager {
     
     private init() {}
     
-    func fetchData(url: URL, completion: @escaping (Result<WeatherAPIData, SessionError>) -> Void) {
-        let decodeManager = DecoderManager<WeatherAPIData>()
+    func fetchData(url: URL?, completion: @escaping (Result<Data, SessionError>) -> Void) {
+        guard let url = url else { return }
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"
@@ -37,24 +37,8 @@ final class NetworkManager {
                 return
             }
             
-            let weatherData = decodeManager.decodeData(data)
-            
-            switch weatherData {
-            case .success(let data):
-                completion(.success(data))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+            completion(.success(data))
+
         }.resume()
-    }
-    
-    func fetchImage(url: URL?, completion: @escaping (UIImage) -> Void) {
-        guard let imageURL = url else { return }
-        
-        DispatchQueue.global().async {
-            guard let data = try? Data(contentsOf: imageURL),
-                  let image = UIImage(data: data) else { return }
-            completion(image)
-        }
     }
 }

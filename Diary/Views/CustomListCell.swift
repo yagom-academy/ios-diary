@@ -38,6 +38,11 @@ final class CustomListCell: UICollectionViewListCell {
                                                   alignment: .leading,
                                                   distribution: .fillEqually)
 
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        iconImageView.image = nil
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupUI()
@@ -60,6 +65,7 @@ final class CustomListCell: UICollectionViewListCell {
             self.iconImageView.image = nil
             return
         }
+
         self.iconImageView.image = image
     }
 }

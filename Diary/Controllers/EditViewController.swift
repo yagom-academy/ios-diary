@@ -22,9 +22,10 @@ final class EditViewController: UIViewController {
     private var locationManager: CLLocationManager?
     private lazy var editView = EditDiaryView(currentDiaryData: currentDiaryData)
     
-    init(currentDiaryData: CurrentDiary = CurrentDiary()) {
+    init(currentDiaryData: CurrentDiary = CurrentDiary(), iconID: String? = nil) {
         super.init(nibName: nil, bundle: nil)
         self.currentDiaryData = currentDiaryData
+        self.currentWeatherData.iconID = iconID
     }
     
     required init?(coder: NSCoder) {
@@ -46,12 +47,35 @@ final class EditViewController: UIViewController {
         addNotification()
     }
     
+    let navigationLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .title3)
+        return label
+    }()
+    
+    lazy var navigationImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage()
+        return imageView
+    }()
+    
+    lazy var navigationStackView = UIStackView(subview: [navigationImageView, navigationLabel],
+                                               spacing: 5,
+                                               axis: .horizontal,
+                                               alignment: .center,
+                                               distribution: .fill)
+    
     private func setNavigation() {
         if let date = currentDiaryData.createdAt {
-            self.title = Formatter.changeCustomDate(date)
+            navigationLabel.text = Formatter.changeCustomDate(date)
         } else {
-            self.title = Formatter.changeCustomDate(currentDate)
+            navigationLabel.text = Formatter.changeCustomDate(currentDate)
         }
+        
+        fetchIconImage(currentWeatherData: self.currentWeatherData) { image in
+            self.navigationImageView.image = image
+        }
+        navigationItem.titleView = navigationStackView
         
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
                                                  style: .plain,
@@ -196,20 +220,50 @@ extension EditViewController: CLLocationManagerDelegate {
 
 // MARK: - Network
 extension EditViewController {
+    private func fetchIconImage(currentWeatherData: CurrentWeather,
+                                completion: @escaping (UIImage) -> Void) {
+        guard let iconID = currentWeatherData.iconID else { return }
+        let url = NetworkRequest.loadImage(id: iconID).generateURL()
+        networkManager.fetchData(url: url) { result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else { return }
+                completion(image)
+            case .failure(_):
+                return
+            }
+        }
+    }
+    
     private func saveWeatherData(url: URL?) {
         guard let url = url else { return }
         networkManager.fetchData(url: url) { result in
             switch result {
             case .success(let data):
-                guard let data = data.weather.first else { return }
-                self.currentWeatherData.iconID = data.icon
-                self.currentWeatherData.main = data.main
+                self.convertWeatherData(data: data)
             case .failure(let error):
                 self.showCustomAlert(alertText: error.localizedDescription,
                                      alertMessage: "위치 정보를 사용하지 못하였습니다.",
                                      useAction: true,
                                      completion: nil)
             }
+        }
+    }
+    
+    private func convertWeatherData(data: Data) {
+        let decoder = DecoderManager<WeatherAPIData>()
+        
+        let data = decoder.decodeData(data)
+        switch data {
+        case .success(let data):
+            guard let weatherData = data.weather.first else { return }
+            self.currentWeatherData.iconID = weatherData.icon
+            self.currentWeatherData.main = weatherData.main
+        case .failure(let error):
+            self.showCustomAlert(alertText: error.localizedDescription,
+                                 alertMessage: "디코딩 에러발생하였습니다..",
+                                 useAction: true,
+                                 completion: nil)
         }
     }
 }

@@ -9,6 +9,7 @@ import UIKit
 final class MainViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, DiaryData>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, DiaryData>
+    typealias CellRegistration = UICollectionView.CellRegistration<CustomListCell, DiaryData>
     
     private lazy var dataSource = configureDataSource()
     private lazy var mainDiaryView = MainDiaryView()
@@ -73,49 +74,59 @@ extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let item = diaryDatas[indexPath.item]
+        let iconID = diaryDatas[indexPath.item].weather?.iconID
         let currentDiary = CurrentDiary(id: item.id,
                                         contentText: item.contentText,
                                         createdAt: item.createdAt)
-        let addViewController = EditViewController(currentDiaryData: currentDiary)
+        let addViewController = EditViewController(currentDiaryData: currentDiary, iconID: iconID)
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
 
 // MARK: - DiffableDataSource And Snapshot
 extension MainViewController {
+    private func receiveCellImageData(data: Data,
+                                      cell: CustomListCell,
+                                      key: NSString,
+                                      indexPath: IndexPath) {
+        guard let image = UIImage(data: data) else { return }
+        DispatchQueue.main.async {
+            if indexPath == self.mainDiaryView.collectionView.indexPath(for: cell) {
+                self.imageCacheManager.setObject(image, forKey: key)
+                cell.setupImage(image: image)
+            }
+        }
+    }
+
     private func configureDataSource() -> DataSource {
-        let cellRegistration = UICollectionView
-            .CellRegistration<CustomListCell, DiaryData> { cell, indexPath, diaryData in
-                
-                cell.setupData(diaryData)
-                cell.accessories = [.disclosureIndicator()]
-                
-                if let iconID = diaryData.weather?.iconID {
-                    let cacheKey = NSString(string: iconID)
-                    
-                    if let cacheImage = self.imageCacheManager.object(forKey: cacheKey) {
-                        cell.setupImage(image: cacheImage)
-                    } else {
-                        let url = NetworkRequest.loadImage(id: iconID).generateURL()
-                        
-                        self.networkManager.fetchImage(url: url) { image in
-                            DispatchQueue.main.async {
-                                if indexPath == self.mainDiaryView.collectionView.indexPath(
-                                    for: cell
-                                ) {
-                                    self.imageCacheManager.setObject(image, forKey: cacheKey)
-                                    cell.setupImage(image: image)
-                                }
-                            }
+        let cellRegistration = CellRegistration { cell, indexPath, diaryData in
+            
+            cell.setupData(diaryData)
+            cell.accessories = [.disclosureIndicator()]
+            
+            if let iconID = diaryData.weather?.iconID {
+                let cacheKey = NSString(string: iconID)
+                if let cacheImage = self.imageCacheManager.object(forKey: cacheKey) {
+                    cell.setupImage(image: cacheImage)
+                } else {
+                    let url = NetworkRequest.loadImage(id: iconID).generateURL()
+                    self.networkManager.fetchData(url: url) { result in
+                        switch result {
+                        case .success(let data):
+                            self.receiveCellImageData(data: data,
+                                                      cell: cell,
+                                                      key: cacheKey,
+                                                      indexPath: indexPath)
+                        case .failure(let error):
+                            self.showCustomAlert(alertText: error.localizedDescription,
+                                                 alertMessage: "",
+                                                 useAction: true,
+                                                 completion: nil)
                         }
                     }
-                } else {
-                    cell.setupImage(image: UIImage(
-                        systemName: "sun.max.trianglebadge.exclamationmark.fill")
-                    )
                 }
-                
             }
+        }
         let dataSource = DataSource(
             collectionView: mainDiaryView.collectionView
         ) { collectionView, indexPath, diaryData in
