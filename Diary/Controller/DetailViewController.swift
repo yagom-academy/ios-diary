@@ -124,21 +124,23 @@ extension DetailViewController {
 // MARK: - extnesion: seperate detailTextView Title & Body
 
 fileprivate extension String {
-    func separateTitleAndBody(titleWordsLimit: Int) -> (title: String, body: String) {
+    func separateTitleAndBody(titleWordsLimit: Int) -> SeparatedText {
         let data = self.trimmingCharacters(in: .whitespacesAndNewlines)
         var components = data.components(separatedBy: "\n\n")
         if components[0].isEmpty {
-            return ("", "")
+            return SeparatedText()
         }
         if components.count > 1 {
             let title = components.removeFirst()
             let body = components.filter { $0 != ""}.joined(separator: "\n\n")
-            return (title, body)
+            return SeparatedText(title: title,
+                                 body: body)
         }
         let limitIndex = data.index(startIndex, offsetBy: titleWordsLimit)
         let title = self[data.startIndex..<limitIndex]
         let body = self[limitIndex..<data.endIndex]
-        return (title.description, body.description)
+        return SeparatedText(title: title.description,
+                             body: body.description)
     }
 }
 
@@ -152,18 +154,18 @@ extension DetailViewController {
         let shareAction = UIAlertAction(title: "Share..", style: .default) { action in
             self.presentActivityController()
         }
-        let delteAction = UIAlertAction(title: "Delete", style: .destructive) { action in
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { action in
             self.deleteAlert()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alert.addAction(shareAction)
-        alert.addAction(delteAction)
+        alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         present(alert, animated: true)
     }
     
     private func presentActivityController() {
-        guard let title = diaryData?.title! else { return }
+        guard let title = diaryData?.title else { return }
         let textToShare: String = title
         let activityController = UIActivityViewController(activityItems: [textToShare],
                                                           applicationActivities: nil)
