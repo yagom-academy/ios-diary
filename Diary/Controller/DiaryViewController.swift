@@ -7,7 +7,9 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private var sampleData: [SampleData] = []
+    private var diaryData: [DiaryData] = []
+    private var dataSource: UITableViewDiffableDataSource<Section, DiaryData>?
+    private var coreDataManager: CoreDataManager = CoreDataManager()
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,15 +19,28 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(tableView)
+        configureDataSource()
+        configureSnapshot()
         setTableView()
         configureTableViewConstraint()
-        getSampleData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
-        tableView.reloadData()
+        getDiaryData()
+    }
+    
+    @IBAction func tapAddBarButtonItem(_ sender: UIBarButtonItem) {
+        coreDataManager.create()
+        diaryData = coreDataManager.fetch()
+        let detailViewController = storyboard?.instantiateViewController(identifier: Identifier.detalViewControllerID) as? DetailViewController ?? DetailViewController()
+        detailViewController.diaryData = self.diaryData.last
+        self.navigationController?.pushViewController(detailViewController, animated: true)
+    }
+    
+    private func getDiaryData() {
+        diaryData = coreDataManager.fetch()
+        self.configureSnapshot()
     }
     
     private func configureTableViewConstraint() {
@@ -39,57 +54,48 @@ final class DiaryViewController: UIViewController {
     
     private func setTableView() {
         tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "DiaryTableViewCell", bundle: nil),
-                           forCellReuseIdentifier: "diaryTableViewCell")
-    }
-    
-    private func getSampleData() {
-        let asset = NSDataAsset(name: "sample")
-        guard let data = asset?.data else { return }
-        let jsonDecoder = JSONDecoder()
-        jsonDecoder.keyDecodingStrategy = .convertFromSnakeCase
-        
-        do {
-            sampleData = try jsonDecoder.decode([SampleData].self, from: data)
-        } catch {
-            print(error)
-        }
+        tableView.register(UINib(nibName: String(describing: DiaryTableViewCell.self),
+                                 bundle: nil),
+                           forCellReuseIdentifier: Identifier.diaryTableViewCellID)
     }
 }
 
 // MARK: - TableView Delegate
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let detailViewController: DetailViewController = storyboard?.instantiateViewController(withIdentifier: "DetailView") as? DetailViewController else { return }
-        detailViewController.delegate = self
-        detailViewController.diaryData = sampleData[indexPath.row]
-        detailViewController.indexPath = indexPath
+        guard let detailViewController: DetailViewController =
+                storyboard?.instantiateViewController(withIdentifier: Identifier.detalViewControllerID)
+                as? DetailViewController else { return }
+        detailViewController.setDiaryData(diaryData: diaryData[indexPath.row])
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
 // MARK: - TableView DataSource
-extension DiaryViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return sampleData.count
+extension DiaryViewController {
+    private enum Section {
+        case main
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "diaryTableViewCell",
-                                                 for: indexPath) as? DiaryTableViewCell ?? DiaryTableViewCell()
-        cell.configureCell(title: sampleData[indexPath.row].title,
-                           createdAt: sampleData[indexPath.row].createdAt,
-                           body: sampleData[indexPath.row].body)
-        
-        return cell
+    private func configureDataSource() {
+        dataSource = UITableViewDiffableDataSource<Section, DiaryData>(tableView: tableView,
+                                                   cellProvider: { tableView, indexPath, data in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Identifier.diaryTableViewCellID,
+                                                           for: indexPath) as? DiaryTableViewCell
+            else {
+                return UITableViewCell()
+            }
+            cell.configureCell(data: data)
+            
+            return cell
+        })
     }
-}
-
-extension DiaryViewController: DetailViewControllerDelegate {
-    func sendData(title: String, body: String, indexPath: IndexPath) {
-        sampleData[indexPath.row].title = title
-        sampleData[indexPath.row].body = body
+    
+    private func configureSnapshot() {
+        var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryData>()
+        snapShot.appendSections([.main])
+        snapShot.appendItems(diaryData)
+        snapShot.reloadSections([.main])
+        dataSource?.apply(snapShot, animatingDifferences: false)
     }
 }

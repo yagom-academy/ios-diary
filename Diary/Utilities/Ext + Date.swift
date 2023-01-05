@@ -1,5 +1,5 @@
 //
-//  Ext + Int.swift
+//  Ext + Date.swift
 //  Diary
 //
 //  Copyright (c) 2022 woong, jeremy All rights reserved.
@@ -7,13 +7,11 @@
 
 import Foundation
 
-extension Int {
+extension Date {
     func convertDate() -> String {
         let dateFormatter = DateFormatter()
-        let date = Date(timeIntervalSince1970: TimeInterval(self))
-        dateFormatter.setLocalizedDateFormatFromTemplate("YYYYMMMMd")
+        dateFormatter.setLocalizedDateFormatFromTemplate("yyyyMMMd")
         dateFormatter.locale = Locale(identifier: "ko_KO")
-        
-        return dateFormatter.string(from: date)
+        return dateFormatter.string(from: self)
     }
 }
