@@ -122,6 +122,16 @@ extension DiaryDetailViewController {
             updateWithCoreData()
         }
     }
+    
+    private func handlingNetworkResult(result: Result<WeatherEntity, NetworkError>) {
+        switch result {
+        case .success(let weather):
+            self.currentWeather = weather
+        case .failure(let error):
+            // TODO: 에러 핸들링
+            print(error)
+        }
+    }
 }
 
 // MARK: Objc Method
@@ -201,7 +211,7 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
             endPoint: endPoint,
             type: WeatherEntity.self
         ) {
-            self.currentWeather = WeatherEntity(main: $0.main, icon: $0.icon)
+            self.handlingNetworkResult(result: $0)
         }
     }
     

@@ -13,6 +13,7 @@
 		0C1D52DE2965A5B000C97E35 /* StubURLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D52DD2965A5B000C97E35 /* StubURLSession.swift */; };
 		0C1D52E02965A62B00C97E35 /* Mockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D52DF2965A62B00C97E35 /* Mockable.swift */; };
 		0C1D52E229664E1300C97E35 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D52E129664E1300C97E35 /* ImageLoader.swift */; };
+		0C1D52E42966F45100C97E35 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D52E32966F45100C97E35 /* NetworkError.swift */; };
 		0C396FD8295AB6CF00934C79 /* UIAlertAction+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C396FD7295AB6CF00934C79 /* UIAlertAction+.swift */; };
 		0C396FDA295ACE5700934C79 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C396FD9295ACE5700934C79 /* CoreDataManager.swift */; };
 		0CCBFD492950645B0070FE99 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0CCBFD482950645B0070FE99 /* .swiftlint.yml */; };
@@ -62,6 +63,7 @@
 		0C1D52DD2965A5B000C97E35 /* StubURLSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StubURLSession.swift; sourceTree = "<group>"; };
 		0C1D52DF2965A62B00C97E35 /* Mockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mockable.swift; sourceTree = "<group>"; };
 		0C1D52E129664E1300C97E35 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
+		0C1D52E32966F45100C97E35 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		0C396FD7295AB6CF00934C79 /* UIAlertAction+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertAction+.swift"; sourceTree = "<group>"; };
 		0C396FD9295ACE5700934C79 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		0CCBFD482950645B0070FE99 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			children = (
 				18247548296413EC0030F177 /* Requesting.swift */,
 				1824754A29642BF70030F177 /* NetworkManager.swift */,
+				0C1D52E32966F45100C97E35 /* NetworkError.swift */,
 				0C1D52E129664E1300C97E35 /* ImageLoader.swift */,
 			);
 			path = Networking;
@@ -450,6 +453,7 @@
 				18135D22295C36B000C2269D /* TimeInterval+.swift in Sources */,
 				18F2A5382951ABD4008D9CCD /* UINavigationItem+.swift in Sources */,
 				185A5F3A295196C000AF523D /* DiaryListCellContentView.swift in Sources */,
+				0C1D52E42966F45100C97E35 /* NetworkError.swift in Sources */,
 				0CCBFD4F295181A10070FE99 /* Diary.swift in Sources */,
 				0C396FDA295ACE5700934C79 /* CoreDataManager.swift in Sources */,
 				18F2A53C2951DF14008D9CCD /* Date+.swift in Sources */,

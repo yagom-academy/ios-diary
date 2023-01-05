@@ -47,9 +47,10 @@ class CacheManager {
         folderURL = url
     }
     
-    func saveDisk(key: String?, image: UIImage) {
+    func saveDisk(key: String?, image: UIImage?) {
         guard let key = key,
-              let folderURL = folderURL else { return }
+              let folderURL = folderURL,
+              let image = image else { return }
         
         let fileURL = folderURL.appendingPathComponent(key)
         
