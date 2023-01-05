@@ -84,14 +84,22 @@ final class DiaryItemManager {
         return height > maxHeight
     }
     
-    func enter(from title: String) -> (trimmedTitle: String, hasTitle: Bool) {
+    func createTrimmedTitle(from title: String) -> String {
+        if didChangeLine(at: title) {
+            return title.trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        
+        return title
+    }
+    
+    private func didChangeLine(at title: String) -> Bool {
         if !hasTitle,
            title.firstIndex(of: "\n") != nil {
             hasTitle = true
-            return (title.trimmingCharacters(in: .whitespacesAndNewlines), hasTitle)
+            return hasTitle
         }
         
-        return (title, false)
+        return false
     }
     
     func needsPlaceholder(for text: String) -> Bool {

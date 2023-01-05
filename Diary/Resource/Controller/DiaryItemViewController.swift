@@ -240,10 +240,10 @@ extension DiaryItemViewController: UITextViewDelegate {
         
         isOversized = diaryItemManager.isOversized(height: titleTextViewHeight,
                                                    maxHeight: LayoutConstant.titleTextViewMaxHeight)
-        let tappedEnter = diaryItemManager.enter(from: titleTextView.text)
+        let trimmedTitle = diaryItemManager.createTrimmedTitle(from: titleTextView.text)
         
-        if tappedEnter.hasTitle {
-            titleTextView.text = tappedEnter.trimmedTitle
+        if trimmedTitle != titleTextView.text {
+            titleTextView.text = trimmedTitle
             titleTextView.resignFirstResponder()
             bodyTextView.becomeFirstResponder()
         }
