@@ -28,6 +28,12 @@ class CustomDiaryCell: UITableViewCell {
         label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
+    private let weatherImageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.setContentCompressionResistancePriority(.required, for: .horizontal)
+        return image
+    }()
     private let bottomStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -78,6 +84,7 @@ class CustomDiaryCell: UITableViewCell {
     
     private func setUpStackView() {
         bottomStackView.addArrangedSubview(dateLabel)
+        bottomStackView.addArrangedSubview(weatherImageView)
         bottomStackView.addArrangedSubview(bodyLabel)
         
         totalStackView.addArrangedSubview(titleLabel)
@@ -103,7 +110,10 @@ class CustomDiaryCell: UITableViewCell {
             totalStackView.bottomAnchor.constraint(
                 equalTo: contentView.bottomAnchor,
                 constant: -10
-            )
+            ),
+            weatherImageView.widthAnchor.constraint(
+                equalTo: weatherImageView.heightAnchor,
+                multiplier: 1)
         ])
     }
 }
