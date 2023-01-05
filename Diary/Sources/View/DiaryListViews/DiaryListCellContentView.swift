@@ -41,6 +41,15 @@ final class DiaryListCellContentView: UIView, UIContentView {
         headerLabel.text = configuration.headerString
         dateLabel.text = configuration.dateString
         bodyLabel.text = configuration.bodyString
+        
+        guard let imageRequest = ImageLoadAPI(icon: configuration.imageURL) else { return }
+        
+        ImageLoader().loadImage(endPoint: imageRequest) { image in
+            DispatchQueue.main.async {
+                // TODO: - 뷰 만들고 설정 해주기
+                print(image.size)
+            }
+        }
     }
 }
 

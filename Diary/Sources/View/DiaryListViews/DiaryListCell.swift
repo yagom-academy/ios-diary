@@ -19,6 +19,7 @@ final class DiaryListCell: UITableViewCell {
         content.headerString = diary?.title
         content.dateString = diary?.createdDate.convertString()
         content.bodyString = diary?.body
+        content.imageURL = diary?.condition?.icon
         
         contentConfiguration = content
     }
