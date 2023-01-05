@@ -16,6 +16,7 @@ final class MainViewController: UIViewController {
     
     private let networkManager = NetworkManager.shared
     private let coreDataManager = CoreDataManager.shared
+    private let imageCacheManager = NSCache<NSString, UIImage>()
     
     enum Section {
         case main
@@ -86,22 +87,30 @@ extension MainViewController {
         let cellRegistration = UICollectionView
             .CellRegistration<CustomListCell, DiaryData> { cell, indexPath, diaryData in
                 
+                cell.setupData(diaryData)
+                cell.accessories = [.disclosureIndicator()]
+                
                 if let iconID = diaryData.weather?.iconID {
-                    let url = NetworkRequest.loadImage(id: iconID).generateURL()
+                    let cacheKey = NSString(string: iconID)
                     
-                    self.networkManager.fetchImage(url: url) { image in
-                        DispatchQueue.main.async {
-                            if indexPath == self.mainDiaryView.collectionView.indexPath(for: cell) {
-                                cell.setupImage(image: image)
+                    if let cacheImage = self.imageCacheManager.object(forKey: cacheKey) {
+                        cell.setupImage(image: cacheImage)
+                    } else {
+                        let url = NetworkRequest.loadImage(id: iconID).generateURL()
+                        
+                        self.networkManager.fetchImage(url: url) { image in
+                            DispatchQueue.main.async {
+                                if indexPath == self.mainDiaryView.collectionView.indexPath(
+                                    for: cell
+                                ) {
+                                    self.imageCacheManager.setObject(image, forKey: cacheKey)
+                                    cell.setupImage(image: image)
+                                }
                             }
                         }
                     }
                 }
-                cell.setupData(diaryData)
-                
-                cell.accessories = [.disclosureIndicator()]
             }
-        
         let dataSource = DataSource(
             collectionView: mainDiaryView.collectionView
         ) { collectionView, indexPath, diaryData in
