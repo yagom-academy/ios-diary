@@ -9,7 +9,7 @@ import UIKit
 
 struct CoreDataManager {
     private let appDelegate = UIApplication.shared.delegate as? AppDelegate
-    lazy private var context = appDelegate?.persistentContainer.viewContext
+    private lazy var context = appDelegate?.persistentContainer.viewContext
     
     mutating func fetch() -> [DiaryData] {
         var diaryData = [DiaryData]()

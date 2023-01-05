@@ -20,10 +20,9 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureCell(data: DiaryData) {
-        if data.title?.isEmpty == true {
-            titleLabel.text = "무제"
-        } else {
-            titleLabel.text = data.title
+        if let dataTitle = data.title {
+            let title = dataTitle.isEmpty ? "무제" : dataTitle
+            titleLabel.text = title
         }
         createdAtLabel.text = data.createdAt?.convertDate()
         bodyLabel.text = data.body
