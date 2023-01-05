@@ -18,6 +18,7 @@ final class EditViewController: UIViewController {
     private let currentDate = Date()
     
     private var currentDiaryData = CurrentDiary()
+    private var currentWeatherData = CurrentWeather()
     private var locationManager: CLLocationManager?
     private lazy var editView = EditDiaryView(currentDiaryData: currentDiaryData)
     
@@ -98,7 +99,8 @@ extension EditViewController {
         } else {
             do {
                 currentDiaryData.createdAt = currentDate
-                currentDiaryData.id = try coreDataManager.saveData(data: currentDiaryData)
+                currentDiaryData.id = try coreDataManager.saveData(diaryData: currentDiaryData,
+                                                                   weatherData: currentWeatherData)
             } catch {
                 guard let error = error as? DataError else { return }
                 self.showCustomAlert(alertText: error.localizedDescription,
@@ -200,8 +202,8 @@ extension EditViewController {
             switch result {
             case .success(let data):
                 guard let data = data.weather.first else { return }
-                self.currentDiaryData.main = data.main
-                self.currentDiaryData.iconID = data.icon
+                self.currentWeatherData.iconID = data.icon
+                self.currentWeatherData.main = data.main
             case .failure(let error):
                 self.showCustomAlert(alertText: error.localizedDescription,
                                      alertMessage: "위치 정보를 사용하지 못하였습니다.",

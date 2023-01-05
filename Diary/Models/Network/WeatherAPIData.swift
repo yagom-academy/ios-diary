@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherData: Decodable {
+struct WeatherAPIData: Decodable {
     let weather: [Weather]
 }
 

@@ -12,9 +12,8 @@ final class NetworkManager {
     
     private init() {}
     
-    func fetchData(url: URL, completion: @escaping (Result<WeatherData, SessionError>) -> Void) {
-        
-        let decodeManager = DecoderManager<WeatherData>()
+    func fetchData(url: URL, completion: @escaping (Result<WeatherAPIData, SessionError>) -> Void) {
+        let decodeManager = DecoderManager<WeatherAPIData>()
         
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = "GET"

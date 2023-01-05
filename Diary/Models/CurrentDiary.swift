@@ -11,18 +11,10 @@ struct CurrentDiary {
     var id: UUID?
     var contentText: String?
     var createdAt: Date?
-    var main: String?
-    var iconID: String?
     
-    init(id: UUID? = nil,
-         contentText: String? = nil,
-         createdAt: Date? = nil,
-         main: String? = nil,
-         iconID: String? = nil) {
+    init(id: UUID? = nil, contentText: String? = nil, createdAt: Date? = nil) {
         self.id = id
         self.contentText = contentText
         self.createdAt = createdAt
-        self.main = main
-        self.iconID = iconID
     }
 }

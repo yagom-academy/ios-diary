@@ -74,9 +74,7 @@ extension MainViewController: UICollectionViewDelegate {
         let item = diaryDatas[indexPath.item]
         let currentDiary = CurrentDiary(id: item.id,
                                         contentText: item.contentText,
-                                        createdAt: item.createdAt,
-                                        main: item.main,
-                                        iconID: item.iconID)
+                                        createdAt: item.createdAt)
         let addViewController = EditViewController(currentDiaryData: currentDiary)
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
@@ -88,7 +86,7 @@ extension MainViewController {
         let cellRegistration = UICollectionView
             .CellRegistration<CustomListCell, DiaryData> { cell, indexPath, diaryData in
                 
-                if let iconID = diaryData.iconID {
+                if let iconID = diaryData.weather?.iconID {
                     let url = NetworkRequest.loadImage(id: iconID).generateURL()
                     
                     self.networkManager.fetchImage(url: url) { image in
@@ -148,10 +146,7 @@ extension MainViewController: SwipeConfigurable {
         let item = diaryDatas[indexPath.item]
         let currentData = CurrentDiary(id: item.id,
                                        contentText: item.contentText,
-                                       createdAt: item.createdAt,
-                                       main: item.main,
-                                       iconID: item.iconID)
-        
+                                       createdAt: item.createdAt)
         let shareActionTitle = NSLocalizedString("Share", comment: "Share action title")
         let shareAction = UIContextualAction(style: .normal,
                                              title: shareActionTitle) { [weak self] _, _, _ in
