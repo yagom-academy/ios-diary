@@ -78,9 +78,7 @@ final class DiaryViewController: UIViewController {
                                                name: UIScene.willDeactivateNotification,
                                                object: nil)
 
-        if let status = authorizationStatus {
-            fetchWeather(authorizationStatus: status)
-        }
+        fetchWeather(by: authorizationStatus)
     }
 
     @available(*, unavailable)
@@ -101,6 +99,7 @@ final class DiaryViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        showKeyboardIfNeeded()
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -109,30 +108,52 @@ final class DiaryViewController: UIViewController {
         updateCoreDataIfNeeded()
     }
 
-    private func fetchWeather(authorizationStatus: CLAuthorizationStatus) {
+    private func showKeyboardIfNeeded() {
+        if !titleTextView.hasText {
+            titleTextView.becomeFirstResponder()
+        } else if !bodyTextView.hasText {
+            bodyTextView.becomeFirstResponder()
+        }
+    }
+
+    private func fetchWeather(by authorizationStatus: CLAuthorizationStatus?) {
         switch authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
-            NetworkManager.shared.fetchWeather { result in
+            let url = NetworkManager.shared.weatherDataURL
+
+            NetworkManager.shared.fetchData(url: url) { result in
                 switch result {
-                case .success(let weatherResponseDTO):
+                case .success(let data):
+                    guard let weatherResponseDTO = try? JSONDecoder().decode(WeatherResponseDTO.self, from: data) else {
+                        return
+                    }
                     let weather = weatherResponseDTO.toDomain()
                     self.diary.weather = weather
-                    NetworkManager.shared.fetchWeatherIconImage(icon: weather.icon) { result in
-                        switch result {
-                        case .success(let weatherImage):
-                            DispatchQueue.main.async {
-                                self.weatherIconImageView.image = weatherImage
-                            }
-                        case .failure(let error):
-                            print(error)
-                        }
-                    }
+                    self.configureWeatherIconImage(weather.icon)
                 case .failure(let error):
                     print(error)
                 }
             }
         default:
-            break
+            return
+        }
+    }
+
+    private func configureWeatherIconImage(_ icon: String) {
+        let url = NetworkManager.shared.weatherIconURL(icon: icon)
+
+        NetworkManager.shared.fetchData(url: url) { result in
+            switch result {
+            case .success(let data):
+                guard let weatherIconImage = UIImage(data: data) else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    self.weatherIconImageView.image = weatherIconImage
+                }
+            case .failure(let error):
+                print(error)
+            }
         }
     }
 
@@ -202,7 +223,7 @@ final class DiaryViewController: UIViewController {
     }
 
     @objc
-    func updateCoreDataIfNeeded() {
+    private func updateCoreDataIfNeeded() {
         if diary.title != titleTextView.text || diary.body != bodyTextView.text {
             diary = generateDiary()
             CoreDataManager.shared.update(diary: diary)
@@ -215,6 +236,7 @@ extension DiaryViewController: UITextViewDelegate {
         if text == "\n", textView == titleTextView {
             bodyTextView.becomeFirstResponder()
         }
+
         return true
     }
 

@@ -80,34 +80,38 @@ extension DiaryListViewController {
         dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
             let cell = tableView.dequeueReusableCell(cellType: DiaryListCell.self, for: indexPath)
 
-            cell.titleLabel.text = diary.title.isEmpty ? "제목 없음" : diary.title
-            cell.creationDateLabel.text = diary.createdAt.localeFormattedText
-            cell.bodyPreviewLabel.text = diary.body
-
-            if let weather = diary.weather {
-                NetworkManager.shared.fetchWeatherIconImage(icon: weather.icon, completion: { result in
-                    switch result {
-                    case .success(let weatherIconImage):
-                        DispatchQueue.main.async {
-                            cell.weatherIconImageView.image = weatherIconImage
-                        }
-                    case .failure(let error):
-                        print(error)
-                    }
-                })
-            }
+            self.configureCell(cell: cell, diary: diary)
 
             return cell
         })
     }
 
-    private func configureSubtitleText(_ date: Date, _ body: String) -> NSMutableAttributedString {
-        let text: String = "\(date.localeFormattedText)  \(body)"
-        let attributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttributes([.font: UIFont.preferredFont(forTextStyle: .callout)],
-                                       range: (text as NSString).range(of: "\(date.localeFormattedText)  "))
+    private func configureCell(cell: DiaryListCell, diary: Diary) {
+        cell.titleLabel.text = diary.title.isEmpty ? "제목 없음" : diary.title
+        cell.creationDateLabel.text = diary.createdAt.localeFormattedText
+        cell.bodyPreviewLabel.text = diary.body
 
-        return attributedString
+        if let weather = diary.weather {
+            self.configureWeatherIconImage(cell: cell, weather.icon)
+        }
+    }
+
+    private func configureWeatherIconImage(cell: DiaryListCell, _ icon: String) {
+        let url = NetworkManager.shared.weatherIconURL(icon: icon)
+
+        NetworkManager.shared.fetchData(url: url) { result in
+            switch result {
+            case .success(let data):
+                guard let weatherIconImage = UIImage(data: data) else {
+                    return
+                }
+                DispatchQueue.main.async {
+                    cell.weatherIconImageView.image = weatherIconImage
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
     }
 
     private func fetchDiaryList() -> [Diary] {

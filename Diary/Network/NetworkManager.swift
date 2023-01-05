@@ -18,7 +18,7 @@ enum NetworkError: Error {
 final class NetworkManager {
     static let shared = NetworkManager()
 
-    private var apikey: String {
+    private var apiKey: String {
         guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
             fatalError("plist를 찾을 수 없습니다.")
         }
@@ -38,9 +38,21 @@ final class NetworkManager {
         return coordinate
     }
 
-    lazy var url = URL(string: "https://api.openweathermap.org/data/2.5/weather?lat=\(self.coordinate.latitude)&lon=\(self.coordinate.longitude)&appid=\(self.apikey)")
+    var weatherDataURL: URL? {
+        var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather")
+        let latitude = URLQueryItem(name: "lat", value: "\(self.coordinate.latitude)")
+        let longitude = URLQueryItem(name: "lon", value: "\(self.coordinate.longitude)")
+        let appID = URLQueryItem(name: "appid", value: "\(self.apiKey)")
+        components?.queryItems = [latitude, longitude, appID]
 
-    func fetchWeather(completion: @escaping (Result<WeatherResponseDTO, Error>) -> Void) {
+        return components?.url
+    }
+
+    func weatherIconURL(icon: String) -> URL? {
+        return URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png")
+    }
+
+    func fetchData(url: URL?, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = url else {
             completion(.failure(NetworkError.invalidURL))
             return
@@ -60,41 +72,7 @@ final class NetworkManager {
                 completion(.failure(NetworkError.invalidData))
                 return
             }
-
-            guard let weatherResponseDTO = try? JSONDecoder().decode(WeatherResponseDTO.self, from: data) else {
-                completion(.failure(NetworkError.decodingError))
-                return
-            }
-            completion(.success(weatherResponseDTO))
-        }
-        dataTask.resume()
-    }
-
-    func fetchWeatherIconImage(icon: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
-        guard let url = URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png") else {
-            completion(.failure(NetworkError.invalidURL))
-            return
-        }
-
-        let dataTask = URLSession.shared.dataTask(with: url) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(NetworkError.responseError))
-                return
-            }
-
-            guard let data = data,
-                  let weatherIconImage = UIImage(data: data) else {
-                completion(.failure(NetworkError.invalidData))
-                return
-            }
-
-            completion(.success(weatherIconImage))
+            completion(.success(data))
         }
         dataTask.resume()
     }
