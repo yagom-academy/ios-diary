@@ -34,7 +34,7 @@ final class DiaryItemManager {
     }
     
     func validate(title: String?, body: String?) throws {
-        if isTitleValid(title) && isBodyValid(body) == false {
+        if (isTitleValid(title) && isBodyValid(body)) == false {
             try deleteDiary()
         } else {
             try coreDataManager?.update(objectID: objectID, title: title, body: body)
