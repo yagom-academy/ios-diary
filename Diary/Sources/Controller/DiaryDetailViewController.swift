@@ -8,7 +8,7 @@ import UIKit
 import CoreLocation
 
 final class DiaryDetailViewController: UIViewController {
-
+    
     private let titleTextField = UITextField(
         font: UIFont.boldTitle1,
         placeholder: LocalizedConstant.TextField.titlePlaceholder
@@ -127,9 +127,19 @@ extension DiaryDetailViewController {
         switch result {
         case .success(let weather):
             self.currentWeather = weather
-        case .failure(let error):
-            // TODO: 에러 핸들링
-            print(error)
+        case .failure:
+            DispatchQueue.main.async {
+                let alert = UIAlertController(
+                    title: "오류 발생",
+                    message: "예기치 못한 오류가 발생하였습니다. 잠시 후 다시 시도해주세요",
+                    preferredStyle: .alert
+                )
+                
+                let okAction = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(okAction)
+                
+                self.present(alert, animated: true)
+            }
         }
     }
 }
@@ -219,7 +229,7 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
         _ manager: CLLocationManager,
         didFailWithError error: Error
     ) {
-        // TODO: 에러 핸들링
+        debugPrint(error)
     }
 }
 
@@ -354,44 +364,5 @@ extension DiaryDetailViewController {
 private extension String {
     var isNotEmpty: Bool {
         return !isEmpty
-    }
-}
-
-// MARK: UITextView+
-private extension UITextView {
-    convenience init(
-        font: UIFont,
-        lineFragmentPadding: CGFloat,
-        textContainerInset: UIEdgeInsets
-    ) {
-        self.init()
-        
-        self.font = font
-        self.adjustsFontForContentSizeCategory = true
-        self.textContainer.lineFragmentPadding = lineFragmentPadding
-        self.textContainerInset = textContainerInset
-        self.showsVerticalScrollIndicator = false
-        self.keyboardDismissMode = .onDrag
-        self.alwaysBounceVertical = true
-    }
-    
-    var filteredText: String {
-        return self.text ?? ""
-    }
-}
-
-// MARK: UITextField+
-private extension UITextField {
-    convenience init(font: UIFont?, placeholder: String? = nil) {
-        self.init()
-        
-        self.font = font
-        self.placeholder = placeholder
-        self.adjustsFontForContentSizeCategory = true
-        self.returnKeyType = .done
-    }
-    
-    var filteredText: String {
-        return self.text ?? ""
     }
 }

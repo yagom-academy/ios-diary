@@ -14,6 +14,8 @@
 		0C1D52E02965A62B00C97E35 /* Mockable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D52DF2965A62B00C97E35 /* Mockable.swift */; };
 		0C1D52E229664E1300C97E35 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D52E129664E1300C97E35 /* ImageLoader.swift */; };
 		0C1D52E42966F45100C97E35 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D52E32966F45100C97E35 /* NetworkError.swift */; };
+		0C1D52E62966FE7E00C97E35 /* UITextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D52E52966FE7E00C97E35 /* UITextField+.swift */; };
+		0C1D52E82966FE9F00C97E35 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C1D52E72966FE9F00C97E35 /* UITextView+.swift */; };
 		0C396FD8295AB6CF00934C79 /* UIAlertAction+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C396FD7295AB6CF00934C79 /* UIAlertAction+.swift */; };
 		0C396FDA295ACE5700934C79 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C396FD9295ACE5700934C79 /* CoreDataManager.swift */; };
 		0CCBFD492950645B0070FE99 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 0CCBFD482950645B0070FE99 /* .swiftlint.yml */; };
@@ -64,6 +66,8 @@
 		0C1D52DF2965A62B00C97E35 /* Mockable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mockable.swift; sourceTree = "<group>"; };
 		0C1D52E129664E1300C97E35 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		0C1D52E32966F45100C97E35 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		0C1D52E52966FE7E00C97E35 /* UITextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+.swift"; sourceTree = "<group>"; };
+		0C1D52E72966FE9F00C97E35 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		0C396FD7295AB6CF00934C79 /* UIAlertAction+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertAction+.swift"; sourceTree = "<group>"; };
 		0C396FD9295ACE5700934C79 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		0CCBFD482950645B0070FE99 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -237,6 +241,8 @@
 				0C396FD7295AB6CF00934C79 /* UIAlertAction+.swift */,
 				18BB1830295ACAE400F84C47 /* UIAlertController+.swift */,
 				18135D21295C36B000C2269D /* TimeInterval+.swift */,
+				0C1D52E52966FE7E00C97E35 /* UITextField+.swift */,
+				0C1D52E72966FE9F00C97E35 /* UITextView+.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -461,6 +467,7 @@
 				0C396FD8295AB6CF00934C79 /* UIAlertAction+.swift in Sources */,
 				1840511E2965B47F000DB981 /* MappingModelV1ToV2.xcmappingmodel in Sources */,
 				18247549296413EC0030F177 /* Requesting.swift in Sources */,
+				0C1D52E82966FE9F00C97E35 /* UITextView+.swift in Sources */,
 				18135D20295C26BF00C2269D /* Constant.swift in Sources */,
 				18135D1D295C222D00C2269D /* LocalizedConstant.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
@@ -470,6 +477,7 @@
 				18D381382952F19B002BB2F1 /* UINavigationController+.swift in Sources */,
 				185A5F382951610800AF523D /* DiaryListCell.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				0C1D52E62966FE7E00C97E35 /* UITextField+.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				18ACF3D62951A4F6006906D5 /* DiaryDetailViewController.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,

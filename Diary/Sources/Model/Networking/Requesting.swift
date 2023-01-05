@@ -33,7 +33,7 @@ extension Requesting {
 }
 
 struct SearchWeatherAPI: Requesting {
-    let baseURL: String = "https://api.openweathermap.org"
+    let baseURL: String = "https://api.openweathermap.or"
     let method: String = "get"
     let path: String = "/data/2.5/weather"
     let query: [URLQueryItem]
