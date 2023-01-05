@@ -11,7 +11,7 @@ struct DiaryContentConfiguration: UIContentConfiguration, Hashable {
     var headerString: String?
     var dateString: String?
     var bodyString: String?
-    var imageURL: String?
+    var iconName: String?
     
     func makeContentView() -> UIView & UIContentView {
         return DiaryListCellContentView(configuration: self)

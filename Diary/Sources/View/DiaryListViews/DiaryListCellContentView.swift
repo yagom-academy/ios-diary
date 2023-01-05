@@ -21,6 +21,7 @@ final class DiaryListCellContentView: UIView, UIContentView {
     private let headerLabel = UILabel()
     private let dateLabel = UILabel()
     private let bodyLabel = UILabel()
+    private let weatherImageView = UIImageView()
     private var appliedConfiguration: DiaryContentConfiguration?
     
     init(configuration: DiaryContentConfiguration) {
@@ -42,12 +43,11 @@ final class DiaryListCellContentView: UIView, UIContentView {
         dateLabel.text = configuration.dateString
         bodyLabel.text = configuration.bodyString
         
-        guard let imageRequest = ImageLoadAPI(icon: configuration.imageURL) else { return }
+        guard let imageEndpoint = ImageLoadAPI(icon: configuration.iconName) else { return }
         
-        ImageLoader().loadImage(endPoint: imageRequest) { image in
+        ImageLoader().loadImage(endPoint: imageEndpoint) { image in
             DispatchQueue.main.async {
-                // TODO: - 뷰 만들고 설정 해주기
-                print(image.size)
+                self.weatherImageView.image = image
             }
         }
     }
@@ -56,11 +56,14 @@ final class DiaryListCellContentView: UIView, UIContentView {
 // MARK: UI Configuration
 extension DiaryListCellContentView {
     private func defaultContentStackView() -> UIStackView {
-        let insideStackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
+        let insideStackView = UIStackView(arrangedSubviews: [dateLabel, weatherImageView, bodyLabel])
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
-        insideStackView.distribution = .equalCentering
+        insideStackView.alignment = .leading
+        insideStackView.distribution = .fill
         insideStackView.spacing = 8
+        bodyLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        dateLabel.setContentHuggingPriority(.required, for: .horizontal)
         
         let totalStackView = UIStackView(arrangedSubviews: [headerLabel, insideStackView])
 
@@ -93,7 +96,10 @@ extension DiaryListCellContentView {
             contentStackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor),
             contentStackView
                 .bottomAnchor
-                .constraint(greaterThanOrEqualTo: layoutMarginsGuide.bottomAnchor)
+                .constraint(greaterThanOrEqualTo: layoutMarginsGuide.bottomAnchor),
+            
+            weatherImageView.heightAnchor.constraint(equalToConstant: 20),
+            weatherImageView.widthAnchor.constraint(equalToConstant: 20)
         ])
     }
 }

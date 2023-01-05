@@ -104,8 +104,6 @@ final class CoreDataManager {
             return []
         }
         
-        print(entities)
-        
         return entities.compactMap { $0.diary }
     }
 
