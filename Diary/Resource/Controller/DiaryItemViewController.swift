@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryItemViewController: UIViewController {
-    let diaryItemManager: DiaryItemManager
+    private let diaryItemManager: DiaryItemManager
     private let alertManager = AlertManager()
     weak var alertDelegate: AlertDelegate?
     
@@ -50,6 +50,17 @@ final class DiaryItemViewController: UIViewController {
     
     init(diaryItemManager: DiaryItemManager) {
         self.diaryItemManager = diaryItemManager
+        do {
+            try self.diaryItemManager.create()
+        } catch {
+            alertDelegate?.showErrorAlert(title: "생성 실패")
+        }
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(diaryItemManager: DiaryItemManager, id: UUID) {
+        self.diaryItemManager = diaryItemManager
+        self.diaryItemManager.fetchID(id: id)
         super.init(nibName: nil, bundle: nil)
     }
     

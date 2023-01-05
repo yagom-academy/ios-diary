@@ -54,7 +54,6 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func tappedPlusButton(_ sender: UIBarButtonItem) {
         let diaryItemViewController = DiaryItemViewController(diaryItemManager: DiaryItemManager())
-        try? diaryItemViewController.diaryItemManager.create()
         navigationController?.pushViewController(diaryItemViewController, animated: true)
     }
     
@@ -94,8 +93,7 @@ extension DiaryListViewController: UITableViewDataSource {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryItemViewController = DiaryItemViewController(diaryItemManager: DiaryItemManager())
-        diaryItemViewController.diaryItemManager.fetchID(id: diaryItems[indexPath.row].id)
+        let diaryItemViewController = DiaryItemViewController(diaryItemManager: DiaryItemManager(), id: diaryItems[indexPath.row].id)
         diaryItemViewController.fillTextView(with: diaryItems[indexPath.row])
         diaryItemViewController.alertDelegate = self
         navigationController?.pushViewController(diaryItemViewController, animated: true)
