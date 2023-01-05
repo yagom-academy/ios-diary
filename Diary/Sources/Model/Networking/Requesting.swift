@@ -49,6 +49,19 @@ struct SearchWeatherAPI: Requesting {
     }
 }
 
+struct ImageLoadAPI: Requesting {
+    var baseURL: String = "http://openweathermap.org"
+    var method: String = "get"
+    var path: String
+    var query: [URLQueryItem]
+    
+    init?(icon: String?) {
+        guard let icon = icon else { return nil }
+        self.path = "/img/wn/\(icon)@2x.png"
+        self.query = []
+    }
+}
+
 extension Dictionary where Key == String, Value == String {
     var queryValues: [URLQueryItem] {
         return self.map { .init(name: $0.key, value: $0.value) }

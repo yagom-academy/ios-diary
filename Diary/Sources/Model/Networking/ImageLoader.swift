@@ -10,14 +10,20 @@ import UIKit
 protocol ImageNetworkService: NetworkService {
     var task: URLSessionDataTask? { get set }
     
-    mutating func loadImage(
+    func loadImage(
         endPoint: Requesting,
         completion: @escaping (UIImage) -> Void
     )
 }
 
-extension ImageNetworkService {
-    mutating func loadImage(
+class ImageLoader: ImageNetworkService {
+    var task: URLSessionDataTask? {
+        didSet {
+            task?.resume()
+        }
+    }
+    
+    func loadImage(
         endPoint: Requesting,
         completion: @escaping (UIImage) -> Void
     ) {
@@ -40,13 +46,5 @@ extension ImageNetworkService {
         }
         
         self.task = task
-    }
-}
-
-struct ImageLoader: ImageNetworkService {
-    var task: URLSessionDataTask? {
-        didSet {
-            task?.resume()
-        }
     }
 }
