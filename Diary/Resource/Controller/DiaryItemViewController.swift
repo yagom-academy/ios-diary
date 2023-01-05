@@ -93,10 +93,15 @@ final class DiaryItemViewController: UIViewController {
     }
     
     private func setPlaceholder() {
-        diaryItemManager.setPlaceholder(textView: titleTextView,
-                                       text: Placeholder.title)
-        diaryItemManager.setPlaceholder(textView: bodyTextView,
-                                       text: Placeholder.body)
+        if diaryItemManager.needsPlaceholder(for: titleTextView.text) {
+            titleTextView.text = Placeholder.title
+            titleTextView.textColor = .systemGray3
+        }
+        
+        if diaryItemManager.needsPlaceholder(for: bodyTextView.text) {
+            bodyTextView.text = Placeholder.body
+            bodyTextView.textColor = .systemGray3
+        }
     }
     
     private func configureNavigationBar() {
@@ -220,7 +225,12 @@ extension DiaryItemViewController {
 
 extension DiaryItemViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        diaryItemManager.removePlaceholder(textView: textView)
+        let isPlaceholder: Bool = textView.textColor == .systemGray3
+        
+        if isPlaceholder {
+            textView.text = nil
+            textView.textColor = .black
+        }
     }
     
     func textViewDidChange(_ textView: UITextView) {

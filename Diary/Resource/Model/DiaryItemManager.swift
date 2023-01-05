@@ -5,7 +5,7 @@
 //  Created by SummerCat and som on 2022/12/28.
 //
 
-import UIKit
+import Foundation
 import CoreData
 
 final class DiaryItemManager {
@@ -80,7 +80,7 @@ final class DiaryItemManager {
         try coreDataManager?.delete(with: objectID)
     }
     
-    func isOversized(height: CGFloat, maxHeight: CGFloat) -> Bool {
+    func isOversized(height: Double, maxHeight: Double) -> Bool {
         return height > maxHeight
     }
     
@@ -94,21 +94,7 @@ final class DiaryItemManager {
         return (title, false)
     }
     
-    func setPlaceholder(textView: UITextView, text: String) {
-        if textView.text.isEmpty {
-            textView.textColor = .systemGray3
-            textView.text = text
-        } else {
-            textView.resignFirstResponder()
-        }
-    }
-    
-    func removePlaceholder(textView: UITextView) {
-        let isPlaceholder: Bool = textView.textColor == .systemGray3
-        
-        if isPlaceholder {
-            textView.text = nil
-            textView.textColor = .black
-        }
+    func needsPlaceholder(for text: String) -> Bool {
+        return text.isEmpty
     }
 }
