@@ -7,15 +7,25 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 final class CoreDataManager: CoreDataManageable {
     static let shared = CoreDataManager()
-    private init() { }
+    weak var alertDelegate: AlertDelegate? {
+        let scene = UIApplication.shared.connectedScenes.first
+        guard let sceneDelegate: SceneDelegate = scene?.delegate as? SceneDelegate,
+              let delegate = sceneDelegate.window?.rootViewController as? AlertDelegate else {
+            return nil
+        }
+        
+        return delegate
+    }
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: CoreDataNamespace.diary)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             guard error == nil else {
+                self.alertDelegate?.showErrorAlert(title: CoreDataNamespace.loadFailure)
                 return
             }
         })
@@ -29,6 +39,8 @@ final class CoreDataManager: CoreDataManageable {
     var diaryEntity: NSEntityDescription? {
         return NSEntityDescription.entity(forEntityName: CoreDataNamespace.diary, in: context)
     }
+
+    private init() { }
     
     func saveContext() throws {
         if context.hasChanges {
@@ -89,5 +101,6 @@ final class CoreDataManager: CoreDataManageable {
         static let createdAt = "createdAt"
         static let diary = "Diary"
         static let regex = "id == %@"
+        static let loadFailure = "코어 데이터 로드 실패"
     }
 }
