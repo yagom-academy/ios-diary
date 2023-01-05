@@ -9,8 +9,8 @@ import UIKit
 
 
 final class DetailViewController: UIViewController {
-    @IBOutlet weak private var detailTextViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak private var detailTextView: UITextView!
+    @IBOutlet private weak var detailTextViewBottomConstraint: NSLayoutConstraint!
+    @IBOutlet private weak var detailTextView: UITextView!
     private var coreDataManager: CoreDataManager = CoreDataManager()
     var diaryData: DiaryData?
     
@@ -29,7 +29,10 @@ final class DetailViewController: UIViewController {
     }
     
     private func setAddButton() {
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(moreButtonAlert))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "더보기",
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(moreButtonAlert))
     }
     
     private func configureView() {
