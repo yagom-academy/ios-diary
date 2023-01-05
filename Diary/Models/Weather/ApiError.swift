@@ -2,7 +2,7 @@
 //  ApiError.swift
 //  Diary
 //
-//  Created by Mangdi on 2023/01/03.
+//  Created by Mangdi, junho lee, on 2023/01/03.
 //
 
 import Foundation

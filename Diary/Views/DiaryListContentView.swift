@@ -2,7 +2,7 @@
 //  DiaryListContentView.swift
 //  Diary
 //
-//  Created by Mangdi, junho on 2022/12/22.
+//  Created by Mangdi, junho lee, on 2022/12/22.
 //
 
 import UIKit

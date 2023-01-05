@@ -2,7 +2,7 @@
 //  Diary.swift
 //  Diary
 //
-//  Created by Mangdi, junho on 2022/12/20.
+//  Created by Mangdi, junho lee, on 2022/12/20.
 //
 
 import UIKit
@@ -15,7 +15,12 @@ struct Diary: Identifiable {
     var iconID: String?
     var iconImage: UIImage?
 
-    init(id: UUID = UUID(), title: String, body: String, createdAt: TimeInterval, main: String? = nil, iconID: String? = nil) {
+    init(id: UUID = UUID(),
+         title: String,
+         body: String,
+         createdAt: TimeInterval,
+         main: String? = nil,
+         iconID: String? = nil) {
         self.id = id
         self.title = title
         self.body = body

@@ -38,8 +38,8 @@
 		09CA2F90295AE57900CE32A9 /* PersistentContainerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainerManager.swift; sourceTree = "<group>"; };
 		09CA2F92295AEB0A00CE32A9 /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 		09CA2FB2295B28EA00CE32A9 /* DiaryModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaryModel.xcdatamodel; sourceTree = "<group>"; };
-		09CA2FB4295B293700CE32A9 /* DiaryModelObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModelObject+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		09CA2FB5295B293700CE32A9 /* DiaryModelObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryModelObject+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		09CA2FB4295B293700CE32A9 /* DiaryModelObject+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryModelObject+CoreDataClass.swift"; path = "Diary/Models/PersistentContainer/DiaryModelObject+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		09CA2FB5295B293700CE32A9 /* DiaryModelObject+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryModelObject+CoreDataProperties.swift"; path = "Diary/Models/PersistentContainer/DiaryModelObject+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		09CD6A7C29548EAD0025F1FA /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		09CEDD442965B0A4009AAD48 /* DiaryModel v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "DiaryModel v2.xcdatamodel"; sourceTree = "<group>"; };
 		09CEDD452965B11B009AAD48 /* Model.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = Model.xcmappingmodel; sourceTree = "<group>"; };
@@ -78,6 +78,45 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		09CC667F2966CAB600361934 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				EBDA9B2929643EED00568E3B /* LocationManager.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		09CC66812966CB0200361934 /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				09D2321C29644AF600619F5A /* WeatherInformation.swift */,
+				09D2321E29644B3A00619F5A /* ApiError.swift */,
+				EBDA9B382965A71500568E3B /* WeatherRequest.swift */,
+				EBDA9B3A2965A8A700568E3B /* WeatherInformationLoader.swift */,
+				EBDA9B3C2965AAB400568E3B /* WeatherIconLoader.swift */,
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
+		09CC66822966CB4B00361934 /* PersistentContainer */ = {
+			isa = PBXGroup;
+			children = (
+				09CA2FB4295B293700CE32A9 /* DiaryModelObject+CoreDataClass.swift */,
+				09CA2FB5295B293700CE32A9 /* DiaryModelObject+CoreDataProperties.swift */,
+				09CA2F90295AE57900CE32A9 /* PersistentContainerManager.swift */,
+				09CA2F92295AEB0A00CE32A9 /* PersistentContainer.swift */,
+			);
+			path = PersistentContainer;
+			sourceTree = "<group>";
+		};
+		09CC66832966CB7300361934 /* Diary */ = {
+			isa = PBXGroup;
+			children = (
+				09D5B5F3295150E700B5DFEC /* Diary.swift */,
+			);
+			path = Diary;
+			sourceTree = "<group>";
+		};
 		09D5B5F029514EED00B5DFEC /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -90,17 +129,10 @@
 		09D5B5F229514F0500B5DFEC /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				09CA2FB4295B293700CE32A9 /* DiaryModelObject+CoreDataClass.swift */,
-				09CA2FB5295B293700CE32A9 /* DiaryModelObject+CoreDataProperties.swift */,
-				09D5B5F3295150E700B5DFEC /* Diary.swift */,
-				09CA2F90295AE57900CE32A9 /* PersistentContainerManager.swift */,
-				09CA2F92295AEB0A00CE32A9 /* PersistentContainer.swift */,
-				EBDA9B2929643EED00568E3B /* LocationManager.swift */,
-				09D2321C29644AF600619F5A /* WeatherInformation.swift */,
-				09D2321E29644B3A00619F5A /* ApiError.swift */,
-				EBDA9B382965A71500568E3B /* WeatherRequest.swift */,
-				EBDA9B3A2965A8A700568E3B /* WeatherInformationLoader.swift */,
-				EBDA9B3C2965AAB400568E3B /* WeatherIconLoader.swift */,
+				09CC66812966CB0200361934 /* Weather */,
+				09CC667F2966CAB600361934 /* Location */,
+				09CC66832966CB7300361934 /* Diary */,
+				09CC66822966CB4B00361934 /* PersistentContainer */,
 			);
 			path = Models;
 			sourceTree = "<group>";

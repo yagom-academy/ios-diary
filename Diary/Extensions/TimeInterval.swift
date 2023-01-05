@@ -1,5 +1,5 @@
 //
-//  DateFormatter+convertToCurrentLocalizedText.swift
+//  TimeInterval.swift
 //  Diary
 //
 //  Created by Mangdi, junho on 2022/12/22.

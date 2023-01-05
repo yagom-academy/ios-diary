@@ -2,7 +2,7 @@
 //  Diary - DiaryListViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
@@ -41,6 +41,14 @@ final class DiaryListViewController: UICollectionViewController {
         collectionView.collectionViewLayout = viewLayout
     }
 
+    private func configureNavigationItem() {
+        navigationItem.title = NSLocalizedString("Diary", comment: "diary title")
+        let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
+                                        style: .plain, target: self,
+                                        action: #selector(touchUpAddButton))
+        navigationItem.rightBarButtonItem = addButton
+    }
+
     private func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
         guard let indexPath = indexPath,
               let id = dataSource?.itemIdentifier(for: indexPath),
@@ -66,14 +74,6 @@ final class DiaryListViewController: UICollectionViewController {
         present(activityViewController, animated: true, completion: nil)
     }
 
-    private func configureNavigationItem() {
-        navigationItem.title = NSLocalizedString("Diary", comment: "diary title")
-        let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
-                                        style: .plain, target: self,
-                                        action: #selector(touchUpAddButton))
-        navigationItem.rightBarButtonItem = addButton
-    }
-
     private func diary(diaryID: Diary.ID) -> Diary? {
         guard let diary = diaries.first(where: { diary in
             diary.id == diaryID
@@ -89,25 +89,6 @@ final class DiaryListViewController: UICollectionViewController {
     private func delete(diary: Diary) {
         guard let index = diaries.firstIndex(where: { $0.id == diary.id }) else { return }
         diaries.remove(at: index)
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let diaryID = dataSource?.itemIdentifier(for: indexPath),
-              let diary = diary(diaryID: diaryID) else { return }
-        let diaryDetailViewController = DiaryDetailViewController(diary: diary) { [weak self] diary, action in
-            switch action {
-            case .update:
-                guard var updatingDiary = self?.diary(diaryID: diary.id) else { return }
-                updatingDiary.title = diary.title
-                updatingDiary.body = diary.body
-                self?.update(diary: updatingDiary)
-                self?.updateSnapshot([updatingDiary.id])
-            case .delete:
-                self?.delete(diary: diary)
-                self?.updateSnapshot()
-            }
-        }
-        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
 
@@ -196,7 +177,29 @@ extension DiaryListViewController {
     }
 }
 
-// MARK: - objc
+// MARK: - CollectionView
+extension DiaryListViewController {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let diaryID = dataSource?.itemIdentifier(for: indexPath),
+              let diary = diary(diaryID: diaryID) else { return }
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary) { [weak self] diary, action in
+            switch action {
+            case .update:
+                guard var updatingDiary = self?.diary(diaryID: diary.id) else { return }
+                updatingDiary.title = diary.title
+                updatingDiary.body = diary.body
+                self?.update(diary: updatingDiary)
+                self?.updateSnapshot([updatingDiary.id])
+            case .delete:
+                self?.delete(diary: diary)
+                self?.updateSnapshot()
+            }
+        }
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+}
+
+// MARK: - Objc
 extension DiaryListViewController {
     @objc private func touchUpAddButton(_ sender: UIBarButtonItem) {
         let newDiary = Diary(title: "", body: "", createdAt: Date().timeIntervalSince1970)

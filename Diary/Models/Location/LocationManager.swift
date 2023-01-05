@@ -2,7 +2,7 @@
 //  LocationManager.swift
 //  Diary
 //
-//  Created by junho lee on 2023/01/03.
+//  Created by Mangdi, junho lee, on 2023/01/03.
 //
 
 import CoreLocation

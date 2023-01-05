@@ -2,7 +2,7 @@
 //  WeatherIconLoader.swift
 //  Diary
 //
-//  Created by junho lee on 2023/01/04.
+//  Created by Mangdi, junho lee, on 2023/01/04.
 //
 
 import UIKit
