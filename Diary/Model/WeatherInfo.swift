@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WeatherInfo {
+struct WeatherInfo: Hashable {
     let main: String
     let icon: String
     
@@ -24,5 +24,16 @@ extension WeatherInfo: Decodable {
         
         main = try nestedContainer.decode(String.self, forKey: .main)
         icon = try nestedContainer.decode(String.self, forKey: .icon)
+    }
+}
+
+extension Weather {
+    var weatherInfo: WeatherInfo? {
+        guard let main = self.main,
+              let icon = self.icon else {
+            return nil
+        }
+        
+        return WeatherInfo(main: main, icon: icon)
     }
 }

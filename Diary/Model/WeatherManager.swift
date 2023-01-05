@@ -26,47 +26,44 @@ final class WeatherManager: NSObject {
         locationManager.requestWhenInUseAuthorization()
     }
     
-    func fetchWeatherInfo() -> Weather? {
-        var weather: Weather?
-        
+    func fetchWeatherInfo(completion: @escaping (WeatherInfo?) -> Void) {
         guard let url = WeatherURL.currentWeatherData(latitude: currentLocation.latitude,
                                                       longitude: currentLocation.longitude,
                                                       apiKey: Constant.apiKey).url else {
-            return nil
+            return
         }
         
         URLSessionProvider().fetchData(url: url) { result in
             switch result {
             case .success(let data):
-                guard let decodedWeather = DecodeManager.decodeWeatherData(data) else {
-                    return
+                DispatchQueue.main.async {
+                    guard let decodedWeather = DecodeManager.decodeWeatherData(data) else {
+                        completion(nil)
+                        return
+                    }
+                    completion(decodedWeather)
                 }
-                weather = decodedWeather
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
-        
-        return weather
     }
     
-    func fetchWeatherIcon(icon: String) -> UIImage? {
-        var image: UIImage?
-        
+    func fetchWeatherIcon(icon: String, completion: @escaping (UIImage?) -> Void) {
         guard let url = WeatherURL.weatherIcon(icon: icon).url else {
-            return nil
+            return
         }
         
         URLSessionProvider().fetchData(url: url) { result in
             switch result {
             case .success(let data):
-                image = UIImage(data: data)
+                DispatchQueue.main.async {
+                    completion(UIImage(data: data))
+                }
             case .failure(let error):
                 print(error.localizedDescription)
             }
         }
-        
-        return image
     }
 }
 

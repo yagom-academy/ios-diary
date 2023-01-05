@@ -12,6 +12,7 @@ struct DiaryInfo: Hashable {
     var title: String
     var body: String
     let createdAt: Date
+    let weather: WeatherInfo?
     var id = UUID()
     var createdDate: String { createdAt.localizedDateFormat }
 }

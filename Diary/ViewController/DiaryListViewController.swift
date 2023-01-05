@@ -88,10 +88,15 @@ extension DiaryListViewController {
     }
     
     @objc private func registerDiary() {
-        let registerDiaryViewController = RegisterDiaryViewController(
-            diaryInfo: DiaryInfo(title: Constant.empty, body: Constant.empty, createdAt: Date()))
-    
-        self.navigationController?.pushViewController(registerDiaryViewController, animated: true)
+        weatherManager.fetchWeatherInfo { weatherInfo in
+            let registerDiaryViewController = RegisterDiaryViewController(
+                diaryInfo: DiaryInfo(title: Constant.empty,
+                                     body: Constant.empty,
+                                     createdAt: Date(),
+                                     weather: weatherInfo))
+            
+            self.navigationController?.pushViewController(registerDiaryViewController, animated: true)
+        }
     }
 }
 
