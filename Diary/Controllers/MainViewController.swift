@@ -109,7 +109,12 @@ extension MainViewController {
                             }
                         }
                     }
+                } else {
+                    cell.setupImage(image: UIImage(
+                        systemName: "sun.max.trianglebadge.exclamationmark.fill")
+                    )
                 }
+                
             }
         let dataSource = DataSource(
             collectionView: mainDiaryView.collectionView

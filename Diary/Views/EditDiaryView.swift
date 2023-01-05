@@ -11,7 +11,7 @@ final class EditDiaryView: UIView {
     weak var delegate: KeyboardActionSavable?
     private var textStackViewBottomConstraints: NSLayoutConstraint?
     private let currentDiaryData: CurrentDiary?
-        
+    
     private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = .lightGray
@@ -85,20 +85,14 @@ extension EditDiaryView: UITextViewDelegate {
         delegate?.saveWhenHideKeyboard()
     }
     
-    func textView(_ textView: UITextView,
-                  shouldChangeTextIn range: NSRange,
-                  replacementText text: String) -> Bool {
-        
-        //TODO: Fix
-        if text == "\n" {
-            var seperateText = self.contentsTextView.text.components(separatedBy: "\n")
-            let range = (seperateText.first! as NSString).range(of: seperateText.removeFirst())
-            self.contentsTextView.attributedText = NSMutableAttributedString.customAttributeTitle(
-                text: self.contentsTextView.text,
-                range: range
-            )
-        }
-        return true
+    func textViewDidChange(_ textView: UITextView) {
+        let seperateText = self.contentsTextView.text.components(separatedBy: "\n")
+        guard let titleText = seperateText.first else { return }
+        let range = (titleText as NSString).range(of: titleText)
+        self.contentsTextView.attributedText = NSMutableAttributedString.customAttributeTitle(
+            text: self.contentsTextView.text,
+            range: range
+        )
     }
 }
 

@@ -14,6 +14,7 @@ final class CustomListCell: UICollectionViewListCell {
     private let iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .black
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
