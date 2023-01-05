@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 final class DiaryListViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
@@ -40,14 +41,25 @@ final class DiaryListViewController: UIViewController {
         case main
     }
     
+    private var locationManager: CLLocationManager = CLLocationManager()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureView()
+        self.configureLocationManager()
+    }
+    
+    func configureLocationManager() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestAlwaysAuthorization()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.fetchDiary()
+//        self.locationManager.requestLocation()
+        print(self.locationManager.authorizationStatus.rawValue)
     }
     
     private func configureView() {
@@ -211,5 +223,62 @@ extension DiaryListViewController: UICollectionViewDelegate {
             self?.showActivityContoller(objectsToShare)
             completion(true)
         }
+    }
+}
+
+extension DiaryListViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("GPS 권한 설정됨")
+            self.locationManager.startUpdatingLocation()
+        case .restricted, .notDetermined:
+            print("GPS 권한 설정되지 않음")
+            locationManager.desiredAccuracy = kCLLocationAccuracyReduced
+            
+        case .denied:
+            print("GPS 권한 요청 거부됨")
+            self.locationManager.requestAlwaysAuthorization()
+        default:
+            print("GPS: Default")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location: CLLocation = locations[locations.count - 1]
+        let latitude: CLLocationDegrees = location.coordinate.latitude
+        let longtitude: CLLocationDegrees = location.coordinate.longitude
+        
+        let roundedLatitude = String(format: "%.2f", latitude)
+        let roundedLongtitude = String(format: "%.2f", longtitude)
+        
+        let url: String = "https://api.openweathermap.org/data/2.5/weather?lat=\(roundedLatitude)&lon=\(roundedLongtitude)&appid=467d3114e1fb90fe68a5c7fe68e12b5a"
+        
+        print(locations)
+        
+        WeatherNetworkManager.shared.getJSONData(url: url, type: WeatherModel.self) { result in
+            switch result {
+            case .success(let data):
+                let iconID = data.weather[0].icon
+                let imageURL = "https://openweathermap.org/img/wn/\(iconID)@2x.png"
+                WeatherNetworkManager.shared.getImageData(url: imageURL) { result in
+                    switch result {
+                    case .success(let imageData):
+                        DispatchQueue.main.async {
+                            guard let image: UIImage = UIImage(data: imageData as Data) else { return }
+                            print(iconID)
+                        }
+                    case .failure:
+                        print("아 이미지 가져오기 실패에요 ㅋ")
+                    }
+                }
+            case .failure:
+                print("아 제이슨 데이터 가져오기 실패에요 ㅋ")
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("error: \(error.localizedDescription)")
     }
 }

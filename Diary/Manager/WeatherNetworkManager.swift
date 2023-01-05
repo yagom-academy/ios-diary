@@ -12,7 +12,7 @@ final class WeatherNetworkManager: NetworkManageable {
     
     private init() {}
     
-    func getJSONData<T: Codable>(url: String, type: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void) {
+    func getJSONData<T: Decodable>(url: String, type: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void) {
         NetworkManager.shared.requestGet(url: url) { result in
             switch result {
             case .success(let data):
