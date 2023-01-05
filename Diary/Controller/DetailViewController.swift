@@ -56,6 +56,11 @@ final class DetailViewController: UIViewController {
         diaryData?.body = result.body
         diaryData?.title = result.title
     }
+    
+    func setDiaryData(diaryData: DiaryData) {
+        self.diaryData = diaryData
+    }
+    
 }
 
 // MARK: - Notification: handled keyboard Method

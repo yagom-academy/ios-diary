@@ -33,7 +33,7 @@ final class DiaryViewController: UIViewController {
     @IBAction func tapAddBarButtonItem(_ sender: UIBarButtonItem) {
         coreDataManager.create()
         diaryData = coreDataManager.fetch()
-        let detailViewController = storyboard?.instantiateViewController(identifier: "detailViewController") as? DetailViewController ?? DetailViewController()
+        let detailViewController = storyboard?.instantiateViewController(identifier: Identifier.detalViewControllerID) as? DetailViewController ?? DetailViewController()
         detailViewController.diaryData = self.diaryData.last
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
@@ -54,8 +54,9 @@ final class DiaryViewController: UIViewController {
     
     private func setTableView() {
         tableView.delegate = self
-        tableView.register(UINib(nibName: "DiaryTableViewCell", bundle: nil),
-                           forCellReuseIdentifier: "diaryTableViewCell")
+        tableView.register(UINib(nibName: String(describing: DiaryTableViewCell.self),
+                                 bundle: nil),
+                           forCellReuseIdentifier: Identifier.diaryTableViewCellID)
     }
 }
 
@@ -63,9 +64,9 @@ final class DiaryViewController: UIViewController {
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let detailViewController: DetailViewController =
-                storyboard?.instantiateViewController(withIdentifier: "detailViewController")
+                storyboard?.instantiateViewController(withIdentifier: Identifier.detalViewControllerID)
                 as? DetailViewController else { return }
-        detailViewController.diaryData = diaryData[indexPath.row]
+        detailViewController.setDiaryData(diaryData: diaryData[indexPath.row])
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
@@ -79,7 +80,7 @@ extension DiaryViewController {
     private func configureDataSource() {
         dataSource = UITableViewDiffableDataSource<Section, DiaryData>(tableView: tableView,
                                                    cellProvider: { tableView, indexPath, data in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: "diaryTableViewCell",
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: Identifier.diaryTableViewCellID,
                                                            for: indexPath) as? DiaryTableViewCell
             else {
                 return UITableViewCell()
