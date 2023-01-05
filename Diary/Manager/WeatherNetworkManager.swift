@@ -12,7 +12,7 @@ final class WeatherNetworkManager: NetworkManageable {
     
     private init() {}
     
-    func getJSONData<T: Decodable>(url: String, type: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void) {
+    func getJSONData<T: Decodable>(url: URL?, type: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void) {
         NetworkManager.shared.requestGet(url: url) { result in
             switch result {
             case .success(let data):
@@ -28,8 +28,8 @@ final class WeatherNetworkManager: NetworkManageable {
         }
     }
     
-    func getImageData(url: String, completion: @escaping (Result<NSData, NetworkError>) -> Void) {
-        let cachedKey = NSString(string: "\(url)")
+    func getImageData(url: URL?, completion: @escaping (Result<NSData, NetworkError>) -> Void) {
+        let cachedKey = NSString(string: "\(String(describing: url))")
         
         if let cachedData = ImageDataCacheManager.shared.object(forKey: cachedKey) {
             return completion(.success(cachedData))
@@ -50,6 +50,6 @@ final class WeatherNetworkManager: NetworkManageable {
 }
 
 protocol NetworkManageable {
-    func getJSONData<T: Codable>(url: String, type: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void)
-    func getImageData(url: String, completion: @escaping (Result<NSData, NetworkError>) -> Void)
+    func getJSONData<T: Codable>(url: URL?, type: T.Type, completion: @escaping (Result<T, NetworkError>) -> Void)
+    func getImageData(url: URL?, completion: @escaping (Result<NSData, NetworkError>) -> Void)
 }

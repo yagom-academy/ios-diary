@@ -12,8 +12,8 @@ final class NetworkManager {
     
     private init() {}
     
-    func requestGet(url: String, completion: @escaping (Result<NSData, NetworkError>) -> Void) {
-        guard let validURL = URL(string: url) else {
+    func requestGet(url: URL?, completion: @escaping (Result<NSData, NetworkError>) -> Void) {
+        guard let validURL = url else {
             completion(.failure(.clientError))
             return
         }

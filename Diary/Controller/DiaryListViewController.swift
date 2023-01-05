@@ -22,7 +22,19 @@ final class DiaryListViewController: UIViewController {
     
     private let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, DiaryModel> {
         (cell, indexPath, diary) in
-        cell.configureContents(with: diary)
+        let imageURL = APIManager.weatherImage(iconID: diary.weatherIconID).urlComponents.url
+        
+        WeatherNetworkManager.shared.getImageData(url: imageURL) { result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data as Data) else { return }
+                
+                cell.configureContents(with: diary, weatherImage: image)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
         cell.accessories = [.disclosureIndicator()]
     }
     
@@ -43,27 +55,28 @@ final class DiaryListViewController: UIViewController {
     
     private var locationManager: CLLocationManager = CLLocationManager()
     
+    private var currentLatitude: String = ""
+    private var currentLongtitude: String = ""
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.configureView()
         self.configureLocationManager()
     }
     
-    func configureLocationManager() {
-        locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBest
-        locationManager.requestWhenInUseAuthorization()
-    }
-    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.fetchDiary()
-        print(self.locationManager.authorizationStatus.rawValue)
     }
     
     private func configureView() {
         self.configureNavigationBar()
         self.configureCollectionView()
+    }
+    
+    private func configureLocationManager() {
+        locationManager.desiredAccuracy = kCLLocationAccuracyThreeKilometers
+        locationManager.requestWhenInUseAuthorization()
     }
     
     private func configureNavigationBar() {
@@ -80,16 +93,48 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func pressAddButton() {
         self.getWeatherData()
-        self.moveToEditView()
     }
     
     private func getWeatherData() {
-        self.locationManager.requestLocation()
+        WeatherNetworkManager.shared.getJSONData(url: self.getWeatherURL(),
+                                                 type: WeatherModel.self) { result in
+            switch result {
+            case .success(let data):
+                guard let weatherMain = data.weather.first?.main,
+                      let weatherIconID = data.weather.first?.icon else { return }
+                
+                let diaryModel = DiaryModel(weatherMain: weatherMain, weatherIconID: weatherIconID)
+                
+                self.insertDefaultDiary(diaryModel)
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    private func getWeatherURL() -> URL? {
+        guard let latitude: CLLocationDegrees = locationManager.location?.coordinate.latitude,
+              let longtitude: CLLocationDegrees = locationManager.location?.coordinate.longitude else {
+            return nil
+        }
+        
+        let roundedLatitude = String(format: "%.2f", latitude)
+        let roundedLongitude = String(format: "%.2f", longtitude)
+        
+        guard let url = APIManager.currentWeather(lat: roundedLatitude, lon: roundedLongitude).urlComponents.url else {
+            return nil
+        }
+        
+        return url
     }
     
     private func insertDefaultDiary(_ diary: DiaryModel) {
         do {
             try CoreDataMananger.shared.insert(diary: diary)
+            
+            DispatchQueue.main.async {
+                self.moveToEditView()
+            }
         } catch {
             self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
                                                           message: DiaryError.saveContextFailed.alertMessage,
@@ -223,66 +268,5 @@ extension DiaryListViewController: UICollectionViewDelegate {
             self?.showActivityContoller(objectsToShare)
             completion(true)
         }
-    }
-}
-
-extension DiaryListViewController: CLLocationManagerDelegate {
-    //    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-    //        switch manager.authorizationStatus {
-    //        case .authorizedAlways, .authorizedWhenInUse:
-    //            print("GPS 권한 설정됨")
-    //            self.locationManager.startUpdatingLocation()
-    //        case .restricted, .notDetermined:
-    //            print("GPS 권한 설정되지 않음")
-    //            locationManager.desiredAccuracy = kCLLocationAccuracyReduced
-    //
-    //        case .denied:
-    //            print("GPS 권한 요청 거부됨")
-    //            self.locationManager.requestAlwaysAuthorization()
-    //        default:
-    //            print("GPS: Default")
-    //        }
-    //    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        let location: CLLocation = locations[locations.count - 1]
-        let latitude: CLLocationDegrees = location.coordinate.latitude
-        let longtitude: CLLocationDegrees = location.coordinate.longitude
-        
-        let roundedLatitude = String(format: "%.2f", latitude)
-        let roundedLongtitude = String(format: "%.2f", longtitude)
-        
-        let url: String = "https://api.openweathermap.org/data/2.5/weather?lat=\(roundedLatitude)&lon=\(roundedLongtitude)&appid=467d3114e1fb90fe68a5c7fe68e12b5a"
-        
-        print(locations)
-        
-        WeatherNetworkManager.shared.getJSONData(url: url, type: WeatherModel.self) { result in
-            switch result {
-            case .success(let data):
-                guard let weatherMain = data.weather.first?.main,
-                      let iconID = data.weather.first?.icon else { return }
-                let imageURL = "https://openweathermap.org/img/wn/\(iconID)@2x.png"
-                
-                self.insertDefaultDiary(DiaryModel(weatherMain: weatherMain, weatherIconID: iconID))
-                
-                WeatherNetworkManager.shared.getImageData(url: imageURL) { result in
-                    switch result {
-                    case .success(let imageData):
-                        DispatchQueue.main.async {
-                            guard let image: UIImage = UIImage(data: imageData as Data) else { return }
-                            print(iconID)
-                        }
-                    case .failure:
-                        print("아 이미지 가져오기 실패에요 ㅋ")
-                    }
-                }
-            case .failure:
-                print("아 제이슨 데이터 가져오기 실패에요 ㅋ")
-            }
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("error: \(error.localizedDescription)")
     }
 }

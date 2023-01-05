@@ -22,7 +22,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -39,7 +39,6 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
         
         return label
@@ -47,7 +46,6 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.image = UIImage(systemName: "plus")
         
         return imageView
@@ -55,7 +53,6 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     
     private let bodyLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
         return label
     }()
@@ -95,9 +92,12 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         self.subStackView.addArrangedSubview(self.bodyLabel)
     }
     
-    func configureContents(with diary: DiaryModel) {
-        self.titleLabel.text = diary.title
-        self.dateLabel.text = diary.createdAt.convertDate()
-        self.bodyLabel.text = diary.body
+    func configureContents(with diary: DiaryModel, weatherImage: UIImage) {
+        DispatchQueue.main.async {
+            self.titleLabel.text = diary.title
+            self.dateLabel.text = diary.createdAt.convertDate()
+            self.bodyLabel.text = diary.body
+            self.weatherImageView.image = weatherImage
+        }
     }
 }
