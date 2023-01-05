@@ -14,8 +14,6 @@ final class DiaryFormViewController: UIViewController {
     private let diaryFormView = DiaryFormView()
     private var selectedDiary: Diary?
     private var weather: Weather?
-    private let alertControllerManager = AlertControllerManager()
-    private let activityControllerManager = ActivityControllerManager()
     private let locationManager = CLLocationManager()
     private var weatherManager = WeatherManager()
     
@@ -127,7 +125,7 @@ final class DiaryFormViewController: UIViewController {
             id: uuid,
             icon: weather?.icon ?? ""
         )
-
+        
         return diary
     }
     
@@ -140,34 +138,23 @@ final class DiaryFormViewController: UIViewController {
     private func showDeleteAlert() {
         guard let diary = selectedDiary else { return }
         
-        present(
-            alertControllerManager.createDeleteAlert({
-                self.delete(diary: diary)
-                self.navigationController?.popViewController(animated: true)
-            }),
-            animated: true
-        )
+        presentDeleteAlert({
+            self.delete(diary: diary)
+            self.navigationController?.popViewController(animated: true)
+        })
     }
     
     private func showActivityController() {
         let totalText = diaryFormView.diaryTotalText
         if !totalText.isEmpty {
-            present(
-                activityControllerManager.showActivity(textToShare: totalText),
-                animated: true,
-                completion: nil
-            )
+            presentActivity(textToShare: totalText)
         }
     }
     
     // MARK: Action Methods
     
     @objc private func showActionSheet() {
-        present(
-            alertControllerManager.createActionSheet(showActivityController, showDeleteAlert),
-            animated: true,
-            completion: nil
-        )
+        presentActionSheet(showActivityController, showDeleteAlert)
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
@@ -185,10 +172,7 @@ extension DiaryFormViewController: CoreDataProcessable {
         case .success(_):
             break
         case .failure(let error):
-            present(
-                alertControllerManager.createErrorAlert(error),
-                animated: true
-            )
+            presentErrorAlert(error)
         }
     }
     
@@ -199,10 +183,7 @@ extension DiaryFormViewController: CoreDataProcessable {
         case .success(_):
             break
         case .failure(let error):
-            present(
-                alertControllerManager.createErrorAlert(error),
-                animated: true
-            )
+            presentErrorAlert(error)
         }
     }
     
@@ -213,13 +194,18 @@ extension DiaryFormViewController: CoreDataProcessable {
         case .success(_):
             break
         case .failure(let error):
-            present(
-                alertControllerManager.createErrorAlert(error),
-                animated: true
-            )
+            presentErrorAlert(error)
         }
     }
 }
+
+// MARK: - AlertPresentable
+
+extension DiaryFormViewController: AlertPresentable {}
+
+// MARK: - ActivityPresentable
+
+extension DiaryFormViewController: ActivityPresentable {}
 
 // MARK: - CLLocationManagerDelegate
 extension DiaryFormViewController: CLLocationManagerDelegate {

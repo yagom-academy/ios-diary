@@ -12,8 +12,6 @@ final class MainViewController: UIViewController {
     
     private let mainDiaryView = MainDiaryView()
     private var diaries: [Diary] = []
-    private let alertControllerManager = AlertControllerManager()
-    private let activityControllerManager = ActivityControllerManager()
     private let weatherManager = WeatherManager()
     
     // MARK: Life Cycle
@@ -80,21 +78,14 @@ final class MainViewController: UIViewController {
     }
     
     private func showDeleteAlert(diary: Diary) {
-        present(
-            alertControllerManager.createDeleteAlert({
-                self.delete(diary: diary)
-                self.fetchDiaryFromCoreData()
-            }),
-            animated: true
-        )
+        presentDeleteAlert({
+            self.delete(diary: diary)
+            self.fetchDiaryFromCoreData()
+        })
     }
     
     private func showActivityController(with text: String) {
-        present(
-            activityControllerManager.showActivity(textToShare: text),
-            animated: true,
-            completion: nil
-        )
+        presentActivity(textToShare: text)
     }
     
     // MARK: Action Methods
@@ -171,6 +162,14 @@ extension MainViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - AlertPresentable
+
+extension MainViewController: AlertPresentable {}
+
+// MARK: - ActivityPresentable
+
+extension MainViewController: ActivityPresentable {}
+
 // MARK: - CoreDataProcessable
 
 extension MainViewController: CoreDataProcessable {
@@ -181,10 +180,7 @@ extension MainViewController: CoreDataProcessable {
         case .success(let entity):
             return entity
         case .failure(let error):
-            present(
-                alertControllerManager.createErrorAlert(error),
-                animated: true
-            )
+            presentErrorAlert(error)
             return nil
         }
     }
@@ -196,10 +192,7 @@ extension MainViewController: CoreDataProcessable {
         case .success(_):
             break
         case .failure(let error):
-            present(
-                alertControllerManager.createErrorAlert(error),
-                animated: true
-            )
+            presentErrorAlert(error)
         }
     }
 }
