@@ -3,7 +3,7 @@
 //  Diary
 //
 //  Copyright (c) 2022 Minii All rights reserved.
-        
+
 
 import UIKit
 
@@ -22,6 +22,7 @@ final class DiaryListCellContentView: UIView, UIContentView {
     private let dateLabel = UILabel()
     private let bodyLabel = UILabel()
     private let weatherImageView = UIImageView()
+    private let imageCacher = CacheManager.share
     private var appliedConfiguration: DiaryContentConfiguration?
     
     init(configuration: DiaryContentConfiguration) {
@@ -43,13 +44,38 @@ final class DiaryListCellContentView: UIView, UIContentView {
         dateLabel.text = configuration.dateString
         bodyLabel.text = configuration.bodyString
         
-        guard let imageEndpoint = ImageLoadAPI(icon: configuration.iconName) else { return }
+        guard let imageEndpoint = ImageLoadAPI(icon: configuration.iconName),
+              loadCacheImage(key: configuration.iconName) == false else {
+            return
+        }
         
         ImageLoader().loadImage(endPoint: imageEndpoint) { image in
             DispatchQueue.main.async {
                 self.weatherImageView.image = image
+                self.imageCacher.saveDisk(key: configuration.iconName, image: image)
             }
         }
+    }
+}
+
+// MARK: Image Load Method
+extension DiaryListCellContentView {
+    func loadCacheImage(key: String?) -> Bool {
+        if let image = imageCacher.readMemory(key: key) {
+            weatherImageView.image = image
+            return true
+        }
+        
+        return loadDiskImage(key: key)
+    }
+    
+    func loadDiskImage(key: String?) -> Bool {
+        if let image = imageCacher.readDisk(key: key) {
+            weatherImageView.image = image
+            return true
+        }
+        
+        return false
     }
 }
 

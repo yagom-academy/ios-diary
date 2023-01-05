@@ -24,6 +24,7 @@
 		18135D22295C36B000C2269D /* TimeInterval+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18135D21295C36B000C2269D /* TimeInterval+.swift */; };
 		18247549296413EC0030F177 /* Requesting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18247548296413EC0030F177 /* Requesting.swift */; };
 		1824754B29642BF70030F177 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1824754A29642BF70030F177 /* NetworkManager.swift */; };
+		183193692966C251000100CD /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 183193682966C251000100CD /* CacheManager.swift */; };
 		1840511E2965B47F000DB981 /* MappingModelV1ToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 1840511D2965B47F000DB981 /* MappingModelV1ToV2.xcmappingmodel */; };
 		185A5F382951610800AF523D /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A5F372951610800AF523D /* DiaryListCell.swift */; };
 		185A5F3A295196C000AF523D /* DiaryListCellContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185A5F39295196C000AF523D /* DiaryListCellContentView.swift */; };
@@ -74,6 +75,7 @@
 		18135D21295C36B000C2269D /* TimeInterval+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TimeInterval+.swift"; sourceTree = "<group>"; };
 		18247548296413EC0030F177 /* Requesting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requesting.swift; sourceTree = "<group>"; };
 		1824754A29642BF70030F177 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		183193682966C251000100CD /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		1840511C2965B25A000DB981 /* Diary V2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary V2.xcdatamodel"; sourceTree = "<group>"; };
 		1840511D2965B47F000DB981 /* MappingModelV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
 		185A5F372951610800AF523D /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 		18ACF3CF2951A435006906D5 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				183193682966C251000100CD /* CacheManager.swift */,
 				0C396FD9295ACE5700934C79 /* CoreDataManager.swift */,
 				18F2A5362951ABC8008D9CCD /* Extensions */,
 				18ACF3D22951A448006906D5 /* Controller */,
@@ -441,6 +444,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				183193692966C251000100CD /* CacheManager.swift in Sources */,
 				1824754B29642BF70030F177 /* NetworkManager.swift in Sources */,
 				18D381362952E311002BB2F1 /* UIView+.swift in Sources */,
 				18135D22295C36B000C2269D /* TimeInterval+.swift in Sources */,
