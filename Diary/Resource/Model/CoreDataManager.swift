@@ -8,11 +8,20 @@
 import Foundation
 import CoreData
 
-protocol CoreDataManageable {
-    var persistentContainer: NSPersistentContainer { get }
-}
-
-extension CoreDataManageable {
+final class CoreDataManager: CoreDataManageable {
+    static let shared = CoreDataManager()
+    private init() { }
+    
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: CoreDataNamespace.diary)
+        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+            guard error == nil else {
+                return
+            }
+        })
+        return container
+    }()
+    
     var context: NSManagedObjectContext {
         return persistentContainer.viewContext
     }
@@ -72,28 +81,13 @@ extension CoreDataManageable {
         context.delete(object)
         try saveContext()
     }
-}
-
-final class CoreDataManager: CoreDataManageable {
-    static let shared = CoreDataManager()
-    private init() { }
     
-    lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: CoreDataNamespace.diary)
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
-            guard error == nil else {
-                return
-            }
-        })
-        return container
-    }()
-}
-
-enum CoreDataNamespace {
-    static let id = "id"
-    static let title = "title"
-    static let body = "body"
-    static let createdAt = "createdAt"
-    static let diary = "Diary"
-    static let regex = "id == %@"
+    private enum CoreDataNamespace {
+        static let id = "id"
+        static let title = "title"
+        static let body = "body"
+        static let createdAt = "createdAt"
+        static let diary = "Diary"
+        static let regex = "id == %@"
+    }
 }
