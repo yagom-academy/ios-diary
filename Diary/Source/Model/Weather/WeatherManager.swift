@@ -4,7 +4,7 @@
 //  Created by inho, dragon on 2023/01/04.
 //
 
-import Foundation
+import UIKit
 import CoreLocation
 
 struct WeatherManager {
@@ -23,17 +23,22 @@ struct WeatherManager {
         }
     }
     
-    func fetchWeatherIcon(of icon: String) {
+    func fetchWeatherIcon(of icon: String,
+                          completion: @escaping (UIImage) -> Void) {
+        guard !icon.isEmpty else { return }
+        
         let url = "\(URL.iconBaseURL)\(icon).png"
         
         networkManager.performRequest(urlString: url) { data in
-            
+            if let image = UIImage(data: data) {
+                completion(image)
+            }
         }
     }
 }
 
 private enum URL {
     static let weatherBaseURL = "https://api.openweathermap.org/data/2.5/weather?units=metric"
-    static let iconBaseURL = "http://openweathermap.org/img/wn/"
+    static let iconBaseURL = "https://openweathermap.org/img/wn/"
     static let apiKey = "&appid=5f59dfe269b02950236b1f89e72dc05f"
 }

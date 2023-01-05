@@ -37,7 +37,7 @@ class CustomDiaryCell: UITableViewCell {
     private let bottomStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 10
+        stackView.spacing = 5
         return stackView
     }()
     private let totalStackView: UIStackView = {
@@ -70,14 +70,19 @@ class CustomDiaryCell: UITableViewCell {
         titleLabel.text = nil
         bodyLabel.text = nil
         dateLabel.text = nil
+        weatherImageView.image = nil
     }
     
     // MARK: Internal Methods
     
-    func configureCell(with diary: Diary) {
+    func configureCellText(with diary: Diary) {
         titleLabel.text = diary.title
         bodyLabel.text = diary.body
         dateLabel.text = diary.createdDate
+    }
+    
+    func configureCellIcon(image: UIImage) {
+        weatherImageView.image = image
     }
     
     // MARK: Private Methods
@@ -112,8 +117,13 @@ class CustomDiaryCell: UITableViewCell {
                 constant: -10
             ),
             weatherImageView.widthAnchor.constraint(
-                equalTo: weatherImageView.heightAnchor,
-                multiplier: 1)
+                equalTo: contentView.widthAnchor,
+                multiplier: 0.05
+            ),
+            weatherImageView.heightAnchor.constraint(
+                equalTo: weatherImageView.widthAnchor,
+                multiplier: 1
+            )
         ])
     }
 }

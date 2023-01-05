@@ -14,6 +14,7 @@ final class MainViewController: UIViewController {
     private var diaries: [Diary] = []
     private let alertControllerManager = AlertControllerManager()
     private let activityControllerManager = ActivityControllerManager()
+    private let weatherManager = WeatherManager()
     
     // MARK: Life Cycle
     
@@ -120,7 +121,13 @@ extension MainViewController: UITableViewDataSource {
         
         let diary = diaries[indexPath.row]
         
-        cell.configureCell(with: diary)
+        cell.configureCellText(with: diary)
+        
+        weatherManager.fetchWeatherIcon(of: diary.icon) { fetchedImage in
+            DispatchQueue.main.async {
+                cell.configureCellIcon(image: fetchedImage)
+            }
+        }
         
         return cell
     }
