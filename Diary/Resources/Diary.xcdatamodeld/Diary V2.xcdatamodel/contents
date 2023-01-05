@@ -7,7 +7,7 @@
         <attribute name="title" optional="YES" attributeType="String"/>
         <relationship name="condition" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Weather" inverseName="posted" inverseEntity="Weather"/>
     </entity>
-    <entity name="Weather" representedClassName="Weather" parentEntity="DiaryEntity" syncable="YES" codeGenerationType="class">
+    <entity name="Weather" representedClassName="Weather" syncable="YES" codeGenerationType="class">
         <attribute name="icon" optional="YES" attributeType="String"/>
         <attribute name="main" optional="YES" attributeType="String"/>
         <relationship name="posted" optional="YES" maxCount="1" deletionRule="Deny" destinationEntity="DiaryEntity" inverseName="condition" inverseEntity="DiaryEntity"/>
