@@ -22,10 +22,32 @@ final class EditViewController: UIViewController {
     private var locationManager: CLLocationManager?
     private lazy var editView = EditDiaryView(currentDiaryData: currentDiaryData)
     
+    private let navigationLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .title3)
+        return label
+    }()
+    
+    private lazy var navigationImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage()
+        return imageView
+    }()
+    
+    private lazy var navigationStackView = UIStackView(subview: [navigationImageView,
+                                                                 navigationLabel],
+                                                       spacing: 5,
+                                                       axis: .horizontal,
+                                                       alignment: .center,
+                                                       distribution: .fill)
+    
     init(currentDiaryData: CurrentDiary = CurrentDiary(), iconID: String? = nil) {
         super.init(nibName: nil, bundle: nil)
         self.currentDiaryData = currentDiaryData
         self.currentWeatherData.iconID = iconID
+        if iconID != nil {
+            setupNavigationIcon()
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -43,39 +65,16 @@ final class EditViewController: UIViewController {
         self.view = editView
         setupCoreLocationManager()
         self.editView.delegate = self
-        setNavigation()
+        setupNavigationBar()
         addNotification()
     }
     
-    let navigationLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
-        return label
-    }()
-    
-    lazy var navigationImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage()
-        return imageView
-    }()
-    
-    lazy var navigationStackView = UIStackView(subview: [navigationImageView, navigationLabel],
-                                               spacing: 5,
-                                               axis: .horizontal,
-                                               alignment: .center,
-                                               distribution: .fill)
-    
-    private func setNavigation() {
+    private func setupNavigationBar() {
         if let date = currentDiaryData.createdAt {
             navigationLabel.text = Formatter.changeCustomDate(date)
         } else {
             navigationLabel.text = Formatter.changeCustomDate(currentDate)
         }
-        
-        fetchIconImage(currentWeatherData: self.currentWeatherData) { image in
-            self.navigationImageView.image = image
-        }
-        navigationItem.titleView = navigationStackView
         
         let rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
                                                  style: .plain,
@@ -83,6 +82,16 @@ final class EditViewController: UIViewController {
                                                  action: #selector(optionButtonTapped))
         
         navigationItem.rightBarButtonItem = rightBarButtonItem
+        navigationItem.titleView = navigationStackView
+    }
+    
+    private func setupNavigationIcon() {
+        fetchIconImage(currentWeatherData: self.currentWeatherData) { image in
+            DispatchQueue.main.async {
+                self.navigationImageView.image = image
+            }
+        }
+        navigationItem.titleView = navigationStackView
     }
     
     private func addNotification() {
@@ -259,6 +268,10 @@ extension EditViewController {
             guard let weatherData = data.weather.first else { return }
             self.currentWeatherData.iconID = weatherData.icon
             self.currentWeatherData.main = weatherData.main
+            DispatchQueue.main.async {
+                self.setupNavigationIcon()
+            }
+            
         case .failure(let error):
             self.showCustomAlert(alertText: error.localizedDescription,
                                  alertMessage: "디코딩 에러발생하였습니다..",
