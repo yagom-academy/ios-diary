@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryItemViewController: UIViewController {
-    let diaryItemManager: DiaryItemManager?
+    let diaryItemManager: DiaryItemManager
     private let alertManager = AlertManager()
     weak var alertDelegate: AlertDelegate?
     
@@ -70,7 +70,7 @@ final class DiaryItemViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         do {
-            try diaryItemManager?.validate(title: titleTextView.text, body: bodyTextView.text)
+            try diaryItemManager.validate(title: titleTextView.text, body: bodyTextView.text)
         } catch {
             alertDelegate?.showErrorAlert(title: Content.saveFailure)
         }
@@ -93,9 +93,9 @@ final class DiaryItemViewController: UIViewController {
     }
     
     private func setPlaceholder() {
-        diaryItemManager?.setPlaceholder(textView: titleTextView,
+        diaryItemManager.setPlaceholder(textView: titleTextView,
                                        text: Placeholder.title)
-        diaryItemManager?.setPlaceholder(textView: bodyTextView,
+        diaryItemManager.setPlaceholder(textView: bodyTextView,
                                        text: Placeholder.body)
     }
     
@@ -142,7 +142,7 @@ final class DiaryItemViewController: UIViewController {
         let title = titleTextView.text
         let body = bodyTextView.text
         do {
-            try diaryItemManager?.update(title: title, body: body)
+            try diaryItemManager.update(title: title, body: body)
         } catch {
             present(alertManager.showErrorAlert(title: Content.saveFailure), animated: true)
         }
@@ -160,8 +160,8 @@ final class DiaryItemViewController: UIViewController {
                                                          preferredStyle: .actionSheet)
         
         alert.addAction(UIAlertAction(title: Namespace.share, style: .default) { _ in
-            let diaryForm = self.diaryItemManager?.createDiaryShareForm()
-            let activityViewController = UIActivityViewController(activityItems: [diaryForm ?? Namespace.empty],
+            let diaryForm = self.diaryItemManager.createDiaryShareForm()
+            let activityViewController = UIActivityViewController(activityItems: [diaryForm],
                                                       applicationActivities: nil)
             self.present(activityViewController, animated: true)
         })
@@ -182,7 +182,7 @@ final class DiaryItemViewController: UIViewController {
         self.titleTextView.text = Namespace.empty
         self.bodyTextView.text = Namespace.empty
         do {
-            try diaryItemManager?.deleteDiary()
+            try diaryItemManager.deleteDiary()
         } catch {
             present(alertManager.showErrorAlert(title: Content.deleteFailure), animated: true)
         }
@@ -220,12 +220,11 @@ extension DiaryItemViewController {
 
 extension DiaryItemViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
-        diaryItemManager?.removePlaceholder(textView: textView)
+        diaryItemManager.removePlaceholder(textView: textView)
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        guard textView == titleTextView,
-              let diaryItemManager = diaryItemManager else { return }
+        guard textView == titleTextView else { return }
         
         let titleTextViewHeight = textView.contentSize.height
         
