@@ -8,6 +8,7 @@
 import Foundation
 
 struct WeatherInfo: Hashable {
+    
     let main: String
     let icon: String
     
@@ -17,6 +18,7 @@ struct WeatherInfo: Hashable {
 }
 
 extension WeatherInfo: Decodable {
+    
     init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         var weatherContainer = try container.nestedUnkeyedContainer(forKey: .weather)
@@ -28,6 +30,7 @@ extension WeatherInfo: Decodable {
 }
 
 extension Weather {
+    
     var weatherInfo: WeatherInfo? {
         guard let main = self.main,
               let icon = self.icon else {

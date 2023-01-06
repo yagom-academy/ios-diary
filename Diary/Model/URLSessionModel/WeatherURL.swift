@@ -8,17 +8,18 @@
 import Foundation
 
 enum WeatherURL {
-    case currentWeatherData(latitude: Double, longitude: Double, apiKey: String)
+    
+    case currentWeatherData(latitude: Double, longitude: Double)
     case weatherIcon(icon: String)
     
     var url: URL? {
         switch self {
-        case .currentWeatherData(let latitude, let longitude, let apiKey):
+        case .currentWeatherData(let latitude, let longitude):
             return makeURL(baseURL: URL(string: "https://api.openweathermap.org"),
                            path: ["data", "2.5", "weather"],
                            queryItems: [URLQueryItem(name: "lat", value: String(latitude)),
                                         URLQueryItem(name: "lon", value: String(longitude)),
-                                        URLQueryItem(name: "appid", value: apiKey)
+                                        URLQueryItem(name: "appid", value: Constant.apiKey)
                                        ])
         case .weatherIcon(let icon):
             return makeURL(baseURL: URL(string: "https://openweathermap.org"),
@@ -45,5 +46,12 @@ enum WeatherURL {
         }
         
         return urlComponents?.url
+    }
+}
+
+extension WeatherURL {
+    
+    enum Constant {
+        static let apiKey: String = "0270b477f318e3504f336cdc851eac7b"
     }
 }
