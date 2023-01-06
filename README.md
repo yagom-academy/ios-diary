@@ -26,8 +26,11 @@
 - SwiftLint 적용
 - KeyBoard 사용시 KeyBoard가 텍스트를 가리지 않도록 구현
     - NotificationCenter & ContentInset
-- Core Data
+- CoreData
+    - Migration
 - UIActivityController
+- Open API
+    - [OpenWeatherMap] CurrentWeatherData
 
 ## 💻 개발환경 및 라이브러리
 [![swift](https://img.shields.io/badge/swift-5.6-orange)]()
@@ -52,7 +55,11 @@
 |22.12.27|<`step2` 시작> `CoreData` 엔티티 생성 및 `create, read, update`메서드 구현, 백그라운드 진입시 `sceneDelegate`을 통한 자동 저장기능 구현|
 |22.12.28|`AletControllerManager`, `ActivityControllerManager`구현, `CoreDataProcessible`프로토콜 생성 및 `delete`메서드 구현, 각 화면에서의 알럿 후 삭제기능 구현,일기가 두 번 저장되는 버그 수정 |
 |22.12.29|주석(`MARK`)수정 및 일기 생성 조건 수정|
-    
+|23.1.2|개행 컨벤션 수정(첫번째 파라미터에서 내리기), `DiaryFormView`에 연산프로퍼티 구현, 뷰컨트롤러의 `extension`활용한 구분, `CoreDataError`타입 생성 및 `CoreData` 메서드의 에러 알럿기능 구현, `View`의 모든 요소에 `private`적용하여 직접접근 해제|
+|23.1.4|자동 생성된 `Entity`클래스 내부 수정, `JSONDecoder+Extenstion`에 디코딩 메서드 구현, `NetworkManager`타입 생성 및 네트워킹 메서드 구현, `Weather`관련 `DTO`생성, `CLLocationManager`를 이용해 사용자의 위치 조회 기능 구현|
+|23.1.5|`Diary`모델에 날씨 관련프로퍼티 추가, 코어데이터 마이그레이션 구현, `CustomDiaryCell`에 날씨 아이콘 추가, 인스턴스가 필요없는 구조체를 `AlertPresentable & ActivityPresentable`프로토콜로 수정|
+|23.1.6|`DTO`와 모델의 프로퍼티 네이밍 변경, `Networkable`프로토콜로의 변경|
+
 <br>
 
 ## 💾 파일구조
@@ -62,11 +69,11 @@
 .
 ├── Diary
 │   ├── Diary.xcdatamodeld
+│   │   ├── Diary v2.xcdatamodel
+│   │   └── Diary.xcdatamodel
 │   ├── Info.plist
+│   ├── MappingModel.xcmappingmodel
 │   ├── Resource
-│   │   ├── Assets.xcassets
-│   │   ├── Base.lproj
-│   │   │   └── LaunchScreen.storyboard
 │   │   ├── Entity+CoreDataClass.swift
 │   │   └── Entity+CoreDataProperties.swift
 │   └── Source
@@ -76,16 +83,23 @@
 │       ├── Controller
 │       │   ├── DiaryFormViewController.swift
 │       │   └── MainViewController.swift
+│       ├── Error
+│       │   └── CoreDataError.swift
 │       ├── Extension
-│       │   └── DateFormatter + Extension.swift
+│       │   ├── DateFormatter + Extension.swift
+│       │   └── JSONDecoder + Extension.swift
 │       ├── Model
-│       │   ├── ActivityControllerManager.swift
-│       │   ├── AlertControllerManager.swift
-│       │   ├── CoreDataProcessable.swift
-│       │   └── Diary.swift
+│       │   ├── Diary.swift
+│       │   ├── Protocol
+│       │   │   ├── ActivityPresentable.swift
+│       │   │   ├── AlertPresentable.swift
+│       │   │   ├── CoreDataProcessable.swift
+│       │   │   └── Networkable.swift
+│       │   └── Weather
+│       │       ├── CurrentWeatherData.swift
+│       │       ├── Weather.swift
+│       │       └── WeatherManager.swift
 │       └── View
-│           ├── Base.lproj
-│           │   └── Main.storyboard
 │           ├── CustomDiaryCell.swift
 │           ├── DiaryFormView.swift
 │           └── MainDiaryView.swift
@@ -96,16 +110,16 @@
 
 ## 📊 UML
 
-|<img src=https://i.imgur.com/uI6sKwA.png width=700>|
+|<img src=https://i.imgur.com/mv7dVXa.png width=700>|
 |--|
 
 <br>
 
 ## 💻 실행 화면
 
-|<img src="https://i.imgur.com/dBNxcvt.gif" width=250>|<img src="https://i.imgur.com/qXj9d7e.gif" width=250>|<img src="https://i.imgur.com/fHHCvp7.gif" width=250>|
+|<img src="https://i.imgur.com/xeAD3RH.gif" width=250>|<img src="https://i.imgur.com/svbjpFv.gif" width=250>|<img src="https://i.imgur.com/fHHCvp7.gif" width=250>|
 |:-:|:-:|:-:|
-|일기 저장기능|일기 업데이트 기능|스와이프 기능|
+|일기 내용&날씨 저장 기능|일기 내용&날씨 업데이트 기능|스와이프 기능|
 
 |<img src="https://i.imgur.com/rOEWQKY.gif" width=250>|<img src="https://i.imgur.com/end0ZaQ.gif" width=250>|<img src="https://i.imgur.com/OSXwaIH.gif" width=250>|
 |:-:|:-:|:-:|
@@ -151,6 +165,9 @@
     }
     ```
     - 셀이 선택되었을때는 해당 셀의 `Diary`를 넘겨주어 초기화하고, +버튼이 눌렸을때는 `nil`값으로 초기화하는 구조입니다.
+
+***
+
 - **`Alert`를 생성하는 객체 활용 방법**
     - 일기의 공유/삭제 및 삭제 알림을 보여주는 `AlertController`를 생성하기 위해 ``AlertControllerManager``객체를 구현하였습니다.
     - `VC`에서 `AlertControlManager`를 어떻게 활용시킬지 아래 두가지의 방법을 생각해보았습니다.
@@ -202,11 +219,39 @@
     - 그 중 공유할 내용을 나타내는 `activityItems`에는 일기를 공유한다고 생각하여, 일기 전체 텍스트를 나타내는 `diary.totalText`를 공유하도록 구현했습니다.
     - 액티비티에 `excludedActivityTypes`을 통해 제외할 사항을 지정할 수 있었는데, 이는 현업에서 기획과 관련되어 있을거라 판단하여 제외 사항을 포함하지는 않았습니다. 
 
-<br>
+***
+
+- **`Super` 키워드 사용 이유**
+    - Override한 메서드 안에서 super를 작성해주면 상위클래스를 담아 저장해두는 개념
+        - 그렇기에, 상위 클래스에서 변경사항이 발생하여도 하위 코드에 영향을 주지 않음
+        - 반대로, Super키워드가 없을 경우에는 상위 클래스에서 변경된 사항이 하위 코드에 영향을 주게 됨
+            - Super키워드가 없다면, 디버깅 과정에서 상위 클래스와 하위 코드를 모두 의심해야되는 상황이 발생하기에 Super 키워드 사용이 좋을듯 
+
+- **`Struct` vs `Class`**
+    - 상속 & 모델 크기에 따라 구분
+        - Struct -> Enum로 대체 = 인스턴스 없을 경우
+        - Struct -> Protocol로 대체 = 추상화 & 유연성을 필요로 하는 경우
+
+- **이전 데이터를 가져오기 위한 `Lightweight Migration`**
+    - 일기 엔티티에 날씨 정보를 추가하면서, 기존의 코어데이터의 정보를 가져오기 위해 `migration`을 했습니다. 기존 `entity`에 새로운 버전을 추가하고, 매핑 모델을 이용하여 두 엔티티를 연결하였습니다.
+    - `Diary`모델 타입에 추가된 `icon` 프로퍼티에는 새로 작성되는 일기에 대해서 받아오는 날씨 정보의 아이콘 정보를 저장하고, 기존 엔티티에는 빈 문자열을 저장합니다.
+    - 기존 엔티티 중에 업데이트 되는 일기가 있으면, 그 시점의 날씨를 기반으로 프로퍼티를 업데이트하고, 날씨 정보를 추가해 줍니다.
+
+- **사용자의 위치를 받기 위한 `Core Location`활용**
+    - 사용자의 위치를 알기 위해 `CLLocationManager`타입과 타입의 메서드를 활용해서 필요한 기능을 구현하였습니다.
+    - 앱에서 필요한 위치 정보는 사용자의 위치를 추적하는 것이 아닌 사용자의 현재 위치를 한번만 조회하면 되어서 `requestLocation()`메서드를 활용했습니다.
+
+- **구조체에서 프로토콜로의 변경**
+    - STEP2에서 `Alert`와 `Activity`를 관리해주는 모델 파일을 어떻게 구현할지 고민하였습니다.
+    - 그리고 STEP2에서 `ControllerManager구조체`를 생성하여 관리를 하고자 하였지만, 
+`UIViewController`에서만 사용가능한 `Present메서드`를 사용할 수 없어 사용성에서 유연함이 떨어지는 코드를 구현했었습니다.
+    - 기존의 구조체는 프로퍼티를 가지고 있지 않았고, 인스턴스의 필요성도 분명하지 않아 리뷰를 통해 얻은 조언에서 `Protocol`을 사용하여 `UIViewController`만이 채택 가능하도록 설정하고
+`Present메서드`를 사용할 수 있게 되어 사용성에서 유연해지는 코드를 구현할 수 있었습니다.
+
 
 ## 📚 참고 링크
 
-[공식 문서]
+**[공식 문서]**
 - [Adaptivity and Layout](https://developer.apple.com/design/human-interface-guidelines/foundations/layout/) <br>
 - [UIKit: Apps for Every Size and Shape](https://developer.apple.com/documentation/uikit/uicollectionview) <br>
 - [DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter) <br>
@@ -214,14 +259,22 @@
 - [Core Data](https://developer.apple.com/documentation/coredata) <br>
 - [UITextViewDelegate](https://developer.apple.com/documentation/uikit/uitextviewdelegate) <br>
 - [UISwipeActionsConfiguration](https://developer.apple.com/documentation/uikit/uiswipeactionsconfiguration) <br>
+- [Dynamic Type Sizes](https://developer.apple.com/design/human-interface-guidelines/foundations/typography) <br>
+- [Core Location](https://developer.apple.com/documentation/corelocation) <br>
+    - [Getting the User’s Location](https://developer.apple.com/documentation/corelocation/getting_the_current_location_of_a_device) <br>
+    - [Adding Location Services to Your App](https://developer.apple.com/documentation/corelocation/configuring_your_app_to_use_location_services) <br>
+    - [Requesting Authorization for Location Services](https://developer.apple.com/documentation/corelocation/requesting_authorization_to_use_location_services) <br>
+- [Using Lightweight Migration](https://developer.apple.com/documentation/coredata/using_lightweight_migration) <br>
 
-[WWDC]
+**[WWDC]**
 - [Making Apps Adaptive, Part 1](https://www.youtube.com/watch?v=hLkqt2g-450) <br>
 - [Making Apps Adaptive, Part 2](https://www.youtube.com/watch?v=s3utpBiRbB0w) <br>
 - [Making Apps with Core Data](https://developer.apple.com/videos/play/wwdc2019/230/) <br>
 
-[그 외 참고문서]
+**[그 외 참고문서]**
 - [How to use DateFormatter in Swift](https://sarunw.com/posts/how-to-use-dateformatter/) <br>
 - [iOS에서 키보드에 동적인 스크롤뷰 만들기](https://seizze.github.io/2019/11/17/iOS%EC%97%90%EC%84%9C-%ED%82%A4%EB%B3%B4%EB%93%9C%EC%97%90-%EB%8F%99%EC%A0%81%EC%9D%B8-%EC%8A%A4%ED%81%AC%EB%A1%A4%EB%B7%B0-%EB%A7%8C%EB%93%A4%EA%B8%B0.html) <br>
 - [Private & FilePrivate](https://stackoverflow.com/questions/43503274/in-swift-3-is-there-a-difference-between-private-class-foo-and-fileprivate-c) <br>
 - [CoreData 다루는 방법](http://yoonbumtae.com/?p=3865) <br>
+    - [Migration](https://www.kodeco.com/7585-lightweight-migrations-in-core-data-tutorial) <br>
+- [Open Weather - Current weather data](https://openweathermap.org/current) <br>
