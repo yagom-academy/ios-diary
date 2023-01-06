@@ -100,20 +100,23 @@ final class DiaryListViewController: UIViewController {
                 self?.insertDefaultDiary(DiaryModel(weatherMain: weatherMain,
                                                     weatherIconID: weatherIconID))
             case .failure(let error):
-                if self?.locationManager.authorizationStatus == .some(.authorizedWhenInUse),
-                   self?.locationManager.authorizationStatus == .some(.authorizedAlways) {
-                    DispatchQueue.main.async {
-                        self?.present(ErrorAlert.shared.showErrorAlert(title: error.alertTitle,
-                                                                       message: error.alertMessage,
-                                                                       actionTitle: "확인"), animated: true)
-                    }
-                }
-                
+                self?.showNetworkAlert(error)
                 self?.insertDefaultDiary(DiaryModel())
             }
             
             DispatchQueue.main.async {
                 self?.moveToEditView()
+            }
+        }
+    }
+    
+    func showNetworkAlert(_ error: NetworkError) {
+        if self.locationManager.authorizationStatus == .some(.authorizedWhenInUse) ||
+           self.locationManager.authorizationStatus == .some(.authorizedAlways) {
+            DispatchQueue.main.async {
+                self.present(ErrorAlert.shared.showErrorAlert(title: error.alertTitle,
+                                                               message: error.alertMessage,
+                                                               actionTitle: "확인"), animated: true)
             }
         }
     }
