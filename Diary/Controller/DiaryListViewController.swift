@@ -113,11 +113,11 @@ final class DiaryListViewController: UIViewController {
     func showNetworkAlert(_ error: NetworkError) {
         if self.locationManager.authorizationStatus == .some(.authorizedWhenInUse) ||
            self.locationManager.authorizationStatus == .some(.authorizedAlways) {
-            DispatchQueue.main.async {
-                self.present(ErrorAlert.shared.showErrorAlert(title: error.alertTitle,
-                                                               message: error.alertMessage,
-                                                               actionTitle: "확인"), animated: true)
-            }
+//            DispatchQueue.main.async {
+//                self.present(ErrorAlert.shared.showErrorAlert(title: error.alertTitle,
+//                                                               message: error.alertMessage,
+//                                                               actionTitle: "확인"), animated: true)
+//            }
         }
     }
     

@@ -81,6 +81,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         ])
         
         self.dateLabel.setContentHuggingPriority(.defaultHigh + 1, for: .horizontal)
+        self.dateLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
         self.weatherImageView.setContentHuggingPriority(.defaultHigh + 1, for: .horizontal)
         self.weatherImageView.setContentHuggingPriority(.defaultHigh + 1, for: .vertical)
     }

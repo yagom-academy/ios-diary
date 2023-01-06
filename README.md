@@ -16,7 +16,7 @@
 
 ## 👋 소개
 - 코어데이터를 활용해 데이터를 구축하고, UI를 구현해 일기장 애플리케이션을 제작하는 프로젝트 입니다.
-- 코어데이터, UICollectionView 개념을 기반으로 제작되었습니다.
+- 코어데이터, UICollectionView, JSON Decoding 개념을 기반으로 제작되었습니다.
 
 ---
 
@@ -82,6 +82,38 @@
 - 22.12.30
   - [![docs](https://img.shields.io/badge/docs-yellow)]() STEP2 `README.md` 업데이트
 
+### STEP3
+- 23.01.02
+  - [![refactor](https://img.shields.io/badge/refactor-blue)]() 키보드 종류에 관계없이 높이에 따라 contentinset을 수정하도록 리팩토링
+  - [![style](https://img.shields.io/badge/style-orange)]() 불필요한 주석 삭제
+
+- 23.01.03
+  - [![refactor](https://img.shields.io/badge/refactor-blue)]() `editDiaryViewController`의 `configureView`를 내부에서 호출하도록 수정
+  - [![refactor](https://img.shields.io/badge/refactor-blue)]() `makeDeleteAction()`, `makeShareAction()` 메서드를 추가해 기능 분리
+  - [![refactor](https://img.shields.io/badge/refactor-blue)]() swipe로 diary 삭제 시 fetch 없이 데이터 변경사항이 스냅샷에 반영되도록 수정
+  - [![refactor](https://img.shields.io/badge/refactor-blue)]() 접근제어자 설정 및 네이밍 수정
+  - [![refactor](https://img.shields.io/badge/refactor-blue)]() 런타임 에러 가능성이 있는 fatalError를 호출하지 않고, 에러 로그를 print하도록 함
+
+- 23.01.04
+  - [![feat](https://img.shields.io/badge/feat-green)]() JSON 데이터를 파싱할 `WeatherModel` 타입 정의
+  - [![feat](https://img.shields.io/badge/feat-green)]() 서버에 데이터를 요청하는 `NetworkManager` 타입 정의
+  - [![feat](https://img.shields.io/badge/feat-green)]() JSONConverter 생성
+  - [![feat](https://img.shields.io/badge/feat-green)]() WeatherNetworkManager의 getJSONData 및 getImageData 메서드 구현
+  - [![refactor](https://img.shields.io/badge/refactor-blue)]() 코어 데이터 Diary v2 migration
+  - [![feat](https://img.shields.io/badge/feat-green)]() `APIManager` 타입 정의
+  - [![feat](https://img.shields.io/badge/feat-green)]() editView에 weatherImageView 추가
+
+- 23.01.05
+  - [![feat](https://img.shields.io/badge/feat-green)]() coreLocation 및 날씨 데이터 디코딩 구현
+  - [![feat](https://img.shields.io/badge/feat-green)]() 새 일기 데이터 추가 시 서버로부터 날씨 정보를 가져와 CoreData에 저장하는 기능 구현
+  - [![feat](https://img.shields.io/badge/feat-green)]() 날씨 정보를 통해 날씨 이미지를 표시하는 기능 구현
+
+- 23.01. 06
+  - [![refactor](https://img.shields.io/badge/refactor-blue)]() `cell registration`의 책임을 줄여주기 위해 날씨 이미지 네트워킹을 `UIImageView` 의 extension에서 실행하도록 수정
+  - [![refactor](https://img.shields.io/badge/refactor-blue)]() 날씨 이미지 네트워킹에 실패하면 날씨 이미지에 빈 이미지를 보여주도록 수정
+  - [![refactor](https://img.shields.io/badge/refactor-blue)]() 위치정보 권한 허용, 허용하지 않음에 따라 네트워킹 실패시 오류처리
+  - STEP3 `Reamd.md` 업데이트
+
 
 ---
 
@@ -119,16 +151,11 @@ Diary
 ---
 
 ## 💻 실행 화면
-### STEP1
+
 | 메인 일기장 화면 | 일기 추가 화면 | 키보드 표시/숨김 기능 |
 |:----:|:----:|:----:|
 |![일기장 - 메인 일기장 화면](https://i.imgur.com/jwZvR30.png)|![일기장 - 일기 추가 화면](https://i.imgur.com/uw41pJN.gif)|![일기장 - 키보드 표시/숨김 기능](https://i.imgur.com/LjQgJEc.gif)|
 
-| [가로 모드] 메인 화면 | [가로 모드] 일기 추가 화면 |
-|:----:|:----:|
-|![메인일기장 화면 - 가로모드](https://i.imgur.com/2Wk06zm.png)|![일기장 추가 화면 - 가로모드](https://i.imgur.com/qePeOGP.png)|
-
-### STEP2
 - 자동 저장 기능
 
 | 백그라운드 전환 시 | 이전 화면 이동 시 |
@@ -140,6 +167,18 @@ Diary
 | 공유 기능 | 삭제 기능 |
 |:----:|:----:|
 |![더보기 버튼으로 공유](https://i.imgur.com/SdAAE0z.gif)|![삭제 기능](https://i.imgur.com/gj9PcpE.gif)|
+
+- 위치정보 허용 묻기 및 일기 해당 지역날씨 반영 기능
+
+| 위치 정보 사용 권한 묻기 | 사용자 위치의 날씨 반영 |
+|:----:|:----:|
+|![](https://i.imgur.com/E3Ej8IX.gif)|![](https://i.imgur.com/NcU4t4y.gif)|
+
+- 가로 모드 구현
+
+| [가로 모드] 메인 화면 | [가로 모드] 일기 추가 화면 |
+|:----:|:----:|
+|![메인일기장 화면 - 가로모드](https://i.imgur.com/2Wk06zm.png)|![일기장 추가 화면 - 가로모드](https://i.imgur.com/qePeOGP.png)|
 
 ---
 
@@ -253,7 +292,40 @@ guard let diaryID = diaryModel.id,
 </details>
 </br>
 
+<details>
+<summary><b>7. 날씨 정보를 manage할 network 객체 구현에 대한 고민 </b></summary>
+<div markdown="1">
     
+- 역할에 따른 객체분리와 `DiaryListVC`이 어떻게 Manager를 사용할 것인지에 대해 고민했습니다.
+현재 네트워크를 다루는 객체는 2개로 분리되어있으며,
+    
+- 기본적인 URLRequest를 서버에 전달하는 역할을 하는 `NetworkManager` 객체
+- `NetworkManageable`프로토콜을 채택 + `NetworkManager`를 알고있는 **`WeatherNetworkManager`** 객체
+
+- `DiaryListVC`의 init에 `NetworkManageable`프로토콜타입을 주입해 싱글톤의 사용을 줄이고 객체간의 결합도를 낮추고자 했습니다.
+</div>
+</details>
+</br>
+
+<details>
+<summary><b>8. requestLocation() 호출 후 locationManager(:didUpdateLocations:) 메서드 호출 시점 차이에 대한 고민 </b></summary>
+<div markdown="1">
+
+- 사용자의 위치정보를 얻기위해 처음 시도했던 방법은 `locationManager(:didUpdateLocations:)` 메서드를 통해 위도와 경도를 전역변수에 할당해 네트워킹을 진행하는 것이었습니다. 하지만 `requestLocation()` 호출 직후 `locationManager(:didUpdateLocations:)` 블록 내부로 진입하지 않아 호출시점의 차이로 인해 해당 방법은 포기했습니다.
+
+- 다른 방법을 찾다가 `locationManager`의 `CLLocationCoordinate2D`를 통해 위도와 경도를 알아내는 법을 통해 기능을 구현했습니다.
+```swift
+private func getWeatherURL() {
+    guard let latitude: CLLocationDegrees = locationManager.location?.coordinate.latitude,
+          let longtitude: CLLocationDegrees = locationManager.location?.coordinate.longitude else {
+        return nil
+    }
+}
+```
+    
+</div>
+</details>
+</br>
 ---
 
 ## 📚 참고 링크
@@ -265,3 +337,6 @@ guard let diaryID = diaryModel.id,
   - [Setting Up a Core Data Stack](https://developer.apple.com/documentation/coredata/setting_up_a_core_data_stack)
 - [Core Data CRUD 구현 시 참고한 글](https://velog.io/@leeesangheee/Core-Data-%EC%82%AC%EC%9A%A9%ED%95%B4-CRUD-%EA%B5%AC%ED%98%84%ED%95%98%EA%B8%B0)
 - [의존성 주입에 관한 글](https://silver-g-0114.tistory.com/143)
+- [공식문서 - Core Location](https://developer.apple.com/documentation/corelocation/)
+  - [CLLocationAccuracy](https://developer.apple.com/documentation/corelocation/cllocationaccuracy)
+  - [locationManagerDidChangeAuthorization(_:)](https://developer.apple.com/documentation/corelocation/cllocationmanagerdelegate/3563956-locationmanagerdidchangeauthoriz)
