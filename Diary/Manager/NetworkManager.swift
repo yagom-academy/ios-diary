@@ -30,7 +30,8 @@ final class NetworkManager {
             
             guard let response = urlResponse as? HTTPURLResponse, (200..<300).contains(response.statusCode) else {
                 if let response = urlResponse as? HTTPURLResponse {
-                    print(response.statusCode)
+                    print(response.description)
+                    completion(.failure(.clientError))
                 }
                 return
             }

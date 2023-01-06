@@ -90,21 +90,30 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func pressAddButton() {
-        self.getWeatherData()
-    }
-    
-    private func getWeatherData() {
         self.weatherNetworkManager.getJSONData(url: self.getWeatherURL(),
-                                                 type: WeatherModel.self) { result in
+                                               type: WeatherModel.self) { [weak self] result in
             switch result {
             case .success(let data):
                 guard let weatherMain = data.weather.first?.main,
                       let weatherIconID = data.weather.first?.icon else { return }
                 
-                self.insertDefaultDiary(DiaryModel(weatherMain: weatherMain,
-                                                   weatherIconID: weatherIconID))
-            case .failure:
-                self.insertDefaultDiary(DiaryModel())
+                self?.insertDefaultDiary(DiaryModel(weatherMain: weatherMain,
+                                                    weatherIconID: weatherIconID))
+            case .failure(let error):
+                if self?.locationManager.authorizationStatus == .some(.authorizedWhenInUse),
+                   self?.locationManager.authorizationStatus == .some(.authorizedAlways) {
+                    DispatchQueue.main.async {
+                        self?.present(ErrorAlert.shared.showErrorAlert(title: error.alertTitle,
+                                                                       message: error.alertMessage,
+                                                                       actionTitle: "확인"), animated: true)
+                    }
+                }
+                
+                self?.insertDefaultDiary(DiaryModel())
+            }
+            
+            DispatchQueue.main.async {
+                self?.moveToEditView()
             }
         }
     }
@@ -128,10 +137,6 @@ final class DiaryListViewController: UIViewController {
     private func insertDefaultDiary(_ diary: DiaryModel) {
         do {
             try CoreDataMananger.shared.insert(diary: diary)
-            
-            DispatchQueue.main.async {
-                self.moveToEditView()
-            }
         } catch {
             self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
                                                           message: DiaryError.saveContextFailed.alertMessage,
