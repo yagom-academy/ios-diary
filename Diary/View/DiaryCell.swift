@@ -68,9 +68,7 @@ final class DiaryCell: UICollectionViewListCell {
         previewLabel.text = preview
     }
     
-    func configureWeatherIcon(weatherIcon: UIImage?) {
-        if weatherIcon != nil {
-            weatherIconView.image = weatherIcon
-        }
+    func configureWeatherIcon(weatherIcon: UIImage) {
+        weatherIconView.image = weatherIcon
     }
 }

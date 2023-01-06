@@ -40,9 +40,21 @@ final class DiaryListViewController: UIViewController {
                                date: diaryInfo.createdDate,
                                preview: diaryInfo.body)
             
-            self.weatherManager.fetchWeatherIcon(icon: diaryInfo.weather?.icon ?? "") {
-                weatherIcon in
-                cell.configureWeatherIcon(weatherIcon: weatherIcon)
+            guard let diaryInfoWeather = diaryInfo.weather else {
+                return
+            }
+            
+            let cacheKey = NSString(string: diaryInfoWeather.icon)
+            if let cachedImage: UIImage = ImageCacheManager.shared.object(forKey: cacheKey) {
+                cell.configureWeatherIcon(weatherIcon: cachedImage)
+            } else {
+                self.weatherManager.fetchWeatherIcon(icon: diaryInfoWeather.icon) { weatherIcon in
+                    guard let weatherIcon = weatherIcon else {
+                        return
+                    }
+                    cell.configureWeatherIcon(weatherIcon: weatherIcon)
+                    ImageCacheManager.shared.setObject(weatherIcon, forKey: cacheKey)
+                }
             }
         }
         
