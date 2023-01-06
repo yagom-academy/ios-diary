@@ -11,11 +11,12 @@
 		4143E3112963FA3900744B00 /* URLSessionProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E3102963FA3900744B00 /* URLSessionProvider.swift */; };
 		4143E31529640BE400744B00 /* WeatherURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4143E31429640BE400744B00 /* WeatherURL.swift */; };
 		4174808C29592DDF00739399 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4174808B29592DDF00739399 /* CoreDataManager.swift */; };
-		41A128B12966E758000339DD /* MappingModelV1ToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 41A128B02966E758000339DD /* MappingModelV1ToV2.xcmappingmodel */; };
 		41AF40FC29518C0200AC33CE /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 41AF40FB29518C0200AC33CE /* .swiftlint.yml */; };
 		41AF40FE2952AFF100AC33CE /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41AF40FD2952AFF100AC33CE /* Date+Extension.swift */; };
 		41BE025329533C9E006053FD /* RegisterDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41BE025229533C9E006053FD /* RegisterDiaryViewController.swift */; };
 		41C6A0FC295BDAD600304FC2 /* CustomActivityViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41C6A0FB295BDAD600304FC2 /* CustomActivityViewController.swift */; };
+		41E420812967D44000283FE5 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41E420802967D44000283FE5 /* LocationManager.swift */; };
+		41E420892967DAD600283FE5 /* MappingModelV1ToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 41E420882967DAD600283FE5 /* MappingModelV1ToV2.xcmappingmodel */; };
 		90203F9F2967C17F002901C1 /* CacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90203F9E2967C17F002901C1 /* CacheManager.swift */; };
 		905456EF2952CC1900AAFEB0 /* DiaryDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905456EE2952CC1900AAFEB0 /* DiaryDetailView.swift */; };
 		905456F22952CCF200AAFEB0 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 905456F12952CCF200AAFEB0 /* DiaryDetailViewController.swift */; };
@@ -40,11 +41,12 @@
 		4143E31429640BE400744B00 /* WeatherURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherURL.swift; sourceTree = "<group>"; };
 		4174808B29592DDF00739399 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		41A128A72966C00C000339DD /* Diary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary 2.xcdatamodel"; sourceTree = "<group>"; };
-		41A128B02966E758000339DD /* MappingModelV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
 		41AF40FB29518C0200AC33CE /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		41AF40FD2952AFF100AC33CE /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		41BE025229533C9E006053FD /* RegisterDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterDiaryViewController.swift; sourceTree = "<group>"; };
 		41C6A0FB295BDAD600304FC2 /* CustomActivityViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomActivityViewController.swift; sourceTree = "<group>"; };
+		41E420802967D44000283FE5 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		41E420882967DAD600283FE5 /* MappingModelV1ToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingModelV1ToV2.xcmappingmodel; sourceTree = "<group>"; };
 		449857F28E91002F94820D83 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		90203F9E2967C17F002901C1 /* CacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheManager.swift; sourceTree = "<group>"; };
 		905456EE2952CC1900AAFEB0 /* DiaryDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailView.swift; sourceTree = "<group>"; };
@@ -79,13 +81,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4143E313296400E100744B00 /* URLSessionModel */ = {
+		4143E313296400E100744B00 /* URLSession */ = {
 			isa = PBXGroup;
 			children = (
 				4143E3102963FA3900744B00 /* URLSessionProvider.swift */,
-				4143E31429640BE400744B00 /* WeatherURL.swift */,
 			);
-			path = URLSessionModel;
+			path = URLSession;
 			sourceTree = "<group>";
 		};
 		41AF40FF2952DD1400AC33CE /* ViewController */ = {
@@ -102,17 +103,51 @@
 		41AF41002952DD2D00AC33CE /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				4143E313296400E100744B00 /* URLSessionModel */,
-				41AF40FD2952AFF100AC33CE /* Date+Extension.swift */,
 				90DC5C8D2951CAF8003D6684 /* DiaryInfo.swift */,
 				90B1923229640DF700DEEE10 /* WeatherInfo.swift */,
-				4174808B29592DDF00739399 /* CoreDataManager.swift */,
-				41A128B02966E758000339DD /* MappingModelV1ToV2.xcmappingmodel */,
+				41E420872967DA0900283FE5 /* CoreData */,
+				4143E313296400E100744B00 /* URLSession */,
+				41E420822967D47600283FE5 /* Weather */,
+				41E420862967D9EB00283FE5 /* Support */,
+				41E420852967D81E00283FE5 /* Extension */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		41E420822967D47600283FE5 /* Weather */ = {
+			isa = PBXGroup;
+			children = (
+				4143E31429640BE400744B00 /* WeatherURL.swift */,
 				90B1922E2963EAD200DEEE10 /* WeatherManager.swift */,
+				41E420802967D44000283FE5 /* LocationManager.swift */,
+			);
+			path = Weather;
+			sourceTree = "<group>";
+		};
+		41E420852967D81E00283FE5 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				41AF40FD2952AFF100AC33CE /* Date+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		41E420862967D9EB00283FE5 /* Support */ = {
+			isa = PBXGroup;
+			children = (
 				90B1923029640D9900DEEE10 /* DecodeManager.swift */,
 				90203F9E2967C17F002901C1 /* CacheManager.swift */,
 			);
-			path = Model;
+			path = Support;
+			sourceTree = "<group>";
+		};
+		41E420872967DA0900283FE5 /* CoreData */ = {
+			isa = PBXGroup;
+			children = (
+				4174808B29592DDF00739399 /* CoreDataManager.swift */,
+				41E420882967DAD600283FE5 /* MappingModelV1ToV2.xcmappingmodel */,
+			);
+			path = CoreData;
 			sourceTree = "<group>";
 		};
 		4582CA22E5D5A4391BE472A1 /* Pods */ = {
@@ -301,12 +336,13 @@
 				41BE025329533C9E006053FD /* RegisterDiaryViewController.swift in Sources */,
 				4143E3112963FA3900744B00 /* URLSessionProvider.swift in Sources */,
 				90DC5C8C2951A6E1003D6684 /* CustomUI.swift in Sources */,
+				41E420892967DAD600283FE5 /* MappingModelV1ToV2.xcmappingmodel in Sources */,
 				90DC5C8A2951A059003D6684 /* DiaryCell.swift in Sources */,
 				90DC5C8829519711003D6684 /* DiaryListView.swift in Sources */,
-				41A128B12966E758000339DD /* MappingModelV1ToV2.xcmappingmodel in Sources */,
 				905456EF2952CC1900AAFEB0 /* DiaryDetailView.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				90203F9F2967C17F002901C1 /* CacheManager.swift in Sources */,
+				41E420812967D44000283FE5 /* LocationManager.swift in Sources */,
 				90DC5C8E2951CAF8003D6684 /* DiaryInfo.swift in Sources */,
 				41C6A0FC295BDAD600304FC2 /* CustomActivityViewController.swift in Sources */,
 				90B1922F2963EAD200DEEE10 /* WeatherManager.swift in Sources */,

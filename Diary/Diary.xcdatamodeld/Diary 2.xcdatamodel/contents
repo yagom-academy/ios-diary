@@ -5,12 +5,12 @@
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="id" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <relationship name="relationship" optional="YES" maxCount="1" deletionRule="Deny" destinationEntity="Weather" inverseName="relationship2" inverseEntity="Weather"/>
+        <relationship name="weather" optional="YES" maxCount="1" deletionRule="Deny" destinationEntity="Weather" inverseName="diary" inverseEntity="Weather"/>
     </entity>
     <entity name="Weather" representedClassName="Weather" syncable="YES" codeGenerationType="class">
         <attribute name="icon" optional="YES" attributeType="String"/>
         <attribute name="main" optional="YES" attributeType="String"/>
-        <relationship name="relationship2" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Diary" inverseName="relationship" inverseEntity="Diary"/>
+        <relationship name="diary" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="Diary" inverseName="weather" inverseEntity="Diary"/>
     </entity>
     <elements>
         <element name="Diary" positionX="151.18359375" positionY="54.36328125" width="128" height="118"/>

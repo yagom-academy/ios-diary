@@ -44,7 +44,7 @@ struct CoreDataManager {
         let weather = Weather(context: persistentContainer.viewContext)
         weather.main = diaryInfo.weather?.main
         weather.icon = diaryInfo.weather?.icon
-        diary.relationship = weather
+        diary.weather = weather
         
         saveContext()
     }
@@ -75,7 +75,7 @@ struct CoreDataManager {
                 diaryList.append(DiaryInfo(title: $0.title ?? Constant.empty,
                                            body: $0.body ?? Constant.empty,
                                            createdAt: $0.createdAt ?? Date(),
-                                           weather: $0.relationship?.weatherInfo,
+                                           weather: $0.weather?.weatherInfo,
                                            id: $0.id ?? UUID() ))
             }
         } catch {

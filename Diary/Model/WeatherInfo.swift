@@ -13,6 +13,7 @@ struct WeatherInfo: Hashable {
     let icon: String
     
     enum CodingKeys: String, CodingKey {
+       
         case main, icon, weather
     }
 }

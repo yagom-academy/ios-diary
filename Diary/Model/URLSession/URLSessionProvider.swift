@@ -8,6 +8,7 @@
 import Foundation
 
 struct URLSessionProvider {
+    
     let session = URLSession.shared
     
     func fetchData(url: URL,
@@ -36,6 +37,7 @@ struct URLSessionProvider {
 }
 
 enum NetworkError: Error {
+    
     case requestFailError
     case httpResponseError(code: Int)
     case noDataError
