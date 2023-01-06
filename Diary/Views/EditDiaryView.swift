@@ -15,7 +15,7 @@ final class EditDiaryView: UIView {
     
     private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
-        textView.textColor = .lightGray
+        textView.textColor = .label
         textView.font = .preferredFont(forTextStyle: .body)
         textView.layer.borderColor = UIColor.systemGray5.cgColor
         textView.text = Placeholder.textViewPlaceHolder.sentence
@@ -40,7 +40,6 @@ final class EditDiaryView: UIView {
     
     private func bindData(_ data: CurrentDiary?) {
         guard let data = data else { return }
-        contentsTextView.textColor = .black
         self.contentsTextView.text = data.contentText
         
         var seperateText = self.contentsTextView.text.components(separatedBy: "\n")
@@ -49,6 +48,7 @@ final class EditDiaryView: UIView {
             text: self.contentsTextView.text,
             range: range
         )
+        contentsTextView.textColor = .label
     }
     
     private func presentKeyboard() {
@@ -74,14 +74,14 @@ extension EditDiaryView: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == Placeholder.textViewPlaceHolder.sentence {
             textView.text = nil
-            textView.textColor = .black
+            textView.textColor = .label
         }
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
             textView.text = Placeholder.textViewPlaceHolder.sentence
-            textView.textColor = .lightGray
+            textView.textColor = .systemGray
         }
         delegate?.saveWhenHideKeyboard()
     }
@@ -97,6 +97,7 @@ extension EditDiaryView: UITextViewDelegate {
             text: self.contentsTextView.text,
             range: ranges
         )
+        textView.textColor = .label
         textView.selectedTextRange = textView.textRange(from: position, to: position)
     }
 }
@@ -104,7 +105,7 @@ extension EditDiaryView: UITextViewDelegate {
 // MARK: - UIConstraints
 extension EditDiaryView {
     private func setupUI() {
-        self.backgroundColor = .white
+        self.backgroundColor = .systemBackground
         contentsTextView.layer.borderWidth = 1
         contentsTextView.layer.cornerRadius = 10
         contentsTextView.layer.borderColor = UIColor.systemGray4.cgColor

@@ -46,7 +46,7 @@ extension MainDiaryView {
 // MARK: - UIConstraints
 extension MainDiaryView {
     private func setupUI() {
-        self.backgroundColor = .white
+        self.backgroundColor = .systemBackground
         configureCollectionView()
         self.addSubview(collectionView)
         setupConstraints()

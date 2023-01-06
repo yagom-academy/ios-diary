@@ -48,6 +48,7 @@ final class MainViewController: UIViewController {
                                            target: self,
                                            action: #selector(addButtonTapped))
         self.navigationItem.rightBarButtonItem = addBarButton
+        self.navigationController?.navigationBar.tintColor = .label
     }
     
     private func setupData() {
