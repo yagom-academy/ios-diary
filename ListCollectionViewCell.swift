@@ -74,10 +74,14 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             self.mainStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
             self.mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 10),
             self.mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -10),
-            self.mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10)
+            self.mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            self.weatherImageView.widthAnchor.constraint(equalToConstant: 25),
+            self.weatherImageView.heightAnchor.constraint(equalTo: self.weatherImageView.widthAnchor)
         ])
         
-        self.dateLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
+        self.dateLabel.setContentHuggingPriority(.defaultHigh + 1, for: .horizontal)
+        self.weatherImageView.setContentHuggingPriority(.defaultHigh + 1, for: .horizontal)
+        self.weatherImageView.setContentHuggingPriority(.defaultHigh + 1, for: .vertical)
     }
     
     private func configureMainStackView() {
@@ -92,12 +96,12 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         self.subStackView.addArrangedSubview(self.bodyLabel)
     }
     
-    func configureContents(with diary: DiaryModel, weatherImage: UIImage) {
+    func configureContents(with diary: DiaryModel) {
         DispatchQueue.main.async {
             self.titleLabel.text = diary.title
             self.dateLabel.text = diary.createdAt.convertDate()
+            self.weatherImageView.loadView(imageID: diary.weatherIconID)
             self.bodyLabel.text = diary.body
-            self.weatherImageView.image = weatherImage
         }
     }
 }

@@ -2,16 +2,12 @@
 //  HTTPManager.swift
 //  Diary
 //
-//  Created by 애종, 애쉬 on 2022/01/04.
+//  Created by 애종, 애쉬 on 2023/01/04.
 //
 
 import Foundation
 
 final class NetworkManager {
-    static let shared = NetworkManager()
-    
-    private init() {}
-    
     func requestGet(url: URL?, completion: @escaping (Result<NSData, NetworkError>) -> Void) {
         guard let validURL = url else {
             completion(.failure(.clientError))

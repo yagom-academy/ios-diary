@@ -22,19 +22,7 @@ final class DiaryListViewController: UIViewController {
     
     private let listCellRegistration = UICollectionView.CellRegistration<ListCollectionViewCell, DiaryModel> {
         (cell, indexPath, diary) in
-        let imageURL = APIManager.weatherImage(iconID: diary.weatherIconID).urlComponents.url
-        
-        WeatherNetworkManager.shared.getImageData(url: imageURL) { result in
-            switch result {
-            case .success(let data):
-                guard let image = UIImage(data: data as Data) else { return }
-                
-                cell.configureContents(with: diary, weatherImage: image)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-        
+        cell.configureContents(with: diary)
         cell.accessories = [.disclosureIndicator()]
     }
     
@@ -53,10 +41,20 @@ final class DiaryListViewController: UIViewController {
         case main
     }
     
+    private let weatherNetworkManager: NetworkManageable
     private var locationManager: CLLocationManager = CLLocationManager()
     
     private var currentLatitude: String = ""
     private var currentLongtitude: String = ""
+    
+    init(weatherNetworkManager: NetworkManageable) {
+        self.weatherNetworkManager = weatherNetworkManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,7 +94,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func getWeatherData() {
-        WeatherNetworkManager.shared.getJSONData(url: self.getWeatherURL(),
+        self.weatherNetworkManager.getJSONData(url: self.getWeatherURL(),
                                                  type: WeatherModel.self) { result in
             switch result {
             case .success(let data):

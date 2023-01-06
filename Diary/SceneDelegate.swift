@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         
-        let viewController = DiaryListViewController()
+        let viewController = DiaryListViewController(weatherNetworkManager: WeatherNetworkManager())
         let navigationController = UINavigationController(rootViewController: viewController)
         
         window?.rootViewController = navigationController

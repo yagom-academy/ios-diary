@@ -2,7 +2,7 @@
 //  ViewController+Extension.swift
 //  Diary
 //
-//  Created by Victor on 2022/12/29.
+//  Created by 애종, 애쉬 on 2022/12/29.
 //
 
 import UIKit
