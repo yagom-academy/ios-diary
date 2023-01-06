@@ -1,12 +1,16 @@
 //
-//  NetworkManager.swift
+//  Networkable.swift
 //  Diary
 //  Created by inho, dragon on 2023/01/04.
 //
 
 import Foundation
 
-struct NetworkManager {
+protocol Networkable {
+    func performRequest(urlString: String, completion: @escaping (Data) -> Void)
+}
+
+extension Networkable {
     func performRequest(urlString: String, completion: @escaping (Data) -> Void) {
         guard let url = URL(string: urlString) else { return }
         

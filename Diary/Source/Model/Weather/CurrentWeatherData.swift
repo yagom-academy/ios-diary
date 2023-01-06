@@ -6,6 +6,6 @@
 
 import Foundation
 
-struct WeatherAPI: Decodable {
+struct CurrentWeatherData: Decodable {
     let weather: [Weather]
 }

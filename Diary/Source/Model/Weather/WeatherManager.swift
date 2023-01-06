@@ -4,19 +4,17 @@
 //  Created by inho, dragon on 2023/01/04.
 //
 
-import UIKit
 import CoreLocation
+import UIKit
 
-struct WeatherManager {
-    let networkManager = NetworkManager()
-    
+struct WeatherManager: Networkable {
     func fetchWeather(latitude: CLLocationDegrees,
                       longitude: CLLocationDegrees,
                       completion: @escaping (Weather) -> Void) {
-        let url = "\(URL.weatherBaseURL)\(URL.apiKey)&lat=\(latitude)&lon=\(longitude)"
+        let url = "\(URLAddress.weatherBaseURL)\(URLAddress.apiKey)&lat=\(latitude)&lon=\(longitude)"
         
-        networkManager.performRequest(urlString: url) { data in
-            if let weatherAPI = JSONDecoder.decodeData(data: data, to: WeatherAPI.self),
+        performRequest(urlString: url) { data in
+            if let weatherAPI = JSONDecoder.decodeData(data: data, to: CurrentWeatherData.self),
                let weather = weatherAPI.weather.first {
                 completion(weather)
             }
@@ -27,9 +25,9 @@ struct WeatherManager {
                           completion: @escaping (UIImage) -> Void) {
         guard !icon.isEmpty else { return }
         
-        let url = "\(URL.iconBaseURL)\(icon).png"
+        let url = "\(URLAddress.iconBaseURL)\(icon).png"
         
-        networkManager.performRequest(urlString: url) { data in
+        performRequest(urlString: url) { data in
             if let image = UIImage(data: data) {
                 completion(image)
             }
@@ -37,7 +35,7 @@ struct WeatherManager {
     }
 }
 
-private enum URL {
+private enum URLAddress {
     static let weatherBaseURL = "https://api.openweathermap.org/data/2.5/weather?units=metric"
     static let iconBaseURL = "https://openweathermap.org/img/wn/"
     static let apiKey = "&appid=5f59dfe269b02950236b1f89e72dc05f"

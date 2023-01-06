@@ -123,7 +123,7 @@ final class DiaryFormViewController: UIViewController {
             createdAt: Int(Date().timeIntervalSince1970),
             totalText: diaryFormView.diaryTotalText,
             id: uuid,
-            icon: weather?.icon ?? ""
+            iconName: weather?.icon ?? ""
         )
         
         return diary

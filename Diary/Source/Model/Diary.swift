@@ -12,7 +12,7 @@ struct Diary: Decodable {
     let createdAt: Int
     let totalText: String
     let id: UUID
-    let icon: String
+    let iconName: String
     
     var createdDate: String {
         let date = Date(timeIntervalSince1970: Double(createdAt))

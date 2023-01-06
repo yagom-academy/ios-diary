@@ -35,7 +35,7 @@ extension CoreDataProcessable {
         object.setValue(diary.createdAt.description, forKey: NameSpace.entityCreatedDate)
         object.setValue(diary.totalText, forKey: NameSpace.entityTotalText)
         object.setValue(diary.id, forKey: NameSpace.entityID)
-        object.setValue(diary.icon, forKey: NameSpace.entityIcon)
+        object.setValue(diary.iconName, forKey: NameSpace.entityIcon)
         
         do {
             try managedContext.save()
@@ -81,7 +81,7 @@ extension CoreDataProcessable {
         object.setValue(diary.body, forKey: NameSpace.entityBody)
         object.setValue(diary.createdAt.description, forKey: NameSpace.entityCreatedDate)
         object.setValue(diary.totalText, forKey: NameSpace.entityTotalText)
-        object.setValue(diary.icon, forKey: NameSpace.entityIcon)
+        object.setValue(diary.iconName, forKey: NameSpace.entityIcon)
         
         do {
             try managedContext.save()

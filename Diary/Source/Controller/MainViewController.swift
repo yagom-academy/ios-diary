@@ -68,7 +68,7 @@ final class MainViewController: UIViewController {
                 createdAt: createdAt,
                 totalText: totalText,
                 id: id,
-                icon: entity.icon ?? String()
+                iconName: entity.icon ?? String()
             )
             
             diaryArray.append(diary)
@@ -114,7 +114,7 @@ extension MainViewController: UITableViewDataSource {
         
         cell.configureCellText(with: diary)
         
-        weatherManager.fetchWeatherIcon(of: diary.icon) { fetchedImage in
+        weatherManager.fetchWeatherIcon(of: diary.iconName) { fetchedImage in
             DispatchQueue.main.async {
                 cell.configureCellIcon(image: fetchedImage)
             }
