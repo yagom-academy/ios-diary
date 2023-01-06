@@ -61,12 +61,14 @@ final class DiaryCell: UICollectionViewListCell {
         self.accessories = [.disclosureIndicator(options: .init(tintColor: .systemGray))]
     }
     
-    func configureCell(title: String, date: String, weatherIcon: UIImage?, preview: String) {
+    func configureCell(title: String, date: String, preview: String) {
         configureDiaryCellLayout()
         titleLabel.text = title
         dateLabel.text = date
         previewLabel.text = preview
-        
+    }
+    
+    func configureWeatherIcon(weatherIcon: UIImage?) {
         if weatherIcon != nil {
             weatherIconView.image = weatherIcon
         }

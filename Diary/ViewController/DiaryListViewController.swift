@@ -36,12 +36,13 @@ final class DiaryListViewController: UIViewController {
         let cellRegistration = UICollectionView.CellRegistration<DiaryCell, DiaryInfo> {
             cell, _, diaryInfo in
             
+            cell.configureCell(title: diaryInfo.title,
+                               date: diaryInfo.createdDate,
+                               preview: diaryInfo.body)
+            
             self.weatherManager.fetchWeatherIcon(icon: diaryInfo.weather?.icon ?? "") {
                 weatherIcon in
-                cell.configureCell(title: diaryInfo.title,
-                                   date: diaryInfo.createdDate,
-                                   weatherIcon: weatherIcon,
-                                   preview: diaryInfo.body)
+                cell.configureWeatherIcon(weatherIcon: weatherIcon)
             }
         }
         
