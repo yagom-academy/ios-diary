@@ -27,19 +27,19 @@
 
 ## 🧭 팀 위키
 
-#### [🤙 Ground Rule](https://github.com/jjpush/ios-diary/wiki/1.-Ground-Rule)
+#### [🤙 Ground Rule](https://github.com/jjpush/ios-diary/wiki/🤙-Ground-Rule)
 
-#### [🖋 Code Convention](https://github.com/jjpush/ios-diary/wiki/2.-Code-Convention)
+#### [🖋 Code Convention](https://github.com/jjpush/ios-diary/wiki/🖋-Code-Convention)
 
 #### [📝 일일 스크럼](https://github.com/jjpush/ios-diary/wiki/3.-일일-스크럼)
 
 ## 🛠 실행 화면
 
-### 설정 언어에 따른 날짜 포맷 설정
+### Localizable
 
 | 한국어 설정 | 영어 설정 |
 |:--:|:--:|
-|![](https://i.imgur.com/aDT5Do7.png)|![](https://i.imgur.com/4zgmlvI.png)|
+|![](https://i.imgur.com/WqJR5mx.gif)|![](https://i.imgur.com/bTPX4S3.gif)|
 
 ### 실행화면
 
@@ -50,8 +50,6 @@
 | 빈 내용 입력 시 메모 생성하지 않음 | 메모 수정 화면 |
 |:--:|:--:|
 |![](https://i.imgur.com/3CJvJjE.gif) | ![](https://i.imgur.com/R08mrDl.gif)
-
-
 
 <!--
 ## 👀 Diagram
@@ -81,16 +79,16 @@
 │   ├── Constant
 │   ├── DiaryViewController
 │   │   ├── DiaryListCell
-│   │   ├── DiaryView
 │   │   └── DiaryViewController
 │   ├── EditorViewController
-│   │   ├── EditorView
 │   │   └── EditorViewController
 │   ├── Extension
 │   │   ├── CellIdentifiable+.swift
 │   │   ├── Collection+.swift
 │   │   ├── Date+.swift
-│   │   └── JSONDecoder+.swift
+│   │   ├── String+.swift
+│   │   ├── Date+.swift
+│   │   └── UIAlertController+.swift
 ├── Pods
 │   └── SwiftLint
 └── README
