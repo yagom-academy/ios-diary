@@ -14,7 +14,6 @@
 		11371765295AB82600302E84 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11371764295AB82600302E84 /* CoreDataManager.swift */; };
 		118CB13B2963D3B30022238C /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118CB13A2963D3B30022238C /* Weather.swift */; };
 		118CB13E2963F0C20022238C /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 118CB13D2963F0C20022238C /* NetworkManager.swift */; };
-		118CB13F296683880022238C /* JSONDecodingTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1137175629515FC900302E84 /* JSONDecodingTest.swift */; };
 		1AE0A2E72951A6C60083BA6C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 1AE0A2E62951A6C60083BA6C /* .swiftlint.yml */; };
 		1AE0A2FB29558F0B0083BA6C /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE0A2FA29558F0B0083BA6C /* sample.json */; };
 		1AE0A2FE295593EB0083BA6C /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0A2FD295593EB0083BA6C /* ReusableCell.swift */; };
@@ -424,7 +423,6 @@
 				1137174D2951573B00302E84 /* Diary.swift in Sources */,
 				118CB13B2963D3B30022238C /* Weather.swift in Sources */,
 				11371765295AB82600302E84 /* CoreDataManager.swift in Sources */,
-				118CB13F296683880022238C /* JSONDecodingTest.swift in Sources */,
 				BF8EC7C829519AA00054CD03 /* DiaryListCell.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
@@ -460,6 +458,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7060D5F6F561B43E2F6C0BF9 /* Pods-DiaryTests.debug.xcconfig */;
 			buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -477,6 +476,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BF3D15C8CA182AFE474C3A80 /* Pods-DiaryTests.release.xcconfig */;
 			buildSettings = {
+                BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
