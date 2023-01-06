@@ -6,7 +6,6 @@
 //
 
 import CoreData
-import Foundation
 import os.log
 import UIKit
 
@@ -20,9 +19,10 @@ struct DiaryDataStore {
     static let shared: DiaryDataStore = DiaryDataStore()
     
     private let persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Diary")
+        let container = NSPersistentContainer(name: Constant.diaryEntityName)
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
+                // noti, kvo
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
@@ -46,18 +46,14 @@ struct DiaryDataStore {
     func fetch(request: NSFetchRequest<Diary>) -> [DiaryData] {
         do {
             let fetchResult = try self.context.fetch(request)
-            var result: [DiaryData] = []
-            fetchResult.forEach {
-                result.append(
-                    DiaryData(
-                        title: $0.title,
-                        body: $0.body,
-                        createdAt: $0.createdAt,
-                        objectID: $0.objectID
-                    )
+            return fetchResult.map {
+                DiaryData(
+                    title: $0.title,
+                    body: $0.body,
+                    createdAt: $0.createdAt,
+                    objectID: $0.objectID
                 )
             }
-            return result
         } catch {
             logger.error("\(error.localizedDescription)")
             return []

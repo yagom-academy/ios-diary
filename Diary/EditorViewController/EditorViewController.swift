@@ -142,15 +142,22 @@ final class EditorViewController: UIViewController {
     
     private func tappedDeleteAction(_ sender: UIAlertAction) {
         let alert = UIAlertController(
-            title: AlertMessage.deleteTitle.localized,
-            message: AlertMessage.deleteMessage.localized,
+            title: UIAlertController.alertMessage(key: .deleteTitle),
+            message: UIAlertController.alertMessage(key: .deleteMessage),
             preferredStyle: .alert
         )
-        let cancel = UIAlertAction(title: AlertMessage.cancel.localized, style: .default)
-        let delete = UIAlertAction(title: AlertMessage.delete.localized, style: .destructive, handler: deleteDiary)
-        
+        let cancel = UIAlertAction(
+            title: UIAlertController.alertMessage(key: .cancel),
+            style: .default
+        )
+        let delete = UIAlertAction(
+            title: UIAlertController.alertMessage(key: .delete),
+            style: .destructive,
+            handler: deleteDiary
+        )
+
         [cancel, delete].forEach { alert.addAction($0) }
-        
+
         present(alert, animated: true)
     }
     
@@ -180,17 +187,18 @@ extension EditorViewController {
             message: nil,
             preferredStyle: .actionSheet
         )
+        
         let share = UIAlertAction(
-            title: AlertMessage.share.localized + AlertMessage.ellipsis,
+            title: UIAlertController.alertMessage(key: .share, withEllipsis: true),
             style: .default,
             handler: tappedShareAction
         )
         let delete = UIAlertAction(
-            title: AlertMessage.delete.localized,
+            title: UIAlertController.alertMessage(key: .delete),
             style: .destructive,
             handler: tappedDeleteAction
         )
-        let cancel = UIAlertAction(title: AlertMessage.cancel.localized, style: .cancel)
+        let cancel = UIAlertAction(title: UIAlertController.alertMessage(key: .cancel), style: .cancel)
         
         [share, delete, cancel].forEach { alert.addAction($0) }
         

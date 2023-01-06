@@ -7,4 +7,4 @@
 
 import CoreData
 
-public class Diary: NSManagedObject { }
+class Diary: NSManagedObject { }

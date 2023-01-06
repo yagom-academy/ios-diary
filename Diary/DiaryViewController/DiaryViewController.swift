@@ -97,7 +97,7 @@ extension DiaryViewController: UITableViewDelegate {
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(
             style: .destructive,
-            title: AlertMessage.delete.localized
+            title: UIAlertController.alertMessage(key: .delete)
         ) { (_, _, completionHandler) in
             let diary = self.diaryContents[indexPath.row]
             self.diaryContents.remove(at: indexPath.row)
@@ -109,7 +109,7 @@ extension DiaryViewController: UITableViewDelegate {
         
         let shareAction = UIContextualAction(
             style: .normal,
-            title: AlertMessage.share.localized
+            title: UIAlertController.alertMessage(key: .share)
         ) { (_, _, completionHandler) in
             let diary = self.diaryContents[indexPath.row]
             let title = (diary.title ?? "")
