@@ -46,7 +46,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     
     private let weatherImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "plus")
+        imageView.image = nil
         
         return imageView
     }()
@@ -54,6 +54,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
     private let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body, compatibleWith: .none)
+        
         return label
     }()
     
@@ -100,8 +101,12 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         DispatchQueue.main.async {
             self.titleLabel.text = diary.title
             self.dateLabel.text = diary.createdAt.convertDate()
-            self.weatherImageView.loadView(imageID: diary.weatherIconID)
             self.bodyLabel.text = diary.body
+            
+            if diary.weatherIconID.isEmpty { return }
+            
+            self.weatherImageView.loadView(imageID: diary.weatherIconID)
+            
         }
     }
 }

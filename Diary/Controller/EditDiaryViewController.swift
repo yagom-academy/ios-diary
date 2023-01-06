@@ -123,21 +123,16 @@ final class EditDiaryViewController: UIViewController {
             let newDiary: DiaryModel = createDiaryModel()
             try CoreDataMananger.shared.update(diary: newDiary)
             self.diaryModel = newDiary
+        } catch let error as DiaryError where error == DiaryError.updateFailed {
+            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.updateFailed.alertTitle,
+                                                          message: DiaryError.updateFailed.alertMessage,
+                                                          actionTitle: "확인"), animated: true)
+        } catch let error as DiaryError where error == DiaryError.saveContextFailed {
+            self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
+                                                          message: DiaryError.saveContextFailed.alertMessage,
+                                                          actionTitle: "확인"), animated: true)
         } catch {
-            switch error {
-            case DiaryError.updateFailed:
-                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.updateFailed.alertTitle,
-                                                              message: DiaryError.updateFailed.alertMessage,
-                                                              actionTitle: "확인"),
-                             animated: true)
-            case DiaryError.saveContextFailed:
-                self.present(ErrorAlert.shared.showErrorAlert(title: DiaryError.saveContextFailed.alertTitle,
-                                                              message: DiaryError.saveContextFailed.alertMessage,
-                                                              actionTitle: "확인"),
-                             animated: true)
-            default:
-                print(error.localizedDescription)
-            }
+            print(error.localizedDescription)
         }
     }
     

@@ -101,11 +101,10 @@ final class DiaryListViewController: UIViewController {
                 guard let weatherMain = data.weather.first?.main,
                       let weatherIconID = data.weather.first?.icon else { return }
                 
-                let diaryModel = DiaryModel(weatherMain: weatherMain, weatherIconID: weatherIconID)
-                
-                self.insertDefaultDiary(diaryModel)
-            case .failure(let error):
-                print(error.localizedDescription)
+                self.insertDefaultDiary(DiaryModel(weatherMain: weatherMain,
+                                                   weatherIconID: weatherIconID))
+            case .failure:
+                self.insertDefaultDiary(DiaryModel())
             }
         }
     }
