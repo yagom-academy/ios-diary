@@ -7,7 +7,7 @@
 2. [기능 소개](#-기능-소개)
 3. [Diagram](#-diagram)
 4. [폴더 구조](#-폴더-구조)
-5. [타임 라인](#-타임라인)  
+5. [타임 라인](#-타임라인)
 6. [프로젝트에서 경험하고 배운 것](#-프로젝트에서-경험하고-배운-것)
 7. [트러블 슈팅](#-트러블-슈팅)
 8. [참고 링크](#-참고-링크)
@@ -27,15 +27,15 @@
 - **📝 Git Commit Convention**
     **깃모지 사용**
 
-    | 이모지 | 설명 |
-    | :---: | :---: |
-    | 🎉 | 프로젝트 시작 |
-    | 💄 | UI 관련 업데이트 |
-    | ✨ | 새로운 기능 추가 |
-    | ♻️ | 코드 리팩토링 |
-    | 🐛 | 버그 수정 |
-    | 🧱 | 프로젝트 구조 변경 |
-    | 📝 | 문서 변경 |
+    | 이모지 | 설명 | 이모지 | 설명 |
+    | :---: | :---: | :---: | :---: |
+    | 🎉 | 프로젝트 시작 | ♻️ | 코드 리팩토링 |
+    | 💄 | UI 관련 업데이트 | 🐛 | 버그 수정 |
+    | ✨ | 새로운 기능 추가 | 🧱 | 프로젝트 구조 변경 |
+    | 📝 | 문서 변경 |🧪|테스트 코드 작성|
+    
+
+    
 
 - **📢 학습 공유**
     프로젝트 시작 전 스크럼 하기스크럼 내용 : 오늘 하루 컨디션, 특이사항, 어제 학습한 내용 공유
@@ -44,55 +44,75 @@
     오후 9시 팔굽혀펴기 100개 하기
 
 ## 🛠 기능 소개
-|<img src="https://i.imgur.com/WHLc5YI.gif" width=180>|<img src="https://i.imgur.com/xt3uYMi.gif" width=180>|<img src="https://i.imgur.com/aL8XvXC.gif" width=180>|<img src="https://i.imgur.com/SvxnfhT.gif" width=180>|
-|:-:|:-:|:-:|:-:|
-|일기장 리스트 및 작성 화면|일기장 삭제|일기장 공유|지역화 설정 변경 시 화면|
+|<img src="https://i.imgur.com/WHLc5YI.gif" width=180>|<img src="https://i.imgur.com/xt3uYMi.gif" width=180>|<img src="https://i.imgur.com/gWwwLXT.gif" width=180>|
+|:-:|:-:|:-:|
+|일기장 리스트 및 작성 화면|일기장 삭제|날씨 저장|
+
+|<img src="https://i.imgur.com/aL8XvXC.gif" width=180>|<img src="https://i.imgur.com/SvxnfhT.gif" width=180>|<img src="https://i.imgur.com/BpxxMFC.gif" width=180>|
+|:-:|:-:|:-:|
+|일기장 공유|지역화 설정 변경 시 화면|다크 모드|
 
 ## 👀 Diagram
+### CoreData 관련 UML
+![CoreDataUML](https://i.imgur.com/QxlLbi1.jpg)
 
-
+### Network 관련 UML
+![NetworkUML](https://i.imgur.com/cDTN0KY.jpg)
 
 ## 🗂 폴더 구조
 ```bash
 ├── Resources
-│   ├── AppDelegate.swift
 │   ├── Assets.xcassets
 │   ├── Base.lproj
 │   ├── Diary.xcdatamodeld
+│   │   ├── Diary V2.xcdatamodel
+│   │   └── Diary.xcdatamodel
 │   ├── Info.plist
+│   ├── MappingModelV1ToV2.xcmappingmodel
 │   ├── SceneDelegate.swift
-│   ├── en.lproj
-│   │   └── Localizable.strings
-│   └── ko.lproj
-│       ├── LaunchScreen.strings
-│       └── Localizable.strings
 └── Sources
-    ├── Controller
-    │   ├── DiaryDetailViewController.swift
-    │   └── DiaryListViewController.swift
-    ├── CoreDataManager.swift
-    ├── Extensions
-    │   ├── Date+.swift
-    │   ├── TimeInterval+.swift
-    │   ├── UIAlertAction+.swift
-    │   ├── UIAlertController+.swift
-    │   ├── UIFont+.swift
-    │   ├── UINavigationController+.swift
-    │   ├── UINavigationItem+.swift
-    │   └── UIView+.swift
-    ├── Model
-    │   ├── Diary.swift
-    │   └── Utility
-    │       ├── Constant.swift
-    │       └── LocalizedConstant.swift
-    └── View
-        └── DiaryListViews
-            ├── DiaryContentConfiguration.swift
-            ├── DiaryListCell.swift
-            └── DiaryListCellContentView.swift
+│   ├── CacheManager.swift
+│   ├── Controller
+│   │   ├── DiaryDetailViewController.swift
+│   │   └── DiaryListViewController.swift
+│   ├── CoreDataManager.swift
+│   ├── Extensions
+│   │   ├── Date+.swift
+│   │   ├── TimeInterval+.swift
+│   │   ├── UIAlertAction+.swift
+│   │   ├── UIAlertController+.swift
+│   │   ├── UIFont+.swift
+│   │   ├── UINavigationController+.swift
+│   │   ├── UINavigationItem+.swift
+│   │   ├── UITextField+.swift
+│   │   ├── UITextView+.swift
+│   │   └── UIView+.swift
+│   ├── Model
+│   │   ├── Diary.swift
+│   │   ├── Networking
+│   │   │   ├── ImageLoader.swift
+│   │   │   ├── NetworkError.swift
+│   │   │   ├── NetworkManager.swift
+│   │   │   └── Requesting.swift
+│   │   ├── Utility
+│   │   │   ├── Constant.swift
+│   │   │   └── LocalizedConstant.swift
+│   │   └── WeatherEntity.swift
+│   └── View
+│       └── DiaryListViews
+│           ├── DiaryContentConfiguration.swift
+│           ├── DiaryListCell.swift
+│           └── DiaryListCellContentView.swift
+└── DiaryTests
+     ├── StubNetworking
+     │   ├── Mockable.swift
+     │   ├── StubNetworkManager.swift
+     │   └── StubURLSession.swift
+     └── WeatherAPITests.swift
+
 ```
 
-## ⏰ 타임라인  
+## ⏰ 타임라인
 #### STEP 1
 |날짜|구현 내용|
 |--|--| 
@@ -106,6 +126,13 @@
 |22.12.26|셀이 눌렸을 때 화면 전환, 셀 삭제 기능 구현, UIAlertController rngus|
 |22.12.27|코어데이터 구현, 공유 기능 추가|
 |22.12.28|전체적인 컨벤션 수정, 메서드 역할 분리, **PR 발송**|
+#### STEP 3
+|날짜|구현 내용|
+|--|--|
+|23.01.02|메서드 네이밍 및 구조 리팩토링|
+|23.01.03|Core Location 및 네트워킹 구현|
+|23.01.04|네트워킹 테스트 코드 작성, 코어데이터 마이그레이션 구현|
+|23.01.05|이미지 캐싱, 에러 핸들링 구현, **PR 발송**|
 
 ## ✅ 프로젝트에서 경험하고 배운 것
 - UITableViewDiffableDataSource
@@ -217,6 +244,13 @@ let alert = UIAlertController(
         ...
 ```
 
+### STEP 3
+#### Request 타입 구현에 대한 고민
+enum 타입을 이용해서 다양한 API에 대해서 URLRequest를 생성해 주려고 하였습니다. 다만 이렇게 구현하였을 때 Requset가 추가되었을 때 기존의 코드를 변경하여야 하고 이는 `개방 폐쇄 원칙` 중 변경에 폐쇄적이지 못하다고 생각했습니다. 그래서 변경에 폐쇄적인 부분을 더 가질 수 있도록 protocol과 struct를 통해서 구현하였습니다.
+
+#### 네트워킹 객체에 대한 고민
+네트워크에 대한 다양한 API를 사용할 수 있는 공통적인 함수를 구성하는데 많은 고민을 했습니다. 그래서 프로토콜을 구성하고, 이를 통해서 다양한 네트워크를 관리할 수 있는 타입을 구성할 수 있도록 했습니다. 또한 제네릭을 활용하여서 다양한 네트워크 매니저가 공통된 함수를 활용하여서 네트워킹을 할 수 있도록 하고, 이에 대해서 유연한 코드를 만들 수 있었습니다. 하지만, 이를 통해서 실질적인 네트워킹을 하는 않는 테스트 코드를 작성하는데 어려운 부분이 있었습니다. 테스트 코드를 기존 프로토콜을 채택하는 Stub한 타입을 구성하여서 테스트를 하려고 하였지만, 테스트 코드의 목적을 네트워킹을 하는 로직에 대해서 테스트하는 것이라고 생각하였기 때문에 Stub한 URLSession을 구현할 수 있도록 하여서 테스트 하였습니다.
+
 ## 🚀 트러블 슈팅
 
 ### STEP 1
@@ -267,7 +301,7 @@ func anchor(
 #### 많은 `guard let`의 사용
 `DiaryDetailViewController`에서 textField, textView의 text를 다루는데 해당 프로퍼티의 타입이 optional이기 때문에 각 메서드들에서 두 text프로퍼티를 옵셔널 바인딩하는 코드가 중복되어서 나타났습니다. textField와 textView에 아무런 입력이 없을 때 text 프로퍼티는 nil이 아닌 빈 문자열을 가지고 있기 때문에 UITextField와 UITextView를 extension하여 text의 옵셔널을 해제하여 리턴하는 프로퍼티를 정의하여 `DiaryDetailViewController`에서 중복되는 옵셔널 바인딩을 줄여보았습니다.
 
-### 코어데이터의 Response와 앱에서 사용할 데이터의 분리
+#### 코어데이터의 Response와 앱에서 사용할 데이터의 분리
 코어 데이터를 데이터 베이스와 동일한 측면으로 생각하게 되면, 네트워킹을 통해서 받아오는 원천 데이터로 생각하였습니다. 원천 데이터를 직접적으로 뷰에 보여주는 것을 적절하지 않고 의도치 않은 수정이 바로 반영이 될 수 있는 점에서 위험하다고 생각하였습니다. 그래서 코어 데이터를 통해서 받아오는 데이터를 가공하여서 뷰에 보여줄 데이터를 따로 구성하였습니다. 또한, 위와 같이 구성하면서 모든 타입이 옵셔널을 사용할 수 없도록 하였습니다.
 
 ## 🔗 참고 링크
@@ -277,6 +311,7 @@ func anchor(
 [UISwipeActionsConfiguration](https://developer.apple.com/documentation/uikit/uiswipeactionsconfiguration)
 [UIContextualAction](https://developer.apple.com/documentation/uikit/uicontextualaction)
 [Core Data](https://developer.apple.com/documentation/coredata)
+[Core Location](https://developer.apple.com/documentation/corelocation)
 
 [WWDC]
 [Modern Cell Configuration](https://developer.apple.com/videos/play/wwdc2020/10027/)
