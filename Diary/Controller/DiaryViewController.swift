@@ -33,11 +33,12 @@ final class DiaryViewController: UIViewController {
         return stackView
     }()
 
-    private let scrollView: DiaryScrollView = {
-        let scrollView = DiaryScrollView()
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         scrollView.keyboardDismissMode = .interactive
+        scrollView.alwaysBounceVertical = true
 
         return scrollView
     }()
@@ -233,7 +234,7 @@ final class DiaryViewController: UIViewController {
 
 extension DiaryViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n", textView == titleTextView {
+        if text == "\n", textView == titleTextView, bodyTextView.text.isEmpty {
             bodyTextView.becomeFirstResponder()
         }
 
