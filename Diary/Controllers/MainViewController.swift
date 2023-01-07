@@ -102,9 +102,10 @@ extension MainViewController {
                                       key: NSString,
                                       indexPath: IndexPath) {
         guard let image = UIImage(data: data) else { return }
+        self.imageCacheManager.setObject(image, forKey: key)
+        
         DispatchQueue.main.async {
             if indexPath == self.mainDiaryView.collectionView.indexPath(for: cell) {
-                self.imageCacheManager.setObject(image, forKey: key)
                 cell.setupImage(image: image)
             }
         }
@@ -131,10 +132,12 @@ extension MainViewController {
                                                       key: cacheKey,
                                                       indexPath: indexPath)
                         case .failure(let error):
-                            self.showCustomAlert(alertText: error.localizedDescription,
-                                                 alertMessage: "",
-                                                 useAction: true,
-                                                 completion: nil)
+                            DispatchQueue.main.async {
+                                self.showCustomAlert(alertText: error.localizedDescription,
+                                                     alertMessage: "",
+                                                     useAction: true,
+                                                     completion: nil)
+                            }
                         }
                     }
                 }

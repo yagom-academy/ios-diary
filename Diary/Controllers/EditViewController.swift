@@ -182,9 +182,8 @@ extension EditViewController {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
-        [shareAction, deleteAction, cancelAction].forEach {
-            alert.addAction($0)
-        }
+        [shareAction, deleteAction, cancelAction].forEach(alert.addAction(_:))
+        
         self.present(alert, animated: true)
     }
 }
@@ -237,11 +236,10 @@ extension EditViewController: CLLocationManagerDelegate {
             UIApplication.shared.open(settingURL)
         }
         let cancelAction = UIAlertAction(title: "취소", style: .destructive)
+
+        [cancelAction, conformAction].forEach(alert.addAction(_:))
         
-        alert.addAction(cancelAction)
-        alert.addAction(conformAction)
-        
-        present(alert, animated: true)
+        self.present(alert, animated: true)
     }
 }
 
