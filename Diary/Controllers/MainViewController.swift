@@ -79,7 +79,18 @@ extension MainViewController: UICollectionViewDelegate {
         let currentDiary = CurrentDiary(id: item.id,
                                         contentText: item.contentText,
                                         createdAt: item.createdAt)
-        let addViewController = EditViewController(currentDiaryData: currentDiary, iconID: iconID)
+        
+        guard let id = iconID else {
+            let addViewController = EditViewController(currentDiaryData: currentDiary)
+            self.navigationController?.pushViewController(addViewController, animated: true)
+            return
+        }
+        
+        let cacheKey = NSString(string: id)
+        let cacheImage = self.imageCacheManager.object(forKey: cacheKey)
+        let addViewController = EditViewController(currentDiaryData: currentDiary,
+                                                   iconImage: cacheImage)
+        
         self.navigationController?.pushViewController(addViewController, animated: true)
     }
 }
@@ -107,6 +118,7 @@ extension MainViewController {
             
             if let iconID = diaryData.weather?.iconID {
                 let cacheKey = NSString(string: iconID)
+                
                 if let cacheImage = self.imageCacheManager.object(forKey: cacheKey) {
                     cell.setupImage(image: cacheImage)
                 } else {

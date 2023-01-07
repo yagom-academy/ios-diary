@@ -17,6 +17,7 @@ final class EditViewController: UIViewController {
     private let coreDataManager = CoreDataManager.shared
     private let currentDate = Date()
     
+    private var iconImage: UIImage?
     private var currentDiaryData = CurrentDiary()
     private var currentWeatherData = CurrentWeather()
     private var locationManager: CLLocationManager?
@@ -41,13 +42,10 @@ final class EditViewController: UIViewController {
                                                        alignment: .center,
                                                        distribution: .fill)
     
-    init(currentDiaryData: CurrentDiary = CurrentDiary(), iconID: String? = nil) {
+    init(currentDiaryData: CurrentDiary = CurrentDiary(), iconImage: UIImage? = nil) {
         super.init(nibName: nil, bundle: nil)
         self.currentDiaryData = currentDiaryData
-        self.currentWeatherData.iconID = iconID
-        if iconID != nil {
-            setupNavigationIcon()
-        }
+        self.iconImage = iconImage
     }
     
     required init?(coder: NSCoder) {
@@ -83,15 +81,9 @@ final class EditViewController: UIViewController {
         
         navigationItem.rightBarButtonItem = rightBarButtonItem
         navigationItem.titleView = navigationStackView
-    }
-    
-    private func setupNavigationIcon() {
-        fetchIconImage(currentWeatherData: self.currentWeatherData) { image in
-            DispatchQueue.main.async {
-                self.navigationImageView.image = image
-            }
-        }
-        navigationItem.titleView = navigationStackView
+        
+        guard let iconImage = iconImage else { return }
+        navigationImageView.image = iconImage
     }
     
     private func addNotification() {
@@ -229,21 +221,6 @@ extension EditViewController: CLLocationManagerDelegate {
 
 // MARK: - Network
 extension EditViewController {
-    private func fetchIconImage(currentWeatherData: CurrentWeather,
-                                completion: @escaping (UIImage) -> Void) {
-        guard let iconID = currentWeatherData.iconID else { return }
-        let url = NetworkRequest.loadImage(id: iconID).generateURL()
-        networkManager.fetchData(url: url) { result in
-            switch result {
-            case .success(let data):
-                guard let image = UIImage(data: data) else { return }
-                completion(image)
-            case .failure(_):
-                return
-            }
-        }
-    }
-    
     private func saveWeatherData(url: URL?) {
         guard let url = url else { return }
         networkManager.fetchData(url: url) { result in
@@ -268,15 +245,32 @@ extension EditViewController {
             guard let weatherData = data.weather.first else { return }
             self.currentWeatherData.iconID = weatherData.icon
             self.currentWeatherData.main = weatherData.main
-            DispatchQueue.main.async {
-                self.setupNavigationIcon()
+            fetchIconImage(currentWeatherData: currentWeatherData) { image in
+                DispatchQueue.main.async {
+                    self.iconImage = image
+                    self.navigationImageView.image = image
+                }
             }
-            
         case .failure(let error):
             self.showCustomAlert(alertText: error.localizedDescription,
                                  alertMessage: "디코딩 에러발생하였습니다..",
                                  useAction: true,
                                  completion: nil)
+        }
+    }
+    
+    private func fetchIconImage(currentWeatherData: CurrentWeather,
+                                completion: @escaping (UIImage) -> Void) {
+        guard let iconID = currentWeatherData.iconID else { return }
+        let url = NetworkRequest.loadImage(id: iconID).generateURL()
+        networkManager.fetchData(url: url) { result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else { return }
+                completion(image)
+            case .failure(_):
+                return
+            }
         }
     }
 }
