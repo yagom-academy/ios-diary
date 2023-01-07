@@ -202,7 +202,17 @@ extension EditViewController: CLLocationManagerDelegate {
             locationManager = CLLocationManager()
             locationManager?.delegate = self
             
-            locationManager?.requestWhenInUseAuthorization()
+            switch locationManager?.authorizationStatus {
+            case .denied:
+                showLocationAlert()
+            case .notDetermined, .restricted:
+                locationManager?.requestWhenInUseAuthorization()
+            case .authorizedAlways, .authorizedWhenInUse:
+                break
+            default:
+                break
+            }
+            
             locationManager?.desiredAccuracy = kCLLocationAccuracyBest
             locationManager?.startUpdatingLocation()
         }
@@ -216,6 +226,22 @@ extension EditViewController: CLLocationManagerDelegate {
             
         }
         locationManager?.stopUpdatingLocation()
+    }
+    
+    private func showLocationAlert() {
+        let alert = UIAlertController(title: "위치 권한 요청",
+                                      message: "위치 권한을 허용 하시겠습니까?",
+                                      preferredStyle: .alert)
+        let conformAction = UIAlertAction(title: "허용", style: .default) { _ in
+            guard let settingURL = URL(string: UIApplication.openSettingsURLString) else { return }
+            UIApplication.shared.open(settingURL)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .destructive)
+        
+        alert.addAction(cancelAction)
+        alert.addAction(conformAction)
+        
+        present(alert, animated: true)
     }
 }
 
