@@ -1,14 +1,21 @@
 //
-//  AlertControllerManager.swift
+//  AlertPresentable.swift
 //  Diary
 //  Created by inho, dragon on 2022/12/28.
 //
 
 import UIKit
 
-struct AlertControllerManager {
-    func createActionSheet(_ shareHandler: @escaping () -> Void,
-                           _ deleteHandler: @escaping () -> Void) -> UIAlertController {
+protocol AlertPresentable: UIViewController {
+    func presentActionSheet(_ shareHandler: @escaping () -> Void,
+                            _ deleteHandler: @escaping () -> Void)
+    func presentDeleteAlert(_ deleteHandler: @escaping () -> Void)
+    func presentErrorAlert(_ error: Error)
+}
+
+extension AlertPresentable {
+    func presentActionSheet(_ shareHandler: @escaping () -> Void,
+                            _ deleteHandler: @escaping () -> Void) {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: NameSpace.shareTitle, style: .default) { _ in
             shareHandler()
@@ -22,10 +29,10 @@ struct AlertControllerManager {
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
         
-        return actionSheet
+        present(actionSheet, animated: true)
     }
     
-    func createDeleteAlert(_ deleteHandler: @escaping () -> Void) -> UIAlertController {
+    func presentDeleteAlert(_ deleteHandler: @escaping () -> Void) {
         let alert = UIAlertController(
             title: NameSpace.alertTitle,
             message: NameSpace.alertMessage,
@@ -46,10 +53,10 @@ struct AlertControllerManager {
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
         
-        return alert
+        present(alert, animated: true)
     }
     
-    func createErrorAlert(_ error: Error) -> UIAlertController {
+    func presentErrorAlert(_ error: Error) {
         let alert = UIAlertController(
             title: nil,
             message: error.localizedDescription,
@@ -62,7 +69,7 @@ struct AlertControllerManager {
         
         alert.addAction(okAction)
         
-        return alert
+        present(alert, animated: true)
     }
 }
 

@@ -28,10 +28,16 @@ class CustomDiaryCell: UITableViewCell {
         label.setContentHuggingPriority(.required, for: .horizontal)
         return label
     }()
+    private let weatherImageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.setContentCompressionResistancePriority(.required, for: .horizontal)
+        return image
+    }()
     private let bottomStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 10
+        stackView.spacing = 5
         return stackView
     }()
     private let totalStackView: UIStackView = {
@@ -64,20 +70,26 @@ class CustomDiaryCell: UITableViewCell {
         titleLabel.text = nil
         bodyLabel.text = nil
         dateLabel.text = nil
+        weatherImageView.image = nil
     }
     
     // MARK: Internal Methods
     
-    func configureCell(with diary: Diary) {
+    func configureCellText(with diary: Diary) {
         titleLabel.text = diary.title
         bodyLabel.text = diary.body
         dateLabel.text = diary.createdDate
+    }
+    
+    func configureCellIcon(image: UIImage) {
+        weatherImageView.image = image
     }
     
     // MARK: Private Methods
     
     private func setUpStackView() {
         bottomStackView.addArrangedSubview(dateLabel)
+        bottomStackView.addArrangedSubview(weatherImageView)
         bottomStackView.addArrangedSubview(bodyLabel)
         
         totalStackView.addArrangedSubview(titleLabel)
@@ -103,6 +115,14 @@ class CustomDiaryCell: UITableViewCell {
             totalStackView.bottomAnchor.constraint(
                 equalTo: contentView.bottomAnchor,
                 constant: -10
+            ),
+            weatherImageView.widthAnchor.constraint(
+                equalTo: contentView.widthAnchor,
+                multiplier: 0.05
+            ),
+            weatherImageView.heightAnchor.constraint(
+                equalTo: weatherImageView.widthAnchor,
+                multiplier: 1
             )
         ])
     }

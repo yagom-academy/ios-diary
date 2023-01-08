@@ -5,6 +5,7 @@
 //
 
 import CoreData
+import CoreLocation
 import UIKit
 
 final class DiaryFormViewController: UIViewController {
@@ -12,8 +13,9 @@ final class DiaryFormViewController: UIViewController {
     
     private let diaryFormView = DiaryFormView()
     private var selectedDiary: Diary?
-    private let alertControllerManager = AlertControllerManager()
-    private let activityControllerManager = ActivityControllerManager()
+    private var weather: Weather?
+    private let locationManager = CLLocationManager()
+    private var weatherManager = WeatherManager()
     
     // MARK: Initializer
     
@@ -39,6 +41,7 @@ final class DiaryFormViewController: UIViewController {
         view.backgroundColor = .white
         configureDiaryViewLayout()
         configureNavigationBar()
+        configureCoreLocation()
         setUpNotification()
     }
     
@@ -119,43 +122,39 @@ final class DiaryFormViewController: UIViewController {
             body: body,
             createdAt: Int(Date().timeIntervalSince1970),
             totalText: diaryFormView.diaryTotalText,
-            id: uuid
+            id: uuid,
+            iconName: weather?.icon ?? ""
         )
-
+        
         return diary
+    }
+    
+    private func configureCoreLocation() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
     }
     
     private func showDeleteAlert() {
         guard let diary = selectedDiary else { return }
         
-        present(
-            alertControllerManager.createDeleteAlert({
-                self.delete(diary: diary)
-                self.navigationController?.popViewController(animated: true)
-            }),
-            animated: true
-        )
+        presentDeleteAlert({
+            self.delete(diary: diary)
+            self.navigationController?.popViewController(animated: true)
+        })
     }
     
     private func showActivityController() {
         let totalText = diaryFormView.diaryTotalText
         if !totalText.isEmpty {
-            present(
-                activityControllerManager.showActivity(textToShare: totalText),
-                animated: true,
-                completion: nil
-            )
+            presentActivity(textToShare: totalText)
         }
     }
     
     // MARK: Action Methods
     
     @objc private func showActionSheet() {
-        present(
-            alertControllerManager.createActionSheet(showActivityController, showDeleteAlert),
-            animated: true,
-            completion: nil
-        )
+        presentActionSheet(showActivityController, showDeleteAlert)
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
@@ -173,10 +172,7 @@ extension DiaryFormViewController: CoreDataProcessable {
         case .success(_):
             break
         case .failure(let error):
-            present(
-                alertControllerManager.createErrorAlert(error),
-                animated: true
-            )
+            presentErrorAlert(error)
         }
     }
     
@@ -187,10 +183,7 @@ extension DiaryFormViewController: CoreDataProcessable {
         case .success(_):
             break
         case .failure(let error):
-            present(
-                alertControllerManager.createErrorAlert(error),
-                animated: true
-            )
+            presentErrorAlert(error)
         }
     }
     
@@ -201,11 +194,35 @@ extension DiaryFormViewController: CoreDataProcessable {
         case .success(_):
             break
         case .failure(let error):
-            present(
-                alertControllerManager.createErrorAlert(error),
-                animated: true
-            )
+            presentErrorAlert(error)
         }
+    }
+}
+
+// MARK: - AlertPresentable
+
+extension DiaryFormViewController: AlertPresentable {}
+
+// MARK: - ActivityPresentable
+
+extension DiaryFormViewController: ActivityPresentable {}
+
+// MARK: - CLLocationManagerDelegate
+extension DiaryFormViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.last {
+            locationManager.stopUpdatingLocation()
+            let latitude = location.coordinate.latitude
+            let longitude = location.coordinate.longitude
+            
+            weatherManager.fetchWeather(latitude: latitude, longitude: longitude) { weather in
+                self.weather = weather
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
     }
 }
 
