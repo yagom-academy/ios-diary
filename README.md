@@ -1,23 +1,22 @@
 # Diary ReadME
-
 - Kyo와 Baem가 만든 Diary App입니다.
+- 텍스트 기능을 구현 할 때, 아이폰 `메모` 앱의 텍스트 입력 로직을 참고하였습니다.
 
 ## 목차
 1. [팀 소개](#팀-소개)
 2. [GroundRule](#ground-rule)
 3. [Code Convention](#code-convention)
 4. [실행 화면](#실행-화면)
-5. [Diagram](#diagram)
-6. [폴더 구조](#폴더-구조)
-7. [타임라인](#타임라인)
-8. [기술적 도전](#기술적-도전)
-9. [트러블 슈팅 및 고민](#트러블-슈팅-및-고민)
-10. [참고 링크](#참고-링크)
+5. [폴더 구조](#폴더-구조)
+6. [타임라인](#타임라인)
+7. [기술적 도전](#기술적-도전)
+8. [트러블 슈팅 및 고민](#트러블-슈팅-및-고민)
+9. [참고 링크](#참고-링크)
 
 
 ## 팀 소개
- |[Kyo](https://github.com/KyoPak)|[Baem](https://github.com/Dylan-yoon)|
- |:---:|:---:|
+|[Kyo](https://github.com/KyoPak)|[Baem](https://github.com/Dylan-yoon)|
+|:---:|:---:|
 | <img width="180px" img style="border: 2px solid lightgray; border-radius: 90px;-moz-border-radius: 90px;-khtml-border-radius: 90px;-webkit-border-radius: 90px;" src= "https://user-images.githubusercontent.com/59204352/193524215-4f9636e8-1cdb-49f1-9a17-1e4fe8d76655.PNG" >|<img width="180px" img style="border: 2px solid lightgray; border-radius: 90px;-moz-border-radius: 90px;-khtml-border-radius: 90px;-webkit-border-radius: 90px;" src= https://i.imgur.com/jrW5RQj.png>|
 
 ## Ground Rule
@@ -44,40 +43,89 @@
 
 </details>
 
+### ▶️ Step-2 실행화면
 
-## Diagram
+<details>
+<summary> 
+펼쳐보기
+</summary>
 
-### Class Diagram
+|**미 입력**|**일기생성**|**Background 진입시 저장**|
+|:---:|:---:|:---:|
+|<img width = 600, src = https://i.imgur.com/JDS28lP.gif >|<img width = 600, src = https://i.imgur.com/U6RjgRR.gif>|<img width = 600, src = https://i.imgur.com/awPjF8d.gif>|
+|**ActivityController구현**|**스와이프삭제**|**일기내에서 삭제**|
+|<img width = 600, src = https://i.imgur.com/hgE4E9J.gif>|<img width = 600, src = https://i.imgur.com/eispxGL.gif>|<img width = 600, src = https://i.imgur.com/eVl3qBU.gif>|
+    
+</details>
 
-Step2에서 공개예정
 
+ ### ▶️ Step-3 실행화면
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+|**CLLocation의 사용**|**Cell찌그러짐 개선**|
+|:---:|:---:|
+|<img width = 600, src = https://i.imgur.com/eYq0jIx.gif>|<img width = 600, src = https://i.imgur.com/va3mB73.gif>|
+|**AttributeString커서이동 보완**|**DarkMode**|
+|<img width = 600, src = https://i.imgur.com/E9azBaH.gif>|<img width = 600, src = https://i.imgur.com/nvOEatF.gif>|
+</details>
+ 
  
 ## 폴더 구조
 ```
-Diary
-├── AppDelegate.swift
-├── SceneDelegate.swift
-├── Assets.xcassets
-│   ├── Contents.json
-│   └── sample.dataset
-│       ├── Contents.json
-│       └── sample.json
-├── MainViewController.swift
-├── AddViewController.swift
-├── Extensions
-│   ├── Formatter+Extension.swift
-│   └── UIComponent+Extension.swift
-├── Models
-│   ├── DecoderManager.swift
-│   ├── Diary.swift
-│   └── Error.swift
-├── Views
-|    ├── AddDiaryView.swift
-|    ├── DiaryCollectionViewCell.swift
-|    └── MainDiaryView.swift
+├── Diary
+│   ├── AppDelegate.swift
+│   ├── SceneDelegate.swift
+│   ├── Info.plist
+│   ├── Base.lproj
+│   │   └── LaunchScreen.storyboard
+│   ├── Constant
+│   │   └── Error.swift
+│   ├── Extensions
+│   │   ├── Formatter+Extension.swift
+│   │   ├── NSMutableAttributedString+Extension.swift
+│   │   ├── UIComponent+Extension.swift
+│   │   └── UIViewController+Extension.swift
+│   ├── Models
+│   │   ├── CoreData
+│   │   │   └── CoreDataManager.swift
+│   │   ├── CurrentDiary.swift
+│   │   ├── CurrentWeather.swift
+│   │   ├── DecoderManager.swift
+│   │   └── Network
+│   │       ├── NetworkManager.swift
+│   │       ├── NetworkRequest.swift
+│   │       └── WeatherAPIData.swift
+│   ├── Views
+│   |   ├── CustomListCell.swift
+│   |   ├── EditDiaryView.swift
+│   |   └── MainDiaryView.swift
+│   ├── Controllers
+│   │   ├── EditViewController.swift
+│   │   └── MainViewController.swift
+│   ├── MappingModelV2ToV3.xcmappingmodel
+│   │   └── xcmapping.xml
+│   └──Diary.xcdatamodeld
+│       ├── Diary.xcdatamodel
+│       │   └── contents
+│       ├── Diary_v2.xcdatamodel
+│       │   └── contents
+│       ├── Diary_v3.xcdatamodel
+│       │   └── contents
+│       └── MappingModelV2ToV3.xcmappingmodel
+│           └── xcmapping.xml
+├── DiaryData+CoreDataClass.swift
+├── DiaryData+CoreDataProperties.swift
+├── WeatherData+CoreDataClass.swift
+├── WeatherData+CoreDataProperties.swift
+├── MappingModelV2ToV3.xcmappingmodel
+│   └── xcmapping.xml
 ├── Podfile
 ├── Podfile.lock
-└── README.md
+└──README.md
 ```
 
 ##  타임라인
@@ -95,34 +143,105 @@ Diary
 </summary>
     
 1️⃣ MainViewController
-  
-  - 앱 동작 시 가장 먼저 보여주는 View에 대한 `Controller`입니다.
-  - `MainViewController`에서 CollectionView의 DataSource로는 DiffableDataSource를 사용하였습니다.
-  
+- 앱 동작 시 가장 먼저 보여주는 View에 대한 `Controller`입니다.
+- `MainViewController`에서 CollectionView의 DataSource로는 DiffableDataSource를 사용하였습니다.
+    
 2️⃣ AddViewController
-  
-  - Right Navigation Bar Buttond을 클릭했을 때 보여지는 `AddDiaryView`에 대한 `Controller`입니다.
-  - 내부에서 `title`을 설정 언어에 맞는 날짜로 설정하였습니다.
-  
+- Right Navigation Bar Button을 클릭했을 때 보여지는 `AddDiaryView`에 대한 `Controller`입니다.
+- 내부에서 `title`을 설정 언어에 맞는 날짜로 설정하였습니다.
+    
 3️⃣ DecodeManager
-  
-  - 임시데이터인 Json 데이터에 대한 `Decoder`와 decode관련 메서드를 정의한 구조체가 정의된 파일입니다.
+- 임시데이터인 Json 데이터에 대한 `Decoder`와 decode관련 메서드를 정의한 구조체가 정의된 파일입니다.
     
 4️⃣ Diary
-  
-  - 말 그대로 Diary에 대한 데이터이며, `Hashable`을 만족하기 위해 `uuid`를 추가하였습니다.
+- 말 그대로 Diary에 대한 데이터이며, `Hashable`을 만족하기 위해 `uuid`를 추가하였습니다.
 
 </details>
 
+### 👟 Step 2
 
+- ✅ 코어데이터 모델 생성
+- ✅ Swipe를 통한 삭제기능 구현
+- ✅ Swipe를 통한 공유기능 구현
+- ✅ ActivityController 구현
+- ✅ NSMutableAttributeString 활용
+- ✅ UICollectionLayoutListConfiguration 활용
+- ✅ Text View Delegate의 활용
 
-## 기술적 도전
-### ⚙️ ModernCollectionView - CompositionalLayout
 <details>
 <summary> 
 펼쳐보기
 </summary>
-  
+    
+1️⃣ CoreDataManager
+- CoreDataManager에서 CRUD를 구현하였습니다.
+    - Create(Save)
+    - Read(Fetch)
+    - Update
+    - Delete   
+- 위 메서드들을 정의하여 CoreDataManager의 싱글톤 객체에서 호출할 수 있도록 구현하였습니다.
+
+2️⃣ AddViewController ➡️ EditViewController
+- Add, Modify하는 기능의 Controller을 하나의 Controller로 통합하였습니다.
+
+    
+3️⃣ EditDiaryView
+- Add, Modify 화면을 하나의 View로 통합하였습니다.
+
+
+</details>
+
+### 👟 Step 3
+
+- ✅ Open API의 활용
+- ✅ Core Location의 활용
+- ✅ 코어데이터 모델 및 DB 마이그레이션
+- ✅ 코어데이터 모델 Relationship 사용
+- ✅ NSMutableAttributeString 사용
+- ✅ selectedTextRange 사용
+- ✅ NSCache 사용
+- ✅ DarkMode 적용
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+1️⃣ CurrentDiary
+- CoreData의 ManagedObject에 직접 접근하지 않기 위한 Type입니다.
+- 해당 인스턴스를 생성하여 사용자가 입력한 Diary 정보들을 넣고 CoreData 내부에 Save하도록 하였습니다.
+
+2️⃣ CurrentWeather
+
+- CoreData의 ManagedObject에 직접 접근하지 않기 위한 Type입니다.
+- 사용자 Device에 대한 위도 경도를 바탕으로 해당 인스턴스를 생성하여 Open API에서 가져온 날씨에 대한 data와 icon에 대한 data를 넣고 CoreData 내부에 Save하도록 하였습니다.
+    
+3️⃣ NetworkManager
+
+- Server에 데이터를 요청하기 위한 fetchData()가 속해있는 class입니다.
+- 해당 클래스는 여러개 만들 필요가 없다고 생각되어 싱글톤 패턴을 사용하였습니다.
+
+4️⃣ NetworkRequest
+
+- 위도, 경도를 바탕으로 날씨에 대한 data, 날씨 iconID에 대한 data를 받아올 수 있는 URL.
+- 날씨 iconID을 서버에 보내서 해당 ID에 맞는 IconImage를 받아올 수 있는 URL.
+- 위의 2개의 case에 맞는 URL을 얻기 위해 만든 별도의 enum 타입입니다.
+    
+5️⃣ WeatherAPIData  
+
+- 서버에서 받아온 weather 데이터를 디코딩하기 위한 Type입니다.
+    
+</details>
+
+## 기술적 도전
+
+### ⚙️ ModernCollectionView - CompositionalLayout
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
 - 확장성을 위해 CollectionView를 사용하여 TableView를 구성하고자 하였습니다.
 추후에 요구사항이 Grid 형으로 변경되어도 빠른 대응이 가능하다고 생각하였습니다
 - 하지만 개발을 모두 마친 후, 개발 속도를 고려한다면 비교적 쉬운 TableView를 사용하는 것이 빠른 프로젝트 진행에 도움이 될것이라는 생각도 들었습니다.
@@ -135,10 +254,10 @@ Diary
 <summary> 
 펼쳐보기
 </summary>
-  
+    
 - 기존의 DataSource를 경험해보고 새롭게 Diffable Data Source를 사용해보고자 하였습니다.
 - DiffableDataSource의 장점은 데이터 동기화, 데이터 추가, 업데이트, 삭제시 Animate적용이 가능하다는 점 입니다. 
-    또한 기존의 DataSource보다 코드량도 감소시킬수 있다는 점이 있습니다.
+- 또한 기존의 DataSource보다 코드량도 감소시킬수 있다는 점이 있습니다.
 - 그리고 Section마다 다른 데이터들을 적용할 수도 있다는 점이 장점이라고 생각합니다.
 - DiffableDataSource를 적용해보면서 코드의 길이가 길어지는 부분은 typealias를 활용하였습니다.
 - 아직 Animation을 적용하는 부분이 많지 않아 기존 DataSource와 비교해서 장점에 대한 체감은 못하고 있습니다.
@@ -152,7 +271,7 @@ Diary
 <summary> 
 펼쳐보기
 </summary>
-  
+    
 - 새로운 Diary를 추가 할 때 지역에 맞는 날짜, 날짜 표기법을 수동적으로 선택해주는 것이 아닌 자동적으로 반환해주기 위해 DataFormatter를 추가해 주었습니다.
 - 사용자의 기기 preferredLanguage에 따라 날짜의 표기방법이 자동으로 변경되도록 구현하였습니다.. (세계화, Internationalization)
 - 사용자의 위치에 따라 날짜가 변할 수 있도록, `Locale`을 활용하여 Localization(지역화)를 해주었습니다.
@@ -172,6 +291,89 @@ extension Formatter {
     
 </details> 
 
+### ⚙️ Swipe 
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+- 각 메인화면의 List의 Cell을 Swipe시 Share, Delete할 수 있는 기능이 필요하였습니다.
+- Diary App에서 `UICollectionLayoutListConfiguration`를 사용하였기 때문에 `UISwipeActionsConfiguration`를 `configuration.trailingConfiguration`에 추가해주었습니다.
+    
+```swift
+    var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        configuration.trailingSwipeActionsConfigurationProvider = .some({ indexPath in
+            self.delegate?.makeSwipeActions(for: indexPath)
+        })
+```
+- 그리고 ShareAction, DeleteAction을 추가 구현해주었습니다.
+    
+</details> 
+
+### ⚙️ NSMutableAttributedString 사용
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+- `NSMutableAttributedString`은 문자열의 특정 부분에 원하는 속성을 주고 싶을 때 사용하는 객체입니다. 특정 문자열만 다른 폰트, 다른 Color을 부여할 수 있습니다.
+- 하나의 TextView에서 첫줄(Title)의 Text과 그 이외의 Text를 다른 Font를 적용하고자 하였습니다.
+- 또한 AttributeString을 사용함에 따라 커서의 맨마지막으로 이동됨에 따라 `selectedTextRange`를 사용하여 올바른 커서의 위치로 이동시켜주었습니다.
+    
+</details> 
+
+### ⚙️ CoreData Migration, Relationship
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+- CoreData에 WeatherData 추가가 필요했기 때문에 Data Migration을 사용하였습니다. CoreData Migration은 Managed Object와 원본 간의 차이점을 자동으로 유추합니다. 이때 WeatherData를 추가만 했기때문에 별도의 MappingModel은 만들지 않았습니다.
+- Migration을 진행을 한 후에, Weather Data와 기존의 Diary Data가 데이터의 성향이 다르기 때문에 하나의 Entity에 있는 것은 맞지 않다고 느껴졌습니다.
+- 때문에, Entity들 간의 관계를 정의해 줄 수 있는, Entity들 간의 영향을 설명해줄 수 있는 Relationship을 추가해주었습니다.
+- 추가를 한후에는 하나의 Entity에서 두 개의 Entity로 나눠졌기 때문에 별도의 MappingModel 또한 추가해 주었습니다.
+
+|DiaryData|WeatherData|
+|:---:|:---:|
+|![](https://i.imgur.com/IgQnhfA.png)|![](https://i.imgur.com/oXfFzi1.png)|
+
+    
+</details> 
+
+### ⚙️ Open API
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+- Device의 위도 경도를 바탕으로 현재 날씨 및 날씨와 관련된 Icon을 받아오기 위해 Openweather API를 사용하였습니다.
+- NetworkManager라는 클래스를 만들고 내부에서 API와 통신을 할 수 있는 메서드를 구현해주었습니다.
+
+    
+</details> 
+
+### ⚙️ Core Location 
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+- Core Location은 iOS 기본 Framework인 Core Service에 속해있는 Framework입니다.
+- 기본적으로 iPhone Device의 위치를 얻어올 수 있는 Framework입니다.
+- Core Location을 사용하기 위해서는 `CLLocationManger`라는 인스턴스를 반드시 사용해야합니다.
+- 또한, Info.plist에서 위치 권한을 허용할 수 있는 정보 제공 Alert을 띄워줘야합니다.
+- 해당 프로젝트에서는 일기를 입력할 때, 위치를 불러와서 위치에 대한 날씨 정보(날씨 아이콘)을 Navigation Bar에 보여줘야하고, Main 화면에서 저장한 날씨 정보에 대한 날씨 아이콘을 보여줘야했기 때문에 위도, 경도 저장을 위해 사용을 하였습니다.
+    
+```swift
+if let coordinate = locations.last?.coordinate {
+    let url = NetworkRequest.fetchData(lat: String(coordinate.latitude), 
+    lon: String(coordinate.longitude)).generateURL()
+...
+```
+    
+- 위 코드처럼 coordinate에서 위도, 경도를 받아 올 수 있습니다.
+
+</details>
 
 ## 트러블 슈팅 및 고민
 
@@ -183,10 +385,9 @@ extension Formatter {
 </summary>
 
 **문제 👀**
-- 저희는 키보드 사용에 따라 `TextView`의 제약조건을 변경하여 `TextView`가 키보드를 제외하고 보여지도록 했습니다. 하지만 `TextView`의 `Bottom`제약을 변경해주는 방식으로 구현했습니다.<br>
-  <img width= 400px, src ="https://i.imgur.com/J4xs8tc.png"> <br>
-    위의 사진처럼 Constarint의 충돌이 일어났습니다.
-  
+- 저희는 키보드 사용에 따라 `TextView`의 제약조건을 변경하여 `TextView`가 키보드를 제외하고 보여지도록 했습니다. 하지만 `TextView`의 `Bottom`제약을 변경해주는 방식으로 구현했습니다. 
+<img width= 400px, src ="https://i.imgur.com/J4xs8tc.png">
+위의 사진처럼 Constarint의 충돌이 일어났습니다.
 **해결 🔥**
 - `func setupConstraints()` 내부에서 초기 Constraint를 잡아 줄 때, TextView의 Bottom Constraint까지 잡아주고, 키보드 나타남에 따라 다시 제약을 추가적으로 잡아주기 때문에 발생했습니다.
 - 따라서 기존 Constraint을 `false`로 변경하고 새로운 제약을 `true` 해야 충돌나지 않기 때문에 주의해서 Constraint를 잡아주어야 합니다.
@@ -195,7 +396,6 @@ extension Formatter {
 
 
 ### 🔥 UIComponent Object 생성시 중복코드 감소에 대한 고민
-
 
 <details>
 <summary> 
@@ -232,11 +432,133 @@ private lazy var bottomStackView = UIStackView(subview: [dateLabel, previewLabel
 </details>
 
 
+### 🔥 Add, Modify 기능을 하나의 View, 하나의 Controller로 구현
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+- Diary를 ADD하고, Modify하는 Controller의 역할과 View가 매우 유사하다고 생각을 했습니다.
+- `MainViewController`에서 Modify를 할 때는 `indexPath`를 통해 데이터를 전달하고, + 버튼을 눌러 추가할때는 `nil`을 전달하여 Controller가 Add기능, Modify기능을 분기처리 할 수 있도록 구현하였습니다.
+- 두 가지의 기능을 하나로 하였을 때의 장점은 로직은 추가되지만 전체적인 코드량 감소, 관리할 Class가 적어진다는 점이라고 생각이 듭니다.
+- 하지만, 두 개의 컨트롤러를 사용하면 로직이 간결해진다는 점, 명확하다는 점에서 이점이 있다고 생각이 들었습니다. 
+    
+</details>
+
+
+### 🔥 UISwipeActionsConfiguration 추가 
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+- 리스트를 구현하기위해 `UICollectionLayoutListConfiguration`을 사용하였습니다.
+- `CollectionView`의 `Configuration` 구성은 View의 역할이라고 생각이 되어 View 내부에 `CollectionView Configure`을 하는 메서드를 구현하였습니다.
+- 후에, Swipe를 구현해야했을 때 View에서 구현한 Configure하는 메서드에서 SwipeActione들을 추가해주어야 했고, Swipe 기능을 만들기 위해서는 Controller의 Snapshot에 대한 접근, Delete Swipe 기능을 위한 CoreData에 대한 접근을 필요로 하였습니다.
+- `ViewController`에서 `CollectionView` 혹은, `Configure`을 View 생성시점에 주입하는 방법도 좋겟다고 생각했지만, `Controller`의 역할에서 벗어난 기능을 수행한다고 판단하여 Delegate 패턴을 사용하여 `SwipeConfiguration`을 전달하였습니다.
+    
+</details>
+
+### 🔥 NSMutableAttributedString 사용에 따른 TextView내부 텍스트 커서 이동
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+    
+- 처음에는 `textField`와 `textView`에 만들었습니다. 각각에 해당하는 폰트를 사용했습니다.
+    - textField : title3
+    - textView : body 
+- 그렇기 때문에 Field, View 간의 간섭이 없기 때문에 폰트에 대해서 신경을 많이 써주지 않았습니다.
+- 많은 생각 후, 우리는 아이폰 `메모`앱을 참고하여 사용을 고려하여, 하나의 `TextView`로 보여주고자 했습니다.
+- 그렇기에 `NSMutableAttributedString`을 사용하여 첫번째 Title 부분만을 다른 폰트로 적용하였습니다.
+
+#### 문제 👀
+```
+func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool { ... }
+    
+func textViewDidChange(_ textView: UITextView) { ... } 
+```
+- 텍스트 입력시 즉각적으로 Font 변경을 위해 위의 두 메서드를 사용하였는데,
+- `NSMutableAttributedString` 이 호출될 때마다 `텍스트 커서`가 텍스트의 마지막에 위치하게 되었습니다.
+    
+#### 해결방법 🔥
+
+- AttributeString을 사용하면서 텍스트 입력시 매번 AttributeString이 호출 되기 때문에 텍스트 커서가 맨 마지막으로 움직이는 것을 확인했습니다.
+- 그래서 텍스트의 변화가 감지되는 Delegate인 textViewDidChange를 이용했습니다.
+- 텍스트가 감지되고 커서의 위치를 기억한 후 AttributeString을 호출합니다. 그다음 원래 커서로 돌아가도록 만들어 주었습니다.
+- textRange(from: to:) 및 UITextPosition()을 사용하여 커서의 위치를 기억하도록 했습니다.
+
+```
+func textViewDidChange(_ textView: UITextView) {
+        guard let range = textView.selectedTextRange else { return }
+        guard let position = textView.position(from: range.start, offset: 0) else { return }
+        ...
+        AttributeString()
+        ...
+        textView.selectedTextRange = textView.textRange(from: position, to: position)
+    }
+```
+    
+- 위와같이 텍스트를 기억 후 selectedTextRange를 통해 커서를 이동시켜 해결했습니다.
+
+    
+</details>
+
+### 🔥 prepareForReuse 사용 시 Super 호출
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+
+- 셀 재사용시 초기화를 위해 prepareForReuse를 호출했습니다.
+- 하지만 아래의 사진과 같이 super를 호출하지 않고 사용하다보니 셀의 모양이 변형되는 현상이 발생했습니다.
+    
+|**super 호출**|**super 미호출**|
+|:---:|:---:|
+|![](https://i.imgur.com/qM8rSb6.png)|![](https://i.imgur.com/0CYIV3M.png)|   
+
+- 그래서 override 할 때는 super 호출에 대해 한번더 생각해야 한다는 교훈을 얻었습니다....
+
+</details>
+
+### 🔥 Image load 속도 개선
+
+<details>
+<summary> 
+펼쳐보기
+</summary>
+ 
+- `Data(contentsOf: url)`를 사용하여 이미지 데이터를 가져왔었습니다.
+- 하지만 매우 느리게 아이콘이 업로드가 되었고, `Data(contentsOf: url)` 메서드를 알아본 결과 해당 메서드는 내부적으로 동기로 동작하기 때문에, 동작이 매우 느리다는 것을 알게되었습니다. 
+- 또한 해당 메서드는 URLSession과 달리 작업에 대한 진단을 수행할 수 없었습니다. 
+- URLSession에서는 오류가 네트워크 오류인지, HTTP 오류인지, contents 오류 인지 등을 판할 수 있는 반면 Data(contentsOf:)에서는 이를 확인할 수 없었습니다. 
+- 따라서 이미지들을 dataTask를 활용하는 `dataTask`를 활용한 `fetchData()` 메서드를 사용하여 속도를 개선할 수 있었습니다.
+    
+</details>
+
+
 ## 참고 링크
 
 [공식문서]    
-- [Swift Language Guide - Closure - Escaping Closures](https://docs.swift.org/swift-book/LanguageGuide/Closures.html)
-- [UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview/)
-- [DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter/)
-- [Adaptivity and Layout](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout)
-- [UITextView](https://developer.apple.com/documentation/uikit/uitextview)
+- Siwft_Language_Guide
+    - [Swift Language Guide - Closure - Escaping Closures](https://docs.swift.org/swift-book/LanguageGuide/Closures.html)
+- AppleDoucument
+    - [UICollectionView](https://developer.apple.com/documentation/uikit/uicollectionview/)
+    - [Adaptivity and Layout](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/adaptivity-and-layout)
+    - [UITextView](https://developer.apple.com/documentation/uikit/uitextview)
+    - [DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter/)
+    - [Core Data](https://developer.apple.com/documentation/coredata)
+    - [Making Apps with Core Data](https://developer.apple.com/videos/play/wwdc2019/230/)
+    - [UITextViewDelegate](https://developer.apple.com/documentation/uikit/uitextviewdelegate)
+    - [UiSwipeactionsConfiguration](https://developer.apple.com/documentation/uikit/uiswipeactionsconfiguration)
+    - [AppleDarkModeDoucument](https://developer.apple.com/documentation/uikit/appearance_customization/supporting_dark_mode_in_your_interface)
+- HIG
+    - [DarkModeHIG](https://developer.apple.com/design/human-interface-guidelines/foundations/dark-mode/)
+    - [Color](https://developer.apple.com/design/human-interface-guidelines/foundations/color)
+- API
+    - [OpenWeatherAPI](https://openweathermap.org/current)
+    - [OpenWeatherIcon](https://openweathermap.org/weather-conditions)

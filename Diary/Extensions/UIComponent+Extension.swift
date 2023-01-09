@@ -12,6 +12,7 @@ extension UILabel {
         self.init()
         self.font = .preferredFont(forTextStyle: textStyle)
         self.numberOfLines = numberOfLine
+        self.adjustsFontForContentSizeCategory = true
         self.translatesAutoresizingMaskIntoConstraints = false
     }
 }

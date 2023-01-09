@@ -10,11 +10,8 @@ import UIKit
 struct DecoderManager<T: Decodable> {
     let decoder = JSONDecoder()
     
-    func decodeJsonData(_ fileName: String) -> Result<[T], DataError> {
-        guard let assetsData = NSDataAsset(name: fileName) else {
-            return Result.failure(.nonDataError)
-        }
-        guard let data = try? decoder.decode([T].self, from: assetsData.data) else {
+    func decodeData(_ data: Data) -> Result<T, SessionError> {
+        guard let data = try? decoder.decode(T.self, from: data) else {
             return Result.failure(.decodeError)
         }
         
