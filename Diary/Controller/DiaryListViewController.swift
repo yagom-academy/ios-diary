@@ -94,22 +94,24 @@ extension DiaryListViewController {
         cell.bodyPreviewLabel.text = diary.body
 
         if let weather = diary.weather {
-            self.configureWeatherIconImage(cell: cell, weather.icon)
+            self.configureWeatherIconImage(weather.icon) { image in
+                DispatchQueue.main.async {
+                    cell.weatherIconImageView.image = image
+                }
+            }
         }
     }
 
-    private func configureWeatherIconImage(cell: DiaryListCell, _ icon: String) {
+    private func configureWeatherIconImage(_ icon: String, _ completion: @escaping (UIImage) -> Void) {
         let url = WeatherAPIProvider.weatherIcon(icon: icon).url
 
-        NetworkManager.shared.fetchData(url: url) { result in
+        networkManager.fetchData(url: url) { result in
             switch result {
             case .success(let data):
                 guard let weatherIconImage = UIImage(data: data) else {
                     return
                 }
-                DispatchQueue.main.async {
-                    cell.weatherIconImageView.image = weatherIconImage
-                }
+                completion(weatherIconImage)
             case .failure(let error):
                 print(error.localizedDescription)
             }

@@ -132,7 +132,11 @@ final class DiaryViewController: UIViewController {
                     }
                     let weather = weatherResponseDTO.toDomain()
                     self.diary.weather = weather
-                    self.configureWeatherIconImage(weather.icon)
+                    self.configureWeatherIconImage(weather.icon) { image in
+                        DispatchQueue.main.async {
+                            self.weatherIconImageView.image = image
+                        }
+                    }
                 case .failure(let error):
                     print(error)
                 }
@@ -142,18 +146,16 @@ final class DiaryViewController: UIViewController {
         }
     }
 
-    private func configureWeatherIconImage(_ icon: String) {
+    private func configureWeatherIconImage(_ icon: String, _ completion: @escaping (UIImage) -> Void) {
         let url = WeatherAPIProvider.weatherIcon(icon: icon).url
 
-        NetworkManager.shared.fetchData(url: url) { result in
+        networkManager.fetchData(url: url) { result in
             switch result {
             case .success(let data):
                 guard let weatherIconImage = UIImage(data: data) else {
                     return
                 }
-                DispatchQueue.main.async {
-                    self.weatherIconImageView.image = weatherIconImage
-                }
+                completion(weatherIconImage)
             case .failure(let error):
                 print(error)
             }
