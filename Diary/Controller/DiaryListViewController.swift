@@ -80,13 +80,13 @@ extension DiaryListViewController {
         dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
             let cell = tableView.dequeueReusableCell(cellType: DiaryListCell.self, for: indexPath)
 
-            self.configureCell(cell: cell, diary: diary)
+            self.configureCell(cell, with: diary)
 
             return cell
         })
     }
 
-    private func configureCell(cell: DiaryListCell, diary: Diary) {
+    private func configureCell(_ cell: DiaryListCell, with diary: Diary) {
         cell.titleLabel.text = diary.title.isEmpty ? "제목 없음" : diary.title
         cell.creationDateLabel.text = diary.createdAt.localeFormattedText
         cell.bodyPreviewLabel.text = diary.body
