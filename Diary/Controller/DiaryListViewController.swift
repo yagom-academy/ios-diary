@@ -16,7 +16,7 @@ final class DiaryListViewController: UIViewController {
     private lazy var presentNewDiaryViewAction = UIAction { _ in
         let newDiary = Diary(title: "", body: "", createdAt: Date())
         let diaryViewController = DiaryViewController(diary: newDiary,
-                                                      authorizationStatus: self.locationManager.authorizationStatus)
+                                                      isAuthorizationAllow: self.locationManager.isAuthorizationAllow)
 
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }

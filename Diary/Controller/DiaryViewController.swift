@@ -72,7 +72,7 @@ final class DiaryViewController: UIViewController {
         return stackView
     }()
 
-    init(diary: Diary, authorizationStatus: CLAuthorizationStatus? = nil) {
+    init(diary: Diary, isAuthorizationAllow: Bool = false) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
 
@@ -81,7 +81,7 @@ final class DiaryViewController: UIViewController {
                                                name: UIScene.willDeactivateNotification,
                                                object: nil)
 
-        fetchWeather(by: authorizationStatus)
+        fetchWeather(isAuthorizationAllowed: isAuthorizationAllow)
     }
 
     @available(*, unavailable)
@@ -119,9 +119,8 @@ final class DiaryViewController: UIViewController {
         }
     }
 
-    private func fetchWeather(by authorizationStatus: CLAuthorizationStatus?) {
-        switch authorizationStatus {
-        case .authorizedAlways, .authorizedWhenInUse:
+    private func fetchWeather(isAuthorizationAllowed: Bool) {
+        if isAuthorizationAllowed {
             let url = weatherAPI.url
 
             networkManager.fetchData(url: url) { result in
@@ -141,8 +140,6 @@ final class DiaryViewController: UIViewController {
                     print(error)
                 }
             }
-        default:
-            return
         }
     }
 

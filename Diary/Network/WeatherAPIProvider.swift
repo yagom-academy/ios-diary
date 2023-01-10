@@ -25,19 +25,11 @@ enum WeatherAPIProvider: APIProvidable {
         return value
     }
 
-    private var coordinate: CLLocationCoordinate2D? {
-        guard let coordinate = CLLocationManager().location?.coordinate else {
-            return nil
-        }
-
-        return coordinate
-    }
-
     var url: URL? {
         switch self {
         case .weatherData:
             var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather")
-            guard let coordinate = coordinate,
+            guard let coordinate = CLLocationManager().coordinate,
                   let apiKey = apiKey else {
                 return nil
             }
