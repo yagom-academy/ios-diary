@@ -11,7 +11,8 @@ import CoreLocation
 final class DiaryViewController: UIViewController {
     private var diary: Diary
     private let networkManager: Networkable = NetworkManager.shared
-    private var weatherAPI: APIProvidable = WeatherAPIProvider.weatherData
+    private let locationManager = CLLocationManager()
+    private var weatherAPI: APIProvidable?
 
     private let dateLabel: UILabel = {
         let label = UILabel()
@@ -80,7 +81,11 @@ final class DiaryViewController: UIViewController {
                                                selector: #selector(updateCoreDataIfNeeded),
                                                name: UIScene.willDeactivateNotification,
                                                object: nil)
-
+        guard let coordinate = locationManager.coordinate else {
+            return
+        }
+        weatherAPI = WeatherAPIProvider.weatherData(coordinate: Coordinate(latitude: coordinate.latitude,
+                                                                           longitude: coordinate.longitude))
         fetchWeather(isAuthorizationAllowed: isAuthorizationAllow)
     }
 
@@ -121,6 +126,9 @@ final class DiaryViewController: UIViewController {
 
     private func fetchWeather(isAuthorizationAllowed: Bool) {
         if isAuthorizationAllowed {
+            guard let weatherAPI = weatherAPI else {
+                return
+            }
             let url = weatherAPI.url
 
             networkManager.fetchData(url: url) { result in

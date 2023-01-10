@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import CoreLocation
 
 enum WeatherAPIProvider: APIProvidable {
-    case weatherData
+    case weatherData(coordinate: Coordinate)
     case weatherIcon(icon: String)
     private var apiKey: String? {
         guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
@@ -27,14 +26,13 @@ enum WeatherAPIProvider: APIProvidable {
 
     var url: URL? {
         switch self {
-        case .weatherData:
+        case .weatherData(let coordinate):
             var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather")
-            guard let coordinate = CLLocationManager().coordinate,
-                  let apiKey = apiKey else {
+            guard let apiKey = apiKey else {
                 return nil
             }
-            let latitude = URLQueryItem(name: "lat", value: "\(coordinate.latitude)")
-            let longitude = URLQueryItem(name: "lon", value: "\(coordinate.longitude)")
+            let latitude = URLQueryItem(name: "lat", value: coordinate.latitude.description)
+            let longitude = URLQueryItem(name: "lon", value: coordinate.longitude.description)
             let appID = URLQueryItem(name: "appid", value: "\(apiKey)")
             components?.queryItems = [latitude, longitude, appID]
 
