@@ -113,7 +113,7 @@ extension DiaryListViewController {
                 }
                 completion(weatherIconImage)
             case .failure(let error):
-                print(error.localizedDescription)
+                print(error.errorDescription)
             }
         }
     }

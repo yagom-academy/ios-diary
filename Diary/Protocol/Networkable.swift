@@ -8,5 +8,5 @@
 import Foundation
 
 protocol Networkable {
-    func fetchData(url: URL?, completion: @escaping (Result<Data, Error>) -> Void)
+    func fetchData(url: URL?, completion: @escaping (Result<Data, NetworkError>) -> Void)
 }

@@ -145,7 +145,7 @@ final class DiaryViewController: UIViewController {
                         }
                     }
                 case .failure(let error):
-                    print(error)
+                    print(error.errorDescription)
                 }
             }
         }
@@ -162,7 +162,7 @@ final class DiaryViewController: UIViewController {
                 }
                 completion(weatherIconImage)
             case .failure(let error):
-                print(error)
+                print(error.errorDescription)
             }
         }
     }
