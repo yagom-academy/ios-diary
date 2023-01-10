@@ -20,6 +20,7 @@
 		1AE0A2FB29558F0B0083BA6C /* sample.json in Resources */ = {isa = PBXBuildFile; fileRef = 1AE0A2FA29558F0B0083BA6C /* sample.json */; };
 		1AE0A2FE295593EB0083BA6C /* ReusableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AE0A2FD295593EB0083BA6C /* ReusableCell.swift */; };
 		493078B47B7F83C1AE3993C7 /* Pods_DiaryTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 131FEEBE70FCC84FFEEA2044 /* Pods_DiaryTests.framework */; };
+		BF5C4A1E296D33CA0049CA88 /* APIProvidable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C4A1D296D33CA0049CA88 /* APIProvidable.swift */; };
 		BF8EC7C829519AA00054CD03 /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8EC7C729519AA00054CD03 /* DiaryListCell.swift */; };
 		BF8EC7CD295299920054CD03 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8EC7CC295299920054CD03 /* Date+.swift */; };
 		BFC014A1295A7EB3005AD105 /* UITableView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC014A0295A7EB3005AD105 /* UITableView+.swift */; };
@@ -61,6 +62,7 @@
 		33B6C59A4F93A3C59018F214 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		7060D5F6F561B43E2F6C0BF9 /* Pods-DiaryTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiaryTests.debug.xcconfig"; path = "Target Support Files/Pods-DiaryTests/Pods-DiaryTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BF3D15C8CA182AFE474C3A80 /* Pods-DiaryTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DiaryTests.release.xcconfig"; path = "Target Support Files/Pods-DiaryTests/Pods-DiaryTests.release.xcconfig"; sourceTree = "<group>"; };
+		BF5C4A1D296D33CA0049CA88 /* APIProvidable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIProvidable.swift; sourceTree = "<group>"; };
 		BF8EC7C729519AA00054CD03 /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
 		BF8EC7CC295299920054CD03 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		BFC014A0295A7EB3005AD105 /* UITableView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableView+.swift"; sourceTree = "<group>"; };
@@ -118,7 +120,6 @@
 			children = (
 				118CB13D2963F0C20022238C /* NetworkManager.swift */,
 				1ACE9BF6296D2F93005F77B7 /* WeatherAPIProvider.swift */,
-				1ACE9BF8296D306A005F77B7 /* Networkable.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -185,6 +186,8 @@
 			children = (
 				1AE0A2FD295593EB0083BA6C /* ReusableCell.swift */,
 				BFE871F52963C5B7005B7314 /* DiaryPresentable.swift */,
+				1ACE9BF8296D306A005F77B7 /* Networkable.swift */,
+				BF5C4A1D296D33CA0049CA88 /* APIProvidable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -430,6 +433,7 @@
 				118CB13B2963D3B30022238C /* Weather.swift in Sources */,
 				11371765295AB82600302E84 /* CoreDataManager.swift in Sources */,
 				BF8EC7C829519AA00054CD03 /* DiaryListCell.swift in Sources */,
+				BF5C4A1E296D33CA0049CA88 /* APIProvidable.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				1ACE9BF9296D306A005F77B7 /* Networkable.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,

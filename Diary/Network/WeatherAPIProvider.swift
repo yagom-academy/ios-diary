@@ -8,38 +8,47 @@
 import Foundation
 import CoreLocation
 
-final class WeatherAPIProvider {
-    private var apiKey: String {
+enum WeatherAPIProvider: APIProvidable {
+    case weatherData
+    case weatherIcon(icon: String)
+    private var apiKey: String? {
         guard let filePath = Bundle.main.path(forResource: "Info", ofType: "plist") else {
-            fatalError("plist를 찾을 수 없습니다.")
+            assertionFailure("plist를 찾을 수 없습니다.")
+            return nil
         }
         let plist = NSDictionary(contentsOfFile: filePath)
         guard let value = plist?.object(forKey: "Open Weather API KEY") as? String else {
-            fatalError("Open Weather API KEY를 찾을 수 없습니다.")
+            assertionFailure("Open Weather API KEY를 찾을 수 없습니다.")
+            return nil
         }
 
         return value
     }
 
-    private var coordinate: CLLocationCoordinate2D {
+    private var coordinate: CLLocationCoordinate2D? {
         guard let coordinate = CLLocationManager().location?.coordinate else {
-            fatalError("위치를 찾을 수 없습니다.")
+            return nil
         }
 
         return coordinate
     }
 
-    var weatherDataURL: URL? {
-        var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather")
-        let latitude = URLQueryItem(name: "lat", value: "\(self.coordinate.latitude)")
-        let longitude = URLQueryItem(name: "lon", value: "\(self.coordinate.longitude)")
-        let appID = URLQueryItem(name: "appid", value: "\(self.apiKey)")
-        components?.queryItems = [latitude, longitude, appID]
+    var url: URL? {
+        switch self {
+        case .weatherData:
+            var components = URLComponents(string: "https://api.openweathermap.org/data/2.5/weather")
+            guard let coordinate = coordinate,
+                  let apiKey = apiKey else {
+                return nil
+            }
+            let latitude = URLQueryItem(name: "lat", value: "\(coordinate.latitude)")
+            let longitude = URLQueryItem(name: "lon", value: "\(coordinate.longitude)")
+            let appID = URLQueryItem(name: "appid", value: "\(apiKey)")
+            components?.queryItems = [latitude, longitude, appID]
 
-        return components?.url
-    }
-
-    func weatherIconURL(icon: String) -> URL? {
-        return URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png")
+            return components?.url
+        case .weatherIcon(let icon):
+            return URL(string: "https://openweathermap.org/img/wn/\(icon)@2x.png")
+        }
     }
 }

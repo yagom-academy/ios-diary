@@ -10,6 +10,8 @@ import CoreLocation
 
 final class DiaryViewController: UIViewController {
     private var diary: Diary
+    private let networkManager: Networkable = NetworkManager.shared
+    private var weatherAPI: APIProvidable = WeatherAPIProvider.weatherData
 
     private let dateLabel: UILabel = {
         let label = UILabel()
@@ -120,9 +122,9 @@ final class DiaryViewController: UIViewController {
     private func fetchWeather(by authorizationStatus: CLAuthorizationStatus?) {
         switch authorizationStatus {
         case .authorizedAlways, .authorizedWhenInUse:
-            let url = NetworkManager.shared.weatherDataURL
+            let url = weatherAPI.url
 
-            NetworkManager.shared.fetchData(url: url) { result in
+            networkManager.fetchData(url: url) { result in
                 switch result {
                 case .success(let data):
                     guard let weatherResponseDTO = try? JSONDecoder().decode(WeatherResponseDTO.self, from: data) else {
@@ -141,7 +143,7 @@ final class DiaryViewController: UIViewController {
     }
 
     private func configureWeatherIconImage(_ icon: String) {
-        let url = NetworkManager.shared.weatherIconURL(icon: icon)
+        let url = WeatherAPIProvider.weatherIcon(icon: icon).url
 
         NetworkManager.shared.fetchData(url: url) { result in
             switch result {

@@ -11,6 +11,8 @@ final class DiaryListViewController: UIViewController {
     typealias DiaryDataSource = UITableViewDiffableDataSource<Int, Diary>
     typealias DiarySnapShot = NSDiffableDataSourceSnapshot<Int, Diary>
 
+    private let networkManager: Networkable = NetworkManager.shared
+
     private lazy var presentNewDiaryViewAction = UIAction { _ in
         let newDiary = Diary(title: "", body: "", createdAt: Date())
         let diaryViewController = DiaryViewController(diary: newDiary,
@@ -97,7 +99,7 @@ extension DiaryListViewController {
     }
 
     private func configureWeatherIconImage(cell: DiaryListCell, _ icon: String) {
-        let url = NetworkManager.shared.weatherIconURL(icon: icon)
+        let url = WeatherAPIProvider.weatherIcon(icon: icon).url
 
         NetworkManager.shared.fetchData(url: url) { result in
             switch result {
