@@ -18,11 +18,16 @@ extension WeatherResponseDTO {
 }
 
 struct Weather: Hashable, Decodable {
-    let main: String
+    let description: String
     let icon: String
 
-    init(main: String, icon: String) {
-        self.main = main
+    init(description: String, icon: String) {
+        self.description = description
         self.icon = icon
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case description = "main"
+        case icon
     }
 }
