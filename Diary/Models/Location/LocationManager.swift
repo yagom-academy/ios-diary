@@ -40,16 +40,13 @@ extension LocationManager: CLLocationManagerDelegate {
         guard let completion = completion else { return }
         guard isAuthorized else {
             completion(nil, nil)
-            self.completion = nil
             return
         }
         completion(locations.last, nil)
-        self.completion = nil
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         guard let completion = completion else { return }
         completion(nil, error)
-        self.completion = nil
     }
 }

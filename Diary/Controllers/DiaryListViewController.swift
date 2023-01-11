@@ -10,7 +10,6 @@ final class DiaryListViewController: UICollectionViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Diary.ID>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Diary.ID>
     private var persistentContainerManager = PersistentContainerManager()
-    private let locationManager = LocationManager()
     private var dataSource: DataSource?
     private var diaries: [Diary] = []
 
@@ -150,7 +149,9 @@ extension DiaryListViewController {
     }
 
     private func loadWeatherInformation(for diaryID: Diary.ID) {
-        locationManager.currentLocation { [weak self] location, error in
+        var locationManager: LocationManager? = LocationManager()
+        locationManager?.currentLocation { [weak self] location, error in
+            locationManager = nil
             if let error = error {
                 print(error.localizedDescription)
                 return
