@@ -15,18 +15,46 @@ final class DiaryListCell: UITableViewCell {
         return label
     }()
 
-    let subtitleLabel: UILabel = {
+    let creationDateLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = .preferredFont(forTextStyle: .callout)
+        label.setContentHuggingPriority(.init(1000), for: .horizontal)
+        label.setContentHuggingPriority(.init(1000), for: .vertical)
 
         return label
     }()
 
+    let weatherIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.setContentHuggingPriority(.init(1000), for: .horizontal)
+
+        return imageView
+    }()
+
+    let bodyPreviewLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+
+        return label
+    }()
+
+    lazy var subtitleStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [creationDateLabel, weatherIconImageView, bodyPreviewLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+        stackView.spacing = 4
+
+        return stackView
+    }()
+
     private lazy var containerStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleStackView])
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.alignment = .fill
+        stackView.distribution = .fillEqually
         stackView.spacing = 8
 
         return stackView
@@ -56,6 +84,9 @@ final class DiaryListCell: UITableViewCell {
             containerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             containerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             containerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+
+            weatherIconImageView.heightAnchor.constraint(lessThanOrEqualTo: creationDateLabel.heightAnchor),
+            weatherIconImageView.widthAnchor.constraint(equalTo: weatherIconImageView.heightAnchor)
         ])
     }
 }

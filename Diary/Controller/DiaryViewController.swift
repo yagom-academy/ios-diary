@@ -6,15 +6,42 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryViewController: UIViewController {
     private var diary: Diary
+    private let networkManager: Networkable = NetworkManager.shared
+    private let locationManager = CLLocationManager()
+    private var weatherAPI: APIProvidable?
 
-    private let scrollView: DiaryScrollView = {
-        let scrollView = DiaryScrollView()
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.text = Date().localeFormattedText
+
+        return label
+    }()
+
+    let weatherIconImageView: UIImageView = {
+        let imageView = UIImageView()
+
+        return imageView
+    }()
+
+    private lazy var navigationStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [weatherIconImageView, dateLabel])
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.distribution = .fill
+
+        return stackView
+    }()
+
+    private let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 20, right: 0)
         scrollView.keyboardDismissMode = .interactive
+        scrollView.alwaysBounceVertical = true
 
         return scrollView
     }()
@@ -46,7 +73,7 @@ final class DiaryViewController: UIViewController {
         return stackView
     }()
 
-    init(diary: Diary) {
+    init(diary: Diary, isAuthorizationAllow: Bool = false) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
 
@@ -54,6 +81,12 @@ final class DiaryViewController: UIViewController {
                                                selector: #selector(updateCoreDataIfNeeded),
                                                name: UIScene.willDeactivateNotification,
                                                object: nil)
+        guard let coordinate = locationManager.coordinate else {
+            return
+        }
+        weatherAPI = WeatherAPIProvider.weatherData(coordinate: Coordinate(latitude: coordinate.latitude,
+                                                                           longitude: coordinate.longitude))
+        fetchWeather(isAuthorizationAllowed: isAuthorizationAllow)
     }
 
     @available(*, unavailable)
@@ -65,6 +98,7 @@ final class DiaryViewController: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .systemBackground
+        configureNavigationBar()
         configureHierarchy()
         configureView(with: diary)
         configureLayout()
@@ -73,6 +107,16 @@ final class DiaryViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        showKeyboardIfNeeded()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        updateCoreDataIfNeeded()
+    }
+
+    private func showKeyboardIfNeeded() {
         if !titleTextView.hasText {
             titleTextView.becomeFirstResponder()
         } else if !bodyTextView.hasText {
@@ -80,10 +124,47 @@ final class DiaryViewController: UIViewController {
         }
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    private func fetchWeather(isAuthorizationAllowed: Bool) {
+        if isAuthorizationAllowed {
+            guard let weatherAPI = weatherAPI else {
+                return
+            }
+            let url = weatherAPI.url
 
-        updateCoreDataIfNeeded()
+            networkManager.fetchData(url: url) { result in
+                switch result {
+                case .success(let data):
+                    guard let weatherResponseDTO = try? JSONDecoder().decode(WeatherResponseDTO.self, from: data) else {
+                        return
+                    }
+                    let weather = weatherResponseDTO.toDomain()
+                    self.diary.weather = weather
+                    self.configureWeatherIconImage(weather.icon) { image in
+                        DispatchQueue.main.async {
+                            self.weatherIconImageView.image = image
+                        }
+                    }
+                case .failure(let error):
+                    print(error.errorDescription)
+                }
+            }
+        }
+    }
+
+    private func configureWeatherIconImage(_ icon: String, _ completion: @escaping (UIImage) -> Void) {
+        let url = WeatherAPIProvider.weatherIcon(icon: icon).url
+
+        networkManager.fetchData(url: url) { result in
+            switch result {
+            case .success(let data):
+                guard let weatherIconImage = UIImage(data: data) else {
+                    return
+                }
+                completion(weatherIconImage)
+            case .failure(let error):
+                print(error.errorDescription)
+            }
+        }
     }
 
     private func configureHierarchy() {
@@ -116,13 +197,12 @@ final class DiaryViewController: UIViewController {
     }
 
     private func configureNavigationBar() {
-        navigationItem.title = diary.createdAt.localeFormattedText
+        navigationItem.titleView = navigationStackView
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
                                                             menu: makeEllipsisMenu())
     }
 
     private func configureView(with diary: Diary) {
-        configureNavigationBar()
         titleTextView.text = diary.title
         bodyTextView.text = diary.body
     }
@@ -139,6 +219,8 @@ final class DiaryViewController: UIViewController {
             containerStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             containerStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
             containerStackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+
+            weatherIconImageView.widthAnchor.constraint(equalTo: weatherIconImageView.heightAnchor)
         ])
     }
 
@@ -146,11 +228,12 @@ final class DiaryViewController: UIViewController {
         return Diary(title: titleTextView.text,
                      body: bodyTextView.text,
                      createdAt: diary.createdAt,
-                     uuid: diary.uuid)
+                     uuid: diary.uuid,
+                     weather: diary.weather)
     }
 
     @objc
-    func updateCoreDataIfNeeded() {
+    private func updateCoreDataIfNeeded() {
         if diary.title != titleTextView.text || diary.body != bodyTextView.text {
             diary = generateDiary()
             CoreDataManager.shared.update(diary: diary)
@@ -160,9 +243,10 @@ final class DiaryViewController: UIViewController {
 
 extension DiaryViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if text == "\n", textView == titleTextView {
+        if text == "\n", textView == titleTextView, bodyTextView.text.isEmpty {
             bodyTextView.becomeFirstResponder()
         }
+
         return true
     }
 

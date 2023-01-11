@@ -13,6 +13,7 @@ extension UITableView {
         guard let cell = dequeueReusableCell(withIdentifier: cellType.reuseIdentifier, for: indexPath) as? Cell else {
             return Cell()
         }
+
         return cell
     }
 }

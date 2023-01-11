@@ -5,16 +5,20 @@
 // 
 
 import UIKit
+import CoreLocation
 
 final class DiaryListViewController: UIViewController {
     typealias DiaryDataSource = UITableViewDiffableDataSource<Int, Diary>
     typealias DiarySnapShot = NSDiffableDataSourceSnapshot<Int, Diary>
 
-    private lazy var presentNewDiaryViewAction = UIAction { [weak self] _ in
-        let newDiary = Diary(title: "", body: "", createdAt: Date())
-        let diaryViewController = DiaryViewController(diary: newDiary)
+    private let networkManager: Networkable = NetworkManager.shared
 
-        self?.navigationController?.pushViewController(diaryViewController, animated: true)
+    private lazy var presentNewDiaryViewAction = UIAction { _ in
+        let newDiary = Diary(title: "", body: "", createdAt: Date())
+        let diaryViewController = DiaryViewController(diary: newDiary,
+                                                      isAuthorizationAllow: self.locationManager.isAuthorizationAllow)
+
+        self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
 
     private lazy var addDiaryButton: UIBarButtonItem = {
@@ -35,10 +39,12 @@ final class DiaryListViewController: UIViewController {
 
     private var dataSource: DiaryDataSource?
     private var diaryList: [Diary] = []
+    private let locationManager = CLLocationManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        requestLocationAuthorization()
         configureNavigationBar()
         configureHierarchy()
         configureDataSource()
@@ -52,6 +58,10 @@ final class DiaryListViewController: UIViewController {
 }
 
 extension DiaryListViewController {
+    private func requestLocationAuthorization() {
+        locationManager.requestWhenInUseAuthorization()
+    }
+
     private func configureNavigationBar() {
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = addDiaryButton
@@ -72,20 +82,40 @@ extension DiaryListViewController {
         dataSource = DiaryDataSource(tableView: diaryListTableView, cellProvider: { tableView, indexPath, diary in
             let cell = tableView.dequeueReusableCell(cellType: DiaryListCell.self, for: indexPath)
 
-            cell.titleLabel.text = diary.title.isEmpty ? "제목 없음" : diary.title
-            cell.subtitleLabel.attributedText = self.configureSubtitleText(diary.createdAt, diary.body)
+            self.configureCell(cell, with: diary)
 
             return cell
         })
     }
 
-    private func configureSubtitleText(_ date: Date, _ body: String) -> NSMutableAttributedString {
-        let text: String = "\(date.localeFormattedText)  \(body)"
-        let attributedString = NSMutableAttributedString(string: text)
-        attributedString.addAttributes([.font: UIFont.preferredFont(forTextStyle: .callout)],
-                                       range: (text as NSString).range(of: "\(date.localeFormattedText)  "))
+    private func configureCell(_ cell: DiaryListCell, with diary: Diary) {
+        cell.titleLabel.text = diary.title.isEmpty ? "제목 없음" : diary.title
+        cell.creationDateLabel.text = diary.createdAt.localeFormattedText
+        cell.bodyPreviewLabel.text = diary.body
 
-        return attributedString
+        if let weather = diary.weather {
+            self.configureWeatherIconImage(weather.icon) { image in
+                DispatchQueue.main.async {
+                    cell.weatherIconImageView.image = image
+                }
+            }
+        }
+    }
+
+    private func configureWeatherIconImage(_ icon: String, _ completion: @escaping (UIImage) -> Void) {
+        let url = WeatherAPIProvider.weatherIcon(icon: icon).url
+
+        networkManager.fetchData(url: url) { result in
+            switch result {
+            case .success(let data):
+                guard let weatherIconImage = UIImage(data: data) else {
+                    return
+                }
+                completion(weatherIconImage)
+            case .failure(let error):
+                print(error.errorDescription)
+            }
+        }
     }
 
     private func fetchDiaryList() -> [Diary] {
@@ -111,6 +141,9 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedDiary = diaryList[indexPath.row]
         let diaryViewController = DiaryViewController(diary: selectedDiary)
+        if let cell = tableView.cellForRow(at: indexPath) as? DiaryListCell {
+            diaryViewController.weatherIconImageView.image = cell.weatherIconImageView.image
+        }
 
         navigationController?.pushViewController(diaryViewController, animated: true)
         diaryListTableView.deselectRow(at: indexPath, animated: true)
