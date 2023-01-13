@@ -2,7 +2,7 @@
   Localizable.strings
   Diary
 
-  Created by Mangdi, junho on 2022/12/23.
+ Created by Mangdi, junho lee, on 2022/12/23.
   
 */
 
@@ -13,3 +13,7 @@
 "Cancel" = "취소";
 "Really?" = "진짜요?";
 "Are you want to delete it?" = "정말로 삭제하시겠어요?";
+"Invalid URL address error." = "잘못된 URL주소 오류입니다.";
+"An unknown error has occurred." = "알 수 없는 에러가 발생했습니다.";
+"Status code error occurred" = "상태코드 에러가 발생했습니다.";
+"Error occurred during Json Decoding." = "JsonDecoding 중 오류가 발생했습니다.";

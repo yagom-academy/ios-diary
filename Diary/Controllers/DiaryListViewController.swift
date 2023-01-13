@@ -2,7 +2,7 @@
 //  Diary - DiaryListViewController.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
-// 
+//
 
 import UIKit
 
@@ -15,6 +15,7 @@ final class DiaryListViewController: UICollectionViewController {
 
     init() {
         super.init(collectionViewLayout: UICollectionViewLayout())
+        collectionView.backgroundColor = .white
     }
 
     required init?(coder: NSCoder) {
@@ -37,6 +38,14 @@ final class DiaryListViewController: UICollectionViewController {
         config.trailingSwipeActionsConfigurationProvider = makeSwipeAction
         let viewLayout = UICollectionViewCompositionalLayout.list(using: config)
         collectionView.collectionViewLayout = viewLayout
+    }
+
+    private func configureNavigationItem() {
+        navigationItem.title = NSLocalizedString("Diary", comment: "diary title")
+        let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
+                                        style: .plain, target: self,
+                                        action: #selector(touchUpAddButton))
+        navigationItem.rightBarButtonItem = addButton
     }
 
     private func makeSwipeAction(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
@@ -64,14 +73,6 @@ final class DiaryListViewController: UICollectionViewController {
         present(activityViewController, animated: true, completion: nil)
     }
 
-    private func configureNavigationItem() {
-        navigationItem.title = NSLocalizedString("Diary", comment: "diary title")
-        let addButton = UIBarButtonItem(image: UIImage(systemName: "plus"),
-                                        style: .plain, target: self,
-                                        action: #selector(touchUpAddButton))
-        navigationItem.rightBarButtonItem = addButton
-    }
-
     private func diary(diaryID: Diary.ID) -> Diary? {
         guard let diary = diaries.first(where: { diary in
             diary.id == diaryID
@@ -88,22 +89,6 @@ final class DiaryListViewController: UICollectionViewController {
         guard let index = diaries.firstIndex(where: { $0.id == diary.id }) else { return }
         diaries.remove(at: index)
     }
-
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let diaryID = dataSource?.itemIdentifier(for: indexPath),
-              let diary = diary(diaryID: diaryID) else { return }
-        let diaryDetailViewController = DiaryDetailViewController(diary: diary) { [weak self] diary, action in
-            switch action {
-            case .update:
-                self?.update(diary: diary)
-                self?.updateSnapshot([diary.id])
-            case .delete:
-                self?.delete(diary: diary)
-                self?.updateSnapshot()
-            }
-        }
-        navigationController?.pushViewController(diaryDetailViewController, animated: true)
-    }
 }
 
 // MARK: - DataSource
@@ -119,6 +104,14 @@ extension DiaryListViewController {
             contentConfiguration.title = diary.title
             contentConfiguration.body = diary.body
             contentConfiguration.createdAt = diary.createdAt
+            let hasIconID = diary.iconID != nil
+            if hasIconID {
+                if let iconImage = diary.iconImage {
+                    contentConfiguration.iconImage = iconImage
+                } else {
+                    self?.loadIconImage(for: diary.id)
+                }
+            }
             cell.contentConfiguration = contentConfiguration
             cell.accessories = [
                 UICellAccessory.disclosureIndicator()
@@ -137,19 +130,92 @@ extension DiaryListViewController {
         snapshot.reloadItems(reloadItemIds)
         dataSource?.apply(snapshot)
     }
+
+    private func loadIconImage(for diaryID: Diary.ID) {
+        guard var diary = diary(diaryID: diaryID),
+              let iconID = diary.iconID else { return }
+        WeatherIconLoader().load(iconID: iconID) { [weak self] image, error in
+            if let error = error {
+                print(error)
+                return
+            }
+            guard let image = image else { return }
+            diary.iconImage = image
+            DispatchQueue.main.async {
+                self?.update(diary: diary)
+                self?.updateSnapshot([diary.id])
+            }
+        }
+    }
+
+    private func loadWeatherInformation(for diaryID: Diary.ID) {
+        var locationManager: LocationManager? = LocationManager()
+        locationManager?.currentLocation { [weak self] location, error in
+            locationManager = nil
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            guard let location = location else { return }
+            WeatherInformationLoader().load(latitude: location.coordinate.latitude,
+                                            longitude: location.coordinate.longitude) { [weak self] weatherInformation, error in
+                if let error = error {
+                    print(error)
+                    return
+                }
+                guard let weatherInformation = weatherInformation,
+                      let weather = weatherInformation.weather.first,
+                      var diary = self?.diary(diaryID: diaryID) else { return }
+                diary.main = weather.main
+                diary.iconID = weather.icon
+                DispatchQueue.main.async {
+                    self?.persistentContainerManager.updateDiaryWeatherInformation(diary)
+                    self?.update(diary: diary)
+                    self?.updateSnapshot([diary.id])
+                }
+            }
+        }
+    }
 }
 
-// MARK: - objc
+// MARK: - CollectionView
+extension DiaryListViewController {
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let diaryID = dataSource?.itemIdentifier(for: indexPath),
+              let diary = diary(diaryID: diaryID) else { return }
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary) { [weak self] diary, action in
+            switch action {
+            case .update:
+                guard var updatingDiary = self?.diary(diaryID: diary.id) else { return }
+                updatingDiary.title = diary.title
+                updatingDiary.body = diary.body
+                self?.update(diary: updatingDiary)
+                self?.updateSnapshot([updatingDiary.id])
+            case .delete:
+                self?.delete(diary: diary)
+                self?.updateSnapshot()
+            }
+        }
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+}
+
+// MARK: - Objc
 extension DiaryListViewController {
     @objc private func touchUpAddButton(_ sender: UIBarButtonItem) {
         let newDiary = Diary(title: "", body: "", createdAt: Date().timeIntervalSince1970)
         persistentContainerManager.insertDiary(newDiary)
         diaries.append(newDiary)
+        loadWeatherInformation(for: newDiary.id)
+
         let diaryDetailViewController = DiaryDetailViewController(diary: newDiary) { [weak self] diary, action in
             switch action {
             case .update:
-                self?.update(diary: diary)
-                self?.updateSnapshot([diary.id])
+                guard var updatingDiary = self?.diary(diaryID: diary.id) else { return }
+                updatingDiary.title = diary.title
+                updatingDiary.body = diary.body
+                self?.update(diary: updatingDiary)
+                self?.updateSnapshot([updatingDiary.id])
             case .delete:
                 self?.delete(diary: diary)
                 self?.updateSnapshot()

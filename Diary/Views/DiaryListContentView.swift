@@ -2,7 +2,7 @@
 //  DiaryListContentView.swift
 //  Diary
 //
-//  Created by Mangdi, junho on 2022/12/22.
+//  Created by Mangdi, junho lee, on 2022/12/22.
 //
 
 import UIKit
@@ -12,6 +12,7 @@ final class DiaryListContentView: UIView, UIContentView {
         var title: String?
         var body: String?
         var createdAt: TimeInterval?
+        var iconImage: UIImage?
 
         func makeContentView() -> UIView & UIContentView {
             return DiaryListContentView(configuration: self)
@@ -46,6 +47,14 @@ final class DiaryListContentView: UIView, UIContentView {
         return label
     }()
 
+    private let weatherIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.tintColor = .gray
+        return imageView
+    }()
+
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -73,6 +82,7 @@ final class DiaryListContentView: UIView, UIContentView {
     }
 
     private func configure(_ configuration: UIContentConfiguration) {
+        let iconPlaceholder = UIImage(systemName: "questionmark.circle")
         if let configuration = configuration as? Configuration {
             titleLabel.text = configuration.title
             bodyLabel.text = configuration.body
@@ -82,29 +92,42 @@ final class DiaryListContentView: UIView, UIContentView {
             } else {
                 createdAtLabel.text = nil
             }
+
+            if let iconImage = configuration.iconImage {
+                weatherIconImageView.image = iconImage
+            } else {
+                weatherIconImageView.image = iconPlaceholder
+            }
         } else {
             titleLabel.text = nil
             bodyLabel.text = nil
             createdAtLabel.text = nil
+            weatherIconImageView.image = iconPlaceholder
         }
     }
 
     private func configureSubViews() {
         addSubview(titleLabel)
         stackView.addArrangedSubview(createdAtLabel)
+        stackView.addArrangedSubview(weatherIconImageView)
         stackView.addArrangedSubview(bodyLabel)
         addSubview(stackView)
 
         createdAtLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .horizontal)
+        createdAtLabel.setContentCompressionResistancePriority(.defaultHigh + 1, for: .vertical)
+        createdAtLabel.setContentHuggingPriority(.defaultHigh + 1, for: .horizontal)
+        createdAtLabel.setContentHuggingPriority(.defaultHigh + 1, for: .vertical)
         let spacing = CGFloat(8)
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: spacing),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
             titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            weatherIconImageView.heightAnchor.constraint(equalTo: createdAtLabel.heightAnchor),
+            weatherIconImageView.widthAnchor.constraint(equalTo: createdAtLabel.heightAnchor),
             stackView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: spacing),
             stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: spacing),
             stackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -spacing)
+            stackView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

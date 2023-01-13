@@ -2,7 +2,7 @@
 //  DiaryModelObject+CoreDataClass.swift
 //  Diary
 //
-//  Created by Mangdi on 2022/12/27.
+//  Created by Mangdi, junho lee, on 2022/12/27.
 //
 //
 

@@ -2,7 +2,7 @@
 //  PersistentContainerManager.swift
 //  Diary
 //
-//  Created by Mangdi, junho on 2022/12/27.
+//  Created by Mangdi, junho lee, on 2022/12/27.
 //
 
 import CoreData
@@ -25,7 +25,12 @@ struct PersistentContainerManager {
     mutating func fetchDiaries() -> [Diary] {
         let fetchedDiaryModelObjects = fetchDiaryModelObjects()
         let diaries = fetchedDiaryModelObjects.map {
-            Diary(id: $0.id, title: $0.title, body: $0.body, createdAt: $0.createdAt)
+            Diary(id: $0.id,
+                  title: $0.title,
+                  body: $0.body,
+                  createdAt: $0.createdAt,
+                  main: $0.main,
+                  iconID: $0.iconID)
         }
         return diaries
     }
@@ -36,14 +41,24 @@ struct PersistentContainerManager {
         diaryModelObejct.title = diary.title
         diaryModelObejct.body = diary.body
         diaryModelObejct.createdAt = diary.createdAt
+        diaryModelObejct.main = diary.main
+        diaryModelObejct.iconID = diary.iconID
         persistentContainer.saveContext()
     }
 
-    mutating func updateDiary(_ diary: Diary) {
+    mutating func updateDiaryDetail(_ diary: Diary) {
         let fetchedDiaryModelObjects = fetchDiaryModelObjects()
         guard let diaryModelObejct = fetchedDiaryModelObjects.first(where: { $0.id == diary.id }) else { return }
         diaryModelObejct.title = diary.title
         diaryModelObejct.body = diary.body
+        persistentContainer.saveContext()
+    }
+
+    mutating func updateDiaryWeatherInformation(_ diary: Diary) {
+        let fetchedDiaryModelObjects = fetchDiaryModelObjects()
+        guard let diaryModelObejct = fetchedDiaryModelObjects.first(where: { $0.id == diary.id }) else { return }
+        diaryModelObejct.main = diary.main
+        diaryModelObejct.iconID = diary.iconID
         persistentContainer.saveContext()
     }
 

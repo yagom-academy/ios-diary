@@ -2,7 +2,7 @@
 //  DiaryDetailViewController.swift
 //  Diary
 //
-//  Created by Mangdi, junho on 2022/12/22.
+//  Created by Mangdi, junho lee, on 2022/12/22.
 //
 
 import UIKit
@@ -29,7 +29,7 @@ final class DiaryDetailViewController: UIViewController {
     private var persistentContainerManager = PersistentContainerManager()
     private var diary: Diary {
         didSet {
-            persistentContainerManager.updateDiary(diary)
+            persistentContainerManager.updateDiaryDetail(diary)
         }
     }
     private var action = Action.update
@@ -182,7 +182,7 @@ extension DiaryDetailViewController {
     }
 }
 
-// MARK: - background
+// MARK: - Background
 extension DiaryDetailViewController {
     private func addEnterBackgroundObserver() {
         NotificationCenter.default.addObserver(self,
@@ -214,7 +214,7 @@ extension DiaryDetailViewController: UITextViewDelegate {
     }
 }
 
-// MARK: - objc
+// MARK: - Objc
 extension DiaryDetailViewController {
     @objc private func showAlert() {
         let alert = UIAlertController(title: nil,
@@ -238,7 +238,7 @@ extension DiaryDetailViewController {
     }
 }
 
-// MARK: - nested type
+// MARK: - Nested type
 extension DiaryDetailViewController {
     enum Action {
         case update
