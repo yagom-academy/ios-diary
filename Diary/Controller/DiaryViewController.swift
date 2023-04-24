@@ -1,6 +1,6 @@
 //
 //  Diary - DiaryViewController.swift
-//  Created by sehong. 
+//  Created by SeHong.
 //  Copyright © yagom. All rights reserved.
 // 
 

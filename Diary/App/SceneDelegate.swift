@@ -1,6 +1,6 @@
 //
 //  Diary - SceneDelegate.swift
-//  Created by yagom.
+//  Created by SeHong.
 //  Copyright © yagom. All rights reserved.
 //
 
