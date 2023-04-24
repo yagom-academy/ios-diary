@@ -6,13 +6,12 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
     let diaryListTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        
 
         return tableView
     }()
@@ -32,7 +31,7 @@ class ViewController: UIViewController {
         configureConstraint()
     }
     
-    func configureConstraint() {
+    private func configureConstraint() {
         NSLayoutConstraint.activate([
             diaryListTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             diaryListTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
