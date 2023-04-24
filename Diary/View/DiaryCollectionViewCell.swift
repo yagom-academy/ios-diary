@@ -73,8 +73,7 @@ final class DiaryCollectionViewCell: UICollectionViewListCell {
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             mainStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
-
 }
