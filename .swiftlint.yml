@@ -1,0 +1,10 @@
+opt_in_rules:
+  - empty_count
+  - empty_string
+  - force_unwrapping
+  - weak_delegate
+
+excluded:
+  - Pods
+  - Diary/AppDelegate.swift
+  - Diary/SceneDelegate.swift
