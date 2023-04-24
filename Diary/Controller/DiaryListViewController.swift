@@ -43,9 +43,11 @@ extension DiaryListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell(
+        guard let cell: ContentsTableViewCell = tableView.dequeueReusableCell(
             withIdentifier: ContentsTableViewCell.identifier,
-            for: indexPath)
+            for: indexPath) as? ContentsTableViewCell else {
+            return ContentsTableViewCell()
+        }
         
         return cell
     }

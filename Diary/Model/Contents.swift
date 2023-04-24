@@ -7,10 +7,11 @@
 
 struct Contents {
     let title: String
-    let body: String
+    let description: String
     let date: Int
     
     private enum CodingKeys: String, CodingKey {
+        case description = "body"
         case date = "created_at"
     }
 }
