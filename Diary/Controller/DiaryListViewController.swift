@@ -7,9 +7,8 @@
 
 import UIKit
 
-class DiaryListViewController: UIViewController {
+final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
-    private let cellIdentifier = "cell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +20,7 @@ class DiaryListViewController: UIViewController {
     private func configureTableView() {
         view.addSubview(tableView)
         
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: ContentsTableViewCell.identifier)
         tableView.dataSource = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -44,7 +43,9 @@ extension DiaryListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: UITableViewCell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
+        let cell: UITableViewCell = tableView.dequeueReusableCell(
+            withIdentifier: ContentsTableViewCell.identifier,
+            for: indexPath)
         
         return cell
     }
