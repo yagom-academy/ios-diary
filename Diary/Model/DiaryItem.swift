@@ -9,8 +9,10 @@ struct DiaryItem: Decodable {
     let title: String
     let body: String
     let createDate: Int
-    
-    enum Codingkeys: String, CodingKey {
+
+    enum CodingKeys: String, CodingKey {
+        case title
+        case body
         case createDate = "created_at"
     }
 }
