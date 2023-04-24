@@ -1,16 +1,29 @@
 //
 //  Diary - ViewController.swift
-//  Created by yagom. 
+//  Created by rilla, songjun.
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
 
+    lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView()
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+       
     }
-
+    
+    private func configureUI() {
+        view.addSubview(collectionView)
+    }
+    
+    private func configureLayout() {
+        
+    }
 }
