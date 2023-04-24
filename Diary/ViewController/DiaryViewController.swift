@@ -6,8 +6,7 @@
 
 import UIKit
 
-class DiaryViewController: UIViewController {
-    
+final class DiaryViewController: UIViewController {
     private let diaryTableView: UITableView = UITableView()
     private var sampleDiary: [SampleDiary] = []
     
@@ -16,6 +15,7 @@ class DiaryViewController: UIViewController {
         decodeDiary()
         configurUI()
         setupView()
+        configureNavigationBar()
     }
     
     private func decodeDiary() {
@@ -39,16 +39,21 @@ class DiaryViewController: UIViewController {
     
     private func setupView() {
         diaryTableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
-        diaryTableView.delegate = self
         diaryTableView.dataSource = self
+    }
+    
+    private func configureNavigationBar() {
+        self.navigationItem.title = "일기장"
+        let plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(plusButtonTapped))
+        navigationItem.rightBarButtonItem = plusButton
+    }
+    
+    @objc private func plusButtonTapped() {
+        
     }
 }
 
-extension DiaryViewController: UITableViewDelegate {
-}
-
 extension DiaryViewController: UITableViewDataSource {
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
@@ -58,18 +63,16 @@ extension DiaryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let diaryCell: DiaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier) as? DiaryTableViewCell else { return UITableViewCell() }
-        
         let title = sampleDiary[indexPath.row].title
         let date = sampleDiary[indexPath.row].createdDate
         let body = sampleDiary[indexPath.row].body
         
-        diaryCell.setUpLabel(title: title, date: date, body: body)
+        guard let diaryCell: DiaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier) as? DiaryTableViewCell,
+        let formattedDate = DateFormatterManager.convertToFomattedDate(of: date) else { return UITableViewCell() }
+        
+        diaryCell.accessoryType = .disclosureIndicator
+        diaryCell.setUpLabel(title: title, date: formattedDate, body: body)
                 
         return diaryCell
     }
-    
-    
 }
-
-
