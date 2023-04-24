@@ -1,8 +1,9 @@
 //
-//  Diary - SceneDelegate.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//  SceneDelegate.swift
+//  Diary
+//
+//  Created by KokkilE, Hyemory on 2023/04/24.
+//
 
 import UIKit
 
