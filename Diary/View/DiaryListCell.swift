@@ -56,7 +56,7 @@ final class DiaryListCell: UITableViewCell {
     }
     
     private func configureSubViews() {
-        self.addSubview(contentStackView)
+        contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(titleLabel)
         contentStackView.addArrangedSubview(detailStackView)
         detailStackView.addArrangedSubview(dateLabel)
@@ -65,10 +65,17 @@ final class DiaryListCell: UITableViewCell {
     
     private func configureConstraint() {
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
-            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            dateLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3)
         ])
+    }
+    
+    func configureContent(data: Diary) {
+        titleLabel.text = data.title
+        bodyLabel.text = data.body
+        dateLabel.text = data.date.description
     }
 }

@@ -7,6 +7,7 @@
 import UIKit
 
 final class ViewController: UIViewController {
+    let diaryDataDecoder = DiaryDataDecoder()
     
     let diaryListTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -15,7 +16,6 @@ final class ViewController: UIViewController {
 
         return tableView
     }()
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +40,9 @@ final class ViewController: UIViewController {
 
 extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return 100
+        guard let diary = diaryDataDecoder.decodeDiaryData() else { return 0 }
+
+        return diary.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -49,16 +50,14 @@ extension ViewController: UITableViewDataSource {
             return DiaryListCell()
         }
         cell.accessoryType = .disclosureIndicator
+        guard let diary = diaryDataDecoder.decodeDiaryData() else { return DiaryListCell() }
+        cell.configureContent(data: diary[indexPath.row])
 
         return cell
     }
 }
 
 extension ViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return view.bounds.height/15
-    }
-    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
