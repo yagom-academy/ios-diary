@@ -1,8 +1,9 @@
 //
-//  Diary - ViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
-// 
+//  DiaryItem.swift
+//  Diary
+//
+//  Created by Christy, vetto on 2023/04/24.
+//
 
 import UIKit
 

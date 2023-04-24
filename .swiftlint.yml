@@ -1,3 +1,3 @@
 excluded:
-    - Diary/AppDelegate.swift
-    - Diary/SceneDelegate.swift
+    - Diary/Application/AppDelegate.swift
+    - Diary/Application/SceneDelegate.swift
