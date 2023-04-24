@@ -1,12 +1,12 @@
 //
-//  Diary - ViewController.swift
+//  Diary - DiaryListViewController.swift
 //  Created by Rhode, 무리.
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class DiaryListViewController: UIViewController {
     let diaryDataDecoder = DiaryDataDecoder()
     
     let diaryListTableView: UITableView = {
@@ -19,13 +19,27 @@ final class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        view.addSubview(diaryListTableView)
-        
         diaryListTableView.dataSource = self
         diaryListTableView.delegate = self
-        
+        configureUI()
         configureConstraint()
+    }
+    
+    private func configureUI() {
+        view.backgroundColor = .white
+        title = "일기장"
+        
+        let addDiaryButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                             target: self,
+                                             action: #selector(addDiary))
+        navigationItem.rightBarButtonItem = addDiaryButton
+    
+        view.addSubview(diaryListTableView)
+    }
+    
+    @objc
+    private func addDiary() {
+
     }
     
     private func configureConstraint() {
@@ -38,7 +52,7 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let diary = diaryDataDecoder.decodeDiaryData() else { return 0 }
 
@@ -57,7 +71,7 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-extension ViewController: UITableViewDelegate {
+extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
