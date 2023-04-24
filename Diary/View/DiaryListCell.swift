@@ -20,6 +20,7 @@ final class DiaryListCell: UITableViewCell {
     
     let detailStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.spacing = 10
         
         return stackView
     }()
@@ -34,6 +35,7 @@ final class DiaryListCell: UITableViewCell {
     let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return label
     }()
@@ -69,7 +71,6 @@ final class DiaryListCell: UITableViewCell {
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            dateLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4)
         ])
     }
     
