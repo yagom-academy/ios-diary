@@ -10,13 +10,14 @@ import UIKit
 final class ContentsTableViewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title2)
+        label.font = .preferredFont(forTextStyle: .title3)
         
         return label
     }()
+    
     private let descriptionLabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .caption1)
         
         return label
     }()
@@ -26,7 +27,6 @@ final class ContentsTableViewCell: UITableViewCell {
         
         let stackView = configureStackView()
         configureLayout(stackView)
-        
         accessoryType = .disclosureIndicator
     }
     
@@ -37,24 +37,40 @@ final class ContentsTableViewCell: UITableViewCell {
     func configure(title: String, description: String, date: String) {
         titleLabel.text = title
         descriptionLabel.text = date + " " + description
+        descriptionLabel.applyAttribute(targetString: date)
     }
     
     private func configureStackView() -> UIStackView {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel])
         stackView.axis = .vertical
+        stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
-        self.addSubview(stackView)
+        contentView.addSubview(stackView)
         
         return stackView
     }
     
     private func configureLayout(_ stackView: UIStackView) {
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.leadingAnchor, constant: 10),
-            stackView.trailingAnchor.constraint(equalTo: self.safeAreaLayoutGuide.trailingAnchor, constant: -10),
-            stackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 10),
-            stackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -10)
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
+    }
+}
+
+fileprivate extension UILabel {
+    func applyAttribute(targetString: String) {
+        guard let fullText = text else { return }
+        
+        let attributedString = NSMutableAttributedString(string: fullText)
+        let range = (fullText as NSString).range(of: targetString)
+
+        attributedString.addAttribute(.font,
+                                      value: UIFont.preferredFont(forTextStyle: .body),
+                                      range: range)
+        attributedText = attributedString
     }
 }

@@ -5,12 +5,13 @@
 //  Created by KokkilE, Hyemory on 2023/04/24.
 //
 
-struct Contents {
+struct Contents: Codable {
     let title: String
     let description: String
     let date: Int
     
     private enum CodingKeys: String, CodingKey {
+        case title
         case description = "body"
         case date = "created_at"
     }
