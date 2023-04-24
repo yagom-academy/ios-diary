@@ -1,6 +1,6 @@
 //
 //  Diary - SceneDelegate.swift
-//  Created by yagom. 
+//  Created by Rhode, 무리.
 //  Copyright © yagom. All rights reserved.
 // 
 
