@@ -7,7 +7,7 @@
 struct Diary: Decodable {
     let title: String
     let body: String
-    let date: Int
+    let date: Double
     
     private enum CodingKeys: String, CodingKey {
         case title, body

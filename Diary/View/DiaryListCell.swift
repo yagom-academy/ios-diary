@@ -69,13 +69,13 @@ final class DiaryListCell: UITableViewCell {
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            dateLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3)
+            dateLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.4)
         ])
     }
     
     func configureContent(data: Diary) {
         titleLabel.text = data.title
         bodyLabel.text = data.body
-        dateLabel.text = data.date.description
+        dateLabel.text = Date(timeIntervalSince1970: data.date).convertDate()
     }
 }
