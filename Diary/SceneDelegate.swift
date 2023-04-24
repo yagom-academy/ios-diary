@@ -1,6 +1,6 @@
 //
 //  Diary - SceneDelegate.swift
-//  Created by yagom. 
+//  Created by 리지, Goat
 //  Copyright © yagom. All rights reserved.
 // 
 
