@@ -56,6 +56,7 @@ final class DiaryCollectionViewCell: UICollectionViewListCell {
         
         configureUI()
         configureLayout()
+        configureAccessory()
     }
     
     private func configureUI() {
@@ -75,5 +76,9 @@ final class DiaryCollectionViewCell: UICollectionViewListCell {
             mainStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func configureAccessory() {
+        self.accessories = [ .disclosureIndicator()]
     }
 }

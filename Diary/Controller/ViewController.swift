@@ -8,8 +8,8 @@ import UIKit
 
 final class ViewController: UIViewController {
 
-    lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView()
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCompositionalListLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -35,11 +35,18 @@ final class ViewController: UIViewController {
     }
     
     private func configureUI() {
-        //view.addSubview(collectionView)
+        view.addSubview(collectionView)
     }
     
     private func configureLayout() {
+        let safeArea = view.safeAreaLayoutGuide
         
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+        ])
     }
     
     private func configureViewController() {
@@ -51,7 +58,7 @@ final class ViewController: UIViewController {
             
             button.setImage(UIImage(systemName: "plus"), for: .normal)
             button.addTarget(self,
-                             action: #selector(presentCellChangeActionSheet),
+                             action: #selector(presentAddingDiaryPage),
                              for: .touchUpInside)
             let barButton = UIBarButtonItem(customView: button)
             
@@ -61,8 +68,16 @@ final class ViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = buttonItem
     }
     
-    @objc private func presentCellChangeActionSheet() {
+    @objc private func presentAddingDiaryPage() {
    
     }
-    
+}
+
+extension ViewController {
+    private func configureCompositionalListLayout() -> UICollectionViewLayout {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+        
+        return layout
+    }
 }
