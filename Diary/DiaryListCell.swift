@@ -12,6 +12,8 @@ final class DiaryListCell: UITableViewCell {
     let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -46,6 +48,7 @@ final class DiaryListCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureSubViews()
+        configureConstraint()
     }
     
     required init?(coder: NSCoder) {
@@ -53,9 +56,19 @@ final class DiaryListCell: UITableViewCell {
     }
     
     private func configureSubViews() {
-        contentStackView.addSubview(titleLabel)
-        contentStackView.addSubview(detailStackView)
-        detailStackView.addSubview(dateLabel)
-        detailStackView.addSubview(bodyLabel)
+        self.addSubview(contentStackView)
+        contentStackView.addArrangedSubview(titleLabel)
+        contentStackView.addArrangedSubview(detailStackView)
+        detailStackView.addArrangedSubview(dateLabel)
+        detailStackView.addArrangedSubview(bodyLabel)
+    }
+    
+    private func configureConstraint() {
+        NSLayoutConstraint.activate([
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 5),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
+        ])
     }
 }
