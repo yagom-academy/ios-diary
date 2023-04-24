@@ -7,8 +7,8 @@
 
 import UIKit
 
-class DiaryCollectionViewCell: UICollectionViewListCell {
-    
+final class DiaryCollectionViewCell: UICollectionViewListCell {
+    // MARK: - Property
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -47,10 +47,25 @@ class DiaryCollectionViewCell: UICollectionViewListCell {
         return label
     }()
     
+    // MARK: - Method
+    
     func configureCell(title: String, date: String, contents: String) {
         titleLabel.text = title
         dateLabel.text = date
         contentsLabel.text = contents
+        
+        configureUI()
+        configureLayout()
+    }
+    
+    private func configureUI() {
+        self.addSubview(mainStackView)
+        
+        mainStackView.addArrangedSubview(titleLabel)
+        mainStackView.addArrangedSubview(subTitleStackView)
+        
+        subTitleStackView.addArrangedSubview(dateLabel)
+        subTitleStackView.addArrangedSubview(contentsLabel)
     }
     
     private func configureLayout() {
@@ -61,12 +76,5 @@ class DiaryCollectionViewCell: UICollectionViewListCell {
             mainStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    
-    private func configureUI() {
-        self.addSubview(mainStackView)
-        mainStackView.addArrangedSubview(titleLabel)
-        mainStackView.addArrangedSubview(subTitleStackView)
-        subTitleStackView.addArrangedSubview(dateLabel)
-        subTitleStackView.addArrangedSubview(contentsLabel)
-    }
+
 }
