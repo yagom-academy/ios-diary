@@ -11,6 +11,9 @@ final class HomeDiaryController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         diaryTableView.dataSource = self
+        diaryTableView.register(DiaryCell.self, forCellReuseIdentifier: "cell")
+        diaryTableView.rowHeight = UITableView.automaticDimension
+        diaryTableView.estimatedRowHeight = 600
         configureUI()
     }
     
@@ -34,6 +37,10 @@ extension HomeDiaryController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? DiaryCell else {
+            return UITableViewCell()
+        }
+        
+        return cell
     }
 }
