@@ -70,7 +70,7 @@ final class DiaryListCell: UITableViewCell {
             contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
     }
     
