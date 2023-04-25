@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		166C22AB29F7ECAF00E527AC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C22AA29F7ECAF00E527AC /* DetailViewController.swift */; };
+		166C22AD29F7FD2700E527AC /* TextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C22AC29F7FD2700E527AC /* TextViewExtension.swift */; };
 		16C0929B29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */; };
 		16C0929D29F78D86002ACEB4 /* Identifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929C29F78D86002ACEB4 /* Identifying.swift */; };
 		16C0929F29F79642002ACEB4 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929E29F79642002ACEB4 /* ArrayExtension.swift */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		166C22AA29F7ECAF00E527AC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		166C22AC29F7FD2700E527AC /* TextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewExtension.swift; sourceTree = "<group>"; };
 		16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryInfoTableViewCell.swift; sourceTree = "<group>"; };
 		16C0929C29F78D86002ACEB4 /* Identifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifying.swift; sourceTree = "<group>"; };
 		16C0929E29F79642002ACEB4 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 				16C0929C29F78D86002ACEB4 /* Identifying.swift */,
 				16C0929E29F79642002ACEB4 /* ArrayExtension.swift */,
 				2600B96E29F79AFC0032E5BD /* DateExtension.swift */,
+				166C22AC29F7FD2700E527AC /* TextViewExtension.swift */,
 			);
 			path = Etc;
 			sourceTree = "<group>";
@@ -214,6 +217,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				166C22AD29F7FD2700E527AC /* TextViewExtension.swift in Sources */,
 				16C0929D29F78D86002ACEB4 /* Identifying.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,

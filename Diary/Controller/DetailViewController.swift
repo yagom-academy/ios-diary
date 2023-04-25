@@ -8,34 +8,48 @@
 import UIKit
 
 class DetailViewController: UIViewController {
-    private var textField: UITextField = {
-        let textField = UITextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        
-        return textField
-    }()
     private var textView: UITextView = {
         let textView = UITextView()
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         return textView
     }()
     private var sampleData: DiaryModel?
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .white
+        textView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone))
+        configureTextView()
         configureInitailView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        setUpNotification()
     }
     
     init(sampleData: DiaryModel? = nil) {
         self.sampleData = sampleData
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil)
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil)
     }
     
     private func configureInitailView() {
@@ -49,7 +63,55 @@ class DetailViewController: UIViewController {
         }
         
         self.navigationItem.title = Date.convertToDate(by: item.date)
-        self.textField.text = item.title
-        self.textView.text = item.body
+        self.textView.text = item.title + "\n\n" + item.body
+    }
+    
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              var keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
+        var contentInset = textView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        textView.contentInset = contentInset
+        textView.scrollIndicatorInsets = textView.contentInset
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        textView.contentInset = UIEdgeInsets.zero
+        textView.scrollIndicatorInsets = textView.contentInset
+    }
+    
+    @objc private func tapDone(sender: Any) {
+        self.view.endEditing(true)
+    }
+}
+
+// MARK: UI
+extension DetailViewController {
+    private func configureTextView() {
+        self.view.addSubview(textView)
+        
+        NSLayoutConstraint.activate([
+            textView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            textView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            textView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
 }
