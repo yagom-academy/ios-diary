@@ -30,7 +30,7 @@ final class DiaryListViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
-        title = "일기장"
+        title = NameSpace.diary
         
         diaryListTableView.dataSource = self
         diaryListTableView.delegate = self

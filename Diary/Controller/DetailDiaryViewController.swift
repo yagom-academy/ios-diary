@@ -7,13 +7,14 @@
 import UIKit
 
 final class DetailDiaryViewController: UIViewController {
+    private var diaryDate: String?
     
     private let bodyTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.text = "내용을 입력하세요"
+        textView.text = NameSpace.diaryPlaceholder
         
         return textView
     }()
@@ -33,7 +34,9 @@ final class DetailDiaryViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
-        title = Date().convertDate()
+        if diaryDate == nil {
+            title = Date().convertDate()
+        }
     }
     
     private func configureSubview() {
@@ -54,17 +57,29 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     func configureContent(diary: Diary) {
-        bodyTextView.text = diary.title + "\n" + "\n" + diary.body
+        bodyTextView.text = diary.title + NameSpace.doubleNewline + diary.body
+        diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
+        title = diaryDate
     }
     
     private func addKeyboardNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
     private func removeKeyboardNotification() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillShowNotification,
+                                                  object: nil)
+        NotificationCenter.default.removeObserver(self,
+                                                  name: UIResponder.keyboardWillHideNotification,
+                                                  object: nil)
     }
     
     @objc
@@ -73,7 +88,7 @@ final class DetailDiaryViewController: UIViewController {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             let changedHeight = keyboardHeight - UIApplication.shared.windows.first!.safeAreaInsets.bottom
-            UIView.animate(withDuration: 1) {
+            UIView.animate(withDuration: 0.5) {
                 NSLayoutConstraint.activate([
                     self.bodyTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -changedHeight)
                 
@@ -89,7 +104,7 @@ final class DetailDiaryViewController: UIViewController {
                 let keyboardRectangle = keyboardFrame.cgRectValue
                 let keyboardHeight = keyboardRectangle.height
                 let changedHeight = keyboardHeight - UIApplication.shared.windows.first!.safeAreaInsets.bottom
-                UIView.animate(withDuration: 1) {
+                UIView.animate(withDuration: 0.5) {
                     self.view.window?.frame.origin.y += changedHeight
                 }
             }
