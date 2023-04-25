@@ -10,29 +10,12 @@ import UIKit
 final class DiaryDetailViewController: UIViewController {
     private let contents: Contents
     
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return scrollView
-    }()
-    
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
-    }()
-    
-    private let descriptionLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        label.lineBreakMode = .byWordWrapping
-        label.font = .preferredFont(forTextStyle: .body)
-        
-        return label
+    private let textView: UITextView = {
+        let textView = UITextView()
+        textView.font = .preferredFont(forTextStyle: .body)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+
+        return textView
     }()
     
     init(contents: Contents) {
@@ -49,24 +32,41 @@ final class DiaryDetailViewController: UIViewController {
         
         configureUIOption()
         configureLayout()
+        addKeyboardObserver()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        removeKeyboardObserver()
+    }
+    
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow(notification: )),
+            name: UIResponder.keyboardWillShowNotification, object: nil
+        )
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+    }
+
+    @objc func keyboardWillShow(notification: Notification) {
+        
     }
     
     private func configureLayout() {
-        let stackView = createStackView()
-        
-        view.addSubview(scrollView)
-        scrollView.addSubview(stackView)
+        view.addSubview(textView)
         
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            stackView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            stackView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -16),
-            stackView.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
-            stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor)
+            textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
     
@@ -74,18 +74,10 @@ final class DiaryDetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
         navigationItem.title = contents.localizedDate
         
-        titleLabel.text = contents.title
-        descriptionLabel.text = contents.description + contents.description
-    }
-    
-    private func createStackView() -> UIStackView {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel])
-        stackView.axis = .vertical
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
+        textView.text = """
+        \(contents.title)
         
-        view.addSubview(stackView)
-        
-        return stackView
+        \(contents.description)
+        """
     }
 }
