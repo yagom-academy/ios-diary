@@ -1,0 +1,60 @@
+//
+//  DiaryInfoTableViewCell.swift
+//  Diary
+//
+//  Created by kaki, 레옹아범 on 2023/04/25.
+//
+
+import UIKit
+
+final class DiaryInfoTableViewCell: UITableViewCell {
+    
+    private var titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        
+        return label
+    }()
+    private var bodyLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .callout)
+        
+        return label
+    }()
+    private var dateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        
+        return label
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        configureCell()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func configureCell() {
+        let stackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
+        
+        stackView.spacing = 5
+        
+        let mainStackView = UIStackView(arrangedSubviews: [titleLabel, stackView])
+        
+        mainStackView.axis = .vertical
+        mainStackView.spacing = 5
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(mainStackView)
+        
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
+        ])
+    }
+}
