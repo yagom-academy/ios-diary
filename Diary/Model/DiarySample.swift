@@ -5,12 +5,12 @@
 //  Created by Rowan, Harry on 2023/04/25.
 //
 
-struct WelcomeElement: Codable {
+struct DiarySample: Codable {
     let title, body: String
-    let createdAt: Int
+    let createdDate: Double
 
     enum CodingKeys: String, CodingKey {
         case title, body
-        case createdAt = "created_at"
+        case createdDate = "created_at"
     }
 }
