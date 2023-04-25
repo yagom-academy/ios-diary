@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         window = UIWindow()
-        window?.rootViewController = DiaryViewController()
+        window?.rootViewController = DiaryListViewController()
         window?.makeKeyAndVisible()
         return true
     }

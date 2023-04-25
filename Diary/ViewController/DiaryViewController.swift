@@ -1,78 +1,103 @@
 //
-//  Diary - DiaryViewController.swift
-//  Created by 리지, Goat
-//  Copyright © yagom. All rights reserved.
-// 
+//  DiaryViewController.swift
+//  Diary
+//
+//  Created by 리지, goat on 2023/04/25.
+//
 
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private let diaryTableView: UITableView = UITableView()
+    
     private var sampleDiary: [SampleDiary] = []
     
+    private lazy var diaryTextView: UITextView = {
+        let textView = UITextView()
+        guard let sample = sampleDiary.first else { return UITextView() }
+        textView.text = sample.title + "\n" + sample.body
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.textColor = .secondaryLabel
+        return textView
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        decodeDiary()
-        configurUI()
-        setupView()
-        configureNavigationBar()
-    }
-    
-    private func decodeDiary() {
-        let diaryFileName = "sample"
-        sampleDiary = Decoder.parseJSON(fileName: diaryFileName, returnType: [SampleDiary].self) ?? []
-    }
-    
-    private func configurUI() {
         view.backgroundColor = .white
-        view.addSubview(diaryTableView)
-        let safeArea = view.safeAreaLayoutGuide
+        diaryTextView.delegate = self
         
-        diaryTableView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            diaryTableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            diaryTableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            diaryTableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            diaryTableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor)
-        ])
-    }
-    
-    private func setupView() {
-        diaryTableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
-        diaryTableView.dataSource = self
+        configureNavigationBar()
+        configureDiaryTextView()
+        setUpNotification()
+        hideKeyBoard()
     }
     
     private func configureNavigationBar() {
-        self.navigationItem.title = "일기장"
-        let plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(plusButtonTapped))
-        navigationItem.rightBarButtonItem = plusButton
+        let now = Date().timeIntervalSince1970
+        let today = Int(now)
+        
+        self.navigationItem.title = DateFormatterManager.convertToFomattedDate(of: today)
     }
     
-    @objc private func plusButtonTapped() {
+    private func configureDiaryTextView() {
+        view.addSubview(diaryTextView)
+        let safeArea = view.safeAreaLayoutGuide
         
+        diaryTextView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            diaryTextView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            diaryTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 14),
+            diaryTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -14),
+            diaryTextView.bottomAnchor.constraint(greaterThanOrEqualTo: safeArea.bottomAnchor)
+        ])
+    }
+    
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as NSDictionary?,
+              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
+        var contentInset = diaryTextView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        diaryTextView.contentInset = contentInset
+        diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        diaryTextView.contentInset = UIEdgeInsets.zero
+        diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
+    }
+    
+    private func hideKeyBoard() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tap)
+    }
+
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+    }
+    
+    func fillSampleDiary(_ dairy: [SampleDiary] ) {
+        sampleDiary = dairy
     }
 }
 
-extension DiaryViewController: UITableViewDataSource {
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sampleDiary.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let title = sampleDiary[indexPath.row].title
-        let date = sampleDiary[indexPath.row].createdDate
-        let body = sampleDiary[indexPath.row].body
-        
-        guard let diaryCell: DiaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier) as? DiaryTableViewCell,
-        let formattedDate = DateFormatterManager.convertToFomattedDate(of: date) else { return UITableViewCell() }
-        
-        diaryCell.accessoryType = .disclosureIndicator
-        diaryCell.setUpLabel(title: title, date: formattedDate, body: body)
-                
-        return diaryCell
+extension DiaryViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        guard textView.textColor == .secondaryLabel else { return }
+        textView.textColor = .black
     }
 }
