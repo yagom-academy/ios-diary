@@ -1,34 +1,33 @@
 //
-//  Diary - ViewController.swift
+//  Diary - DiaryViewController.swift
 //  Created by rilla, songjun.
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class DiaryViewController: UIViewController {
 
-    private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: configureCompositionalListLayout())
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        return collectionView
+    private lazy var tableView: UITableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
     }()
     
-    private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>!
+    private var dataSource: UITableViewDiffableDataSource<Section, Diary>!
     
     private var diaries: [Diary]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        configureUI()
-        configureLayout()
-        configureViewController()
-        configureDataSource()
         
         let decodedResult = DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
         diaries = try? verifyResult(result: decodedResult)
-        print("d")
+        
+        configureUI()
+        configureLayout()
+        configureViewController()
+        configureCollectionView()
     }
     
     private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T? {
@@ -41,17 +40,17 @@ final class ViewController: UIViewController {
     }
     
     private func configureUI() {
-        view.addSubview(collectionView)
+        view.addSubview(tableView)
     }
     
     private func configureLayout() {
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
     
@@ -75,7 +74,7 @@ final class ViewController: UIViewController {
     }
     
     @objc private func presentAddingDiaryPage() {
-        performQuery()
+        
     }
 }
 
@@ -84,34 +83,25 @@ enum Section: CaseIterable {
     case main
 }
 
-extension ViewController {
+extension DiaryViewController {
     private func configureCollectionView() {
-
         configureDataSource()
-        //performQuery()
+        applySnapshot()
     }
-    
-    private func configureCompositionalListLayout() -> UICollectionViewLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-        
-        return layout
-    }
-    
+
     private func configureDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration
-        <DiaryCollectionViewCell, Diary> { (cell, indexPath, diary) in
-            cell.configureCell(diary: diary)
-        }
+        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.reuseIdentifier)
         
-        dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView) {
-            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Diary) -> UICollectionViewCell? in
+        dataSource = UITableViewDiffableDataSource<Section, Diary>(tableView: tableView, cellProvider: { tableView, indexPath, diary in
+            let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.reuseIdentifier, for: indexPath) as? DiaryTableViewCell
             
-            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
-        }
+            cell?.configureCell(diary: diary)
+
+            return cell
+        })
     }
     
-    private func performQuery() {
+    private func applySnapshot() {
         guard diaries != nil else { return }
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()

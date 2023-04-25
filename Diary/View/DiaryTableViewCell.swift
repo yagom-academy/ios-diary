@@ -1,5 +1,5 @@
 //
-//  DiaryCollectionViewCell.swift
+//  DiaryTableViewCell.swift
 //  Diary
 //
 //  Created by rilla, songjun on 2023/04/24.
@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class DiaryCollectionViewCell: UICollectionViewListCell {
+final class DiaryTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "DiaryTableViewCell"
+    
     // MARK: - Property
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -37,8 +39,7 @@ final class DiaryCollectionViewCell: UICollectionViewListCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
-        
-        
+    
         return label
     }()
     
@@ -59,7 +60,7 @@ final class DiaryCollectionViewCell: UICollectionViewListCell {
         
         configureUI()
         configureLayout()
-        configureAccessory()
+        configureCellStyle()
     }
     
     private func configureUI() {
@@ -82,7 +83,7 @@ final class DiaryCollectionViewCell: UICollectionViewListCell {
         ])
     }
     
-    private func configureAccessory() {
-        self.accessories = [ .disclosureIndicator()]
+    private func configureCellStyle() {
+        self.accessoryType = .disclosureIndicator
     }
 }
