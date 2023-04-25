@@ -30,7 +30,7 @@ final class ViewController: UIViewController {
 
     private func configureTableView() {
         view.addSubview(diaryTableView)
-
+        diaryTableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
         diaryTableView.delegate = self
         diaryTableView.dataSource = self
 
@@ -53,7 +53,9 @@ extension ViewController: UITableViewDataSource {
                                                        for: indexPath) as? DiaryTableViewCell else {
             return UITableViewCell()
         }
-
+        
+        cell.configureLabel(diaryItem: diaryItems[indexPath.row])
+        
         return cell
     }
 }
