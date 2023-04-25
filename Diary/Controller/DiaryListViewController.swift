@@ -9,6 +9,10 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     let diaryDataDecoder = DiaryDataDecoder()
     
+    var diary: [Diary]? {
+        return diaryDataDecoder.decodeDiaryData()
+    }
+        
     let diaryListTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
@@ -59,8 +63,8 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let diary = diaryDataDecoder.decodeDiaryData() else { return 0 }
-
+        guard let diary else { return 0 }
+        
         return diary.count
     }
     
@@ -69,7 +73,9 @@ extension DiaryListViewController: UITableViewDataSource {
             return DiaryListCell()
         }
         cell.accessoryType = .disclosureIndicator
-        guard let diary = diaryDataDecoder.decodeDiaryData() else { return DiaryListCell() }
+        
+        guard let diary else { return DiaryListCell() }
+        
         cell.configureContent(data: diary[indexPath.row])
 
         return cell
@@ -79,5 +85,12 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        let detailDiaryViewController = DetailDiaryViewController()
+        navigationController?.pushViewController(detailDiaryViewController, animated: true)
+        
+        guard let diary else { return }
+        
+        detailDiaryViewController.configureContent(diary: diary[indexPath.row])
     }
 }

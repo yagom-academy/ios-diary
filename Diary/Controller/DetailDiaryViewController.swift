@@ -60,6 +60,11 @@ final class DetailDiaryViewController: UIViewController {
             titleTextView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 1/15)
         ])
     }
+    
+    func configureContent(diary: Diary) {
+        titleTextView.text = diary.title
+        bodyTextView.text = diary.body
+    }
 }
 
 extension DetailDiaryViewController: UITextViewDelegate {
