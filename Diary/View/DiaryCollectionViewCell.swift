@@ -9,16 +9,18 @@ import UIKit
 
 final class DiaryCollectionViewCell: UICollectionViewListCell {
     // MARK: - Property
-    private lazy var mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
     
-    private lazy var subTitleStackView: UIStackView = {
+    private let subTitleStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.distribution = .fillProportionally
         
         return stackView
     }()
@@ -33,15 +35,16 @@ final class DiaryCollectionViewCell: UICollectionViewListCell {
     
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
+        label.font = .preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        
         
         return label
     }()
     
     private let contentsLabel: UILabel = {
         let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption2)
+        label.font = .preferredFont(forTextStyle: .caption1)
         label.adjustsFontForContentSizeCategory = true
         
         return label
@@ -51,8 +54,7 @@ final class DiaryCollectionViewCell: UICollectionViewListCell {
     
     func configureCell(diary: Diary) {
         titleLabel.text = diary.title
-//        Date(timeIntervalSince1970: diary.createdAt)
-//        dateLabel.text = diary.createdAt
+        dateLabel.text = diary.createdAt.convertFormattedDate()
         contentsLabel.text = diary.body
         
         configureUI()
@@ -72,10 +74,11 @@ final class DiaryCollectionViewCell: UICollectionViewListCell {
     
     private func configureLayout() {
         NSLayoutConstraint.activate([
-            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            mainStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor)
+            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
+            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50),
+            mainStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 15),
+            mainStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -15),
+            dateLabel.widthAnchor.constraint(equalTo: subTitleStackView.widthAnchor, multiplier: 0.41),
         ])
     }
     
