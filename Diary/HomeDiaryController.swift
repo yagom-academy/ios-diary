@@ -16,7 +16,6 @@ final class HomeDiaryController: UIViewController {
         configureUI()
         let jsonData = loadJsonAsset(name: "sample")
         decode(jsonData)
-        
     }
 
     private func loadJsonAsset(name: String) -> Data? {
@@ -48,7 +47,7 @@ final class HomeDiaryController: UIViewController {
         diaryTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            diaryTableView.topAnchor.constraint(equalTo: view.topAnchor),
+            diaryTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             diaryTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             diaryTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
@@ -61,7 +60,7 @@ final class HomeDiaryController: UIViewController {
     }
     
     @objc private func didTapAddDiaryButton() {
-        
+        navigationController?.pushViewController(AddDiaryViewController(), animated: true)
     }
     
 }
