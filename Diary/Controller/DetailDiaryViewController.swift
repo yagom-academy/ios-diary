@@ -7,6 +7,8 @@
 import UIKit
 
 final class DetailDiaryViewController: UIViewController {
+    var touchEventYPosition: CGFloat?
+    
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -36,13 +38,17 @@ final class DetailDiaryViewController: UIViewController {
         configureUI()
         configureSubview()
         configureConstraint()
+        checkKeyboard()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touch = touches.first! as UITouch
+        touchEventYPosition = touch.location(in: view).y
     }
     
     private func configureUI() {
         view.backgroundColor = .white
         title = Date().convertDate()
-        titleTextView.delegate = self
-        bodyTextView.delegate = self
     }
     
     private func configureSubview() {
@@ -65,10 +71,40 @@ final class DetailDiaryViewController: UIViewController {
         titleTextView.text = diary.title
         bodyTextView.text = diary.body
     }
-}
-
-extension DetailDiaryViewController: UITextViewDelegate {
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        textView.text = nil
+    
+    private func checkKeyboard() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+    }
+    
+//    @objc func keyboardWillShow(notification: NSNotification) {
+//        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+//            let keyboardRectangle = keyboardFrame.cgRectValue
+//            let keyboardHeight = keyboardRectangle.height
+//            UIView.animate(withDuration: 1) {
+//                self.view.window?.frame.origin.y -= keyboardHeight
+//
+//            }
+//        }
+//    }
+    
+        @objc
+        private func keyboardWillShow(notification: NSNotification) {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+                guard let touchEventYPosition else { return }
+                if self.view.frame.origin.y == 0 {
+                    self.bodyTextView.frame.origin.y -= touchEventYPosition
+                }
+            }
+        }
+    
+    @objc
+    private func keyboardDidShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            guard let touchEventYPosition else { return }
+            if touchEventYPosition > keyboardSize.height {
+                self.view.frame.origin.y -= keyboardSize.height-UIApplication.shared.windows.first!.safeAreaInsets.bottom
+            }
+        }
     }
 }
