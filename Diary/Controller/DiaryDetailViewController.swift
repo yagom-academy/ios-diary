@@ -19,14 +19,14 @@ class DiaryDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         return scrollView
     }()
     
-    private let contentStackView: UIStackView = {
+    private lazy var contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 20

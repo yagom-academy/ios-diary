@@ -11,7 +11,7 @@ final class DiaryTableViewCell: UITableViewCell {
     static let reuseIdentifier = "DiaryTableViewCell"
     
     // MARK: - Property
-    private let mainStackView: UIStackView = {
+    private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -19,7 +19,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private let subTitleStackView: UIStackView = {
+    private lazy var subTitleStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally
@@ -27,7 +27,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private let titleLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.adjustsFontForContentSizeCategory = true
@@ -35,7 +35,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let dateLabel: UILabel = {
+    private lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -43,7 +43,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let contentsLabel: UILabel = {
+    private lazy var contentsLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
         label.adjustsFontForContentSizeCategory = true
