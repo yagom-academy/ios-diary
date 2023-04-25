@@ -26,11 +26,19 @@ final class ViewController: UIViewController {
 
     private func configureUI() {
         view.backgroundColor = .white
+        self.navigationItem.title = "일기장"
+        
+        let navigationRightButton = UIBarButtonItem(barButtonSystemItem: .add,
+                                     target: self,
+                                     action: #selector(addDiary))
+        
+        self.navigationItem.rightBarButtonItem = navigationRightButton
     }
 
     private func configureTableView() {
         view.addSubview(diaryTableView)
-        diaryTableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
+        diaryTableView.register(DiaryTableViewCell.self,
+                                forCellReuseIdentifier: DiaryTableViewCell.identifier)
         diaryTableView.delegate = self
         diaryTableView.dataSource = self
 
@@ -40,6 +48,9 @@ final class ViewController: UIViewController {
             diaryTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+    
+    @objc private func addDiary() {
     }
 }
 
@@ -54,6 +65,7 @@ extension ViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
+        cell.accessoryType = .disclosureIndicator
         cell.configureLabel(diaryItem: diaryItems[indexPath.row])
         
         return cell
@@ -61,5 +73,7 @@ extension ViewController: UITableViewDataSource {
 }
 
 extension ViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }

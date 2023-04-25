@@ -28,6 +28,7 @@ final class DiaryTableViewCell: UITableViewCell {
         let stackView = UIStackView()
         
         stackView.axis = .vertical
+        stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -46,13 +47,17 @@ final class DiaryTableViewCell: UITableViewCell {
         diaryInfoStackView.addArrangedSubview(titleLabel)
         diaryInfoStackView.addArrangedSubview(infoLabel)
         
-        self.addSubview(diaryInfoStackView)
+        self.contentView.addSubview(diaryInfoStackView)
         
         NSLayoutConstraint.activate([
-            diaryInfoStackView.topAnchor.constraint(equalTo: self.topAnchor),
-            diaryInfoStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-            diaryInfoStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
-            diaryInfoStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
+            diaryInfoStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor,
+                                                    constant: 8),
+            diaryInfoStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor,
+                                                       constant: -8),
+            diaryInfoStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,
+                                                        constant: 8),
+            diaryInfoStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,
+                                                         constant: -8)
         ])
     }
     
