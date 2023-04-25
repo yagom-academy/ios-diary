@@ -19,7 +19,7 @@ final class DiaryInfoTableViewCell: UITableViewCell {
     private var bodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont.preferredFont(forTextStyle: .callout)
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         return label
     }()
@@ -27,6 +27,8 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.setContentHuggingPriority(.required, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return label
     }()
@@ -62,7 +64,7 @@ final class DiaryInfoTableViewCell: UITableViewCell {
     
     func configureLabel(item: DiaryModel) {
         titleLabel.text = item.title
-        dateLabel.text = String(item.date)
+        dateLabel.text = Date.convertToDate(by: item.date)
         bodyLabel.text = item.body
     }
 }
