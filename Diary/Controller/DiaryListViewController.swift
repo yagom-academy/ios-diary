@@ -13,19 +13,21 @@ class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureRootView()
-        configureTableView()
+        setUpRootView()
+        setUpTableView()
         parseDiarySample()
     }
 
-    private func configureRootView() {
+    private func setUpRootView() {
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
     }
     
-    private func configureTableView() {
+    private func setUpTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+        
+        setUpTableViewLayout()
     }
     
     private func setUpTableViewLayout() {

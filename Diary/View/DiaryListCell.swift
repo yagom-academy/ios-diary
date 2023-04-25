@@ -55,19 +55,19 @@ final class DiaryListCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        configureAccessory()
-        configureLayout()
+        setUpAccessory()
+        setUpLayout()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureAccessory() {
+    func setUpAccessory() {
         self.accessoryType = .disclosureIndicator
     }
     
-    func configureLayout() {
+    func setUpLayout() {
         let safe = contentView.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
