@@ -8,7 +8,6 @@
 import UIKit
 
 final class DiaryInfoTableViewCell: UITableViewCell {
-    
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -43,6 +42,15 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configureLabel(item: DiaryModel) {
+        titleLabel.text = item.title
+        dateLabel.text = Date.convertToDate(by: item.date)
+        bodyLabel.text = item.body
+    }
+}
+
+// MARK: UI
+extension DiaryInfoTableViewCell {
     private func configureCell() {
         let stackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
         
@@ -61,11 +69,5 @@ final class DiaryInfoTableViewCell: UITableViewCell {
             mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -3),
             mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3)
         ])
-    }
-    
-    func configureLabel(item: DiaryModel) {
-        titleLabel.text = item.title
-        dateLabel.text = Date.convertToDate(by: item.date)
-        bodyLabel.text = item.body
     }
 }

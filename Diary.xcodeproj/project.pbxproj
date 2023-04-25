@@ -49,6 +49,40 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2600B97029F7A2980032E5BD /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2600B96C29F792C60032E5BD /* DiaryModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2600B97229F7A2A60032E5BD /* View */ = {
+			isa = PBXGroup;
+			children = (
+				16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2600B97329F7A2A80032E5BD /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE28284DF28600741E8F /* DiaryViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2600B97429F7A2CC0032E5BD /* Etc */ = {
+			isa = PBXGroup;
+			children = (
+				16C0929C29F78D86002ACEB4 /* Identifying.swift */,
+				16C0929E29F79642002ACEB4 /* ArrayExtension.swift */,
+				2600B96E29F79AFC0032E5BD /* DateExtension.swift */,
+			);
+			path = Etc;
+			sourceTree = "<group>";
+		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
@@ -69,18 +103,16 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				2600B97429F7A2CC0032E5BD /* Etc */,
+				2600B97329F7A2A80032E5BD /* Controller */,
+				2600B97229F7A2A60032E5BD /* View */,
+				2600B97029F7A2980032E5BD /* Model */,
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE28284DF28600741E8F /* DiaryViewController.swift */,
-				16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-				16C0929C29F78D86002ACEB4 /* Identifying.swift */,
-				2600B96C29F792C60032E5BD /* DiaryModel.swift */,
-				16C0929E29F79642002ACEB4 /* ArrayExtension.swift */,
-				2600B96E29F79AFC0032E5BD /* DateExtension.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
