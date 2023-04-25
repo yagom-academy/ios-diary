@@ -30,13 +30,15 @@ final class DiaryListCell: UITableViewCell {
         let label = UILabel()
         
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         return label
     }()
     
     private lazy var innerStackView: UIStackView = {
         let stackView = UIStackView()
-
+        
+        stackView.spacing = 10
         stackView.addArrangedSubview(dateLabel)
         stackView.addArrangedSubview(previewLabel)
 
@@ -48,8 +50,11 @@ final class DiaryListCell: UITableViewCell {
         
         stackView.axis = .vertical
         stackView.alignment = .leading
+        stackView.spacing = 5
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(innerStackView)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
         stackView.translatesAutoresizingMaskIntoConstraints = false
 
         return stackView
