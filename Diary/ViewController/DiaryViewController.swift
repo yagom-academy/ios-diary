@@ -42,12 +42,17 @@ final class DiaryViewController: UIViewController {
         view.addSubview(diaryTextView)
         let safeArea = view.safeAreaLayoutGuide
         
+        diaryTextView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        let heightConstraint = diaryTextView.heightAnchor.constraint(equalTo: safeArea.heightAnchor)
+        heightConstraint.priority = .defaultHigh
+        
         diaryTextView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            diaryTextView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            diaryTextView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
             diaryTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 14),
             diaryTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -14),
-            diaryTextView.bottomAnchor.constraint(greaterThanOrEqualTo: safeArea.bottomAnchor)
+            diaryTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            heightConstraint
         ])
     }
     
@@ -69,6 +74,7 @@ final class DiaryViewController: UIViewController {
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo as NSDictionary?,
               var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        
         keyboardFrame = view.convert(keyboardFrame, from: nil)
         var contentInset = diaryTextView.contentInset
         contentInset.bottom = keyboardFrame.size.height
