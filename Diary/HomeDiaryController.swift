@@ -1,16 +1,25 @@
 //
 //  Diary - ViewController.swift
-//  Created by yagom. 
-//  Copyright © yagom. All rights reserved.
+//  Created by Andrew, Brody.
 // 
 
 import UIKit
 
 class HomeDiaryController: UIViewController {
-
+    private let diaryTableView = UITableView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        
+        diaryTableView.dataSource = self
+    }
+}
+
+extension HomeDiaryController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        return UITableViewCell()
     }
 }
