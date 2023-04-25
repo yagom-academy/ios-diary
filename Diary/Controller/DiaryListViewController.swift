@@ -39,7 +39,8 @@ final class DiaryListViewController: UIViewController {
     
     @objc
     private func addDiary() {
-        
+        let detailDiaryViewController = DetailDiaryViewController()
+        navigationController?.pushViewController(detailDiaryViewController, animated: true)
     }
     
     private func configureSubview() {
