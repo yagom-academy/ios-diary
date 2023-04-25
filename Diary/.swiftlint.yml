@@ -1,0 +1,41 @@
+disabled_rules:
+  - colon
+  - comma
+  - control_statement
+  - comment_spacing
+  - trailing_whitespace
+  - line_length
+  - unused_closure_parameter
+  
+opt_in_rules:
+  - switch_case_alignment
+ 
+included:
+  - Source
+  
+excluded:
+  - Source/*/ExcludedFolder
+  - Source/*/ExcludedFile.swift
+  - Source/*/ExcludedFile.swift
+
+allow_zero_lintable_files: false
+
+force_cast: warning
+force_try:
+  severity: warning
+
+type_body_length:
+  - 300 # warning
+  - 400 # error
+
+file_length:
+  warning: 500
+  error: 1200
+
+type_name:
+  min_length: 4 # only warning
+  max_length: # warning and error
+    warning: 40
+    error: 50
+    
+reporter: "xcode"
