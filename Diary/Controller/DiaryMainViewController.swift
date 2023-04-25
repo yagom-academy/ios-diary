@@ -1,5 +1,5 @@
 //
-//  DiaryItem.swift
+//  DiaryMainViewController.swift
 //  Diary
 //
 //  Created by Christy, vetto on 2023/04/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class DiaryMainViewController: UIViewController {
     private let diaryTableView: UITableView = {
         let tableView: UITableView = UITableView()
 
@@ -25,7 +25,7 @@ final class ViewController: UIViewController {
     }
 
     private func configureUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         self.navigationItem.title = "일기장"
         
         let navigationRightButton = UIBarButtonItem(barButtonSystemItem: .add,
@@ -54,7 +54,7 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension DiaryMainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return diaryItems.count
     }
@@ -72,8 +72,11 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-extension ViewController: UITableViewDelegate {
+extension DiaryMainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diaryEditViewController = DiaryEditViewController(diaryItem: diaryItems[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
+        
+        navigationController?.pushViewController(diaryEditViewController, animated: true)
     }
 }
