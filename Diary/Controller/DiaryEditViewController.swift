@@ -7,8 +7,7 @@
 
 import UIKit
 
-class DiaryEditViewController: UIViewController {
-
+final class DiaryEditViewController: UIViewController {
     let textView: UITextView = {
         let textView = UITextView()
         
@@ -25,11 +24,13 @@ class DiaryEditViewController: UIViewController {
         configureUI()
     }
     
-    init(diaryItem: DiaryItem) {
+    init(diaryItem: DiaryItem? = nil) {
         super.init(nibName: nil, bundle: nil)
         
+        guard let diaryItem else { return }
+        
         textView.text = diaryItem.body
-        navigationItem.title = "\(diaryItem.createDate)"
+        navigationItem.title = DateManger.shared.convertToDate(fromInt: diaryItem.createDate)
     }
     
     required init?(coder: NSCoder) {

@@ -30,7 +30,7 @@ final class DiaryMainViewController: UIViewController {
         
         let navigationRightButton = UIBarButtonItem(barButtonSystemItem: .add,
                                      target: self,
-                                     action: #selector(addDiary))
+                                     action: #selector(addDiaryButtonTapped))
         
         self.navigationItem.rightBarButtonItem = navigationRightButton
     }
@@ -50,7 +50,10 @@ final class DiaryMainViewController: UIViewController {
         ])
     }
     
-    @objc private func addDiary() {
+    @objc private func addDiaryButtonTapped() {
+        let diaryEditViewController = DiaryEditViewController()
+        diaryEditViewController.title = DateManger.shared.generateTodayDate()
+        navigationController?.pushViewController(diaryEditViewController, animated: true)
     }
 }
 
@@ -75,8 +78,7 @@ extension DiaryMainViewController: UITableViewDataSource {
 extension DiaryMainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryEditViewController = DiaryEditViewController(diaryItem: diaryItems[indexPath.row])
-        tableView.deselectRow(at: indexPath, animated: true)
-        
         navigationController?.pushViewController(diaryEditViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
