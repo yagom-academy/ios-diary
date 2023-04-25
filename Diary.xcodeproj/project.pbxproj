@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		166C22AB29F7ECAF00E527AC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C22AA29F7ECAF00E527AC /* DetailViewController.swift */; };
 		16C0929B29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */; };
 		16C0929D29F78D86002ACEB4 /* Identifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929C29F78D86002ACEB4 /* Identifying.swift */; };
 		16C0929F29F79642002ACEB4 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929E29F79642002ACEB4 /* ArrayExtension.swift */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		166C22AA29F7ECAF00E527AC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryInfoTableViewCell.swift; sourceTree = "<group>"; };
 		16C0929C29F78D86002ACEB4 /* Identifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifying.swift; sourceTree = "<group>"; };
 		16C0929E29F79642002ACEB4 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* DiaryViewController.swift */,
+				166C22AA29F7ECAF00E527AC /* DetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -218,6 +221,7 @@
 				2600B96F29F79AFC0032E5BD /* DateExtension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				166C22AB29F7ECAF00E527AC /* DetailViewController.swift in Sources */,
 				16C0929B29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift in Sources */,
 				2600B96D29F792C60032E5BD /* DiaryModel.swift in Sources */,
 			);

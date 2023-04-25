@@ -15,6 +15,7 @@ final class DiaryViewController: UIViewController {
         
         view.backgroundColor = .white
         tableView.dataSource = self
+        tableView.delegate = self
         
         configureTableView()
         configureNavigationController()
@@ -32,6 +33,12 @@ final class DiaryViewController: UIViewController {
             print(error.localizedDescription)
         }
     }
+    
+    @objc private func plusButtonTapped() {
+        let detailVC = DetailViewController()
+        
+        self.navigationController?.pushViewController(detailVC, animated: true)
+    }
 }
 
 extension DiaryViewController: UITableViewDataSource {
@@ -48,6 +55,17 @@ extension DiaryViewController: UITableViewDataSource {
         cell.configureLabel(item: sampleDiaryItem)
         
         return cell
+    }
+}
+
+extension DiaryViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard let item = sampleData[safe: indexPath.row] else { return }
+        
+        let detailVC = DetailViewController(sampleData: item)
+        
+        self.navigationController?.pushViewController(detailVC, animated: true)
     }
 }
 
@@ -69,7 +87,7 @@ extension DiaryViewController {
     
     private func configureNavigationController() {
         self.navigationItem.title = "일기장"
-        let rightItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        let rightItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(plusButtonTapped))
         navigationItem.rightBarButtonItem = rightItem
     }
 }
