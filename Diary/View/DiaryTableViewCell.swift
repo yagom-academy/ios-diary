@@ -17,7 +17,7 @@ final class DiaryTableViewCell: UITableViewCell {
     let infoLabel: UILabel = {
         let label = UILabel()
         
-        label.font = .preferredFont(forTextStyle: .title3)
+        label.font = .preferredFont(forTextStyle: .footnote)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -62,7 +62,22 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureLabel(diaryItem: DiaryItem) {
+        let dateText = DateManger.shared.convertToDate(fromInt: diaryItem.createDate)
+        
         titleLabel.text = diaryItem.title
-        infoLabel.text = String(diaryItem.createDate) + diaryItem.body
+        infoLabel.text = dateText + "  " + diaryItem.body
+        infoLabel.attributeText(targetString: dateText)
+    }
+}
+
+extension UILabel {
+    func attributeText(targetString: String) {
+        let fullText = self.text ?? ""
+        let range = (fullText as NSString).range(of: targetString)
+        let attributedString = NSMutableAttributedString(string: fullText)
+        
+        attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .callout), range: range)
+        
+        self.attributedText = attributedString
     }
 }

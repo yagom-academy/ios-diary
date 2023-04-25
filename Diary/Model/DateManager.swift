@@ -14,8 +14,8 @@ struct DateManger {
     
     let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_kr")
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        dateFormatter.locale = Locale(identifier: Locale.preferredLanguages.first ?? Locale.current.identifier)
+        dateFormatter.dateStyle = .long
         
         return dateFormatter
     }()
