@@ -47,14 +47,8 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func configureConstraint() {
-        guard let navigationController,
-              let firstWindow = UIApplication.shared.windows.first else { return }
-        
-        let changedHeight = navigationController.navigationBar.frame.height - firstWindow.safeAreaInsets.top
-        
         NSLayoutConstraint.activate([
-            bodyTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor,
-                                              constant: changedHeight),
+            bodyTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             bodyTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             bodyTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             bodyTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
@@ -63,6 +57,7 @@ final class DetailDiaryViewController: UIViewController {
     
     func configureContent(diary: Diary) {
         bodyTextView.text = diary.title + NameSpace.doubleNewline + diary.body
+        bodyTextView.contentOffset = CGPoint.zero
         diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
         title = diaryDate
     }
