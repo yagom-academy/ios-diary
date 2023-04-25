@@ -35,6 +35,7 @@ final class DiaryInfoTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.accessoryType = .disclosureIndicator
         configureCell()
     }
     
@@ -56,7 +57,7 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 3),
-            mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 3),
+            mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
             mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -3),
             mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3)
         ])

@@ -18,6 +18,7 @@ final class DiaryViewController: UIViewController {
         tableView.dataSource = self
         
         configureTableView()
+        configureNavigationController()
         parseSampleData()
     }
     
@@ -46,6 +47,12 @@ final class DiaryViewController: UIViewController {
             print(error.localizedDescription)
         }
     }
+    
+    private func configureNavigationController() {
+        self.navigationItem.title = "일기장"
+        let rightItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = rightItem
+    }
 }
 
 extension DiaryViewController: UITableViewDataSource {
@@ -64,6 +71,4 @@ extension DiaryViewController: UITableViewDataSource {
         
         return cell
     }
-    
-    
 }
