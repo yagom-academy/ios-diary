@@ -12,21 +12,28 @@ final class HomeDiaryController: UIViewController {
         super.viewDidLoad()
         diaryTableView.dataSource = self
         diaryTableView.register(DiaryCell.self, forCellReuseIdentifier: "cell")
-        diaryTableView.rowHeight = UITableView.automaticDimension
-        diaryTableView.estimatedRowHeight = 600
         configureUI()
     }
     
     private func configureUI() {
+        view.backgroundColor = .systemBackground
+        configureNavigationBar()
+        diaryTableView.rowHeight = UITableView.automaticDimension
+        diaryTableView.estimatedRowHeight = 600
+        
         view.addSubview(diaryTableView)
         diaryTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             diaryTableView.topAnchor.constraint(equalTo: view.topAnchor),
-            diaryTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            diaryTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            diaryTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            diaryTableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             diaryTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.title = "일기장"
     }
     
 }
