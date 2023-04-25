@@ -8,11 +8,14 @@ import UIKit
 
 class DiaryListViewController: UIViewController {
     let tableView = UITableView()
+    var diarySample: [DiarySample] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureRootView()
         configureTableView()
+        parseDiarySample()
     }
 
     private func configureRootView() {
@@ -23,6 +26,29 @@ class DiaryListViewController: UIViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+    }
+    
+    private func setUpTableViewLayout() {
+        let safe = view.safeAreaLayoutGuide
+        
+        NSLayoutConstraint.activate([
+            tableView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
+            tableView.topAnchor.constraint(equalTo: safe.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safe.bottomAnchor)
+        ])
+    }
+    
+    private func parseDiarySample() {
+        let decoder = JSONDecoder()
+        
+        do {
+            guard let data = NSDataAsset(name: "sample")?.data else { return }
+            
+            diarySample = try decoder.decode([DiarySample].self, from: data)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
 
