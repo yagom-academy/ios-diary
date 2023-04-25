@@ -19,9 +19,8 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        diaryListTableView.dataSource = self
-        diaryListTableView.delegate = self
         configureUI()
+        configureSubview()
         configureConstraint()
     }
     
@@ -29,17 +28,22 @@ final class DiaryListViewController: UIViewController {
         view.backgroundColor = .white
         title = "일기장"
         
+        diaryListTableView.dataSource = self
+        diaryListTableView.delegate = self
+        
         let addDiaryButton = UIBarButtonItem(barButtonSystemItem: .add,
                                              target: self,
                                              action: #selector(addDiary))
         navigationItem.rightBarButtonItem = addDiaryButton
-    
-        view.addSubview(diaryListTableView)
     }
     
     @objc
     private func addDiary() {
-
+        
+    }
+    
+    private func configureSubview() {
+        view.addSubview(diaryListTableView)
     }
     
     private func configureConstraint() {

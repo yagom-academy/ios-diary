@@ -17,6 +17,7 @@
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		D0BAD8EF29F6705B0068E24B /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BAD8EE29F6705B0068E24B /* Date+.swift */; };
+		D0BAD8F129F770060068E24B /* DetailDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BAD8F029F770060068E24B /* DetailDiaryViewController.swift */; };
 		D0ED6A3E29F6529E00C025E9 /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ED6A3D29F6529E00C025E9 /* DiaryListCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +34,7 @@
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D0BAD8EE29F6705B0068E24B /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		D0BAD8F029F770060068E24B /* DetailDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDiaryViewController.swift; sourceTree = "<group>"; };
 		D0ED6A3D29F6529E00C025E9 /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,6 +79,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
+				D0BAD8F029F770060068E24B /* DetailDiaryViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				D0ED6A3E29F6529E00C025E9 /* DiaryListCell.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				D0BAD8F129F770060068E24B /* DetailDiaryViewController.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				4B983AA729F6650300190F50 /* Diary.swift in Sources */,
 				D0BAD8EF29F6705B0068E24B /* Date+.swift in Sources */,
