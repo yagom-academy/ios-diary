@@ -8,7 +8,8 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-    private let contents: Contents
+    private let contents: Contents?
+    private var textViewBottomConstrait: NSLayoutConstraint?
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -18,7 +19,7 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    init(contents: Contents) {
+    init(contents: Contents?) {
         self.contents = contents
         super.init(nibName: nil, bundle: nil)
     }
@@ -45,6 +46,12 @@ final class DiaryDetailViewController: UIViewController {
             selector: #selector(keyboardWillShow(notification: )),
             name: UIResponder.keyboardWillShowNotification, object: nil
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardDidHideNotification, object: nil
+        )
     }
     
     private func removeKeyboardObserver() {
@@ -53,13 +60,33 @@ final class DiaryDetailViewController: UIViewController {
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
-    }
-
-    @objc func keyboardWillShow(notification: Notification) {
         
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardDidHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc func keyboardWillShow(notification: Notification) {
+        guard let userInfo = notification.userInfo,
+              let keyboardFrameValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        let keyboardHeight = keyboardFrameValue.cgRectValue.height
+        
+        textView.contentInset.bottom = keyboardHeight
+        textView.verticalScrollIndicatorInsets.bottom = keyboardHeight
+    }
+    
+    @objc func keyboardWillHide() {
+        textView.contentInset.bottom = .zero
+        textView.verticalScrollIndicatorInsets.bottom = .zero
     }
     
     private func configureLayout() {
+        textView.contentOffset = .zero
+        
         view.addSubview(textView)
         
         NSLayoutConstraint.activate([
@@ -72,12 +99,17 @@ final class DiaryDetailViewController: UIViewController {
     
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = contents.localizedDate
         
-        textView.text = """
-        \(contents.title)
+        navigationItem.title = contents?.localizedDate ?? Date().translateLocalizedFormat()
         
-        \(contents.description)
-        """
+        if let contents {
+            textView.text = """
+            \(contents.title)
+            
+            \(contents.description)
+            """
+        } else {
+            textView.text = .none
+        }
     }
 }

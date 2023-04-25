@@ -22,7 +22,22 @@ final class DiaryListViewController: UIViewController {
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                            target: self,
+                                                            action: #selector(moveToAppendDiary))
+    }
+    
+    private func decodeContents() {
+        let jsonDecoder = JSONDecoder()
+        let assetName = "sample"
+        
+        guard let dataAsset = NSDataAsset(name: assetName) else { return }
+        
+        do {
+            contentsList = try jsonDecoder.decode([Contents].self, from: dataAsset.data)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     private func configureTableView() {
@@ -41,17 +56,9 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
-    private func decodeContents() {
-        let jsonDecoder = JSONDecoder()
-        let assetName = "sample"
-        
-        guard let dataAsset = NSDataAsset(name: assetName) else { return }
-        
-        do {
-            contentsList = try jsonDecoder.decode([Contents].self, from: dataAsset.data)
-        } catch {
-            print(error.localizedDescription)
-        }
+    @objc private func moveToAppendDiary() {
+        let diaryDetailViewController = DiaryDetailViewController(contents: nil)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
 
