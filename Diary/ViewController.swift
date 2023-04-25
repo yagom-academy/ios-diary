@@ -8,7 +8,7 @@ import UIKit
 
 final class ViewController: UIViewController {
     
-    private var tableView: UITableView?
+    private var tableView: UITableView = UITableView()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,8 +19,6 @@ final class ViewController: UIViewController {
     }
     
     private func configureTableView() {
-        let tableView = UITableView()
-        
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(tableView)
@@ -31,7 +29,5 @@ final class ViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-        
-        self.tableView = tableView
     }
 }
