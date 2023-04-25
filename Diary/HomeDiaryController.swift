@@ -14,7 +14,7 @@ final class HomeDiaryController: UIViewController {
         diaryTableView.dataSource = self
         diaryTableView.register(DiaryCell.self, forCellReuseIdentifier: "cell")
         configureUI()
-        let jsonData = loadJsonAsset(name: "dataSample")
+        let jsonData = loadJsonAsset(name: "sample")
         decode(jsonData)
         
     }

@@ -26,8 +26,8 @@ final class DiaryCell: UITableViewCell {
     
     private func configureUI() {
         configureTitleLabel()
-        configuredateLabel()
-        configurepreviewLabel()
+        configureDateLabel()
+        configurePreviewLabel()
         configureContentStackView()
         configureDiaryStackView()
         contentView.addSubview(diaryStackView)
@@ -45,15 +45,15 @@ final class DiaryCell: UITableViewCell {
         titleLabel.adjustsFontForContentSizeCategory = true
     }
     
-    private func configuredateLabel() {
+    private func configureDateLabel() {
         dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        dateLabel.font = .preferredFont(forTextStyle: .title2)
+        dateLabel.font = .preferredFont(forTextStyle: .title3)
         dateLabel.adjustsFontForContentSizeCategory = true
     }
     
-    private func configurepreviewLabel() {
+    private func configurePreviewLabel() {
         previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        previewLabel.font = .preferredFont(forTextStyle: .title3)
+        previewLabel.font = .preferredFont(forTextStyle: .caption1)
         previewLabel.adjustsFontForContentSizeCategory = true
     }
     
@@ -67,18 +67,18 @@ final class DiaryCell: UITableViewCell {
     
     private func configureDiaryStackView() {
         diaryStackView.axis = .vertical
-        diaryStackView.spacing = 20
+        diaryStackView.spacing = 5
         diaryStackView.translatesAutoresizingMaskIntoConstraints = false
         diaryStackView.addArrangedSubview(titleLabel)
         diaryStackView.addArrangedSubview(contentStackView)
-        diaryStackView.layoutMargins = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
+        diaryStackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
         diaryStackView.isLayoutMarginsRelativeArrangement = true
     }
     
     func configureData(data: DiaryItem) {
         titleLabel.text = data.title
-        dateLabel.text = String(data.date)
+        let date = Date(timeIntervalSince1970: TimeInterval(data.date))
+        dateLabel.text = Date.dateFormatter.string(from: date)
         previewLabel.text = data.body
     }
-    
 }

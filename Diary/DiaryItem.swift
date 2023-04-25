@@ -2,7 +2,7 @@
 //  DiaryItem.swift
 //  Diary
 //
-//  Created by Andrew on 2023/04/25.
+//  Created by Andrew, brody on 2023/04/25.
 //
 
 import Foundation
@@ -17,5 +17,4 @@ struct DiaryItem: Decodable {
         case date = "created_at"
         case body
     }
-    
 }
