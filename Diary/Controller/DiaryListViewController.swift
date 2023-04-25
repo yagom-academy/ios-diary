@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
@@ -22,6 +23,7 @@ final class DiaryListViewController: UIViewController {
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
     }
     
     private func configureTableView() {
@@ -73,7 +75,9 @@ extension DiaryListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configure(title: contents.title, description: contents.description, date: "\(contents.date)")
+        let date = Date(timeIntervalSince1970: Double(contents.date))
+        
+        cell.configure(title: contents.title, description: contents.description, date: date.translateLocalizedFormat())
         
         return cell
     }

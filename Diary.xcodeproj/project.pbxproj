@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA9DF69C29F76B9F00653F70 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9DF69B29F76B9F00653F70 /* Date+.swift */; };
 		BFBD2B8C29F6493400A5DC87 /* Contents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD2B8B29F6493400A5DC87 /* Contents.swift */; };
 		BFBD2B8E29F6528400A5DC87 /* ContentsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD2B8D29F6528400A5DC87 /* ContentsTableViewCell.swift */; };
 		BFBD2B9029F6531000A5DC87 /* IdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD2B8F29F6531000A5DC87 /* IdentifierType.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA9DF69B29F76B9F00653F70 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		BFBD2B8B29F6493400A5DC87 /* Contents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contents.swift; sourceTree = "<group>"; };
 		BFBD2B8D29F6528400A5DC87 /* ContentsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentsTableViewCell.swift; sourceTree = "<group>"; };
 		BFBD2B8F29F6531000A5DC87 /* IdentifierType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierType.swift; sourceTree = "<group>"; };
@@ -45,6 +47,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA9DF69A29F76B6D00653F70 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				AA9DF69B29F76B9F00653F70 /* Date+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		AAB0417129F64BA1006B6D9A /* Application */ = {
 			isa = PBXGroup;
 			children = (
@@ -109,6 +119,7 @@
 			isa = PBXGroup;
 			children = (
 				BFBD2B9229F6570600A5DC87 /* .swiftlint.yml */,
+				AA9DF69A29F76B6D00653F70 /* Extension */,
 				AAB0417629F64BD5006B6D9A /* Model */,
 				AAB0417429F64BC9006B6D9A /* View */,
 				AAB0417329F64BBF006B6D9A /* Controller */,
@@ -220,6 +231,7 @@
 				BFBD2B8E29F6528400A5DC87 /* ContentsTableViewCell.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				AA9DF69C29F76B9F00653F70 /* Date+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
