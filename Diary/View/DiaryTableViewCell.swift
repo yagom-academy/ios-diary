@@ -54,13 +54,16 @@ final class DiaryTableViewCell: UITableViewCell {
     // MARK: - Method
     
     func configureCell(diary: Diary) {
-        titleLabel.text = diary.title
-        dateLabel.text = diary.createdAt.convertFormattedDate()
-        contentsLabel.text = diary.body
-        
+        configureUIContent(diary)
         configureUI()
         configureLayout()
         configureCellStyle()
+    }
+    
+    private func configureUIContent(_ diary: Diary) {
+        titleLabel.text = diary.title
+        dateLabel.text = diary.createdAt.convertFormattedDate()
+        contentsLabel.text = diary.body
     }
     
     private func configureUI() {

@@ -56,13 +56,24 @@ class DiaryDetailViewController: UIViewController {
         configureLayout()
         configureNotification()
         configureViewController()
+        configureUIContent()
     }
     
     private func configureViewController() {
         view.backgroundColor = .white
         self.title = diary?.createdAt.convertFormattedDate()
-        self.titleTextField.text = diary!.title
-        self.contentsTextView.text = diary!.body
+    }
+    
+    private func configureUIContent() {
+        guard let validDiary = diary else {
+            self.title = "오늘날짜"
+            self.titleTextField.attributedPlaceholder = NSAttributedString(string: "제목을 입력해주세요", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+            return
+        }
+        
+        self.title = validDiary.createdAt.convertFormattedDate()
+        self.titleTextField.text = validDiary.title
+        self.contentsTextView.text = validDiary.body
     }
     
     private func configureUI() {

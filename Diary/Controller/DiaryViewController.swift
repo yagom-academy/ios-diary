@@ -75,7 +75,9 @@ final class DiaryViewController: UIViewController {
     }
     
     @objc private func presentAddingDiaryPage() {
+        let diaryDetailViewController = DiaryDetailViewController(nil)
         
+        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
 
