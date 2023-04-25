@@ -8,6 +8,8 @@
 import UIKit
 
 final class DiaryListCell: UITableViewCell {
+    static let identifier = #function
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
         
@@ -48,6 +50,7 @@ final class DiaryListCell: UITableViewCell {
         stackView.alignment = .leading
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(innerStackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
 
         return stackView
     }()
@@ -63,11 +66,13 @@ final class DiaryListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setUpAccessory() {
+    private func setUpAccessory() {
         self.accessoryType = .disclosureIndicator
     }
     
-    func setUpLayout() {
+    private func setUpLayout() {
+        contentView.addSubview(contentStackView)
+        
         let safe = contentView.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
@@ -76,5 +81,11 @@ final class DiaryListCell: UITableViewCell {
             contentStackView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
             contentStackView.bottomAnchor.constraint(equalTo: safe.bottomAnchor)
         ])
+    }
+    
+    func configureLabels(with data: DiarySample) {
+        titleLabel.text = data.title
+        dateLabel.text = String(data.createdDate)
+        previewLabel.text = data.body
     }
 }

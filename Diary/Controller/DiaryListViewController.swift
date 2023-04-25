@@ -6,9 +6,9 @@
 
 import UIKit
 
-class DiaryListViewController: UIViewController {
-    let tableView = UITableView()
-    var diarySample: [DiarySample] = []
+final class DiaryListViewController: UIViewController {
+    private let tableView = UITableView()
+    private var diarySample: [DiarySample] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,6 +26,9 @@ class DiaryListViewController: UIViewController {
     private func setUpTableView() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(DiaryListCell.self,
+                           forCellReuseIdentifier: DiaryListCell.identifier)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
         
         setUpTableViewLayout()
     }
@@ -56,11 +59,18 @@ class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return diarySample.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return UITableViewCell()
+        guard let cell = tableView
+            .dequeueReusableCell(withIdentifier: DiaryListCell.identifier,
+                                 for: indexPath) as? DiaryListCell
+        else { return UITableViewCell() }
+        
+        cell.configureLabels(with: diarySample[indexPath.row])
+        
+        return cell
     }
 }
 
