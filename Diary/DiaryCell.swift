@@ -42,21 +42,18 @@ final class DiaryCell: UITableViewCell {
     
     private func configureTitleLabel() {
         titleLabel.font = .preferredFont(forTextStyle: .title2)
-        titleLabel.text = "제목"
         titleLabel.adjustsFontForContentSizeCategory = true
     }
     
     private func configuredateLabel() {
         dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         dateLabel.font = .preferredFont(forTextStyle: .title2)
-        dateLabel.text = "2023년 4월 25일"
         dateLabel.adjustsFontForContentSizeCategory = true
     }
     
     private func configurepreviewLabel() {
         previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         previewLabel.font = .preferredFont(forTextStyle: .title3)
-        previewLabel.text = "미리보기미리보기미리보기미리보기미리보기미리보기미리보기미리보기미리보기미리보기미리보기미리보기"
         previewLabel.adjustsFontForContentSizeCategory = true
     }
     
@@ -77,4 +74,11 @@ final class DiaryCell: UITableViewCell {
         diaryStackView.layoutMargins = UIEdgeInsets(top: .zero, left: 10, bottom: .zero, right: 10)
         diaryStackView.isLayoutMarginsRelativeArrangement = true
     }
+    
+    func configureData(data: DiaryItem) {
+        titleLabel.text = data.title
+        dateLabel.text = String(data.date)
+        previewLabel.text = data.body
+    }
+    
 }
