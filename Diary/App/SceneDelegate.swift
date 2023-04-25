@@ -1,6 +1,6 @@
 //
 //  Diary - SceneDelegate.swift
-//  Created by yagom. 
+//  Created by Rowan, Harry. 
 //  Copyright © yagom. All rights reserved.
 // 
 
