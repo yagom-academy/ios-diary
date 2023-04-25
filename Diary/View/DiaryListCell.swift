@@ -89,8 +89,10 @@ final class DiaryListCell: UITableViewCell {
     }
     
     func configureLabels(with data: DiarySample) {
+        let date = Date(timeIntervalSince1970: data.createdDate)
+        
         titleLabel.text = data.title
-        dateLabel.text = String(data.createdDate)
+        dateLabel.text = DateFormatter.diaryForm.localizeDateString(from: date)
         previewLabel.text = data.body
     }
 }
