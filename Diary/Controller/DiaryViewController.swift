@@ -75,8 +75,7 @@ extension DiaryViewController: UITableViewDataSource {
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: DiaryTableViewCell.identifier,
-            for: indexPath) as? DiaryTableViewCell
-        else { return UITableViewCell() }
+            for: indexPath) as? DiaryTableViewCell else { return UITableViewCell() }
         cell.accessoryType = .disclosureIndicator
         cell.configureCellData(diaryItem: diaryItems[indexPath.row])
         

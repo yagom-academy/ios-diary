@@ -14,6 +14,7 @@ struct Diary: Decodable {
     let createdAt: Double
     
 }
+
 extension Diary {
     static let new: Diary = .init(title: "", body: "", createdAt: Date().timeIntervalSince1970)
 }
