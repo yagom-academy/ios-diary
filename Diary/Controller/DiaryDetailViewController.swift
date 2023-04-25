@@ -37,13 +37,16 @@ class DiaryDetailViewController: UIViewController {
     
     private lazy var titleTextField: UITextField = {
         let textField = UITextField()
+        textField.font = .preferredFont(forTextStyle: .title2)
         
         return textField
     }()
     
     private lazy var contentsTextView: UITextView = {
         let textView = UITextView()
+        textView.font = .preferredFont(forTextStyle: .body)
         textView.isScrollEnabled = false
+        
         return textView
     }()
     
@@ -51,6 +54,7 @@ class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureLayout()
+        configureNotification()
         configureViewController()
     }
     
@@ -83,5 +87,38 @@ class DiaryDetailViewController: UIViewController {
             contentStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -10),
             contentStackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -20)
         ])
+    }
+    
+    private func configureNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as NSDictionary?,
+              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
+        var contentInset = contentsTextView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        contentsTextView.contentInset = contentInset
+        contentsTextView.scrollIndicatorInsets = contentsTextView.contentInset
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        contentsTextView.contentInset = UIEdgeInsets.zero
+        contentsTextView.scrollIndicatorInsets = contentsTextView.contentInset
     }
 }

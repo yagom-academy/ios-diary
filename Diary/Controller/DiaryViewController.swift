@@ -84,7 +84,7 @@ enum Section: CaseIterable {
     case main
 }
 
-extension DiaryViewController {
+extension DiaryViewController: UITableViewDelegate {
     private func configureTableView() {
         tableView.delegate = self
         configureDataSource()
@@ -112,11 +112,11 @@ extension DiaryViewController {
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
-}
-
-extension DiaryViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryDetailViewController = DiaryDetailViewController(diaries?[indexPath.row])
+        tableView.deselectRow(at: indexPath, animated: true)
+        let diary = diaries?[index: indexPath.row]
+        let diaryDetailViewController = DiaryDetailViewController(diary)
         
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
