@@ -111,14 +111,14 @@ class DiaryDetailViewController: UIViewController {
             return
         }
         keyboardFrame = view.convert(keyboardFrame, from: nil)
-        var contentInset = contentsTextView.contentInset
+        var contentInset = scrollView.contentInset
         contentInset.bottom = keyboardFrame.size.height
-        contentsTextView.contentInset = contentInset
-        contentsTextView.scrollIndicatorInsets = contentsTextView.contentInset
+        scrollView.contentInset = contentInset
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        contentsTextView.contentInset = UIEdgeInsets.zero
-        contentsTextView.scrollIndicatorInsets = contentsTextView.contentInset
+        scrollView.contentInset = UIEdgeInsets.zero
+        scrollView.scrollIndicatorInsets = scrollView.contentInset
     }
 }
