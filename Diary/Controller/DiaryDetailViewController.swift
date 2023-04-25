@@ -38,14 +38,20 @@ class DiaryDetailViewController: UIViewController {
     private lazy var titleTextField: UITextField = {
         let textField = UITextField()
         textField.font = .preferredFont(forTextStyle: .title2)
+        textField.layer.borderWidth = 0.8
+        textField.layer.cornerRadius = 4
+        textField.addLeftPadding()
         
         return textField
     }()
     
-    private lazy var contentsTextView: UITextView = {
+    private lazy var bodyTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.isScrollEnabled = false
+        textView.layer.borderWidth = 0.8
+        textView.layer.cornerRadius = 4
+        textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
         
         return textView
     }()
@@ -66,21 +72,21 @@ class DiaryDetailViewController: UIViewController {
     
     private func configureUIContent() {
         guard let validDiary = diary else {
-            self.title = "오늘날짜"
-            self.titleTextField.attributedPlaceholder = NSAttributedString(string: "제목을 입력해주세요", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+            self.title = Date.nowDate
+            placeholderSetting()
             return
         }
         
         self.title = validDiary.createdAt.convertFormattedDate()
         self.titleTextField.text = validDiary.title
-        self.contentsTextView.text = validDiary.body
+        self.bodyTextView.text = validDiary.body
     }
     
     private func configureUI() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(titleTextField)
-        contentStackView.addArrangedSubview(contentsTextView)
+        contentStackView.addArrangedSubview(bodyTextView)
     }
     
     private func configureLayout() {
@@ -132,4 +138,31 @@ class DiaryDetailViewController: UIViewController {
         scrollView.contentInset = UIEdgeInsets.zero
         scrollView.scrollIndicatorInsets = scrollView.contentInset
     }
+}
+
+extension DiaryDetailViewController: UITextViewDelegate {
+    func placeholderSetting() {
+        titleTextField.attributedPlaceholder = NSAttributedString(string: "제목을 입력해주세요",
+                                                             attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+        bodyTextView.delegate = self
+        bodyTextView.text = "내용을 입력 해주세요."
+        bodyTextView.textColor = UIColor.lightGray
+        
+    }
+    
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if textView.textColor == UIColor.lightGray {
+            textView.text = nil
+            textView.textColor = UIColor.black
+        }
+        
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if textView.text.isEmpty {
+            textView.text = "내용을 입력 해주세요."
+            textView.textColor = UIColor.lightGray
+        }
+    }
+    
 }
