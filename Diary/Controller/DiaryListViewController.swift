@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
@@ -31,6 +30,7 @@ final class DiaryListViewController: UIViewController {
         
         tableView.register(ContentsTableViewCell.self, forCellReuseIdentifier: ContentsTableViewCell.identifier)
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -55,6 +55,7 @@ final class DiaryListViewController: UIViewController {
     }
 }
 
+// MARK: - Table view data source
 extension DiaryListViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -75,10 +76,19 @@ extension DiaryListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let date = Date(timeIntervalSince1970: Double(contents.date))
-        
-        cell.configure(title: contents.title, description: contents.description, date: date.translateLocalizedFormat())
+        cell.configure(title: contents.title, description: contents.description, date: contents.localizedDate)
         
         return cell
+    }
+}
+
+// MARK: - Table view delegate
+extension DiaryListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let contents = contentsList?[indexPath.row] else { return }
+        
+        let diaryDetailViewController = DiaryDetailViewController(contents: contents)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: false)
     }
 }

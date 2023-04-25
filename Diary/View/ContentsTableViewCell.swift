@@ -15,7 +15,7 @@ final class ContentsTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let descriptionLabel = {
+    private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
         
@@ -25,7 +25,7 @@ final class ContentsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        let stackView = configureStackView()
+        let stackView = createStackView()
         configureLayout(stackView)
         accessoryType = .disclosureIndicator
     }
@@ -40,7 +40,7 @@ final class ContentsTableViewCell: UITableViewCell {
         descriptionLabel.applyAttribute(targetString: date)
     }
     
-    private func configureStackView() -> UIStackView {
+    private func createStackView() -> UIStackView {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel])
         stackView.axis = .vertical
         stackView.spacing = 8
