@@ -53,8 +53,16 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         self.contentView.addSubview(mainStackView)
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
+            mainStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 3),
+            mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 3),
+            mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -3),
+            mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3)
         ])
+    }
+    
+    func configureLabel(item: DiaryModel) {
+        titleLabel.text = item.title
+        dateLabel.text = String(item.date)
+        bodyLabel.text = item.body
     }
 }
