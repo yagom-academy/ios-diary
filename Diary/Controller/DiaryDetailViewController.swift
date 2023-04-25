@@ -21,7 +21,6 @@ class DiaryDetailViewController: UIViewController {
     
     private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .red
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         return scrollView
@@ -31,7 +30,6 @@ class DiaryDetailViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 20
-        stackView.backgroundColor = .green
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -43,10 +41,10 @@ class DiaryDetailViewController: UIViewController {
         return textField
     }()
     
-    private lazy var contentsTextField: UITextField = {
-        let textField = UITextField()
-        
-        return textField
+    private lazy var contentsTextView: UITextView = {
+        let textView = UITextView()
+        textView.isScrollEnabled = false
+        return textView
     }()
     
     override func viewDidLoad() {
@@ -60,14 +58,14 @@ class DiaryDetailViewController: UIViewController {
         view.backgroundColor = .white
         self.title = diary?.createdAt.convertFormattedDate()
         self.titleTextField.text = diary!.title
-        self.contentsTextField.text = diary!.body
+        self.contentsTextView.text = diary!.body
     }
     
     private func configureUI() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(titleTextField)
-        contentStackView.addArrangedSubview(contentsTextField)
+        contentStackView.addArrangedSubview(contentsTextView)
     }
     
     private func configureLayout() {
@@ -77,7 +75,7 @@ class DiaryDetailViewController: UIViewController {
             scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             
             contentStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 10),
             contentStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 10),
