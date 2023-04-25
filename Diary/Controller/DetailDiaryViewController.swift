@@ -7,11 +7,10 @@
 import UIKit
 
 final class DetailDiaryViewController: UIViewController {
-    var touchEventYPosition: CGFloat?
-    
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
+        stackView.spacing = 5
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
@@ -20,14 +19,16 @@ final class DetailDiaryViewController: UIViewController {
     private let titleTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .title3)
+        textView.adjustsFontForContentSizeCategory = true
         textView.text = "제목을 입력하세요"
-        
+
         return textView
     }()
     
     private let bodyTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.adjustsFontForContentSizeCategory = true
         textView.text = "내용을 입력하세요"
         
         return textView
@@ -38,12 +39,12 @@ final class DetailDiaryViewController: UIViewController {
         configureUI()
         configureSubview()
         configureConstraint()
-        checkKeyboard()
+        addKeyboardNotification()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first! as UITouch
-        touchEventYPosition = touch.location(in: view).y
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        removeKeyboardNotification()
     }
     
     private func configureUI() {
@@ -63,7 +64,7 @@ final class DetailDiaryViewController: UIViewController {
             contentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             contentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            titleTextView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 1/15)
+            titleTextView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 1/14)
         ])
     }
     
@@ -72,38 +73,41 @@ final class DetailDiaryViewController: UIViewController {
         bodyTextView.text = diary.body
     }
     
-    private func checkKeyboard() {
+    private func addKeyboardNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-//    @objc func keyboardWillShow(notification: NSNotification) {
-//        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-//            let keyboardRectangle = keyboardFrame.cgRectValue
-//            let keyboardHeight = keyboardRectangle.height
-//            UIView.animate(withDuration: 1) {
-//                self.view.window?.frame.origin.y -= keyboardHeight
-//
-//            }
-//        }
-//    }
-    
-        @objc
-        private func keyboardWillShow(notification: NSNotification) {
-            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-                guard let touchEventYPosition else { return }
-                if self.view.frame.origin.y == 0 {
-                    self.bodyTextView.frame.origin.y -= touchEventYPosition
-                }
-            }
-        }
+    private func removeKeyboardNotification() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
     
     @objc
-    private func keyboardDidShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
-            guard let touchEventYPosition else { return }
-            if touchEventYPosition > keyboardSize.height {
-                self.view.frame.origin.y -= keyboardSize.height-UIApplication.shared.windows.first!.safeAreaInsets.bottom
+    private func keyboardWillShow(notification: NSNotification) {
+        if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            let keyboardRectangle = keyboardFrame.cgRectValue
+            let keyboardHeight = keyboardRectangle.height
+            let changedHeight = keyboardHeight - UIApplication.shared.windows.first!.safeAreaInsets.bottom
+            UIView.animate(withDuration: 1) {
+                NSLayoutConstraint.activate([
+                    self.bodyTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -changedHeight)
+                
+                ])
+            }
+        }
+    }
+    
+    @objc
+    private func keyboardWillHide(notification: NSNotification) {
+        if self.view.window?.frame.origin.y != 0 {
+            if let keyboardFrame: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                let keyboardRectangle = keyboardFrame.cgRectValue
+                let keyboardHeight = keyboardRectangle.height
+                let changedHeight = keyboardHeight - UIApplication.shared.windows.first!.safeAreaInsets.bottom
+                UIView.animate(withDuration: 1) {
+                    self.view.window?.frame.origin.y += changedHeight
+                }
             }
         }
     }
