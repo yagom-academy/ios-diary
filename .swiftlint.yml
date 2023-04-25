@@ -6,5 +6,5 @@ opt_in_rules:
 
 excluded:
   - Pods
-  - Diary/AppDelegate.swift
-  - Diary/SceneDelegate.swift
+  - Diary/App/AppDelegate.swift
+  - Diary/App/SceneDelegate.swift
