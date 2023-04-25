@@ -11,6 +11,7 @@
 		08C6A70729F66455005D3975 /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C6A70629F66455005D3975 /* DecodeManager.swift */; };
 		08C6A70A29F664A5005D3975 /* DecodeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C6A70929F664A5005D3975 /* DecodeError.swift */; };
 		1C0B528F29F7779D008F56BE /* Int+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0B528E29F7779D008F56BE /* Int+Extension.swift */; };
+		1C0B529329F79D22008F56BE /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C0B529229F79D22008F56BE /* DiaryDetailViewController.swift */; };
 		1C9590B229F6504D004FD951 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590B129F6504D004FD951 /* DiaryTableViewCell.swift */; };
 		1C9590B429F65919004FD951 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 1C9590B329F65919004FD951 /* .swiftlint.yml */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
@@ -26,6 +27,7 @@
 		08C6A70629F66455005D3975 /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
 		08C6A70929F664A5005D3975 /* DecodeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeError.swift; sourceTree = "<group>"; };
 		1C0B528E29F7779D008F56BE /* Int+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Int+Extension.swift"; sourceTree = "<group>"; };
+		1C0B529229F79D22008F56BE /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		1C9590B129F6504D004FD951 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		1C9590B329F65919004FD951 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,6 +83,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* DiaryViewController.swift */,
+				1C0B529229F79D22008F56BE /* DiaryDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
+				1C0B529329F79D22008F56BE /* DiaryDetailViewController.swift in Sources */,
 				1C0B528F29F7779D008F56BE /* Int+Extension.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				08C6A70A29F664A5005D3975 /* DecodeError.swift in Sources */,

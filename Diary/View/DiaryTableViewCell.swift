@@ -79,7 +79,7 @@ final class DiaryTableViewCell: UITableViewCell {
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50),
             mainStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 15),
             mainStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -15),
-            dateLabel.widthAnchor.constraint(equalTo: subTitleStackView.widthAnchor, multiplier: 0.41),
+            dateLabel.widthAnchor.constraint(equalTo: subTitleStackView.widthAnchor, multiplier: 0.41)
         ])
     }
     

@@ -7,27 +7,28 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-
+    private var diaries: [Diary]?
+    
+    private var dataSource: UITableViewDiffableDataSource<Section, Diary>!
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
     
-    private var dataSource: UITableViewDiffableDataSource<Section, Diary>!
-    
-    private var diaries: [Diary]?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let decodedResult = DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
-        diaries = try? verifyResult(result: decodedResult)
-        
+        decodeDiaryData()
         configureUI()
         configureLayout()
         configureViewController()
-        configureCollectionView()
+        configureTableView()
+    }
+    
+    private func decodeDiaryData() {
+        let decodedResult = DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
+        diaries = try? verifyResult(result: decodedResult)
     }
     
     private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T? {
@@ -57,7 +58,7 @@ final class DiaryViewController: UIViewController {
     private func configureViewController() {
         view.backgroundColor = .white
         self.title = "일기장"
-
+        
         let buttonItem: UIBarButtonItem = {
             let button = UIButton()
             
@@ -78,17 +79,18 @@ final class DiaryViewController: UIViewController {
     }
 }
 
-// MARK: - CollectionView
+// MARK: - TableView
 enum Section: CaseIterable {
     case main
 }
 
 extension DiaryViewController {
-    private func configureCollectionView() {
+    private func configureTableView() {
+        tableView.delegate = self
         configureDataSource()
         applySnapshot()
     }
-
+    
     private func configureDataSource() {
         tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.reuseIdentifier)
         
@@ -96,7 +98,7 @@ extension DiaryViewController {
             let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.reuseIdentifier, for: indexPath) as? DiaryTableViewCell
             
             cell?.configureCell(diary: diary)
-
+            
             return cell
         })
     }
@@ -109,5 +111,13 @@ extension DiaryViewController {
         snapshot.appendItems(diaries!)
         
         dataSource.apply(snapshot, animatingDifferences: true)
+    }
+}
+
+extension DiaryViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diaryDetailViewController = DiaryDetailViewController(diaries?[indexPath.row])
+        
+        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
