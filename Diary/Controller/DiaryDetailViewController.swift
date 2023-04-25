@@ -9,12 +9,10 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController {
     private let contents: Contents?
-    private var textViewBottomConstrait: NSLayoutConstraint?
-    
+        
     private let textView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.translatesAutoresizingMaskIntoConstraints = false
 
         return textView
     }()
@@ -68,7 +66,7 @@ final class DiaryDetailViewController: UIViewController {
         )
     }
     
-    @objc func keyboardWillShow(notification: Notification) {
+    @objc private func keyboardWillShow(notification: Notification) {
         guard let userInfo = notification.userInfo,
               let keyboardFrameValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             return
@@ -79,15 +77,15 @@ final class DiaryDetailViewController: UIViewController {
         textView.verticalScrollIndicatorInsets.bottom = keyboardHeight
     }
     
-    @objc func keyboardWillHide() {
+    @objc private func keyboardWillHide() {
         textView.contentInset.bottom = .zero
         textView.verticalScrollIndicatorInsets.bottom = .zero
     }
     
     private func configureLayout() {
-        textView.contentOffset = .zero
-        
         view.addSubview(textView)
+        textView.contentOffset = .zero
+        textView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

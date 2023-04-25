@@ -44,7 +44,6 @@ final class ContentsTableViewCell: UITableViewCell {
         let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel])
         stackView.axis = .vertical
         stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         contentView.addSubview(stackView)
         
@@ -52,6 +51,8 @@ final class ContentsTableViewCell: UITableViewCell {
     }
     
     private func configureLayout(_ stackView: UIStackView) {
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
