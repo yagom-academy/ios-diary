@@ -7,13 +7,13 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    let diaryDataDecoder = DiaryDataDecoder()
+    private let diaryDataDecoder = DiaryDataDecoder()
     
-    var diary: [Diary]? {
+    private var diary: [Diary]? {
         return diaryDataDecoder.decodeDiaryData()
     }
         
-    let diaryListTableView: UITableView = {
+    private let diaryListTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,6 +72,7 @@ extension DiaryListViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier) as? DiaryListCell else {
             return DiaryListCell()
         }
+        
         cell.accessoryType = .disclosureIndicator
         
         guard let diary else { return DiaryListCell() }
