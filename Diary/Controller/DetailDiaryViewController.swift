@@ -7,28 +7,12 @@
 import UIKit
 
 final class DetailDiaryViewController: UIViewController {
-    private let contentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 5
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return stackView
-    }()
-    
-    private let titleTextView: UITextView = {
-        let textView = UITextView()
-        textView.font = UIFont.preferredFont(forTextStyle: .title3)
-        textView.adjustsFontForContentSizeCategory = true
-        textView.text = "제목을 입력하세요"
-
-        return textView
-    }()
     
     private let bodyTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
+        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.text = "내용을 입력하세요"
         
         return textView
@@ -53,24 +37,24 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func configureSubview() {
-        view.addSubview(contentStackView)
-        contentStackView.addArrangedSubview(titleTextView)
-        contentStackView.addArrangedSubview(bodyTextView)
+        view.addSubview(bodyTextView)
     }
     
     private func configureConstraint() {
+        guard let navigationController else { return }
+        
+        let changedHeight = navigationController.navigationBar.frame.height - UIApplication.shared.windows.first!.safeAreaInsets.top
+        
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            titleTextView.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.heightAnchor, multiplier: 1/14)
+            bodyTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: changedHeight),
+            bodyTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            bodyTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            bodyTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
     
     func configureContent(diary: Diary) {
-        titleTextView.text = diary.title
-        bodyTextView.text = diary.body
+        bodyTextView.text = diary.title + "\n" + "\n" + diary.body
     }
     
     private func addKeyboardNotification() {
