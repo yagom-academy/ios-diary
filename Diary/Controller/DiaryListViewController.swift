@@ -1,18 +1,16 @@
 //
-//  Diary - ViewController.swift
-//  Created by yagom. 
+//  Diary - DiaryListViewController.swift
+//  Created by Rowan, Harry. 
 //  Copyright © yagom. All rights reserved.
 // 
 
 import UIKit
 
-class ViewController: UIViewController {
+class DiaryListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        view.backgroundColor = .blue
     }
-
-
 }
-
