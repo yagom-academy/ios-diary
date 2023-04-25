@@ -14,15 +14,21 @@ final class ViewController: UIViewController {
         return collectionView
     }()
     
+    private var dataSource: UICollectionViewDiffableDataSource<Section, Diary>!
+    
+    private var diaries: [Diary]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let decodedResult = DecodeManager().decodeJSON(fileName: "sample", type: Diaries.self)
-        let data = try? verifyResult(result: decodedResult)
-        
+
         configureUI()
         configureLayout()
         configureViewController()
+        configureDataSource()
+        
+        let decodedResult = DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
+        diaries = try? verifyResult(result: decodedResult)
+        print("d")
     }
     
     private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T? {
@@ -45,7 +51,7 @@ final class ViewController: UIViewController {
             collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
     
@@ -69,15 +75,49 @@ final class ViewController: UIViewController {
     }
     
     @objc private func presentAddingDiaryPage() {
-   
+        performQuery()
     }
 }
 
+// MARK: - CollectionView
+enum Section: CaseIterable {
+    case main
+}
+
 extension ViewController {
+    private func configureCollectionView() {
+
+        configureDataSource()
+        //performQuery()
+    }
+    
     private func configureCompositionalListLayout() -> UICollectionViewLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         
         return layout
+    }
+    
+    private func configureDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration
+        <DiaryCollectionViewCell, Diary> { (cell, indexPath, diary) in
+            cell.configureCell(diary: diary)
+        }
+        
+        dataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView) {
+            (collectionView: UICollectionView, indexPath: IndexPath, identifier: Diary) -> UICollectionViewCell? in
+            
+            return collectionView.dequeueConfiguredReusableCell(using: cellRegistration, for: indexPath, item: identifier)
+        }
+    }
+    
+    private func performQuery() {
+        guard diaries != nil else { return }
+        
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(diaries!)
+        
+        dataSource.apply(snapshot, animatingDifferences: true)
     }
 }

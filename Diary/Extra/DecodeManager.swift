@@ -16,7 +16,7 @@ final class DecodeManager {
             return .failure(.invalidFileError)
         }
         
-        do{
+        do {
             let decodedJSON: T = try decoder.decode(type, from: JSONFile.data)
             return .success(decodedJSON)
         } catch {

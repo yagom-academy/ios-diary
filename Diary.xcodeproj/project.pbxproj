@@ -110,6 +110,7 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
+				1C9590B329F65919004FD951 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
 			);
@@ -133,7 +134,6 @@
 				08C6A70529F6642C005D3975 /* Extra */,
 				08C6A70829F66475005D3975 /* Error */,
 				08C6A6FF29F655F3005D3975 /* Resources */,
-				1C9590B329F65919004FD951 /* .swiftlint.yml */,
 			);
 			path = Diary;
 			sourceTree = "<group>";

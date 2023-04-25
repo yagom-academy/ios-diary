@@ -49,10 +49,11 @@ final class DiaryCollectionViewCell: UICollectionViewListCell {
     
     // MARK: - Method
     
-    func configureCell(title: String, date: String, contents: String) {
-        titleLabel.text = title
-        dateLabel.text = date
-        contentsLabel.text = contents
+    func configureCell(diary: Diary) {
+        titleLabel.text = diary.title
+//        Date(timeIntervalSince1970: diary.createdAt)
+//        dateLabel.text = diary.createdAt
+        contentsLabel.text = diary.body
         
         configureUI()
         configureLayout()
