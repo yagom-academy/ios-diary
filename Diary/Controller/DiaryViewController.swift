@@ -36,11 +36,14 @@ final class DiaryViewController: UIViewController {
             target: self,
             action: #selector(tappedCreateDiary)
           )
-          self.navigationItem.setRightBarButton(addButton, animated: false)
+          navigationItem.setRightBarButton(addButton, animated: false)
         
     }
     
-    @objc func tappedCreateDiary() {}
+    @objc func tappedCreateDiary() {
+        let createDiaryViewController = DiaryDetailViewController(diaryItem: .new)
+        navigationController?.pushViewController(createDiaryViewController, animated: true)
+    }
     
     private func setupLayout() {
         view.backgroundColor = .systemBackground

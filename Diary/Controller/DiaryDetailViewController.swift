@@ -20,12 +20,12 @@ final class DiaryDetailViewController: UIViewController {
         return stackView
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .subheadline)
-        label.translatesAutoresizingMaskIntoConstraints = false
+    private let titleTextField: UITextField = {
+        let textField = UITextField()
+        textField.font = .preferredFont(forTextStyle: .subheadline)
+        textField.translatesAutoresizingMaskIntoConstraints = false
         
-        return label
+        return textField
     }()
     
     private let bodyTextView: UITextView = {
@@ -61,7 +61,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureCellData() {
-        titleLabel.text = diaryItem.title
+        titleTextField.text = diaryItem.title
         bodyTextView.text = diaryItem.body
     }
     
@@ -69,7 +69,7 @@ final class DiaryDetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(diaryDetailStackView)
         
-        diaryDetailStackView.addArrangedSubview(titleLabel)
+        diaryDetailStackView.addArrangedSubview(titleTextField)
         diaryDetailStackView.addArrangedSubview(bodyTextView)
         NSLayoutConstraint.activate([
             diaryDetailStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8.0),
