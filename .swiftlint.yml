@@ -4,6 +4,9 @@ opt_in_rules:
   - force_unwrapping
   - weak_delegate
 
+disabled_rules:
+  - trailing_whitespace
+
 excluded:
   - Pods
   - Diary/App/AppDelegate.swift
