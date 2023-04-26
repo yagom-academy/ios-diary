@@ -7,9 +7,21 @@
 
 import UIKit
 
-final class AddDiaryViewController: UIViewController {
+final class ProcessViewController: UIViewController {
     
     private let diaryTextView = UITextView()
+    private let diary: DiaryItem?
+    private let layoutType: LayoutType
+    
+    init(diaryItem: DiaryItem? = nil, type: LayoutType) {
+        self.diary = diaryItem
+        self.layoutType = type
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +31,18 @@ final class AddDiaryViewController: UIViewController {
         setUpNotification()
     }
     
+    private func updateTextView(diaryItem: DiaryItem?) {
+        guard let diaryItem else {
+            return
+        }
+        diaryTextView.text = "\(diaryItem.title)\n\n\(diaryItem.body)"
+    }
+    
     private func configureDiaryTextView() {
+        if layoutType == .update {
+            updateTextView(diaryItem: diary)
+        }
+        
         view.addSubview(diaryTextView)
         diaryTextView.translatesAutoresizingMaskIntoConstraints = false
         diaryTextView.contentInsetAdjustmentBehavior = .always

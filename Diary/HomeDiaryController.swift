@@ -12,6 +12,7 @@ final class HomeDiaryController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         diaryTableView.dataSource = self
+        diaryTableView.delegate = self
         diaryTableView.register(DiaryCell.self, forCellReuseIdentifier: "cell")
         configureUI()
         let jsonData = loadJsonAsset(name: "sample")
@@ -60,7 +61,7 @@ final class HomeDiaryController: UIViewController {
     }
     
     @objc private func didTapAddDiaryButton() {
-        navigationController?.pushViewController(AddDiaryViewController(), animated: true)
+        navigationController?.pushViewController(ProcessViewController(type: .create), animated: true)
     }
     
 }
@@ -78,5 +79,12 @@ extension HomeDiaryController: UITableViewDataSource {
         cell.configureData(data: diaries[indexPath.row])
         
         return cell
+    }
+}
+
+extension HomeDiaryController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let addDiaryViewController = ProcessViewController(diaryItem: diaries[indexPath.row], type: .update)
+        navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
 }
