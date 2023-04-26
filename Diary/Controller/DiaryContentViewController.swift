@@ -9,6 +9,7 @@ import UIKit
 
 final class DiaryContentViewController: UIViewController {
     private let diary: DiarySample?
+    private let textView = UITextView()
     
     init(diary: DiarySample? = nil) {
         self.diary = diary
@@ -24,10 +25,12 @@ final class DiaryContentViewController: UIViewController {
         
         setUpRootView()
         setUpNavigationBar()
+        setUpTextView()
     }
     
     private func setUpRootView() {
         view.backgroundColor = .systemBackground
+        view.addSubview(textView)
     }
     
     private func setUpNavigationBar() {
@@ -35,5 +38,23 @@ final class DiaryContentViewController: UIViewController {
         let date = Date(timeIntervalSince1970: timeInterval)
         
         navigationItem.title = DateFormatter.diaryForm.localizeDateString(from: date)
+    }
+    
+    private func setUpTextView() {
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.textColor = .black
+        
+        setUpTextViewLayout()
+    }
+    
+    private func setUpTextViewLayout() {
+        let safe = view.safeAreaLayoutGuide
+        
+        NSLayoutConstraint.activate([
+            textView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
+            textView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
+            textView.topAnchor.constraint(equalTo: safe.topAnchor),
+            textView.bottomAnchor.constraint(equalTo: safe.bottomAnchor)
+        ])
     }
 }
