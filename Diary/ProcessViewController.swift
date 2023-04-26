@@ -29,6 +29,7 @@ final class ProcessViewController: UIViewController {
         navigationItem.title = date
         configureDiaryTextView()
         setUpNotification()
+        
     }
     
     private func updateTextView(diaryItem: DiaryItem?) {
@@ -46,6 +47,9 @@ final class ProcessViewController: UIViewController {
         view.addSubview(diaryTextView)
         diaryTextView.translatesAutoresizingMaskIntoConstraints = false
         diaryTextView.contentInsetAdjustmentBehavior = .always
+        diaryTextView.font = .preferredFont(forTextStyle: .body)
+        diaryTextView.adjustsFontForContentSizeCategory = true
+        diaryTextView.contentOffset = .zero
         
         NSLayoutConstraint.activate([
             diaryTextView.topAnchor.constraint(equalTo: view.topAnchor),
