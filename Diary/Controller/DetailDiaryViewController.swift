@@ -47,7 +47,7 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     @objc
-    func endEditTextView() {
+    private func endEditTextView() {
         self.diaryTextView.endEditing(true)
     }
     
