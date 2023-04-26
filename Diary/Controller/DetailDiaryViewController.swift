@@ -9,7 +9,7 @@ import UIKit
 final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
     
-    private let bodyTextView: UITextView = {
+    private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.adjustsFontForContentSizeCategory = true
@@ -35,7 +35,7 @@ final class DetailDiaryViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
         
-        bodyTextView.setContentOffset(.zero, animated: true)
+        diaryTextView.setContentOffset(.zero, animated: true)
         
         if diaryDate == nil {
             title = Date().convertDate()
@@ -43,21 +43,21 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func configureSubview() {
-        view.addSubview(bodyTextView)
+        view.addSubview(diaryTextView)
     }
     
     private func configureConstraint() {
         NSLayoutConstraint.activate([
-            bodyTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            bodyTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            bodyTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            bodyTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            diaryTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            diaryTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
     }
     
     func configureContent(diary: Diary) {
-        bodyTextView.text = diary.title + NameSpace.doubleNewline + diary.body
-        bodyTextView.contentOffset = CGPoint.zero
+        diaryTextView.text = diary.title + NameSpace.doubleNewline + diary.body
+        diaryTextView.contentOffset = CGPoint.zero
         diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
         title = diaryDate
     }
@@ -92,7 +92,7 @@ final class DetailDiaryViewController: UIViewController {
             let changedHeight = keyboardHeight - firstWindow.safeAreaInsets.bottom
             UIView.animate(withDuration: 0.5) {
                 NSLayoutConstraint.activate([
-                    self.bodyTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,
+                    self.diaryTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,
                                                               constant: -changedHeight)
                 ])
             }
