@@ -31,7 +31,8 @@ final class DiaryListViewController: UIViewController {
         navigationItem.rightBarButtonItem = addButton
     }
     
-    @objc private func addDiary() {
+    @objc
+    private func addDiary() {
         let nextViewController = DiaryContentViewController()
         
         navigationController?.pushViewController(nextViewController, animated: true)

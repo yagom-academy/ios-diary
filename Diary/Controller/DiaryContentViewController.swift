@@ -26,6 +26,7 @@ final class DiaryContentViewController: UIViewController {
         setUpRootView()
         setUpNavigationBar()
         setUpTextView()
+        addObserver()
     }
     
     private func setUpRootView() {
@@ -43,6 +44,7 @@ final class DiaryContentViewController: UIViewController {
     private func setUpTextView() {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .preferredFont(forTextStyle: .body)
+        textView.textContainerInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         setUpTextViewLayout()
         configureTextViewContent()
     }
@@ -62,5 +64,34 @@ final class DiaryContentViewController: UIViewController {
             textView.topAnchor.constraint(equalTo: safe.topAnchor),
             textView.bottomAnchor.constraint(equalTo: safe.bottomAnchor)
         ])
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(noti:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWilHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc
+    private func keyboardWillShow(noti: NSNotification) {
+        guard let keyboardSize = noti.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
+            return
+        }
+        
+        let keyboardHeight = keyboardSize.cgRectValue.height
+        
+        textView.contentInset.bottom = keyboardHeight
+        textView.verticalScrollIndicatorInsets.bottom = keyboardHeight
+    }
+    
+    @objc
+    private func keyboardWilHide() {
+        textView.contentInset.bottom = .zero
+        textView.verticalScrollIndicatorInsets.bottom = .zero
     }
 }
