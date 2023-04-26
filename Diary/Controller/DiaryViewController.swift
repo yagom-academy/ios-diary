@@ -65,10 +65,30 @@ final class DiaryViewController: UIViewController {
     }
     
     private func fetchJSONData() {
-        guard let data = JsonConverter.decode() else { return }
-        diaryItems = data
+        do {
+            guard let data = try JsonConverter.decode() else { return }
+            diaryItems = data
+        } catch let error as NetworkError {
+            handleNetworkError(error)
+        } catch {
+            print("알 수 없는 에러: \(error).")
+        }
     }
     
+    private func handleNetworkError(_ error: NetworkError) {
+        print("Error: \(error.description)")
+        
+        let alertController = UIAlertController(title: "에러발생",
+                                                message: error.userErrorMessage,
+                                                preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인",
+                                     style: .default,
+                                     handler: nil)
+        
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+
 }
 
 extension DiaryViewController: UITableViewDataSource {

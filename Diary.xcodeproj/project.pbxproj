@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3609BE0A29F8EEFD0069CF43 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3609BE0929F8EEFD0069CF43 /* Array+Extension.swift */; };
+		3609BE0D29F8F6F40069CF43 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3609BE0C29F8F6F40069CF43 /* NetworkError.swift */; };
 		36BBAF7529F648D200E1B597 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BBAF7429F648D200E1B597 /* Diary.swift */; };
 		36BBAF7729F64CBD00E1B597 /* JsonConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BBAF7629F64CBD00E1B597 /* JsonConverter.swift */; };
 		36BBAF9C29F77E2100E1B597 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 36BBAF9B29F77E2100E1B597 /* .swiftlint.yml */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		3609BE0929F8EEFD0069CF43 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
+		3609BE0C29F8F6F40069CF43 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		36BBAF7429F648D200E1B597 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		36BBAF7629F64CBD00E1B597 /* JsonConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonConverter.swift; sourceTree = "<group>"; };
 		36BBAF9B29F77E2100E1B597 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -77,6 +79,15 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		3609BE0B29F8F6D50069CF43 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				36BBAF7629F64CBD00E1B597 /* JsonConverter.swift */,
+				3609BE0C29F8F6F40069CF43 /* NetworkError.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		36BBAF6E29F6432800E1B597 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,7 +125,6 @@
 		36BBAF9729F77CC200E1B597 /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				36BBAF7629F64CBD00E1B597 /* JsonConverter.swift */,
 				36BBAFA229F77F5D00E1B597 /* DateFormatter .swift */,
 			);
 			path = Util;
@@ -159,6 +169,7 @@
 			children = (
 				36BBAF6E29F6432800E1B597 /* App */,
 				3609BE0829F8EEBC0069CF43 /* Extension */,
+				3609BE0B29F8F6D50069CF43 /* Network */,
 				36BBAF7329F648C700E1B597 /* Model */,
 				36BBAF9D29F77EA900E1B597 /* View */,
 				36BBAF7029F6439E00E1B597 /* Controller */,
@@ -311,6 +322,7 @@
 				36BBAF7729F64CBD00E1B597 /* JsonConverter.swift in Sources */,
 				36BBAFA329F77F5D00E1B597 /* DateFormatter .swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				3609BE0D29F8F6F40069CF43 /* NetworkError.swift in Sources */,
 				36BBAF9F29F77EC400E1B597 /* DiaryTableViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
