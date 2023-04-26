@@ -32,7 +32,9 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func addDiary() {
+        let nextViewController = DiaryContentViewController()
         
+        navigationController?.pushViewController(nextViewController, animated: true)
     }
     
     private func setUpTableView() {
