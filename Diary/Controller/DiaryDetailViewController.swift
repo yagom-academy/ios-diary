@@ -15,7 +15,6 @@ final class DiaryDetailViewController: UIViewController {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .subheadline)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.textContainerInset = .zero
         textView.isScrollEnabled = false
         return textView
     }()
@@ -24,7 +23,6 @@ final class DiaryDetailViewController: UIViewController {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .subheadline)
         textView.translatesAutoresizingMaskIntoConstraints = false
-        textView.textContainerInset = .zero
         return textView
     }()
 
@@ -63,13 +61,13 @@ final class DiaryDetailViewController: UIViewController {
         view.addSubview(bodyTextView)
 
         NSLayoutConstraint.activate([
-            titleTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 8),
-            titleTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            titleTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8),
+            titleTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 5),
+            titleTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
+            titleTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5),
             bodyTextView.topAnchor.constraint(equalTo: titleTextView.bottomAnchor),
             bodyTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
-            bodyTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 8),
-            bodyTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -8)
+            bodyTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 5),
+            bodyTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -5)
         ])
     }
 
