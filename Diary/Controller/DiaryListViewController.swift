@@ -14,6 +14,7 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         
         setUpRootView()
+        setUpNavigationBar()
         setUpTableView()
         parseDiarySample()
     }
@@ -21,6 +22,17 @@ final class DiaryListViewController: UIViewController {
     private func setUpRootView() {
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
+    }
+    
+    private func setUpNavigationBar() {
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addDiary))
+        
+        navigationItem.title = "일기장"
+        navigationItem.rightBarButtonItem = addButton
+    }
+    
+    @objc private func addDiary() {
+        
     }
     
     private func setUpTableView() {
