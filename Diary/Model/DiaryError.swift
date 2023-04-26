@@ -12,9 +12,9 @@ enum DiaryError: Error, CustomStringConvertible {
     var description: String {
         switch self {
         case .invalidFile:
-            return "없는 파일"
+            return "Asset 파일명이 잘못되었습니다."
         case .decodingFailed:
-            return "디코딩 실패"
+            return "디코딩에 실패하였습니다."
         }
     }
 }

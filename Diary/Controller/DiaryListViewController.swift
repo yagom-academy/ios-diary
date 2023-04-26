@@ -35,7 +35,8 @@ final class DiaryListViewController: UIViewController {
         case .success(let data):
             contentsList = data
         case .failure(let error):
-            print(error)
+            let alertManager = AlertManager()
+            alertManager.showErrorAlert(target: self, error: error)
         }
     }
     

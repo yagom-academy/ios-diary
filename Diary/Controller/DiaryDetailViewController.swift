@@ -31,57 +31,6 @@ final class DiaryDetailViewController: UIViewController {
         
         configureUIOption()
         configureLayout()
-        addKeyboardObserver()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        removeKeyboardObserver()
-    }
-    
-    private func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow(notification: )),
-            name: UIResponder.keyboardWillShowNotification, object: nil
-        )
-        
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardDidHideNotification, object: nil
-        )
-    }
-    
-    private func removeKeyboardObserver() {
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        
-        NotificationCenter.default.removeObserver(
-            self,
-            name: UIResponder.keyboardDidHideNotification,
-            object: nil
-        )
-    }
-    
-    @objc private func keyboardWillShow(notification: Notification) {
-        guard let userInfo = notification.userInfo,
-              let keyboardFrameValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
-            return
-        }
-        let keyboardHeight = keyboardFrameValue.cgRectValue.height
-        
-        textView.contentInset.bottom = keyboardHeight
-        textView.verticalScrollIndicatorInsets.bottom = keyboardHeight
-    }
-    
-    @objc private func keyboardWillHide() {
-        textView.contentInset.bottom = .zero
-        textView.verticalScrollIndicatorInsets.bottom = .zero
     }
     
     private func configureLayout() {
@@ -89,11 +38,15 @@ final class DiaryDetailViewController: UIViewController {
         textView.contentOffset = .zero
         textView.translatesAutoresizingMaskIntoConstraints = false
         
+        view.keyboardLayoutGuide.followsUndockedKeyboard = true
+        
         NSLayoutConstraint.activate([
+            view.keyboardLayoutGuide.topAnchor.constraint(equalTo: textView.bottomAnchor),
+            
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            textView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
     }
     
