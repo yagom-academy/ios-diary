@@ -74,17 +74,21 @@ extension DiaryViewController: UITableViewDataSource {
         
         return diaryItems.count
     }
-    
+
     func tableView(_ tableView: UITableView,
                    cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: DiaryTableViewCell.identifier,
             for: indexPath) as? DiaryTableViewCell else { return UITableViewCell() }
         cell.accessoryType = .disclosureIndicator
-        cell.configureCellData(diaryItem: diaryItems[indexPath.row])
+
+        if let diaryItem = diaryItems[safe: indexPath.row] {
+            cell.configureCellData(diaryItem: diaryItem)
+        }
         
         return cell
     }
+
 }
 
 extension DiaryViewController: UITableViewDelegate {

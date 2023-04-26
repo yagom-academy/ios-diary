@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3609BE0A29F8EEFD0069CF43 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3609BE0929F8EEFD0069CF43 /* Array+Extension.swift */; };
 		36BBAF7529F648D200E1B597 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BBAF7429F648D200E1B597 /* Diary.swift */; };
 		36BBAF7729F64CBD00E1B597 /* JsonConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BBAF7629F64CBD00E1B597 /* JsonConverter.swift */; };
 		36BBAF9929F77D2B00E1B597 /* Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BBAF9829F77D2B00E1B597 /* Namespace.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3609BE0929F8EEFD0069CF43 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		36BBAF7429F648D200E1B597 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		36BBAF7629F64CBD00E1B597 /* JsonConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonConverter.swift; sourceTree = "<group>"; };
 		36BBAF9829F77D2B00E1B597 /* Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Namespace.swift; sourceTree = "<group>"; };
@@ -69,6 +71,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3609BE0829F8EEBC0069CF43 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3609BE0929F8EEFD0069CF43 /* Array+Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		36BBAF6E29F6432800E1B597 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -151,6 +161,7 @@
 			isa = PBXGroup;
 			children = (
 				36BBAF6E29F6432800E1B597 /* App */,
+				3609BE0829F8EEBC0069CF43 /* Extension */,
 				36BBAF7329F648C700E1B597 /* Model */,
 				36BBAF9D29F77EA900E1B597 /* View */,
 				36BBAF7029F6439E00E1B597 /* Controller */,
@@ -297,6 +308,7 @@
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				36BBAFA129F77F2D00E1B597 /* DiaryDetailViewController.swift in Sources */,
 				36BBAF9929F77D2B00E1B597 /* Namespace.swift in Sources */,
+				3609BE0A29F8EEFD0069CF43 /* Array+Extension.swift in Sources */,
 				36BBAF7529F648D200E1B597 /* Diary.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
