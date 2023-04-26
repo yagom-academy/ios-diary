@@ -38,13 +38,13 @@ final class DiaryViewController: UIViewController {
             image: UIImage(systemName: Namespace.plusIcon),
             style: .plain,
             target: self,
-            action: #selector(tappedCreateDiary)
+            action: #selector(createDiaryButtonTapped)
           )
           navigationItem.setRightBarButton(addButton, animated: false)
         
     }
     
-    @objc func tappedCreateDiary() {
+    @objc func createDiaryButtonTapped() {
         let createDiaryViewController = DiaryDetailViewController(diaryItem: .new)
         navigationController?.pushViewController(createDiaryViewController, animated: true)
     }
