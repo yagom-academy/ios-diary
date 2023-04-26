@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryContentViewController: UIViewController {
-    let diary: DiarySample?
+    private let diary: DiarySample?
     
     init(diary: DiarySample? = nil) {
         self.diary = diary
@@ -21,6 +21,19 @@ final class DiaryContentViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setUpRootView()
+        setUpNavigationBar()
+    }
+    
+    private func setUpRootView() {
         view.backgroundColor = .systemBackground
+    }
+    
+    private func setUpNavigationBar() {
+        let timeInterval = diary?.createdDate ?? Date().timeIntervalSince1970
+        let date = Date(timeIntervalSince1970: timeInterval)
+        
+        navigationItem.title = DateFormatter.diaryForm.localizeDateString(from: date)
     }
 }

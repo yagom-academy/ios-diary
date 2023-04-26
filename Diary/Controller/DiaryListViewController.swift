@@ -89,5 +89,10 @@ extension DiaryListViewController: UITableViewDataSource {
 }
 
 extension DiaryListViewController: UITableViewDelegate {
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let nextViewController = DiaryContentViewController(diary: diarySample[indexPath.row])
+        
+        navigationController?.pushViewController(nextViewController, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
 }
