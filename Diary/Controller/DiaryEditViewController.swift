@@ -39,7 +39,7 @@ final class DiaryEditViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
         

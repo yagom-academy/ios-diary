@@ -1,10 +1,14 @@
-//  Diary - DiaryTableViewCell.swift
-//  created by vetto on 2023/04/24
+//
+//  DiaryTableViewCell.swift
+//  Diary
+//
+//  Created by Christy, vetto on 2023/04/24.
+//
 
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         
         label.font = .preferredFont(forTextStyle: .title2)
@@ -14,7 +18,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
-    let infoLabel: UILabel = {
+    private let infoLabel: UILabel = {
         let label = UILabel()
         
         label.font = .preferredFont(forTextStyle: .footnote)
@@ -43,7 +47,7 @@ final class DiaryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell() {
+    private func configureCell() {
         diaryInfoStackView.addArrangedSubview(titleLabel)
         diaryInfoStackView.addArrangedSubview(infoLabel)
         
