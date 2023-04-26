@@ -8,12 +8,10 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
 
-    private lazy var diaryListTableView: UITableView = {
+    private var diaryListTableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
         tableView.register(DiaryTableViewCell.self,
                            forCellReuseIdentifier: DiaryTableViewCell.identifier)
-        tableView.dataSource = self
-        tableView.delegate = self
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         return tableView
@@ -23,11 +21,17 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableView()
         setupNavigationBar()
         setupLayout()
         fetchJSONData()
     }
 
+    private func setupTableView() {
+        diaryListTableView.dataSource = self
+        diaryListTableView.delegate = self
+    }
+    
     private func setupNavigationBar() {
         title = Namespace.navigationTitle
         let addButton = UIBarButtonItem(
