@@ -70,19 +70,19 @@ final class DetailViewController: UIViewController {
     private func setUpNotification() {
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(keyboardWillShow),
+            selector: #selector(showKeyboard),
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(keyboardWillHide),
+            selector: #selector(hideKeyboard),
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
     }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
+    @objc private func showKeyboard(_ notification: Notification) {
         guard let userInfo = notification.userInfo,
               var keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
@@ -93,7 +93,7 @@ final class DetailViewController: UIViewController {
         textView.scrollIndicatorInsets = textView.contentInset
     }
     
-    @objc private func keyboardWillHide(_ notification: Notification) {
+    @objc private func hideKeyboard(_ notification: Notification) {
         textView.contentInset = UIEdgeInsets.zero
         textView.scrollIndicatorInsets = textView.contentInset
     }
