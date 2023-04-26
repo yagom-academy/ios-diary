@@ -8,12 +8,12 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private var tableView: UITableView = UITableView()
-    private var sampleData: [DiaryModel] = []
+    private var diaryItems: [DiaryModel] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         tableView.dataSource = self
         tableView.delegate = self
         
@@ -28,27 +28,31 @@ final class DiaryViewController: UIViewController {
         let decoder = JSONDecoder()
         
         do {
-            sampleData = try decoder.decode([DiaryModel].self, from: dataAsset.data)
+            diaryItems = try decoder.decode([DiaryModel].self, from: dataAsset.data)
         } catch {
             print(error.localizedDescription)
         }
     }
     
-    @objc private func plusButtonTapped() {
-        let detailVC = DetailViewController()
+    private func pushDetailViewController(_ item: DiaryModel?) {
+        let detailVC = DetailViewController(diaryItem: item)
         
         self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
+    @objc private func plusButtonTapped() {
+        pushDetailViewController(nil)
     }
 }
 
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return sampleData.count
+        return diaryItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryInfoTableViewCell.identifier) as? DiaryInfoTableViewCell,
-              let sampleDiaryItem = sampleData[safe: indexPath.row] else {
+              let sampleDiaryItem = diaryItems[safe: indexPath.row] else {
             return UITableViewCell()
         }
         
@@ -61,11 +65,9 @@ extension DiaryViewController: UITableViewDataSource {
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let item = sampleData[safe: indexPath.row] else { return }
+        guard let item = diaryItems[safe: indexPath.row] else { return }
         
-        let detailVC = DetailViewController(sampleData: item)
-        
-        self.navigationController?.pushViewController(detailVC, animated: true)
+        pushDetailViewController(item)
     }
 }
 

@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+final class DetailViewController: UIViewController {
     private var textView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -15,12 +15,13 @@ class DetailViewController: UIViewController {
         
         return textView
     }()
-    private var sampleData: DiaryModel?
+    private var diaryItem: DiaryModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
+        
         textView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone))
         configureTextView()
         configureInitailView()
@@ -32,8 +33,8 @@ class DetailViewController: UIViewController {
         setUpNotification()
     }
     
-    init(sampleData: DiaryModel? = nil) {
-        self.sampleData = sampleData
+    init(diaryItem: DiaryModel? = nil) {
+        self.diaryItem = diaryItem
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -53,7 +54,7 @@ class DetailViewController: UIViewController {
     }
     
     private func configureInitailView() {
-        guard let item = sampleData else {
+        guard let item = diaryItem else {
             let today = Date().timeIntervalSince1970
             let todayText = Date.convertToDate(by: Int(today))
             

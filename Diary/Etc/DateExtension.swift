@@ -10,8 +10,6 @@ import Foundation
 extension Date {
     static private let formatter: DateFormatter = {
         let formatter = DateFormatter()
-        
-        formatter.locale = Locale.current
         formatter.dateFormat = "yyyy년 MM월 dd일"
         
         return formatter
