@@ -62,7 +62,7 @@ final class ContentsTableViewCell: UITableViewCell {
     }
 }
 
-fileprivate extension UILabel {
+private extension UILabel {
     func applyAttribute(targetString: String) {
         guard let fullText = text else { return }
         

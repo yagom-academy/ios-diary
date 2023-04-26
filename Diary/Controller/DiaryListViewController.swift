@@ -28,15 +28,14 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func decodeContents() {
-        let jsonDecoder = JSONDecoder()
         let assetName = "sample"
+        let result = DecodeManager().decodeJsonAsset(name: assetName, type: [Contents].self)
         
-        guard let dataAsset = NSDataAsset(name: assetName) else { return }
-        
-        do {
-            contentsList = try jsonDecoder.decode([Contents].self, from: dataAsset.data)
-        } catch {
-            print(error.localizedDescription)
+        switch result {
+        case .success(let data):
+            contentsList = data
+        case .failure(let error):
+            print(error)
         }
     }
     

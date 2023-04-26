@@ -35,6 +35,8 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
         removeKeyboardObserver()
     }
     
@@ -107,7 +109,7 @@ final class DiaryDetailViewController: UIViewController {
             \(contents.description)
             """
         } else {
-            textView.text = .none
+            textView.text = nil
         }
     }
 }
