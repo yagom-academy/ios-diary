@@ -9,7 +9,7 @@ import UIKit
 final class DiaryListCell: UITableViewCell {
     static let identifier = "DiaryListCell"
     
-    let contentStackView: UIStackView = {
+    private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 5
@@ -18,21 +18,21 @@ final class DiaryListCell: UITableViewCell {
         return stackView
     }()
     
-    let detailStackView: UIStackView = {
+    private let detailStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.spacing = 10
         
         return stackView
     }()
     
-    let titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         
         return label
     }()
     
-    let dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -40,7 +40,7 @@ final class DiaryListCell: UITableViewCell {
         return label
     }()
     
-    let bodyLabel: UILabel = {
+    private let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         
