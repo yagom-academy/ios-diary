@@ -10,8 +10,8 @@ import UIKit
 extension Date {
     static let dateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy년 MM월 dd일"
-        formatter.locale = Locale.current
+        formatter.locale = Locale(identifier: Locale.preferredLanguages.first ?? Locale.current.identifier)
+        formatter.dateStyle = .long
         return formatter
     }()
 }
