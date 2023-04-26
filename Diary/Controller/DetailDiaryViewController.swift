@@ -103,7 +103,8 @@ final class DetailDiaryViewController: UIViewController {
             let changedHeight = keyboardHeight - firstWindow.safeAreaInsets.bottom
             UIView.animate(withDuration: 5) {
                 self.bottomConstraint?.isActive = false
-                self.bottomConstraint = self.diaryTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -changedHeight)
+                self.bottomConstraint = self.diaryTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,
+                                                                                   constant: -changedHeight)
                 self.bottomConstraint?.isActive = true
             }
         }
