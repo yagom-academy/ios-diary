@@ -44,7 +44,10 @@ final class DiaryContentViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .preferredFont(forTextStyle: .body)
         setUpTextViewLayout()
-        
+        configureTextViewContent()
+    }
+    
+    private func configureTextViewContent() {
         guard let content = diary else { return }
         
         textView.text = "\(content.title)\n\n\(content.body)"
