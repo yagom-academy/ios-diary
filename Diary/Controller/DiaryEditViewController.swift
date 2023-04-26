@@ -21,6 +21,8 @@ final class DiaryEditViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        textView.keyboardDismissMode = .onDrag
+        
         configureUI()
     }
     
@@ -43,7 +45,7 @@ final class DiaryEditViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            textView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            textView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
