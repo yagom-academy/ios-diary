@@ -143,7 +143,7 @@ class DiaryDetailViewController: UIViewController {
 extension DiaryDetailViewController: UITextViewDelegate {
     func placeholderSetting() {
         titleTextField.attributedPlaceholder = NSAttributedString(string: "제목을 입력해주세요",
-                                                             attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
+                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         bodyTextView.delegate = self
         bodyTextView.text = "내용을 입력 해주세요."
         bodyTextView.textColor = UIColor.lightGray
