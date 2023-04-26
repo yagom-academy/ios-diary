@@ -31,7 +31,7 @@ final class DiaryEditViewController: UIViewController {
         
         guard let diaryItem else { return }
         
-        textView.text = diaryItem.body
+        textView.text = "\(diaryItem.title)\n\n\(diaryItem.body)"
         navigationItem.title = DateManger.shared.convertToDate(fromInt: diaryItem.createDate)
     }
     
