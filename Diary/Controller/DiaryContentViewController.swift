@@ -38,13 +38,13 @@ final class DiaryContentViewController: UIViewController {
         let timeInterval = diary?.createdDate ?? Date().timeIntervalSince1970
         let date = Date(timeIntervalSince1970: timeInterval)
         
-        navigationItem.title = DateFormatter.diaryForm.localizeDateString(from: date)
+        navigationItem.title = DateFormatter.diaryForm.string(from: date)
     }
     
     private func setUpTextView() {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .preferredFont(forTextStyle: .body)
-        textView.textContainerInset = .init(top: 0, left: 0, bottom: 0, right: 0)
+        
         setUpTextViewLayout()
         configureTextViewContent()
     }
@@ -72,7 +72,7 @@ final class DiaryContentViewController: UIViewController {
                                                name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWilHide),
+                                               selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
     }
@@ -90,7 +90,7 @@ final class DiaryContentViewController: UIViewController {
     }
     
     @objc
-    private func keyboardWilHide() {
+    private func keyboardWillHide() {
         textView.contentInset.bottom = .zero
         textView.verticalScrollIndicatorInsets.bottom = .zero
     }

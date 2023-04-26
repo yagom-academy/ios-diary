@@ -92,7 +92,7 @@ final class DiaryListCell: UITableViewCell {
         let date = Date(timeIntervalSince1970: data.createdDate)
         
         titleLabel.text = data.title
-        dateLabel.text = DateFormatter.diaryForm.localizeDateString(from: date)
+        dateLabel.text = DateFormatter.diaryForm.string(from: date)
         previewLabel.text = data.body
     }
 }

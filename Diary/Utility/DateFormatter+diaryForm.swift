@@ -15,8 +15,4 @@ extension DateFormatter {
         
         return dateFormatter
     }()
-    
-    func localizeDateString(from date: Date) -> String {
-        return self.string(from: date)
-    }
 }
