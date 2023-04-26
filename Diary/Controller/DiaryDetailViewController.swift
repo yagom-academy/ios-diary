@@ -47,7 +47,7 @@ final class DiaryDetailViewController: UIViewController {
     }
 
     private func setupNavigationBar() {
-        title = Formatter.changeToString(from: diaryItem.createdAt)
+        title = DateToStringFormatter.changeToString(from: diaryItem.createdAt)
     }
 
     private func configureCellData() {

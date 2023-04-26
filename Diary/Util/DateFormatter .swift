@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Formatter {
+enum DateToStringFormatter {
     
   private static let dateFormatter = DateFormatter()
 
