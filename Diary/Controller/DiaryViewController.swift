@@ -8,6 +8,9 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
 
+    private let navigationTitle = "일기장"
+    private let plusIcon = "plus"
+    
     private var diaryListTableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
         tableView.register(DiaryTableViewCell.self,
@@ -33,9 +36,9 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        title = Namespace.navigationTitle
+        title = navigationTitle
         let addButton = UIBarButtonItem(
-            image: UIImage(systemName: Namespace.plusIcon),
+            image: UIImage(systemName: plusIcon),
             style: .plain,
             target: self,
             action: #selector(createDiaryButtonTapped)
