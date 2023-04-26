@@ -106,7 +106,7 @@ extension DiaryViewController: UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
 
         if let diaryItem = diaryItems[safe: indexPath.row] {
-            cell.configureCellData(diaryItem: diaryItem)
+            cell.configureCellData(with: diaryItem)
         }
         
         return cell
