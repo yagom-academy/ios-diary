@@ -8,6 +8,7 @@ import UIKit
 
 final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
+    private var bottomConstraint: NSLayoutConstraint?
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -34,12 +35,20 @@ final class DetailDiaryViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
-        
         diaryTextView.setContentOffset(.zero, animated: true)
+        let endDiaryButton = UIBarButtonItem(barButtonSystemItem: .done,
+                                             target: self,
+                                             action: #selector(endEditTextView))
+        navigationItem.rightBarButtonItem = endDiaryButton
         
         if diaryDate == nil {
             title = Date().convertDate()
         }
+    }
+    
+    @objc
+    func endEditTextView() {
+        self.diaryTextView.endEditing(true)
     }
     
     private func configureSubview() {
@@ -47,9 +56,11 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func configureConstraint() {
+        bottomConstraint = diaryTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        bottomConstraint?.isActive = true
+        
         NSLayoutConstraint.activate([
             diaryTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            diaryTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
@@ -90,28 +101,20 @@ final class DetailDiaryViewController: UIViewController {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
             let changedHeight = keyboardHeight - firstWindow.safeAreaInsets.bottom
-            UIView.animate(withDuration: 0.5) {
-                NSLayoutConstraint.activate([
-                    self.diaryTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,
-                                                              constant: -changedHeight)
-                ])
+            UIView.animate(withDuration: 5) {
+                self.bottomConstraint?.isActive = false
+                self.bottomConstraint = self.diaryTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -changedHeight)
+                self.bottomConstraint?.isActive = true
             }
         }
     }
     
     @objc
     private func keyboardWillHide(notification: NSNotification) {
-        if self.view.window?.frame.origin.y != 0 {
-            if let keyboardFrame: NSValue =
-                notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-               let firstWindow = UIApplication.shared.windows.first {
-                let keyboardRectangle = keyboardFrame.cgRectValue
-                let keyboardHeight = keyboardRectangle.height
-                let changedHeight = keyboardHeight - firstWindow.safeAreaInsets.bottom
-                UIView.animate(withDuration: 0.5) {
-                    self.view.window?.frame.origin.y += changedHeight
-                }
-            }
+        UIView.animate(withDuration: 5) {
+            self.bottomConstraint?.isActive = false
+            self.bottomConstraint = self.diaryTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            self.bottomConstraint?.isActive = true
         }
     }
 }
