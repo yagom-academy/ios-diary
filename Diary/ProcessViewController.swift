@@ -29,7 +29,6 @@ final class ProcessViewController: UIViewController {
         navigationItem.title = date
         configureDiaryTextView()
         setUpNotification()
-        
     }
     
     private func updateTextView(diaryItem: DiaryItem?) {

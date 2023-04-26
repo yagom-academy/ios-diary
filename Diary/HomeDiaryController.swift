@@ -40,10 +40,7 @@ final class HomeDiaryController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
-        configureNavigationBar()
-        diaryTableView.rowHeight = UITableView.automaticDimension
-        diaryTableView.estimatedRowHeight = 600
-        
+        configureNavigationBar()        
         view.addSubview(diaryTableView)
         diaryTableView.translatesAutoresizingMaskIntoConstraints = false
         
