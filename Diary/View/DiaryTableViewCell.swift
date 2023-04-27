@@ -11,6 +11,7 @@ final class DiaryTableViewCell: UITableViewCell {
     static let reuseIdentifier = "DiaryTableViewCell"
     
     // MARK: - Property
+    
     private lazy var mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical

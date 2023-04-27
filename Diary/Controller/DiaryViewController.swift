@@ -117,7 +117,7 @@ extension DiaryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        let diary = diaries?[index: indexPath.row]
+        let diary = diaries?[safe: indexPath.row]
         let diaryDetailViewController = DiaryDetailViewController(diary)
         
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)

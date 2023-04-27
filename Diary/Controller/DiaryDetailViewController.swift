@@ -7,8 +7,8 @@
 
 import UIKit
 
-class DiaryDetailViewController: UIViewController {
-    var diary: Diary?
+final class DiaryDetailViewController: UIViewController {
+    private let diary: Diary?
     
     init(_ diary: Diary?) {
         self.diary = diary
@@ -98,10 +98,10 @@ class DiaryDetailViewController: UIViewController {
             scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             
-            contentStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 10),
-            contentStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 10),
-            contentStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -10),
-            contentStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -10),
+            contentStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 8),
+            contentStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 8),
+            contentStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -8),
+            contentStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -8),
             contentStackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -20)
         ])
     }
@@ -128,9 +128,8 @@ class DiaryDetailViewController: UIViewController {
             return
         }
         keyboardFrame = view.convert(keyboardFrame, from: nil)
-        var contentInset = scrollView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        scrollView.contentInset = contentInset
+
+        scrollView.contentInset.bottom = keyboardFrame.size.height
         scrollView.scrollIndicatorInsets = scrollView.contentInset
     }
     
@@ -142,12 +141,14 @@ class DiaryDetailViewController: UIViewController {
 
 extension DiaryDetailViewController: UITextViewDelegate {
     func placeholderSetting() {
-        titleTextField.attributedPlaceholder = NSAttributedString(string: "제목을 입력해주세요",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
+        titleTextField.attributedPlaceholder = NSAttributedString(
+            string: "제목을 입력해주세요",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+        )
+        
         bodyTextView.delegate = self
         bodyTextView.text = "내용을 입력 해주세요."
         bodyTextView.textColor = UIColor.lightGray
-        
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
@@ -155,7 +156,6 @@ extension DiaryDetailViewController: UITextViewDelegate {
             textView.text = nil
             textView.textColor = UIColor.black
         }
-        
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
