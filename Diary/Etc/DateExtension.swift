@@ -15,8 +15,8 @@ extension Date {
         return formatter
     }()
     
-    static func convertToDate(by date: Int) -> String {
-        let date = Date(timeIntervalSince1970: Double(date))
+    static func convertToDate(by date: Double) -> String {
+        let date = Date(timeIntervalSince1970: date)
         let dateText = Date.formatter.string(from: date)
         
         return dateText

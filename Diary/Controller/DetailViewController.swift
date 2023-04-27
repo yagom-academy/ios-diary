@@ -15,7 +15,7 @@ final class DetailViewController: UIViewController {
         
         return textView
     }()
-    private var diaryItem: DiaryModel?
+    private var diaryItem: DiaryModel
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,7 +33,7 @@ final class DetailViewController: UIViewController {
         setUpNotification()
     }
     
-    init(diaryItem: DiaryModel? = nil) {
+    init(diaryItem: DiaryModel) {
         self.diaryItem = diaryItem
         super.init(nibName: nil, bundle: nil)
     }
@@ -54,17 +54,15 @@ final class DetailViewController: UIViewController {
     }
     
     private func configureInitailView() {
-        guard let item = diaryItem else {
-            let today = Date().timeIntervalSince1970
-            let todayText = Date.convertToDate(by: Int(today))
-            
-            self.navigationItem.title = todayText
+        self.navigationItem.title = Date.convertToDate(by: diaryItem.date)
+        
+        if diaryItem.title.isEmpty {
+            self.diaryTextView.text = nil
             
             return
         }
         
-        self.navigationItem.title = Date.convertToDate(by: item.date)
-        self.diaryTextView.text = item.title + "\n\n" + item.body
+        self.diaryTextView.text = diaryItem.title + "\n\n" + diaryItem.body
     }
     
     private func setUpNotification() {

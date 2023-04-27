@@ -10,10 +10,16 @@ import Foundation
 struct DiaryModel: Decodable {
     var title: String
     var body: String
-    var date: Int
+    var date: Double
     
     enum CodingKeys: String, CodingKey {
         case title, body
         case date = "created_at"
+    }
+    
+    init(title: String = "", body: String = "", date: Double = Date().timeIntervalSince1970) {
+        self.title = title
+        self.body = body
+        self.date = date
     }
 }

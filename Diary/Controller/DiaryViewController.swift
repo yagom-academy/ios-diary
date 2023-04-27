@@ -34,14 +34,14 @@ final class DiaryViewController: UIViewController {
         }
     }
     
-    private func pushDetailViewController(_ item: DiaryModel?) {
+    private func pushDetailViewController(_ item: DiaryModel) {
         let detailVC = DetailViewController(diaryItem: item)
         
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     @objc private func plusButtonTapped() {
-        pushDetailViewController(nil)
+        pushDetailViewController(DiaryModel())
     }
 }
 
