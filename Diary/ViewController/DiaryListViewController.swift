@@ -50,8 +50,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func plusButtonTapped() {
-        let newDiaryViewController = NewDiaryViewController()
-        self.navigationController?.pushViewController(newDiaryViewController, animated: true)
+        let diaryDetailViewController = DiaryDetailViewController(diary: nil, isAutomaticKeyboard: true)
+        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
 
@@ -79,7 +79,7 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let diary = sampleDiary else { return }
-        let diaryDetailViewController = DiaryDetailViewController(diary: diary[indexPath.row])
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary[indexPath.row], isAutomaticKeyboard: false)
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }

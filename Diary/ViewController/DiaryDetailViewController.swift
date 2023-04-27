@@ -7,11 +7,13 @@
 
 import UIKit
 
-final class DiaryDetailViewController: UIViewController, DiaryTextViewProtocol, KeyboardProtocol {
-    private var diary: SampleDiary
+final class DiaryDetailViewController: UIViewController {
+    private var diary: SampleDiary?
+    private var isAutomaticKeyboard: Bool?
     
     private lazy var diaryTextView: UITextView = {
         let textView = UITextView()
+        guard let diary = self.diary else { return textView }
         textView.text = diary.title + "\n\n" + diary.body
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
@@ -19,8 +21,9 @@ final class DiaryDetailViewController: UIViewController, DiaryTextViewProtocol, 
         return textView
     }()
     
-    init(diary: SampleDiary) {
+    init(diary: SampleDiary?, isAutomaticKeyboard: Bool?) {
         self.diary = diary
+        self.isAutomaticKeyboard = isAutomaticKeyboard
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -32,18 +35,50 @@ final class DiaryDetailViewController: UIViewController, DiaryTextViewProtocol, 
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        configureNavigationBar(viewController: self)
-        configureDiaryTextView(view: view, textView: diaryTextView)
+        configureNavigationBar()
+        configureDiaryTextView()
         setUpNotification()
     }
     
-    func setUpNotification() {
+    override func viewDidAppear(_ animated: Bool) {
+        if isAutomaticKeyboard == true {
+            diaryTextView.becomeFirstResponder()
+        }
+    }
+    
+    private func configureNavigationBar() {
+        let now = Date().timeIntervalSince1970
+        let today = Int(now)
+        
+        self.navigationItem.title = DateFormatterManager.convertToFomattedDate(of: today)
+    }
+    
+    private func configureDiaryTextView() {
+        view.addSubview(diaryTextView)
+        let safeArea = view.safeAreaLayoutGuide
+        
+        diaryTextView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        let heightConstraint = diaryTextView.heightAnchor.constraint(equalTo: safeArea.heightAnchor)
+        heightConstraint.priority = .defaultHigh
+        
+        diaryTextView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            diaryTextView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
+            diaryTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 14),
+            diaryTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -14),
+            diaryTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            heightConstraint
+        ])
+    }
+    
+    private func setUpNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
             name: UIResponder.keyboardWillShowNotification,
             object: nil
         )
+        
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillHide),

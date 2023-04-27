@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		589E539F29F66D21000B8821 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589E539E29F66D21000B8821 /* DiaryTableViewCell.swift */; };
-		589E53A629F75E59000B8821 /* NewDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589E53A529F75E59000B8821 /* NewDiaryViewController.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryListViewController.swift */; };
@@ -17,8 +16,6 @@
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		FB17B91E29FA5556007236A2 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB17B91D29FA5555007236A2 /* DiaryDetailViewController.swift */; };
 		FB17B92029FA5A0A007236A2 /* extension + UITextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB17B91F29FA5A0A007236A2 /* extension + UITextView.swift */; };
-		FB17B92229FA5A9D007236A2 /* DiaryTextViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB17B92129FA5A9D007236A2 /* DiaryTextViewProtocol.swift */; };
-		FB17B92629FA673A007236A2 /* KeyboardProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB17B92529FA673A007236A2 /* KeyboardProtocol.swift */; };
 		FBFDD47629F657E7007EF5B7 /* SampleDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFDD47529F657E7007EF5B7 /* SampleDiary.swift */; };
 		FBFDD47A29F65AB4007EF5B7 /* Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFDD47929F65AB4007EF5B7 /* Decoder.swift */; };
 		FBFDD48329F65D35007EF5B7 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBFDD48229F65D35007EF5B7 /* DiaryTests.swift */; };
@@ -38,7 +35,6 @@
 
 /* Begin PBXFileReference section */
 		589E539E29F66D21000B8821 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
-		589E53A529F75E59000B8821 /* NewDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDiaryViewController.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -49,8 +45,6 @@
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FB17B91D29FA5555007236A2 /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		FB17B91F29FA5A0A007236A2 /* extension + UITextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + UITextView.swift"; sourceTree = "<group>"; };
-		FB17B92129FA5A9D007236A2 /* DiaryTextViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTextViewProtocol.swift; sourceTree = "<group>"; };
-		FB17B92529FA673A007236A2 /* KeyboardProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardProtocol.swift; sourceTree = "<group>"; };
 		FBFDD47529F657E7007EF5B7 /* SampleDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleDiary.swift; sourceTree = "<group>"; };
 		FBFDD47929F65AB4007EF5B7 /* Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoder.swift; sourceTree = "<group>"; };
 		FBFDD48029F65D35007EF5B7 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -112,15 +106,6 @@
 			path = Diary;
 			sourceTree = "<group>";
 		};
-		FB17B92429FA671F007236A2 /* Protocol */ = {
-			isa = PBXGroup;
-			children = (
-				FB17B92129FA5A9D007236A2 /* DiaryTextViewProtocol.swift */,
-				FB17B92529FA673A007236A2 /* KeyboardProtocol.swift */,
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
 		FBFDD47B29F65ABB007EF5B7 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -153,8 +138,6 @@
 			children = (
 				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
 				FB17B91D29FA5555007236A2 /* DiaryDetailViewController.swift */,
-				589E53A529F75E59000B8821 /* NewDiaryViewController.swift */,
-				FB17B92429FA671F007236A2 /* Protocol */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -283,12 +266,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB17B92629FA673A007236A2 /* KeyboardProtocol.swift in Sources */,
 				FBFDD47629F657E7007EF5B7 /* SampleDiary.swift in Sources */,
-				FB17B92229FA5A9D007236A2 /* DiaryTextViewProtocol.swift in Sources */,
 				FB17B91E29FA5556007236A2 /* DiaryDetailViewController.swift in Sources */,
 				FB17B92029FA5A0A007236A2 /* extension + UITextView.swift in Sources */,
-				589E53A629F75E59000B8821 /* NewDiaryViewController.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
