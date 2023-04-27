@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private let tableView: UITableView = UITableView()
-    private var diaryItems: [DiaryModel] = []
+    private var diaryItems: [Diary] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,20 +28,20 @@ final class DiaryViewController: UIViewController {
         let decoder = JSONDecoder()
         
         do {
-            diaryItems = try decoder.decode([DiaryModel].self, from: dataAsset.data)
+            diaryItems = try decoder.decode([Diary].self, from: dataAsset.data)
         } catch {
             print(error.localizedDescription)
         }
     }
     
-    private func pushDetailViewController(_ item: DiaryModel) {
-        let detailVC = DetailViewController(diaryItem: item)
+    private func pushDiaryDetailViewController(with diary: Diary) {
+        let detailVC = DiaryDetailViewController(diaryItem: diary)
         
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     @objc private func plusButtonTapped() {
-        pushDetailViewController(DiaryModel())
+        pushDiaryDetailViewController(with: Diary())
     }
 }
 
@@ -65,9 +65,9 @@ extension DiaryViewController: UITableViewDataSource {
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard let item = diaryItems[safe: indexPath.row] else { return }
+        guard let diary = diaryItems[safe: indexPath.row] else { return }
         
-        pushDetailViewController(item)
+        pushDiaryDetailViewController(with: diary)
     }
 }
 

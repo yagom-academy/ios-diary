@@ -7,12 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		166C22AB29F7ECAF00E527AC /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C22AA29F7ECAF00E527AC /* DetailViewController.swift */; };
+		166C22AB29F7ECAF00E527AC /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C22AA29F7ECAF00E527AC /* DiaryDetailViewController.swift */; };
 		166C22AD29F7FD2700E527AC /* TextViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C22AC29F7FD2700E527AC /* TextViewExtension.swift */; };
 		16C0929B29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */; };
-		16C0929D29F78D86002ACEB4 /* Identifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929C29F78D86002ACEB4 /* Identifying.swift */; };
+		16C0929D29F78D86002ACEB4 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929C29F78D86002ACEB4 /* ReuseIdentifiable.swift */; };
 		16C0929F29F79642002ACEB4 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929E29F79642002ACEB4 /* ArrayExtension.swift */; };
-		2600B96D29F792C60032E5BD /* DiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600B96C29F792C60032E5BD /* DiaryModel.swift */; };
+		2600B96D29F792C60032E5BD /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600B96C29F792C60032E5BD /* Diary.swift */; };
 		2600B96F29F79AFC0032E5BD /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600B96E29F79AFC0032E5BD /* DateExtension.swift */; };
 		268A806F29F6569C0071A59E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 268A806E29F6569C0071A59E /* .swiftlint.yml */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
@@ -24,12 +24,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		166C22AA29F7ECAF00E527AC /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		166C22AA29F7ECAF00E527AC /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		166C22AC29F7FD2700E527AC /* TextViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewExtension.swift; sourceTree = "<group>"; };
 		16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryInfoTableViewCell.swift; sourceTree = "<group>"; };
-		16C0929C29F78D86002ACEB4 /* Identifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Identifying.swift; sourceTree = "<group>"; };
+		16C0929C29F78D86002ACEB4 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
 		16C0929E29F79642002ACEB4 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
-		2600B96C29F792C60032E5BD /* DiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModel.swift; sourceTree = "<group>"; };
+		2600B96C29F792C60032E5BD /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		2600B96E29F79AFC0032E5BD /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		268A806E29F6569C0071A59E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,7 +56,7 @@
 		2600B97029F7A2980032E5BD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2600B96C29F792C60032E5BD /* DiaryModel.swift */,
+				2600B96C29F792C60032E5BD /* Diary.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -73,7 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* DiaryViewController.swift */,
-				166C22AA29F7ECAF00E527AC /* DetailViewController.swift */,
+				166C22AA29F7ECAF00E527AC /* DiaryDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -81,7 +81,7 @@
 		2600B97429F7A2CC0032E5BD /* Etc */ = {
 			isa = PBXGroup;
 			children = (
-				16C0929C29F78D86002ACEB4 /* Identifying.swift */,
+				16C0929C29F78D86002ACEB4 /* ReuseIdentifiable.swift */,
 				16C0929E29F79642002ACEB4 /* ArrayExtension.swift */,
 				2600B96E29F79AFC0032E5BD /* DateExtension.swift */,
 				166C22AC29F7FD2700E527AC /* TextViewExtension.swift */,
@@ -218,16 +218,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				166C22AD29F7FD2700E527AC /* TextViewExtension.swift in Sources */,
-				16C0929D29F78D86002ACEB4 /* Identifying.swift in Sources */,
+				16C0929D29F78D86002ACEB4 /* ReuseIdentifiable.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				16C0929F29F79642002ACEB4 /* ArrayExtension.swift in Sources */,
 				2600B96F29F79AFC0032E5BD /* DateExtension.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
-				166C22AB29F7ECAF00E527AC /* DetailViewController.swift in Sources */,
+				166C22AB29F7ECAF00E527AC /* DiaryDetailViewController.swift in Sources */,
 				16C0929B29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift in Sources */,
-				2600B96D29F792C60032E5BD /* DiaryModel.swift in Sources */,
+				2600B96D29F792C60032E5BD /* Diary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

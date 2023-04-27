@@ -42,7 +42,7 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureLabel(item: DiaryModel) {
+    func configureLabel(item: Diary) {
         titleLabel.text = item.title
         dateLabel.text = Date.convertToDate(by: item.date)
         bodyLabel.text = item.body

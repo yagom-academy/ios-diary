@@ -1,5 +1,5 @@
 //
-//  DetailViewController.swift
+//  DiaryDetailViewController.swift
 //  Diary
 //
 //  Created by kaki, 레옹아범 on 2023/04/25.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DetailViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController {
     private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -15,20 +15,20 @@ final class DetailViewController: UIViewController {
         
         return textView
     }()
-    private var diaryItem: DiaryModel
+    private var diaryItem: Diary
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
         
-        diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone))
+        diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(doneButtonTapped))
         configureTextView()
         configureInitailView()
         setUpNotification()
     }
     
-    init(diaryItem: DiaryModel) {
+    init(diaryItem: Diary) {
         self.diaryItem = diaryItem
         super.init(nibName: nil, bundle: nil)
     }
@@ -91,13 +91,13 @@ final class DetailViewController: UIViewController {
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
     
-    @objc private func tapDone(sender: Any) {
+    @objc private func doneButtonTapped(sender: Any) {
         self.view.endEditing(true)
     }
 }
 
 // MARK: UI
-extension DetailViewController {
+extension DiaryDetailViewController {
     private func configureTextView() {
         self.view.addSubview(diaryTextView)
         

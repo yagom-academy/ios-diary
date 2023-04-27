@@ -7,12 +7,12 @@
 
 import Foundation
 
-struct DiaryModel: Decodable {
+struct Diary: Decodable {
     var title: String
     var body: String
     var date: Double
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         case title, body
         case date = "created_at"
     }
