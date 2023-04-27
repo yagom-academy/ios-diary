@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		3609BE0A29F8EEFD0069CF43 /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3609BE0929F8EEFD0069CF43 /* Array+Extension.swift */; };
 		3609BE0D29F8F6F40069CF43 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3609BE0C29F8F6F40069CF43 /* NetworkError.swift */; };
-		3609BE1029F9020E0069CF43 /* TableViewCelled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3609BE0F29F9020E0069CF43 /* TableViewCelled.swift */; };
+		3609BE1029F9020E0069CF43 /* ReusableIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3609BE0F29F9020E0069CF43 /* ReusableIdentifier.swift */; };
 		36BBAF7529F648D200E1B597 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BBAF7429F648D200E1B597 /* Diary.swift */; };
 		36BBAF7729F64CBD00E1B597 /* JsonConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36BBAF7629F64CBD00E1B597 /* JsonConverter.swift */; };
 		36BBAF9C29F77E2100E1B597 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 36BBAF9B29F77E2100E1B597 /* .swiftlint.yml */; };
@@ -37,7 +37,7 @@
 /* Begin PBXFileReference section */
 		3609BE0929F8EEFD0069CF43 /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		3609BE0C29F8F6F40069CF43 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		3609BE0F29F9020E0069CF43 /* TableViewCelled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCelled.swift; sourceTree = "<group>"; };
+		3609BE0F29F9020E0069CF43 /* ReusableIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableIdentifier.swift; sourceTree = "<group>"; };
 		36BBAF7429F648D200E1B597 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		36BBAF7629F64CBD00E1B597 /* JsonConverter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonConverter.swift; sourceTree = "<group>"; };
 		36BBAF9B29F77E2100E1B597 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -93,7 +93,7 @@
 		3609BE0E29F901DC0069CF43 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				3609BE0F29F9020E0069CF43 /* TableViewCelled.swift */,
+				3609BE0F29F9020E0069CF43 /* ReusableIdentifier.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -324,7 +324,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3609BE1029F9020E0069CF43 /* TableViewCelled.swift in Sources */,
+				3609BE1029F9020E0069CF43 /* ReusableIdentifier.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				36BBAFA129F77F2D00E1B597 /* DiaryDetailViewController.swift in Sources */,
 				3609BE0A29F8EEFD0069CF43 /* Array+Extension.swift in Sources */,

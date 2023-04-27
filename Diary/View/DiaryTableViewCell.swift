@@ -86,9 +86,3 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
 }
-
-extension UITableViewCell: ReusableTableViewCell {
-    static var identifier: String {
-        return String(describing: self)
-    }
-}
