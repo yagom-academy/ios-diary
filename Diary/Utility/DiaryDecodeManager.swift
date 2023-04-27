@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct DiarySampleDecoder {
+struct DiaryDecodeManager {
     private let jsonDecoder = JSONDecoder()
     
-    func decode(type: [DiarySample].Type, data: Data) -> Result<[DiarySample], Error> {
+    func decode<T: Decodable>(type: T.Type, data: Data) -> Result<T, Error> {
         let result = Result { try jsonDecoder.decode(type, from: data) }
         
         return result
