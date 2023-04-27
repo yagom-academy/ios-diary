@@ -15,7 +15,7 @@ struct AlertViewData {
     let okActionTitle: String
     let okActionStyle: UIAlertAction.Style
     let enableCancelAction: Bool
-    let cancelActionTitle: String
+    let cancelActionTitle: String?
     let cancelActionStyle: UIAlertAction.Style
     let completion: (() -> Void)?
     
@@ -26,7 +26,7 @@ struct AlertViewData {
          okActionTitle: String,
          okActionStyle: UIAlertAction.Style = .default,
          enableCancelAction: Bool,
-         cancelActionTitle: String,
+         cancelActionTitle: String?,
          cancelActionStyle: UIAlertAction.Style = .cancel,
          completion: (() -> Void)? = nil) {
         self.title = title

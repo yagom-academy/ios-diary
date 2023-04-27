@@ -11,6 +11,7 @@ final class DiaryListViewController: UIViewController {
     private var diarySample: [DiarySample] = []
     private let sampleDecoder = DiarySampleDecoder()
     private let alertFactory: AlertFactoryService = AlertImplementation()
+    private let alertDataMaker: AlertDataService = AlertViewDataMaker()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,9 +69,12 @@ final class DiaryListViewController: UIViewController {
         
         switch result {
         case .success(let sample):
-            diarySample = sample
+            diarySample = sample            
         case .failure(let error):
-            print(error.localizedDescription)
+            let alertViewData = alertDataMaker.decodeError(error)
+            let alert = alertFactory.makeAlert(for: alertViewData)
+            
+            present(alert, animated: true)
         }
     }
 }
