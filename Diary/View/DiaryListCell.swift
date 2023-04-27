@@ -88,11 +88,9 @@ final class DiaryListCell: UITableViewCell {
         ])
     }
     
-    func configureLabels(with data: DiarySample) {
-        let date = Date(timeIntervalSince1970: data.createdDate)
-        
-        titleLabel.text = data.title
-        dateLabel.text = DateFormatter.diaryForm.string(from: date)
-        previewLabel.text = data.body
+    func configureLabels(title: String, date: String, body: String) {
+        titleLabel.text = title
+        dateLabel.text = date
+        previewLabel.text = body
     }
 }

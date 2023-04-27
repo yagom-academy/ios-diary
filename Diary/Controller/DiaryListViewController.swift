@@ -90,7 +90,11 @@ extension DiaryListViewController: UITableViewDataSource {
                                  for: indexPath) as? DiaryListCell
         else { return UITableViewCell() }
         
-        cell.configureLabels(with: diarySample[indexPath.row])
+        let diary = diarySample[indexPath.row]
+        let date = Date(timeIntervalSince1970: diary.createdDate)
+        let formattedDate = DateFormatter.diaryForm.string(from: date)
+        
+        cell.configureLabels(title: diary.title, date: formattedDate, body: diary.body)
         
         return cell
     }
