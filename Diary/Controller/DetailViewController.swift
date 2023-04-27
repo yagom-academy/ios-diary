@@ -8,7 +8,7 @@
 import UIKit
 
 final class DetailViewController: UIViewController {
-    private var textView: UITextView = {
+    private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +22,7 @@ final class DetailViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         
-        textView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone))
+        diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone))
         configureTextView()
         configureInitailView()
     }
@@ -64,7 +64,7 @@ final class DetailViewController: UIViewController {
         }
         
         self.navigationItem.title = Date.convertToDate(by: item.date)
-        self.textView.text = item.title + "\n\n" + item.body
+        self.diaryTextView.text = item.title + "\n\n" + item.body
     }
     
     private func setUpNotification() {
@@ -87,15 +87,15 @@ final class DetailViewController: UIViewController {
               var keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
         keyboardFrame = view.convert(keyboardFrame, from: nil)
-        var contentInset = textView.contentInset
+        var contentInset = diaryTextView.contentInset
         contentInset.bottom = keyboardFrame.size.height
-        textView.contentInset = contentInset
-        textView.scrollIndicatorInsets = textView.contentInset
+        diaryTextView.contentInset = contentInset
+        diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
     
     @objc private func hideKeyboard(_ notification: Notification) {
-        textView.contentInset = UIEdgeInsets.zero
-        textView.scrollIndicatorInsets = textView.contentInset
+        diaryTextView.contentInset = UIEdgeInsets.zero
+        diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
     
     @objc private func tapDone(sender: Any) {
@@ -106,13 +106,13 @@ final class DetailViewController: UIViewController {
 // MARK: UI
 extension DetailViewController {
     private func configureTextView() {
-        self.view.addSubview(textView)
+        self.view.addSubview(diaryTextView)
         
         NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
-            textView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
+            diaryTextView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            diaryTextView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
+            diaryTextView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            diaryTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }

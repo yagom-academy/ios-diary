@@ -7,7 +7,7 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private var tableView: UITableView = UITableView()
+    private let tableView: UITableView = UITableView()
     private var diaryItems: [DiaryModel] = []
 
     override func viewDidLoad() {
