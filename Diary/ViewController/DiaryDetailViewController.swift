@@ -50,7 +50,7 @@ final class DiaryDetailViewController: UIViewController {
         let now = Date().timeIntervalSince1970
         let today = Int(now)
         
-        self.navigationItem.title = DateFormatterManager.convertToFomattedDate(of: today)
+        self.navigationItem.title = DateFormatterManager.shared.convertToFomattedDate(of: today)
     }
     
     private func configureDiaryTextView() {
@@ -89,7 +89,7 @@ final class DiaryDetailViewController: UIViewController {
     
     @objc func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo as NSDictionary?,
-              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+              var keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
         keyboardFrame = view.convert(keyboardFrame, from: nil)
         var contentInset = diaryTextView.contentInset

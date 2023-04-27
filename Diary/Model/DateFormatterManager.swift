@@ -7,13 +7,20 @@
 
 import Foundation
 
-enum DateFormatterManager {
-    static func convertToFomattedDate(of date: Int) -> String? {
+class DateFormatterManager {
+    static let shared = DateFormatterManager()
+    private init() { }
+    
+    private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
-        let date = Date(timeIntervalSince1970: TimeInterval(date))
+        dateFormatter.locale = Locale(identifier: Locale.current.identifier)
+        dateFormatter.dateStyle = .long
         
-        dateFormatter.locale = Locale(identifier: "ko-KR")
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        return dateFormatter
+    }()
+    
+    func convertToFomattedDate(of date: Int) -> String? {
+        let date = Date(timeIntervalSince1970: TimeInterval(date))
         
         return dateFormatter.string(from: date)
     }

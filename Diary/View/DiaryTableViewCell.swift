@@ -17,6 +17,9 @@ final class DiaryTableViewCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 10
         stackView.axis = .vertical
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 40)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        
         return stackView
     }()
     
@@ -65,10 +68,10 @@ final class DiaryTableViewCell: UITableViewCell {
         mainStackView.addArrangedSubview(subTitleStackView)
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
-            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
-            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50)
+            mainStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
     }
     
@@ -79,9 +82,9 @@ final class DiaryTableViewCell: UITableViewCell {
 
     func setupItem(item: SampleDiary) {
         self.sampleDiary = item
-        
+    
         guard let sampleDiary = self.sampleDiary,
-              let formattedDate = DateFormatterManager.convertToFomattedDate(of: sampleDiary.createdDate) else { return }
+              let formattedDate = DateFormatterManager.shared.convertToFomattedDate(of: sampleDiary.createdDate) else { return }
         
         titleLabel.text = sampleDiary.title
         dateLabel.text = formattedDate
