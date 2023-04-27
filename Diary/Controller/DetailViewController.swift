@@ -25,11 +25,6 @@ final class DetailViewController: UIViewController {
         diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(tapDone))
         configureTextView()
         configureInitailView()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
         setUpNotification()
     }
     
