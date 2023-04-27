@@ -28,9 +28,11 @@ final class DetailDiaryViewController: UIViewController {
         addKeyboardNotification()
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(true)
-        removeKeyboardNotification()
+    func configureContent(diary: Diary) {
+        diaryTextView.text = diary.title + NameSpace.doubleNewline + diary.body
+        diaryTextView.contentOffset = CGPoint.zero
+        diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
+        title = diaryDate
     }
     
     private func configureUI() {
@@ -64,13 +66,6 @@ final class DetailDiaryViewController: UIViewController {
             diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
-    }
-    
-    func configureContent(diary: Diary) {
-        diaryTextView.text = diary.title + NameSpace.doubleNewline + diary.body
-        diaryTextView.contentOffset = CGPoint.zero
-        diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
-        title = diaryDate
     }
     
     private func addKeyboardNotification() {
