@@ -60,22 +60,22 @@ final class DiaryInfoTableViewCell: UITableViewCell {
 // MARK: UI
 extension DiaryInfoTableViewCell {
     private func configureCell() {
-        let stackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
+        let dateAndBodyStackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
         
-        stackView.spacing = 5
+        dateAndBodyStackView.spacing = 5
         
-        let mainStackView = UIStackView(arrangedSubviews: [titleLabel, stackView])
+        let diaryStackView = UIStackView(arrangedSubviews: [titleLabel, dateAndBodyStackView])
         
-        mainStackView.axis = .vertical
-        mainStackView.spacing = 5
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        self.contentView.addSubview(mainStackView)
+        diaryStackView.axis = .vertical
+        diaryStackView.spacing = 5
+        diaryStackView.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.addSubview(diaryStackView)
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 3),
-            mainStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
-            mainStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -3),
-            mainStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3)
+            diaryStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 3),
+            diaryStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
+            diaryStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -3),
+            diaryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3)
         ])
     }
 }
