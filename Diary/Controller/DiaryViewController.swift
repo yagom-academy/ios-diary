@@ -7,6 +7,10 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
+    private enum LocalizationKey {
+        static let mainTitle = "mainTitle"
+    }
+    
     private var diaries: [Diary]?
     
     private var dataSource: UITableViewDiffableDataSource<Section, Diary>!
@@ -57,11 +61,10 @@ final class DiaryViewController: UIViewController {
     
     private func configureViewController() {
         view.backgroundColor = .white
-        self.title = "일기장"
+        self.title = String.localized(key: LocalizationKey.mainTitle)
         
         let buttonItem: UIBarButtonItem = {
             let button = UIButton()
-            
             button.setImage(UIImage(systemName: "plus"), for: .normal)
             button.addTarget(self,
                              action: #selector(presentAddingDiaryPage),

@@ -8,15 +8,19 @@
 import Foundation
 
 extension Date {
+    private enum LocalizationKey {
+        static let dateFormat = "dateFormat"
+    }
+    
     static let nowDate: String = {
         return convertFormattedDate()
     }()
     
     private static func convertFormattedDate() -> String {
         let date = Date()
-                
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        
+        dateFormatter.dateFormat = String.localized(key: LocalizationKey.dateFormat)
         
         let convertString = dateFormatter.string(from: date)
         

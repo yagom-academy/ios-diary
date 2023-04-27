@@ -8,6 +8,11 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
+    private enum LocalizationKey {
+        static let titleTextFieldPlaceHolder = "titleTextFieldPlaceHolder"
+        static let bodyTextViewPlaceHolder = "bodyTextViewPlaceHolder"
+    }
+    
     private let diary: Diary?
     
     init(_ diary: Diary?) {
@@ -140,14 +145,14 @@ final class DiaryDetailViewController: UIViewController {
 }
 
 extension DiaryDetailViewController: UITextViewDelegate {
-    func placeholderSetting() {
+    private func placeholderSetting() {
         titleTextField.attributedPlaceholder = NSAttributedString(
-            string: "제목을 입력해주세요",
+            string: String.localized(key: LocalizationKey.titleTextFieldPlaceHolder),
             attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
         )
         
         bodyTextView.delegate = self
-        bodyTextView.text = "내용을 입력 해주세요."
+        bodyTextView.text = String.localized(key: LocalizationKey.bodyTextViewPlaceHolder)
         bodyTextView.textColor = UIColor.lightGray
     }
     
@@ -160,7 +165,7 @@ extension DiaryDetailViewController: UITextViewDelegate {
     
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "내용을 입력 해주세요."
+            textView.text = String.localized(key: LocalizationKey.bodyTextViewPlaceHolder)
             textView.textColor = UIColor.lightGray
         }
     }

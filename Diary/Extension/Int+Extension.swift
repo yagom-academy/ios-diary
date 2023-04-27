@@ -8,11 +8,16 @@
 import Foundation
 
 extension Int {
+    private enum LocalizationKey {
+        static let dateFormat = "dateFormat"
+    }
+    
     func convertFormattedDate() -> String {
+        
         let date = Date(timeIntervalSince1970: TimeInterval(self))
                 
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        dateFormatter.dateFormat = String.localized(key: LocalizationKey.dateFormat)
         
         let convertString = dateFormatter.string(from: date)
         

@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Diary
+
+  Created by kimseongjun on 2023/04/27.
+  
+*/
+"titleTextFieldPlaceHolder" = "제목을 입력 해주세요.";
+"bodyTextViewPlaceHolder" = "내용을 입력 해주세요.";
+"mainTitle" = "일기장";
+"dateFormat" = "yyyy년 MM월 dd일";
