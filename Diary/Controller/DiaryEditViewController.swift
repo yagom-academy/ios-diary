@@ -22,7 +22,6 @@ final class DiaryEditViewController: UIViewController {
         super.viewDidLoad()
         
         textView.keyboardDismissMode = .onDrag
-        
         configureUI()
     }
     

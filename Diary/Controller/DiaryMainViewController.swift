@@ -29,8 +29,8 @@ final class DiaryMainViewController: UIViewController {
         self.navigationItem.title = "일기장"
         
         let navigationRightButton = UIBarButtonItem(barButtonSystemItem: .add,
-                                     target: self,
-                                     action: #selector(addDiaryButtonTapped))
+                                                    target: self,
+                                                    action: #selector(addDiaryButtonTapped))
         
         self.navigationItem.rightBarButtonItem = navigationRightButton
     }
