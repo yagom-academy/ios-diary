@@ -2,7 +2,7 @@
 //  DiarySampleDecoder.swift
 //  Diary
 //
-//  Created by Harry on 2023/04/27.
+//  Created by Rowan, Harry on 2023/04/27.
 //
 
 import Foundation

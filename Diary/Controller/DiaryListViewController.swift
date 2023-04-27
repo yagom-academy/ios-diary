@@ -10,6 +10,7 @@ final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
     private var diarySample: [DiarySample] = []
     private let sampleDecoder = DiarySampleDecoder()
+    private let alertFactory: AlertFactoryService = AlertImplementation()
     
     override func viewDidLoad() {
         super.viewDidLoad()
