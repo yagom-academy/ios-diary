@@ -9,6 +9,7 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
     private var diarySample: [DiarySample] = []
+    private let sampleDecoder = DiarySampleDecoder()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,13 +61,14 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func parseDiarySample() {
-        let decoder = JSONDecoder()
+        guard let data = NSDataAsset(name: "sample")?.data else { return }
         
-        do {
-            guard let data = NSDataAsset(name: "sample")?.data else { return }
-            
-            diarySample = try decoder.decode([DiarySample].self, from: data)
-        } catch {
+        let result = sampleDecoder.decode(type: [DiarySample].self, data: data)
+        
+        switch result {
+        case .success(let sample):
+            diarySample = sample
+        case .failure(let error):
             print(error.localizedDescription)
         }
     }

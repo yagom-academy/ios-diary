@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4AD397A729F7AF0C0066EB8E /* DiarySample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD397A629F7AF0C0066EB8E /* DiarySample.swift */; };
 		4AD397A929F7B19D0066EB8E /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD397A829F7B19D0066EB8E /* DiaryListCell.swift */; };
+		4AD397B929FA4AF90066EB8E /* DiarySampleDecoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD397B829FA4AF90066EB8E /* DiarySampleDecoder.swift */; };
 		AD7CDA5229F6AD710027CDDB /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = AD7CDA5129F6AD710027CDDB /* .swiftlint.yml */; };
 		ADDB489329F7C81300BE5B04 /* DateFormatter+diaryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDB489229F7C81300BE5B04 /* DateFormatter+diaryForm.swift */; };
 		ADDB489729F8BA8700BE5B04 /* DiaryContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDB489629F8BA8700BE5B04 /* DiaryContentViewController.swift */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		4AD397A629F7AF0C0066EB8E /* DiarySample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySample.swift; sourceTree = "<group>"; };
 		4AD397A829F7B19D0066EB8E /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
+		4AD397B829FA4AF90066EB8E /* DiarySampleDecoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySampleDecoder.swift; sourceTree = "<group>"; };
 		5AD03AB494BC72B6CD172669 /* Pods-Diary.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.release.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.release.xcconfig"; sourceTree = "<group>"; };
 		94EACC0E21F327F3F40F31ED /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
 		AB15ECED2ED618CB779011A3 /* Pods_Diary.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Diary.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -124,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				ADDB489229F7C81300BE5B04 /* DateFormatter+diaryForm.swift */,
+				4AD397B829FA4AF90066EB8E /* DiarySampleDecoder.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				4AD397A729F7AF0C0066EB8E /* DiarySample.swift in Sources */,
+				4AD397B929FA4AF90066EB8E /* DiarySampleDecoder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
