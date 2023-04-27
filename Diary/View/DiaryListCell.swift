@@ -38,6 +38,8 @@ final class DiaryListCell: UITableViewCell {
     private lazy var innerStackView: UIStackView = {
         let stackView = UIStackView()
         
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
         stackView.spacing = 10
         stackView.addArrangedSubview(dateLabel)
         stackView.addArrangedSubview(previewLabel)
