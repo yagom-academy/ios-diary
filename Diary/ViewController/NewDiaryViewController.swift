@@ -1,40 +1,35 @@
 //
-//  DiaryDetailViewController.swift
+//  NewDiaryViewController.swift
 //  Diary
 //
-//  Created by 리지, goat on 2023/04/27.
+//  Created by 리지, goat on 2023/04/25.
 //
 
 import UIKit
 
-final class DiaryDetailViewController: UIViewController, DiaryTextViewProtocol, KeyboardProtocol {
-    private var diary: SampleDiary
-    
+final class NewDiaryViewController: UIViewController, DiaryTextViewProtocol, KeyboardProtocol {
     private lazy var diaryTextView: UITextView = {
         let textView = UITextView()
-        textView.text = diary.title + "\n\n" + diary.body
+        textView.text = "내용을 입력하세요."
         textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.textColor = .secondaryLabel
         textView.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
         
         return textView
     }()
     
-    init(diary: SampleDiary) {
-        self.diary = diary
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        diaryTextView.delegate = self
         
         configureNavigationBar(viewController: self)
         configureDiaryTextView(view: view, textView: diaryTextView)
         setUpNotification()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        diaryTextView.becomeFirstResponder()
     }
     
     func setUpNotification() {
@@ -63,12 +58,20 @@ final class DiaryDetailViewController: UIViewController, DiaryTextViewProtocol, 
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
     
-    @objc internal func keyboardWillHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         diaryTextView.contentInset = UIEdgeInsets.zero
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
     
     @objc func dismissKeyboard() {
         view.endEditing(true)
+    }
+}
+
+extension NewDiaryViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        guard textView.textColor == .secondaryLabel else { return }
+        textView.text = nil
+        textView.textColor = .black
     }
 }

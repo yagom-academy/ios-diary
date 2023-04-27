@@ -40,6 +40,7 @@ final class DiaryListViewController: UIViewController {
     private func setupView() {
         diaryTableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
         diaryTableView.dataSource = self
+        diaryTableView.delegate = self
     }
     
     private func configureNavigationBar() {
@@ -49,9 +50,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func plusButtonTapped() {
-        guard let sampleDiary = self.sampleDiary else { return }
-        let diaryViewController = DiaryDetailViewController(diary: sampleDiary)
-        self.navigationController?.pushViewController(diaryViewController, animated: true)
+        let newDiaryViewController = NewDiaryViewController()
+        self.navigationController?.pushViewController(newDiaryViewController, animated: true)
     }
 }
 
@@ -73,5 +73,13 @@ extension DiaryListViewController: UITableViewDataSource {
         diaryCell.setupItem(item: sampleDiary[indexPath.row])
         
         return diaryCell
+    }
+}
+
+extension DiaryListViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let diary = sampleDiary else { return }
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary[indexPath.row])
+        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
