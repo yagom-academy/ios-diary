@@ -13,12 +13,11 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        configureUI()
+        
         tableView.dataSource = self
         tableView.delegate = self
         
-        configureTableView()
-        configureNavigationController()
         parseSampleData()
     }
     
@@ -73,6 +72,12 @@ extension DiaryViewController: UITableViewDelegate {
 
 // MARK: UI
 extension DiaryViewController {
+    private func configureUI() {
+        view.backgroundColor = .systemBackground
+        configureTableView()
+        configureNavigationController()
+    }
+    
     private func configureTableView() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(DiaryInfoTableViewCell.self, forCellReuseIdentifier: DiaryInfoTableViewCell.identifier)

@@ -20,11 +20,7 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
-        
-        diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(doneButtonTapped))
-        configureTextView()
-        configureInitailView()
+        configureUI()
         setUpNotification()
     }
     
@@ -98,6 +94,14 @@ final class DiaryDetailViewController: UIViewController {
 
 // MARK: UI
 extension DiaryDetailViewController {
+    private func configureUI() {
+        view.backgroundColor = .systemBackground
+        
+        diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(doneButtonTapped))
+        configureTextView()
+        configureInitailView()
+    }
+    
     private func configureTextView() {
         self.view.addSubview(diaryTextView)
         
