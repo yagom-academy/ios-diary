@@ -10,6 +10,8 @@ import UIKit
 final class DiaryTableViewCell: UITableViewCell {
     static let identifier = "DiaryTableViewCell"
     
+    private var sampleDiary: SampleDiary?
+    
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -50,6 +52,7 @@ final class DiaryTableViewCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureMainStackView()
         configureSubtitleStackView()
+        self.accessoryType = .disclosureIndicator
     }
     
     required init?(coder: NSCoder) {
@@ -73,10 +76,15 @@ final class DiaryTableViewCell: UITableViewCell {
         subTitleStackView.addArrangedSubview(dateLabel)
         subTitleStackView.addArrangedSubview(bodyLabel)
     }
-    
-    func setUpLabel(title: String, date: String, body: String) {
-        titleLabel.text = title
-        dateLabel.text = date
-        bodyLabel.text = body
+
+    func setupItem(item: SampleDiary) {
+        self.sampleDiary = item
+        
+        guard let sampleDiary = self.sampleDiary,
+              let formattedDate = DateFormatterManager.convertToFomattedDate(of: sampleDiary.createdDate) else { return }
+        
+        titleLabel.text = sampleDiary.title
+        dateLabel.text = formattedDate
+        bodyLabel.text = sampleDiary.body
     }
 }

@@ -1,5 +1,5 @@
 //
-//  DiaryViewController.swift
+//  DiaryDetailViewController.swift
 //  Diary
 //
 //  Created by 리지, goat on 2023/04/25.
@@ -7,13 +7,13 @@
 
 import UIKit
 
-final class DiaryViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController {
     
-    private var sampleDiary: [SampleDiary]?
+    private var diary: [SampleDiary]
     
     private lazy var diaryTextView: UITextView = {
         let textView = UITextView()
-        guard let sample = sampleDiary?.first else { return UITextView() }
+        guard let sample = diary.first else { return UITextView() }
         textView.text = sample.title + "\n" + sample.body
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.textColor = .secondaryLabel
@@ -22,8 +22,8 @@ final class DiaryViewController: UIViewController {
         return textView
     }()
     
-    init(sampleDiary: [SampleDiary]? = nil) {
-        self.sampleDiary = sampleDiary
+    init(diary: [SampleDiary]) {
+        self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
    
@@ -100,13 +100,9 @@ final class DiaryViewController: UIViewController {
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
-    
-    func fillSampleDiary(_ dairy: [SampleDiary] ) {
-        sampleDiary = dairy
-    }
 }
 
-extension DiaryViewController: UITextViewDelegate {
+extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard textView.textColor == .secondaryLabel else { return }
         textView.textColor = .black

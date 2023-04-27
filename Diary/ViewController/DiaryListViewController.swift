@@ -8,12 +8,12 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let diaryTableView: UITableView = UITableView()
-    private var sampleDiary: [SampleDiary] = []
+    private var sampleDiary: [SampleDiary]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         decodeDiary()
-        configurUI()
+        setupLayout()
         setupView()
         configureNavigationBar()
     }
@@ -23,7 +23,7 @@ final class DiaryListViewController: UIViewController {
         sampleDiary = Decoder.parseJSON(fileName: diaryFileName, returnType: [SampleDiary].self) ?? []
     }
     
-    private func configurUI() {
+    private func setupLayout() {
         view.backgroundColor = .white
         view.addSubview(diaryTableView)
         let safeArea = view.safeAreaLayoutGuide
@@ -49,8 +49,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func plusButtonTapped() {
-        let diaryViewController = DiaryViewController()
-        diaryViewController.fillSampleDiary(sampleDiary)
+        guard let sampleDiary = self.sampleDiary else { return }
+        let diaryViewController = DiaryDetailViewController(diary: sampleDiary)
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
 }
@@ -61,20 +61,17 @@ extension DiaryListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let sampleDiary = self.sampleDiary else { return 0 }
+        
         return sampleDiary.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let title = sampleDiary[indexPath.row].title
-        let date = sampleDiary[indexPath.row].createdDate
-        let body = sampleDiary[indexPath.row].body
-        
         guard let diaryCell: DiaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier) as? DiaryTableViewCell,
-        let formattedDate = DateFormatterManager.convertToFomattedDate(of: date) else { return UITableViewCell() }
+              let sampleDiary = self.sampleDiary else { return UITableViewCell() }
         
-        diaryCell.accessoryType = .disclosureIndicator
-        diaryCell.setUpLabel(title: title, date: formattedDate, body: body)
-                
+        diaryCell.setupItem(item: sampleDiary[indexPath.row])
+        
         return diaryCell
     }
 }
