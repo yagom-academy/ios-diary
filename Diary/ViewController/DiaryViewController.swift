@@ -9,17 +9,28 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     
-    private var sampleDiary: [SampleDiary] = []
+    private var sampleDiary: [SampleDiary]?
     
     private lazy var diaryTextView: UITextView = {
         let textView = UITextView()
-        guard let sample = sampleDiary.first else { return UITextView() }
+        guard let sample = sampleDiary?.first else { return UITextView() }
         textView.text = sample.title + "\n" + sample.body
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.textColor = .secondaryLabel
+        textView.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
+        
         return textView
     }()
-
+    
+    init(sampleDiary: [SampleDiary]? = nil) {
+        self.sampleDiary = sampleDiary
+        super.init(nibName: nil, bundle: nil)
+    }
+   
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -28,7 +39,6 @@ final class DiaryViewController: UIViewController {
         configureNavigationBar()
         configureDiaryTextView()
         setUpNotification()
-        hideKeyBoard()
     }
     
     private func configureNavigationBar() {
@@ -86,11 +96,6 @@ final class DiaryViewController: UIViewController {
         diaryTextView.contentInset = UIEdgeInsets.zero
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
-    
-    private func hideKeyBoard() {
-        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tap)
-    }
 
     @objc private func dismissKeyboard() {
         view.endEditing(true)
@@ -105,5 +110,24 @@ extension DiaryViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         guard textView.textColor == .secondaryLabel else { return }
         textView.textColor = .black
+    }
+}
+
+extension UITextView {
+    func addDoneButton(title: String, target: Any, selector: Selector) {
+        let toolBar = UIToolbar(frame: CGRect(x: 0.0,
+                                              y: 0.0,
+                                              width: UIScreen.main.bounds.size.width,
+                                              height: 44.0))
+        let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
+                                       target: nil,
+                                       action: nil)
+        let barButton = UIBarButtonItem(title: title,
+                                        style: .plain,
+                                        target: target,
+                                        action: selector)
+        
+        toolBar.setItems([flexible, barButton], animated: false)
+        self.inputAccessoryView = toolBar
     }
 }
