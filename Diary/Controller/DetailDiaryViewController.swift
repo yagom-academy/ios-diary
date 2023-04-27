@@ -95,22 +95,15 @@ final class DetailDiaryViewController: UIViewController {
            let firstWindow = UIApplication.shared.windows.first {
             let keyboardRectangle = keyboardFrame.cgRectValue
             let keyboardHeight = keyboardRectangle.height
-            let changedHeight = keyboardHeight - firstWindow.safeAreaInsets.bottom
-            UIView.animate(withDuration: 5) {
-                self.bottomConstraint?.isActive = false
-                self.bottomConstraint = self.diaryTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor,
-                                                                                   constant: -changedHeight)
-                self.bottomConstraint?.isActive = true
-            }
+            let changedHeight = -(keyboardHeight - firstWindow.safeAreaInsets.bottom)
+            bottomConstraint?.constant = changedHeight
+            view.layoutIfNeeded()
         }
     }
     
     @objc
     private func keyboardWillHide(notification: NSNotification) {
-        UIView.animate(withDuration: 5) {
-            self.bottomConstraint?.isActive = false
-            self.bottomConstraint = self.diaryTextView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-            self.bottomConstraint?.isActive = true
-        }
+        bottomConstraint?.constant = 0
+        view.layoutIfNeeded()
     }
 }
