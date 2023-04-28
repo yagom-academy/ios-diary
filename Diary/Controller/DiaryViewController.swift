@@ -83,11 +83,11 @@ final class DiaryViewController: UIViewController {
 }
 
 // MARK: - TableView
-enum Section: CaseIterable {
-    case main
-}
-
 extension DiaryViewController: UITableViewDelegate {
+    private enum Section: CaseIterable {
+        case main
+    }
+    
     private func configureTableView() {
         tableView.delegate = self
         configureDataSource()
