@@ -67,7 +67,7 @@ final class DiaryDetailViewController: UIViewController {
         configureLayout()
         configureNotification()
     }
-
+    
     private func configureUI() {
         view.backgroundColor = .white
         
@@ -80,7 +80,7 @@ final class DiaryDetailViewController: UIViewController {
             bodyTextView.text = diary?.body
         }
     }
-
+    
     private func configureLayout() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentStackView)
@@ -125,7 +125,7 @@ final class DiaryDetailViewController: UIViewController {
             return
         }
         keyboardFrame = view.convert(keyboardFrame, from: nil)
-
+        
         scrollView.contentInset.bottom = keyboardFrame.size.height
         scrollView.scrollIndicatorInsets = scrollView.contentInset
     }
@@ -137,6 +137,14 @@ final class DiaryDetailViewController: UIViewController {
 }
 
 extension DiaryDetailViewController: UITextViewDelegate {
+    private var hasPlaceholder: Bool {
+        if bodyTextView.textColor == UIColor.lightGray && bodyTextView.text == String.localized(key: LocalizationKey.bodyTextViewPlaceHolder) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     private func placeholderSetting() {
         titleTextField.attributedPlaceholder = NSAttributedString(
             string: String.localized(key: LocalizationKey.titleTextFieldPlaceHolder),
@@ -149,7 +157,7 @@ extension DiaryDetailViewController: UITextViewDelegate {
     }
     
     func textViewDidBeginEditing(_ textView: UITextView) {
-        if textView.textColor == UIColor.lightGray {
+        if hasPlaceholder == true {
             textView.text = nil
             textView.textColor = UIColor.black
         }
@@ -161,5 +169,4 @@ extension DiaryDetailViewController: UITextViewDelegate {
             textView.textColor = UIColor.lightGray
         }
     }
-    
 }
