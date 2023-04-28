@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "DiaryTableViewCell"
+    static let reuseIdentifier = DiaryTableViewCell.description()
     
     // MARK: - Property
     
@@ -28,29 +28,9 @@ final class DiaryTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .title3)
-        label.adjustsFontForContentSizeCategory = true
-        
-        return label
-    }()
-    
-    private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .body)
-        label.adjustsFontForContentSizeCategory = true
-    
-        return label
-    }()
-    
-    private let contentsLabel: UILabel = {
-        let label = UILabel()
-        label.font = .preferredFont(forTextStyle: .caption1)
-        label.adjustsFontForContentSizeCategory = true
-        
-        return label
-    }()
+    private lazy var titleLabel: UILabel = createDynamicLabel(font: .title3)
+    private lazy var dateLabel: UILabel = createDynamicLabel(font: .body)
+    private lazy var contentsLabel: UILabel = createDynamicLabel(font: .caption1)
     
     // MARK: - Method
     
@@ -89,5 +69,13 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private func configureCellStyle() {
         self.accessoryType = .disclosureIndicator
+    }
+    
+    private func createDynamicLabel(font: UIFont.TextStyle) -> UILabel {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: font)
+        label.adjustsFontForContentSizeCategory = true
+        
+        return label
     }
 }
