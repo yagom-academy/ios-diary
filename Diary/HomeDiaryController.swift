@@ -14,7 +14,7 @@ final class HomeDiaryController: UIViewController {
         super.viewDidLoad()
         diaryTableView.dataSource = self
         diaryTableView.delegate = self
-        diaryTableView.register(DiaryCell.self, forCellReuseIdentifier: "cell")
+        diaryTableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
         configureUI()
         let jsonData = loadJsonAsset(name: "sample")
         decode(jsonData)
@@ -70,7 +70,7 @@ extension HomeDiaryController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as? DiaryCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell else {
             return UITableViewCell()
         }
         
