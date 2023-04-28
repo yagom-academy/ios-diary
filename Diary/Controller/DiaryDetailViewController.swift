@@ -75,7 +75,7 @@ final class DiaryDetailViewController: UIViewController {
             self.title = Date.nowDate
             placeholderSetting()
         } else {
-            self.title = diary?.createdDate.convertFormattedDate()
+            self.title = diary?.timeIntervalSince1970.convertFormattedDate()
             titleTextField.text = diary?.title
             bodyTextView.text = diary?.body
         }

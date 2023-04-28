@@ -23,7 +23,6 @@ final class DiaryTableViewCell: UITableViewCell {
     private let subTitleStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
         
         return stackView
     }()
@@ -35,15 +34,21 @@ final class DiaryTableViewCell: UITableViewCell {
     // MARK: - Method
     
     func configureCell(diary: Diary) {
+        configureconstantPriority()
         configureUIContent(diary)
         configureUI()
         configureLayout()
         configureCellStyle()
     }
     
+    func configureconstantPriority() {
+        dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        contentsLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+    }
+    
     private func configureUIContent(_ diary: Diary) {
         titleLabel.text = diary.title
-        dateLabel.text = diary.createdDate.convertFormattedDate()
+        dateLabel.text = diary.timeIntervalSince1970.convertFormattedDate()
         contentsLabel.text = diary.body
     }
     
@@ -62,8 +67,7 @@ final class DiaryTableViewCell: UITableViewCell {
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50),
             mainStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 15),
-            mainStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -15),
-            dateLabel.widthAnchor.constraint(equalTo: subTitleStackView.widthAnchor, multiplier: 0.41)
+            mainStackView.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
     }
     
