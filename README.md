@@ -70,9 +70,9 @@ Diary
 </br>
 
 ## 실행 화면 🎬
-|<center>실행 화면</center>|
-|---|
-|<img src="https://i.imgur.com/GfNsJes.gif" width="250">|
+|<center>일기 리스트</center>|<center>추가 화면</center>|<center>일기 상세</center>|<center>키보드 구현</center>|
+|---|---|---|---|
+|<img src="https://i.imgur.com/5Mw8FRD.gif" width="250">|<img src="https://i.imgur.com/iYhfFC0.gif" width="250">|<img src="https://i.imgur.com/GfNsJes.gif" width="250">|<img src="https://i.imgur.com/CrpyBIy.gif" width="250">|
 
 </br>
 
