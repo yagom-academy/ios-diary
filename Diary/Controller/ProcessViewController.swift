@@ -25,12 +25,16 @@ final class ProcessViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureNavigationItem()
+        configureDiaryTextView()
+        setUpNotification()
+    }
+    
+    private func configureNavigationItem() {
         let localizedDateFormatter = DateFormatter(
             languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
         )
         navigationItem.title = localizedDateFormatter.string(from: Date())
-        configureDiaryTextView()
-        setUpNotification()
     }
     
     private func updateTextView(diaryItem: DiaryItem?) {
