@@ -107,3 +107,8 @@ final class DetailDiaryViewController: UIViewController {
         view.layoutIfNeeded()
     }
 }
+
+private enum NameSpace {
+    static let doubleNewline = "\n\n"
+    static let diaryPlaceholder = "내용을 입력하세요"
+}

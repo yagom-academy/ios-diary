@@ -95,3 +95,7 @@ extension DiaryListViewController: UITableViewDelegate {
         detailDiaryViewController.configureContent(diary: diary[indexPath.row])
     }
 }
+
+private enum NameSpace {
+    static let diary = "일기장"
+}
