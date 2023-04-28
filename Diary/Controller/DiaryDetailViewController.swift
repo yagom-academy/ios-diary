@@ -24,14 +24,14 @@ final class DiaryDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private lazy var scrollView: UIScrollView = {
+    private let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         return scrollView
     }()
     
-    private lazy var contentStackView: UIStackView = {
+    private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 20
@@ -40,7 +40,7 @@ final class DiaryDetailViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var titleTextField: UITextField = {
+    private let titleTextField: UITextField = {
         let textField = UITextField()
         textField.font = .preferredFont(forTextStyle: .title2)
         textField.layer.borderWidth = 0.8
@@ -50,7 +50,7 @@ final class DiaryDetailViewController: UIViewController {
         return textField
     }()
     
-    private lazy var bodyTextView: UITextView = {
+    private let bodyTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.isScrollEnabled = false
@@ -75,7 +75,7 @@ final class DiaryDetailViewController: UIViewController {
             self.title = Date.nowDate
             placeholderSetting()
         } else {
-            self.title = diary?.createdAt.convertFormattedDate()
+            self.title = diary?.createdDate.convertFormattedDate()
             titleTextField.text = diary?.title
             bodyTextView.text = diary?.body
         }

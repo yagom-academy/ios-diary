@@ -8,14 +8,14 @@
 import Foundation
 
 struct Diary: Codable, Hashable {
+    let id = UUID()
     let title: String
     let body: String
-    let createdAt: Int
-    let identifier = UUID()
-
+    let createdDate: Int
+    
     enum CodingKeys: String, CodingKey {
         case title
         case body
-        case createdAt = "created_at"
+        case createdDate = "created_at"
     }
 }

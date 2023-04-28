@@ -15,7 +15,7 @@ final class DiaryViewController: UIViewController {
     
     private var dataSource: UITableViewDiffableDataSource<Section, Diary>!
     
-    private lazy var tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -31,7 +31,7 @@ final class DiaryViewController: UIViewController {
     
     private func fetchDiaryData() {
         do {
-            let diaries = try DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
+            diaries = try DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
         } catch {
             print(error.localizedDescription)
         }

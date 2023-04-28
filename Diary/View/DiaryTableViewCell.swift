@@ -12,7 +12,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     // MARK: - Property
     
-    private lazy var mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +20,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private lazy var subTitleStackView: UIStackView = {
+    private let subTitleStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillProportionally
@@ -28,7 +28,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private lazy var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .title3)
         label.adjustsFontForContentSizeCategory = true
@@ -36,7 +36,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
@@ -44,7 +44,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var contentsLabel: UILabel = {
+    private let contentsLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
         label.adjustsFontForContentSizeCategory = true
@@ -63,7 +63,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private func configureUIContent(_ diary: Diary) {
         titleLabel.text = diary.title
-        dateLabel.text = diary.createdAt.convertFormattedDate()
+        dateLabel.text = diary.createdDate.convertFormattedDate()
         contentsLabel.text = diary.body
     }
     
