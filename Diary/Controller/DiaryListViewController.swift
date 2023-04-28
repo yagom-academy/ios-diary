@@ -79,7 +79,7 @@ extension DiaryListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configure(title: contents.title, description: contents.description, date: contents.localizedDate)
+        cell.configure(title: contents.title, description: contents.body, date: contents.localizedDate)
         
         return cell
     }

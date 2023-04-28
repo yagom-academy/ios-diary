@@ -9,16 +9,15 @@ import Foundation
 
 struct Contents: Codable {
     let title: String
-    let description: String
-    let date: Int
+    let body: String
+    let date: Double
     var localizedDate: String {
-        let date = Date(timeIntervalSince1970: Double(date))
+        let date = Date(timeIntervalSince1970: date)
         return date.translateLocalizedFormat()
     }
     
     private enum CodingKeys: String, CodingKey {
-        case title
-        case description = "body"
+        case title, body
         case date = "created_at"
     }
 }

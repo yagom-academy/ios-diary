@@ -59,7 +59,7 @@ final class DiaryDetailViewController: UIViewController {
             textView.text = """
             \(contents.title)
             
-            \(contents.description)
+            \(contents.body)
             """
         } else {
             textView.text = nil
