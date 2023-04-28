@@ -16,5 +16,3 @@ public extension ReusableIdentifier where Self: UIView {
 }
 
 extension UITableViewCell: ReusableIdentifier { }
-
-

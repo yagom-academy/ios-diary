@@ -8,7 +8,9 @@ import UIKit
 final class HomeDiaryController: UIViewController {
     private let diaryTableView = UITableView()
     private var diaries: [DiaryItem] = []
-    private let localizedDateFormatter = DateFormatter(languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier)
+    private let localizedDateFormatter = DateFormatter(
+        languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
+    )
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +57,11 @@ final class HomeDiaryController: UIViewController {
     
     private func configureNavigationBar() {
         navigationItem.title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddDiaryButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(didTapAddDiaryButton)
+        )
     }
     
     @objc private func didTapAddDiaryButton() {
@@ -70,7 +76,10 @@ extension HomeDiaryController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell,
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: DiaryCell.identifier,
+            for: indexPath
+        ) as? DiaryCell,
               let diary = diaries[safe: indexPath.row] else {
             return UITableViewCell()
         }
