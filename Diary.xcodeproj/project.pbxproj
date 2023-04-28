@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		08C6A70329F663D4005D3975 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C6A70229F663D4005D3975 /* Diary.swift */; };
 		08C6A70729F66455005D3975 /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C6A70629F66455005D3975 /* DecodeManager.swift */; };
-		08C6A70A29F664A5005D3975 /* DecodeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C6A70929F664A5005D3975 /* DecodeError.swift */; };
 		08EB900129F7A7530061163B /* Array+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB900029F7A7530061163B /* Array+Extension.swift */; };
 		08EB900329F7BA9B0061163B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB900229F7BA9B0061163B /* Date+Extension.swift */; };
 		08EB900729F7BF920061163B /* TextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08EB900629F7BF920061163B /* TextField+Extension.swift */; };
@@ -30,7 +29,6 @@
 /* Begin PBXFileReference section */
 		08C6A70229F663D4005D3975 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		08C6A70629F66455005D3975 /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
-		08C6A70929F664A5005D3975 /* DecodeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeError.swift; sourceTree = "<group>"; };
 		08EB900029F7A7530061163B /* Array+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extension.swift"; sourceTree = "<group>"; };
 		08EB900229F7BA9B0061163B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		08EB900629F7BF920061163B /* TextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+Extension.swift"; sourceTree = "<group>"; };
@@ -116,14 +114,6 @@
 			path = Extra;
 			sourceTree = "<group>";
 		};
-		08C6A70829F66475005D3975 /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				08C6A70929F664A5005D3975 /* DecodeError.swift */,
-			);
-			path = Error;
-			sourceTree = "<group>";
-		};
 		1C0B528D29F77727008F56BE /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,7 +161,6 @@
 				08C6A70029F6564F005D3975 /* View */,
 				08C6A70529F6642C005D3975 /* Extra */,
 				1CE3F6CB29FAB1E800375BD3 /* Localizable */,
-				08C6A70829F66475005D3975 /* Error */,
 				08C6A6FF29F655F3005D3975 /* Resources */,
 			);
 			path = Diary;
@@ -279,7 +268,6 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				08EB900329F7BA9B0061163B /* Date+Extension.swift in Sources */,
 				08EB900729F7BF920061163B /* TextField+Extension.swift in Sources */,
-				08C6A70A29F664A5005D3975 /* DecodeError.swift in Sources */,
 				1CE3F6D429FAB23800375BD3 /* String+Extension.swift in Sources */,
 				08C6A70729F66455005D3975 /* DecodeManager.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
