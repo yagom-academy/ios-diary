@@ -97,14 +97,12 @@ final class DetailDiaryViewController: UIViewController {
             let keyboardHeight = keyboardRectangle.height
             let changedHeight = -(keyboardHeight - firstWindow.safeAreaInsets.bottom)
             bottomConstraint?.constant = changedHeight
-            view.layoutIfNeeded()
         }
     }
     
     @objc
     private func keyboardWillHide(notification: NSNotification) {
         bottomConstraint?.constant = 0
-        view.layoutIfNeeded()
     }
 }
 
