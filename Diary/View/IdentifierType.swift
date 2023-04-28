@@ -7,9 +7,7 @@
 
 import UIKit
 
-public protocol IdentifierType {
-    static var identifier: String { get }
-}
+public protocol IdentifierType { }
 
 extension IdentifierType {
     public static var identifier: String {
