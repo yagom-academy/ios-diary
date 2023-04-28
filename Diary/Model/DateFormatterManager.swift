@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DateFormatterManager {
+final class DateFormatterManager {
     static let shared = DateFormatterManager()
     private init() { }
     
@@ -19,8 +19,8 @@ class DateFormatterManager {
         return dateFormatter
     }()
     
-    func convertToFomattedDate(of date: Int) -> String? {
-        let date = Date(timeIntervalSince1970: TimeInterval(date))
+    func convertToFomattedDate(of date: Double) -> String? {
+        let date = Date(timeIntervalSince1970: date)
         
         return dateFormatter.string(from: date)
     }

@@ -48,7 +48,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private func configureNavigationBar() {
         let now = Date().timeIntervalSince1970
-        let today = Int(now)
+        let today = now
         
         self.navigationItem.title = DateFormatterManager.shared.convertToFomattedDate(of: today)
     }

@@ -107,6 +107,7 @@
 			children = (
 				5868231A29FAAFFF00027F0F /* Diary+CoreDataClass.swift */,
 				5868231B29FAAFFF00027F0F /* Diary+CoreDataProperties.swift */,
+				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 				FBFDD48A29F6A7D4007EF5B7 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
 				FBFDD48129F65D35007EF5B7 /* DiaryTests */,
@@ -136,7 +137,6 @@
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
-				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 			);
 			path = Diary;
 			sourceTree = "<group>";

@@ -10,14 +10,17 @@ import CoreData
 import UIKit
 
 final class CoreDataManager {
-    let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.newBackgroundContext()
+    let shared = CoreDataManager()
+    private init() { }
     
-    func create(key:String, diary: [Diary]) {
+    private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.newBackgroundContext()
+    
+    func create(diary: SampleDiary) {
         guard let context = self.context,
               let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context),
               let storage = NSManagedObject(entity: entity, insertInto: self.context) as? Diary else { return }
         
-        setValue(at: storage, key: key, diary: diary)
+        setValue(at: storage, diary: diary)
         save()
     }
     
@@ -33,10 +36,10 @@ final class CoreDataManager {
         }
     }
     
-    func update(key: String, diary: [Diary]) {
+    func update(key: String, diary: SampleDiary) {
         guard let fetchedData = read(key: key) else { return }
         
-        setValue(at: fetchedData, key: key, diary: diary)
+        setValue(at: fetchedData, diary: diary)
         save()
     }
     
@@ -60,12 +63,10 @@ final class CoreDataManager {
         return fetchRequest
     }
     
-    private func setValue(at target: Diary, key: String, diary: [Diary]) {
-        guard let data = diary.first else { return }
-        
-        target.setValue(data.title, forKey: "title")
-        target.setValue(data.body, forKey: "body")
-        target.setValue(data.date, forKey: "date")
+    private func setValue(at target: Diary, diary: SampleDiary) {
+        target.setValue(diary.title, forKey: "title")
+        target.setValue(diary.body, forKey: "body")
+        target.setValue(diary.createdDate, forKey: "date")
     }
     
     private func save() {
@@ -78,4 +79,3 @@ final class CoreDataManager {
         }
     }
 }
-
