@@ -6,11 +6,15 @@
 
 import UIKit
 
+private enum NavigationConstant {
+
+    static let navigationTitle = "일기장"
+    static let plusIcon = "plus"
+    
+}
+
 final class DiaryViewController: UIViewController {
 
-    private let navigationTitle = "일기장"
-    private let plusIcon = "plus"
-    
     private var diaryListTableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
         tableView.register(DiaryTableViewCell.self,
@@ -36,9 +40,9 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        title = navigationTitle
+        title = NavigationConstant.navigationTitle
         let addButton = UIBarButtonItem(
-            image: UIImage(systemName: plusIcon),
+            image: UIImage(systemName: NavigationConstant.plusIcon),
             style: .plain,
             target: self,
             action: #selector(createDiaryButtonTapped)
