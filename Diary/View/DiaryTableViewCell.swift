@@ -28,12 +28,14 @@ final class DiaryTableViewCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 10
         stackView.axis = .horizontal
+        
         return stackView
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
+        
         return label
     }()
     
@@ -41,6 +43,7 @@ final class DiaryTableViewCell: UITableViewCell {
         let label = UILabel()
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        
         return label
     }()
     
@@ -48,6 +51,7 @@ final class DiaryTableViewCell: UITableViewCell {
         let label = UILabel()
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        
         return label
     }()
     

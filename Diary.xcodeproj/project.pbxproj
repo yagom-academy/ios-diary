@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5868231C29FAAFFF00027F0F /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5868231A29FAAFFF00027F0F /* Diary+CoreDataClass.swift */; };
+		5868231D29FAAFFF00027F0F /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5868231B29FAAFFF00027F0F /* Diary+CoreDataProperties.swift */; };
+		5868231F29FAB20800027F0F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5868231E29FAB20800027F0F /* CoreDataManager.swift */; };
+		587DC35C29FB5D350012AB32 /* CoreDataManagerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 587DC35B29FB5D350012AB32 /* CoreDataManagerTest.swift */; };
 		589E539F29F66D21000B8821 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589E539E29F66D21000B8821 /* DiaryTableViewCell.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
@@ -24,6 +28,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		587DC35D29FB5D350012AB32 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C739AE19284DF28600741E8F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C739AE20284DF28600741E8F;
+			remoteInfo = Diary;
+		};
 		FBFDD48429F65D35007EF5B7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C739AE19284DF28600741E8F /* Project object */;
@@ -34,6 +45,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5868231A29FAAFFF00027F0F /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
+		5868231B29FAAFFF00027F0F /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		5868231E29FAB20800027F0F /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		587DC35929FB5D350012AB32 /* CoreDataManagerTest.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CoreDataManagerTest.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		587DC35B29FB5D350012AB32 /* CoreDataManagerTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagerTest.swift; sourceTree = "<group>"; };
 		589E539E29F66D21000B8821 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -54,6 +70,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		587DC35629FB5D350012AB32 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C739AE1E284DF28600741E8F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -71,12 +94,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		587DC35A29FB5D350012AB32 /* CoreDataManagerTest */ = {
+			isa = PBXGroup;
+			children = (
+				587DC35B29FB5D350012AB32 /* CoreDataManagerTest.swift */,
+			);
+			path = CoreDataManagerTest;
+			sourceTree = "<group>";
+		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
+				5868231A29FAAFFF00027F0F /* Diary+CoreDataClass.swift */,
+				5868231B29FAAFFF00027F0F /* Diary+CoreDataProperties.swift */,
 				FBFDD48A29F6A7D4007EF5B7 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
 				FBFDD48129F65D35007EF5B7 /* DiaryTests */,
+				587DC35A29FB5D350012AB32 /* CoreDataManagerTest */,
 				C739AE22284DF28600741E8F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -86,6 +120,7 @@
 			children = (
 				C739AE21284DF28600741E8F /* Diary.app */,
 				FBFDD48029F65D35007EF5B7 /* DiaryTests.xctest */,
+				587DC35929FB5D350012AB32 /* CoreDataManagerTest.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -112,6 +147,7 @@
 				FBFDD47529F657E7007EF5B7 /* SampleDiary.swift */,
 				FBFDD47929F65AB4007EF5B7 /* Decoder.swift */,
 				FBFDD48C29F6B1FC007EF5B7 /* DateFormatterManager.swift */,
+				5868231E29FAB20800027F0F /* CoreDataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -145,6 +181,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		587DC35829FB5D350012AB32 /* CoreDataManagerTest */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 587DC36129FB5D350012AB32 /* Build configuration list for PBXNativeTarget "CoreDataManagerTest" */;
+			buildPhases = (
+				587DC35529FB5D350012AB32 /* Sources */,
+				587DC35629FB5D350012AB32 /* Frameworks */,
+				587DC35729FB5D350012AB32 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				587DC35E29FB5D350012AB32 /* PBXTargetDependency */,
+			);
+			name = CoreDataManagerTest;
+			productName = CoreDataManagerTest;
+			productReference = 587DC35929FB5D350012AB32 /* CoreDataManagerTest.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		C739AE20284DF28600741E8F /* Diary */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C739AE38284DF28600741E8F /* Build configuration list for PBXNativeTarget "Diary" */;
@@ -191,6 +245,10 @@
 				LastSwiftUpdateCheck = 1430;
 				LastUpgradeCheck = 1320;
 				TargetAttributes = {
+					587DC35829FB5D350012AB32 = {
+						CreatedOnToolsVersion = 14.3;
+						TestTargetID = C739AE20284DF28600741E8F;
+					};
 					C739AE20284DF28600741E8F = {
 						CreatedOnToolsVersion = 13.2.1;
 					};
@@ -215,11 +273,19 @@
 			targets = (
 				C739AE20284DF28600741E8F /* Diary */,
 				FBFDD47F29F65D35007EF5B7 /* DiaryTests */,
+				587DC35829FB5D350012AB32 /* CoreDataManagerTest */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		587DC35729FB5D350012AB32 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C739AE1F284DF28600741E8F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -262,6 +328,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		587DC35529FB5D350012AB32 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				587DC35C29FB5D350012AB32 /* CoreDataManagerTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C739AE1D284DF28600741E8F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -273,9 +347,12 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				589E539F29F66D21000B8821 /* DiaryTableViewCell.swift in Sources */,
+				5868231F29FAB20800027F0F /* CoreDataManager.swift in Sources */,
 				FBFDD47A29F65AB4007EF5B7 /* Decoder.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				5868231D29FAAFFF00027F0F /* Diary+CoreDataProperties.swift in Sources */,
 				FBFDD48D29F6B1FC007EF5B7 /* DateFormatterManager.swift in Sources */,
+				5868231C29FAAFFF00027F0F /* Diary+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,6 +367,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		587DC35E29FB5D350012AB32 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C739AE20284DF28600741E8F /* Diary */;
+			targetProxy = 587DC35D29FB5D350012AB32 /* PBXContainerItemProxy */;
+		};
 		FBFDD48529F65D35007EF5B7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = C739AE20284DF28600741E8F /* Diary */;
@@ -309,6 +391,52 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		587DC35F29FB5D350012AB32 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9Q3TC658A;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ko.co.test.CoreDataManagerTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Diary.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Diary";
+			};
+			name = Debug;
+		};
+		587DC36029FB5D350012AB32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9Q3TC658A;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ko.co.test.CoreDataManagerTest;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Diary.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Diary";
+			};
+			name = Release;
+		};
 		C739AE36284DF28600741E8F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -528,6 +656,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		587DC36129FB5D350012AB32 /* Build configuration list for PBXNativeTarget "CoreDataManagerTest" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				587DC35F29FB5D350012AB32 /* Debug */,
+				587DC36029FB5D350012AB32 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C739AE1C284DF28600741E8F /* Build configuration list for PBXProject "Diary" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
