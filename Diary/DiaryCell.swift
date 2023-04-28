@@ -8,12 +8,47 @@
 import UIKit
 
 final class DiaryCell: UITableViewCell {
-    private let titleLabel = UILabel()
-    private let dateLabel = UILabel()
-    private let previewLabel = UILabel()
-    private let contentStackView = UIStackView()
-    private let diaryStackView = UIStackView()
-
+    private let titleLabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .title2)
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
+    private let dateLabel = {
+        let label = UILabel()
+        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        label.font = .preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
+    private let previewLabel = {
+        let label = UILabel()
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.font = .preferredFont(forTextStyle: .caption1)
+        label.adjustsFontForContentSizeCategory = true
+        return label
+    }()
+    
+    private let contentStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.spacing = 10
+        stackView.alignment = .center
+        return stackView
+    }()
+    
+    private let diaryStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 5
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        return stackView
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         accessoryType = .disclosureIndicator
@@ -25,12 +60,11 @@ final class DiaryCell: UITableViewCell {
     }
     
     private func configureUI() {
-        configureTitleLabel()
-        configureDateLabel()
-        configurePreviewLabel()
-        configureContentStackView()
-        configureDiaryStackView()
         contentView.addSubview(diaryStackView)
+        contentStackView.addArrangedSubview(dateLabel)
+        contentStackView.addArrangedSubview(previewLabel)
+        diaryStackView.addArrangedSubview(titleLabel)
+        diaryStackView.addArrangedSubview(contentStackView)
         
         NSLayoutConstraint.activate([
             diaryStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -38,41 +72,6 @@ final class DiaryCell: UITableViewCell {
             diaryStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             diaryStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
-    }
-    
-    private func configureTitleLabel() {
-        titleLabel.font = .preferredFont(forTextStyle: .title2)
-        titleLabel.adjustsFontForContentSizeCategory = true
-    }
-    
-    private func configureDateLabel() {
-        dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        dateLabel.font = .preferredFont(forTextStyle: .title3)
-        dateLabel.adjustsFontForContentSizeCategory = true
-    }
-    
-    private func configurePreviewLabel() {
-        previewLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
-        previewLabel.font = .preferredFont(forTextStyle: .caption1)
-        previewLabel.adjustsFontForContentSizeCategory = true
-    }
-    
-    private func configureContentStackView() {
-        contentStackView.axis = .horizontal
-        contentStackView.spacing = 10
-        contentStackView.alignment = .center
-        contentStackView.addArrangedSubview(dateLabel)
-        contentStackView.addArrangedSubview(previewLabel)
-    }
-    
-    private func configureDiaryStackView() {
-        diaryStackView.axis = .vertical
-        diaryStackView.spacing = 5
-        diaryStackView.translatesAutoresizingMaskIntoConstraints = false
-        diaryStackView.addArrangedSubview(titleLabel)
-        diaryStackView.addArrangedSubview(contentStackView)
-        diaryStackView.layoutMargins = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
-        diaryStackView.isLayoutMarginsRelativeArrangement = true
     }
     
     func configureData(data: DiaryItem) {
