@@ -1,6 +1,6 @@
 //
-//  CoreDataManagerTest.swift
-//  CoreDataManagerTest
+//  CoreDataManagerTests.swift
+//  CoreDataManagerTests
 //
 //  Created by 리지, goat on 2023/04/28.
 //
@@ -8,7 +8,7 @@
 import XCTest
 @testable import Diary
 
-final class CoreDataManagerTest: XCTestCase {
+final class CoreDataManagerTests: XCTestCase {
     
     var sut: CoreDataManager!
     let diaryFileName = "sample"
@@ -16,8 +16,7 @@ final class CoreDataManagerTest: XCTestCase {
     
     override func setUpWithError() throws {
         try super.setUpWithError()
-        sut = CoreDataManager()
-
+        sut = CoreDataManager.shared
         sampleDiary = Decoder.parseJSON(fileName: diaryFileName, returnType: [SampleDiary].self) ?? []
     }
 
