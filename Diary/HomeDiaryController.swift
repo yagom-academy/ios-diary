@@ -8,6 +8,7 @@ import UIKit
 final class HomeDiaryController: UIViewController {
     private let diaryTableView = UITableView()
     private var diaries: [DiaryItem] = []
+    private let localizedDateFormatter = DateFormatter(languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,8 +74,8 @@ extension HomeDiaryController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configureData(data: diaries[indexPath.row])
-        
+        cell.configureData(data: diaries[indexPath.row], localizedDateFormatter: localizedDateFormatter)
+    
         return cell
     }
 }

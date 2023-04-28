@@ -74,10 +74,10 @@ final class DiaryCell: UITableViewCell {
         ])
     }
     
-    func configureData(data: DiaryItem) {
+    func configureData(data: DiaryItem, localizedDateFormatter: DateFormatter) {
         titleLabel.text = data.title
         let date = Date(timeIntervalSince1970: TimeInterval(data.date))
-        dateLabel.text = Date.dateFormatter.string(from: date)
+        dateLabel.text = localizedDateFormatter.string(from: date)
         previewLabel.text = data.body
     }
 }

@@ -25,8 +25,8 @@ final class ProcessViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let date = Date.dateFormatter.string(from: Date())
-        navigationItem.title = date
+        let localizedDateFormatter = DateFormatter(languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier)
+        navigationItem.title = localizedDateFormatter.string(from: Date())
         configureDiaryTextView()
         setUpNotification()
     }
