@@ -6,10 +6,7 @@
 //
 //
 
-import Foundation
 import CoreData
 
 @objc(ContentsEntity)
-public class ContentsEntity: NSManagedObject {
-
-}
+public class ContentsEntity: NSManagedObject { }

@@ -9,11 +9,11 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController {
     private let contents: Contents?
-        
+    
     private let textView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
-
+        
         return textView
     }()
     
@@ -29,7 +29,10 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUIOption()
+        if #available(iOS 16.0, *) {
+            configureUIOption()
+        }
+        
         configureLayout()
     }
     
@@ -50,10 +53,20 @@ final class DiaryDetailViewController: UIViewController {
         ])
     }
     
+    @available(iOS 16.0, *)
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
         
         navigationItem.title = contents?.localizedDate ?? Date().translateLocalizedFormat()
+        
+        let backAction = UIAction(title: "back") { [weak self] _ in
+            guard let contents = self?.contents else { return }
+            
+            CoreDataManager.shared.createContents(contents)
+            self?.navigationController?.popToRootViewController(animated: true)
+        }
+
+        navigationItem.backAction = backAction
         
         if let contents {
             textView.text = """
