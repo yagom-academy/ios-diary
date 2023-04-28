@@ -23,13 +23,13 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        decodeDiaryData()
+        fetchDiaryData()
         configureUI()
         configureLayout()
         configureTableView()
     }
     
-    private func decodeDiaryData() {
+    private func fetchDiaryData() {
         do {
             let diaries = try DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
         } catch {
