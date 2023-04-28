@@ -107,11 +107,11 @@ extension DiaryViewController: UITableViewDelegate {
     }
     
     private func applySnapshot() {
-        guard diaries != nil else { return }
+        guard let diaries = diaries else { return }
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         snapshot.appendSections([.main])
-        snapshot.appendItems(diaries!)
+        snapshot.appendItems(diaries)
         
         dataSource.apply(snapshot, animatingDifferences: true)
     }
