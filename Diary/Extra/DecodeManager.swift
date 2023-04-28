@@ -10,17 +10,16 @@ import UIKit
 final class DecodeManager {
     private let decoder = JSONDecoder()
     
-    func decodeJSON<T: Decodable>(fileName: String, type: T.Type) -> Result<T, DecodeError> {
-        
+    func decodeJSON<T: Decodable>(fileName: String, type: T.Type) throws -> T? {
         guard let JSONFile: NSDataAsset  = NSDataAsset(name: fileName) else {
-            return .failure(.invalidFileError)
+            throw DecodeError.invalidFileError
         }
         
         do {
             let decodedJSON: T = try decoder.decode(type, from: JSONFile.data)
-            return .success(decodedJSON)
+            return decodedJSON
         } catch {
-            return .failure(.decodingFailureError)
+            throw DecodeError.decodingFailureError
         }
     }
 }

@@ -30,16 +30,10 @@ final class DiaryViewController: UIViewController {
     }
     
     private func decodeDiaryData() {
-        let decodedResult = DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
-        diaries = try? verifyResult(result: decodedResult)
-    }
-    
-    private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T? {
-        switch result {
-        case .success(let data):
-            return data
-        case .failure(let error):
-            throw error
+        do {
+            let diaries = try DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
