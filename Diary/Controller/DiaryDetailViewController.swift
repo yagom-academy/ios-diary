@@ -66,35 +66,27 @@ final class DiaryDetailViewController: UIViewController {
         configureUI()
         configureLayout()
         configureNotification()
-        configureViewController()
-        configureUIContent()
     }
-    
-    private func configureViewController() {
+
+    private func configureUI() {
         view.backgroundColor = .white
-        self.title = diary?.createdAt.convertFormattedDate()
-    }
-    
-    private func configureUIContent() {
-        guard let validDiary = diary else {
+        
+        if diary == nil {
             self.title = Date.nowDate
             placeholderSetting()
-            return
+        } else {
+            self.title = diary?.createdAt.convertFormattedDate()
+            titleTextField.text = diary?.title
+            bodyTextView.text = diary?.body
         }
-        
-        self.title = validDiary.createdAt.convertFormattedDate()
-        self.titleTextField.text = validDiary.title
-        self.bodyTextView.text = validDiary.body
     }
-    
-    private func configureUI() {
+
+    private func configureLayout() {
         view.addSubview(scrollView)
         scrollView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(titleTextField)
         contentStackView.addArrangedSubview(bodyTextView)
-    }
-    
-    private func configureLayout() {
+        
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([

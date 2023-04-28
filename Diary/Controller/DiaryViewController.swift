@@ -26,7 +26,6 @@ final class DiaryViewController: UIViewController {
         decodeDiaryData()
         configureUI()
         configureLayout()
-        configureViewController()
         configureTableView()
     }
     
@@ -45,22 +44,8 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configureUI() {
-        view.addSubview(tableView)
-    }
-    
-    private func configureLayout() {
-        let safeArea = view.safeAreaLayoutGuide
-        
-        NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-        ])
-    }
-    
-    private func configureViewController() {
         view.backgroundColor = .white
+        
         self.title = String.localized(key: LocalizationKey.mainTitle)
         
         let buttonItem: UIBarButtonItem = {
@@ -75,6 +60,19 @@ final class DiaryViewController: UIViewController {
         }()
         
         self.navigationItem.rightBarButtonItem = buttonItem
+    }
+    
+    private func configureLayout() {
+        view.addSubview(tableView)
+        
+        let safeArea = view.safeAreaLayoutGuide
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
     }
     
     @objc private func presentAddingDiaryPage() {
