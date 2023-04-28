@@ -189,10 +189,10 @@ extension Date {
 </br>
 
 ## Reference 📑
-[🍎 Apple Developer 공식문서 - UITextView ](https://developer.apple.com/documentation/uikit/uitextview)
-[🍎 Apple Developer 공식문서 - DateFormatter ](https://developer.apple.com/documentation/foundation/dateformatter)
-[🍎 Apple Developer 공식문서 - NotificationCenter ](https://developer.apple.com/documentation/foundation/notificationcenter)
-[🍎 Apple Developer 공식문서 - NSNotification-Name-UIKit ](https://developer.apple.com/documentation/foundation/nsnotification/name#3875993)
-[🍎 Apple Developer 공식문서 - NsLayoutConstraint-constant ](https://developer.apple.com/documentation/uikit/nslayoutconstraint/1526928-constant)
+- [🍎 Apple Developer 공식문서 - UITextView ](https://developer.apple.com/documentation/uikit/uitextview)
+- [🍎 Apple Developer 공식문서 - DateFormatter ](https://developer.apple.com/documentation/foundation/dateformatter)
+- [🍎 Apple Developer 공식문서 - NotificationCenter ](https://developer.apple.com/documentation/foundation/notificationcenter)
+- [🍎 Apple Developer 공식문서 - NSNotification-Name-UIKit ](https://developer.apple.com/documentation/foundation/nsnotification/name#3875993)
+- [🍎 Apple Developer 공식문서 - NsLayoutConstraint-constant ](https://developer.apple.com/documentation/uikit/nslayoutconstraint/1526928-constant)
 
 
