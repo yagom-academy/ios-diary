@@ -17,7 +17,7 @@ enum DateToStringFormatter {
     dateFormatter.locale = Locale.current
     dateFormatter.timeZone = TimeZone.current
       
-    return self.dateFormatter.string(from: date)
+    return dateFormatter.string(from: date)
   }
     
 }
