@@ -103,12 +103,12 @@ Diary
 
 | <center> 테이블 뷰에 데이터 연결</center> | <center>셀 클릭시 세부정보 화면 이동</center>  | <center>키보드가 사용될 때 레이아웃 조정</center> | <center> 내용이 없을경우 플레이스 홀더 적용</center> |
 | --- | --- | --- |--- |
-| <img src="https://i.imgur.com/uCD6D9t.gif" width =400> | <img src="https://i.imgur.com/2zSPIOb.gif" width =400> | <img src="https://i.imgur.com/d9L64Mo.gif" width =400> | <img src="https://i.imgur.com/TcZmDe4.gif" width =400> |
+| <img src="https://i.imgur.com/uCD6D9t.gif" width =200> | <img src="https://i.imgur.com/2zSPIOb.gif" width =200> | <img src="https://i.imgur.com/d9L64Mo.gif" width =200> | <img src="https://i.imgur.com/TcZmDe4.gif" width =200> |
 
 
 | <center>가로모드 전환시 레이아웃 조정</center>  | 
 | --- | 
- | <img src="https://i.imgur.com/6g1lfQh.gif" width =600> | 
+ | <img src="https://i.imgur.com/6g1lfQh.gif" width =400> | 
 
 
 </br>
