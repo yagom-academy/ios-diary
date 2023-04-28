@@ -7,15 +7,15 @@
 
 import Foundation
 
-struct Diary: Codable, Hashable {
+struct Diary: Codable, Hashable, Identifiable {
     let id = UUID()
     let title: String
     let body: String
-    let createdDate: Int
+    let timeIntervalSince1970: Int
     
     enum CodingKeys: String, CodingKey {
         case title
         case body
-        case createdDate = "created_at"
+        case timeIntervalSince1970 = "created_at"
     }
 }
