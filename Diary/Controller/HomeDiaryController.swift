@@ -70,11 +70,12 @@ extension HomeDiaryController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryCell.identifier, for: indexPath) as? DiaryCell,
+              let diary = diaries[safe: indexPath.row] else {
             return UITableViewCell()
         }
         
-        cell.configureData(data: diaries[indexPath.row], localizedDateFormatter: localizedDateFormatter)
+        cell.configureData(data: diary, localizedDateFormatter: localizedDateFormatter)
     
         return cell
     }
