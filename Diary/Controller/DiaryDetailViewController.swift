@@ -62,7 +62,7 @@ final class DiaryDetailViewController: UIViewController {
         let backAction = UIAction(title: "back") { [weak self] _ in
             guard let contents = self?.contents else { return }
             
-            CoreDataManager.shared.createContents(contents)
+            CoreDataManager.shared.create(contents: contents)
             self?.navigationController?.popToRootViewController(animated: true)
         }
 

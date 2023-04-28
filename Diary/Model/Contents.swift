@@ -11,6 +11,7 @@ struct Contents: Codable {
     let title: String
     let body: String
     let date: Double
+    var identifier = UUID()
     var localizedDate: String {
         let date = Date(timeIntervalSince1970: date)
         return date.translateLocalizedFormat()

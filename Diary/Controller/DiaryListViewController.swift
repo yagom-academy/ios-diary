@@ -28,6 +28,9 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func decodeContents() {
+        contentsList = CoreDataManager.shared.read()
+        if contentsList?.isEmpty == false { return }
+        
         let assetName = "sample"
         let result = DecodeManager().decodeJsonAsset(name: assetName, type: [Contents].self)
         

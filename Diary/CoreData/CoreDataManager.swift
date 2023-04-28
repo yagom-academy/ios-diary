@@ -37,14 +37,41 @@ final class CoreDataManager {
         }
     }
     
-    func createContents(_ contents: Contents) {
+    func create(contents: Contents) {
         guard let entity = NSEntityDescription.entity(forEntityName: "ContentsEntity", in: context),
               let storage = NSManagedObject(entity: entity, insertInto: context) as? ContentsEntity else { return }
         
         storage.setValue(contents.title, forKey: "title")
         storage.setValue(contents.body, forKey: "body")
         storage.setValue(contents.date, forKey: "date")
+        storage.setValue(contents.identifier, forKey: "identifier")
         
         saveContext()
+    }
+    
+    func read() -> [Contents]? {
+        let fetchRequest = NSFetchRequest<ContentsEntity>(entityName: "ContentsEntity")
+        
+        do {
+            let fetchedData = try context.fetch(fetchRequest)
+            return entitiesToContents(fetchedData)
+        } catch {
+            return nil
+        }
+    }
+    
+    private func entitiesToContents(_ contentsEntities: [ContentsEntity]) -> [Contents] {
+        var contents = [Contents]()
+        
+        contentsEntities.forEach {
+            let content = Contents(title: $0.title ?? "",
+                                   body: $0.body ?? "",
+                                   date: $0.date,
+                                   identifier: $0.identifier ?? UUID())
+            
+            contents.append(content)
+        }
+        
+        return contents
     }
 }
