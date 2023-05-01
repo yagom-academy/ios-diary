@@ -10,7 +10,7 @@ import CoreData
 final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
     private var bottomConstraint: NSLayoutConstraint?
-    private var container: NSPersistentContainer?
+    private var coreDataManager = CoreDataManager.shared
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -41,22 +41,9 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func createDiary() {
-        guard let diary = configureDiary(),
-              let container = self.container,
-              let entity = NSEntityDescription.entity(forEntityName: "Entity",
-                                                      in: container.viewContext) else { return }
+        guard let diary = configureDiary() else { return }
         
-        let diaryData = NSManagedObject(entity: entity, insertInto: container.viewContext)
-        diaryData.setValue(diary.title, forKey: "title")
-        diaryData.setValue(diary.body, forKey: "body")
-        diaryData.setValue(diary.date, forKey: "date")
-        
-        print(diaryData)
-        do {
-            try container.viewContext.save()
-        } catch {
-            print(error.localizedDescription)
-        }
+        coreDataManager.createDiary(diary)
     }
     
     private func configureDiary() -> Diary? {
