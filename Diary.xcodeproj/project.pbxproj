@@ -14,6 +14,7 @@
 		62D3D26329FFB61300C294FC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D3D26229FFB61300C294FC /* CoreDataStack.swift */; };
 		715A682729F77CA300626385 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715A682629F77CA300626385 /* DiaryCell.swift */; };
 		715FAB3629F8BAD300DE7F90 /* LayoutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715FAB3529F8BAD300DE7F90 /* LayoutType.swift */; };
+		71714A3229FFBCB1006F3EA8 /* DiaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71714A3129FFBCB1006F3EA8 /* DiaryService.swift */; };
 		719B168429F7A6970030DAED /* DiaryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719B168329F7A6970030DAED /* DiaryItem.swift */; };
 		719B168629F7C32F0030DAED /* ProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719B168529F7C32F0030DAED /* ProcessViewController.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
@@ -32,6 +33,7 @@
 		62D3D26229FFB61300C294FC /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		715A682629F77CA300626385 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		715FAB3529F8BAD300DE7F90 /* LayoutType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutType.swift; sourceTree = "<group>"; };
+		71714A3129FFBCB1006F3EA8 /* DiaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryService.swift; sourceTree = "<group>"; };
 		719B168329F7A6970030DAED /* DiaryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryItem.swift; sourceTree = "<group>"; };
 		719B168529F7C32F0030DAED /* ProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessViewController.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				62D3D26229FFB61300C294FC /* CoreDataStack.swift */,
+				71714A3129FFBCB1006F3EA8 /* DiaryService.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -251,6 +254,7 @@
 				715FAB3629F8BAD300DE7F90 /* LayoutType.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				715A682729F77CA300626385 /* DiaryCell.swift in Sources */,
+				71714A3229FFBCB1006F3EA8 /* DiaryService.swift in Sources */,
 				719B168429F7A6970030DAED /* DiaryItem.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				621340D029FB658000B55ADE /* ReusableIdentifier.swift in Sources */,

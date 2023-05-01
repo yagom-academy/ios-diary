@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-enum CoreDataError: Error {
+public enum CoreDataError: Error {
     case fetchError
     case insertError
     case entityNotFound
@@ -42,7 +42,7 @@ open class CoreDataStack {
     
     // true는 성공했다. false는 변경사항이없다. throw 변경사항이있지만 에러가 났다.
     
-    private func saveContext() -> Bool {
+    func saveContext() -> Bool {
 //        guard self.managedContext.hasChanges else {
 //            return false
 //        }
