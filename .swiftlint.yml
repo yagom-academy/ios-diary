@@ -1,0 +1,9 @@
+
+disabled_rules: # Default Rules에서 비활성화할 규칙
+
+    - trailing_whitespace
+    - force_cast
+    - force_unwrapping
+    - line_length
+    - closure_parameter_position
+    - unused_closure_parameter

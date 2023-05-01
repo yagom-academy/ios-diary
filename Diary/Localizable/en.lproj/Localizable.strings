@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Diary
+
+  Created by kimseongjun on 2023/04/27.
+  
+*/
+"titleTextFieldPlaceHolder" = "Please enter the title";
+"bodyTextViewPlaceHolder" = "Please enter the content";
+"mainTitle" = "Diary";
+"dateFormat" = "MM/dd/yyyy";
