@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
-    private var diarySample: [DiarySample] = []
+    private var diarySample: [DiaryContents] = []
     private let sampleDecoder = DiaryDecodeManager()
     private let alertFactory: AlertFactoryService = AlertImplementation()
     private let alertDataMaker: AlertDataService = AlertViewDataMaker()
@@ -65,7 +65,7 @@ final class DiaryListViewController: UIViewController {
     private func parseDiarySample() {
         guard let data = NSDataAsset(name: "sample")?.data else { return }
         
-        let result = sampleDecoder.decode(type: [DiarySample].self, data: data)
+        let result = sampleDecoder.decode(type: [DiaryContents].self, data: data)
         
         switch result {
         case .success(let sample):

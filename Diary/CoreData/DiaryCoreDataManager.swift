@@ -42,13 +42,13 @@ final class DiaryCoreDataManager {
         }
     }
     
-    func createDiary(title: String?, date: String?, body: String?) {
+    func createDiary(title: String?, date: String?, body: String?, id: UUID) {
         if let diaryEntity {
             let diary = Diary(entity: diaryEntity, insertInto: context)
             diary.setValue(title, forKey: "title")
             diary.setValue(date, forKey: "date")
             diary.setValue(body, forKey: "body")
-            diary.setValue(UUID(), forKey: "id")
+            diary.setValue(id, forKey: "id")
             
             saveContext()
         }

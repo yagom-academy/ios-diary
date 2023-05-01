@@ -8,10 +8,12 @@
 import UIKit
 
 final class DiaryContentViewController: UIViewController {
-    private let diary: DiarySample?
+    typealias DiaryText = (title: String?, body: String?)
+    
+    private let diary: DiaryContents?
     private let textView = UITextView()
 
-    init(diary: DiarySample? = nil) {
+    init(diary: DiaryContents? = nil) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
@@ -102,6 +104,29 @@ final class DiaryContentViewController: UIViewController {
         textView.verticalScrollIndicatorInsets.bottom = .zero
     }
     
+//    private func updateDiary() {
+//        let devidedContents: DiaryText = devide(text: textView.text)
+//        let updateDate = DateFormatter.diaryForm.string(from: Date())
+//
+//        DiaryCoreDataManager.shared.updateDiary(title: devidedContents.title,
+//                                                date: updateDate,
+//                                                body: devidedContents.body,
+//                                                id: )
+//    }
+    
+    private func devide(text: String?) -> DiaryText {
+        guard let text,
+              let newLineIndex = text.firstIndex(of: "\n") else { return (nil, nil) }
+        
+        let startIndex = text.startIndex
+        let titleRange = startIndex...newLineIndex
+        let bodyRange = newLineIndex...
+        let title = String(text[titleRange])
+        let body = String(text[bodyRange])
+        
+        return (title, body)
+    }
+    
     private func showKeyboardIfNeeded() {
         if diary == nil {
             textView.becomeFirstResponder()
@@ -111,8 +136,9 @@ final class DiaryContentViewController: UIViewController {
     private func createDiaryIfNeeded() {
         if diary == nil {
             let createDate = DateFormatter.diaryForm.string(from: Date())
+            let id = UUID()
             
-            DiaryCoreDataManager.shared.createDiary(title: nil, date: createDate, body: nil)
+            DiaryCoreDataManager.shared.createDiary(title: nil, date: createDate, body: nil, id: id)
         }
     }
 }
