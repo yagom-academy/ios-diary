@@ -73,6 +73,7 @@ final class DetailDiaryViewController: UIViewController {
     private func endEditTextView() {
         self.diaryTextView.endEditing(true)
         createDiary()
+        
     }
     
     private func configureSubview() {

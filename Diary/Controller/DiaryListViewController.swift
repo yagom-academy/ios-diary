@@ -9,12 +9,9 @@ import CoreData
 
 final class DiaryListViewController: UIViewController {
     private let diaryDataDecoder = DiaryDataDecoder()
-    var container: NSPersistentContainer?
     var diaries: [Entity]?
-//    private var diary: [Diary]? {
-//        return diaryDataDecoder.decodeDiaryData()
-//    }
-        
+    private var coreDataManager = CoreDataManager.shared
+    
     private let diaryListTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
@@ -25,19 +22,15 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureUI()
         configureSubview()
         configureConstraint()
-
+        print(coreDataManager.fetchDiary())
     }
     
-    func fetchDiaryData() {
-        do {
-            diaries = try self.container?.viewContext.fetch(Entity.fetchRequest()) as? [Entity]
-        } catch {
-            print(error.localizedDescription)
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        diaryListTableView.reloadData()
     }
     
     private func configureUI() {
@@ -75,7 +68,7 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let diaries else { return 0 }
+        guard let diaries = coreDataManager.fetchDiary() else { return 0 }
         
         return diaries.count
     }
@@ -87,7 +80,7 @@ extension DiaryListViewController: UITableViewDataSource {
         
         cell.accessoryType = .disclosureIndicator
         
-        guard let diaries else { return DiaryListCell() }
+        guard let diaries = coreDataManager.fetchDiary() else { return DiaryListCell() }
         
         cell.configureContent(data: diaries[indexPath.row])
 

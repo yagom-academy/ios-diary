@@ -47,4 +47,20 @@ class CoreDataManager {
             return false
         }
     }
+    
+    func fetchDiary() -> [Diary]? {
+        let readRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
+        guard let diaryData = try? context.fetch(readRequest) else { return nil }
+        var diaries = [Diary]()
+        
+        for diary in diaryData {
+            guard let title = diary.value(forKey: "title") as? String,
+                  let body = diary.value(forKey: "body") as? String,
+                  let date = diary.value(forKey: "date") as? Double else { return nil }
+            
+            diaries.append(Diary(title: title, body: body, date: date))
+        }
+        
+        return diaries
+    }
 }
