@@ -5,13 +5,15 @@
 // 
 
 import UIKit
+import CoreData
 
 final class DiaryListViewController: UIViewController {
     private let diaryDataDecoder = DiaryDataDecoder()
-    
-    private var diary: [Diary]? {
-        return diaryDataDecoder.decodeDiaryData()
-    }
+    var container: NSPersistentContainer?
+    var diaries: [Entity]?
+//    private var diary: [Diary]? {
+//        return diaryDataDecoder.decodeDiaryData()
+//    }
         
     private let diaryListTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -26,6 +28,14 @@ final class DiaryListViewController: UIViewController {
         configureUI()
         configureSubview()
         configureConstraint()
+    }
+    
+    func fetchDiaryData() {
+        do {
+            diaries = try self.container?.viewContext.fetch(Entity.fetchRequest()) as? [Entity]
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     private func configureUI() {
@@ -63,9 +73,9 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let diary else { return 0 }
+        guard let diaries else { return 0 }
         
-        return diary.count
+        return diaries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,9 +85,9 @@ extension DiaryListViewController: UITableViewDataSource {
         
         cell.accessoryType = .disclosureIndicator
         
-        guard let diary else { return DiaryListCell() }
+        guard let diaries else { return DiaryListCell() }
         
-        cell.configureContent(data: diary[indexPath.row])
+        cell.configureContent(data: diaries[indexPath.row])
 
         return cell
     }
@@ -90,9 +100,9 @@ extension DiaryListViewController: UITableViewDelegate {
         let detailDiaryViewController = DetailDiaryViewController()
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
         
-        guard let diary else { return }
+        guard let diaries else { return }
         
-        detailDiaryViewController.configureContent(diary: diary[indexPath.row])
+        detailDiaryViewController.configureContent(diary: diaries[indexPath.row])
     }
 }
 

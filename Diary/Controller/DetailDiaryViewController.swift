@@ -5,6 +5,7 @@
 //
 
 import UIKit
+import CoreData
 
 final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
@@ -28,11 +29,14 @@ final class DetailDiaryViewController: UIViewController {
         addKeyboardNotification()
     }
     
-    func configureContent(diary: Diary) {
-        diaryTextView.text = diary.title + NameSpace.doubleNewline + diary.body
+    func configureContent(diary: Entity) {
+        guard let title = diary.title,
+              let body = diary.body else { return }
+        
+        diaryTextView.text = title + NameSpace.doubleNewline + body
         diaryTextView.contentOffset = CGPoint.zero
         diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
-        title = diaryDate
+        self.title = diaryDate
     }
     
     private func configureUI() {
