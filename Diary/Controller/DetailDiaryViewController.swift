@@ -7,10 +7,10 @@
 import UIKit
 import CoreData
 
-@available(iOS 16.0, *)
 final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
     private var bottomConstraint: NSLayoutConstraint?
+    private var container: NSPersistentContainer?
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -34,14 +34,33 @@ final class DetailDiaryViewController: UIViewController {
         guard let title = diary.title,
               let body = diary.body else { return }
         
-        diaryTextView.text = title + NameSpace.doubleNewline + body
+        diaryTextView.text = title + NameSpace.newline + body
         diaryTextView.contentOffset = CGPoint.zero
         diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
         self.title = diaryDate
     }
     
+    private func createDiary() {
+        guard let diary = configureDiary(),
+              let container = self.container,
+              let entity = NSEntityDescription.entity(forEntityName: "Entity",
+                                                      in: container.viewContext) else { return }
+        
+        let diaryData = NSManagedObject(entity: entity, insertInto: container.viewContext)
+        diaryData.setValue(diary.title, forKey: "title")
+        diaryData.setValue(diary.body, forKey: "body")
+        diaryData.setValue(diary.date, forKey: "date")
+        
+        print(diaryData)
+        do {
+            try container.viewContext.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     private func configureDiary() -> Diary? {
-        let diaryContents = diaryTextView.text.split(separator: NameSpace.doubleNewline, maxSplits: 1)
+        let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
         let title = String(diaryContents[0])
         let body = String(diaryContents[1])
         
@@ -66,6 +85,7 @@ final class DetailDiaryViewController: UIViewController {
     @objc
     private func endEditTextView() {
         self.diaryTextView.endEditing(true)
+        createDiary()
     }
     
     private func configureSubview() {
@@ -122,6 +142,6 @@ final class DetailDiaryViewController: UIViewController {
 }
 
 private enum NameSpace {
-    static let doubleNewline = "\n\n"
+    static let newline = "\n"
     static let diaryPlaceholder = "내용을 입력하세요"
 }
