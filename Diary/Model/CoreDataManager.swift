@@ -1,8 +1,7 @@
 //
-//  CoreDataManager.swift
-//  Diary
-//
-//  Created by Jinah Park on 2023/05/01.
+//  Diary - CoreDataManager.swift
+//  Created by Rhode, 무리.
+//  Copyright © yagom. All rights reserved.
 //
 
 import CoreData
@@ -29,7 +28,7 @@ class CoreDataManager {
         return  NSEntityDescription.entity(forEntityName: "Entity", in: context)
     }
     
-    func createDiary(_ diary: Diary) -> Bool {
+    func createDiary(_ diary: Diary) {
         if let entity = diaryEntity {
             let managedObject = NSManagedObject(entity: entity, insertInto: context)
             managedObject.setValue(diary.title, forKey: "title")
@@ -38,13 +37,9 @@ class CoreDataManager {
             
             do {
                 try self.context.save()
-                return true
             } catch {
                 print(error.localizedDescription)
-                return false
             }
-        } else {
-            return false
         }
     }
     

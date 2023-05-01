@@ -11,6 +11,7 @@ final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
     private var bottomConstraint: NSLayoutConstraint?
     private var coreDataManager = CoreDataManager.shared
+    private var isKeyboardOn: Bool = false
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -22,19 +23,26 @@ final class DetailDiaryViewController: UIViewController {
         return textView
     }()
     
+    init(iskeyboardOn: Bool) {
+        self.isKeyboardOn = iskeyboardOn
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureSubview()
         configureConstraint()
         addKeyboardNotification()
+        configureKeyboard()
     }
     
-    func configureContent(diary: Entity) {
-        guard let title = diary.title,
-              let body = diary.body else { return }
-        
-        diaryTextView.text = title + NameSpace.newline + body
+    func configureContent(diary: Diary) {
+        diaryTextView.text = diary.title + NameSpace.newline + diary.body
         diaryTextView.contentOffset = CGPoint.zero
         diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
         self.title = diaryDate
@@ -69,11 +77,16 @@ final class DetailDiaryViewController: UIViewController {
         }
     }
     
+    private func configureKeyboard() {
+        if isKeyboardOn {
+            diaryTextView.becomeFirstResponder()
+        }
+    }
+    
     @objc
     private func endEditTextView() {
         self.diaryTextView.endEditing(true)
         createDiary()
-        
     }
     
     private func configureSubview() {
