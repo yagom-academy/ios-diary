@@ -61,24 +61,32 @@ final class DiaryCoreDataManager {
         return fetchResult
     }
     
-    func updateDiary(title: String?, date: String?, body: String?, id: UUID, completion: ((Error) -> Void)?) {
+    func updateDiary(title: String?, date: String?, body: String?, id: UUID) {
         let request = Diary.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", id.uuidString)
         request.predicate = predicate
         
-        let fetchResult = Result { try context.fetch(request) }
+        let fetchResult = try? self.context.fetch(request)
         
-        switch fetchResult {
-        case .success(let result):
-            if let diary = result.first {
-                diary.setValue(title, forKey: "title")
-                diary.setValue(date, forKey: "date")
-                diary.setValue(body, forKey: "body")
-                
-                saveContext()
-            }
-        case .failure(let error):
-            completion?(error)
-        }
+        guard let diary = fetchResult?.first else { return }
+        
+        diary.setValue(title, forKey: "title")
+        diary.setValue(date, forKey: "date")
+        diary.setValue(body, forKey: "body")
+        
+        saveContext()
+    }
+    
+    func deleteDiary(id: UUID) {
+        let request = Diary.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", id.uuidString)
+        request.predicate = predicate
+        
+        let fetchResult = try? self.context.fetch(request)
+        
+        guard let diary = fetchResult?.first else { return }
+        
+        context.delete(diary)
+        saveContext()
     }
 }
