@@ -1,8 +1,8 @@
 //
-//  CoreDataManager.swift
+//  DiaryCoreDataManager.swift
 //  Diary
 //
-//  Created by Harry on 2023/04/28.
+//  Created by Rowan, Harry on 2023/04/28.
 //
 
 import Foundation
@@ -42,12 +42,12 @@ final class DiaryCoreDataManager {
         }
     }
     
-    func createDiary(title: String?, body: String?, date: String?) {
+    func createDiary(title: String?, date: String?, body: String?) {
         if let diaryEntity {
             let diary = Diary(entity: diaryEntity, insertInto: context)
             diary.setValue(title, forKey: "title")
-            diary.setValue(body, forKey: "body")
             diary.setValue(date, forKey: "date")
+            diary.setValue(body, forKey: "body")
             diary.setValue(UUID(), forKey: "id")
             
             saveContext()
@@ -55,13 +55,30 @@ final class DiaryCoreDataManager {
     }
     
     func fetchDiary() -> Result<[Diary], Error> {
-        do {
-            let request = Diary.fetchRequest()
-            let fetchResult = try self.context.fetch(request)
-            
-            return .success(fetchResult)
-        } catch {
-            return .failure(error)
+        let request = Diary.fetchRequest()
+        let fetchResult = Result { try self.context.fetch(request) }
+        
+        return fetchResult
+    }
+    
+    func updateDiary(title: String?, date: String?, body: String?, id: UUID, completion: ((Error) -> Void)?) {
+        let request = Diary.fetchRequest()
+        let predicate = NSPredicate(format: "id == %@", id.uuidString)
+        request.predicate = predicate
+        
+        let fetchResult = Result { try context.fetch(request) }
+        
+        switch fetchResult {
+        case .success(let result):
+            if let diary = result.first {
+                diary.setValue(title, forKey: "title")
+                diary.setValue(date, forKey: "date")
+                diary.setValue(body, forKey: "body")
+                
+                saveContext()
+            }
+        case .failure(let error):
+            completion?(error)
         }
     }
 }
