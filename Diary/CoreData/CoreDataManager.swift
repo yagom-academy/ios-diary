@@ -53,4 +53,15 @@ final class DiaryCoreDataManager {
             saveContext()
         }
     }
+    
+    func fetchDiary() -> Result<[Diary], Error> {
+        do {
+            let request = Diary.fetchRequest()
+            let fetchResult = try self.context.fetch(request)
+            
+            return .success(fetchResult)
+        } catch {
+            return .failure(error)
+        }
+    }
 }
