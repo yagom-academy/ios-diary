@@ -7,7 +7,7 @@ import UIKit
 
 final class HomeDiaryController: UIViewController {
     private let diaryTableView = UITableView()
-    private var diaries: [DiaryItem] = []
+    private var diaries = [DiaryItem]()
     private let localizedDateFormatter = DateFormatter(
         languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
     )

@@ -55,6 +55,7 @@ final class ProcessViewController: UIViewController {
         diaryTextView.font = .preferredFont(forTextStyle: .body)
         diaryTextView.adjustsFontForContentSizeCategory = true
         diaryTextView.contentOffset = .zero
+        diaryTextView.keyboardDismissMode = .interactive
         
         NSLayoutConstraint.activate([
             diaryTextView.topAnchor.constraint(equalTo: view.topAnchor),
