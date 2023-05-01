@@ -1,5 +1,9 @@
-//  Diary - CoreDataManager.swift
-//  created by vetto on 2023/05/01
+//
+//  CoreDataManager.swift
+//  Diary
+//
+//  Created by Christy, vetto on 2023/05/01.
+//
 
 import Foundation
 import CoreData
@@ -62,6 +66,43 @@ class CoreDataManger {
             } catch {
                 print(error.localizedDescription)
             }
+        }
+    }
+    
+    func updateDiary(id: UUID, title: String, createDate: Int, body: String) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "DiaryData")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
+        
+        do {
+            let result = try self.context.fetch(fetchRequest)
+            guard let diary = result[0] as? NSManagedObject else { return }
+            
+            diary.setValue(title, forKey: "title")
+            diary.setValue(createDate, forKey: "createDate")
+            diary.setValue(body, forKey: "body")
+            
+            try self.context.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func deleteDiary(id: UUID) {
+        let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "DiaryData")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
+        
+        do {
+            let result = try self.context.fetch(fetchRequest)
+            guard let diary = result[0] as? NSManagedObject else { return }
+            
+            self.context.delete(diary)
+            do {
+                try self.context.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
 }
