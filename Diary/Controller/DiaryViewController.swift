@@ -33,14 +33,14 @@ final class DiaryViewController: UIViewController {
         }
     }
     
-    private func pushDiaryDetailViewController(with diary: Diary) {
-        let detailVC = DiaryDetailViewController(diaryItem: diary)
+    private func pushDiaryDetailViewController(with diary: Diary, _ state: DiaryState) {
+        let detailVC = DiaryDetailViewController(diaryItem: diary, state: state)
         
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     @objc private func plusButtonTapped() {
-        pushDiaryDetailViewController(with: Diary())
+        pushDiaryDetailViewController(with: Diary(), .create)
     }
 }
 
@@ -66,7 +66,7 @@ extension DiaryViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         guard let diary = diaryItems[safe: indexPath.row] else { return }
         
-        pushDiaryDetailViewController(with: diary)
+        pushDiaryDetailViewController(with: diary, .edit)
     }
 }
 
