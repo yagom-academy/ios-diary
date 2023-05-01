@@ -10,7 +10,7 @@ import UIKit
 final class DiaryContentViewController: UIViewController {
     private let diary: DiarySample?
     private let textView = UITextView()
-    
+
     init(diary: DiarySample? = nil) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
@@ -27,12 +27,13 @@ final class DiaryContentViewController: UIViewController {
         setUpNavigationBar()
         setUpTextView()
         addObserver()
+        createDiaryIfNeeded()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        showKeyboard()
+        showKeyboardIfNeeded()
     }
     
     private func setUpRootView() {
@@ -101,9 +102,17 @@ final class DiaryContentViewController: UIViewController {
         textView.verticalScrollIndicatorInsets.bottom = .zero
     }
     
-    private func showKeyboard() {
+    private func showKeyboardIfNeeded() {
         if diary == nil {
             textView.becomeFirstResponder()
+        }
+    }
+    
+    private func createDiaryIfNeeded() {
+        if diary == nil {
+            let createDate = DateFormatter.diaryForm.string(from: Date())
+            
+            DiaryCoreDataManager.shared.createDiary(title: nil, date: createDate, body: nil)
         }
     }
 }
