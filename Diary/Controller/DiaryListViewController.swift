@@ -7,6 +7,7 @@
 import UIKit
 import CoreData
 
+@available(iOS 16.0, *)
 final class DiaryListViewController: UIViewController {
     private let diaryDataDecoder = DiaryDataDecoder()
     var container: NSPersistentContainer?
@@ -71,6 +72,7 @@ final class DiaryListViewController: UIViewController {
     }
 }
 
+@available(iOS 16.0, *)
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let diaries else { return 0 }
@@ -93,6 +95,7 @@ extension DiaryListViewController: UITableViewDataSource {
     }
 }
 
+@available(iOS 16.0, *)
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)

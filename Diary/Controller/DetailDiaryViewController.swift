@@ -7,6 +7,7 @@
 import UIKit
 import CoreData
 
+@available(iOS 16.0, *)
 final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
     private var bottomConstraint: NSLayoutConstraint?
@@ -37,6 +38,16 @@ final class DetailDiaryViewController: UIViewController {
         diaryTextView.contentOffset = CGPoint.zero
         diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
         self.title = diaryDate
+    }
+    
+    private func configureDiary() -> Diary? {
+        let diaryContents = diaryTextView.text.split(separator: NameSpace.doubleNewline, maxSplits: 1)
+        let title = String(diaryContents[0])
+        let body = String(diaryContents[1])
+        
+        guard let date = Date().timeIntervalSince1970.roundDownNumber() else { return nil }
+        
+        return Diary(title: title, body: body, date: date)
     }
     
     private func configureUI() {
