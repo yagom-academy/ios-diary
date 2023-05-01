@@ -10,7 +10,7 @@ import UIKit
 final class DiaryContentViewController: UIViewController {
     typealias DiaryText = (title: String?, body: String?)
     
-    private let diary: DiaryContents?
+    private var diary: DiaryContents?
     private let textView = UITextView()
 
     init(diary: DiaryContents? = nil) {
@@ -25,11 +25,11 @@ final class DiaryContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        createDiaryIfNeeded()
         setUpRootView()
         setUpNavigationBar()
         setUpTextView()
         addObserver()
-        createDiaryIfNeeded()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -128,17 +128,18 @@ final class DiaryContentViewController: UIViewController {
     }
     
     private func showKeyboardIfNeeded() {
-        if diary == nil {
+        if diary?.title == nil {
             textView.becomeFirstResponder()
         }
     }
     
     private func createDiaryIfNeeded() {
         if diary == nil {
-            let createDate = DateFormatter.diaryForm.string(from: Date())
-            let id = UUID()
+            let createdDate = Date().timeIntervalSince1970
+            let diaryContents = DiaryContents(title: nil, body: nil, createdDate: createdDate)
             
-            DiaryCoreDataManager.shared.createDiary(title: nil, date: createDate, body: nil, id: id)
+            self.diary = diaryContents
+            DiaryCoreDataManager.shared.createDiary(with: diaryContents)
         }
     }
 }

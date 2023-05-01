@@ -42,13 +42,13 @@ final class DiaryCoreDataManager {
         }
     }
     
-    func createDiary(title: String?, date: String?, body: String?, id: UUID) {
+    func createDiary(with diaryContents: DiaryContents) {
         if let diaryEntity {
             let diary = Diary(entity: diaryEntity, insertInto: context)
-            diary.setValue(title, forKey: "title")
-            diary.setValue(date, forKey: "date")
-            diary.setValue(body, forKey: "body")
-            diary.setValue(id, forKey: "id")
+            diary.setValue(diaryContents.title, forKey: "title")
+            diary.setValue(diaryContents.createdDate, forKey: "date")
+            diary.setValue(diaryContents.body, forKey: "body")
+            diary.setValue(diaryContents.id, forKey: "id")
             
             saveContext()
         }
@@ -61,18 +61,18 @@ final class DiaryCoreDataManager {
         return fetchResult
     }
     
-    func updateDiary(title: String?, date: String?, body: String?, id: UUID) {
+    func updateDiary(with diaryContents: DiaryContents) {
         let request = Diary.fetchRequest()
-        let predicate = NSPredicate(format: "id == %@", id.uuidString)
+        let predicate = NSPredicate(format: "id == %@", diaryContents.id.uuidString)
         request.predicate = predicate
         
         let fetchResult = try? self.context.fetch(request)
         
         guard let diary = fetchResult?.first else { return }
         
-        diary.setValue(title, forKey: "title")
-        diary.setValue(date, forKey: "date")
-        diary.setValue(body, forKey: "body")
+        diary.setValue(diaryContents.title, forKey: "title")
+        diary.setValue(diaryContents.createdDate, forKey: "date")
+        diary.setValue(diaryContents.body, forKey: "body")
         
         saveContext()
     }
