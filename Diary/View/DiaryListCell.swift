@@ -76,7 +76,7 @@ final class DiaryListCell: UITableViewCell {
     
     func configureContent(data: Diary) {
         titleLabel.text = data.title
-        bodyLabel.text = data.body
+        bodyLabel.text = data.body.removeNewLinePrefix()
         dateLabel.text = Date(timeIntervalSince1970: data.date).convertDate()
     }
 }

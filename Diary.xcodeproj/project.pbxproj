@@ -17,6 +17,7 @@
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		D00E414129FFABF0006A0F81 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E414029FFABF0006A0F81 /* CoreDataManager.swift */; };
+		D00E414329FFC9C4006A0F81 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D00E414229FFC9C4006A0F81 /* String+.swift */; };
 		D074DF5529FF8E9000ADC9D1 /* Entity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D074DF5329FF8E9000ADC9D1 /* Entity+CoreDataClass.swift */; };
 		D074DF5629FF8E9000ADC9D1 /* Entity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D074DF5429FF8E9000ADC9D1 /* Entity+CoreDataProperties.swift */; };
 		D074DF5829FF98A700ADC9D1 /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D074DF5729FF98A700ADC9D1 /* Double+.swift */; };
@@ -38,6 +39,7 @@
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D00E414029FFABF0006A0F81 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		D00E414229FFC9C4006A0F81 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		D074DF5329FF8E9000ADC9D1 /* Entity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D074DF5429FF8E9000ADC9D1 /* Entity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D074DF5729FF98A700ADC9D1 /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				D0BAD8EE29F6705B0068E24B /* Date+.swift */,
 				D074DF5729FF98A700ADC9D1 /* Double+.swift */,
+				D00E414229FFC9C4006A0F81 /* String+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -258,6 +261,7 @@
 				4B983AA729F6650300190F50 /* Diary.swift in Sources */,
 				D074DF5529FF8E9000ADC9D1 /* Entity+CoreDataClass.swift in Sources */,
 				D074DF5829FF98A700ADC9D1 /* Double+.swift in Sources */,
+				D00E414329FFC9C4006A0F81 /* String+.swift in Sources */,
 				D0BAD8EF29F6705B0068E24B /* Date+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
