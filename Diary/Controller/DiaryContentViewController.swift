@@ -29,6 +29,12 @@ final class DiaryContentViewController: UIViewController {
         addObserver()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        showKeyboard()
+    }
+    
     private func setUpRootView() {
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
@@ -93,5 +99,11 @@ final class DiaryContentViewController: UIViewController {
     private func keyboardWillHide() {
         textView.contentInset.bottom = .zero
         textView.verticalScrollIndicatorInsets.bottom = .zero
+    }
+    
+    private func showKeyboard() {
+        if diary == nil {
+            textView.becomeFirstResponder()
+        }
     }
 }
