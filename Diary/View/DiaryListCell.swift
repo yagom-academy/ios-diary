@@ -91,10 +91,8 @@ final class DiaryListCell: UITableViewCell {
     }
     
     func configureLabels(title: String?, date: String, body: String?) {
-        guard let title, let body else { return }
-    
-        titleLabel.text = title
+        titleLabel.text = title == "" ? "새로운 일기" : title
         dateLabel.text = date
-        previewLabel.text = body
+        previewLabel.text = body?.trimmingCharacters(in: ["\n"])
     }
 }

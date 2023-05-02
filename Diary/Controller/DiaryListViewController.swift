@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
-    private var diaryList: [DiaryContents] = []
+    private var diaryList: [Diary] = []
     private let sampleDecoder = DiaryDecodeManager()
     private let alertFactory: AlertFactoryService = AlertImplementation()
     private let alertDataMaker: AlertDataService = AlertViewDataMaker()
@@ -19,8 +19,6 @@ final class DiaryListViewController: UIViewController {
         setUpRootView()
         setUpNavigationBar()
         setUpTableView()
-//        parseDiarySample()
-//        fetchDiaryList()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,35 +68,15 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
-//    private func parseDiarySample() {
-//        guard let data = NSDataAsset(name: "sample")?.data else { return }
-//
-//        let result = sampleDecoder.decode(type: [DiaryContents].self, data: data)
-//
-//        switch result {
-//        case .success(let sample):
-//            diaryList = sample
-//        case .failure(let error):
-//            let alertViewData = alertDataMaker.decodeError(error)
-//            let alert = alertFactory.makeAlert(for: alertViewData)
-//
-//            present(alert, animated: true)
-//        }
-//    }
-    
     private func fetchDiaryList() {
         let result = DiaryCoreDataManager.shared.fetchDiary()
         
         switch result {
         case .success(let diaryList):
-            self.diaryList = diaryList.map { diary in
-                DiaryContents(title: diary.title, body: diary.body, createdDate: diary.date, id: diary.id)
-            }
+            self.diaryList = diaryList
         case .failure(let error):
             print(error.localizedDescription)
         }
-        
-        print(diaryList)
     }
 }
 
@@ -114,7 +92,7 @@ extension DiaryListViewController: UITableViewDataSource {
         else { return UITableViewCell() }
         
         let diary = diaryList[indexPath.row]
-        let date = Date(timeIntervalSince1970: diary.createdDate)
+        let date = Date(timeIntervalSince1970: diary.date)
         let formattedDate = DateFormatter.diaryForm.string(from: date)
         
         cell.configureLabels(title: diary.title, date: formattedDate, body: diary.body)
@@ -125,7 +103,12 @@ extension DiaryListViewController: UITableViewDataSource {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let nextViewController = DiaryContentViewController(diary: diaryList[indexPath.row])
+        let diary = diaryList[indexPath.row]
+        let diaryContents = DiaryContents(title: diary.title,
+                                          body: diary.body,
+                                          createdDate: diary.date,
+                                          id: diary.id)
+        let nextViewController = DiaryContentViewController(diaryContents: diaryContents)
         
         navigationController?.pushViewController(nextViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)

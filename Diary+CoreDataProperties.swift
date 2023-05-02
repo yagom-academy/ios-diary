@@ -21,4 +21,4 @@ extension Diary {
     @NSManaged public var id: UUID?
 }
 
-extension Diary : Identifiable {}
+extension Diary: Identifiable {}
