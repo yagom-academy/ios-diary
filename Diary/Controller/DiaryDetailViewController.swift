@@ -23,6 +23,7 @@ final class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        configureInitailView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(endEditingDiary), name: UIScene.didEnterBackgroundNotification, object: nil)
     }
@@ -101,7 +102,17 @@ extension DiaryDetailViewController {
         
         diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(doneButtonTapped))
         configureTextView()
-        configureInitailView()
+        configureNavigationController()
+    }
+    
+    private func configureNavigationController() {
+        let image = UIImage(systemName: "ellipsis.circle")
+        let rightItem = UIBarButtonItem(image: image,
+                                        style: .plain,
+                                        target: self,
+                                        action: #selector(showActionSheet))
+        
+        navigationItem.rightBarButtonItem = rightItem
     }
     
     private func configureTextView() {
@@ -113,6 +124,20 @@ extension DiaryDetailViewController {
             diaryTextView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
             diaryTextView.bottomAnchor.constraint(equalTo: self.view.keyboardLayoutGuide.topAnchor)
         ])
+    }
+    
+    @objc private func showActionSheet() {
+        let alertController = UIAlertController(title: nil,
+                                                message: nil,
+                                                preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive)
+        let cancelAction = UIAlertAction(title: "Cancle", style: .cancel)
+        
+        alertController.addAction(shareAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
 }
 
