@@ -1,6 +1,6 @@
 //
 //  Diary - AppDelegate.swift
-//  Created by yagom. 
+//  Created by kaki, 레옹아범. 
 //  Copyright © yagom. All rights reserved.
 // 
 
