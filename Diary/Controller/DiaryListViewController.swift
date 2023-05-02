@@ -16,7 +16,7 @@ final class DiaryListViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return tableView
     }()
     
@@ -82,7 +82,7 @@ extension DiaryListViewController: UITableViewDataSource {
         guard let diaries = coreDataManager.fetchDiary() else { return DiaryListCell() }
         
         cell.configureContent(data: diaries[indexPath.row])
-
+        
         return cell
     }
 }
@@ -97,6 +97,13 @@ extension DiaryListViewController: UITableViewDelegate {
         guard let diaries = coreDataManager.fetchDiary() else { return }
         
         detailDiaryViewController.configureContent(diary: diaries[indexPath.row])
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            coreDataManager.deleteDiary(index: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
     }
 }
 

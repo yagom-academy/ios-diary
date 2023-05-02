@@ -44,8 +44,8 @@ class CoreDataManager {
     }
     
     func fetchDiary() -> [Diary]? {
-        let readRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
-        guard let diaryData = try? context.fetch(readRequest) else { return nil }
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
+        guard let diaryData = try? context.fetch(fetchRequest) else { return nil }
         var diaries = [Diary]()
         
         for diary in diaryData {
@@ -57,5 +57,24 @@ class CoreDataManager {
         }
         
         return diaries
+    }
+    
+    func deleteDiary(index: Int) {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
+        fetchRequest.predicate = NSPredicate(format: "title = %@", "title")
+        
+        do {
+            let test = try context.fetch(fetchRequest)
+            let objectToDelete = test[index]
+            
+            context.delete(objectToDelete)
+            do {
+                try context.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
