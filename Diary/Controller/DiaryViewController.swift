@@ -11,7 +11,9 @@ final class DiaryViewController: UIViewController {
         static let mainTitle = "mainTitle"
     }
     
-    private var diaries: [Diary]?
+    private var diaries: [Diary]? = {
+        return CoreDataManager.shared.fetch()
+    }()
     
     private var dataSource: UITableViewDiffableDataSource<Section, Diary>!
     
@@ -23,21 +25,15 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchDiaryData()
         configureUI()
         configureLayout()
         configureTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        fetchDiaryData()
         applySnapshot()
     }
-    
-    private func fetchDiaryData() {
-        diaries = CoreDataManager.shared.fetch()
-    }
-    
+
     private func configureUI() {
         view.backgroundColor = .white
         
@@ -102,7 +98,8 @@ extension DiaryViewController: UITableViewDelegate {
     }
     
     private func applySnapshot() {
-        guard let diaries = diaries else { return }
+        guard let diaries = CoreDataManager.shared.fetch() else { return }
+        self.diaries = diaries
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         snapshot.appendSections([.main])
@@ -118,4 +115,26 @@ extension DiaryViewController: UITableViewDelegate {
         
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            guard let diary = self?.diaries?[safe: indexPath.row] else { return }
+            
+            CoreDataManager.shared.deleteData(id: diary.id)
+            self?.applySnapshot()
+
+            success(true)
+        }
+         
+        let share = UIContextualAction(style: .normal, title: "공유") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+
+            success(true)
+        }
+        
+        delete.backgroundColor = .systemRed
+        share.backgroundColor = .systemTeal
+        
+        return UISwipeActionsConfiguration(actions: [delete, share])
+    }
+    
 }
