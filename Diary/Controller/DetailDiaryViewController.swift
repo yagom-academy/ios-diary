@@ -115,7 +115,7 @@ final class DetailDiaryViewController: UIViewController {
         }
         
         let share = UIAlertAction(title: "공유", style: .default) { _ in
-            
+            self.showActivityVC()
         }
         
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
@@ -132,6 +132,15 @@ final class DetailDiaryViewController: UIViewController {
         actionSheet.addAction(cancel)
         
         self.present(actionSheet, animated: true)
+    }
+    
+    private func showActivityVC() {
+        let activityItems = [UIActivity.ActivityType.airDrop, .message, .mail]
+        let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        
+        activityVC.popoverPresentationController?.sourceView = self.view
+        
+        self.present(activityVC, animated: true, completion: nil)
     }
     
     private func configureKeyboard() {
