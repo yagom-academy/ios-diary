@@ -11,7 +11,8 @@
 		16C0929B29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */; };
 		16C0929D29F78D86002ACEB4 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929C29F78D86002ACEB4 /* ReuseIdentifiable.swift */; };
 		16C0929F29F79642002ACEB4 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929E29F79642002ACEB4 /* ArrayExtension.swift */; };
-		2600B96D29F792C60032E5BD /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600B96C29F792C60032E5BD /* Diary.swift */; };
+		16C50AC22A009C4800D1B1C6 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C50AC12A009C4800D1B1C6 /* PersistenceManager.swift */; };
+		2600B96D29F792C60032E5BD /* JsonDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600B96C29F792C60032E5BD /* JsonDiary.swift */; };
 		2600B96F29F79AFC0032E5BD /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600B96E29F79AFC0032E5BD /* DateExtension.swift */; };
 		2644766C29FFB8E7007C0BF3 /* DiaryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2644766B29FFB8E7007C0BF3 /* DiaryState.swift */; };
 		268A806F29F6569C0071A59E /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 268A806E29F6569C0071A59E /* .swiftlint.yml */; };
@@ -28,7 +29,8 @@
 		16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryInfoTableViewCell.swift; sourceTree = "<group>"; };
 		16C0929C29F78D86002ACEB4 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
 		16C0929E29F79642002ACEB4 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
-		2600B96C29F792C60032E5BD /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
+		16C50AC12A009C4800D1B1C6 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
+		2600B96C29F792C60032E5BD /* JsonDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDiary.swift; sourceTree = "<group>"; };
 		2600B96E29F79AFC0032E5BD /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		2644766B29FFB8E7007C0BF3 /* DiaryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryState.swift; sourceTree = "<group>"; };
 		268A806E29F6569C0071A59E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
@@ -56,8 +58,9 @@
 		2600B97029F7A2980032E5BD /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				2600B96C29F792C60032E5BD /* Diary.swift */,
+				2600B96C29F792C60032E5BD /* JsonDiary.swift */,
 				2644766B29FFB8E7007C0BF3 /* DiaryState.swift */,
+				16C50AC12A009C4800D1B1C6 /* PersistenceManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -220,6 +223,7 @@
 				16C0929D29F78D86002ACEB4 /* ReuseIdentifiable.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				2644766C29FFB8E7007C0BF3 /* DiaryState.swift in Sources */,
+				16C50AC22A009C4800D1B1C6 /* PersistenceManager.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				16C0929F29F79642002ACEB4 /* ArrayExtension.swift in Sources */,
 				2600B96F29F79AFC0032E5BD /* DateExtension.swift in Sources */,
@@ -227,7 +231,7 @@
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				166C22AB29F7ECAF00E527AC /* DiaryDetailViewController.swift in Sources */,
 				16C0929B29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift in Sources */,
-				2600B96D29F792C60032E5BD /* Diary.swift in Sources */,
+				2600B96D29F792C60032E5BD /* JsonDiary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

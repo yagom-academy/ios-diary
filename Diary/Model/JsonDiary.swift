@@ -7,10 +7,14 @@
 
 import Foundation
 
-struct Diary: Decodable {
+struct JsonDiary: Decodable {
     var title: String
     var body: String
     var date: Double
+    
+    var content: String {
+        return title + "\n\n" + body
+    }
     
     private enum CodingKeys: String, CodingKey {
         case title, body

@@ -15,7 +15,7 @@ final class DiaryDetailViewController: UIViewController {
         
         return textView
     }()
-    private var diaryItem: Diary
+    private var diaryItem: JsonDiary
     private let state: DiaryState
     
     override func viewDidLoad() {
@@ -24,7 +24,7 @@ final class DiaryDetailViewController: UIViewController {
         configureUI()
     }
     
-    init(diaryItem: Diary, state: DiaryState) {
+    init(diaryItem: JsonDiary, state: DiaryState) {
         self.diaryItem = diaryItem
         self.state = state
         super.init(nibName: nil, bundle: nil)

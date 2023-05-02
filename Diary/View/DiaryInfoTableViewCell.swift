@@ -50,7 +50,7 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         bodyLabel.text = nil
     }
     
-    func configureLabel(item: Diary) {
+    func configureLabel(item: JsonDiary) {
         titleLabel.text = item.title
         dateLabel.text = Date.convertToDate(by: item.date)
         bodyLabel.text = item.body
