@@ -9,4 +9,8 @@ extension Array {
     subscript (safe index: Int) -> Element? {
         return indices ~= index ? self[index] : nil
     }
+    
+    subscript (safe index: PartialRangeFrom<Int>) -> Array<Element>.SubSequence? {
+        return indices ~= index.lowerBound ? self[index] : nil
+    }
 }

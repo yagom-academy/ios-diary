@@ -68,9 +68,9 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         
         guard let titleIndex = titleIndex else { return (nil, nil) }
         
-        let title = parsingDiary[titleIndex]
+        let title = parsingDiary[safe: titleIndex]
         let bodyIndex = titleIndex + 1
-        let body = parsingDiary[bodyIndex...].map { String($0) }.joined(separator: "\n")
+        let body = parsingDiary[safe: bodyIndex...]?.map { String($0) }.joined(separator: "\n")
         
         return (title, body)
     }

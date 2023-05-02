@@ -59,6 +59,7 @@ final class PersistenceManager {
         }
     }
     
+    // MARK: - Update
     func updateContent(at diary: Diary, _ content: String?, _ date: Double) throws {
         do {
             let item = try context.existingObject(with: diary.objectID)
@@ -66,6 +67,18 @@ final class PersistenceManager {
             item.setValue(content, forKey: "content")
             item.setValue(date, forKey: "date")
             
+            try context.save()
+        } catch {
+            throw error
+        }
+    }
+    
+    // MARK: - Delete
+    func deleteContent(at diary: Diary) throws {
+        do {
+            let item = try context.existingObject(with: diary.objectID)
+            
+            context.delete(item)
             try context.save()
         } catch {
             throw error
