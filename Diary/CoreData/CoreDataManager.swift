@@ -74,4 +74,37 @@ final class CoreDataManager {
         
         return contents
     }
+    
+    func update(_ contents: Contents) {
+        let fetchRequest = NSFetchRequest<ContentsEntity>(entityName: "ContentsEntity")
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", contents.identifier as CVarArg)
+    }
+    
+    private func searchContents(id: UUID) -> [ContentsEntity] {
+        let fetchRequest = NSFetchRequest<ContentsEntity>(entityName: "ContentsEntity")
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", id.uuidString)
+        
+        do {
+            return try context.fetch(fetchRequest)
+        } catch {
+            fatalError("Unresolved error \(error)")
+        }
+    }
+    
+    func update(contents: Contents) {
+        let searchContents = searchContents(id: contents.identifier).first
+        
+        searchContents?.setValue(contents.title, forKey: "title")
+        searchContents?.setValue(contents.body, forKey: "body")
+        
+        saveContext()
+    }
+    
+    func delete(id: UUID) {
+        guard let searchContents = searchContents(id: id).first else { return }
+        
+        context.delete(searchContents)
+        
+        saveContext()
+    }
 }

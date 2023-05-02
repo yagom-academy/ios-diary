@@ -62,11 +62,20 @@ final class DiaryDetailViewController: UIViewController {
         let backAction = UIAction(title: "back") { [weak self] _ in
             guard let contents = self?.contents else { return }
             
-            CoreDataManager.shared.create(contents: contents)
+//            CoreDataManager.shared.create(contents: contents)
+            self?.updateContents()
+            self?.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        let deleteAction = UIAction { [weak self] _ in
+            guard let contents = self?.contents else { return }
+            
+            CoreDataManager.shared.delete(id: contents.identifier)
             self?.navigationController?.popToRootViewController(animated: true)
         }
 
         navigationItem.backAction = backAction
+        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .trash, primaryAction: deleteAction)
         
         if let contents {
             textView.text = """
@@ -77,5 +86,16 @@ final class DiaryDetailViewController: UIViewController {
         } else {
             textView.text = nil
         }
+    }
+    
+    @available(iOS 16.0, *)
+    private func updateContents() {
+        guard let contents else { return }
+        
+        let splitedText = textView.text.split(separator: "\n\n", maxSplits: 1)
+        let title = splitedText[0].description
+        let body = splitedText[1].description
+        
+        CoreDataManager.shared.update(contents: Contents(title: title, body: body, date: contents.date, identifier: contents.identifier))
     }
 }
