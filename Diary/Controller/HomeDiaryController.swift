@@ -7,40 +7,22 @@ import UIKit
 
 final class HomeDiaryController: UIViewController {
     private let diaryTableView = UITableView()
-    private var diaries = [DiaryItem]()
     private let localizedDateFormatter = DateFormatter(
         languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
     )
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupTableView()
+        configureUI()
+    }
+    
+    private func setupTableView() {
         diaryTableView.dataSource = self
         diaryTableView.delegate = self
         diaryTableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
-        configureUI()
-        let jsonData = loadJsonAsset(name: "sample")
-        decode(jsonData)
     }
 
-    private func loadJsonAsset(name: String) -> Data? {
-        guard let asset = NSDataAsset(name: name) else {
-            return nil
-        }
-        return asset.data
-    }
-    
-    private func decode(_ jsonData: Data?) {
-        guard let jsonData else {
-            return
-        }
-        do {
-            diaries = try JSONDecoder().decode([DiaryItem].self, from: jsonData)
-            diaryTableView.reloadData()
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
     private func configureUI() {
         view.backgroundColor = .systemBackground
         configureNavigationBar()        
