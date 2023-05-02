@@ -41,29 +41,29 @@ final class DiaryDetailViewController: UIViewController {
         saveContents()
     }
     
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        textView.resignFirstResponder()
+    }
+    
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
         navigationItem.title = contents?.localizedDate ?? Date().translateLocalizedFormat()
-        
-        let deleteAction = UIAction { [weak self] _ in
-            guard let contents = self?.contents,
-                  let identifier = contents.identifier else { return }
-            
-            CoreDataManager.shared.delete(id: identifier)
-            self?.navigationController?.popToRootViewController(animated: true)
-        }
-        
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
                                                             target: self,
                                                             action: #selector(showActionSheet))
     }
     
     @objc private func showActionSheet() {
+        textView.endEditing(true)
+        guard let text = textView.text else { return }
+        
         let alert = UIAlertController()
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        let shareAction = UIAlertAction(title: "Share...", style: .default) {_ in
-            print("작업중...")
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
+            let activityViewController = UIActivityViewController(activityItems: [text],
+                                                                  applicationActivities: nil)
+            
+            self?.present(activityViewController, animated: true)
         }
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
@@ -78,21 +78,9 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func showDeleteAlert() {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
-            guard let contents = self?.contents,
-                  let identifier = contents.identifier else { return }
-            
-            CoreDataManager.shared.delete(id: identifier)
-            self?.navigationController?.popToRootViewController(animated: true)
+        AlertManager().showDeleteAlert(target: self) { [weak self] in
+            self?.deleteContents()
         }
-        
-        alert.addAction(deleteAction)
-        alert.addAction(cancelAction)
-        
-        self.present(alert, animated: true)
     }
     
     private func configureTextView() {
@@ -172,6 +160,13 @@ extension DiaryDetailViewController {
         guard let contents else { return }
         
         CoreDataManager.shared.create(contents: contents)
+    }
+        
+    private func deleteContents() {
+        guard let identifier = contents?.identifier else { return }
+        
+        CoreDataManager.shared.delete(id: identifier)
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     private func splitContents() -> (title: String, body: String) {

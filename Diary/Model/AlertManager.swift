@@ -15,4 +15,15 @@ struct AlertManager {
         alert.addAction(okAction)
         target.present(alert, animated: true)
     }
+    
+    func showDeleteAlert(target: UIViewController, handler: @escaping () -> Void) {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in handler() }
+        
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        target.present(alert, animated: true)
+    }
 }
