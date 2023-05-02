@@ -7,30 +7,21 @@
 
 import UIKit
 
-struct AlertImplementation: AlertFactoryService {
-    func makeAlert(for alertData: AlertViewData) -> UIAlertController {
-        let alertController = UIAlertController(title: alertData.title,
-                                                message: alertData.message,
-                                                preferredStyle: alertData.style)
+struct AlertMaker: AlertFactoryService {
+    func make(for data: AlertControllerData) -> UIAlertController {
+        let alertController = UIAlertController(title: data.title,
+                                                message: data.message,
+                                                preferredStyle: data.style)
+        let actionDataList = data.actionDataList
         
-        if alertData.enableOkAction {
-            let okAction = UIAlertAction(
-                title: alertData.okActionTitle,
-                style: alertData.okActionStyle) { _ in
-                    alertData.completion?()
+        actionDataList.forEach { actionData in
+            let action = UIAlertAction(
+                title: actionData.actionTitle,
+                style: actionData.actionStyle) { _ in
+                    actionData.completion?()
                 }
             
-            alertController.addAction(okAction)
-        }
-        
-        if alertData.enableCancelAction {
-            let cancelAction = UIAlertAction(
-                title: alertData.cancelActionTitle,
-                style: alertData.cancelActionStyle) { _ in
-                    alertData.completion?()
-                }
-            
-            alertController.addAction(cancelAction)
+            alertController.addAction(action)
         }
         
         return alertController

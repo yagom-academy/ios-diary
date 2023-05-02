@@ -8,5 +8,5 @@
 import UIKit
 
 protocol AlertFactoryService {
-    func makeAlert(for alertData: AlertViewData) -> UIAlertController
+    func make(for data: AlertControllerData) -> UIAlertController
 }

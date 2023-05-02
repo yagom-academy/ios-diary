@@ -12,6 +12,8 @@ final class DiaryContentViewController: UIViewController {
     
     private var diary: Diary?
     private let textView = UITextView()
+    private let alertFactory: AlertFactoryService = AlertMaker()
+    private let alertDataMaker: AlertDataService = AlertViewDataMaker()
 
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -29,6 +31,30 @@ final class DiaryContentViewController: UIViewController {
         setUpNavigationBar()
         setUpTextView()
         addObserver()
+        
+//        let shareActionData = AlertActionData(actionTitle: "share...",
+//                                              actionStyle: .default,
+//                                              completion: self.share)
+//        let deleteActionData = AlertActionData(actionTitle: "Delete",
+//                                               actionStyle: .destructive,
+//                                               completion: self.delete)
+//        let cancelActionData = AlertActionData(actionTitle: "Cancel",
+//                                               actionStyle: .cancel,
+//                                               completion: nil)
+//        let actionDataList = [shareActionData, deleteActionData, cancelActionData]
+//
+//        let alertData = alertDataMaker.makeData(alertStyle: .actionSheet, actionDataList: actionDataList)
+//        let alertController = alertFactory.make(for: alertData)
+//
+//        present(alertController, animated: true)
+    }
+    
+    func share() {
+        print("sharing")
+    }
+    
+    func delete() {
+        print("delete diary")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -52,7 +78,7 @@ final class DiaryContentViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: image,
                                                             style: .plain,
                                                             target: self,
-                                                            action: #selector(tapSeeMoreButton))
+                                                            action: #selector(tapEllipsisButton))
     }
     
     private func setUpTextView() {
