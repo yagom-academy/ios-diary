@@ -7,13 +7,13 @@
 
 import UIKit
 
-enum AssetDecoder {
-    static func decodeJson() -> [DiaryItem] {
-        guard let items: NSDataAsset = NSDataAsset(name: "sample"),
-              let diaryItems = try? JSONDecoder().decode([DiaryItem].self, from: items.data) else {
-            return []
-        }
-
-        return diaryItems
-    }
-}
+//enum AssetDecoder {
+//    static func decodeJson() -> [DiaryItem] {
+//        guard let items: NSDataAsset = NSDataAsset(name: "sample"),
+//              let diaryItems = try? JSONDecoder().decode([DiaryItem].self, from: items.data) else {
+//            return []
+//        }
+//
+//        return diaryItems
+//    }
+//}

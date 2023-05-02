@@ -65,11 +65,13 @@ final class DiaryTableViewCell: UITableViewCell {
         ])
     }
     
-    func configureLabel(diaryItem: DiaryItem) {
-        let dateText = DateManger.shared.convertToDate(fromInt: diaryItem.createDate)
+    func configureLabel(diaryData: DiaryData) {
+        guard let title = diaryData.title,
+              let body = diaryData.body else { return }
+        let dateText = DateManger.shared.convertToDate(fromDouble: diaryData.createDate)
         
-        titleLabel.text = diaryItem.title
-        infoLabel.text = dateText + "  " + diaryItem.body
+        titleLabel.text = title
+        infoLabel.text = dateText + "  " + body
         infoLabel.attributeText(targetString: dateText)
     }
 }

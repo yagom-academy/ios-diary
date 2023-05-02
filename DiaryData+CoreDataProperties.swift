@@ -18,7 +18,7 @@ extension DiaryData {
     @NSManaged public var id: UUID?
     @NSManaged public var title: String?
     @NSManaged public var body: String?
-    @NSManaged public var createDate: Int16
+    @NSManaged public var createDate: Double
 
 }
 

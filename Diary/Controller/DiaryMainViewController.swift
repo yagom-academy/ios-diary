@@ -16,12 +16,17 @@ final class DiaryMainViewController: UIViewController {
         return tableView
     }()
 
-    private let diaryItems: [DiaryItem] = AssetDecoder.decodeJson()
+    private var diaryDatas: [DiaryData] = CoreDataManger.shared.fetchDiary()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        diaryDatas = CoreDataManger.shared.fetchDiary()
     }
 
     private func configureUI() {
@@ -59,7 +64,7 @@ final class DiaryMainViewController: UIViewController {
 
 extension DiaryMainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryItems.count
+        return diaryDatas.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,7 +74,7 @@ extension DiaryMainViewController: UITableViewDataSource {
         }
         
         cell.accessoryType = .disclosureIndicator
-        cell.configureLabel(diaryItem: diaryItems[indexPath.row])
+        cell.configureLabel(diaryData: diaryDatas[indexPath.row])
         
         return cell
     }
@@ -77,7 +82,11 @@ extension DiaryMainViewController: UITableViewDataSource {
 
 extension DiaryMainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryEditViewController = DiaryEditViewController(diaryItem: diaryItems[indexPath.row])
+        let diaryItem = DiaryItem(title: diaryDatas[indexPath.row].title,
+                                  body: diaryDatas[indexPath.row].body,
+                                  createDate: diaryDatas[indexPath.row].createDate,
+                                  id: diaryDatas[indexPath.row].id)
+        let diaryEditViewController = DiaryEditViewController(diaryItem: diaryItem)
         navigationController?.pushViewController(diaryEditViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }

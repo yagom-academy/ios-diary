@@ -8,6 +8,8 @@
 import UIKit
 
 final class DiaryEditViewController: UIViewController {
+    var diaryItem: DiaryItem?
+    
     let textView: UITextView = {
         let textView = UITextView()
         
@@ -22,16 +24,14 @@ final class DiaryEditViewController: UIViewController {
         super.viewDidLoad()
         
         textView.keyboardDismissMode = .onDrag
+        configureText()
         configureUI()
+        configureTitle()
     }
     
-    init(diaryItem: DiaryItem? = nil) {
+    init(diaryItem: DiaryItem? = DiaryItem(createDate: Date().timeIntervalSince1970)) {
+        self.diaryItem = diaryItem
         super.init(nibName: nil, bundle: nil)
-        
-        guard let diaryItem else { return }
-        
-        textView.text = "\(diaryItem.title)\n\n\(diaryItem.body)"
-        navigationItem.title = DateManger.shared.convertToDate(fromInt: diaryItem.createDate)
     }
     
     required init?(coder: NSCoder) {
@@ -48,5 +48,38 @@ final class DiaryEditViewController: UIViewController {
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+    
+    private func configureText() {
+        guard let title = diaryItem?.title,
+              let body = diaryItem?.body else { return }
+        textView.text = "\(title)\n\n\(body)"
+    }
+    
+    private func configureTitle() {
+        guard let date = diaryItem?.createDate else { return }
+        navigationItem.title = DateManger.shared.convertToDate(fromDouble: date)
+    }
+    
+    private func divideText(text: String?) -> (title: String?, body: String?) {
+        guard let text else { return
+            (nil, nil)
+        }
+        let arr = text.split(separator: "\n").map { String($0) }
+        let title = arr[0]
+        let bodyArr = arr[1...].map { String($0) }
+        let body = bodyArr.joined(separator: "\n")
+        
+        return (title, body)
+    }
+    
+    private func updateDiary() {
+        
+        CoreDataManger.shared.createDiary(diaryItem: self.diaryItem!)
+    }
+    
+    deinit {
+        updateDiary()
+        CoreDataManger.shared.saveContext()
     }
 }

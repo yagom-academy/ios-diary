@@ -26,8 +26,8 @@ struct DateManger {
         return dateFormatter.string(from: date)
     }
     
-    func convertToDate(fromInt: Int) -> String {
-        let date: Date = Date(timeIntervalSince1970: TimeInterval(fromInt))
+    func convertToDate(fromDouble: Double) -> String {
+        let date: Date = Date(timeIntervalSince1970: fromDouble)
         
         return dateFormatter.string(from: date)
     }

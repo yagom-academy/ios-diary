@@ -15,7 +15,7 @@ class CoreDataManger {
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
-        container.loadPersistentStores(completionHandler: { (storeDescription, error) in
+        container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
@@ -69,7 +69,7 @@ class CoreDataManger {
         }
     }
     
-    func updateDiary(id: UUID, title: String, createDate: Int, body: String) {
+    func updateDiary(id: UUID, title: String, createDate: Double, body: String) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "DiaryData")
         fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
         
