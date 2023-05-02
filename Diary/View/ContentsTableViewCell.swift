@@ -36,7 +36,7 @@ final class ContentsTableViewCell: UITableViewCell {
     
     func configure(title: String, description: String, date: String) {
         titleLabel.text = title
-        descriptionLabel.text = date + " " + description
+        descriptionLabel.text = date + " " + description.replacingOccurrences(of: "\n", with: "")
         descriptionLabel.applyAttribute(targetString: date)
     }
     

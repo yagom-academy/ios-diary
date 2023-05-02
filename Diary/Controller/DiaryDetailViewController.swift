@@ -29,11 +29,14 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if #available(iOS 16.0, *) {
-            configureUIOption()
-        }
-        
+        configureUIOption()
         configureLayout()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        saveContents()
     }
     
     private func configureLayout() {
@@ -53,16 +56,9 @@ final class DiaryDetailViewController: UIViewController {
         ])
     }
     
-    @available(iOS 16.0, *)
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
-        
         navigationItem.title = contents?.localizedDate ?? Date().translateLocalizedFormat()
-        
-        let backAction = UIAction(title: "back") { [weak self] _ in
-            self?.saveContents()
-            self?.navigationController?.popToRootViewController(animated: true)
-        }
         
         let deleteAction = UIAction { [weak self] _ in
             guard let contents = self?.contents,
@@ -71,8 +67,7 @@ final class DiaryDetailViewController: UIViewController {
             CoreDataManager.shared.delete(id: identifier)
             self?.navigationController?.popToRootViewController(animated: true)
         }
-
-        navigationItem.backAction = backAction
+        
         navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .trash, primaryAction: deleteAction)
         
         if let contents {
@@ -83,10 +78,10 @@ final class DiaryDetailViewController: UIViewController {
             """
         } else {
             textView.text = nil
+            textView.becomeFirstResponder()
         }
     }
     
-    @available(iOS 16.0, *)
     private func saveContents() {
         guard contents != nil else {
             createContents()
@@ -96,28 +91,48 @@ final class DiaryDetailViewController: UIViewController {
         updateContents()
     }
     
-    @available(iOS 16.0, *)
     private func updateContents() {
+        let splitedContents = splitContents()
+        
+        contents?.title = splitedContents.title
+        contents?.body = splitedContents.body
+        
         guard let contents else { return }
         
-        let splitedText = textView.text.split(separator: "\n\n", maxSplits: 1)
-        let title = splitedText[0].description
-        let body = splitedText[1].description
-        
-        CoreDataManager.shared.update(contents: Contents(title: title, body: body, date: contents.date, identifier: contents.identifier))
+        CoreDataManager.shared.update(contents: contents)
     }
     
-    @available(iOS 16.0, *)
     private func createContents() {
-        let splitedText = textView.text.split(separator: "\n\n", maxSplits: 1)
-        let title = splitedText[0].description
-        let body = splitedText[1].description
         let date = Date().timeIntervalSince1970
+        let splitedContents = splitContents()
         
-        contents = Contents(title: title, body: body, date: date, identifier: nil)
+        guard splitedContents.title.isEmpty == false else { return }
+        
+        contents = Contents(title: splitedContents.title,
+                            body: splitedContents.body,
+                            date: date,
+                            identifier: nil)
         
         guard let contents else { return }
         
         CoreDataManager.shared.create(contents: contents)
+    }
+    
+    private func splitContents() -> (title: String, body: String) {
+        let splitedText = textView.text.split(separator: "\n", maxSplits: 1)
+        var title = ""
+        var body = ""
+        
+        switch splitedText.count {
+        case 0:
+            break
+        case 1:
+            title = splitedText[0].description
+        default:
+            title = splitedText[0].description
+            body = splitedText[1].description
+        }
+        
+        return (title, body)
     }
 }

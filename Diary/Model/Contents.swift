@@ -8,8 +8,8 @@
 import Foundation
 
 struct Contents: Codable {
-    let title: String
-    let body: String
+    var title: String
+    var body: String
     let date: Double
     let identifier: UUID?
     var localizedDate: String {
