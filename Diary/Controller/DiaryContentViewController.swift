@@ -31,30 +31,6 @@ final class DiaryContentViewController: UIViewController {
         setUpNavigationBar()
         setUpTextView()
         addObserver()
-        
-//        let shareActionData = AlertActionData(actionTitle: "share...",
-//                                              actionStyle: .default,
-//                                              completion: self.share)
-//        let deleteActionData = AlertActionData(actionTitle: "Delete",
-//                                               actionStyle: .destructive,
-//                                               completion: self.delete)
-//        let cancelActionData = AlertActionData(actionTitle: "Cancel",
-//                                               actionStyle: .cancel,
-//                                               completion: nil)
-//        let actionDataList = [shareActionData, deleteActionData, cancelActionData]
-//
-//        let alertData = alertDataMaker.makeData(alertStyle: .actionSheet, actionDataList: actionDataList)
-//        let alertController = alertFactory.make(for: alertData)
-//
-//        present(alertController, animated: true)
-    }
-    
-    func share() {
-        print("sharing")
-    }
-    
-    func delete() {
-        print("delete diary")
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -186,6 +162,24 @@ final class DiaryContentViewController: UIViewController {
     
     @objc
     private func tapEllipsisButton() {
+        presentActionSheet()
+    }
+    
+    private func presentActionSheet() {
+        let share = AlertActionData(actionTitle: "Share...",
+                                              actionStyle: .default,
+                                              completion: nil)
+        let delete = AlertActionData(actionTitle: "Delete",
+                                               actionStyle: .destructive,
+                                               completion: nil)
+        let cancel = AlertActionData(actionTitle: "Cancel",
+                                               actionStyle: .cancel,
+                                               completion: nil)
+        let actionDataList = [share, delete, cancel]
         
+        let alertData = alertDataMaker.makeData(alertStyle: .actionSheet, actionDataList: actionDataList)
+        let alertController = alertFactory.make(for: alertData)
+        
+        present(alertController, animated: true)
     }
 }
