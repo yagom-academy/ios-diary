@@ -19,6 +19,13 @@ final class DiaryListViewController: UIViewController {
         configureTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        decodeContents()
+        tableView.reloadData()
+    }
+    
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "일기장"
