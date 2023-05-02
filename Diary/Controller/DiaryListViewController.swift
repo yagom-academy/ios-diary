@@ -104,4 +104,33 @@ extension DiaryListViewController: UITableViewDelegate {
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: false)
     }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let contents = contentsList?[indexPath.row] else { return nil }
+        
+        let share = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
+            let activityViewController = UIActivityViewController(activityItems: [contents.title],
+                                                                  applicationActivities: nil)
+            
+            self.present(activityViewController, animated: true)
+        }
+        
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
+            guard let identifier = contents.identifier else { return }
+            self?.showDeleteAlert(identifier: identifier, indexPath: indexPath)
+        }
+        
+        share.backgroundColor = .systemGreen
+        
+        return UISwipeActionsConfiguration(actions: [share, delete])
+    }
+    
+    private func showDeleteAlert(identifier: UUID, indexPath: IndexPath) {
+        AlertManager().showDeleteAlert(target: self) { [weak self] in
+            CoreDataManager.shared.delete(id: identifier)
+            self?.contentsList?.remove(at: indexPath.row)
+            self?.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+    }
 }

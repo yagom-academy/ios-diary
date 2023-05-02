@@ -44,7 +44,7 @@ final class CoreDataManager {
         storage.setValue(contents.title, forKey: "title")
         storage.setValue(contents.body, forKey: "body")
         storage.setValue(contents.date, forKey: "date")
-        storage.setValue(UUID(), forKey: "identifier")
+        storage.setValue(contents.identifier, forKey: "identifier")
         
         saveContext()
     }

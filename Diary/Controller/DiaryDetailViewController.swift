@@ -59,6 +59,7 @@ final class DiaryDetailViewController: UIViewController {
         
         let alert = UIAlertController()
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
         let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
             let activityViewController = UIActivityViewController(activityItems: [text],
                                                                   applicationActivities: nil)
@@ -155,7 +156,7 @@ extension DiaryDetailViewController {
         contents = Contents(title: splitedContents.title,
                             body: splitedContents.body,
                             date: date,
-                            identifier: nil)
+                            identifier: UUID())
         
         guard let contents else { return }
         
