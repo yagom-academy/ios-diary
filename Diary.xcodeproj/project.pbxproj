@@ -84,6 +84,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4AA2517D2A0139D3008B8BCA /* AlertController */ = {
+			isa = PBXGroup;
+			children = (
+				ADDB489E29FA588900BE5B04 /* AlertImplementation.swift */,
+				ADDB48A029FA5A4A00BE5B04 /* AlertFactoryService.swift */,
+			);
+			path = AlertController;
+			sourceTree = "<group>";
+		};
 		4AD397A029F79ED50066EB8E /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -150,6 +159,8 @@
 		ADD4EFAA2A012DF500FF0529 /* AlertData */ = {
 			isa = PBXGroup;
 			children = (
+				4AD397BC29FA61870066EB8E /* AlertDataService.swift */,
+				4AD397BA29FA5EAC0066EB8E /* AlertViewDataMaker.swift */,
 				ADD4EFAB2A012E3200FF0529 /* AlertControllerData.swift */,
 				ADDB489C29FA570F00BE5B04 /* AlertViewData.swift */,
 				ADD4EFAD2A012EFA00FF0529 /* ActionSheetViewData.swift */,
@@ -171,11 +182,8 @@
 		ADDB489B29FA56F800BE5B04 /* AlertFactory */ = {
 			isa = PBXGroup;
 			children = (
+				4AA2517D2A0139D3008B8BCA /* AlertController */,
 				ADD4EFAA2A012DF500FF0529 /* AlertData */,
-				ADDB489E29FA588900BE5B04 /* AlertImplementation.swift */,
-				ADDB48A029FA5A4A00BE5B04 /* AlertFactoryService.swift */,
-				4AD397BC29FA61870066EB8E /* AlertDataService.swift */,
-				4AD397BA29FA5EAC0066EB8E /* AlertViewDataMaker.swift */,
 			);
 			path = AlertFactory;
 			sourceTree = "<group>";
