@@ -34,6 +34,7 @@ class CoreDataManager {
             managedObject.setValue(diary.title, forKey: "title")
             managedObject.setValue(diary.body, forKey: "body")
             managedObject.setValue(diary.date, forKey: "date")
+            managedObject.setValue(diary.id, forKey: "id")
             
             do {
                 try self.context.save()
@@ -43,7 +44,7 @@ class CoreDataManager {
         }
     }
     
-    func fetchDiary() -> [Diary]? {
+    func readDiary() -> [Diary]? {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
         guard let diaryData = try? context.fetch(fetchRequest) else { return nil }
         var diaries = [Diary]()
@@ -51,22 +52,27 @@ class CoreDataManager {
         for diary in diaryData {
             guard let title = diary.value(forKey: "title") as? String,
                   let body = diary.value(forKey: "body") as? String,
-                  let date = diary.value(forKey: "date") as? Double else { return nil }
+                  let date = diary.value(forKey: "date") as? Double,
+                  let id = diary.value(forKey: "id") as? UUID else { return nil }
             
-            diaries.append(Diary(title: title, body: body, date: date))
+            diaries.append(Diary(title: title, body: body, date: date, id: id))
         }
         
         return diaries
     }
     
+    func updateDiary() {
+        
+    }
+    
     func deleteDiary(index: Int) {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
-        fetchRequest.predicate = NSPredicate(format: "title = %@", "title")
+        guard let diaryData = self.readDiary() else { return }
+        fetchRequest.predicate = NSPredicate(format: "id == %@", diaryData[index].id as CVarArg)
         
         do {
-            let test = try context.fetch(fetchRequest)
-            let objectToDelete = test[index]
-            
+            let objects = try context.fetch(fetchRequest)
+            let objectToDelete = objects[0]
             context.delete(objectToDelete)
             do {
                 try context.save()

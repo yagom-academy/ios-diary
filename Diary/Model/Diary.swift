@@ -4,13 +4,11 @@
 //  Copyright © yagom. All rights reserved.
 //
 
-struct Diary: Decodable {
+import Foundation
+
+struct Diary {
     let title: String
     let body: String
     let date: Double
-    
-    private enum CodingKeys: String, CodingKey {
-        case title, body
-        case date = "created_at"
-    }
+    let id: UUID
 }

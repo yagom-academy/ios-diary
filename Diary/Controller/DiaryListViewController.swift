@@ -8,7 +8,6 @@ import UIKit
 import CoreData
 
 final class DiaryListViewController: UIViewController {
-    private let diaryDataDecoder = DiaryDataDecoder()
     var diaries: [Entity]?
     private var coreDataManager = CoreDataManager.shared
     
@@ -67,7 +66,7 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let diaries = coreDataManager.fetchDiary() else { return 0 }
+        guard let diaries = coreDataManager.readDiary() else { return 0 }
         
         return diaries.count
     }
@@ -79,7 +78,7 @@ extension DiaryListViewController: UITableViewDataSource {
         
         cell.accessoryType = .disclosureIndicator
         
-        guard let diaries = coreDataManager.fetchDiary() else { return DiaryListCell() }
+        guard let diaries = coreDataManager.readDiary() else { return DiaryListCell() }
         
         cell.configureContent(data: diaries[indexPath.row])
         
@@ -94,7 +93,7 @@ extension DiaryListViewController: UITableViewDelegate {
         let detailDiaryViewController = DetailDiaryViewController(iskeyboardOn: false)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
         
-        guard let diaries = coreDataManager.fetchDiary() else { return }
+        guard let diaries = coreDataManager.readDiary() else { return }
         
         detailDiaryViewController.configureContent(diary: diaries[indexPath.row])
     }

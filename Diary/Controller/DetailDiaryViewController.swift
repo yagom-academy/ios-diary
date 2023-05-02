@@ -58,10 +58,11 @@ final class DetailDiaryViewController: UIViewController {
         let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
         let title = String(diaryContents[0])
         let body = String(diaryContents[1])
+        let id = UUID()
         
         guard let date = Date().timeIntervalSince1970.roundDownNumber() else { return nil }
         
-        return Diary(title: title, body: body, date: date)
+        return Diary(title: title, body: body, date: date, id: id)
     }
     
     private func configureUI() {
