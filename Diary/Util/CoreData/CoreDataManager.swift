@@ -22,7 +22,7 @@ final class CoreDataManager {
     
     private init() { }
 
-    lazy var persistentContainer: NSPersistentContainer = {
+    private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: DiaryKey.DataModel)
         container.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -32,7 +32,7 @@ final class CoreDataManager {
         return container
     }()
 
-    func saveContext () {
+    private func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
@@ -44,59 +44,86 @@ final class CoreDataManager {
         }
     }
     
-    // MARK: - Create
-    func create(_ diary: Diary) {
+    // MARK: - Create & Update
+    func register(_ diary: Diary) {
         let context = persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: DiaryKey.EntityName, in: context)
-        
-        if let entity = entity {
-            let NSDiary = NSManagedObject(entity: entity, insertInto: context)
-            NSDiary.setValue(diary.title, forKey: DiaryKey.title)
-            NSDiary.setValue(diary.body, forKey: DiaryKey.body)
-            NSDiary.setValue(diary.timeIntervalSince1970, forKey: DiaryKey.timeIntervalSince1970)
-            NSDiary.setValue(diary.id, forKey: DiaryKey.id)
-        }
-        
-        do {
-          try context.save()
-        } catch {
-          print(error.localizedDescription)
-        }
-    }
-    
-    // MARK: - Read
-    func fetch() -> [Diary]? {
-        let context = persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: DiaryKey.EntityName)
-        
-        do {
-            let result = try context.fetch(fetchRequest) as? [Diary]
-            return result
-        } catch {
-            print(error.localizedDescription)
-            return nil
-        }
-    }
-
-    // MARK: - Update
-    func update(_ diary: Diary) {
-        let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: DiaryKey.EntityName)
         fetchRequest.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
         
         do {
-            let test = try context.fetch(fetchRequest)
-            let objectUpdate = test[0] as! NSManagedObject
+            let fetchedObject = try context.fetch(fetchRequest)
             
-            objectUpdate.setValue(diary.title, forKey: "title")
-            objectUpdate.setValue(diary.body, forKey: "body")
-            objectUpdate.setValue(diary.timeIntervalSince1970, forKey: "timeIntervalSince1970")
+            if fetchedObject.isEmpty {
+                if let entity = entity {
+                    let NSDiary = NSManagedObject(entity: entity, insertInto: context)
+                    NSDiary.setValue(diary.title, forKey: DiaryKey.title)
+                    NSDiary.setValue(diary.body, forKey: DiaryKey.body)
+                    NSDiary.setValue(diary.timeIntervalSince1970, forKey: DiaryKey.timeIntervalSince1970)
+                    NSDiary.setValue(diary.id, forKey: DiaryKey.id)
+                }
+                
+            } else {
+                
+                let objectUpdate = fetchedObject[0] as! NSManagedObject
+                
+                objectUpdate.setValue(diary.title, forKey: "title")
+                objectUpdate.setValue(diary.body, forKey: "body")
+                objectUpdate.setValue(diary.timeIntervalSince1970, forKey: "timeIntervalSince1970")
+   
+            }
             
             do {
                 try context.save()
             } catch {
                 print(error)
             }
+           
         } catch { print(error) }
+    }
+    
+    // MARK: - Read
+    func fetch() -> [Diary]? {
+        let context = persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<DiaryEntity>(entityName: DiaryKey.EntityName)
+        
+        do {
+            let result = try context.fetch(fetchRequest)
+            return convertToDiaryModel(for: result)
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
+    
+    private func convertToDiaryModel(for entities: [DiaryEntity]) -> [Diary] {
+        let diaries = entities.map { entity in
+            Diary(id: entity.id,
+                  title: entity.title ?? "",
+                  body: entity.body ?? "",
+                  timeIntervalSince1970: Int(entity.timeIntervalSince1970))
+        }
+        
+        return diaries
+    }
+    
+    // MARK: - Delete
+    func deleteData(id: UUID) {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: DiaryKey.EntityName)
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        
+        do {
+            let fetchedObject = try context.fetch(fetchRequest)
+            let objectToDelete = fetchedObject[0] as! NSManagedObject
+            context.delete(objectToDelete)
+            do {
+                try context.save()
+            } catch {
+                print(error)
+            }
+        } catch {
+            print(error)
+        }
     }
 }

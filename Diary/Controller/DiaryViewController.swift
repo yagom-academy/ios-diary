@@ -36,10 +36,9 @@ final class DiaryViewController: UIViewController {
     
     private func fetchDiaryData() {
         diaries = CoreDataManager.shared.fetch()
-//        do {
-//           // diaries = try DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
-//        } catch {
-//            print(error.localizedDescription)
+        
+//        diaries?.forEach { diary in
+//            CoreDataManager.shared.deleteData(id: diary.id)
 //        }
     }
     

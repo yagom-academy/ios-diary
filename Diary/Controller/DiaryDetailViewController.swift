@@ -15,6 +15,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private var writeMode = WriteMode.create
     private let diary: Diary?
+    private let id = UUID()
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -128,7 +129,9 @@ final class DiaryDetailViewController: UIViewController {
         guard let contents = textView.text,
               verifyText() == true else { return }
         let components = contents.split(separator: "\n", maxSplits: 1)
-        guard let title = components[safe: 0], var body = components[safe: 1] else { return }
+        guard let title = components[safe: 0] else { return }
+        
+        var body = components[safe: 1] ?? ""
         
         if body.first == "\n" {
             body.removeFirst()
@@ -137,13 +140,13 @@ final class DiaryDetailViewController: UIViewController {
         switch writeMode {
         case .create:
             let currentDiary = Diary(
-                id: UUID(),
+                id: self.id,
                 title: String(title),
                 body: String(body),
                 timeIntervalSince1970: Date.nowTimeIntervalSince1970
             )
             
-            CoreDataManager.shared.create(currentDiary)
+            CoreDataManager.shared.register(currentDiary)
         
         case .update:
             guard let previousDiary = diary else { return }
@@ -155,7 +158,7 @@ final class DiaryDetailViewController: UIViewController {
                 timeIntervalSince1970: previousDiary.timeIntervalSince1970
             )
             
-            CoreDataManager.shared.update(currentDiary)
+            CoreDataManager.shared.register(currentDiary)
         }
     }
     
