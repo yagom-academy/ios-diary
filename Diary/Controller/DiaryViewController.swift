@@ -11,10 +11,7 @@ final class DiaryViewController: UIViewController {
         static let mainTitle = "mainTitle"
     }
     
-    private var diaries: [Diary]? = {
-        return CoreDataManager.shared.fetch()
-    }()
-    
+    private var diaries: [Diary]?
     private var dataSource: UITableViewDiffableDataSource<Section, Diary>!
     
     private let tableView: UITableView = {
