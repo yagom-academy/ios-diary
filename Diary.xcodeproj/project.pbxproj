@@ -102,6 +102,7 @@
 			children = (
 				C739AE28284DF28600741E8F /* DiaryViewController.swift */,
 				1C0B529229F79D22008F56BE /* DiaryDetailViewController.swift */,
+				08D892452A009A99007CB670 /* Util */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -188,7 +189,6 @@
 				08C6A70429F663D8005D3975 /* Model */,
 				08C6A70029F6564F005D3975 /* View */,
 				08C6A70129F65656005D3975 /* Controller */,
-				08D892452A009A99007CB670 /* Util */,
 				08C6A6FF29F655F3005D3975 /* Resources */,
 			);
 			path = Diary;

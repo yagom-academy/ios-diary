@@ -15,7 +15,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private var writeMode = WriteMode.create
     private let diary: Diary?
-    private let id = UUID()
+    private var id = UUID()
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -47,7 +47,7 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        saveDiary()
+        saveDiaryToStorage()
     }
     
     private func checkWriteMode() {
@@ -66,9 +66,19 @@ final class DiaryDetailViewController: UIViewController {
             self.title = Date.nowDate
             textView.becomeFirstResponder()
         case .update:
-            self.title = diary?.timeIntervalSince1970.convertFormattedDate()
-            textView.text = formatContent(diary)
+            guard let validDiary = diary else { return }
+            
+            self.title = validDiary.timeIntervalSince1970.convertFormattedDate()
+            self.id = validDiary.id
+            textView.text = formatContent(validDiary)
         }
+    }
+    
+    private func formatContent(_ diary: Diary?) -> String? {
+        guard let title = diary?.title,
+              let body = diary?.body else { return nil}
+        
+        return title + "\n\n" + body
     }
     
     private func configureLayout() {
@@ -82,13 +92,6 @@ final class DiaryDetailViewController: UIViewController {
             textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -8),
             textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8)
         ])
-    }
-    
-    private func formatContent(_ diary: Diary?) -> String? {
-        guard let title = diary?.title,
-              let body = diary?.body else { return nil}
-        
-        return title + "\n\n" + body
     }
     
     private func configureNotification() {
@@ -105,6 +108,13 @@ final class DiaryDetailViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil)
+   
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -122,61 +132,48 @@ final class DiaryDetailViewController: UIViewController {
         textView.contentInset = UIEdgeInsets.zero
         textView.scrollIndicatorInsets = textView.contentInset
         
-        saveDiary()
+        saveDiaryToStorage()
     }
     
-    func saveDiary() {
-        guard let contents = textView.text,
-              verifyText() == true else { return }
+    @objc private func didEnterBackground() {
+        saveDiaryToStorage()
+    }
+    
+    private func saveDiaryToStorage() {
+        guard let contents = verifyText(text: textView.text) else { return }
         let components = contents.split(separator: "\n", maxSplits: 1)
-        guard let title = components[safe: 0] else { return }
         
+        guard let title = components[safe: 0] else { return }
         var body = components[safe: 1] ?? ""
         
         if body.first == "\n" {
             body.removeFirst()
         }
         
-        switch writeMode {
-        case .create:
-            let currentDiary = Diary(
-                id: self.id,
-                title: String(title),
-                body: String(body),
-                timeIntervalSince1970: Date.nowTimeIntervalSince1970
-            )
-            
-            CoreDataManager.shared.register(currentDiary)
-        
-        case .update:
-            guard let previousDiary = diary else { return }
-            
-            let currentDiary = Diary(
-                id: previousDiary.id,
-                title: String(title),
-                body: String(body),
-                timeIntervalSince1970: previousDiary.timeIntervalSince1970
-            )
-            
-            CoreDataManager.shared.register(currentDiary)
-        }
+        let currentDiary = Diary (
+            id: self.id,
+            title: String(title),
+            body: String(body),
+            timeIntervalSince1970: self.title?.convertToTimeInterval() ?? Date.nowTimeIntervalSince1970
+        )
+        CoreDataManager.shared.register(currentDiary)
     }
     
-    func verifyText() -> Bool {
+    private func verifyText(text: String) -> String? {
+        var rawText = text
         
         while true {
-            if textView.text.first == " " {
-                textView.text.removeFirst()
+            if rawText.first == " " {
+                rawText.removeFirst()
             } else {
                 break
             }
         }
         
-        if textView.text.isEmpty {
-            return false
+        if rawText.isEmpty {
+            return nil
         } else {
-            return true
+            return rawText
         }
     }
-    
 }

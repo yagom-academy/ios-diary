@@ -36,10 +36,6 @@ final class DiaryViewController: UIViewController {
     
     private func fetchDiaryData() {
         diaries = CoreDataManager.shared.fetch()
-        
-//        diaries?.forEach { diary in
-//            CoreDataManager.shared.deleteData(id: diary.id)
-//        }
     }
     
     private func configureUI() {
