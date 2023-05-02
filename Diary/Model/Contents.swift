@@ -11,14 +11,14 @@ struct Contents: Codable {
     let title: String
     let body: String
     let date: Double
-    var identifier = UUID()
+    let identifier: UUID?
     var localizedDate: String {
         let date = Date(timeIntervalSince1970: date)
         return date.translateLocalizedFormat()
     }
     
     private enum CodingKeys: String, CodingKey {
-        case title, body
+        case title, body, identifier
         case date = "created_at"
     }
 }

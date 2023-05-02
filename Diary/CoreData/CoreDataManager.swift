@@ -44,7 +44,7 @@ final class CoreDataManager {
         storage.setValue(contents.title, forKey: "title")
         storage.setValue(contents.body, forKey: "body")
         storage.setValue(contents.date, forKey: "date")
-        storage.setValue(contents.identifier, forKey: "identifier")
+        storage.setValue(UUID(), forKey: "identifier")
         
         saveContext()
     }
@@ -75,11 +75,6 @@ final class CoreDataManager {
         return contents
     }
     
-    func update(_ contents: Contents) {
-        let fetchRequest = NSFetchRequest<ContentsEntity>(entityName: "ContentsEntity")
-        fetchRequest.predicate = NSPredicate(format: "identifier == %@", contents.identifier as CVarArg)
-    }
-    
     private func searchContents(id: UUID) -> [ContentsEntity] {
         let fetchRequest = NSFetchRequest<ContentsEntity>(entityName: "ContentsEntity")
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", id.uuidString)
@@ -92,7 +87,9 @@ final class CoreDataManager {
     }
     
     func update(contents: Contents) {
-        let searchContents = searchContents(id: contents.identifier).first
+        guard let identifier = contents.identifier else { return }
+        
+        let searchContents = searchContents(id: identifier).first
         
         searchContents?.setValue(contents.title, forKey: "title")
         searchContents?.setValue(contents.body, forKey: "body")
