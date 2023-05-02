@@ -24,6 +24,13 @@ final class DetailDiaryViewController: UIViewController {
         return textView
     }()
     
+    private let detailButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        
+        return button
+    }()
+    
     init(isCreateDiary: Bool) {
         self.isCreateDiary = isCreateDiary
         super.init(nibName: nil, bundle: nil)
@@ -83,29 +90,53 @@ final class DetailDiaryViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
         diaryTextView.setContentOffset(.zero, animated: true)
-        let endDiaryButton = UIBarButtonItem(barButtonSystemItem: .done,
-                                             target: self,
-                                             action: #selector(endEditTextView))
-        navigationItem.rightBarButtonItem = endDiaryButton
+        detailButton.addTarget(self, action: #selector(showDetailAction), for: .touchUpInside)
+        let detailDiaryButon = UIBarButtonItem(customView: detailButton)
+        navigationItem.rightBarButtonItem = detailDiaryButon
         
         if diaryDate == nil {
             title = Date().convertDate()
         }
     }
     
+    @objc
+    private func showDetailAction() {
+        let actionSheet = UIAlertController(title: nil,
+                                            message: nil,
+                                            preferredStyle: .actionSheet)
+        
+        let save = UIAlertAction(title: "저장", style: .default) { _ in
+            self.diaryTextView.endEditing(true)
+            if self.isCreateDiary {
+                self.createDiary()
+            } else {
+                self.updateDiary()
+            }
+        }
+        
+        let share = UIAlertAction(title: "공유", style: .default) { _ in
+            
+        }
+        
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
+            self.dismiss(animated: true)
+        }
+        
+        actionSheet.addAction(save)
+        actionSheet.addAction(share)
+        actionSheet.addAction(delete)
+        actionSheet.addAction(cancel)
+        
+        self.present(actionSheet, animated: true)
+    }
+    
     private func configureKeyboard() {
         if isCreateDiary {
             diaryTextView.becomeFirstResponder()
-        }
-    }
-    
-    @objc
-    private func endEditTextView() {
-        self.diaryTextView.endEditing(true)
-        if isCreateDiary {
-            createDiary()
-        } else {
-            updateDiary()
         }
     }
     
