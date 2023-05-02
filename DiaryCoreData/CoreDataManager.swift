@@ -54,10 +54,24 @@ final class CoreDataManager {
         save()
     }
     
-    func delete() {
+    func deleteAll() {
         guard let context = self.context else { return }
         
         let request: NSFetchRequest<NSFetchRequestResult> = DiaryCoreData.fetchRequest()
+        let delete = NSBatchDeleteRequest(fetchRequest: request)
+        
+        do {
+            try context.execute(delete)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    func delete(key: String) {
+        guard let context = self.context else { return }
+        
+        let request: NSFetchRequest<NSFetchRequestResult> = DiaryCoreData.fetchRequest()
+        request.predicate = NSPredicate(format: "title == %@", key)
         let delete = NSBatchDeleteRequest(fetchRequest: request)
         
         do {

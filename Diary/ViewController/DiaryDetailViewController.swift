@@ -86,7 +86,33 @@ final class DiaryDetailViewController: UIViewController {
     
     private func configureNavigationBar() {
         let today = Date().timeIntervalSince1970
-        self.navigationItem.title = DateFormatterManager.shared.convertToFomattedDate(of: today)
+        
+        let ellipsisButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(ellipsisButtonTapped))
+        navigationItem.rightBarButtonItem = ellipsisButton
+        navigationItem.title = DateFormatterManager.shared.convertToFomattedDate(of: today)
+    }
+    
+    @objc func ellipsisButtonTapped() {
+        AlertManager.shared.showActionSheet(target: self,
+                                            title: nil,
+                                            message: nil,
+                                            defaultTitle: "Share...",
+                                            destructiveTitle: "Delete",
+                                            defaultHandler: nil,
+                                            destructiveHandler: { _ in self.showDeleteAlert() })
+    }
+    
+    private func showDeleteAlert() {
+        AlertManager.shared.showAlert(target: self,
+                                      title: "진짜요?",
+                                      message: "정말로 삭제하시겠어요?",
+                                      defaultTitle: "취소",
+                                      destructiveTitle: "삭제",
+                                      destructiveHandler: { _ in
+            guard let key = self.fetchedDiary?.title else { return }
+            CoreDataManager.shared.delete(key: key)
+            self.navigationController?.popViewController(animated: true)
+        })
     }
     
     private func configureDiaryView() {
@@ -176,7 +202,12 @@ final class DiaryDetailViewController: UIViewController {
         case .create:
             CoreDataManager.shared.create(diary: diary)
         default:
-            print("에러")
+            AlertManager.shared.showAlert(target: self,
+                                          title: "알수없는 오류",
+                                          message: nil,
+                                          defaultTitle: "확인",
+                                          destructiveTitle: nil,
+                                          destructiveHandler: nil)
         }
         mode = .edit
     }

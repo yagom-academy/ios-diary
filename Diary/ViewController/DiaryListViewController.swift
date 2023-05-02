@@ -12,7 +12,6 @@ final class DiaryListViewController: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        CoreDataManager.shared.delete()
     
         setupLayout()
         setupView()

@@ -57,7 +57,7 @@ final class CoreDataManagerTests: XCTestCase {
         sut.create(diary: firstSampleDiary)
         
         // when
-        sut.delete()
+        sut.deleteAll()
         let result = sut.read(key: firstSampleDiary.title)
         
         // then
