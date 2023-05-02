@@ -16,13 +16,15 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     private var diaryItem: Diary?
-    private let state: DiaryState
+    private var state: DiaryState
     private let manager = PersistenceManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(endEditingDiary), name: UIScene.didEnterBackgroundNotification, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -36,26 +38,7 @@ final class DiaryDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if diaryTextView.text.isEmpty { return }
-        
-        let content = diaryTextView.text
-        let date = Date().timeIntervalSince1970
-        
-        if state == .create {
-            do {
-                try manager.createContent(content, date)
-            } catch {
-                showFailAlert(error: error)
-            }
-        } else if state == .edit {
-            guard let diary = diaryItem else { return }
-            
-            do {
-                try manager.updateContent(at: diary, content, date)
-            } catch {
-                showFailAlert(error: error)
-            }
-        }
+        endEditingDiary()
     }
     
     init(diaryItem: Diary? = nil, state: DiaryState) {
@@ -66,6 +49,30 @@ final class DiaryDetailViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc private func endEditingDiary() {
+        if diaryTextView.text.isEmpty { return }
+        
+        let content = diaryTextView.text
+        let date = Date().timeIntervalSince1970
+        
+        switch state {
+        case .create:
+            do {
+                diaryItem = try manager.createContent(content, date)
+            } catch {
+                showFailAlert(error: error)
+            }
+        case .edit:
+            guard let diary = diaryItem else { return }
+            
+            do {
+                try manager.updateContent(at: diary, content, date)
+            } catch {
+                showFailAlert(error: error)
+            }
+        }
     }
     
     private func configureInitailView() {
@@ -81,6 +88,9 @@ final class DiaryDetailViewController: UIViewController {
     
     @objc private func doneButtonTapped(sender: Any) {
         self.view.endEditing(true)
+        
+        endEditingDiary()
+        state = .edit
     }
 }
 

@@ -28,7 +28,7 @@ final class PersistenceManager {
     private init() { }
     
     // MARK: - Create
-    func createContent(_ content: String?, _ date: Double) throws {
+    func createContent(_ content: String?, _ date: Double) throws -> Diary {
         let diaryContext = Diary(context: context)
         
         diaryContext.content = content
@@ -36,6 +36,8 @@ final class PersistenceManager {
         
         do {
             try context.save()
+            
+            return diaryContext
         } catch {
             throw error
         }
