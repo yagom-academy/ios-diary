@@ -15,6 +15,7 @@ final class CoreDataManager {
         static let title = "title"
         static let body = "body"
         static let timeIntervalSince1970 = "timeIntervalSince1970"
+        static let id = "id"
     }
     
     static let shared = CoreDataManager()
@@ -44,7 +45,8 @@ final class CoreDataManager {
         }
     }
     
-    func setNsManaged(diary: Diary) {
+    //MARK: - Create
+    func create(_ diary: Diary) {
         let context = persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: DiaryKey.EntityName, in: context)
         
@@ -53,6 +55,7 @@ final class CoreDataManager {
             NSDiary.setValue(diary.title, forKey: DiaryKey.title)
             NSDiary.setValue(diary.body , forKey: DiaryKey.body)
             NSDiary.setValue(diary.timeIntervalSince1970, forKey: DiaryKey.timeIntervalSince1970)
+            NSDiary.setValue(diary.id, forKey: DiaryKey.id)
         }
         
         do {
@@ -62,5 +65,39 @@ final class CoreDataManager {
         }
     }
     
+    //MARK: - Read
+    func fetch() -> [Diary]? {
+        let context = persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: DiaryKey.EntityName)
+        
+        do {
+            let result = try context.fetch(fetchRequest) as? [Diary]
+            return result
+        } catch {
+            print(error.localizedDescription)
+            return nil
+        }
+    }
 
+    //MARK: - Update
+    func update(_ diary: Diary) {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: DiaryKey.EntityName)
+        fetchRequest.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
+        
+        do {
+            let test = try context.fetch(fetchRequest)
+            let objectUpdate = test[0] as! NSManagedObject
+            
+            objectUpdate.setValue(diary.title, forKey: "title")
+            objectUpdate.setValue(diary.body, forKey: "body")
+            objectUpdate.setValue(diary.timeIntervalSince1970, forKey: "timeIntervalSince1970")
+            
+            do {
+                try context.save()
+            } catch {
+                print(error)
+            }
+        } catch { print(error) }
+    }
 }
