@@ -7,15 +7,16 @@
 
 import Foundation
 
-final class DiaryContents: Decodable {
+final class DiaryContents {
     var title, body: String?
     var createdDate: Double
-    let id: UUID = UUID()
+    let id: UUID?
     
-    init(title: String?, body: String?, createdDate: Double) {
+    init(title: String?, body: String?, createdDate: Double, id: UUID?) {
         self.title = title
         self.body = body
         self.createdDate = createdDate
+        self.id = id
     }
     
     var createdDateText: String? {
@@ -28,10 +29,5 @@ final class DiaryContents: Decodable {
         self.title = title
         self.body = body
         self.createdDate = createdDate
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case title, body
-        case createdDate = "created_at"
     }
 }

@@ -2,7 +2,7 @@
 //  Diary+CoreDataProperties.swift
 //  Diary
 //
-//  Created by Harry on 2023/05/01.
+//  Created by Rowan, Harry on 2023/05/01.
 //
 //
 
@@ -17,9 +17,8 @@ extension Diary {
 
     @NSManaged public var body: String?
     @NSManaged public var date: Double
-    @NSManaged public var id: UUID?
     @NSManaged public var title: String?
-
+    @NSManaged public var id: UUID?
 }
 
-extension Diary: Identifiable {}
+extension Diary : Identifiable {}

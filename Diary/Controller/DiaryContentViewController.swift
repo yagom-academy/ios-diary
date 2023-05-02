@@ -141,7 +141,7 @@ final class DiaryContentViewController: UIViewController {
     private func createDiaryIfNeeded() {
         if diary == nil {
             let createdDate = Date().timeIntervalSince1970
-            let diaryContents = DiaryContents(title: nil, body: nil, createdDate: createdDate)
+            let diaryContents = DiaryContents(title: nil, body: nil, createdDate: createdDate, id: UUID())
             
             self.diary = diaryContents
             DiaryCoreDataManager.shared.createDiary(with: diaryContents)
