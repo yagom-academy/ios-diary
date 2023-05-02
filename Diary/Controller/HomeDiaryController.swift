@@ -11,6 +11,15 @@ final class HomeDiaryController: UIViewController {
         languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
     )
     
+    let createdDateSort = NSSortDescriptor(key: "createdAt", ascending: true)
+    private lazy var fetchedDiaryResults = CoreDataFetchedResults(
+        ofType: Diary.self,
+        entityName: "Diary",
+        sortDescriptors: [createdDateSort],
+        managedContext: CoreDataStack.shared.managedContext,
+        delegate: self
+    )
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -54,17 +63,18 @@ final class HomeDiaryController: UIViewController {
 
 extension HomeDiaryController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaries.count
+        return fetchedDiaryResults.fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: DiaryCell.identifier,
             for: indexPath
-        ) as? DiaryCell,
-              let diary = diaries[safe: indexPath.row] else {
+        ) as? DiaryCell else {
             return UITableViewCell()
         }
+        
+        let diary = fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
         
         cell.configureData(data: diary, localizedDateFormatter: localizedDateFormatter)
     
@@ -74,7 +84,8 @@ extension HomeDiaryController: UITableViewDataSource {
 
 extension HomeDiaryController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let addDiaryViewController = ProcessViewController(diaryItem: diaries[indexPath.row], type: .update)
+        let diary = fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
+        let addDiaryViewController = ProcessViewController(diary: diary, type: .update)
         navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
 }

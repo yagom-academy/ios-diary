@@ -22,7 +22,7 @@ final class CoreDataFetchedResults<T: NSManagedObject> {
         let fetchRequest = NSFetchRequest<T>(entityName: entityName)
         fetchRequest.sortDescriptors = sortDescriptors
         
-        fetchedResultsController = NSFetchedResultsController (
+        fetchedResultsController = NSFetchedResultsController(
             fetchRequest: fetchRequest,
             managedObjectContext: managedContext,
             sectionNameKeyPath: nil,
