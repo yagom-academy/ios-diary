@@ -11,7 +11,8 @@ final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
     private var bottomConstraint: NSLayoutConstraint?
     private var coreDataManager = CoreDataManager.shared
-    private var isKeyboardOn: Bool = false
+    private var isCreateDiary: Bool = false
+    private var diary: Diary?
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -23,8 +24,8 @@ final class DetailDiaryViewController: UIViewController {
         return textView
     }()
     
-    init(iskeyboardOn: Bool) {
-        self.isKeyboardOn = iskeyboardOn
+    init(isCreateDiary: Bool) {
+        self.isCreateDiary = isCreateDiary
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -42,6 +43,7 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     func configureContent(diary: Diary) {
+        self.diary = diary
         diaryTextView.text = diary.title + NameSpace.newline + diary.body
         diaryTextView.contentOffset = CGPoint.zero
         diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
@@ -52,6 +54,19 @@ final class DetailDiaryViewController: UIViewController {
         guard let diary = configureDiary() else { return }
         
         coreDataManager.createDiary(diary)
+    }
+    
+    private func updateDiary() {
+        let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
+        let title = String(diaryContents[0])
+        let body = String(diaryContents[1])
+        
+        guard let id = diary?.id,
+              let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
+        
+        let updatedDiary = Diary(title: title, body: body, date: date, id: id)
+        
+        coreDataManager.updateDiary(diary: updatedDiary)
     }
     
     private func configureDiary() -> Diary? {
@@ -79,7 +94,7 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func configureKeyboard() {
-        if isKeyboardOn {
+        if isCreateDiary {
             diaryTextView.becomeFirstResponder()
         }
     }
@@ -87,7 +102,11 @@ final class DetailDiaryViewController: UIViewController {
     @objc
     private func endEditTextView() {
         self.diaryTextView.endEditing(true)
-        createDiary()
+        if isCreateDiary {
+            createDiary()
+        } else {
+            updateDiary()
+        }
     }
     
     private func configureSubview() {

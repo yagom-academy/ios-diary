@@ -102,13 +102,6 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
-		4B983AAF29F66E2600190F50 /* Extra */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Extra;
-			sourceTree = "<group>";
-		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
@@ -134,7 +127,6 @@
 				4B983AAB29F66DCA00190F50 /* Model */,
 				4B983AAC29F66DE900190F50 /* View */,
 				4B983AAD29F66DF200190F50 /* Controller */,
-				4B983AAF29F66E2600190F50 /* Extra */,
 				4B983AAE29F66E0700190F50 /* Resource */,
 				D0BAD8ED29F66FF90068E24B /* Extension */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,

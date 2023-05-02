@@ -61,8 +61,26 @@ class CoreDataManager {
         return diaries
     }
     
-    func updateDiary() {
+    func updateDiary(diary: Diary) {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
         
+        do {
+            let objects = try context.fetch(fetchRequest)
+            let objectToUpdate = objects[0]
+            
+            objectToUpdate.setValue(diary.title, forKey: "title")
+            objectToUpdate.setValue(diary.body, forKey: "body")
+            objectToUpdate.setValue(diary.date, forKey: "date")
+            
+            do {
+                try self.context.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     func deleteDiary(index: Int) {
@@ -74,6 +92,7 @@ class CoreDataManager {
             let objects = try context.fetch(fetchRequest)
             let objectToDelete = objects[0]
             context.delete(objectToDelete)
+            
             do {
                 try context.save()
             } catch {
