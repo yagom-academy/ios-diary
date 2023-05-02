@@ -9,11 +9,11 @@ import UIKit
 final class ProcessViewController: UIViewController {
     
     private let diaryTextView = UITextView()
-    private let diary: DiaryItem?
+    private let diary: Diary?
     private let layoutType: LayoutType
     
-    init(diaryItem: DiaryItem? = nil, type: LayoutType) {
-        self.diary = diaryItem
+    init(diary: Diary? = nil, type: LayoutType) {
+        self.diary = diary
         self.layoutType = type
         super.init(nibName: nil, bundle: nil)
     }
@@ -36,16 +36,16 @@ final class ProcessViewController: UIViewController {
         navigationItem.title = localizedDateFormatter.string(from: Date())
     }
     
-    private func updateTextView(diaryItem: DiaryItem?) {
-        guard let diaryItem else {
+    private func updateTextView(diary: Diary?) {
+        guard let diary else {
             return
         }
-        diaryTextView.text = "\(diaryItem.title)\n\n\(diaryItem.body)"
+        diaryTextView.text = "\(diary.title)\n\n\(diary.body)"
     }
     
     private func configureDiaryTextView() {
         if layoutType == .update {
-            updateTextView(diaryItem: diary)
+            updateTextView(diary: diary)
         }
         
         view.addSubview(diaryTextView)
