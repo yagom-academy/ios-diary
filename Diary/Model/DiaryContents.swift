@@ -7,15 +7,27 @@
 
 import Foundation
 
-struct DiaryContents: Decodable {
-    let title, body: String?
-    let createdDate: Double
+final class DiaryContents: Decodable {
+    var title, body: String?
+    var createdDate: Double
     let id: UUID = UUID()
+    
+    init(title: String?, body: String?, createdDate: Double) {
+        self.title = title
+        self.body = body
+        self.createdDate = createdDate
+    }
     
     var createdDateText: String? {
         let date = Date(timeIntervalSince1970: createdDate)
         
         return DateFormatter.diaryForm.string(from: date)
+    }
+    
+    func updateContents(title: String?, body: String?, createdDate: Double) {
+        self.title = title
+        self.body = body
+        self.createdDate = createdDate
     }
 
     enum CodingKeys: String, CodingKey {
