@@ -35,11 +35,12 @@ final class DiaryViewController: UIViewController {
     }
     
     private func fetchDiaryData() {
-        do {
-            diaries = try DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
-        } catch {
-            print(error.localizedDescription)
-        }
+        diaries = CoreDataManager.shared.fetch()
+//        do {
+//           // diaries = try DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
+//        } catch {
+//            print(error.localizedDescription)
+//        }
     }
     
     private func configureUI() {

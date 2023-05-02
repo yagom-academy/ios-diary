@@ -8,18 +8,15 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
+    enum WriteMode {
+        case create
+        case update
+    }
+    
+    private var writeMode = WriteMode.create
     private let diary: Diary?
     
-    init(_ diary: Diary?) {
-        self.diary = diary
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private let bodyTextView: UITextView = {
+    private let textView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .body)
         textView.layer.borderWidth = 0.8
@@ -30,36 +27,59 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
+    init(_ diary: Diary?) {
+        self.diary = diary
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkWriteMode()
         configureUI()
         configureLayout()
         configureNotification()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        saveDiary()
+    }
+    
+    private func checkWriteMode() {
+        if diary == nil {
+            writeMode = WriteMode.create
+        } else {
+            writeMode = WriteMode.update
+        }
+    }
+    
     private func configureUI() {
         view.backgroundColor = .white
         
-        if diary == nil {
+        switch writeMode {
+        case .create:
             self.title = Date.nowDate
-            bodyTextView.becomeFirstResponder()
-        } else {
+            textView.becomeFirstResponder()
+        case .update:
             self.title = diary?.timeIntervalSince1970.convertFormattedDate()
-            bodyTextView.text = formatContent(diary)
-            print("")
+            textView.text = formatContent(diary)
         }
     }
     
     private func configureLayout() {
-        view.addSubview(bodyTextView)
-
+        view.addSubview(textView)
+        
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            bodyTextView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 8),
-            bodyTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 8),
-            bodyTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -8),
-            bodyTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8)
+            textView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 8),
+            textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 8),
+            textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -8),
+            textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8)
         ])
     }
     
@@ -93,12 +113,67 @@ final class DiaryDetailViewController: UIViewController {
         }
         keyboardFrame = view.convert(keyboardFrame, from: nil)
         
-        bodyTextView.contentInset.bottom = keyboardFrame.size.height
-        bodyTextView.scrollIndicatorInsets = bodyTextView.contentInset
+        textView.contentInset.bottom = keyboardFrame.size.height
+        textView.scrollIndicatorInsets = textView.contentInset
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        bodyTextView.contentInset = UIEdgeInsets.zero
-        bodyTextView.scrollIndicatorInsets = bodyTextView.contentInset
+        textView.contentInset = UIEdgeInsets.zero
+        textView.scrollIndicatorInsets = textView.contentInset
+        
+        saveDiary()
     }
+    
+    func saveDiary() {
+        guard let contents = textView.text,
+              verifyText() == true else { return }
+        let components = contents.split(separator: "\n", maxSplits: 1)
+        guard let title = components[safe: 0], var body = components[safe: 1] else { return }
+        
+        if body.first == "\n" {
+            body.removeFirst()
+        }
+        
+        switch writeMode {
+        case .create:
+            let currentDiary = Diary(
+                id: UUID(),
+                title: String(title),
+                body: String(body),
+                timeIntervalSince1970: Date.nowTimeIntervalSince1970
+            )
+            
+            CoreDataManager.shared.create(currentDiary)
+        
+        case .update:
+            guard let previousDiary = diary else { return }
+            
+            let currentDiary = Diary(
+                id: previousDiary.id,
+                title: String(title),
+                body: String(body),
+                timeIntervalSince1970: previousDiary.timeIntervalSince1970
+            )
+            
+            CoreDataManager.shared.update(currentDiary)
+        }
+    }
+    
+    func verifyText() -> Bool {
+        
+        while true {
+            if textView.text.first == " " {
+                textView.text.removeFirst()
+            } else {
+                break
+            }
+        }
+        
+        if textView.text.isEmpty {
+            return false
+        } else {
+            return true
+        }
+    }
+    
 }

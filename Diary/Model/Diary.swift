@@ -8,12 +8,13 @@
 import Foundation
 
 struct Diary: Codable, Hashable, Identifiable {
-    let id = UUID()
+    let id: UUID
     let title: String
     let body: String
     let timeIntervalSince1970: Int
     
     enum CodingKeys: String, CodingKey {
+        case id
         case title
         case body
         case timeIntervalSince1970 = "created_at"
