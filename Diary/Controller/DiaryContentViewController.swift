@@ -159,7 +159,7 @@ final class DiaryContentViewController: UIViewController {
     }
     
     @objc
-    private func tapSeeMoreButton() {
+    private func tapEllipsisButton() {
         
     }
 }

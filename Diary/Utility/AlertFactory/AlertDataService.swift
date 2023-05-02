@@ -6,5 +6,7 @@
 //
 
 protocol AlertDataService {
-    func decodeErrorAlert(_ error: Error) -> AlertViewData
+    func deleteAlert(completion: @escaping (() -> Void)) -> AlertControllerData
+    func ellipsisActionSheet(shareCompletion: @escaping (() -> Void),
+                             deleteCompletion: @escaping (() -> Void)) -> AlertControllerData
 }

@@ -152,8 +152,8 @@
 			children = (
 				ADD4EFAB2A012E3200FF0529 /* AlertControllerData.swift */,
 				ADDB489C29FA570F00BE5B04 /* AlertViewData.swift */,
-				ADD4EFA82A012CAE00FF0529 /* AlertActionData.swift */,
 				ADD4EFAD2A012EFA00FF0529 /* ActionSheetViewData.swift */,
+				ADD4EFA82A012CAE00FF0529 /* AlertActionData.swift */,
 			);
 			path = AlertData;
 			sourceTree = "<group>";
