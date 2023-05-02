@@ -46,8 +46,13 @@ final class DiaryContentViewController: UIViewController {
     private func setUpNavigationBar() {
         let timeInterval = diary?.date ?? Date().timeIntervalSince1970
         let date = Date(timeIntervalSince1970: timeInterval)
+        let image = UIImage(systemName: "ellipsis.circle")
         
         navigationItem.title = DateFormatter.diaryForm.string(from: date)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image,
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(tapSeeMoreButton))
     }
     
     private func setUpTextView() {
@@ -151,5 +156,10 @@ final class DiaryContentViewController: UIViewController {
                                                             date: createdDate,
                                                             id: UUID())
         }
+    }
+    
+    @objc
+    private func tapSeeMoreButton() {
+        
     }
 }
