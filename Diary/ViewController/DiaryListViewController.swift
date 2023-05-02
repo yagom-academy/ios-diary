@@ -8,19 +8,26 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let diaryTableView: UITableView = UITableView()
-    private var sampleDiary: [SampleDiary]?
-    
+    private var myDiary: [DiaryCoreData]?
+   
     override func viewDidLoad() {
         super.viewDidLoad()
-        decodeDiary()
+    
         setupLayout()
         setupView()
         configureNavigationBar()
     }
     
-    private func decodeDiary() {
-        let diaryFileName = "sample"
-        sampleDiary = Decoder.parseJSON(fileName: diaryFileName, returnType: [SampleDiary].self) ?? []
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        setupMyDiary()
+        diaryTableView.reloadData()
+    }
+    
+    private func setupMyDiary() {
+        guard let diary = CoreDataManager.shared.readAll() else { return }
+        self.myDiary = diary
     }
     
     private func setupLayout() {
@@ -50,7 +57,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func plusButtonTapped() {
-        let diaryDetailViewController = DiaryDetailViewController(diary: nil, isAutomaticKeyboard: true)
+        let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: nil, isAutomaticKeyboard: true, isUpdate: false)
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
@@ -61,16 +68,16 @@ extension DiaryListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sampleDiary = self.sampleDiary else { return 0 }
+        guard let sampleDiary = self.myDiary else { return 0 }
         
         return sampleDiary.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let diaryCell: DiaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier) as? DiaryTableViewCell,
-              let sampleDiary = self.sampleDiary else { return UITableViewCell() }
+              let myDiary = self.myDiary else { return UITableViewCell() }
         
-        diaryCell.setupItem(item: sampleDiary[indexPath.row])
+        diaryCell.setupItem(item: myDiary[indexPath.row])
         
         return diaryCell
     }
@@ -78,8 +85,11 @@ extension DiaryListViewController: UITableViewDataSource {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diary = sampleDiary else { return }
-        let diaryDetailViewController = DiaryDetailViewController(diary: diary[indexPath.row], isAutomaticKeyboard: false)
+        guard let diary = myDiary,
+              let title = diary[indexPath.row].title,
+              let fetchedDiary = CoreDataManager.shared.read(key: title) else { return }
+        
+        let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: fetchedDiary, isAutomaticKeyboard: false, isUpdate: true)
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }

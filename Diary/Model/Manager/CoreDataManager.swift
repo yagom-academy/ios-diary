@@ -15,28 +15,39 @@ final class CoreDataManager {
     
     private let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.newBackgroundContext()
     
-    func create(diary: SampleDiary) {
+    func create(diary: DiaryProtocol) {
         guard let context = self.context,
-              let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context),
-              let storage = NSManagedObject(entity: entity, insertInto: self.context) as? Diary else { return }
+              let entity = NSEntityDescription.entity(forEntityName: "DiaryCoreData", in: context),
+              let storage = NSManagedObject(entity: entity, insertInto: self.context) as? DiaryCoreData else { return }
         
         setValue(at: storage, diary: diary)
         save()
     }
     
-    func read(key: String) -> Diary? {
+    func readAll() -> [DiaryCoreData]? {
         guard let context = self.context else { return nil }
-        let filter = filteredDataRequest(key: key)
         
         do {
-            let data = try context.fetch(filter)
-            return data.first as? Diary
+            let data = try context.fetch(DiaryCoreData.fetchRequest())
+            return data
         } catch {
             return nil
         }
     }
     
-    func update(key: String, diary: SampleDiary) {
+    func read(key: String) -> DiaryCoreData? {
+        guard let context = self.context else { return nil }
+        let filter = filteredDataRequest(key: key)
+        
+        do {
+            let data = try context.fetch(filter)
+            return data.first as? DiaryCoreData
+        } catch {
+            return nil
+        }
+    }
+    
+    func update(key: String, diary: DiaryProtocol) {
         guard let fetchedData = read(key: key) else { return }
         
         setValue(at: fetchedData, diary: diary)
@@ -46,7 +57,7 @@ final class CoreDataManager {
     func delete() {
         guard let context = self.context else { return }
         
-        let request: NSFetchRequest<NSFetchRequestResult> = Diary.fetchRequest()
+        let request: NSFetchRequest<NSFetchRequestResult> = DiaryCoreData.fetchRequest()
         let delete = NSBatchDeleteRequest(fetchRequest: request)
         
         do {
@@ -57,13 +68,13 @@ final class CoreDataManager {
     }
     
     private func filteredDataRequest(key: String) -> NSFetchRequest<NSManagedObject> {
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Diary")
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DiaryCoreData")
         fetchRequest.predicate = NSPredicate(format: "title == %@", key)
         
         return fetchRequest
     }
     
-    private func setValue(at target: Diary, diary: SampleDiary) {
+    private func setValue(at target: DiaryCoreData, diary: DiaryProtocol) {
         target.setValue(diary.title, forKey: "title")
         target.setValue(diary.body, forKey: "body")
         target.setValue(diary.createdDate, forKey: "date")

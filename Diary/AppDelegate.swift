@@ -1,5 +1,5 @@
 //
-//  Diary - AppDelegate.swift
+//  DiaryCoreData - AppDelegate.swift
 //  Created by 리지, Goat
 //  Copyright © yagom. All rights reserved.
 // 
@@ -41,7 +41,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     lazy var persistentContainer: NSPersistentContainer = {
       
-        let container = NSPersistentContainer(name: "Diary")
+        let container = NSPersistentContainer(name: "DiaryCoreData")
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
     

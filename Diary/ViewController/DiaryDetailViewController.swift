@@ -8,13 +8,14 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-    private var diary: SampleDiary?
+    private var fetchedDiary: DiaryCoreData?
     private var isAutomaticKeyboard: Bool?
+    private var isUpdate: Bool?
     
     private lazy var diaryTitleField: UITextField = {
         let titleField = UITextField()
-        if let diary = self.diary {
-            titleField.text = diary.title
+        if fetchedDiary != nil {
+            titleField.text = fetchedDiary?.title
         }
         titleField.attributedPlaceholder = NSAttributedString(string: "제목을 입력하세요", attributes: [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel])
         titleField.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
@@ -24,8 +25,9 @@ final class DiaryDetailViewController: UIViewController {
     
     private lazy var diaryTextView: UITextView = {
         let textView = UITextView()
-        if let diary = self.diary {
-            textView.text = diary.body
+        
+        if fetchedDiary != nil {
+            textView.text = fetchedDiary?.body
         } else {
             textView.text = "내용을 입력하세요"
             textView.textColor = .secondaryLabel
@@ -33,15 +35,16 @@ final class DiaryDetailViewController: UIViewController {
      
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
-        
+
         textView.delegate = self
         
         return textView
     }()
     
-    init(diary: SampleDiary?, isAutomaticKeyboard: Bool?) {
-        self.diary = diary
+    init(fetchedDiary: DiaryCoreData?, isAutomaticKeyboard: Bool?, isUpdate: Bool?) {
+        self.fetchedDiary = fetchedDiary
         self.isAutomaticKeyboard = isAutomaticKeyboard
+        self.isUpdate = isUpdate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -67,9 +70,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        let now = Date().timeIntervalSince1970
-        let today = now
-        
+        let today = Date().timeIntervalSince1970
         self.navigationItem.title = DateFormatterManager.shared.convertToFomattedDate(of: today)
     }
     
@@ -89,12 +90,12 @@ final class DiaryDetailViewController: UIViewController {
         diaryTitleField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             diaryTitleField.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
-            diaryTitleField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 14),
+            diaryTitleField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
             diaryTitleField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -14),
             textFieldHeight,
             
-            diaryTextView.topAnchor.constraint(equalTo: diaryTitleField.bottomAnchor, constant: 20),
-            diaryTextView.leadingAnchor.constraint(equalTo: diaryTitleField.leadingAnchor),
+            diaryTextView.topAnchor.constraint(equalTo: diaryTitleField.bottomAnchor, constant: 10),
+            diaryTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 15),
             diaryTextView.trailingAnchor.constraint(equalTo: diaryTitleField.trailingAnchor),
             diaryTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             textViewHeight
@@ -134,7 +135,23 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     @objc func dismissKeyboard() {
+        saveDiary()
         view.endEditing(true)
+    }
+    
+    private func saveDiary() {
+        guard let title = self.diaryTitleField.text,
+              let body = self.diaryTextView.text else { return }
+        
+        let today = Double(Date().timeIntervalSince1970)
+        let diary = MyDiary(title: title, body: body, createdDate: today)
+     
+        if isUpdate == true {
+            guard let key = self.fetchedDiary?.title else { return }
+            CoreDataManager.shared.update(key: key, diary: diary)
+        } else {
+            CoreDataManager.shared.create(diary: diary)
+        }
     }
 }
 

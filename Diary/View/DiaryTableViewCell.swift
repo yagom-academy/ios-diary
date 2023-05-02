@@ -10,7 +10,7 @@ import UIKit
 final class DiaryTableViewCell: UITableViewCell {
     static let identifier = "DiaryTableViewCell"
     
-    private var sampleDiary: SampleDiary?
+    private var myDiary: DiaryCoreData?
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -84,14 +84,14 @@ final class DiaryTableViewCell: UITableViewCell {
         subTitleStackView.addArrangedSubview(bodyLabel)
     }
 
-    func setupItem(item: SampleDiary) {
-        self.sampleDiary = item
+    func setupItem(item: DiaryCoreData) {
+        self.myDiary = item
     
-        guard let sampleDiary = self.sampleDiary,
-              let formattedDate = DateFormatterManager.shared.convertToFomattedDate(of: sampleDiary.createdDate) else { return }
+        guard let myDiary = self.myDiary,
+              let formattedDate = DateFormatterManager.shared.convertToFomattedDate(of: myDiary.date) else { return }
         
-        titleLabel.text = sampleDiary.title
+        titleLabel.text = myDiary.title
         dateLabel.text = formattedDate
-        bodyLabel.text = sampleDiary.body
+        bodyLabel.text = myDiary.body
     }
 }

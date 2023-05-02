@@ -5,10 +5,10 @@
 //  Created by 리지, Goat on 2023/04/24.
 //
 
-struct SampleDiary: Decodable {
-    let title: String
-    let body: String
-    let createdDate: Double
+struct SampleDiary: DiaryProtocol, Decodable {
+    var title: String
+    var body: String
+    var createdDate: Double
     
     enum CodingKeys: String, CodingKey {
         case title, body
