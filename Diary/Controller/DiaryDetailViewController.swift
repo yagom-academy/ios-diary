@@ -30,13 +30,45 @@ final class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         
         configureUIOption()
+        configureTextView()
         configureLayout()
+        addObserver()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         saveContents()
+    }
+    
+    private func configureUIOption() {
+        view.backgroundColor = .systemBackground
+        navigationItem.title = contents?.localizedDate ?? Date().translateLocalizedFormat()
+        
+        let deleteAction = UIAction { [weak self] _ in
+            guard let contents = self?.contents,
+                  let identifier = contents.identifier else { return }
+            
+            CoreDataManager.shared.delete(id: identifier)
+            self?.navigationController?.popToRootViewController(animated: true)
+        }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .trash, primaryAction: deleteAction)
+    }
+    
+    private func configureTextView() {
+        textView.delegate = self
+        
+        if let contents {
+            textView.text = """
+            \(contents.title)
+            
+            \(contents.body)
+            """
+        } else {
+            textView.text = nil
+            textView.becomeFirstResponder()
+        }
     }
     
     private func configureLayout() {
@@ -56,33 +88,18 @@ final class DiaryDetailViewController: UIViewController {
         ])
     }
     
-    private func configureUIOption() {
-        view.backgroundColor = .systemBackground
-        navigationItem.title = contents?.localizedDate ?? Date().translateLocalizedFormat()
-        
-        let deleteAction = UIAction { [weak self] _ in
-            guard let contents = self?.contents,
-                  let identifier = contents.identifier else { return }
-            
-            CoreDataManager.shared.delete(id: identifier)
-            self?.navigationController?.popToRootViewController(animated: true)
-        }
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .trash, primaryAction: deleteAction)
-        
-        if let contents {
-            textView.text = """
-            \(contents.title)
-            
-            \(contents.body)
-            """
-        } else {
-            textView.text = nil
-            textView.becomeFirstResponder()
-        }
+    private func addObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(saveContents),
+            name: UIScene.didEnterBackgroundNotification,
+            object: nil)
     }
-    
-    private func saveContents() {
+}
+
+// MARK: - Data CRUD
+extension DiaryDetailViewController {
+    @objc private func saveContents() {
         guard contents != nil else {
             createContents()
             return
@@ -134,5 +151,12 @@ final class DiaryDetailViewController: UIViewController {
         }
         
         return (title, body)
+    }
+}
+
+// MARK: - Text view delegate
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        saveContents()
     }
 }
