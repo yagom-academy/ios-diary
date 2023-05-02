@@ -20,11 +20,12 @@ public final class DiaryService {
 
 extension DiaryService {
     
-    public func create(title: String, body: String, id: UUID) -> Result<Bool, CoreDataError> {
+    @discardableResult
+    public func create(id: UUID, title: String, body: String) -> Result<Bool, CoreDataError> {
         let diary = Diary(context: managedContext)
+        diary.id = id
         diary.title = title
         diary.body = body
-        diary.id = id
         diary.createdAt = Date()
         
         let result = CoreDataStack.shared.saveContext()
@@ -32,6 +33,7 @@ extension DiaryService {
         return result == true ? .success(true) : .failure(CoreDataError.insertError)
     }
     
+    @discardableResult
     public func update(id: UUID, title: String, body: String) -> Result<Bool, CoreDataError> {
         var targetData: Diary?
         do {
@@ -51,6 +53,7 @@ extension DiaryService {
         return result == true ? .success(true) : .failure(CoreDataError.updateError)
     }
     
+    @discardableResult
     public func delete(id: UUID) -> Result<Bool, CoreDataError> {
         var targetData: Diary?
         do {

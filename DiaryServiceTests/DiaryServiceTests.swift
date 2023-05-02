@@ -32,15 +32,40 @@ final class DiaryServiceTests: XCTestCase {
         let body = "일기장 내용"
         
         // when
-        let result = diaryService.create(title: title, body: body, id: id)
+        diaryService.create(id: id, title: title, body: body)
         let filteredRequest = Diary.fetchRequest()
         filteredRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
         
         // then
         do {
             let createdDiary = try CoreDataStack.shared.managedContext.fetch(filteredRequest).first
-            XCTAssertEqual(createdDiary?.body, body)
             XCTAssertEqual(createdDiary?.title, title)
+            XCTAssertEqual(createdDiary?.body, body)
+        } catch {
+            XCTFail("테스트가 실패하였습니다.")
+        }
+    }
+    
+    func test_update호출시_id에_해당하는_내용을_변경한다() {
+        // given
+        let id = UUID()
+        let title = "일기장 제목"
+        let body = "일기장 내용"
+        
+        let updatedTitle = "변경될 제목"
+        let updatedBody = "변경될 내용"
+        
+        // when
+        diaryService.create(id: id, title: title, body: body)
+        diaryService.update(id: id, title: updatedTitle, body: updatedBody)
+        let filteredRequest = Diary.fetchRequest()
+        filteredRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
+        
+        // then
+        do {
+            let createdDiary = try CoreDataStack.shared.managedContext.fetch(filteredRequest).first
+            XCTAssertEqual(createdDiary?.title, updatedTitle)
+            XCTAssertEqual(createdDiary?.body, updatedBody)
         } catch {
             XCTFail("테스트가 실패하였습니다.")
         }
