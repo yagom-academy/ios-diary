@@ -12,6 +12,7 @@ final class DiaryListViewController: UIViewController {
    
     override func viewDidLoad() {
         super.viewDidLoad()
+        CoreDataManager.shared.delete()
     
         setupLayout()
         setupView()
@@ -57,7 +58,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func plusButtonTapped() {
-        let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: nil, isAutomaticKeyboard: true, isUpdate: false)
+        let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: nil, mode: .create)
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
@@ -89,7 +90,7 @@ extension DiaryListViewController: UITableViewDelegate {
               let title = diary[indexPath.row].title,
               let fetchedDiary = CoreDataManager.shared.read(key: title) else { return }
         
-        let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: fetchedDiary, isAutomaticKeyboard: false, isUpdate: true)
+        let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: fetchedDiary, mode: .edit)
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }

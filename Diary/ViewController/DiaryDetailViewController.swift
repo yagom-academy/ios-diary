@@ -8,9 +8,14 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-    private var fetchedDiary: DiaryCoreData?
-    private var isAutomaticKeyboard: Bool?
-    private var isUpdate: Bool?
+    
+    enum Mode {
+        case edit
+        case create
+    }
+    
+    private let fetchedDiary: DiaryCoreData?
+    private var mode: Mode?
     
     private lazy var diaryTitleField: UITextField = {
         let titleField = UITextField()
@@ -41,15 +46,18 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    init(fetchedDiary: DiaryCoreData?, isAutomaticKeyboard: Bool?, isUpdate: Bool?) {
+    init(fetchedDiary: DiaryCoreData?, mode: Mode?) {
         self.fetchedDiary = fetchedDiary
-        self.isAutomaticKeyboard = isAutomaticKeyboard
-        self.isUpdate = isUpdate
+        self.mode = mode
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     override func viewDidLoad() {
@@ -58,15 +66,22 @@ final class DiaryDetailViewController: UIViewController {
         
         configureNavigationBar()
         configureDiaryView()
-        setUpNotification()
+        setUpKeyboardNotification()
+        setUpBackgroundNotification()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        if isAutomaticKeyboard == true {
+        super.viewDidAppear(animated)
+        if mode == .create {
             diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
             diaryTitleField.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
             diaryTitleField.becomeFirstResponder()
         }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        saveDiary()
     }
     
     private func configureNavigationBar() {
@@ -102,7 +117,7 @@ final class DiaryDetailViewController: UIViewController {
         ])
     }
     
-    private func setUpNotification() {
+    private func setUpKeyboardNotification() {
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(keyboardWillShow),
@@ -118,7 +133,16 @@ final class DiaryDetailViewController: UIViewController {
         )
     }
     
-    @objc func keyboardWillShow(_ notification: Notification) {
+    private func setUpBackgroundNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(saveDiary),
+            name: UIScene.willDeactivateNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo as NSDictionary?,
               var keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
@@ -129,29 +153,32 @@ final class DiaryDetailViewController: UIViewController {
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
 
-    @objc internal func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide(_ notification: Notification) {
         diaryTextView.contentInset = UIEdgeInsets.zero
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
     
-    @objc func dismissKeyboard() {
-        saveDiary()
+    @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    private func saveDiary() {
+    @objc private func saveDiary() {
         guard let title = self.diaryTitleField.text,
               let body = self.diaryTextView.text else { return }
         
         let today = Double(Date().timeIntervalSince1970)
         let diary = MyDiary(title: title, body: body, createdDate: today)
-     
-        if isUpdate == true {
+
+        switch mode {
+        case .edit:
             guard let key = self.fetchedDiary?.title else { return }
             CoreDataManager.shared.update(key: key, diary: diary)
-        } else {
+        case .create:
             CoreDataManager.shared.create(diary: diary)
+        default:
+            print("에러")
         }
+        mode = .edit
     }
 }
 
@@ -163,6 +190,8 @@ extension DiaryDetailViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
+        saveDiary()
+        
         if diaryTextView.text.isEmpty {
             diaryTextView.text = "내용을 입력하세요"
             diaryTextView.textColor = .secondaryLabel
