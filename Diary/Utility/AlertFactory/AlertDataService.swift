@@ -6,5 +6,5 @@
 //
 
 protocol AlertDataService {
-    func decodeError(_ error: Error) -> AlertViewData
+    func decodeErrorAlert(_ error: Error) -> AlertViewData
 }

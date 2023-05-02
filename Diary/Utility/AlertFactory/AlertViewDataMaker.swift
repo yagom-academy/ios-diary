@@ -8,7 +8,7 @@
 import Foundation
 
 struct AlertViewDataMaker: AlertDataService {
-    func decodeError(_ error: Error) -> AlertViewData {
+    func decodeErrorAlert(_ error: Error) -> AlertViewData {
         let alertViewData = AlertViewData(title: "Decode Error",
                                           message: error.localizedDescription,
                                           style: .alert,
@@ -19,4 +19,11 @@ struct AlertViewDataMaker: AlertDataService {
         
         return alertViewData
     }
+    
+//    func shareAndDeleteSheet() -> AlertViewData {
+//        let actionSheetData = AlertViewData(title: "shareAndDelete",
+//                                            message: <#T##String#>,
+//                                            style: <#T##UIAlertController.Style#>,
+//                                            enableOkAction: <#T##Bool#>, okActionTitle: <#T##String#>, enableCancelAction: <#T##Bool#>, cancelActionTitle: <#T##String?#>)
+//    }
 }
