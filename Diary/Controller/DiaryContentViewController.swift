@@ -10,11 +10,11 @@ import UIKit
 final class DiaryContentViewController: UIViewController {
     typealias DiaryText = (title: String?, body: String?)
     
-    private var diaryContents: DiaryContents?
+    private var diary: Diary?
     private let textView = UITextView()
 
-    init(diaryContents: DiaryContents? = nil) {
-        self.diaryContents = diaryContents
+    init(diary: Diary? = nil) {
+        self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -25,7 +25,6 @@ final class DiaryContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        createDiaryIfNeeded()
         setUpRootView()
         setUpNavigationBar()
         setUpTextView()
@@ -36,6 +35,7 @@ final class DiaryContentViewController: UIViewController {
         super.viewDidAppear(animated)
         
         showKeyboardIfNeeded()
+        createDiaryIfNeeded()
     }
     
     private func setUpRootView() {
@@ -44,7 +44,7 @@ final class DiaryContentViewController: UIViewController {
     }
     
     private func setUpNavigationBar() {
-        let timeInterval = diaryContents?.createdDate ?? Date().timeIntervalSince1970
+        let timeInterval = diary?.date ?? Date().timeIntervalSince1970
         let date = Date(timeIntervalSince1970: timeInterval)
         
         navigationItem.title = DateFormatter.diaryForm.string(from: date)
@@ -59,12 +59,12 @@ final class DiaryContentViewController: UIViewController {
     }
     
     private func configureTextViewContent() {
-        guard let content = diaryContents else { return }
+        guard let diary = diary else { return }
         
-        if let title = content.title, let body = content.body {
+        if let title = diary.title, let body = diary.body {
             textView.text = title + body
         } else {
-            textView.text = content.title
+            textView.text = diary.title
         }
         
     }
@@ -115,11 +115,12 @@ final class DiaryContentViewController: UIViewController {
         let devidedContents: DiaryText = devide(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
         
-        diaryContents?.updateContents(title: devidedContents.title,
-                              body: devidedContents.body,
-                              createdDate: updatedDate)
-        
-        DiaryCoreDataManager.shared.updateDiary(with: diaryContents)
+        guard let id = diary?.id else { return }
+
+        DiaryCoreDataManager.shared.updateDiary(title: devidedContents.title,
+                                                body: devidedContents.body,
+                                                date: updatedDate,
+                                                id: id)
     }
     
     private func devide(text: String?) -> DiaryText {
@@ -136,18 +137,19 @@ final class DiaryContentViewController: UIViewController {
     }
     
     private func showKeyboardIfNeeded() {
-        if diaryContents?.title == "" {
+        if diary == nil {
             textView.becomeFirstResponder()
         }
     }
     
     private func createDiaryIfNeeded() {
-        if diaryContents == nil {
+        if diary == nil {
             let createdDate = Date().timeIntervalSince1970
-            let diaryContents = DiaryContents(title: "", body: "", createdDate: createdDate, id: UUID())
             
-            self.diaryContents = diaryContents
-            DiaryCoreDataManager.shared.createDiary(with: diaryContents)
+            diary = DiaryCoreDataManager.shared.createDiary(title: "",
+                                                            body: "",
+                                                            date: createdDate,
+                                                            id: UUID())
         }
     }
 }
