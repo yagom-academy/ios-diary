@@ -102,17 +102,20 @@ final class DiaryContentViewController: UIViewController {
     private func keyboardWillHide() {
         textView.contentInset.bottom = .zero
         textView.verticalScrollIndicatorInsets.bottom = .zero
+        
+        updateDiary()
     }
     
-//    private func updateDiary() {
-//        let devidedContents: DiaryText = devide(text: textView.text)
-//        let updateDate = DateFormatter.diaryForm.string(from: Date())
-//
-//        DiaryCoreDataManager.shared.updateDiary(title: devidedContents.title,
-//                                                date: updateDate,
-//                                                body: devidedContents.body,
-//                                                id: )
-//    }
+    private func updateDiary() {
+        let devidedContents: DiaryText = devide(text: textView.text)
+        let updatedDate = Date().timeIntervalSince1970
+        
+        diary?.updateContents(title: devidedContents.title,
+                              body: devidedContents.body,
+                              createdDate: updatedDate)
+        
+        DiaryCoreDataManager.shared.updateDiary(with: diary)
+    }
     
     private func devide(text: String?) -> DiaryText {
         guard let text,

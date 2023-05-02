@@ -61,7 +61,9 @@ final class DiaryCoreDataManager {
         return fetchResult
     }
     
-    func updateDiary(with diaryContents: DiaryContents) {
+    func updateDiary(with diaryContents: DiaryContents?) {
+        guard let diaryContents else { return }
+        
         let request = Diary.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", diaryContents.id.uuidString)
         request.predicate = predicate
