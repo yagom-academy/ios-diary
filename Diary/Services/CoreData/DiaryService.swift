@@ -50,4 +50,27 @@ extension DiaryService {
         
         return result == true ? .success(true) : .failure(CoreDataError.updateError)
     }
+    
+    public func delete(id: UUID) -> Result<Bool, CoreDataError> {
+        var targetData: Diary?
+        do {
+            let filteredRequest = Diary.fetchRequest()
+            filteredRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
+            targetData = try self.managedContext.fetch(filteredRequest).first
+        } catch {
+            return .failure(CoreDataError.fetchError)
+        }
+        
+        guard let targetData else {
+            return .failure(CoreDataError.fetchError)
+        }
+        
+        managedContext.delete(targetData)
+        
+        let result = CoreDataStack.shared.saveContext()
+        
+        return result == true ? .success(true) : .failure(CoreDataError.deleteError)
+    }
+    
+    
 }
