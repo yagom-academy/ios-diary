@@ -12,6 +12,7 @@ public enum CoreDataError: Error {
     case fetchError
     case insertError
     case entityNotFound
+    case updateError
     case deleteError
     case saveError
 }
