@@ -11,7 +11,7 @@ final class HomeDiaryController: UIViewController {
         languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
     )
     
-    let createdDateSort = NSSortDescriptor(key: "createdAt", ascending: true)
+    let createdDateSort = NSSortDescriptor(key: "createdAt", ascending: false)
     private let diaryService = DiaryService(coreDataStack: CoreDataStack.shared)
     
     private lazy var fetchedDiaryResults = CoreDataFetchedResults(
@@ -26,6 +26,11 @@ final class HomeDiaryController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         configureUI()
+        do {
+            try fetchedDiaryResults.fetchedResultsController.performFetch()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     private func setupTableView() {

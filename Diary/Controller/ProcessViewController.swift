@@ -29,6 +29,45 @@ final class ProcessViewController: UIViewController {
         setUpNotification()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        saveDiary()
+    }
+    
+    private func saveDiary() {
+        guard let text = diaryTextView.text else {
+            return
+        }
+
+        let diaryContent = text.components(separatedBy: "\n")
+        
+        if text.isEmpty {
+            processDiary()
+        } else if !text.contains("\n") {
+            processDiary(title: diaryContent[0])
+        } else if !diaryContent[0].isEmpty {
+            var body = ""
+            for idx in 1..<diaryContent.count {
+                body += diaryContent[idx]
+            }
+            processDiary(title: diaryContent[0], body: body)
+        } else {
+            var body = ""
+            for idx in 1..<diaryContent.count {
+                body += diaryContent[idx]
+            }
+            processDiary(body: body)
+        }
+    }
+    
+    func processDiary(title: String = "", body: String = "") {
+        guard let diary else {
+            diaryService.create(id: UUID(), title: title, body: body)
+            return
+        }
+        
+        diaryService.update(id: diary.id, title: title, body: body)
+    }
+    
     private func configureNavigationItem() {
         let localizedDateFormatter = DateFormatter(
             languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
@@ -40,7 +79,7 @@ final class ProcessViewController: UIViewController {
         guard let diary else {
             return
         }
-        diaryTextView.text = "\(diary.title)\n\n\(diary.body)"
+        diaryTextView.text = "\(diary.title)\n\(diary.body)"
     }
     
     private func configureDiaryTextView() {
@@ -95,5 +134,4 @@ final class ProcessViewController: UIViewController {
         diaryTextView.contentInset = UIEdgeInsets.zero
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
-    
 }
