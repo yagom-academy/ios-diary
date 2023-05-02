@@ -59,9 +59,11 @@ final class DiaryContentViewController: UIViewController {
     }
     
     private func configureTextViewContent() {
-        guard let content = diary else { return }
+        guard let content = diary,
+              let title = content.title,
+              let body = content.body else { return }
         
-        textView.text = "\(content.title)\n\n\(content.body)"
+        textView.text = title + body
     }
     
     private func setUpTextViewLayout() {
