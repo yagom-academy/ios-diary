@@ -20,12 +20,12 @@ public final class DiaryService {
 
 extension DiaryService {
     
-    public func add(title: String, body: String) -> Result<Bool ,CoreDataError> {
-        let newDiary = NSEntityDescription.insertNewObject(forEntityName: entityName, into: managedContext)
-        newDiary.setValue(title, forKey: "title")
-        newDiary.setValue(body, forKey: "body")
-        newDiary.setValue(UUID(), forKey: "id")
-        newDiary.setValue(Date(), forKey: "createdAt")
+    public func create(title: String, body: String, id: UUID) -> Result<Bool, CoreDataError> {
+        let diary = Diary(context: managedContext)
+        diary.title = title
+        diary.body = body
+        diary.id = id
+        diary.createdAt = Date()
         
         let result = CoreDataStack.shared.saveContext()
         
