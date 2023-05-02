@@ -71,6 +71,4 @@ extension DiaryService {
         
         return result == true ? .success(true) : .failure(CoreDataError.deleteError)
     }
-    
-    
 }

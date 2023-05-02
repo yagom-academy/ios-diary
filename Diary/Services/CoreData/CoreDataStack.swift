@@ -17,6 +17,11 @@ public enum CoreDataError: Error {
     case saveError
 }
 
+public enum StoreType {
+    case onDisk
+    case inMemory
+}
+
 open class CoreDataStack {
     static let shared = CoreDataStack(modelName: "Diary")
     
@@ -61,6 +66,17 @@ open class CoreDataStack {
             let message = "CoreDataStack -> \(#function): Unresolved error: \(error), \(error.userInfo)"
             print(message)
             completion()
+        }
+    }
+}
+
+extension CoreDataStack {
+    func changeStoreType(type: StoreType) {
+        if type == .inMemory {
+            let persistentStoreDescription = NSPersistentStoreDescription()
+            persistentStoreDescription.type = NSInMemoryStoreType
+            
+            storeContainer.persistentStoreDescriptions = [persistentStoreDescription]
         }
     }
 }
