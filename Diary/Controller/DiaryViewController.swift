@@ -66,6 +66,24 @@ extension DiaryViewController: UITableViewDelegate {
         
         pushDiaryDetailViewController(with: diary, .edit)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let deleteContextualAction = UIContextualAction(style: .destructive, title: nil) { _, _, _ in
+        }
+        
+        deleteContextualAction.image = UIImage(systemName: "trash.fill")?.withTintColor(.white)
+        deleteContextualAction.backgroundColor = .systemRed
+        
+        let shareContextualAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
+        }
+        
+        shareContextualAction.image = UIImage(systemName: "square.and.arrow.up")
+        shareContextualAction.backgroundColor = .systemBlue
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteContextualAction, shareContextualAction])
+        
+        return configuration
+    }
 }
 
 // MARK: UI
