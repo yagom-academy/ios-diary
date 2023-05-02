@@ -56,4 +56,17 @@ final class PersistenceManager {
             throw error
         }
     }
+    
+    func updateContent(at diary: Diary, _ content: String?, _ date: Double) throws {
+        do {
+            let item = try context.existingObject(with: diary.objectID)
+            
+            item.setValue(content, forKey: "content")
+            item.setValue(date, forKey: "date")
+            
+            try context.save()
+        } catch {
+            throw error
+        }
+    }
 }

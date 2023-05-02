@@ -24,17 +24,37 @@ final class DiaryDetailViewController: UIViewController {
         
         configureUI()
     }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        if state == .create {
+            diaryTextView.becomeFirstResponder()
+        }
+    }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        if diaryTextView.text.isEmpty { return }
+        
         let content = diaryTextView.text
         let date = Date().timeIntervalSince1970
         
-        do {
-            try manager.createContent(content, date)
-        } catch {
-            print(error)
+        if state == .create {
+            do {
+                try manager.createContent(content, date)
+            } catch {
+                showFailAlert(error: error)
+            }
+        } else if state == .edit {
+            guard let diary = diaryItem else { return }
+            
+            do {
+                try manager.updateContent(at: diary, content, date)
+            } catch {
+                showFailAlert(error: error)
+            }
         }
     }
     
@@ -51,20 +71,12 @@ final class DiaryDetailViewController: UIViewController {
     private func configureInitailView() {
         guard let diaryItem = diaryItem else {
             self.navigationItem.title = Date.convertToDate(by: Date().timeIntervalSince1970)
-            return
-        }
-        
-        self.navigationItem.title = Date.convertToDate(by: diaryItem.date)
-        
-        guard let content = diaryItem.content else { return }
-        
-        if content.isEmpty {
-            self.diaryTextView.text = nil
             
             return
         }
         
-        self.diaryTextView.text = content
+        self.navigationItem.title = Date.convertToDate(by: diaryItem.date)
+        self.diaryTextView.text = diaryItem.content
     }
     
     @objc private func doneButtonTapped(sender: Any) {
@@ -80,10 +92,6 @@ extension DiaryDetailViewController {
         diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(doneButtonTapped))
         configureTextView()
         configureInitailView()
-        
-        if state == .create {
-            diaryTextView.becomeFirstResponder()
-        }
     }
     
     private func configureTextView() {
