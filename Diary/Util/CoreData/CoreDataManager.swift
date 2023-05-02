@@ -32,7 +32,6 @@ final class CoreDataManager {
         return container
     }()
 
-   
     func saveContext () {
         let context = persistentContainer.viewContext
         if context.hasChanges {
@@ -45,7 +44,7 @@ final class CoreDataManager {
         }
     }
     
-    //MARK: - Create
+    // MARK: - Create
     func create(_ diary: Diary) {
         let context = persistentContainer.viewContext
         let entity = NSEntityDescription.entity(forEntityName: DiaryKey.EntityName, in: context)
@@ -53,7 +52,7 @@ final class CoreDataManager {
         if let entity = entity {
             let NSDiary = NSManagedObject(entity: entity, insertInto: context)
             NSDiary.setValue(diary.title, forKey: DiaryKey.title)
-            NSDiary.setValue(diary.body , forKey: DiaryKey.body)
+            NSDiary.setValue(diary.body, forKey: DiaryKey.body)
             NSDiary.setValue(diary.timeIntervalSince1970, forKey: DiaryKey.timeIntervalSince1970)
             NSDiary.setValue(diary.id, forKey: DiaryKey.id)
         }
@@ -65,7 +64,7 @@ final class CoreDataManager {
         }
     }
     
-    //MARK: - Read
+    // MARK: - Read
     func fetch() -> [Diary]? {
         let context = persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: DiaryKey.EntityName)
@@ -79,7 +78,7 @@ final class CoreDataManager {
         }
     }
 
-    //MARK: - Update
+    // MARK: - Update
     func update(_ diary: Diary) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: DiaryKey.EntityName)

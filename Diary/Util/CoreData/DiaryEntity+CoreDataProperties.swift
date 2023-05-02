@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension DiaryEntity {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<DiaryEntity> {
@@ -23,6 +22,4 @@ extension DiaryEntity {
 
 }
 
-extension DiaryEntity : Identifiable {
-
-}
+extension DiaryEntity: Identifiable { }

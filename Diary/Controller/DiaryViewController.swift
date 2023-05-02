@@ -29,6 +29,11 @@ final class DiaryViewController: UIViewController {
         configureTableView()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        fetchDiaryData()
+        applySnapshot()
+    }
+    
     private func fetchDiaryData() {
         do {
             diaries = try DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
