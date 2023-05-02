@@ -12,6 +12,8 @@ final class HomeDiaryController: UIViewController {
     )
     
     let createdDateSort = NSSortDescriptor(key: "createdAt", ascending: true)
+    private let diaryService = DiaryService(coreDataStack: CoreDataStack.shared)
+    
     private lazy var fetchedDiaryResults = CoreDataFetchedResults(
         ofType: Diary.self,
         entityName: "Diary",
@@ -56,7 +58,7 @@ final class HomeDiaryController: UIViewController {
     }
     
     @objc private func didTapAddDiaryButton() {
-        navigationController?.pushViewController(ProcessViewController(type: .create), animated: true)
+        navigationController?.pushViewController(ProcessViewController(diaryService: diaryService), animated: true)
     }
     
 }
@@ -85,7 +87,7 @@ extension HomeDiaryController: UITableViewDataSource {
 extension HomeDiaryController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diary = fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
-        let addDiaryViewController = ProcessViewController(diary: diary, type: .update)
+        let addDiaryViewController = ProcessViewController(diary: diary, diaryService: diaryService)
         navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
 }

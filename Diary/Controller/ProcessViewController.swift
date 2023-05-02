@@ -10,11 +10,11 @@ final class ProcessViewController: UIViewController {
     
     private let diaryTextView = UITextView()
     private let diary: Diary?
-    private let layoutType: LayoutType
+    private let diaryService: DiaryService
     
-    init(diary: Diary? = nil, type: LayoutType) {
+    init(diary: Diary? = nil, diaryService: DiaryService) {
         self.diary = diary
-        self.layoutType = type
+        self.diaryService = diaryService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,7 +44,7 @@ final class ProcessViewController: UIViewController {
     }
     
     private func configureDiaryTextView() {
-        if layoutType == .update {
+        if diary != nil {
             updateTextView(diary: diary)
         }
         
