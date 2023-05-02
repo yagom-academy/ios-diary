@@ -111,7 +111,7 @@ final class DiaryContentViewController: UIViewController {
         updateDiary()
     }
     
-    private func updateDiary() {
+    func updateDiary() {
         let devidedContents: DiaryText = devide(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
         
