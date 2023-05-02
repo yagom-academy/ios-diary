@@ -15,8 +15,9 @@ final class DiaryDetailViewController: UIViewController {
         
         return textView
     }()
-    private var diaryItem: JsonDiary
+    private var diaryItem: Diary?
     private let state: DiaryState
+    private let manager = PersistenceManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +25,20 @@ final class DiaryDetailViewController: UIViewController {
         configureUI()
     }
     
-    init(diaryItem: JsonDiary, state: DiaryState) {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        let content = diaryTextView.text
+        let date = Date().timeIntervalSince1970
+        
+        do {
+            try manager.createContent(content, date)
+        } catch {
+            print(error)
+        }
+    }
+    
+    init(diaryItem: Diary? = nil, state: DiaryState) {
         self.diaryItem = diaryItem
         self.state = state
         super.init(nibName: nil, bundle: nil)
@@ -35,15 +49,22 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureInitailView() {
+        guard let diaryItem = diaryItem else {
+            self.navigationItem.title = Date.convertToDate(by: Date().timeIntervalSince1970)
+            return
+        }
+        
         self.navigationItem.title = Date.convertToDate(by: diaryItem.date)
         
-        if diaryItem.title.isEmpty {
+        guard let content = diaryItem.content else { return }
+        
+        if content.isEmpty {
             self.diaryTextView.text = nil
             
             return
         }
         
-        self.diaryTextView.text = diaryItem.title + "\n\n" + diaryItem.body
+        self.diaryTextView.text = content
     }
     
     @objc private func doneButtonTapped(sender: Any) {
@@ -59,6 +80,10 @@ extension DiaryDetailViewController {
         diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(doneButtonTapped))
         configureTextView()
         configureInitailView()
+        
+        if state == .create {
+            diaryTextView.becomeFirstResponder()
+        }
     }
     
     private func configureTextView() {

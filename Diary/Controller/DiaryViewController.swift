@@ -8,7 +8,8 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private let tableView: UITableView = UITableView()
-    private var diaryItems: [JsonDiary] = []
+    private var diaryItems: [Diary] = []
+    private let manager = PersistenceManager.shared
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,30 +18,27 @@ final class DiaryViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
-        
-        parseSampleData()
     }
     
-    private func parseSampleData() {
-        guard let dataAsset = NSDataAsset(name: "sample") else { return }
-        
-        let decoder = JSONDecoder()
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
         do {
-            diaryItems = try decoder.decode([JsonDiary].self, from: dataAsset.data)
+            diaryItems = try manager.fetchContent()
+            tableView.reloadData()
         } catch {
             showFailAlert(error: error)
         }
     }
     
-    private func pushDiaryDetailViewController(with diary: JsonDiary, _ state: DiaryState) {
+    private func pushDiaryDetailViewController(with diary: Diary? = nil, _ state: DiaryState) {
         let detailVC = DiaryDetailViewController(diaryItem: diary, state: state)
         
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
     @objc private func plusButtonTapped() {
-        pushDiaryDetailViewController(with: JsonDiary(), .create)
+        pushDiaryDetailViewController(.create)
     }
 }
 

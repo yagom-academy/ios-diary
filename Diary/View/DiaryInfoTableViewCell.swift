@@ -50,10 +50,21 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         bodyLabel.text = nil
     }
     
-    func configureLabel(item: JsonDiary) {
-        titleLabel.text = item.title
+    func configureLabel(item: Diary) {
+        guard let content = item.content else { return }
+        let parsingDiary = content.split(separator: "\n").map { String($0) }
+        
+        let titleIndex = parsingDiary.firstIndex { str in
+            !str.replacingOccurrences(of: " ", with: "").isEmpty
+        }
+        
+        guard let titleIndex = titleIndex else { return }
+        
+        let bodyIndex = titleIndex + 1
+        let body = parsingDiary[bodyIndex...].map { String($0) }.joined(separator: "\n")
+        titleLabel.text = parsingDiary[titleIndex]
         dateLabel.text = Date.convertToDate(by: item.date)
-        bodyLabel.text = item.body
+        bodyLabel.text = body
     }
 }
 

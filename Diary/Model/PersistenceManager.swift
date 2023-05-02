@@ -28,11 +28,11 @@ final class PersistenceManager {
     private init() { }
     
     // MARK: - Create
-    func createContent(with diary: Diary) throws {
+    func createContent(_ content: String?, _ date: Double) throws {
         let diaryContext = Diary(context: context)
         
-        diaryContext.content = diary.content
-        diaryContext.date = diary.date
+        diaryContext.content = content
+        diaryContext.date = date
         
         do {
             try context.save()
