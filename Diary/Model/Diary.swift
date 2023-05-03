@@ -7,8 +7,8 @@
 import Foundation
 
 struct Diary {
+    let id: UUID
     var title: String
     var body: String
     var date: Double
-    let id: UUID
 }

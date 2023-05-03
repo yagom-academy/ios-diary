@@ -55,7 +55,7 @@ class CoreDataManager {
                   let date = diary.value(forKey: "date") as? Double,
                   let id = diary.value(forKey: "id") as? UUID else { return nil }
             
-            diaries.append(Diary(title: title, body: body, date: date, id: id))
+            diaries.append(Diary(id: id, title: title, body: body, date: date))
         }
         
         return diaries

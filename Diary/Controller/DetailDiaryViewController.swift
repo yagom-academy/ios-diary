@@ -9,7 +9,6 @@ import CoreData
 
 final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
-    private var bottomConstraint: NSLayoutConstraint?
     private var coreDataManager = CoreDataManager.shared
     private var isCreateDiary: Bool = false
     private var isSaveRequired: Bool = true
@@ -49,8 +48,7 @@ final class DetailDiaryViewController: UIViewController {
         configureSubview()
         configureConstraint()
         configureKeyboard()
-        addKeyboardNotification()
-        enterBackgroundNotification()
+        addDeactiveNotificationObserver()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -72,13 +70,11 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func configureConstraint() {
-        bottomConstraint = diaryTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-        bottomConstraint?.isActive = true
-        
         NSLayoutConstraint.activate([
             diaryTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            diaryTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
     }
     
@@ -117,44 +113,16 @@ final class DetailDiaryViewController: UIViewController {
         
         guard let date = Date().timeIntervalSince1970.roundDownNumber() else { return nil }
         
-        return Diary(title: title, body: body, date: date, id: id)
+        return Diary(id: id, title: title, body: body, date: date)
     }
     
     // MARK: - Notification method
-    private func addKeyboardNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
-                                               object: nil)
-    }
-    
-    private func enterBackgroundNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIScene.didEnterBackgroundNotification, object: nil)
+    private func addDeactiveNotificationObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(enterTaskSwitcher), name: UIScene.willDeactivateNotification, object: nil)
     }
     
     @objc
-    private func keyboardWillShow(notification: NSNotification) {
-        if let keyboardFrame: NSValue =
-            notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
-           let firstWindow = UIApplication.shared.windows.first {
-            let keyboardRectangle = keyboardFrame.cgRectValue
-            let keyboardHeight = keyboardRectangle.height
-            let changedHeight = -(keyboardHeight - firstWindow.safeAreaInsets.bottom)
-            bottomConstraint?.constant = changedHeight
-        }
-    }
-    
-    @objc
-    private func keyboardWillHide() {
-        bottomConstraint?.constant = 0
-    }
-    
-    @objc
-    private func didEnterBackground() {
+    private func enterTaskSwitcher() {
         saveDiary()
     }
     
@@ -209,7 +177,7 @@ final class DetailDiaryViewController: UIViewController {
         guard let id = diary?.id,
               let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
         
-        let updatedDiary = Diary(title: title, body: body, date: date, id: id)
+        let updatedDiary = Diary(id: id, title: title, body: body, date: date)
         
         coreDataManager.updateDiary(diary: updatedDiary)
     }
