@@ -32,10 +32,10 @@ class CoreDataManager {
     func createDiary(_ diary: Diary) {
         if let entity = diaryEntity {
             let managedObject = NSManagedObject(entity: entity, insertInto: context)
+            managedObject.setValue(diary.id, forKey: "id")
             managedObject.setValue(diary.title, forKey: "title")
             managedObject.setValue(diary.body, forKey: "body")
             managedObject.setValue(diary.date, forKey: "date")
-            managedObject.setValue(diary.id, forKey: "id")
             
             do {
                 try self.context.save()
@@ -52,10 +52,10 @@ class CoreDataManager {
         guard let diaryData = try? context.fetch(fetchRequest) else { return nil }
         
         for diary in diaryData {
-            guard let title = diary.value(forKey: "title") as? String,
+            guard let id = diary.value(forKey: "id") as? UUID,
+                  let title = diary.value(forKey: "title") as? String,
                   let body = diary.value(forKey: "body") as? String,
-                  let date = diary.value(forKey: "date") as? Double,
-                  let id = diary.value(forKey: "id") as? UUID else { return nil }
+                  let date = diary.value(forKey: "date") as? Double else { return nil }
             
             diaries.append(Diary(id: id, title: title, body: body, date: date))
         }

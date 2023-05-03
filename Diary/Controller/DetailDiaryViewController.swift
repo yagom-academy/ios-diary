@@ -85,8 +85,8 @@ final class DetailDiaryViewController: UIViewController {
         diaryTextView.setContentOffset(.zero, animated: true)
         
         detailButton.addTarget(self, action: #selector(showDetailAction), for: .touchUpInside)
-        let detailDiaryButon = UIBarButtonItem(customView: detailButton)
-        navigationItem.rightBarButtonItem = detailDiaryButon
+        let detailDiaryButton = UIBarButtonItem(customView: detailButton)
+        navigationItem.rightBarButtonItem = detailDiaryButton
         
         if diaryDate == nil {
             title = Date().convertDate()
