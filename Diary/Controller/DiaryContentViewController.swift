@@ -167,19 +167,28 @@ final class DiaryContentViewController: UIViewController {
     
     private func presentActionSheet() {
         let share = AlertActionData(actionTitle: "Share...",
-                                              actionStyle: .default,
-                                              completion: nil)
+                                    actionStyle: .default,
+                                    completion: showActivityView)
         let delete = AlertActionData(actionTitle: "Delete",
-                                               actionStyle: .destructive,
-                                               completion: nil)
+                                     actionStyle: .destructive,
+                                     completion: nil)
         let cancel = AlertActionData(actionTitle: "Cancel",
-                                               actionStyle: .cancel,
-                                               completion: nil)
+                                     actionStyle: .cancel,
+                                     completion: nil)
         let actionDataList = [share, delete, cancel]
         
         let alertData = alertDataMaker.makeData(alertStyle: .actionSheet, actionDataList: actionDataList)
         let alertController = alertFactory.make(for: alertData)
         
         present(alertController, animated: true)
+    }
+    
+    @objc
+    private func showActivityView() {
+        guard let text = textView.text else { return }
+        
+        let activityView = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        
+        self.present(activityView, animated: true)
     }
 }

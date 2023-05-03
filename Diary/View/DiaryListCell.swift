@@ -91,7 +91,9 @@ final class DiaryListCell: UITableViewCell {
     }
     
     func configureLabels(title: String?, date: String, body: String?) {
-        titleLabel.text = title == "" ? "새로운 일기" : title
+        guard let title else { return }
+        
+        titleLabel.text = title.isEmpty ? "새로운 일기" : title
         dateLabel.text = date
         previewLabel.text = body?.trimmingCharacters(in: ["\n"])
     }
