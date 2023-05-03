@@ -11,7 +11,7 @@ import CoreData
 final class PersistenceManager {
     static var shared: PersistenceManager = PersistenceManager()
     
-    lazy var persistentContainer: NSPersistentContainer = {
+    private let persistentContainer: NSPersistentContainer = {
        let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores { _, error in
             if let error = error as NSError? {
@@ -21,13 +21,12 @@ final class PersistenceManager {
         
         return container
     }()
-    var context: NSManagedObjectContext {
+    private var context: NSManagedObjectContext {
         return self.persistentContainer.viewContext
     }
     
     private init() { }
     
-    // MARK: - Create
     func createContent(_ content: String?, _ date: Double) throws -> Diary? {
         guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context) else {
             return nil
@@ -49,7 +48,6 @@ final class PersistenceManager {
         }
     }
     
-    // MARK: - Read
     func fetchContent() throws -> [Diary] {
         let fetchRequest = NSFetchRequest<Diary>(entityName: "Diary")
         let sort = NSSortDescriptor(key: "date", ascending: false)
@@ -65,21 +63,17 @@ final class PersistenceManager {
         }
     }
     
-    // MARK: - Update
-    func updateContent(at diary: Diary, _ content: String?, _ date: Double) throws {
+    func updateContent(at diary: Diary, _ content: String?) throws {
         do {
             let item = try context.existingObject(with: diary.objectID)
             
             item.setValue(content, forKey: "content")
-            item.setValue(date, forKey: "date")
-            
             try context.save()
         } catch {
             throw error
         }
     }
     
-    // MARK: - Delete
     func deleteContent(at diary: Diary) throws {
         do {
             let item = try context.existingObject(with: diary.objectID)

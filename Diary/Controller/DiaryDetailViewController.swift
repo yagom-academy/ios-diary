@@ -24,9 +24,7 @@ final class DiaryDetailViewController: UIViewController {
         
         configureUI()
         configureInitailView()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(endEditingDiary), name: UIScene.didEnterBackgroundNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(endEditingDiary), name: UIResponder.keyboardWillHideNotification, object: nil)
+        setupNotification()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -53,33 +51,6 @@ final class DiaryDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc private func endEditingDiary() {
-        if diaryTextView.text.isEmpty { return }
-        
-        let content = diaryTextView.text
-        let date = Date().timeIntervalSince1970
-        
-        switch state {
-        case .create:
-            do {
-                diaryItem = try manager.createContent(content, date)
-                state = .edit
-            } catch {
-                showFailAlert(error: error)
-            }
-        case .edit:
-            guard let diary = diaryItem else { return }
-            
-            do {
-                try manager.updateContent(at: diary, content, date)
-            } catch {
-                showFailAlert(error: error)
-            }
-        case .delete:
-            return
-        }
-    }
-    
     private func configureInitailView() {
         guard let diaryItem = diaryItem else {
             self.navigationItem.title = Date.convertToDate(by: Date().timeIntervalSince1970)
@@ -89,6 +60,44 @@ final class DiaryDetailViewController: UIViewController {
         
         self.navigationItem.title = Date.convertToDate(by: diaryItem.date)
         self.diaryTextView.text = diaryItem.content
+    }
+    
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(endEditingDiary),
+                                               name: UIScene.didEnterBackgroundNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(endEditingDiary),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc private func endEditingDiary() {
+        if diaryTextView.text.isEmpty { return }
+        
+        let content = diaryTextView.text
+        
+        switch state {
+        case .create:
+            do {
+                let date = Date().timeIntervalSince1970
+                diaryItem = try manager.createContent(content, date)
+                state = .edit
+            } catch {
+                showFailAlert(error: error)
+            }
+        case .edit:
+            guard let diary = diaryItem else { return }
+            
+            do {
+                try manager.updateContent(at: diary, content)
+            } catch {
+                showFailAlert(error: error)
+            }
+        case .delete:
+            return
+        }
     }
     
     @objc private func doneButtonTapped(sender: Any) {
@@ -101,7 +110,6 @@ extension DiaryDetailViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         
-        diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(doneButtonTapped))
         configureTextView()
         configureNavigationController()
     }
@@ -118,6 +126,9 @@ extension DiaryDetailViewController {
     
     private func configureTextView() {
         self.view.addSubview(diaryTextView)
+        diaryTextView.addDoneButton(title: "Done",
+                                    target: self,
+                                    selector: #selector(doneButtonTapped))
         
         NSLayoutConstraint.activate([
             diaryTextView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),

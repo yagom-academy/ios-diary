@@ -61,7 +61,6 @@ final class DiaryInfoTableViewCell: UITableViewCell {
     
     private func parseContent(_ content: String) -> (String?, String?) {
         let parsingDiary = content.split(separator: "\n").map { String($0) }
-        
         let titleIndex = parsingDiary.firstIndex { str in
             !str.replacingOccurrences(of: " ", with: "").isEmpty
         }
