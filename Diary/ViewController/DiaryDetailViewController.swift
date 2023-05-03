@@ -8,7 +8,6 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-    
     enum Mode {
         case edit
         case create
@@ -90,7 +89,7 @@ final class DiaryDetailViewController: UIViewController {
         
         switch mode {
         case .edit:
-            guard let date = self.fetchedDiary?.date else { return }
+            guard let date = fetchedDiary?.date else { return }
             navigationItem.title = DateFormatterManager.shared.convertToFomattedDate(of: date)
         case .create:
             let today = Date().timeIntervalSince1970
@@ -212,13 +211,13 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     @objc private func saveDiary() {
-        guard let title = self.diaryTitleField.text,
-              let body = self.diaryTextView.text else { return }
+        guard let title = diaryTitleField.text,
+              let body = diaryTextView.text else { return }
         
         switch mode {
         case .edit:
-            guard let title = self.fetchedDiary?.title,
-                  let date = self.fetchedDiary?.date else { return }
+            guard let title = fetchedDiary?.title,
+                  let date = fetchedDiary?.date else { return }
             let diary = MyDiary(title: title, body: body, createdDate: date)
             CoreDataManager.shared.update(key: title, diary: diary)
         case .create:

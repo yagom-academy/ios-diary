@@ -9,10 +9,10 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     private let diaryTableView: UITableView = UITableView()
     private var myDiary: [DiaryCoreData]?
-   
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+        
         setupLayout()
         setupView()
         configureNavigationBar()
@@ -27,7 +27,7 @@ final class DiaryListViewController: UIViewController {
     
     private func setupMyDiary() {
         guard let diary = CoreDataManager.shared.readAll() else { return }
-        self.myDiary = diary
+        myDiary = diary
     }
     
     private func setupLayout() {
@@ -51,14 +51,23 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        self.navigationItem.title = "일기장"
+        navigationItem.title = "일기장"
         let plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(plusButtonTapped))
         navigationItem.rightBarButtonItem = plusButton
     }
     
     @objc private func plusButtonTapped() {
         let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: nil, mode: .create)
-        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+    
+    private func showDeleteAlert(handler: ((UIAlertAction) -> Void)?) {
+        AlertManager.shared.showAlert(target: self,
+                                      title: "진짜요?",
+                                      message: "정말로 삭제하시겠어요?",
+                                      defaultTitle: "취소",
+                                      destructiveTitle: "삭제",
+                                      destructiveHandler: handler)
     }
 }
 
@@ -68,14 +77,14 @@ extension DiaryListViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let sampleDiary = self.myDiary else { return 0 }
+        guard let sampleDiary = myDiary else { return 0 }
         
         return sampleDiary.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let diaryCell: DiaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier) as? DiaryTableViewCell,
-              let myDiary = self.myDiary else { return UITableViewCell() }
+              let myDiary = myDiary else { return UITableViewCell() }
         
         diaryCell.setupItem(item: myDiary[indexPath.row])
         
@@ -91,5 +100,36 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: fetchedDiary, mode: .edit)
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let diary = myDiary,
+              let title = diary[indexPath.row].title,
+              let body = diary[indexPath.row].body else { return UISwipeActionsConfiguration() }
+        
+        let share = UIContextualAction(style: .normal, title: "공유") { [weak self] (_, _, success: @escaping (Bool) -> Void) in
+            
+            let textToShare = DiaryActivityItemSource(title: title, body: body)
+            let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+            
+            self?.present(activityViewController, animated: true, completion: nil)
+            
+            success(true)
+        }
+        share.backgroundColor = .systemTeal
+        
+        let delete = UIContextualAction(style: .normal, title: "삭제") { [weak self] (_, _, success: @escaping (Bool) -> Void) in
+            
+            self?.showDeleteAlert(handler: { _ in
+                CoreDataManager.shared.delete(key: title)
+                self?.setupMyDiary()
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                
+            })
+            success(true)
+        }
+        delete.backgroundColor = .systemPink
+        
+        return UISwipeActionsConfiguration(actions: [share, delete])
     }
 }

@@ -9,8 +9,8 @@ import UIKit
 import LinkPresentation
 
 final class DiaryActivityItemSource: NSObject, UIActivityItemSource {
-    var title: String
-    var body: String
+    private var title: String
+    private var body: String
     
     init(title: String, body: String) {
         self.title = title
@@ -35,6 +35,7 @@ final class DiaryActivityItemSource: NSObject, UIActivityItemSource {
         
         guard let image = UIImage(systemName: "note.text") else { return LPLinkMetadata() }
         metadata.title = title + "\n" + body
+        let imageProvider = NSItemProvider(object: image)
         metadata.iconProvider = NSItemProvider(object: image)
         
         return metadata

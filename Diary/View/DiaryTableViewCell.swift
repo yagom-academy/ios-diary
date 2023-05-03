@@ -83,11 +83,11 @@ final class DiaryTableViewCell: UITableViewCell {
         subTitleStackView.addArrangedSubview(dateLabel)
         subTitleStackView.addArrangedSubview(bodyLabel)
     }
-
+    
     func setupItem(item: DiaryCoreData) {
         self.myDiary = item
-    
-        guard let myDiary = self.myDiary,
+        
+        guard let myDiary = myDiary,
               let formattedDate = DateFormatterManager.shared.convertToFomattedDate(of: myDiary.date) else { return }
         
         titleLabel.text = myDiary.title
