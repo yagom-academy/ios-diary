@@ -9,3 +9,8 @@
 "bodyTextViewPlaceHolder" = "내용을 입력 해주세요.";
 "mainTitle" = "일기장";
 "dateFormat" = "yyyy년 MM월 dd일";
+"deleteAlertTitle" = "경고";
+"deleteAlertMessage" = "정말 삭제하시겠습니까?";
+"delete" = "삭제";
+"cancel" = "취소";
+"share" = "공유";

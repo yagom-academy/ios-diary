@@ -9,3 +9,8 @@
 "bodyTextViewPlaceHolder" = "Please enter the content";
 "mainTitle" = "Diary";
 "dateFormat" = "MM/dd/yyyy";
+"deleteAlertTitle" = "warning";
+"deleteAlertMessage" = "Are you sure delete it?";
+"delete" = "delete";
+"cancel" = "cancel";
+"share" = "share";

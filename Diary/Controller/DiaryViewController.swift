@@ -9,6 +9,11 @@ import UIKit
 final class DiaryViewController: UIViewController {
     private enum LocalizationKey {
         static let mainTitle = "mainTitle"
+        static let deleteAlertTitle = "warning"
+        static let deleteAlertMessage = "Are you sure delete it?"
+        static let delete = "delete"
+        static let cancel = "cancel"
+        static let share = "share"
     }
     
     private var diaries: [Diary]?
@@ -114,16 +119,13 @@ extension DiaryViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "삭제") { [weak self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            guard let diary = self?.diaries?[safe: indexPath.row] else { return }
-            
-            CoreDataManager.shared.deleteData(id: diary.id)
-            self?.applySnapshot()
-
+        let delete = UIContextualAction(style: .destructive,
+                                        title: String.localized(key: LocalizationKey.delete)) { [weak self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            self?.presentDeleteAlert(indexPath: indexPath)
             success(true)
         }
          
-        let share = UIContextualAction(style: .normal, title: "공유") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+        let share = UIContextualAction(style: .normal, title: String.localized(key: LocalizationKey.share)) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
 
             success(true)
         }
@@ -132,6 +134,26 @@ extension DiaryViewController: UITableViewDelegate {
         share.backgroundColor = .systemTeal
         
         return UISwipeActionsConfiguration(actions: [delete, share])
+    }
+    
+    func presentDeleteAlert(indexPath: IndexPath) {
+        let deleteAlert = UIAlertController(
+            title: String.localized(key: LocalizationKey.deleteAlertTitle),
+            message: String.localized(key:LocalizationKey.deleteAlertMessage),
+            preferredStyle: .alert
+            )
+      
+        let cancelAction = UIAlertAction(title: String.localized(key: LocalizationKey.cancel), style: .cancel)
+        let deleteAction = UIAlertAction(title: String.localized(key: LocalizationKey.delete), style: .destructive) { _ in
+            guard let diary = self.diaries?[safe: indexPath.row] else { return }
+            CoreDataManager.shared.deleteData(id: diary.id)
+            self.applySnapshot()
+        }
+          
+        deleteAlert.addAction(cancelAction)
+        deleteAlert.addAction(deleteAction)
+        
+        present(deleteAlert, animated: true)
     }
     
 }
