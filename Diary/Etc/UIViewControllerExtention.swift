@@ -16,4 +16,10 @@ extension UIViewController {
         alert.addAction(okAction)
         present(alert, animated: true)
     }
+    
+    func showActivityView(_ text: String) {
+        let activityView = UIActivityViewController(activityItems: [UIImage(systemName: "star.fill")!, text, "abc"], applicationActivities: nil)
+        
+        present(activityView, animated: true)
+    }
 }

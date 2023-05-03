@@ -87,7 +87,11 @@ extension DiaryViewController: UITableViewDelegate {
         deleteContextualAction.image = UIImage(systemName: "trash.fill")?.withTintColor(.white)
         deleteContextualAction.backgroundColor = .systemRed
         
-        let shareContextualAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
+        let shareContextualAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completionHandler in
+            guard let text = self?.diaryItems[safe: indexPath.row]?.content else { return }
+            
+            self?.showActivityView(text)
+            completionHandler(true)
         }
         
         shareContextualAction.image = UIImage(systemName: "square.and.arrow.up")
