@@ -46,7 +46,7 @@ final class DiaryListViewController: UIViewController {
     
     @objc
     private func addDiary() {
-        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: true, isDiarySaved: false)
+        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: true, isSaveRequired: true)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
     }
     
@@ -90,7 +90,7 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: false, isDiarySaved: false)
+        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: false, isSaveRequired: true)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
         
         guard let diaries = coreDataManager.readDiary() else { return }
@@ -100,7 +100,9 @@ extension DiaryListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            coreDataManager.deleteDiary(index: indexPath.row)
+            guard let diary = coreDataManager.readDiary() else { return }
+            let diaryToDelete = diary[indexPath.row]
+            coreDataManager.deleteDiary(diary: diaryToDelete)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
     }

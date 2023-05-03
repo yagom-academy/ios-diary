@@ -83,10 +83,9 @@ class CoreDataManager {
         }
     }
     
-    func deleteDiary(index: Int) {
+    func deleteDiary(diary: Diary) {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
-        guard let diaryData = self.readDiary() else { return }
-        fetchRequest.predicate = NSPredicate(format: "id == %@", diaryData[index].id as CVarArg)
+        fetchRequest.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
         
         do {
             let objects = try context.fetch(fetchRequest)

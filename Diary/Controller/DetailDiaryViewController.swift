@@ -12,7 +12,7 @@ final class DetailDiaryViewController: UIViewController {
     private var bottomConstraint: NSLayoutConstraint?
     private var coreDataManager = CoreDataManager.shared
     private var isCreateDiary: Bool = false
-    private var isDiarySaved: Bool = false
+    private var isSaveRequired: Bool = true
     private var diary: Diary?
     
     private let diaryTextView: UITextView = {
@@ -33,9 +33,9 @@ final class DetailDiaryViewController: UIViewController {
         return button
     }()
     
-    init(isCreateDiary: Bool, isDiarySaved: Bool) {
+    init(isCreateDiary: Bool, isSaveRequired: Bool) {
         self.isCreateDiary = isCreateDiary
-        self.isDiarySaved = isDiarySaved
+        self.isSaveRequired = isSaveRequired
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -50,17 +50,12 @@ final class DetailDiaryViewController: UIViewController {
         configureConstraint()
         configureKeyboard()
         addKeyboardNotification()
-        diaryTextView.delegate = self
+        enterBackgroundNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        print("viewWillDisapeear")
-        print(isDiarySaved)
-        if !isDiarySaved {
-            saveDiary()
-            isDiarySaved = true
-        }
+        saveDiary()
     }
     
     func configureContent(diary: Diary) {
@@ -89,7 +84,10 @@ final class DetailDiaryViewController: UIViewController {
     
     private func configureUI() {
         view.backgroundColor = .white
+        
+        diaryTextView.delegate = self
         diaryTextView.setContentOffset(.zero, animated: true)
+        
         detailButton.addTarget(self, action: #selector(showDetailAction), for: .touchUpInside)
         let detailDiaryButon = UIBarButtonItem(customView: detailButton)
         navigationItem.rightBarButtonItem = detailDiaryButon
@@ -114,7 +112,7 @@ final class DetailDiaryViewController: UIViewController {
         if diaryContents.count == 2 {
             body = String(diaryContents[1])
         } else {
-            body = ""
+            body = NameSpace.empty
         }
         
         guard let date = Date().timeIntervalSince1970.roundDownNumber() else { return nil }
@@ -157,12 +155,7 @@ final class DetailDiaryViewController: UIViewController {
     
     @objc
     private func didEnterBackground() {
-        print("didEnterBackground")
-        print(isDiarySaved)
-        if !isDiarySaved {
-            saveDiary()
-            isDiarySaved = true
-        }
+        saveDiary()
     }
     
     // MARK: - Action Sheet method
@@ -173,15 +166,14 @@ final class DetailDiaryViewController: UIViewController {
                                             preferredStyle: .actionSheet)
         
         let share = UIAlertAction(title: "공유", style: .default) { _ in
-            self.showActivityVC()
+            self.showActivityViewController()
         }
         
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            
+            self.deleteDiary()
         }
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel) { _ in
-        }
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
         
         actionSheet.addAction(share)
         actionSheet.addAction(delete)
@@ -190,7 +182,7 @@ final class DetailDiaryViewController: UIViewController {
         self.present(actionSheet, animated: true)
     }
     
-    private func showActivityVC() {
+    private func showActivityViewController() {
         let activityItems = [UIActivity.ActivityType.airDrop, .message, .mail]
         let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         
@@ -201,10 +193,14 @@ final class DetailDiaryViewController: UIViewController {
     
     // MARK: - CoreData method
     private func saveDiary() {
-        if isCreateDiary {
-            createDiary()
-        } else {
-            updateDiary()
+        if isSaveRequired {
+            if isCreateDiary {
+                createDiary()
+            } else {
+                updateDiary()
+            }
+            
+            isSaveRequired = false
         }
     }
     
@@ -226,20 +222,25 @@ final class DetailDiaryViewController: UIViewController {
         
         coreDataManager.updateDiary(diary: updatedDiary)
     }
+
+    private func deleteDiary() {
+        guard let diary else { return }
+        
+        coreDataManager.deleteDiary(diary: diary)
+        isSaveRequired = false
+        
+        self.navigationController?.popViewController(animated: true)
+    }
 }
 
 extension DetailDiaryViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        print("textViewDidEndEditing")
-        print(isDiarySaved)
-        if !isDiarySaved {
-            saveDiary()
-            isDiarySaved = true
-        }
+        saveDiary()
     }
 }
 
 private enum NameSpace {
-    static let newline = "\n"
     static let diaryPlaceholder = "내용을 입력하세요"
+    static let newline = "\n"
+    static let empty = ""
 }
