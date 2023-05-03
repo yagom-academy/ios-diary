@@ -8,6 +8,8 @@ import UIKit
 
 final class ProcessViewController: UIViewController {
     
+    typealias DiaryInformation = (title: String, body: String)
+    
     private let diaryTextView = UITextView()
     private let diary: Diary?
     private let diaryService: DiaryService
@@ -30,42 +32,36 @@ final class ProcessViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        saveDiary()
+        let diaryInformation = currentDiaryInformation()
+        processDiary(diaryInformation)
     }
     
-    private func saveDiary() {
+    func currentDiaryInformation() -> DiaryInformation? {
         guard let text = diaryTextView.text else {
-            return
+            return nil
         }
-
-        let diaryContent = text.components(separatedBy: "\n")
         
-        if text.isEmpty {
-            processDiary()
-        } else if !text.contains("\n") {
-            processDiary(title: diaryContent[0])
-        } else if !diaryContent[0].isEmpty {
-            var body = ""
-            for idx in 1..<diaryContent.count {
-                body += diaryContent[idx]
-            }
-            processDiary(title: diaryContent[0], body: body)
-        } else {
-            var body = ""
-            for idx in 1..<diaryContent.count {
-                body += diaryContent[idx]
-            }
-            processDiary(body: body)
+        guard let firstIndex = text.firstIndex(of: "\n") else {
+            return (title: text, body: "")
         }
+        
+        let secondIndex = text.index(after: firstIndex)
+        let title = String(text[text.startIndex..<firstIndex])
+        let body = String(text[secondIndex...])
+        
+        return (title: title, body: body)
     }
     
-    func processDiary(title: String = "", body: String = "") {
-        guard let diary else {
-            diaryService.create(id: UUID(), title: title, body: body)
+    func processDiary(_ diaryInformation: DiaryInformation?) {
+        guard let diaryInformation else {
             return
         }
         
-        diaryService.update(id: diary.id, title: title, body: body)
+        if let diary {
+            diaryService.update(id: diary.id, title: diaryInformation.title, body: diaryInformation.body)
+        } else {
+            diaryService.create(id: UUID(), title: diaryInformation.title, body: diaryInformation.body)
+        }
     }
     
     private func configureNavigationItem() {
