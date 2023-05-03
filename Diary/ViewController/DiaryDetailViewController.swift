@@ -37,10 +37,10 @@ final class DiaryDetailViewController: UIViewController {
             textView.text = "내용을 입력하세요"
             textView.textColor = .secondaryLabel
         }
-     
+        
         textView.font = UIFont.preferredFont(forTextStyle: .body)
         textView.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
-
+        
         textView.delegate = self
         
         return textView
@@ -85,11 +85,24 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        let today = Date().timeIntervalSince1970
-        
         let ellipsisButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(ellipsisButtonTapped))
         navigationItem.rightBarButtonItem = ellipsisButton
-        navigationItem.title = DateFormatterManager.shared.convertToFomattedDate(of: today)
+        
+        switch mode {
+        case .edit:
+            guard let date = self.fetchedDiary?.date else { return }
+            navigationItem.title = DateFormatterManager.shared.convertToFomattedDate(of: date)
+        case .create:
+            let today = Date().timeIntervalSince1970
+            navigationItem.title = DateFormatterManager.shared.convertToFomattedDate(of: today)
+        default:
+            AlertManager.shared.showAlert(target: self,
+                                          title: "알수없는 오류",
+                                          message: nil,
+                                          defaultTitle: "확인",
+                                          destructiveTitle: nil,
+                                          destructiveHandler: nil)
+        }
     }
     
     @objc func ellipsisButtonTapped() {
@@ -98,8 +111,18 @@ final class DiaryDetailViewController: UIViewController {
                                             message: nil,
                                             defaultTitle: "Share...",
                                             destructiveTitle: "Delete",
-                                            defaultHandler: nil,
+                                            defaultHandler: { _ in self.showActivityView() },
                                             destructiveHandler: { _ in self.showDeleteAlert() })
+    }
+    
+    private func showActivityView() {
+        guard let title: String = diaryTitleField.text,
+              let body: String = diaryTextView.text else { return }
+        
+        let textToShare = DiaryActivityItemSource(title: title, body: body)
+        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
     private func showDeleteAlert() {
@@ -178,7 +201,7 @@ final class DiaryDetailViewController: UIViewController {
         diaryTextView.contentInset = contentInset
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
-
+    
     @objc private func keyboardWillHide(_ notification: Notification) {
         diaryTextView.contentInset = UIEdgeInsets.zero
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
@@ -192,14 +215,15 @@ final class DiaryDetailViewController: UIViewController {
         guard let title = self.diaryTitleField.text,
               let body = self.diaryTextView.text else { return }
         
-        let today = Double(Date().timeIntervalSince1970)
-        let diary = MyDiary(title: title, body: body, createdDate: today)
-
         switch mode {
         case .edit:
-            guard let key = self.fetchedDiary?.title else { return }
-            CoreDataManager.shared.update(key: key, diary: diary)
+            guard let title = self.fetchedDiary?.title,
+                  let date = self.fetchedDiary?.date else { return }
+            let diary = MyDiary(title: title, body: body, createdDate: date)
+            CoreDataManager.shared.update(key: title, diary: diary)
         case .create:
+            let today = Double(Date().timeIntervalSince1970)
+            let diary = MyDiary(title: title, body: body, createdDate: today)
             CoreDataManager.shared.create(diary: diary)
         default:
             AlertManager.shared.showAlert(target: self,
