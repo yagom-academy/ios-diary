@@ -17,6 +17,8 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
+    weak var delegate: DiaryDetailViewControllerDelegate?
+    
     init(contents: Contents?) {
         self.contents = contents
         super.init(nibName: nil, bundle: nil)
@@ -146,6 +148,7 @@ extension DiaryDetailViewController {
         guard let contents else { return }
         
         CoreDataManager.shared.update(contents: contents)
+        delegate?.updateCell(contents: contents)
     }
     
     private func createContents() {
@@ -162,12 +165,15 @@ extension DiaryDetailViewController {
         guard let contents else { return }
         
         CoreDataManager.shared.create(contents: contents)
+        delegate?.createCell(contents: contents)
     }
         
     private func deleteContents() {
         guard let identifier = contents?.identifier else { return }
         
-        CoreDataManager.shared.delete(id: identifier)
+        CoreDataManager.shared.delete(identifier: identifier)
+        delegate?.deleteCell()
+        
         self.navigationController?.popToRootViewController(animated: true)
     }
     

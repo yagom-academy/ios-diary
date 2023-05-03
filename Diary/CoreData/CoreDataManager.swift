@@ -54,7 +54,7 @@ final class CoreDataManager {
     func update(contents: Contents) {
         guard let identifier = contents.identifier else { return }
         
-        let searchContents = searchContents(id: identifier).first
+        let searchContents = searchContents(identifier: identifier).first
         
         searchContents?.setValue(contents.title, forKey: Constant.title)
         searchContents?.setValue(contents.body, forKey: Constant.body)
@@ -62,8 +62,8 @@ final class CoreDataManager {
         saveContext()
     }
     
-    func delete(id: UUID) {
-        guard let searchContents = searchContents(id: id).first else { return }
+    func delete(identifier: UUID) {
+        guard let searchContents = searchContents(identifier: identifier).first else { return }
         
         context.delete(searchContents)
         
@@ -95,9 +95,9 @@ final class CoreDataManager {
         return contents
     }
     
-    private func searchContents(id: UUID) -> [ContentsEntity] {
+    private func searchContents(identifier: UUID) -> [ContentsEntity] {
         let fetchRequest = NSFetchRequest<ContentsEntity>(entityName: ContentsEntity.description())
-        fetchRequest.predicate = NSPredicate(format: Constant.identifierCondition, id.uuidString)
+        fetchRequest.predicate = NSPredicate(format: Constant.identifierCondition, identifier.uuidString)
         
         do {
             return try context.fetch(fetchRequest)

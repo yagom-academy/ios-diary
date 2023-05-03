@@ -10,6 +10,7 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
     private var contentsList: [Contents]?
+    private var selectedCellIndex: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +23,8 @@ final class DiaryListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchContents()
-        tableView.reloadData()
+//        fetchContents()
+//        tableView.reloadData()
     }
     
     private func configureUIOption() {
@@ -88,7 +89,10 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let contents = contentsList?[indexPath.row] else { return }
         
+        selectedCellIndex = indexPath
+        
         let diaryDetailViewController = DiaryDetailViewController(contents: contents)
+        diaryDetailViewController.delegate = self
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: false)
     }
@@ -96,6 +100,7 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         guard let contents = contentsList?[indexPath.row] else { return nil }
+        selectedCellIndex = indexPath
         
         let share = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
             let activityViewController = UIActivityViewController(activityItems: [contents.title],
@@ -106,7 +111,8 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
             guard let identifier = contents.identifier else { return }
-            self?.showDeleteAlert(identifier: identifier, indexPath: indexPath)
+            
+            self?.showDeleteAlert(identifier: identifier)
         }
         
         share.backgroundColor = .systemGreen
@@ -114,11 +120,42 @@ extension DiaryListViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [share, delete])
     }
     
-    private func showDeleteAlert(identifier: UUID, indexPath: IndexPath) {
+    private func showDeleteAlert(identifier: UUID) {
         AlertManager().showDeleteAlert(target: self) { [weak self] in
-            CoreDataManager.shared.delete(id: identifier)
-            self?.contentsList?.remove(at: indexPath.row)
-            self?.tableView.deleteRows(at: [indexPath], with: .fade)
+            CoreDataManager.shared.delete(identifier: identifier)
+            self?.deleteCell()
         }
     }
+}
+
+extension DiaryListViewController: DiaryDetailViewControllerDelegate {
+    func createCell(contents: Contents) {
+        guard let newIndexPathRow = contentsList?.count else { return }
+
+        selectedCellIndex = IndexPath(row: newIndexPathRow, section: 0)
+        guard let selectedCellIndex else { return }
+        
+        contentsList?.append(contents)
+        tableView.reloadRows(at: [selectedCellIndex], with: .fade)
+    }
+    
+    func updateCell(contents: Contents) {
+        guard let selectedCellIndex else { return }
+        
+        contentsList?[selectedCellIndex.row] = contents
+        tableView.reloadRows(at: [selectedCellIndex], with: .fade)
+    }
+    
+    func deleteCell() {
+        guard let selectedCellIndex else { return }
+        
+        contentsList?.remove(at: selectedCellIndex.row)
+        tableView.deleteRows(at: [selectedCellIndex], with: .fade)
+    }
+}
+
+protocol DiaryDetailViewControllerDelegate: AnyObject {
+    func createCell(contents: Contents)
+    func updateCell(contents: Contents)
+    func deleteCell()
 }
