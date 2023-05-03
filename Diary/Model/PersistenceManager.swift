@@ -28,16 +28,22 @@ final class PersistenceManager {
     private init() { }
     
     // MARK: - Create
-    func createContent(_ content: String?, _ date: Double) throws -> Diary {
-        let diaryContext = Diary(context: context)
+    func createContent(_ content: String?, _ date: Double) throws -> Diary? {
+        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context) else {
+            return nil
+        }
         
-        diaryContext.content = content
-        diaryContext.date = date
+        let managedObject = NSManagedObject(entity: entity, insertInto: self.context)
+        
+        managedObject.setValue(content, forKey: "content")
+        managedObject.setValue(date, forKey: "date")
+        
+        guard let diary = managedObject as? Diary else { return nil }
         
         do {
             try context.save()
             
-            return diaryContext
+            return diary
         } catch {
             throw error
         }

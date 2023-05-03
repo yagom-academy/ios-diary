@@ -74,6 +74,7 @@ final class DiaryDetailViewController: UIViewController {
                 showFailAlert(error: error)
             }
         }
+        state = .edit
     }
     
     private func configureInitailView() {
@@ -91,7 +92,6 @@ final class DiaryDetailViewController: UIViewController {
         self.view.endEditing(true)
         
         endEditingDiary()
-        state = .edit
     }
 }
 
