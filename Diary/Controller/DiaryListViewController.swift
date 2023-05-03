@@ -20,13 +20,6 @@ final class DiaryListViewController: UIViewController {
         configureTableView()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-//        fetchContents()
-//        tableView.reloadData()
-    }
-    
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
         navigationItem.title = "일기장"
@@ -57,6 +50,7 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func moveToAppendDiary() {
         let diaryDetailViewController = DiaryDetailViewController(contents: nil)
+        diaryDetailViewController.delegate = self
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
@@ -128,22 +122,24 @@ extension DiaryListViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - DiaryDetailViewController Delegate
 extension DiaryListViewController: DiaryDetailViewControllerDelegate {
     func createCell(contents: Contents) {
         guard let newIndexPathRow = contentsList?.count else { return }
 
         selectedCellIndex = IndexPath(row: newIndexPathRow, section: 0)
+        
         guard let selectedCellIndex else { return }
         
         contentsList?.append(contents)
-        tableView.reloadRows(at: [selectedCellIndex], with: .fade)
+        tableView.insertRows(at: [selectedCellIndex], with: .automatic)
     }
     
     func updateCell(contents: Contents) {
         guard let selectedCellIndex else { return }
         
         contentsList?[selectedCellIndex.row] = contents
-        tableView.reloadRows(at: [selectedCellIndex], with: .fade)
+        tableView.reloadRows(at: [selectedCellIndex], with: .automatic)
     }
     
     func deleteCell() {
@@ -151,11 +147,6 @@ extension DiaryListViewController: DiaryDetailViewControllerDelegate {
         
         contentsList?.remove(at: selectedCellIndex.row)
         tableView.deleteRows(at: [selectedCellIndex], with: .fade)
+        self.selectedCellIndex = nil
     }
-}
-
-protocol DiaryDetailViewControllerDelegate: AnyObject {
-    func createCell(contents: Contents)
-    func updateCell(contents: Contents)
-    func deleteCell()
 }

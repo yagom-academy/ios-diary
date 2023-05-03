@@ -52,7 +52,8 @@ final class DiaryDetailViewController: UIViewController {
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
         navigationItem.title = contents?.localizedDate ?? Date().translateLocalizedFormat()
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit,
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                            style: .plain,
                                                             target: self,
                                                             action: #selector(showActionSheet))
     }
