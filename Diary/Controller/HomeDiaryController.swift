@@ -104,17 +104,20 @@ extension HomeDiaryController: NSFetchedResultsControllerDelegate {
                     at indexPath: IndexPath?,
                     for type: NSFetchedResultsChangeType,
                     newIndexPath: IndexPath?) {
-        guard let indexPath, let newIndexPath else {
-            return
-        }
         
         switch type {
         case .insert:
-            diaryTableView.insertRows(at: [newIndexPath], with: .automatic)
+            if let newIndexPath = newIndexPath {
+                diaryTableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
         case .update:
-            diaryTableView.reloadRows(at: [indexPath], with: .automatic)
+            if let indexPath = indexPath {
+                diaryTableView.reloadRows(at: [indexPath], with: .automatic)
+            }
         case .delete:
-            diaryTableView.deleteRows(at: [indexPath], with: .automatic)
+            if let indexPath = indexPath {
+                diaryTableView.deleteRows(at: [indexPath], with: .automatic)
+            }
         default:
             print("Error")
         }
