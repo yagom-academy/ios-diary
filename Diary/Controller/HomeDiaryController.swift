@@ -118,8 +118,11 @@ extension HomeDiaryController: NSFetchedResultsControllerDelegate {
             if let indexPath = indexPath {
                 diaryTableView.deleteRows(at: [indexPath], with: .automatic)
             }
-        default:
-            print("Error")
+        case .move:
+            if let indexPath = indexPath, let newIndexPath = newIndexPath {
+                diaryTableView.moveRow(at: indexPath, to: newIndexPath)
+                diaryTableView.reloadRows(at: [newIndexPath], with: .automatic)
+            }
         }
     }
 }
