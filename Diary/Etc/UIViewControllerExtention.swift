@@ -10,7 +10,7 @@ import UIKit
 extension UIViewController {
     func showFailAlert(error: Error) {
         let alert = UIAlertController(title: "Error",
-                                      message: "데이터 로딩 실패 \n \(error.localizedDescription)",
+                                      message: "요청한 작업 실패 \n \(error.localizedDescription)",
                                       preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default)
         alert.addAction(okAction)

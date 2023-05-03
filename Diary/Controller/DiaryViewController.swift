@@ -68,7 +68,20 @@ extension DiaryViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteContextualAction = UIContextualAction(style: .destructive, title: nil) { _, _, _ in
+        let deleteContextualAction = UIContextualAction(
+            style: .destructive,
+            title: nil) { [weak self] _, _, completionHandler in
+            guard let diary = self?.diaryItems[safe: indexPath.row] else { return }
+            
+            do {
+                try self?.manager.deleteContent(at: diary)
+                self?.diaryItems.remove(at: indexPath.row)
+                self?.tableView.reloadData()
+                completionHandler(true)
+            } catch {
+                self?.showFailAlert(error: error)
+                completionHandler(false)
+            }
         }
         
         deleteContextualAction.image = UIImage(systemName: "trash.fill")?.withTintColor(.white)

@@ -8,4 +8,5 @@
 enum DiaryState {
     case create
     case edit
+    case delete
 }

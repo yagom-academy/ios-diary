@@ -26,6 +26,7 @@ final class DiaryDetailViewController: UIViewController {
         configureInitailView()
         
         NotificationCenter.default.addObserver(self, selector: #selector(endEditingDiary), name: UIScene.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(endEditingDiary), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -62,6 +63,7 @@ final class DiaryDetailViewController: UIViewController {
         case .create:
             do {
                 diaryItem = try manager.createContent(content, date)
+                state = .edit
             } catch {
                 showFailAlert(error: error)
             }
@@ -73,8 +75,9 @@ final class DiaryDetailViewController: UIViewController {
             } catch {
                 showFailAlert(error: error)
             }
+        case .delete:
+            return
         }
-        state = .edit
     }
     
     private func configureInitailView() {
@@ -90,8 +93,6 @@ final class DiaryDetailViewController: UIViewController {
     
     @objc private func doneButtonTapped(sender: Any) {
         self.view.endEditing(true)
-        
-        endEditingDiary()
     }
 }
 
@@ -126,12 +127,38 @@ extension DiaryDetailViewController {
         ])
     }
     
+    func showDeleteAlert() {
+        let alert = UIAlertController(title: "진짜요?",
+                                      message: "정말로 삭제하시겠어요?",
+                                      preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .default)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            guard let diaryItem = self?.diaryItem else { return }
+            
+            do {
+                try self?.manager.deleteContent(at: diaryItem)
+                self?.state = .delete
+                self?.navigationController?.popViewController(animated: true)
+            } catch {
+                self?.showFailAlert(error: error)
+            }
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
+    }
+    
     @objc private func showActionSheet() {
+        self.view.endEditing(true)
+        
         let alertController = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...", style: .default)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.showDeleteAlert()
+        }
         let cancelAction = UIAlertAction(title: "Cancle", style: .cancel)
         
         alertController.addAction(shareAction)
