@@ -171,7 +171,7 @@ final class DiaryContentViewController: UIViewController {
                                     completion: showActivityView)
         let delete = AlertActionData(actionTitle: "Delete",
                                      actionStyle: .destructive,
-                                     completion: deleteDiary)
+                                     completion: presentDeleteAlert)
         let cancel = AlertActionData(actionTitle: "Cancel",
                                      actionStyle: .cancel,
                                      completion: nil)
@@ -197,5 +197,22 @@ final class DiaryContentViewController: UIViewController {
         DiaryCoreDataManager.shared.deleteDiary(id: id)
         diary = nil
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func presentDeleteAlert() {
+        let delete = AlertActionData(actionTitle: "삭제",
+                                     actionStyle: .destructive,
+                                     completion: deleteDiary)
+        let cancel = AlertActionData(actionTitle: "취소",
+                                     actionStyle: .cancel,
+                                     completion: nil)
+        let actionDataList = [delete, cancel]
+        let alertData = alertDataMaker.makeData(title: "진짜요?",
+                                                message: "정말로 삭제하시겠어요?",
+                                                alertStyle: .alert,
+                                                actionDataList: actionDataList)
+        let alertController = alertFactory.make(for: alertData)
+        
+        present(alertController, animated: true)
     }
 }

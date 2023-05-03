@@ -11,5 +11,34 @@ enum AlertStyle {
 }
 
 protocol AlertDataService {
-    func makeData(alertStyle: AlertStyle, actionDataList: [AlertActionData]) -> AlertControllerData
+    func makeData(
+        title: String?,
+        message: String?,
+        alertStyle: AlertStyle,
+        actionDataList: [AlertActionData]
+    ) -> AlertControllerData
+}
+
+extension AlertDataService {
+    func makeData(
+        title: String? = nil,
+        message: String? = nil,
+        alertStyle: AlertStyle,
+        actionDataList: [AlertActionData]
+    ) -> AlertControllerData {
+        switch alertStyle {
+        case .alert:
+            let alertViewData = AlertViewData(title: title,
+                                              message: message,
+                                              actionDataList: actionDataList)
+            
+            return alertViewData
+        case .actionSheet:
+            let actionSheetViewData = ActionSheetViewData(title: title,
+                                                          message: message,
+                                                          actionDataList: actionDataList)
+            
+            return actionSheetViewData
+        }
+    }
 }
