@@ -17,6 +17,7 @@ class CoreDataManager {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        
         return container
     }()
     
@@ -46,8 +47,9 @@ class CoreDataManager {
     
     func readDiary() -> [Diary]? {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
-        guard let diaryData = try? context.fetch(fetchRequest) else { return nil }
         var diaries = [Diary]()
+        
+        guard let diaryData = try? context.fetch(fetchRequest) else { return nil }
         
         for diary in diaryData {
             guard let title = diary.value(forKey: "title") as? String,

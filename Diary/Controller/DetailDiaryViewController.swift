@@ -118,7 +118,10 @@ final class DetailDiaryViewController: UIViewController {
     
     // MARK: - Notification method
     private func addDeactiveNotificationObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(enterTaskSwitcher), name: UIScene.willDeactivateNotification, object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(enterTaskSwitcher),
+                                               name: UIScene.willDeactivateNotification,
+                                               object: nil)
     }
     
     @objc
@@ -133,15 +136,15 @@ final class DetailDiaryViewController: UIViewController {
                                             message: nil,
                                             preferredStyle: .actionSheet)
         
-        let share = UIAlertAction(title: "공유", style: .default) { _ in
+        let share = UIAlertAction(title: NameSpace.share, style: .default) { _ in
             ActionController.showActivityViewController(from: self)
         }
         
-        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let delete = UIAlertAction(title: NameSpace.delete, style: .destructive) { _ in
             self.showDeleteAlert()
         }
         
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let cancel = UIAlertAction(title: NameSpace.cancel, style: .cancel)
         
         actionSheet.addAction(share)
         actionSheet.addAction(delete)
@@ -192,9 +195,11 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func showDeleteAlert() {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancel = UIAlertAction(title: "취소", style: .cancel)
-        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let alert = UIAlertController(title: NameSpace.alertTitle,
+                                      message: NameSpace.alertMessage,
+                                      preferredStyle: .alert)
+        let cancel = UIAlertAction(title: NameSpace.cancel, style: .cancel)
+        let delete = UIAlertAction(title: NameSpace.delete, style: .destructive) { _ in
             self.deleteDiary()
         }
         
@@ -215,4 +220,9 @@ private enum NameSpace {
     static let diaryPlaceholder = "내용을 입력하세요"
     static let newline = "\n"
     static let empty = ""
+    static let share = "공유"
+    static let cancel = "취소"
+    static let delete = "삭제"
+    static let alertTitle = "진짜요?"
+    static let alertMessage = "정말로 삭제하시겠어요?"
 }

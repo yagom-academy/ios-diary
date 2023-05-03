@@ -8,7 +8,6 @@ import UIKit
 import CoreData
 
 final class DiaryListViewController: UIViewController {
-    var diaries: [Entity]?
     private var coreDataManager = CoreDataManager.shared
     
     private let diaryListTableView: UITableView = {
@@ -46,7 +45,8 @@ final class DiaryListViewController: UIViewController {
     
     @objc
     private func addDiary() {
-        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: true, isSaveRequired: true)
+        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: true,
+                                                                  isSaveRequired: true)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
     }
     
@@ -90,7 +90,8 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: false, isSaveRequired: true)
+        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: false,
+                                                                  isSaveRequired: true)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
         
         guard let diaries = coreDataManager.readDiary() else { return }
@@ -98,12 +99,13 @@ extension DiaryListViewController: UITableViewDelegate {
         detailDiaryViewController.configureContent(diary: diaries[indexPath.row])
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let share = UIContextualAction(style: .normal, title: "공유") { action, view, completionHandler in
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let share = UIContextualAction(style: .normal, title: NameSpace.share) { action, view, completionHandler in
             ActionController.showActivityViewController(from: self)
         }
         
-        let delete = UIContextualAction(style: .destructive, title: "삭제") { action, view, completionHandler in
+        let delete = UIContextualAction(style: .destructive, title: NameSpace.delete) { action, view, completionHandler in
             guard let diary = self.coreDataManager.readDiary() else { return }
             let diaryToDelete = diary[indexPath.row]
             self.coreDataManager.deleteDiary(diary: diaryToDelete)
@@ -116,4 +118,6 @@ extension DiaryListViewController: UITableViewDelegate {
 
 private enum NameSpace {
     static let diary = "일기장"
+    static let share = "공유"
+    static let delete = "삭제"
 }

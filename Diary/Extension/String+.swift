@@ -4,7 +4,6 @@
 //  Copyright © yagom. All rights reserved.
 //
 
-
 extension String {
     func removeNewLinePrefix() -> String {
         var text = self
