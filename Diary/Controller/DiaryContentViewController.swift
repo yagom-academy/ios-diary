@@ -119,10 +119,10 @@ final class DiaryContentViewController: UIViewController {
     }
     
     func updateDiary() {
+        guard let id = diary?.id else { return }
+        
         let devidedContents: DiaryText = devide(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
-        
-        guard let id = diary?.id else { return }
 
         DiaryCoreDataManager.shared.updateDiary(title: devidedContents.title,
                                                 body: devidedContents.body,
@@ -171,7 +171,7 @@ final class DiaryContentViewController: UIViewController {
                                     completion: showActivityView)
         let delete = AlertActionData(actionTitle: "Delete",
                                      actionStyle: .destructive,
-                                     completion: nil)
+                                     completion: deleteDiary)
         let cancel = AlertActionData(actionTitle: "Cancel",
                                      actionStyle: .cancel,
                                      completion: nil)
@@ -183,12 +183,19 @@ final class DiaryContentViewController: UIViewController {
         present(alertController, animated: true)
     }
     
-    @objc
     private func showActivityView() {
         guard let text = textView.text else { return }
         
         let activityView = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         
         self.present(activityView, animated: true)
+    }
+    
+    private func deleteDiary() {
+        guard let id = diary?.id else { return }
+        
+        DiaryCoreDataManager.shared.deleteDiary(id: id)
+        diary = nil
+        navigationController?.popViewController(animated: true)
     }
 }
