@@ -31,6 +31,10 @@ final class ProcessViewController: UIViewController {
         setUpNotification()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        diaryTextView.becomeFirstResponder()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         let diaryInformation = currentDiaryInformation()
         processDiary(diaryInformation)
