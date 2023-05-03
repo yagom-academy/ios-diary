@@ -12,6 +12,7 @@ final class DetailDiaryViewController: UIViewController {
     private var bottomConstraint: NSLayoutConstraint?
     private var coreDataManager = CoreDataManager.shared
     private var isCreateDiary: Bool = false
+    private var isDiarySaved: Bool = false
     private var diary: Diary?
     
     private let diaryTextView: UITextView = {
@@ -20,6 +21,7 @@ final class DetailDiaryViewController: UIViewController {
         textView.adjustsFontForContentSizeCategory = true
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.text = NameSpace.diaryPlaceholder
+        textView.keyboardDismissMode = .interactive
         
         return textView
     }()
@@ -31,8 +33,9 @@ final class DetailDiaryViewController: UIViewController {
         return button
     }()
     
-    init(isCreateDiary: Bool) {
+    init(isCreateDiary: Bool, isDiarySaved: Bool) {
         self.isCreateDiary = isCreateDiary
+        self.isDiarySaved = isDiarySaved
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -47,11 +50,17 @@ final class DetailDiaryViewController: UIViewController {
         configureConstraint()
         configureKeyboard()
         addKeyboardNotification()
+        diaryTextView.delegate = self
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        saveDiary()
+        print("viewWillDisapeear")
+        print(isDiarySaved)
+        if !isDiarySaved {
+            saveDiary()
+            isDiarySaved = true
+        }
     }
     
     func configureContent(diary: Diary) {
@@ -123,10 +132,10 @@ final class DetailDiaryViewController: UIViewController {
                                                selector: #selector(keyboardWillHide),
                                                name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(keyboardDidHide),
-                                               name: UIResponder.keyboardDidHideNotification,
-                                               object: nil)
+    }
+    
+    private func enterBackgroundNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(didEnterBackground), name: UIScene.didEnterBackgroundNotification, object: nil)
     }
     
     @objc
@@ -142,13 +151,18 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     @objc
-    private func keyboardWillHide(notification: NSNotification) {
+    private func keyboardWillHide() {
         bottomConstraint?.constant = 0
     }
     
     @objc
-    private func keyboardDidHide(notification: NSNotification) {
-//        self.navigationController?.popViewController(animated: true)
+    private func didEnterBackground() {
+        print("didEnterBackground")
+        print(isDiarySaved)
+        if !isDiarySaved {
+            saveDiary()
+            isDiarySaved = true
+        }
     }
     
     // MARK: - Action Sheet method
@@ -211,6 +225,17 @@ final class DetailDiaryViewController: UIViewController {
         let updatedDiary = Diary(title: title, body: body, date: date, id: id)
         
         coreDataManager.updateDiary(diary: updatedDiary)
+    }
+}
+
+extension DetailDiaryViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        print("textViewDidEndEditing")
+        print(isDiarySaved)
+        if !isDiarySaved {
+            saveDiary()
+            isDiarySaved = true
+        }
     }
 }
 

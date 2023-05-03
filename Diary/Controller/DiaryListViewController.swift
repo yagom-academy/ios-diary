@@ -46,7 +46,7 @@ final class DiaryListViewController: UIViewController {
     
     @objc
     private func addDiary() {
-        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: true)
+        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: true, isDiarySaved: false)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
     }
     
@@ -90,7 +90,7 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: false)
+        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: false, isDiarySaved: false)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
         
         guard let diaries = coreDataManager.readDiary() else { return }
