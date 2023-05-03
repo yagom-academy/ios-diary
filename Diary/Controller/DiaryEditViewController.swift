@@ -28,12 +28,13 @@ final class DiaryEditViewController: UIViewController {
         configureText()
         configureUI()
         configureTitle()
+        showKeyboard()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        let (title, body) = divideText(text: textView.text)
+        let (title, body) = divide(text: textView.text)
         guard let title,
               let body else { return }
         
@@ -65,6 +66,14 @@ final class DiaryEditViewController: UIViewController {
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
         
+        let image = UIImage(systemName: "ellipsis.circle")
+        let navigationRightButton = UIBarButtonItem(image: image,
+                                                    style: .plain,
+                                                    target: self,
+                                                    action: #selector(ellipsisButtonTapped))
+        
+        self.navigationItem.rightBarButtonItem = navigationRightButton
+        
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             textView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
@@ -73,10 +82,39 @@ final class DiaryEditViewController: UIViewController {
         ])
     }
     
+    @objc private func ellipsisButtonTapped() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "공유", style: .default) { _ in
+            self.presentShareSheet()
+        }
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+
+        actionSheet.addAction(shareAction)
+        actionSheet.addAction(deleteAction)
+        actionSheet.addAction(cancelAction)
+        
+        self.present(actionSheet, animated: true)
+    }
+    
+    func presentShareSheet() {
+        let shareText: String = "share text test!"
+        var shareObject = [Any]()
+        
+        shareObject.append(shareText)
+        
+        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+
+        activityViewController.excludedActivityTypes = [.postToFacebook]
+
+        self.present(activityViewController, animated: true)
+    }
+    
     private func configureText() {
         guard let title = diaryData?.title,
               let body = diaryData?.body else { return }
-        textView.text = "\(title)\n\n\(body)"
+        textView.text = "\(title)\n\(body)"
     }
     
     private func configureTitle() {
@@ -84,24 +122,21 @@ final class DiaryEditViewController: UIViewController {
         navigationItem.title = DateManger.shared.convertToDate(fromDouble: date)
     }
     
-    private func divideText(text: String?) -> (title: String?, body: String?) {
-        guard let text else { return
-            (nil, nil)
+    private func divide(text: String?) -> (title: String?, body: String?) {
+        guard let text,
+              let spacingIndex = text.firstIndex(of: "\n") else {
+            return ("", nil)
         }
-        let arr = text.split(separator: "\n").map { String($0) }
-        let title = arr[0]
-        let bodyArr = arr[1...].map { String($0) }
-        let body = bodyArr.joined(separator: "\n")
+        let spacingNextIndex = text.index(after: spacingIndex)
+        let title = String(text[..<spacingIndex])
+        let body = String(text[spacingNextIndex...])
         
         return (title, body)
     }
     
-    private func updateDiary() {
-        
+    private func showKeyboard() {
+        if diaryType == .new {
+            textView.becomeFirstResponder()
+        }
     }
-}
-
-enum DiaryType {
-    case new
-    case old
 }
