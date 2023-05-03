@@ -96,6 +96,17 @@ extension HomeDiaryController: UITableViewDelegate {
         let addDiaryViewController = ProcessViewController(diary: diary, diaryService: diaryService)
         navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { action, view, success in
+             let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
+             CoreDataStack.shared.managedContext.delete(diary)
+             try? CoreDataStack.shared.managedContext.save()
+         }
+         
+         deleteAction.backgroundColor = .red
+         return UISwipeActionsConfiguration(actions: [deleteAction])
+     }
 }
 
 extension HomeDiaryController: NSFetchedResultsControllerDelegate {
