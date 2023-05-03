@@ -184,11 +184,11 @@ final class DetailDiaryViewController: UIViewController {
     
     private func showActivityViewController() {
         let activityItems = [UIActivity.ActivityType.airDrop, .message, .mail]
-        let activityVC = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         
-        activityVC.popoverPresentationController?.sourceView = self.view
+        activityViewController.popoverPresentationController?.sourceView = self.view
         
-        self.present(activityVC, animated: true, completion: nil)
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
     // MARK: - CoreData method

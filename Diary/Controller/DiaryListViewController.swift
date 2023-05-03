@@ -98,13 +98,20 @@ extension DiaryListViewController: UITableViewDelegate {
         detailDiaryViewController.configureContent(diary: diaries[indexPath.row])
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            guard let diary = coreDataManager.readDiary() else { return }
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let share = UIContextualAction(style: .normal, title: "공유") { action, view, completionHandler in
+            //공유로직
+            
+        }
+        
+        let delete = UIContextualAction(style: .destructive, title: "삭제") { action, view, completionHandler in
+            guard let diary = self.coreDataManager.readDiary() else { return }
             let diaryToDelete = diary[indexPath.row]
-            coreDataManager.deleteDiary(diary: diaryToDelete)
+            self.coreDataManager.deleteDiary(diary: diaryToDelete)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
+        
+        return UISwipeActionsConfiguration(actions: [delete, share])
     }
 }
 
