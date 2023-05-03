@@ -100,8 +100,7 @@ extension DiaryListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let share = UIContextualAction(style: .normal, title: "공유") { action, view, completionHandler in
-            //공유로직
-            
+            ActionController.showActivityViewController(from: self)
         }
         
         let delete = UIContextualAction(style: .destructive, title: "삭제") { action, view, completionHandler in

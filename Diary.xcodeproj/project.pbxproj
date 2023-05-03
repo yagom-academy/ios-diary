@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4B116D142A020056001D63F0 /* ActionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B116D132A020056001D63F0 /* ActionController.swift */; };
 		4B983AA729F6650300190F50 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B983AA629F6650300190F50 /* Diary.swift */; };
 		4BDCCCB129F76D8C00C79E4A /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 4BDCCCB029F76D8C00C79E4A /* .swiftlint.yml */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4B116D132A020056001D63F0 /* ActionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionController.swift; sourceTree = "<group>"; };
 		4B983AA629F6650300190F50 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		4BDCCCB029F76D8C00C79E4A /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -57,6 +59,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4B116D122A02002F001D63F0 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				4B116D132A020056001D63F0 /* ActionController.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
 		4B983AAA29F66DB500190F50 /* App */ = {
 			isa = PBXGroup;
 			children = (
@@ -127,6 +137,7 @@
 				4B983AAB29F66DCA00190F50 /* Model */,
 				4B983AAC29F66DE900190F50 /* View */,
 				4B983AAD29F66DF200190F50 /* Controller */,
+				4B116D122A02002F001D63F0 /* Utility */,
 				4B983AAE29F66E0700190F50 /* Resource */,
 				D0BAD8ED29F66FF90068E24B /* Extension */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
@@ -243,6 +254,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				D074DF5629FF8E9000ADC9D1 /* Entity+CoreDataProperties.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				4B116D142A020056001D63F0 /* ActionController.swift in Sources */,
 				D0BAD8F129F770060068E24B /* DetailDiaryViewController.swift in Sources */,
 				D00E414129FFABF0006A0F81 /* CoreDataManager.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,

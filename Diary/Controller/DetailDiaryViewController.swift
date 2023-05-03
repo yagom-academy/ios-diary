@@ -166,11 +166,11 @@ final class DetailDiaryViewController: UIViewController {
                                             preferredStyle: .actionSheet)
         
         let share = UIAlertAction(title: "공유", style: .default) { _ in
-            self.showActivityViewController()
+            ActionController.showActivityViewController(from: self)
         }
         
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.deleteDiary()
+            self.showDeleteAlert()
         }
         
         let cancel = UIAlertAction(title: "취소", style: .cancel)
@@ -180,15 +180,6 @@ final class DetailDiaryViewController: UIViewController {
         actionSheet.addAction(cancel)
         
         self.present(actionSheet, animated: true)
-    }
-    
-    private func showActivityViewController() {
-        let activityItems = [UIActivity.ActivityType.airDrop, .message, .mail]
-        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        
-        self.present(activityViewController, animated: true, completion: nil)
     }
     
     // MARK: - CoreData method
@@ -230,6 +221,19 @@ final class DetailDiaryViewController: UIViewController {
         isSaveRequired = false
         
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    private func showDeleteAlert() {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.deleteDiary()
+        }
+        
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        
+        present(alert, animated: true)
     }
 }
 
