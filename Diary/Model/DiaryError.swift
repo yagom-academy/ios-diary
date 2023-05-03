@@ -10,6 +10,9 @@ import Foundation
 enum DiaryError: LocalizedError {
     case invalidFile
     case decodingFailed
+    case invalidContainer
+    case saveFailed
+    case fetchFailed
     
     var errorDescription: String? {
         switch self {
@@ -17,6 +20,12 @@ enum DiaryError: LocalizedError {
             return "Asset 파일명이 잘못되었습니다."
         case .decodingFailed:
             return "디코딩에 실패하였습니다."
+        case .invalidContainer:
+            return "코어데이터 저장소 로드에 실패하였습니다."
+        case .saveFailed:
+            return "코어데이터 저장소 저장에 실패하였습니다."
+        case .fetchFailed:
+            return "코어데이터 데이터 읽기에 실패하였습니다."
         }
     }
 }

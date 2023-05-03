@@ -90,7 +90,6 @@ final class DiaryDetailViewController: UIViewController {
         if let contents {
             textView.text = """
             \(contents.title)
-            
             \(contents.body)
             """
         } else {
