@@ -4,6 +4,7 @@
 // 
 
 import UIKit
+import CoreData
 
 final class HomeDiaryController: UIViewController {
     private let diaryTableView = UITableView()
@@ -94,5 +95,28 @@ extension HomeDiaryController: UITableViewDelegate {
         let diary = fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
         let addDiaryViewController = ProcessViewController(diary: diary, diaryService: diaryService)
         navigationController?.pushViewController(addDiaryViewController, animated: true)
+    }
+}
+
+extension HomeDiaryController: NSFetchedResultsControllerDelegate {
+    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
+                    didChange anObject: Any,
+                    at indexPath: IndexPath?,
+                    for type: NSFetchedResultsChangeType,
+                    newIndexPath: IndexPath?) {
+        guard let indexPath, let newIndexPath else {
+            return
+        }
+        
+        switch type {
+        case .insert:
+            diaryTableView.insertRows(at: [newIndexPath], with: .automatic)
+        case .update:
+            diaryTableView.reloadRows(at: [indexPath], with: .automatic)
+        case .delete:
+            diaryTableView.deleteRows(at: [indexPath], with: .automatic)
+        default:
+            print("Error")
+        }
     }
 }
