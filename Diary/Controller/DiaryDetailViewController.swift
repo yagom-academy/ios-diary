@@ -13,6 +13,7 @@ final class DiaryDetailViewController: UIViewController {
         static let delete = "delete"
         static let cancel = "cancel"
         static let share = "share"
+        static let more = "more"
     }
     
     enum WriteMode {
@@ -108,7 +109,7 @@ final class DiaryDetailViewController: UIViewController {
     private func configureNavigationBar() {
         let buttonItem: UIBarButtonItem = {
             let button = UIBarButtonItem(
-                title: "더보기",
+                title: String.localized(key: LocalizationKey.more),
                 style: .plain,
                 target: self,
                 action: #selector(presentActionSheet)
@@ -130,9 +131,10 @@ final class DiaryDetailViewController: UIViewController {
         
         let deleteAction = UIAlertAction(title: String.localized(key: LocalizationKey.delete), style: .destructive) { [weak self] _ in
             guard let id = self?.id else { return }
-            self?.isSave = false
-            CoreDataManager.shared.deleteData(id: id)
             
+            CoreDataManager.shared.deleteData(id: id)
+            self?.isSave = false
+            self?.navigationController?.popViewController(animated: true)
         }
           
         shareActionSheet.addAction(cancelAction)

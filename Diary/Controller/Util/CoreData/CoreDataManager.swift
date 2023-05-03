@@ -101,7 +101,7 @@ final class CoreDataManager {
         
         do {
             let fetchedObject = try context.fetch(fetchRequest)
-            let objectToDelete = fetchedObject[0] as! NSManagedObject
+            guard let objectToDelete = fetchedObject[safe: 0] as? NSManagedObject else { return }
             context.delete(objectToDelete)
             
             try context.save()
