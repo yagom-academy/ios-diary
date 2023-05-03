@@ -13,6 +13,7 @@ enum DiaryError: LocalizedError {
     case invalidContainer
     case saveFailed
     case fetchFailed
+    case initFailed
     
     var errorDescription: String? {
         switch self {
@@ -26,6 +27,8 @@ enum DiaryError: LocalizedError {
             return "코어데이터 저장소 저장에 실패하였습니다."
         case .fetchFailed:
             return "코어데이터 데이터 읽기에 실패하였습니다."
+        case .initFailed:
+            return "관리자에게 문의하세요."
         }
     }
 }

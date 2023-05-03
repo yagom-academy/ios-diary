@@ -9,7 +9,7 @@ import CoreData
 
 extension ContentsEntity {
     @nonobjc public class func fetchRequest() -> NSFetchRequest<ContentsEntity> {
-        return NSFetchRequest<ContentsEntity>(entityName: "ContentsEntity")
+        return NSFetchRequest<ContentsEntity>(entityName: ContentsEntity.description())
     }
     
     @NSManaged public var title: String?

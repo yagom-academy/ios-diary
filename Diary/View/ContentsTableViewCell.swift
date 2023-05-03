@@ -31,7 +31,9 @@ final class ContentsTableViewCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
+        
+        AlertManager().showErrorAlert(error: DiaryError.initFailed)
     }
     
     func configure(title: String, description: String, date: String) {

@@ -15,14 +15,14 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         
         configureUIOption()
-        decodeContents()
+        fetchContents()
         configureTableView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        decodeContents()
+        fetchContents()
         tableView.reloadData()
     }
     
@@ -34,20 +34,8 @@ final class DiaryListViewController: UIViewController {
                                                             action: #selector(moveToAppendDiary))
     }
     
-    private func decodeContents() {
+    private func fetchContents() {
         contentsList = CoreDataManager.shared.read()
-        if contentsList?.isEmpty == false { return }
-        
-        let assetName = "sample"
-        let result = DecodeManager().decodeJsonAsset(name: assetName, type: [Contents].self)
-        
-        switch result {
-        case .success(let data):
-            contentsList = data
-        case .failure(let error):
-            let alertManager = AlertManager()
-            alertManager.showErrorAlert(target: self, error: error)
-        }
     }
     
     private func configureTableView() {

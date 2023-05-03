@@ -121,11 +121,25 @@
 			isa = PBXGroup;
 			children = (
 				BFBD2B8B29F6493400A5DC87 /* Contents.swift */,
-				BF523F8529F8F3C000BA8553 /* DecodeManager.swift */,
-				BF523F8729F8F53F00BA8553 /* DiaryError.swift */,
-				AA6AF57C29F8FC8F00A5DB0A /* AlertManager.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		BF72A20C2A02054000231F21 /* Utility */ = {
+			isa = PBXGroup;
+			children = (
+				BF523F8529F8F3C000BA8553 /* DecodeManager.swift */,
+				AA6AF57C29F8FC8F00A5DB0A /* AlertManager.swift */,
+			);
+			path = Utility;
+			sourceTree = "<group>";
+		};
+		BF72A20D2A0205AC00231F21 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				BF523F8729F8F53F00BA8553 /* DiaryError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		C739AE18284DF28600741E8F = {
@@ -150,6 +164,8 @@
 				BFBD2B9229F6570600A5DC87 /* .swiftlint.yml */,
 				AA75AC8F29FB6D1400CA7782 /* CoreData */,
 				AA9DF69A29F76B6D00653F70 /* Extension */,
+				BF72A20C2A02054000231F21 /* Utility */,
+				BF72A20D2A0205AC00231F21 /* Error */,
 				AAB0417629F64BD5006B6D9A /* Model */,
 				AAB0417429F64BC9006B6D9A /* View */,
 				AAB0417329F64BBF006B6D9A /* Controller */,

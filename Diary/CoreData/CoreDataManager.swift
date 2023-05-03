@@ -16,9 +16,9 @@ final class CoreDataManager {
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: Constant.container)
         
-        container.loadPersistentStores { [weak self] (storeDescription, error) in
+        container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
-                self?.showErrorAlert(error: error)
+                AlertManager().showErrorAlert(error: DiaryError.invalidContainer)
             }
         }
         
@@ -46,7 +46,7 @@ final class CoreDataManager {
             let fetchedData = try context.fetch(fetchRequest)
             return entitiesToContents(fetchedData)
         } catch {
-            showErrorAlert(error: DiaryError.fetchFailed)
+            AlertManager().showErrorAlert(error: DiaryError.fetchFailed)
             return nil
         }
     }
@@ -75,7 +75,7 @@ final class CoreDataManager {
             do {
                 try context.save()
             } catch {
-                showErrorAlert(error: error)
+                AlertManager().showErrorAlert(error: DiaryError.saveFailed)
             }
         }
     }
@@ -102,21 +102,13 @@ final class CoreDataManager {
         do {
             return try context.fetch(fetchRequest)
         } catch {
-            showErrorAlert(error: error)
+            AlertManager().showErrorAlert(error: error)
             return []
         }
     }
 }
 
-extension CoreDataManager {
-    private func showErrorAlert(error: Error) {
-        guard let target = UIApplication.shared.windows.first?.rootViewController else { return }
-        
-        let alertManager = AlertManager()
-        alertManager.showErrorAlert(target: target, error: error)
-    }
-}
-
+// MARK: - Name Space
 extension CoreDataManager {
     private enum Constant {
         static let container = "Diary"
