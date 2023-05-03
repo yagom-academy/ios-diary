@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		580FE8E72A00A98E00142110 /* extension + UITextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580FE8E62A00A98E00142110 /* extension + UITextField.swift */; };
 		580FE8E92A0201BB00142110 /* DiaryActivityItemSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580FE8E82A0201BB00142110 /* DiaryActivityItemSource.swift */; };
 		5868231C29FAAFFF00027F0F /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5868231A29FAAFFF00027F0F /* Diary+CoreDataClass.swift */; };
 		5868231D29FAAFFF00027F0F /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5868231B29FAAFFF00027F0F /* Diary+CoreDataProperties.swift */; };
@@ -50,7 +49,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		580FE8E62A00A98E00142110 /* extension + UITextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension + UITextField.swift"; sourceTree = "<group>"; };
 		580FE8E82A0201BB00142110 /* DiaryActivityItemSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryActivityItemSource.swift; sourceTree = "<group>"; };
 		5868231A29FAAFFF00027F0F /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
 		5868231B29FAAFFF00027F0F /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -210,7 +208,6 @@
 			children = (
 				589E539E29F66D21000B8821 /* DiaryTableViewCell.swift */,
 				FB17B91F29FA5A0A007236A2 /* extension + UITextView.swift */,
-				580FE8E62A00A98E00142110 /* extension + UITextField.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -399,7 +396,6 @@
 				5868231F29FAB20800027F0F /* CoreDataManager.swift in Sources */,
 				FBFDD47A29F65AB4007EF5B7 /* Decoder.swift in Sources */,
 				FBD5EBB62A00C5B50028F90B /* DiaryProtocol.swift in Sources */,
-				580FE8E72A00A98E00142110 /* extension + UITextField.swift in Sources */,
 				C739AE2F284DF28600741E8F /* DiaryCoreData.xcdatamodeld in Sources */,
 				5868231D29FAAFFF00027F0F /* Diary+CoreDataProperties.swift in Sources */,
 				FBD5EBB42A00C5910028F90B /* MyDiary.swift in Sources */,

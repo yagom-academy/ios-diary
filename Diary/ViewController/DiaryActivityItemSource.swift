@@ -35,7 +35,6 @@ final class DiaryActivityItemSource: NSObject, UIActivityItemSource {
         
         guard let image = UIImage(systemName: "note.text") else { return LPLinkMetadata() }
         metadata.title = title + "\n" + body
-        let imageProvider = NSItemProvider(object: image)
         metadata.iconProvider = NSItemProvider(object: image)
         
         return metadata

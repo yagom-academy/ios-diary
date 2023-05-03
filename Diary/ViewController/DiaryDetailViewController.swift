@@ -14,25 +14,17 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private let fetchedDiary: DiaryCoreData?
-    private var mode: Mode?
-    
-    private lazy var diaryTitleField: UITextField = {
-        let titleField = UITextField()
-        if fetchedDiary != nil {
-            titleField.text = fetchedDiary?.title
-        }
-        titleField.attributedPlaceholder = NSAttributedString(string: "제목을 입력하세요", attributes: [NSAttributedString.Key.foregroundColor: UIColor.secondaryLabel])
-        titleField.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
-        
-        return titleField
-    }()
+    private var mode: Mode
+    private var titleText: String?
+    private var bodyText: String?
     
     private lazy var diaryTextView: UITextView = {
         let textView = UITextView()
         
-        if fetchedDiary != nil {
+        switch mode {
+        case .edit:
             textView.text = fetchedDiary?.body
-        } else {
+        case .create:
             textView.text = "내용을 입력하세요"
             textView.textColor = .secondaryLabel
         }
@@ -45,7 +37,7 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    init(fetchedDiary: DiaryCoreData?, mode: Mode?) {
+    init(fetchedDiary: DiaryCoreData?, mode: Mode) {
         self.fetchedDiary = fetchedDiary
         self.mode = mode
         super.init(nibName: nil, bundle: nil)
@@ -73,8 +65,7 @@ final class DiaryDetailViewController: UIViewController {
         super.viewDidAppear(animated)
         if mode == .create {
             diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
-            diaryTitleField.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
-            diaryTitleField.becomeFirstResponder()
+            diaryTextView.becomeFirstResponder()
         }
     }
     
@@ -94,13 +85,6 @@ final class DiaryDetailViewController: UIViewController {
         case .create:
             let today = Date().timeIntervalSince1970
             navigationItem.title = DateFormatterManager.shared.convertToFomattedDate(of: today)
-        default:
-            AlertManager.shared.showAlert(target: self,
-                                          title: "알수없는 오류",
-                                          message: nil,
-                                          defaultTitle: "확인",
-                                          destructiveTitle: nil,
-                                          destructiveHandler: nil)
         }
     }
     
@@ -115,10 +99,10 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func showActivityView() {
-        guard let title: String = diaryTitleField.text,
-              let body: String = diaryTextView.text else { return }
+        guard let titleText = titleText,
+              let bodyText = bodyText else { return }
         
-        let textToShare = DiaryActivityItemSource(title: title, body: body)
+        let textToShare = DiaryActivityItemSource(title: titleText, body: bodyText)
         let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
         
         self.present(activityViewController, animated: true, completion: nil)
@@ -138,28 +122,19 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureDiaryView() {
-        view.addSubview(diaryTitleField)
         view.addSubview(diaryTextView)
         
         let safeArea = view.safeAreaLayoutGuide
         
         diaryTextView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
         let textViewHeight = diaryTextView.heightAnchor.constraint(equalTo: safeArea.heightAnchor)
-        let textFieldHeight = diaryTitleField.heightAnchor.constraint(equalTo: safeArea.heightAnchor)
         textViewHeight.priority = .defaultHigh
-        textFieldHeight.priority = .defaultLow
         
         diaryTextView.translatesAutoresizingMaskIntoConstraints = false
-        diaryTitleField.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            diaryTitleField.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 20),
-            diaryTitleField.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            diaryTitleField.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -14),
-            textFieldHeight,
-            
-            diaryTextView.topAnchor.constraint(equalTo: diaryTitleField.bottomAnchor, constant: 10),
-            diaryTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 15),
-            diaryTextView.trailingAnchor.constraint(equalTo: diaryTitleField.trailingAnchor),
+            diaryTextView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
+            diaryTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            diaryTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -14),
             diaryTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
             textViewHeight
         ])
@@ -211,26 +186,19 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     @objc private func saveDiary() {
-        guard let title = diaryTitleField.text,
-              let body = diaryTextView.text else { return }
+        guard let titleText = titleText,
+              let bodyText = bodyText else { return }
         
         switch mode {
         case .edit:
-            guard let title = fetchedDiary?.title,
+            guard let keyTitle = fetchedDiary?.title,
                   let date = fetchedDiary?.date else { return }
-            let diary = MyDiary(title: title, body: body, createdDate: date)
-            CoreDataManager.shared.update(key: title, diary: diary)
+            let diary = MyDiary(title: titleText, body: bodyText, createdDate: date)
+            CoreDataManager.shared.update(key: keyTitle, diary: diary)
         case .create:
             let today = Double(Date().timeIntervalSince1970)
-            let diary = MyDiary(title: title, body: body, createdDate: today)
+            let diary = MyDiary(title: titleText, body: bodyText, createdDate: today)
             CoreDataManager.shared.create(diary: diary)
-        default:
-            AlertManager.shared.showAlert(target: self,
-                                          title: "알수없는 오류",
-                                          message: nil,
-                                          defaultTitle: "확인",
-                                          destructiveTitle: nil,
-                                          destructiveHandler: nil)
         }
         mode = .edit
     }
@@ -250,5 +218,11 @@ extension DiaryDetailViewController: UITextViewDelegate {
             diaryTextView.text = "내용을 입력하세요"
             diaryTextView.textColor = .secondaryLabel
         }
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        guard let text = diaryTextView.text else { return }
+        self.titleText = text.components(separatedBy: "\n").first
+        self.bodyText = text.replacingOccurrences(of: "\(String(describing: titleText)) \n", with: "")
     }
 }
