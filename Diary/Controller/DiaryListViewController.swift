@@ -25,7 +25,6 @@ final class DiaryListViewController: UIViewController {
         super.viewWillAppear(animated)
         
         fetchDiaryList()
-        tableView.reloadData()
     }
 
     private func setUpRootView() {
@@ -74,6 +73,7 @@ final class DiaryListViewController: UIViewController {
         switch result {
         case .success(let diaryList):
             self.diaryList = diaryList
+            self.tableView.reloadData()
         case .failure(let error):
             print(error.localizedDescription)
         }
@@ -114,16 +114,16 @@ extension DiaryListViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let share = UIContextualAction(style: .normal, title: nil) {
-            [weak self] _, _, completion in
-//            self.showActivityView()
+        let share = UIContextualAction(style: .normal,
+                                       title: nil) { [weak self] _, _, completion in
+            self?.presentActivityView(indexPath: indexPath)
             completion(true)
         }
         share.image = UIImage(systemName: "square.and.arrow.up")
         share.backgroundColor = .systemGreen
         
-        let delete = UIContextualAction(style: .destructive, title: nil) {
-            [weak self] _, _, completion in
+        let delete = UIContextualAction(style: .destructive,
+                                        title: nil) { [weak self] _, _, completion in
             self?.presentDeleteAlert(indexPath: indexPath)
             completion(true)
         }
@@ -157,5 +157,17 @@ extension DiaryListViewController {
         let alertController = alertFactory.make(for: alertData)
         
         present(alertController, animated: true)
+    }
+    
+    private func presentActivityView(indexPath: IndexPath) {
+        let diary = diaryList[indexPath.row]
+        
+        guard let title = diary.title,
+              let body = diary.body else { return }
+        
+        let text = title + body
+        let activityView = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        
+        self.present(activityView, animated: true)
     }
 }
