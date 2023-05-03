@@ -26,7 +26,9 @@ final class DiaryMainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
         diaryDatas = CoreDataManger.shared.fetchDiary()
+        self.diaryTableView.reloadData()
     }
 
     private func configureUI() {
@@ -56,7 +58,7 @@ final class DiaryMainViewController: UIViewController {
     }
     
     @objc private func addDiaryButtonTapped() {
-        let diaryEditViewController = DiaryEditViewController()
+        let diaryEditViewController = DiaryEditViewController(type: .new)
         diaryEditViewController.title = DateManger.shared.generateTodayDate()
         navigationController?.pushViewController(diaryEditViewController, animated: true)
     }
@@ -82,11 +84,8 @@ extension DiaryMainViewController: UITableViewDataSource {
 
 extension DiaryMainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryItem = DiaryItem(title: diaryDatas[indexPath.row].title,
-                                  body: diaryDatas[indexPath.row].body,
-                                  createDate: diaryDatas[indexPath.row].createDate,
-                                  id: diaryDatas[indexPath.row].id)
-        let diaryEditViewController = DiaryEditViewController(diaryItem: diaryItem)
+        let diaryEditViewController = DiaryEditViewController(diaryData: diaryDatas[indexPath.row],
+                                                              type: .old)
         navigationController?.pushViewController(diaryEditViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }

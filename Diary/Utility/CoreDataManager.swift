@@ -50,15 +50,15 @@ class CoreDataManger {
         }
     }
     
-    func createDiary(diaryItem: DiaryItem) {
+    func createDiary(title: String, body: String) {
         let entity = NSEntityDescription.entity(forEntityName: "DiaryData", in: self.context)
         
         if let entity {
             let diary = NSManagedObject(entity: entity, insertInto: self.context)
             
-            diary.setValue(diaryItem.title, forKey: "title")
-            diary.setValue(diaryItem.createDate, forKey: "createDate")
-            diary.setValue(diaryItem.body, forKey: "body")
+            diary.setValue(title, forKey: "title")
+            diary.setValue(body, forKey: "body")
+            diary.setValue(Date().timeIntervalSince1970, forKey: "createDate")
             diary.setValue(UUID(), forKey: "id")
             
             do {

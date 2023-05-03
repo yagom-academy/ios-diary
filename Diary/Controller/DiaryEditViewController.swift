@@ -8,9 +8,10 @@
 import UIKit
 
 final class DiaryEditViewController: UIViewController {
-    var diaryItem: DiaryItem?
+    private let diaryData: DiaryData?
+    private var diaryType: DiaryType
     
-    let textView: UITextView = {
+    private let textView: UITextView = {
         let textView = UITextView()
         
         textView.font = .preferredFont(forTextStyle: .body)
@@ -29,8 +30,30 @@ final class DiaryEditViewController: UIViewController {
         configureTitle()
     }
     
-    init(diaryItem: DiaryItem? = DiaryItem(createDate: Date().timeIntervalSince1970)) {
-        self.diaryItem = diaryItem
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        let (title, body) = divideText(text: textView.text)
+        guard let title,
+              let body else { return }
+        
+        switch diaryType {
+        case .new:
+            CoreDataManger.shared.createDiary(title: title, body: body)
+            self.diaryType = .old
+        case .old:
+            guard let date = diaryData?.createDate,
+                  let id = diaryData?.id else { return }
+            CoreDataManger.shared.updateDiary(id: id,
+                                              title: title,
+                                              createDate: date,
+                                              body: body)
+        }
+    }
+    
+    init(diaryData: DiaryData? = nil, type: DiaryType = .new) {
+        self.diaryData = diaryData
+        self.diaryType = type
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,13 +74,13 @@ final class DiaryEditViewController: UIViewController {
     }
     
     private func configureText() {
-        guard let title = diaryItem?.title,
-              let body = diaryItem?.body else { return }
+        guard let title = diaryData?.title,
+              let body = diaryData?.body else { return }
         textView.text = "\(title)\n\n\(body)"
     }
     
     private func configureTitle() {
-        guard let date = diaryItem?.createDate else { return }
+        guard let date = diaryData?.createDate else { return }
         navigationItem.title = DateManger.shared.convertToDate(fromDouble: date)
     }
     
@@ -75,11 +98,10 @@ final class DiaryEditViewController: UIViewController {
     
     private func updateDiary() {
         
-        CoreDataManger.shared.createDiary(diaryItem: self.diaryItem!)
     }
-    
-    deinit {
-        updateDiary()
-        CoreDataManger.shared.saveContext()
-    }
+}
+
+enum DiaryType {
+    case new
+    case old
 }
