@@ -21,7 +21,7 @@ public final class DiaryService {
 extension DiaryService {
     
     @discardableResult
-    public func create(id: UUID, title: String, body: String) -> Result<Bool, CoreDataError> {
+    public func create(id: UUID, title: String, body: String) -> Result<Diary, CoreDataError> {
         let diary = Diary(context: managedContext)
         diary.id = id
         diary.title = title
@@ -30,11 +30,11 @@ extension DiaryService {
         
         let result = CoreDataStack.shared.saveContext()
         
-        return result == true ? .success(true) : .failure(CoreDataError.insertError)
+        return result == true ? .success(diary) : .failure(CoreDataError.insertError)
     }
     
     @discardableResult
-    public func update(id: UUID, title: String, body: String) -> Result<Bool, CoreDataError> {
+    public func update(id: UUID, title: String, body: String) -> Result<Diary, CoreDataError> {
         var targetData: Diary?
         do {
             let filteredRequest = Diary.fetchRequest()
@@ -44,13 +44,17 @@ extension DiaryService {
             return .failure(CoreDataError.fetchError)
         }
         
-        targetData?.body = body
-        targetData?.title = title
-        targetData?.createdAt = Date()
+        guard let targetData else {
+            return .failure(CoreDataError.fetchError)
+        }
+        
+        targetData.body = body
+        targetData.title = title
+        targetData.createdAt = Date()
         
         let result = CoreDataStack.shared.saveContext()
         
-        return result == true ? .success(true) : .failure(CoreDataError.updateError)
+        return result == true ? .success(targetData) : .failure(CoreDataError.updateError)
     }
     
     @discardableResult

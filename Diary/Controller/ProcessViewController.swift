@@ -6,12 +6,18 @@
 //
 import UIKit
 
+private enum Mode {
+    case create
+    case update
+}
+
 final class ProcessViewController: UIViewController {
     
     typealias DiaryInformation = (title: String, body: String)
     
     private let diaryTextView = UITextView()
-    private let diary: Diary?
+    private var diary: Diary?
+    
     private let diaryService: DiaryService
     
     init(diary: Diary? = nil, diaryService: DiaryService) {
@@ -64,7 +70,11 @@ final class ProcessViewController: UIViewController {
         if let diary {
             diaryService.update(id: diary.id, title: diaryInformation.title, body: diaryInformation.body)
         } else {
-            diaryService.create(id: UUID(), title: diaryInformation.title, body: diaryInformation.body)
+            let result = diaryService.create(id: UUID(), title: diaryInformation.title, body: diaryInformation.body)
+            
+            if case .success(let newDiary) = result {
+                diary = newDiary
+            }
         }
     }
     
@@ -73,6 +83,31 @@ final class ProcessViewController: UIViewController {
             languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
         )
         navigationItem.title = localizedDateFormatter.string(from: Date())
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis"),
+            style: .plain,
+            target: self,
+            action: #selector(didTapMoreButton)
+        )
+    }
+    
+    @objc private func didTapMoreButton() {
+        let currentDiary = currentDiaryInformation()
+        processDiary(currentDiary)
+        
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+            
+            actionSheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { _ in
+                print("홍군블로그로 이동합니다.")
+            }))
+            
+            actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+                print("이웃을 끊습니다.")
+            }))
+            
+            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+            
+            self.present(actionSheet, animated: true, completion: nil)
     }
     
     private func updateTextView(diary: Diary?) {
