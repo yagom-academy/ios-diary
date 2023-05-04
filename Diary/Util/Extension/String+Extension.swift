@@ -2,7 +2,7 @@
 //  String+Extension.swift
 //  Diary
 //
-//  Created by kimseongjun on 2023/04/27.
+//  Created by rilla, songjun on 2023/04/27.
 //
 
 import Foundation

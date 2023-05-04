@@ -27,6 +27,7 @@ final class AlertManager {
     
     static func presentDeleteAlert(diary: Diary?, at viewController: UIViewController?, completion: @escaping (Bool) -> Void ) {
         guard let validDiary = diary else {
+         
             completion(false)
             return
         }
