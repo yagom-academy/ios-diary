@@ -150,8 +150,12 @@ extension DiaryDetailViewController {
         
         guard let contents else { return }
         
-        CoreDataManager.shared.update(contents: contents)
-        delegate?.updateCell(contents: contents)
+        do {
+            try CoreDataManager.shared.update(contents: contents)
+            delegate?.updateCell(contents: contents)
+        } catch {
+            AlertManager().showErrorAlert(error: error)
+        }
     }
     
     private func createContents() {
@@ -167,17 +171,25 @@ extension DiaryDetailViewController {
         
         guard let contents else { return }
         
-        CoreDataManager.shared.create(contents: contents)
-        delegate?.createCell(contents: contents)
+        do {
+            try CoreDataManager.shared.create(contents: contents)
+            delegate?.createCell(contents: contents)
+        } catch {
+            AlertManager().showErrorAlert(error: error)
+        }
     }
         
     private func deleteContents() {
         guard let identifier = contents?.identifier else { return }
         
-        CoreDataManager.shared.delete(identifier: identifier)
-        delegate?.deleteCell()
-        
-        navigationController?.popToRootViewController(animated: true)
+        do {
+            try CoreDataManager.shared.delete(identifier: identifier)
+            delegate?.deleteCell()
+            
+            navigationController?.popToRootViewController(animated: true)
+        } catch {
+            AlertManager().showErrorAlert(error: error)
+        }
     }
     
     private func splitContents() -> (title: String, body: String) {

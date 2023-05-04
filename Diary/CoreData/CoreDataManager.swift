@@ -6,7 +6,6 @@
 //
 
 import CoreData
-import UIKit
 
 final class CoreDataManager {
     static let shared = CoreDataManager()
@@ -18,7 +17,7 @@ final class CoreDataManager {
         
         container.loadPersistentStores { (storeDescription, error) in
             if let error = error as NSError? {
-                AlertManager().showErrorAlert(error: DiaryError.invalidContainer)
+                fatalError("Failed to load persistent stores: \(error)")
             }
         }
         
@@ -27,56 +26,56 @@ final class CoreDataManager {
     
     private lazy var context: NSManagedObjectContext = persistentContainer.viewContext
     
-    func create(contents: Contents) {
-        guard let entity = NSEntityDescription.entity(forEntityName: ContentsEntity.description(), in: context),
-              let storage = NSManagedObject(entity: entity, insertInto: context) as? ContentsEntity else { return }
+    func create(contents: Contents) throws {
+        let storage = ContentsEntity(context: context)
         
         storage.setValue(contents.title, forKey: Constant.title)
         storage.setValue(contents.body, forKey: Constant.body)
         storage.setValue(contents.date, forKey: Constant.date)
         storage.setValue(contents.identifier, forKey: Constant.identifier)
         
-        saveContext()
+        do {
+            try context.save()
+        } catch {
+            throw error
+        }
     }
     
-    func read() -> [Contents]? {
+    func read() throws -> [Contents]? {
         let fetchRequest = NSFetchRequest<ContentsEntity>(entityName: ContentsEntity.description())
         
         do {
             let fetchedData = try context.fetch(fetchRequest)
             return entitiesToContents(fetchedData)
         } catch {
-            AlertManager().showErrorAlert(error: DiaryError.fetchFailed)
-            return nil
+            throw DiaryError.fetchFailed
         }
     }
     
-    func update(contents: Contents) {
+    func update(contents: Contents) throws {
         guard let identifier = contents.identifier else { return }
         
-        let searchContents = searchContents(identifier: identifier).first
-        
-        searchContents?.setValue(contents.title, forKey: Constant.title)
-        searchContents?.setValue(contents.body, forKey: Constant.body)
-        
-        saveContext()
+        do {
+            let searchContents = try searchContents(identifier: identifier).first
+            
+            searchContents?.setValue(contents.title, forKey: Constant.title)
+            searchContents?.setValue(contents.body, forKey: Constant.body)
+            
+            try context.save()
+        } catch {
+            throw error
+        }
     }
     
-    func delete(identifier: UUID) {
-        guard let searchContents = searchContents(identifier: identifier).first else { return }
-        
-        context.delete(searchContents)
-        
-        saveContext()
-    }
-    
-    private func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                AlertManager().showErrorAlert(error: DiaryError.saveFailed)
-            }
+    func delete(identifier: UUID) throws {
+        do {
+            guard let searchContents = try searchContents(identifier: identifier).first else { return }
+            
+            context.delete(searchContents)
+            
+            try context.save()
+        } catch {
+            throw error
         }
     }
     
@@ -95,15 +94,14 @@ final class CoreDataManager {
         return contents
     }
     
-    private func searchContents(identifier: UUID) -> [ContentsEntity] {
+    private func searchContents(identifier: UUID) throws -> [ContentsEntity] {
         let fetchRequest = NSFetchRequest<ContentsEntity>(entityName: ContentsEntity.description())
         fetchRequest.predicate = NSPredicate(format: Constant.identifierCondition, identifier.uuidString)
         
         do {
             return try context.fetch(fetchRequest)
         } catch {
-            AlertManager().showErrorAlert(error: error)
-            return []
+            throw DiaryError.invalidContents
         }
     }
 }

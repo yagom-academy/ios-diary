@@ -29,7 +29,11 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchContents() {
-        contentsList = CoreDataManager.shared.read()
+        do {
+            contentsList = try CoreDataManager.shared.read()
+        } catch {
+            AlertManager().showErrorAlert(error: error)
+        }
     }
     
     private func configureTableView() {
@@ -116,8 +120,12 @@ extension DiaryListViewController: UITableViewDelegate {
     
     private func showDeleteAlert(identifier: UUID) {
         AlertManager().showDeleteAlert(target: self) { [weak self] in
-            CoreDataManager.shared.delete(identifier: identifier)
-            self?.deleteCell()
+            do {
+                try CoreDataManager.shared.delete(identifier: identifier)
+                self?.deleteCell()
+            } catch {
+                AlertManager().showErrorAlert(error: error)
+            }
         }
     }
 }
