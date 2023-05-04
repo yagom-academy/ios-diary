@@ -14,6 +14,7 @@ enum DiaryError: LocalizedError {
     case saveFailed
     case fetchFailed
     case initFailed
+    case invalidTextArray
     
     var errorDescription: String? {
         switch self {
@@ -29,6 +30,8 @@ enum DiaryError: LocalizedError {
             return "코어데이터 데이터 읽기에 실패하였습니다."
         case .initFailed:
             return "관리자에게 문의하세요."
+        case .invalidTextArray:
+            return "글이 정상적으로 등록되지 않았습니다."
         }
     }
 }

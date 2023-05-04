@@ -46,6 +46,8 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
+        
         textView.resignFirstResponder()
     }
     
@@ -80,7 +82,7 @@ final class DiaryDetailViewController: UIViewController {
         alert.addAction(deleteAction)
         alert.addAction(cancelAction)
         
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
     
     private func showDeleteAlert() {
@@ -175,7 +177,7 @@ extension DiaryDetailViewController {
         CoreDataManager.shared.delete(identifier: identifier)
         delegate?.deleteCell()
         
-        self.navigationController?.popToRootViewController(animated: true)
+        navigationController?.popToRootViewController(animated: true)
     }
     
     private func splitContents() -> (title: String, body: String) {
@@ -183,14 +185,11 @@ extension DiaryDetailViewController {
         var title = ""
         var body = ""
         
-        switch splitedText.count {
-        case 0:
-            break
-        case 1:
-            title = splitedText[0].description
-        default:
-            title = splitedText[0].description
-            body = splitedText[1].description
+        if splitedText.count == 1 {
+            title = String(describing: splitedText[0])
+        } else if splitedText.count == 2 {
+            title = String(describing: splitedText[0])
+            body = String(describing: splitedText[1])
         }
         
         return (title, body)

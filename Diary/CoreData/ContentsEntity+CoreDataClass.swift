@@ -8,4 +8,4 @@
 import CoreData
 
 @objc(ContentsEntity)
-public class ContentsEntity: NSManagedObject { }
+final class ContentsEntity: NSManagedObject { }

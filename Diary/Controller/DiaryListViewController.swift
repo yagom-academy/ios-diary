@@ -96,11 +96,11 @@ extension DiaryListViewController: UITableViewDelegate {
         guard let contents = contentsList?[indexPath.row] else { return nil }
         selectedCellIndex = indexPath
         
-        let share = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
+        let share = UIContextualAction(style: .normal, title: "Share") { [weak self] _, _, _ in
             let activityViewController = UIActivityViewController(activityItems: [contents.title],
                                                                   applicationActivities: nil)
             
-            self.present(activityViewController, animated: true)
+            self?.present(activityViewController, animated: true)
         }
         
         let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
