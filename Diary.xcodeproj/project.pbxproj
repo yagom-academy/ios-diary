@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		08C6A70329F663D4005D3975 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C6A70229F663D4005D3975 /* Diary.swift */; };
-		08C6A70729F66455005D3975 /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C6A70629F66455005D3975 /* DecodeManager.swift */; };
 		08D892482A009B14007CB670 /* DiaryDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 08D892462A009B14007CB670 /* DiaryDataModel.xcdatamodeld */; };
 		08D8924C2A009C17007CB670 /* DiaryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D8924A2A009C17007CB670 /* DiaryEntity+CoreDataClass.swift */; };
 		08D8924D2A009C17007CB670 /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08D8924B2A009C17007CB670 /* DiaryEntity+CoreDataProperties.swift */; };
@@ -32,7 +31,6 @@
 
 /* Begin PBXFileReference section */
 		08C6A70229F663D4005D3975 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
-		08C6A70629F66455005D3975 /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
 		08D892472A009B14007CB670 /* DiaryDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DiaryDataModel.xcdatamodel; sourceTree = "<group>"; };
 		08D8924A2A009C17007CB670 /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		08D8924B2A009C17007CB670 /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
@@ -117,7 +115,6 @@
 		08C6A70529F6642C005D3975 /* Extra */ = {
 			isa = PBXGroup;
 			children = (
-				08C6A70629F66455005D3975 /* DecodeManager.swift */,
 				1C6636512A038B6B00C85374 /* AlertManager.swift */,
 			);
 			path = Extra;
@@ -301,7 +298,6 @@
 				08EB900329F7BA9B0061163B /* Date+Extension.swift in Sources */,
 				08D892482A009B14007CB670 /* DiaryDataModel.xcdatamodeld in Sources */,
 				1CE3F6D429FAB23800375BD3 /* String+Extension.swift in Sources */,
-				08C6A70729F66455005D3975 /* DecodeManager.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				1C9590B229F6504D004FD951 /* DiaryTableViewCell.swift in Sources */,
