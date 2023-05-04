@@ -24,11 +24,12 @@ final class CoreDataManager {
     
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: DiaryKey.DataModel)
-        container.loadPersistentStores(completionHandler: { storeDescription, error in
+        container.loadPersistentStores { storeDescription, error in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
-        })
+        }
+        
         return container
     }()
     
@@ -54,7 +55,6 @@ final class CoreDataManager {
         let fetchedObject = try? context.fetch(fetchRequest)[safe: 0] as? NSManagedObject ?? NSManagedObject(entity: entity, insertInto: context)
         
         setNSDiaryValue(for: diary, at: fetchedObject)
-        
         saveContext()
     }
     
@@ -72,9 +72,11 @@ final class CoreDataManager {
         
         do {
             let result = try context.fetch(fetchRequest)
+            
             return convertToDiaryModel(for: result)
         } catch {
             print(error.localizedDescription)
+            
             return nil
         }
     }
@@ -101,8 +103,7 @@ final class CoreDataManager {
             guard let objectToDelete = fetchedObject[safe: 0] as? NSManagedObject else { return }
             context.delete(objectToDelete)
             
-            try context.save()
-            
+            saveContext()
         } catch {
             print(error)
         }
