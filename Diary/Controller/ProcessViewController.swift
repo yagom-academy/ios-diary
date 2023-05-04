@@ -92,22 +92,29 @@ final class ProcessViewController: UIViewController {
     }
     
     @objc private func didTapMoreButton() {
+        diaryTextView.resignFirstResponder()
         let currentDiary = currentDiaryInformation()
         processDiary(currentDiary)
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { _ in
+            var objectsToShare = [String]()
+            if let text = self.diaryTextView.text {
+                objectsToShare.append(text)
+            }
             
-            actionSheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { _ in
-                print("홍군블로그로 이동합니다.")
-            }))
+            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+            self.present(activityVC, animated: true, completion: nil)
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
             
-            actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-                print("이웃을 끊습니다.")
-            }))
-            
-            actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-            
-            self.present(actionSheet, animated: true, completion: nil)
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        
+        self.present(actionSheet, animated: true, completion: nil)
     }
     
     private func updateTextView(diary: Diary?) {
@@ -150,7 +157,7 @@ final class ProcessViewController: UIViewController {
             object: nil
         )
     }
-
+    
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo as NSDictionary?,
               var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
@@ -162,7 +169,7 @@ final class ProcessViewController: UIViewController {
         diaryTextView.contentInset = contentInset
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
     }
-
+    
     @objc private func keyboardWillHide(_ notification: Notification) {
         diaryTextView.contentInset = UIEdgeInsets.zero
         diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset

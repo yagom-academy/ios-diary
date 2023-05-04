@@ -39,10 +39,10 @@ final class HomeDiaryController: UIViewController {
         diaryTableView.delegate = self
         diaryTableView.register(DiaryCell.self, forCellReuseIdentifier: DiaryCell.identifier)
     }
-
+    
     private func configureUI() {
         view.backgroundColor = .systemBackground
-        configureNavigationBar()        
+        configureNavigationBar()
         view.addSubview(diaryTableView)
         diaryTableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -85,7 +85,7 @@ extension HomeDiaryController: UITableViewDataSource {
         let diary = fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
         
         cell.configureData(data: diary, localizedDateFormatter: localizedDateFormatter)
-    
+        
         return cell
     }
 }
@@ -98,15 +98,22 @@ extension HomeDiaryController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { action, view, success in
-             let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
-             CoreDataStack.shared.managedContext.delete(diary)
-             try? CoreDataStack.shared.managedContext.save()
-         }
-         
-         deleteAction.backgroundColor = .red
-         return UISwipeActionsConfiguration(actions: [deleteAction])
-     }
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { action, view, success in
+            let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
+            self.diaryService.delete(id: diary.id)
+        }
+        
+        let shareAction = UIContextualAction(style: .normal, title: "Share") { action, view, success in
+            let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
+            let activityVC = UIActivityViewController(activityItems: [diary.title, diary.body], applicationActivities: nil)
+            self.present(activityVC, animated: true, completion: nil)
+        }
+        
+        deleteAction.backgroundColor = .systemRed
+        shareAction.backgroundColor = .systemBlue
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
 }
 
 extension HomeDiaryController: NSFetchedResultsControllerDelegate {
