@@ -12,8 +12,8 @@ final class HomeDiaryController: UIViewController {
         languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
     )
     
-    let createdDateSort = NSSortDescriptor(key: "createdAt", ascending: false)
     private let diaryService = DiaryService(coreDataStack: CoreDataStack.shared)
+    private let createdDateSort = NSSortDescriptor(key: "createdAt", ascending: false)
     
     private lazy var fetchedDiaryResults = CoreDataFetchedResults(
         ofType: Diary.self,
@@ -43,9 +43,9 @@ final class HomeDiaryController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         configureNavigationBar()
+        
         view.addSubview(diaryTableView)
         diaryTableView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             diaryTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             diaryTableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -66,7 +66,6 @@ final class HomeDiaryController: UIViewController {
     @objc private func didTapAddDiaryButton() {
         navigationController?.pushViewController(ProcessViewController(diaryService: diaryService), animated: true)
     }
-    
 }
 
 extension HomeDiaryController: UITableViewDataSource {
@@ -83,7 +82,6 @@ extension HomeDiaryController: UITableViewDataSource {
         }
         
         let diary = fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
-        
         cell.configureData(data: diary, localizedDateFormatter: localizedDateFormatter)
         
         return cell
@@ -97,15 +95,22 @@ extension HomeDiaryController: UITableViewDelegate {
         navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
     
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
             self.diaryService.delete(id: diary.id)
         }
         
-        let shareAction = UIContextualAction(style: .normal, title: "Share") { action, view, success in
+        let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
             let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
-            let activityVC = UIActivityViewController(activityItems: [diary.title, diary.body], applicationActivities: nil)
+            let activityVC = UIActivityViewController(
+                activityItems: [diary.title, diary.body],
+                applicationActivities: nil
+            )
+            
             self.present(activityVC, animated: true, completion: nil)
         }
         
@@ -117,12 +122,13 @@ extension HomeDiaryController: UITableViewDelegate {
 }
 
 extension HomeDiaryController: NSFetchedResultsControllerDelegate {
-    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>,
-                    didChange anObject: Any,
-                    at indexPath: IndexPath?,
-                    for type: NSFetchedResultsChangeType,
-                    newIndexPath: IndexPath?) {
-        
+    func controller(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+        didChange anObject: Any,
+        at indexPath: IndexPath?,
+        for type: NSFetchedResultsChangeType,
+        newIndexPath: IndexPath?
+    ) {
         switch type {
         case .insert:
             if let newIndexPath = newIndexPath {

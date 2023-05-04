@@ -12,7 +12,7 @@ public enum StoreType {
     case inMemory
 }
 
-open class CoreDataStack {
+public class CoreDataStack {
     static let shared = CoreDataStack(modelName: "Diary")
     private let modelName: String
 

@@ -9,7 +9,6 @@ import UIKit
 import CoreData
 
 final class CoreDataFetchedResults<T: NSManagedObject> {
-    
     public var fetchedResultsController: NSFetchedResultsController<T>
     
     public init(

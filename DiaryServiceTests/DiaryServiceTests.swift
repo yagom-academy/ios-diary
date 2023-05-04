@@ -10,7 +10,6 @@ import CoreData
 @testable import Diary
 
 final class DiaryServiceTests: XCTestCase {
-
     var coreDataStack: CoreDataStack!
     var diaryService: DiaryService!
     
@@ -91,5 +90,4 @@ final class DiaryServiceTests: XCTestCase {
             XCTFail("테스트가 실패하였습니다.")
         }
     }
-    
 }

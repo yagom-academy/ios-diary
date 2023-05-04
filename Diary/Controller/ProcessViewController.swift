@@ -6,19 +6,11 @@
 //
 import UIKit
 
-private enum Mode {
-    case create
-    case update
-}
-
 final class ProcessViewController: UIViewController {
-    
     typealias DiaryInformation = (title: String, body: String)
-    
     private let diaryTextView = UITextView()
     private var diary: Diary?
     private var isDeleteDiary: Bool = false
-    
     private let diaryService: DiaryService
     
     init(diary: Diary? = nil, diaryService: DiaryService) {
@@ -38,13 +30,67 @@ final class ProcessViewController: UIViewController {
         setUpNotification()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        diaryTextView.becomeFirstResponder()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         let diaryInformation = currentDiaryInformation()
         processDiary(diaryInformation)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        diaryTextView.becomeFirstResponder()
+    private func configureNavigationItem() {
+        let localizedDateFormatter = DateFormatter(
+            languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
+        )
+        navigationItem.title = localizedDateFormatter.string(from: Date())
+        navigationItem.rightBarButtonItem = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis"),
+            style: .plain,
+            target: self,
+            action: #selector(didTapMoreButton)
+        )
+    }
+    
+    private func configureDiaryTextView() {
+        if diary != nil {
+            updateTextView(diary: diary)
+        }
+        
+        view.addSubview(diaryTextView)
+        diaryTextView.translatesAutoresizingMaskIntoConstraints = false
+        diaryTextView.font = .preferredFont(forTextStyle: .body)
+        diaryTextView.adjustsFontForContentSizeCategory = true
+        diaryTextView.contentOffset = .zero
+        
+        NSLayoutConstraint.activate([
+            diaryTextView.topAnchor.constraint(equalTo: view.topAnchor),
+            diaryTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            diaryTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            diaryTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+    }
+    
+    private func updateTextView(diary: Diary?) {
+        guard let diary else {
+            return
+        }
+        diaryTextView.text = "\(diary.title)\n\(diary.body)"
+    }
+    
+    private func setUpNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     func currentDiaryInformation() -> DiaryInformation? {
@@ -84,19 +130,6 @@ final class ProcessViewController: UIViewController {
         }
     }
     
-    private func configureNavigationItem() {
-        let localizedDateFormatter = DateFormatter(
-            languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
-        )
-        navigationItem.title = localizedDateFormatter.string(from: Date())
-        navigationItem.rightBarButtonItem = UIBarButtonItem(
-            image: UIImage(systemName: "ellipsis"),
-            style: .plain,
-            target: self,
-            action: #selector(didTapMoreButton)
-        )
-    }
-    
     @objc private func didTapMoreButton() {
         diaryTextView.resignFirstResponder()
         let currentDiary = currentDiaryInformation()
@@ -104,18 +137,18 @@ final class ProcessViewController: UIViewController {
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: { [weak self] _ in
             var objectsToShare = [String]()
             if let text = self?.diaryTextView.text {
                 objectsToShare.append(text)
             }
             
-            let activityVC = UIActivityViewController(
+            let activityViewController = UIActivityViewController(
                 activityItems: objectsToShare,
                 applicationActivities: nil
             )
             
-            self?.present(activityVC, animated: true, completion: nil)
+            self?.present(activityViewController, animated: true, completion: nil)
         }))
         
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
@@ -127,7 +160,7 @@ final class ProcessViewController: UIViewController {
         self.present(actionSheet, animated: true, completion: nil)
     }
     
-    func presentDeleteAlert() {
+    private func presentDeleteAlert() {
         let deleteAlertController = UIAlertController(
             title: "진짜요?",
             message: "정말로 삭제하시겠어요?",
@@ -155,61 +188,6 @@ final class ProcessViewController: UIViewController {
         deleteAlertController.addAction(deleteAction)
         
         self.present(deleteAlertController, animated: true)
-    }
-    
-    private func presentAlertController(
-        title: String?,
-        message: String?,
-        shareAction: UIAlertAction,
-        deleteAction: UIAlertAction,
-        style: UIAlertController.Style
-        ) {
-        let controller = UIAlertController(
-            title: title,
-            message: message,
-            preferredStyle: style
-        )
-    }
-    
-    private func updateTextView(diary: Diary?) {
-        guard let diary else {
-            return
-        }
-        diaryTextView.text = "\(diary.title)\n\(diary.body)"
-    }
-    
-    private func configureDiaryTextView() {
-        if diary != nil {
-            updateTextView(diary: diary)
-        }
-        
-        view.addSubview(diaryTextView)
-        diaryTextView.translatesAutoresizingMaskIntoConstraints = false
-        diaryTextView.font = .preferredFont(forTextStyle: .body)
-        diaryTextView.adjustsFontForContentSizeCategory = true
-        diaryTextView.contentOffset = .zero
-        
-        NSLayoutConstraint.activate([
-            diaryTextView.topAnchor.constraint(equalTo: view.topAnchor),
-            diaryTextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            diaryTextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            diaryTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-    }
-    
-    private func setUpNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
