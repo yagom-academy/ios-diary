@@ -60,6 +60,10 @@ final class DiaryCoreDataManager {
     
     func fetchDiary() -> Result<[Diary], Error> {
         let request = Diary.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+        
+        request.sortDescriptors = [sortDescriptor]
+        
         let fetchResult = Result { try self.context.fetch(request) }
         
         return fetchResult

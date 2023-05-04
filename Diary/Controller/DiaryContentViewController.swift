@@ -194,7 +194,7 @@ final class DiaryContentViewController: UIViewController {
             
             DiaryCoreDataManager.shared.deleteDiary(id: id)
             self.diary = nil
-            navigationController?.popViewController(animated: true)
+            self.navigationController?.popViewController(animated: true)
         }
         let alert = alertFactory.deleteDiaryAlert(for: alertData)
         
