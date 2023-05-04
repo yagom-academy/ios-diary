@@ -119,6 +119,7 @@ extension DiaryListViewController: UITableViewDelegate {
         let share = UIContextualAction(style: .normal,
                                        title: nil) { [weak self] _, _, completion in
             guard let self else { return }
+            
             self.presentActivityView(indexPath: indexPath)
             completion(true)
         }
@@ -128,6 +129,7 @@ extension DiaryListViewController: UITableViewDelegate {
         let delete = UIContextualAction(style: .destructive,
                                         title: nil) { [weak self] _, _, completion in
             guard let self else { return }
+            
             self.presentDeleteAlert(indexPath: indexPath)
             completion(true)
         }
