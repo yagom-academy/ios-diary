@@ -86,6 +86,7 @@
 		621340D129FB6C2900B55ADE /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				62D3D26629FFBBF100C294FC /* CoreData */,
 				71C2808E2A00A1F20035E6D0 /* Diary+CoreDataClass.swift */,
 				71C2808F2A00A1F20035E6D0 /* Diary+CoreDataProperties.swift */,
 			);
@@ -134,14 +135,6 @@
 			path = DiaryServiceTests;
 			sourceTree = "<group>";
 		};
-		62D3D26129FFB5F400C294FC /* Services */ = {
-			isa = PBXGroup;
-			children = (
-				62D3D26629FFBBF100C294FC /* CoreData */,
-			);
-			path = Services;
-			sourceTree = "<group>";
-		};
 		62D3D26629FFBBF100C294FC /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,7 +169,6 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				62D3D26129FFB5F400C294FC /* Services */,
 				621340D529FB6C7200B55ADE /* Extension */,
 				621340D429FB6C5200B55ADE /* Protocol */,
 				621340D329FB6C3400B55ADE /* Controller */,
