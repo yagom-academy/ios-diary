@@ -5,17 +5,7 @@
 //  Created by Andrew, brody on 2023/05/01.
 //
 
-import Foundation
 import CoreData
-
-public enum CoreDataError: Error {
-    case fetchError
-    case insertError
-    case entityNotFound
-    case updateError
-    case deleteError
-    case saveError
-}
 
 public enum StoreType {
     case onDisk
@@ -24,7 +14,6 @@ public enum StoreType {
 
 open class CoreDataStack {
     static let shared = CoreDataStack(modelName: "Diary")
-    
     private let modelName: String
 
     private init(modelName: String) {
@@ -35,37 +24,23 @@ open class CoreDataStack {
         return self.storeContainer.viewContext
     }()
     
-    // 이따 모델이름 변경해서 시험해야함
-
     private lazy var storeContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: modelName)
-        container.loadPersistentStores { storeDescription, error in
-            self.handle(error)
+        container.loadPersistentStores { _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
         }
 
         return container
     }()
     
-    // true는 성공했다. false는 변경사항이없다. throw 변경사항이있지만 에러가 났다.
-    
     func saveContext() -> Bool {
-//        guard self.managedContext.hasChanges else {
-//            return false
-//        }
-        
         do {
             try managedContext.save()
             return true
         } catch {
             return false
-        }
-    }
-    
-    private func handle(_ error: Error?, completion: @escaping () -> Void = {}) {
-        if let error = error as NSError? {
-            let message = "CoreDataStack -> \(#function): Unresolved error: \(error), \(error.userInfo)"
-            print(message)
-            completion()
         }
     }
 }
