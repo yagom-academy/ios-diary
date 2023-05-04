@@ -12,4 +12,6 @@ struct Diary: Hashable, Identifiable {
     let title: String
     let body: String
     let timeIntervalSince1970: Int
+    
+    var sharedText: String { title + "\n\n" + body }
 }

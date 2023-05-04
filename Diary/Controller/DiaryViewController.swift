@@ -7,6 +7,7 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
+    // MARK: - Nested Type
     private enum LocalizationKey {
         static let mainTitle = "mainTitle"
         static let deleteAlertTitle = "deleteAlertTitle"
@@ -16,6 +17,7 @@ final class DiaryViewController: UIViewController {
         static let share = "share"
     }
     
+    // MARK: - Properties
     private var diaries: [Diary]?
     private var dataSource: UITableViewDiffableDataSource<Section, Diary>!
     
@@ -25,6 +27,7 @@ final class DiaryViewController: UIViewController {
         return tableView
     }()
     
+    // MARK: - State Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -36,6 +39,7 @@ final class DiaryViewController: UIViewController {
         applySnapshot()
     }
 
+    // MARK: - Methods
     private func configureUI() {
         view.backgroundColor = .white
         
@@ -72,26 +76,6 @@ final class DiaryViewController: UIViewController {
         let diaryDetailViewController = DiaryDetailViewController(nil)
         
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
-    }
-    
-    private func presentDeleteAlert(indexPath: IndexPath) {
-        let deleteAlert = UIAlertController(
-            title: String.localized(key: LocalizationKey.deleteAlertTitle),
-            message: String.localized(key: LocalizationKey.deleteAlertMessage),
-            preferredStyle: .alert
-            )
-      
-        let cancelAction = UIAlertAction(title: String.localized(key: LocalizationKey.cancel), style: .cancel)
-        let deleteAction = UIAlertAction(title: String.localized(key: LocalizationKey.delete), style: .destructive) { _ in
-            guard let diary = self.diaries?[safe: indexPath.row] else { return }
-            CoreDataManager.shared.delete(id: diary.id)
-            self.applySnapshot()
-        }
-          
-        deleteAlert.addAction(cancelAction)
-        deleteAlert.addAction(deleteAction)
-        
-        present(deleteAlert, animated: true)
     }
 }
 
@@ -139,15 +123,18 @@ extension DiaryViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let diary = diaries?[safe: indexPath.row] else { return nil }
+        let diary = diaries?[safe: indexPath.row] 
         
         let delete = UIContextualAction(
             style: .destructive,
             title: String.localized(key: LocalizationKey.delete)
         ) { [weak self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            
-            self?.presentDeleteAlert(indexPath: indexPath)
-            success(true)
+            AlertManager.presentDeleteAlert(diary: diary, at: self) { isSuccess in
+                if isSuccess {
+                    self?.applySnapshot()
+                    success(true)
+                }
+            }
         }
          
         let share = UIContextualAction(
@@ -155,8 +142,7 @@ extension DiaryViewController: UITableViewDelegate {
             title: String.localized(key: LocalizationKey.share)
         ) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
-            self.showActivityViewController(diary: diary)
-            
+            AlertManager.presentActivityView(diary: diary, at: self)
             success(true)
         }
         
@@ -165,19 +151,4 @@ extension DiaryViewController: UITableViewDelegate {
         
         return UISwipeActionsConfiguration(actions: [delete, share])
     }
-    
-    private func showActivityViewController(diary: Diary?) {
-        var activityItems = [Any]()
-        guard let validDiary = diary else { return }
-        
-        activityItems.append(validDiary.title)
-        activityItems.append(validDiary.body)
-        activityItems.append(validDiary.timeIntervalSince1970.convertFormattedDate())
-        
-        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        
-        self.present(activityViewController, animated: true, completion: nil)
-    }
-    
 }

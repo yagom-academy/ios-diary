@@ -8,6 +8,7 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
+    // MARK: - Nested Type
     private enum LocalizationKey {
         static let barButtonTitle = "barButtonTitle"
         static let delete = "delete"
@@ -21,8 +22,9 @@ final class DiaryDetailViewController: UIViewController {
         case update
     }
     
+    // MARK: - Properties
     private var writeMode = WriteMode.create
-    private let diary: Diary?
+    private var diary: Diary?
     private var id = UUID()
     private var isSave: Bool = true
     
@@ -37,6 +39,7 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
+    // MARK: - Initializer
     init(_ diary: Diary?) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
@@ -46,6 +49,7 @@ final class DiaryDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - State Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         checkWriteMode()
@@ -62,6 +66,7 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
+    // MARK: - Methods
     private func checkWriteMode() {
         if diary == nil {
             writeMode = WriteMode.create
@@ -123,18 +128,28 @@ final class DiaryDetailViewController: UIViewController {
     
     @objc private func presentActionSheet() {
         let shareActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-      
-        let cancelAction = UIAlertAction(title: String.localized(key: LocalizationKey.cancel), style: .cancel)
-        let shareAction = UIAlertAction(title: String.localized(key: LocalizationKey.share), style: .default) { [weak self] _ in
-            self?.showActivityViewController(diary: self?.diary)
+
+        let cancelAction = UIAlertAction(
+            title: String.localized(key: LocalizationKey.cancel),
+            style: .cancel
+        )
+        
+        let shareAction = UIAlertAction(
+            title: String.localized(key: LocalizationKey.share),
+            style: .default
+        ) { [weak self] _ in
+            AlertManager.presentActivityView(diary: self?.diary, at: self)
         }
         
-        let deleteAction = UIAlertAction(title: String.localized(key: LocalizationKey.delete), style: .destructive) { [weak self] _ in
-            guard let id = self?.id else { return }
-            
-            CoreDataManager.shared.delete(id: id)
-            self?.isSave = false
-            self?.navigationController?.popViewController(animated: true)
+        let deleteAction = UIAlertAction(
+            title: String.localized(key: LocalizationKey.delete),
+            style: .destructive
+        ) { [weak self] _ in
+    
+            AlertManager.presentDeleteAlert(diary: self?.diary, at: self) { _ in
+                self?.isSave = false
+                self?.navigationController?.popViewController(animated: true)
+            }
         }
           
         shareActionSheet.addAction(cancelAction)
@@ -220,6 +235,8 @@ final class DiaryDetailViewController: UIViewController {
             body: String(body),
             timeIntervalSince1970: self.title?.convertToTimeInterval() ?? Date.nowTimeIntervalSince1970
         )
+        
+        self.diary = currentDiary
         CoreDataManager.shared.register(currentDiary)
     }
     

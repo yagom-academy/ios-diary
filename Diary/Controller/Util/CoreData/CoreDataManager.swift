@@ -32,7 +32,7 @@ final class CoreDataManager {
         return container
     }()
     
-    private func saveContext () {
+    private func saveContext() {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
@@ -55,10 +55,7 @@ final class CoreDataManager {
         
         setNSDiaryValue(for: diary, at: fetchedObject)
         
-        do {
-            try context.save()
-            
-        } catch { print(error) }
+        saveContext()
     }
     
     private func setNSDiaryValue(for diary: Diary, at NSDiary: NSManagedObject?) {
