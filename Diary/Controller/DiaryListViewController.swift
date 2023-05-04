@@ -10,8 +10,8 @@ final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
     private var diaryList: [Diary] = []
     private let sampleDecoder = DiaryDecodeManager()
-    private let alertFactory: AlertFactoryService = AlertMaker()
-    private let alertDataMaker: AlertDataService = AlertViewDataMaker()
+    private let alertFactory: DiaryAlertFactoryService = DiaryAlertMaker()
+    private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -137,26 +137,17 @@ extension DiaryListViewController: UITableViewDelegate {
 // MARK: - Alert
 extension DiaryListViewController {
     private func presentDeleteAlert(indexPath: IndexPath) {
-        let delete = AlertActionData(actionTitle: "삭제",
-                                     actionStyle: .destructive) { [weak self] in
-            guard let id = self?.diaryList[indexPath.row].id else { return }
+        let alertData = alertDataMaker.deleteAlertData { [weak self] in
+            guard let self = self else { return }
+            guard let id = self.diaryList[indexPath.row].id else { return }
             
-            self?.diaryList.remove(at: indexPath.row)
             DiaryCoreDataManager.shared.deleteDiary(id: id)
-            self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.diaryList.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
+        let alert = alertFactory.deleteDiaryAlert(for: alertData)
         
-        let cancel = AlertActionData(actionTitle: "취소",
-                                     actionStyle: .cancel,
-                                     completion: nil)
-        let actionDataList = [delete, cancel]
-        let alertData = alertDataMaker.makeData(title: "진짜요?",
-                                                message: "정말로 삭제하시겠어요?",
-                                                alertStyle: .alert,
-                                                actionDataList: actionDataList)
-        let alertController = alertFactory.make(for: alertData)
-        
-        present(alertController, animated: true)
+        present(alert, animated: true)
     }
     
     private func presentActivityView(indexPath: IndexPath) {

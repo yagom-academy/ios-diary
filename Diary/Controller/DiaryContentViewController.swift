@@ -12,8 +12,8 @@ final class DiaryContentViewController: UIViewController {
     
     private var diary: Diary?
     private let textView = UITextView()
-    private let alertFactory: AlertFactoryService = AlertMaker()
-    private let alertDataMaker: AlertDataService = AlertViewDataMaker()
+    private let alertFactory: DiaryAlertFactoryService = DiaryAlertMaker()
+    private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
 
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -162,26 +162,26 @@ final class DiaryContentViewController: UIViewController {
     
     @objc
     private func tapEllipsisButton() {
-        presentActionSheet()
+//        presentActionSheet()
     }
     
-    private func presentActionSheet() {
-        let share = AlertActionData(actionTitle: "Share...",
-                                    actionStyle: .default,
-                                    completion: presentActivityView)
-        let delete = AlertActionData(actionTitle: "Delete",
-                                     actionStyle: .destructive,
-                                     completion: presentDeleteAlert)
-        let cancel = AlertActionData(actionTitle: "Cancel",
-                                     actionStyle: .cancel,
-                                     completion: nil)
-        let actionDataList = [share, delete, cancel]
-        
-        let alertData = alertDataMaker.makeData(alertStyle: .actionSheet, actionDataList: actionDataList)
-        let alertController = alertFactory.make(for: alertData)
-        
-        present(alertController, animated: true)
-    }
+//    private func presentActionSheet() {
+//        let share = AlertActionData(actionTitle: "Share...",
+//                                    actionStyle: .default,
+//                                    completion: presentActivityView)
+//        let delete = AlertActionData(actionTitle: "Delete",
+//                                     actionStyle: .destructive,
+//                                     completion: presentDeleteAlert)
+//        let cancel = AlertActionData(actionTitle: "Cancel",
+//                                     actionStyle: .cancel,
+//                                     completion: nil)
+//        let actionDataList = [share, delete, cancel]
+//
+//        let alertData = alertDataMaker.makeData(alertStyle: .actionSheet, actionDataList: actionDataList)
+//        let alertController = alertFactory.make(for: alertData)
+//
+//        present(alertController, animated: true)
+//    }
     
     private func presentActivityView() {
         guard let text = textView.text else { return }
@@ -199,20 +199,20 @@ final class DiaryContentViewController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    private func presentDeleteAlert() {
-        let delete = AlertActionData(actionTitle: "삭제",
-                                     actionStyle: .destructive,
-                                     completion: deleteDiary)
-        let cancel = AlertActionData(actionTitle: "취소",
-                                     actionStyle: .cancel,
-                                     completion: nil)
-        let actionDataList = [delete, cancel]
-        let alertData = alertDataMaker.makeData(title: "진짜요?",
-                                                message: "정말로 삭제하시겠어요?",
-                                                alertStyle: .alert,
-                                                actionDataList: actionDataList)
-        let alertController = alertFactory.make(for: alertData)
-        
-        present(alertController, animated: true)
-    }
+//    private func presentDeleteAlert() {
+//        let delete = AlertActionData(actionTitle: "삭제",
+//                                     actionStyle: .destructive,
+//                                     completion: deleteDiary)
+//        let cancel = AlertActionData(actionTitle: "취소",
+//                                     actionStyle: .cancel,
+//                                     completion: nil)
+//        let actionDataList = [delete, cancel]
+//        let alertData = alertDataMaker.makeData(title: "진짜요?",
+//                                                message: "정말로 삭제하시겠어요?",
+//                                                alertStyle: .alert,
+//                                                actionDataList: actionDataList)
+//        let alertController = alertFactory.make(for: alertData)
+//
+//        present(alertController, animated: true)
+//    }
 }
