@@ -19,13 +19,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        let rootViewController = window?.rootViewController
-        
-        guard let navigationController = rootViewController as? UINavigationController,
-              let topViewController = navigationController.topViewController
-        else { return }
-            
-        guard let diaryContentViewController = topViewController as? DiaryContentViewController
+        guard let navigationController = window?.rootViewController as? UINavigationController,
+              let topViewController = navigationController.topViewController,
+              let diaryContentViewController = topViewController as? DiaryContentViewController
         else { return }
         
         diaryContentViewController.updateDiary()
