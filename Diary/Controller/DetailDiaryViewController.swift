@@ -80,7 +80,10 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showDetailAction))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(showDetailAction))
         
         if diaryDate == nil {
             title = Date().convertDate()
@@ -94,21 +97,14 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func configureDiary() -> Diary? {
-        let id = UUID()
         let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
-        var body: String
+
+        guard diaryContents.count != 0,
+              let date = Date().timeIntervalSince1970.roundDownNumber() else { return nil }
         
-        if diaryContents.count == 2 {
-            body = String(diaryContents[1])
-        } else if diaryContents.count == 1 {
-            body = NameSpace.empty
-        } else {
-            return nil
-        }
-        
+        let id = UUID()
         let title = String(diaryContents[0])
-        
-        guard let date = Date().timeIntervalSince1970.roundDownNumber() else { return nil }
+        let body = checkValidDiary(diaryContents)
         
         return Diary(id: id, title: title, body: body, date: date)
     }
@@ -153,6 +149,21 @@ final class DetailDiaryViewController: UIViewController {
         self.present(actionSheet, animated: true)
     }
     
+    private func showDeleteAlert() {
+        let alert = UIAlertController(title: NameSpace.alertTitle,
+                                      message: NameSpace.alertMessage,
+                                      preferredStyle: .alert)
+        let cancel = UIAlertAction(title: NameSpace.cancel, style: .cancel)
+        let delete = UIAlertAction(title: NameSpace.delete, style: .destructive) { _ in
+            self.deleteDiary()
+        }
+        
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        
+        present(alert, animated: true)
+    }
+    
     // MARK: - CoreData method
     private func saveDiary() {
         if isSaveRequired {
@@ -174,19 +185,16 @@ final class DetailDiaryViewController: UIViewController {
     
     private func updateDiary() {
         let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
-        var body: String
         
-        if diaryContents.count == 2 {
-            body = String(diaryContents[1])
-        } else if diaryContents.count == 1 {
-            body = NameSpace.empty
-        } else {
+        guard diaryContents.count != 0 else {
             deleteDiary()
+            
             return
         }
         
         let title = String(diaryContents[0])
-        
+        let body = checkValidDiary(diaryContents)
+
         guard let id = diary?.id,
               let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
         
@@ -204,19 +212,14 @@ final class DetailDiaryViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    private func showDeleteAlert() {
-        let alert = UIAlertController(title: NameSpace.alertTitle,
-                                      message: NameSpace.alertMessage,
-                                      preferredStyle: .alert)
-        let cancel = UIAlertAction(title: NameSpace.cancel, style: .cancel)
-        let delete = UIAlertAction(title: NameSpace.delete, style: .destructive) { _ in
-            self.deleteDiary()
+    private func checkValidDiary(_ string: [String.SubSequence]) -> String {
+        var result: String = NameSpace.empty
+        
+        if string.count == 2 {
+            result = String(string[1])
         }
         
-        alert.addAction(cancel)
-        alert.addAction(delete)
-        
-        present(alert, animated: true)
+        return result
     }
 }
 
