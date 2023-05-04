@@ -113,9 +113,9 @@ final class DiaryEditViewController: UIViewController {
     }
     
     private func divide(text: String?) -> (title: String, body: String?) {
-        guard let text,
+        guard let text = textView.text,
               let spacingIndex = text.firstIndex(of: "\n") else {
-            return ("", nil)
+            return (text!, nil)
         }
         let spacingNextIndex = text.index(after: spacingIndex)
         let title = String(text[..<spacingIndex])
