@@ -7,9 +7,10 @@
 
 import UIKit
 
-struct ActionSheetViewData: AlertControllerData {
+struct ActionSheetViewData {
     let title: String?
     let message: String?
     let style: UIAlertController.Style = .actionSheet
-    let actionDataList: [AlertActionData]
+    let shareCompletion: () -> Void
+    let deleteCompletion: () -> Void
 }

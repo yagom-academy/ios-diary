@@ -7,9 +7,9 @@
 
 import UIKit
 
-struct AlertViewData: AlertControllerData {
+struct AlertViewData {
     let title: String?
     let message: String?
     let style: UIAlertController.Style = .alert
-    let actionDataList: [AlertActionData]
+    let completion: () -> Void
 }
