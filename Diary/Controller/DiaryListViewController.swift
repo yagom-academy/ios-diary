@@ -80,6 +80,7 @@ final class DiaryListViewController: UIViewController {
     }
 }
 
+// MARK: - TableViewDataSource
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return diaryList.count
@@ -101,6 +102,7 @@ extension DiaryListViewController: UITableViewDataSource {
     }
 }
 
+// MARK: - TableViewDelegate
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diary = diaryList[indexPath.row]
@@ -134,7 +136,7 @@ extension DiaryListViewController: UITableViewDelegate {
     }
 }
 
-// MARK: - Alert
+// MARK: - Present View
 extension DiaryListViewController {
     private func presentDeleteAlert(indexPath: IndexPath) {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in

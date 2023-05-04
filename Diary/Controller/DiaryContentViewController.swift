@@ -40,6 +40,31 @@ final class DiaryContentViewController: UIViewController {
         createDiaryIfNeeded()
     }
     
+    func updateDiary() {
+        guard let id = diary?.id else { return }
+        
+        let devidedContents: DiaryText = devide(text: textView.text)
+        let updatedDate = Date().timeIntervalSince1970
+
+        DiaryCoreDataManager.shared.updateDiary(title: devidedContents.title,
+                                                body: devidedContents.body,
+                                                date: updatedDate,
+                                                id: id)
+    }
+    
+    private func devide(text: String?) -> DiaryText {
+        guard let text,
+              let newLineIndex = text.firstIndex(of: "\n") else { return (text, nil) }
+        
+        let startIndex = text.startIndex
+        let titleRange = startIndex..<newLineIndex
+        let bodyRange = newLineIndex...
+        let title = String(text[titleRange])
+        let body = String(text[bodyRange])
+        
+        return (title, body)
+    }
+    
     private func setUpRootView() {
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
@@ -57,23 +82,17 @@ final class DiaryContentViewController: UIViewController {
                                                             action: #selector(tapEllipsisButton))
     }
     
+    @objc
+    private func tapEllipsisButton() {
+        presentActionSheet()
+    }
+    
     private func setUpTextView() {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = .preferredFont(forTextStyle: .body)
         
         setUpTextViewLayout()
         configureTextViewContent()
-    }
-    
-    private func configureTextViewContent() {
-        guard let diary = diary else { return }
-        
-        if let title = diary.title, let body = diary.body {
-            textView.text = title + body
-        } else {
-            textView.text = diary.title
-        }
-        
     }
     
     private func setUpTextViewLayout() {
@@ -87,6 +106,37 @@ final class DiaryContentViewController: UIViewController {
         ])
     }
     
+    private func configureTextViewContent() {
+        guard let diary = diary else { return }
+        
+        if let title = diary.title, let body = diary.body {
+            textView.text = title + body
+        } else {
+            textView.text = diary.title
+        }
+        
+    }
+    
+    private func showKeyboardIfNeeded() {
+        if diary == nil {
+            textView.becomeFirstResponder()
+        }
+    }
+    
+    private func createDiaryIfNeeded() {
+        if diary == nil {
+            let createdDate = Date().timeIntervalSince1970
+            
+            diary = DiaryCoreDataManager.shared.createDiary(title: "",
+                                                            body: "",
+                                                            date: createdDate,
+                                                            id: UUID())
+        }
+    }
+}
+
+// MARK: - KeyboardNotification
+extension DiaryContentViewController {
     private func addObserver() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(noti:)),
@@ -117,54 +167,10 @@ final class DiaryContentViewController: UIViewController {
         
         updateDiary()
     }
-    
-    func updateDiary() {
-        guard let id = diary?.id else { return }
-        
-        let devidedContents: DiaryText = devide(text: textView.text)
-        let updatedDate = Date().timeIntervalSince1970
+}
 
-        DiaryCoreDataManager.shared.updateDiary(title: devidedContents.title,
-                                                body: devidedContents.body,
-                                                date: updatedDate,
-                                                id: id)
-    }
-    
-    private func devide(text: String?) -> DiaryText {
-        guard let text,
-              let newLineIndex = text.firstIndex(of: "\n") else { return (text, nil) }
-        
-        let startIndex = text.startIndex
-        let titleRange = startIndex..<newLineIndex
-        let bodyRange = newLineIndex...
-        let title = String(text[titleRange])
-        let body = String(text[bodyRange])
-        
-        return (title, body)
-    }
-    
-    private func showKeyboardIfNeeded() {
-        if diary == nil {
-            textView.becomeFirstResponder()
-        }
-    }
-    
-    private func createDiaryIfNeeded() {
-        if diary == nil {
-            let createdDate = Date().timeIntervalSince1970
-            
-            diary = DiaryCoreDataManager.shared.createDiary(title: "",
-                                                            body: "",
-                                                            date: createdDate,
-                                                            id: UUID())
-        }
-    }
-    
-    @objc
-    private func tapEllipsisButton() {
-        presentActionSheet()
-    }
-    
+// MARK: - Present View
+extension DiaryContentViewController {
     private func presentActionSheet() {
         let alertData = alertDataMaker.actionSheetData { [weak self] in
             guard let self = self else { return }
