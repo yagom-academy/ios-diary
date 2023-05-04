@@ -118,7 +118,8 @@ extension DiaryListViewController: UITableViewDelegate {
     ) -> UISwipeActionsConfiguration? {
         let share = UIContextualAction(style: .normal,
                                        title: nil) { [weak self] _, _, completion in
-            self?.presentActivityView(indexPath: indexPath)
+            guard let self else { return }
+            self.presentActivityView(indexPath: indexPath)
             completion(true)
         }
         share.image = UIImage(systemName: "square.and.arrow.up")
@@ -126,7 +127,8 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let delete = UIContextualAction(style: .destructive,
                                         title: nil) { [weak self] _, _, completion in
-            self?.presentDeleteAlert(indexPath: indexPath)
+            guard let self else { return }
+            self.presentDeleteAlert(indexPath: indexPath)
             completion(true)
         }
         delete.image = UIImage(systemName: "trash")
@@ -153,10 +155,8 @@ extension DiaryListViewController {
     
     private func presentActivityView(indexPath: IndexPath) {
         let diary = diaryList[indexPath.row]
-        
-        guard let title = diary.title,
-              let body = diary.body else { return }
-        
+        let title = diary.title ?? ""
+        let body = diary.body ?? ""
         let text = title + body
         let activityView = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         
