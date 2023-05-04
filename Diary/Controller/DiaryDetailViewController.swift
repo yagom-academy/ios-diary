@@ -126,13 +126,13 @@ final class DiaryDetailViewController: UIViewController {
       
         let cancelAction = UIAlertAction(title: String.localized(key: LocalizationKey.cancel), style: .cancel)
         let shareAction = UIAlertAction(title: String.localized(key: LocalizationKey.share), style: .default) { _ in
-            
+            self.showActivityViewController()
         }
         
         let deleteAction = UIAlertAction(title: String.localized(key: LocalizationKey.delete), style: .destructive) { [weak self] _ in
             guard let id = self?.id else { return }
             
-            CoreDataManager.shared.deleteData(id: id)
+            CoreDataManager.shared.delete(id: id)
             self?.isSave = false
             self?.navigationController?.popViewController(animated: true)
         }
@@ -142,6 +142,15 @@ final class DiaryDetailViewController: UIViewController {
         shareActionSheet.addAction(deleteAction)
         
         present(shareActionSheet, animated: true)
+    }
+    
+    private func showActivityViewController() {
+        let shareObject = [Any]()
+        
+        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
 
     private func configureNotification() {

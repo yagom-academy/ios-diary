@@ -84,7 +84,7 @@ final class DiaryViewController: UIViewController {
         let cancelAction = UIAlertAction(title: String.localized(key: LocalizationKey.cancel), style: .cancel)
         let deleteAction = UIAlertAction(title: String.localized(key: LocalizationKey.delete), style: .destructive) { _ in
             guard let diary = self.diaries?[safe: indexPath.row] else { return }
-            CoreDataManager.shared.deleteData(id: diary.id)
+            CoreDataManager.shared.delete(id: diary.id)
             self.applySnapshot()
         }
           
@@ -151,7 +151,9 @@ extension DiaryViewController: UITableViewDelegate {
         let share = UIContextualAction(
             style: .normal,
             title: String.localized(key: LocalizationKey.share)
-        ) { [weak self]  (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+        ) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            
+            self.showActivityViewController()
             
             success(true)
         }
@@ -160,5 +162,14 @@ extension DiaryViewController: UITableViewDelegate {
         share.backgroundColor = .systemTeal
         
         return UISwipeActionsConfiguration(actions: [delete, share])
+    }
+    
+    private func showActivityViewController() {
+        let shareObject = [Any]()
+        
+        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }

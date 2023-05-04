@@ -94,7 +94,7 @@ final class CoreDataManager {
     }
     
     // MARK: - Delete
-    func deleteData(id: UUID) {
+    func delete(id: UUID) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: DiaryKey.EntityName)
         fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
