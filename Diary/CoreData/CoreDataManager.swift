@@ -24,7 +24,7 @@ final class CoreDataManager {
         return container
     }()
     
-    private lazy var context: NSManagedObjectContext = persistentContainer.viewContext
+    private var context: NSManagedObjectContext { persistentContainer.viewContext }
     
     func create(contents: Contents) throws {
         let storage = ContentsEntity(context: context)
