@@ -35,22 +35,7 @@ final class DiaryEditViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        let (title, body) = divide(text: textView.text)
-        guard let title,
-              let body else { return }
-        
-        switch diaryType {
-        case .new:
-            CoreDataManger.shared.createDiary(title: title, body: body)
-            self.diaryType = .old
-        case .old:
-            guard let date = diaryData?.createDate,
-                  let id = diaryData?.id else { return }
-            CoreDataManger.shared.updateDiary(id: id,
-                                              title: title,
-                                              createDate: date,
-                                              body: body)
-        }
+        autoSaveDiary()
     }
     
     init(diaryData: DiaryData? = nil, type: DiaryType = .new) {
@@ -113,17 +98,21 @@ final class DiaryEditViewController: UIViewController {
     }
     
     private func configureText() {
-        guard let title = diaryData?.title,
-              let body = diaryData?.body else { return }
-        textView.text = "\(title)\n\(body)"
+        guard let title = diaryData?.title else { return }
+        if let body = diaryData?.body {
+            textView.text = "\(title)\n\(body)"
+        } else {
+            textView.text = title
+        }
     }
     
     private func configureTitle() {
         guard let date = diaryData?.createDate else { return }
+        
         navigationItem.title = DateManger.shared.convertToDate(fromDouble: date)
     }
     
-    private func divide(text: String?) -> (title: String?, body: String?) {
+    private func divide(text: String?) -> (title: String, body: String?) {
         guard let text,
               let spacingIndex = text.firstIndex(of: "\n") else {
             return ("", nil)
@@ -142,27 +131,35 @@ final class DiaryEditViewController: UIViewController {
     }
     
     private func setupNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(saveDiary),
-            name: .didEnterBackground,
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(saveDiary),
+                                               name: UIApplication.didEnterBackgroundNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(saveDiary),
+                                               name: UIApplication.keyboardDidHideNotification,
+                                               object: nil)
     }
     
     @objc
     private func saveDiary() {
-        let (title, body) = divide(text: textView.text)
-        guard let id = diaryData?.id else { return }
-        guard let title,
-              let body else { return }
-        CoreDataManger.shared.updateDiary(id: id,
-                                          title: title,
-                                          createDate: Date().timeIntervalSince1970,
-                                          body: body)
+        autoSaveDiary()
     }
-}
-
-extension Notification.Name {
-    static let didEnterBackground = Notification.Name("didEnterBackground")
+    
+    private func autoSaveDiary() {
+        let (title, body) = divide(text: textView.text)
+        
+        switch diaryType {
+        case .new:
+            CoreDataManger.shared.createDiary(title: title, body: body)
+            self.diaryType = .old
+        case .old:
+            guard let date = diaryData?.createDate,
+                  let id = diaryData?.id else { return }
+            CoreDataManger.shared.updateDiary(id: id,
+                                              title: title,
+                                              createDate: date,
+                                              body: body)
+        }
+    }
 }

@@ -50,7 +50,7 @@ class CoreDataManger {
         }
     }
     
-    func createDiary(title: String, body: String) {
+    func createDiary(title: String = "", body: String?) {
         let entity = NSEntityDescription.entity(forEntityName: "DiaryData", in: self.context)
         
         if let entity {
@@ -69,7 +69,7 @@ class CoreDataManger {
         }
     }
     
-    func updateDiary(id: UUID, title: String, createDate: Double, body: String) {
+    func updateDiary(id: UUID, title: String, createDate: Double, body: String?) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "DiaryData")
         fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
         

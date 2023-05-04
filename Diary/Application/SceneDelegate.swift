@@ -32,6 +32,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        NotificationCenter.default.post(name: .didEnterBackground, object: nil)
     }
 }
