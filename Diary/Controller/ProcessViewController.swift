@@ -17,6 +17,7 @@ final class ProcessViewController: UIViewController {
     
     private let diaryTextView = UITextView()
     private var diary: Diary?
+    private var isDeleteDiary: Bool = false
     
     private let diaryService: DiaryService
     
@@ -37,13 +38,13 @@ final class ProcessViewController: UIViewController {
         setUpNotification()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        diaryTextView.becomeFirstResponder()
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         let diaryInformation = currentDiaryInformation()
         processDiary(diaryInformation)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        diaryTextView.becomeFirstResponder()
     }
     
     func currentDiaryInformation() -> DiaryInformation? {
@@ -64,6 +65,11 @@ final class ProcessViewController: UIViewController {
     
     func processDiary(_ diaryInformation: DiaryInformation?) {
         guard let diaryInformation else {
+            return
+        }
+        
+        if isDeleteDiary {
+            self.navigationController?.popViewController(animated: true)
             return
         }
         
@@ -98,23 +104,71 @@ final class ProcessViewController: UIViewController {
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { _ in
+        actionSheet.addAction(UIAlertAction(title: "Share...", style: .default, handler: { [weak self] _ in
             var objectsToShare = [String]()
-            if let text = self.diaryTextView.text {
+            if let text = self?.diaryTextView.text {
                 objectsToShare.append(text)
             }
             
-            let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
-            self.present(activityVC, animated: true, completion: nil)
+            let activityVC = UIActivityViewController(
+                activityItems: objectsToShare,
+                applicationActivities: nil
+            )
+            
+            self?.present(activityVC, animated: true, completion: nil)
         }))
         
         actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
-            
+            self.presentDeleteAlert()
         }))
         
         actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    func presentDeleteAlert() {
+        let deleteAlertController = UIAlertController(
+            title: "진짜요?",
+            message: "정말로 삭제하시겠어요?",
+            preferredStyle: .alert
+        )
+        
+        let cancelAction = UIAlertAction(
+            title: "취소",
+            style: .default
+        )
+        
+        let deleteAction = UIAlertAction(
+            title: "삭제",
+            style: .destructive) { [weak self] _ in
+                guard let diary = self?.diary else {
+                    return
+                }
+                
+                self?.diaryService.delete(id: diary.id)
+                self?.isDeleteDiary = true
+                self?.navigationController?.popViewController(animated: true)
+            }
+        
+        deleteAlertController.addAction(cancelAction)
+        deleteAlertController.addAction(deleteAction)
+        
+        self.present(deleteAlertController, animated: true)
+    }
+    
+    private func presentAlertController(
+        title: String?,
+        message: String?,
+        shareAction: UIAlertAction,
+        deleteAction: UIAlertAction,
+        style: UIAlertController.Style
+        ) {
+        let controller = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: style
+        )
     }
     
     private func updateTextView(diary: Diary?) {

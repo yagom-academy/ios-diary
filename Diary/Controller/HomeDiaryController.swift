@@ -98,7 +98,7 @@ extension HomeDiaryController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { action, view, success in
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
             self.diaryService.delete(id: diary.id)
         }

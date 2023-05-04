@@ -48,7 +48,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let diaryInformation = processViewController?.currentDiaryInformation()
         processViewController?.processDiary(diaryInformation)
         
-        
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 }
