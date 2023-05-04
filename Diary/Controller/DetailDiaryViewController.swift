@@ -25,13 +25,6 @@ final class DetailDiaryViewController: UIViewController {
         return textView
     }()
     
-    private let detailButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        
-        return button
-    }()
-    
     init(isCreateDiary: Bool, isSaveRequired: Bool) {
         self.isCreateDiary = isCreateDiary
         self.isSaveRequired = isSaveRequired
@@ -45,6 +38,7 @@ final class DetailDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureNavigationBar()
         configureSubview()
         configureConstraint()
         configureKeyboard()
@@ -83,10 +77,10 @@ final class DetailDiaryViewController: UIViewController {
         
         diaryTextView.delegate = self
         diaryTextView.setContentOffset(.zero, animated: true)
-        
-        detailButton.addTarget(self, action: #selector(showDetailAction), for: .touchUpInside)
-        let detailDiaryButton = UIBarButtonItem(customView: detailButton)
-        navigationItem.rightBarButtonItem = detailDiaryButton
+    }
+    
+    private func configureNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(showDetailAction))
         
         if diaryDate == nil {
             title = Date().convertDate()
