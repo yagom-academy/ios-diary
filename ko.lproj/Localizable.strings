@@ -1,0 +1,14 @@
+/* 
+  Localizable.strings
+  Diary
+
+  Created by Andrew, brody on 2023/05/04.
+  
+*/
+//"you fail to find entity"= "엔티티를 찾지 못하였습니다";
+//"you fail to load data" = "데이터 로드에 실패하였습니다";
+//"you fail to create data" = "데이터 생성에 실패하였습니다";
+//"you fail to update data" = "데이터 수정에 실패하였습니다";
+//"you fail to delete data" = "데이터 삭제에 실패하였습니다";
+//"Diary" = "일기장";
+//"New Diary" = "새로운 일기장";

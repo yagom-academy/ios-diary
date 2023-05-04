@@ -16,6 +16,8 @@
 		715A682729F77CA300626385 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715A682629F77CA300626385 /* DiaryCell.swift */; };
 		71714A3229FFBCB1006F3EA8 /* DiaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71714A3129FFBCB1006F3EA8 /* DiaryService.swift */; };
 		719A35CF2A03DBD000158CCC /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719A35CE2A03DBD000158CCC /* CoreDataError.swift */; };
+		719A35D42A03E7EA00158CCC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 719A35D62A03E7EA00158CCC /* Localizable.strings */; };
+		719A35DA2A03EBAA00158CCC /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719A35D92A03EBAA00158CCC /* StringExtension.swift */; };
 		71C280902A00A1F20035E6D0 /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C2808E2A00A1F20035E6D0 /* Diary+CoreDataClass.swift */; };
 		71C280912A00A1F20035E6D0 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C2808F2A00A1F20035E6D0 /* Diary+CoreDataProperties.swift */; };
 		71C280932A00A7380035E6D0 /* ProcessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71C280922A00A7380035E6D0 /* ProcessViewController.swift */; };
@@ -48,6 +50,8 @@
 		715A682629F77CA300626385 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		71714A3129FFBCB1006F3EA8 /* DiaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryService.swift; sourceTree = "<group>"; };
 		719A35CE2A03DBD000158CCC /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
+		719A35D52A03E7EA00158CCC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		719A35D92A03EBAA00158CCC /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		71C2808E2A00A1F20035E6D0 /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
 		71C2808F2A00A1F20035E6D0 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		71C280922A00A7380035E6D0 /* ProcessViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProcessViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +121,7 @@
 			isa = PBXGroup;
 			children = (
 				6288090929F7B818006145DD /* DateFormatterExtension.swift */,
+				719A35D92A03EBAA00158CCC /* StringExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -152,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				62CCC0A529F7693A00FB3106 /* .swiftlint.yml */,
+				719A35D62A03E7EA00158CCC /* Localizable.strings */,
 				C739AE23284DF28600741E8F /* Diary */,
 				627C7BBE2A00AB7400AF7134 /* DiaryServiceTests */,
 				C739AE22284DF28600741E8F /* Products */,
@@ -276,6 +282,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				62CCC0A629F7693A00FB3106 /* .swiftlint.yml in Resources */,
+				719A35D42A03E7EA00158CCC /* Localizable.strings in Resources */,
 				C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */,
 				C739AE31284DF28600741E8F /* Assets.xcassets in Resources */,
 			);
@@ -319,6 +326,7 @@
 			files = (
 				71C280912A00A1F20035E6D0 /* Diary+CoreDataProperties.swift in Sources */,
 				C739AE29284DF28600741E8F /* HomeDiaryController.swift in Sources */,
+				719A35DA2A03EBAA00158CCC /* StringExtension.swift in Sources */,
 				6288090A29F7B819006145DD /* DateFormatterExtension.swift in Sources */,
 				62D3D26329FFB61300C294FC /* CoreDataStack.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
@@ -345,6 +353,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		719A35D62A03E7EA00158CCC /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				719A35D52A03E7EA00158CCC /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
 		C739AE32284DF28600741E8F /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -406,6 +422,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -467,6 +484,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";

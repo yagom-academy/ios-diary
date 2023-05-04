@@ -7,6 +7,25 @@
 import UIKit
 
 final class ProcessViewController: UIViewController {
+    private enum LocalizationText {
+        case delete, share, cancel, deleteAlertTitle, deleteAlertMessage
+        
+        func localizd() -> String {
+            switch self {
+            case .delete:
+                return "삭제".localized()
+            case .share:
+                return "공유".localized()
+            case .cancel:
+                return "취소".localized()
+            case .deleteAlertTitle:
+                return "진짜요?".localized()
+            case .deleteAlertMessage:
+                return "정말로 삭제하시겠어요?".localized()
+            }
+        }
+    }
+    
     typealias DiaryInformation = (title: String, body: String)
     private let diaryTextView = UITextView()
     private var diary: Diary?
@@ -137,7 +156,7 @@ final class ProcessViewController: UIViewController {
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        actionSheet.addAction(UIAlertAction(title: "Share", style: .default, handler: { [weak self] _ in
+        actionSheet.addAction(UIAlertAction(title: LocalizationText.share.localizd(), style: .default, handler: { [weak self] _ in
             var objectsToShare = [String]()
             if let text = self?.diaryTextView.text {
                 objectsToShare.append(text)
@@ -151,29 +170,29 @@ final class ProcessViewController: UIViewController {
             self?.present(activityViewController, animated: true, completion: nil)
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { _ in
+        actionSheet.addAction(UIAlertAction(title: LocalizationText.delete.localizd(), style: .destructive, handler: { _ in
             self.presentDeleteAlert()
         }))
         
-        actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        actionSheet.addAction(UIAlertAction(title: LocalizationText.cancel.localizd(), style: .cancel, handler: nil))
         
         self.present(actionSheet, animated: true, completion: nil)
     }
     
     private func presentDeleteAlert() {
         let deleteAlertController = UIAlertController(
-            title: "진짜요?",
-            message: "정말로 삭제하시겠어요?",
+            title: LocalizationText.deleteAlertTitle.localizd(),
+            message: LocalizationText.deleteAlertMessage.localizd(),
             preferredStyle: .alert
         )
         
         let cancelAction = UIAlertAction(
-            title: "취소",
+            title: LocalizationText.cancel.localizd(),
             style: .default
         )
         
         let deleteAction = UIAlertAction(
-            title: "삭제",
+            title: LocalizationText.delete.localizd(),
             style: .destructive) { [weak self] _ in
                 guard let diary = self?.diary else {
                     return

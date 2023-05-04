@@ -7,6 +7,7 @@ import UIKit
 import CoreData
 
 final class HomeDiaryController: UIViewController {
+    
     private let diaryTableView = UITableView()
     private let localizedDateFormatter = DateFormatter(
         languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
@@ -55,7 +56,7 @@ final class HomeDiaryController: UIViewController {
     }
     
     private func configureNavigationBar() {
-        navigationItem.title = "일기장"
+        navigationItem.title = "일기장".localized()
         navigationItem.rightBarButtonItem = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
@@ -99,12 +100,12 @@ extension HomeDiaryController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제".localized()) { _, _, _ in
             let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
             self.diaryService.delete(id: diary.id)
         }
         
-        let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
+        let shareAction = UIContextualAction(style: .normal, title: "공유".localized()) { _, _, _ in
             let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
             let activityVC = UIActivityViewController(
                 activityItems: [diary.title, diary.body],

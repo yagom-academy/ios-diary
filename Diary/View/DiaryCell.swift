@@ -76,7 +76,7 @@ final class DiaryCell: UITableViewCell {
     }
     
     func configureData(data: Diary, localizedDateFormatter: DateFormatter) {
-        titleLabel.text = data.title.isEmpty ? "새로운 일기장" : data.title
+        titleLabel.text = data.title.isEmpty ? "새로운 일기장".localized() : data.title
         dateLabel.text = localizedDateFormatter.string(from: data.createdAt)
         previewLabel.text = data.body
     }
