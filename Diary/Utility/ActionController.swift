@@ -7,8 +7,8 @@
 import UIKit
 
 enum ActionController {
-    static func showActivityViewController(from viewController: UIViewController) {
-        let activityItems = [UIActivity.ActivityType.airDrop, .message, .mail]
+    static func showActivityViewController(from viewController: UIViewController, title: String, body: String) {
+        let activityItems = [title, body]
         let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         
         activityViewController.popoverPresentationController?.sourceView = viewController.view

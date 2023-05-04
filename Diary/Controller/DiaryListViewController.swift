@@ -101,12 +101,18 @@ extension DiaryListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let diary = self.coreDataManager.readDiary() else { return nil }
+        
         let share = UIContextualAction(style: .normal, title: NameSpace.share) { action, view, completionHandler in
-            ActionController.showActivityViewController(from: self)
+            let title = diary[indexPath.row].title
+            let body = diary[indexPath.row].body
+            
+            ActionController.showActivityViewController(from: self,
+                                                        title: title,
+                                                        body: body)
         }
         
         let delete = UIContextualAction(style: .destructive, title: NameSpace.delete) { action, view, completionHandler in
-            guard let diary = self.coreDataManager.readDiary() else { return }
             let diaryToDelete = diary[indexPath.row]
             self.coreDataManager.deleteDiary(diary: diaryToDelete)
             tableView.deleteRows(at: [indexPath], with: .fade)
@@ -120,4 +126,5 @@ private enum NameSpace {
     static let diary = "일기장"
     static let share = "공유"
     static let delete = "삭제"
+    static let newline = "\n"
 }

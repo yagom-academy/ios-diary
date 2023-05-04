@@ -137,7 +137,10 @@ final class DetailDiaryViewController: UIViewController {
                                             preferredStyle: .actionSheet)
         
         let share = UIAlertAction(title: NameSpace.share, style: .default) { _ in
-            ActionController.showActivityViewController(from: self)
+            guard let diary = self.diary else { return }
+            ActionController.showActivityViewController(from: self,
+                                                        title: diary.title,
+                                                        body: diary.body)
         }
         
         let delete = UIAlertAction(title: NameSpace.delete, style: .destructive) { _ in
