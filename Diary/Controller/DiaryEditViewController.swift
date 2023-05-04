@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Foundation
 
 final class DiaryEditViewController: UIViewController {
     private let diaryData: DiaryData?
@@ -23,11 +24,11 @@ final class DiaryEditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        textView.keyboardDismissMode = .onDrag
+
         configureText()
         configureUI()
         configureTitle()
+        setupNotification()
         showKeyboard()
     }
     
@@ -83,6 +84,8 @@ final class DiaryEditViewController: UIViewController {
     }
     
     @objc private func ellipsisButtonTapped() {
+        self.textView.resignFirstResponder()
+        
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "공유", style: .default) { _ in
             self.presentShareSheet()
@@ -103,10 +106,8 @@ final class DiaryEditViewController: UIViewController {
         
         shareObject.append(shareText)
         
-        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-
-        activityViewController.excludedActivityTypes = [.postToFacebook]
+        let activityViewController = UIActivityViewController(activityItems: shareObject,
+                                                              applicationActivities: nil)
 
         self.present(activityViewController, animated: true)
     }
@@ -139,4 +140,29 @@ final class DiaryEditViewController: UIViewController {
             textView.becomeFirstResponder()
         }
     }
+    
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(saveDiary),
+            name: .didEnterBackground,
+            object: nil
+        )
+    }
+    
+    @objc
+    private func saveDiary() {
+        let (title, body) = divide(text: textView.text)
+        guard let id = diaryData?.id else { return }
+        guard let title,
+              let body else { return }
+        CoreDataManger.shared.updateDiary(id: id,
+                                          title: title,
+                                          createDate: Date().timeIntervalSince1970,
+                                          body: body)
+    }
+}
+
+extension Notification.Name {
+    static let didEnterBackground = Notification.Name("didEnterBackground")
 }

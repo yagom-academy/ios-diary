@@ -16,7 +16,7 @@ final class DiaryMainViewController: UIViewController {
         return tableView
     }()
 
-    private var diaryDatas: [DiaryData] = CoreDataManger.shared.fetchDiary()
+    private var diaryDatas: [DiaryData] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,5 +88,41 @@ extension DiaryMainViewController: UITableViewDelegate {
                                                               type: .old)
         navigationController?.pushViewController(diaryEditViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let share = UIContextualAction(style: .normal, title: nil) { (_, _, completion) in
+            let shareText: String = "share text test!"
+            var shareObject = [Any]()
+            
+            shareObject.append(shareText)
+            
+            let activityViewController = UIActivityViewController(activityItems: shareObject,
+                                                                  applicationActivities: nil)
+
+            self.present(activityViewController, animated: true)
+            completion(true)
+        }
+        
+        let delete = UIContextualAction(style: .normal, title: nil) { (_, _, completion) in
+            CoreDataManger.shared.deleteDiary(id: self.diaryDatas[indexPath.row].id ?? UUID())
+            self.diaryDatas.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
+            completion(true)
+        }
+        
+        share.title = "share"
+        share.backgroundColor = .systemBlue
+        
+        delete.title = "delete"
+        delete.backgroundColor = .systemRed
+//        action.image = UIImage(systemName: "trash")
+        
+        let configuration = UISwipeActionsConfiguration(actions: [delete, share])
+        configuration.performsFirstActionWithFullSwipe = false
+        return configuration
     }
 }
