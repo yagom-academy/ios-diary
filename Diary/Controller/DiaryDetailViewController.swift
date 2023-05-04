@@ -26,8 +26,6 @@ final class DiaryDetailViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
-        AlertManager().showErrorAlert(error: DiaryError.initFailed)
     }
     
     override func viewDidLoad() {
@@ -154,7 +152,7 @@ extension DiaryDetailViewController {
             try CoreDataManager.shared.update(contents: contents)
             delegate?.updateCell(contents: contents)
         } catch {
-            AlertManager().showErrorAlert(error: error)
+            AlertManager().showErrorAlert(target: self, error: error)
         }
     }
     
@@ -175,7 +173,7 @@ extension DiaryDetailViewController {
             try CoreDataManager.shared.create(contents: contents)
             delegate?.createCell(contents: contents)
         } catch {
-            AlertManager().showErrorAlert(error: error)
+            AlertManager().showErrorAlert(target: self, error: error)
         }
     }
         
@@ -188,7 +186,7 @@ extension DiaryDetailViewController {
             
             navigationController?.popToRootViewController(animated: true)
         } catch {
-            AlertManager().showErrorAlert(error: error)
+            AlertManager().showErrorAlert(target: self, error: error)
         }
     }
     

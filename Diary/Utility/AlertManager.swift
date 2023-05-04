@@ -8,10 +8,7 @@
 import UIKit
 
 struct AlertManager {
-    func showErrorAlert(error: Error) {
-        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-              let target = windowScene.windows.first?.rootViewController else { return }
-        
+    func showErrorAlert(target: UIViewController, error: Error) {
         let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default)
         

@@ -32,7 +32,7 @@ final class DiaryListViewController: UIViewController {
         do {
             contentsList = try CoreDataManager.shared.read()
         } catch {
-            AlertManager().showErrorAlert(error: error)
+            AlertManager().showErrorAlert(target: self, error: error)
         }
     }
     
@@ -124,7 +124,9 @@ extension DiaryListViewController: UITableViewDelegate {
                 try CoreDataManager.shared.delete(identifier: identifier)
                 self?.deleteCell()
             } catch {
-                AlertManager().showErrorAlert(error: error)
+                guard let self else { return }
+                
+                AlertManager().showErrorAlert(target: self, error: error)
             }
         }
     }

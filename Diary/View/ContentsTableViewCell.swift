@@ -32,8 +32,6 @@ final class ContentsTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        
-        AlertManager().showErrorAlert(error: DiaryError.initFailed)
     }
     
     func configure(title: String, description: String, date: String) {
