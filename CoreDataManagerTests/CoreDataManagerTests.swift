@@ -17,7 +17,7 @@ final class CoreDataManagerTests: XCTestCase {
     override func setUpWithError() throws {
         try super.setUpWithError()
         sut = CoreDataManager.shared
-        sampleDiary = Decoder.parseJSON(fileName: diaryFileName, returnType: [SampleDiary].self) ?? []
+        sampleDiary = try Decoder.parseJSON(fileName: diaryFileName, returnType: [SampleDiary].self) ?? []
     }
 
     override func tearDownWithError() throws {
@@ -38,6 +38,21 @@ final class CoreDataManagerTests: XCTestCase {
         XCTAssertNotNil(result)
     }
     
+    func test_readAll메서드성공시_파싱한_sampleDiary와_같다() {
+        // given
+        sampleDiary.forEach {
+            sut.create(diary: $0)
+        }
+        let expectation = sampleDiary.removeLast().body
+        
+        // when
+        guard var coreData = sut.readAll() else { return }
+        let result = coreData.removeLast().body
+        
+        // then
+        XCTAssertEqual(expectation, result)
+    }
+    
     func test_create메서드_성공시_Diary에저장된첫번째값의_title은_똘기떵이호치새초미자축인묘이다() {
         // given
         guard let firstSampleDiary = sampleDiary.first else { return }
@@ -51,7 +66,7 @@ final class CoreDataManagerTests: XCTestCase {
         XCTAssertEqual(result, expectation)
     }
     
-    func test_delete메서드_성공시_read메서드호출결과는_nil이다() {
+    func test_deleteAll메서드_성공시_read메서드호출결과는_nil이다() {
         // given
         guard let firstSampleDiary = sampleDiary.first else { return }
         sut.create(diary: firstSampleDiary)
@@ -64,12 +79,28 @@ final class CoreDataManagerTests: XCTestCase {
         XCTAssertNil(result)
     }
     
+    func test_delete메서드로_첫번째sampleDiary를_삭제했을시_다음의_첫번째sampleDiary는_드라고요롱이마초미미진사오미이다 () {
+        // given
+        sampleDiary.forEach {
+            sut.create(diary: $0)
+        }
+        let expectation = "드라고요롱이마초미미진사오미"
+    
+        // when
+        guard let firstSampleDiary = sampleDiary.first else { return }
+        sut.delete(key: firstSampleDiary.title)
+        guard let result = sut.read(key: firstSampleDiary.title)?.title else { return }
+        
+        // then
+        XCTAssertEqual(result, expectation)
+    }
+    
     func test_update메서드_성공시_첫번째값의title이_update된다() {
         // given
         guard let firstSampleDiary = sampleDiary.first else { return }
         sut.create(diary: firstSampleDiary)
         let expectation = "드라고요롱이마초미미진사오미"
-    
+        
         // when
         sut.update(key: firstSampleDiary.title, diary: sampleDiary[1])
         guard let result = sut.read(key: firstSampleDiary.title)?.title else { return }
