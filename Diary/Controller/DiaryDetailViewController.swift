@@ -125,8 +125,8 @@ final class DiaryDetailViewController: UIViewController {
         let shareActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
       
         let cancelAction = UIAlertAction(title: String.localized(key: LocalizationKey.cancel), style: .cancel)
-        let shareAction = UIAlertAction(title: String.localized(key: LocalizationKey.share), style: .default) { _ in
-            self.showActivityViewController()
+        let shareAction = UIAlertAction(title: String.localized(key: LocalizationKey.share), style: .default) { [weak self] _ in
+            self?.showActivityViewController(diary: self?.diary)
         }
         
         let deleteAction = UIAlertAction(title: String.localized(key: LocalizationKey.delete), style: .destructive) { [weak self] _ in
@@ -144,10 +144,15 @@ final class DiaryDetailViewController: UIViewController {
         present(shareActionSheet, animated: true)
     }
     
-    private func showActivityViewController() {
-        let shareObject = [Any]()
+    private func showActivityViewController(diary: Diary?) {
+        var activityItems = [Any]()
+        guard let validDiary = diary else { return }
         
-        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+        activityItems.append(validDiary.title)
+        activityItems.append(validDiary.body)
+        activityItems.append(validDiary.timeIntervalSince1970.convertFormattedDate())
+        
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         
         self.present(activityViewController, animated: true, completion: nil)

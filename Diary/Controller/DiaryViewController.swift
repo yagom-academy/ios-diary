@@ -139,6 +139,8 @@ extension DiaryViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let diary = diaries?[safe: indexPath.row] else { return nil }
+        
         let delete = UIContextualAction(
             style: .destructive,
             title: String.localized(key: LocalizationKey.delete)
@@ -153,7 +155,7 @@ extension DiaryViewController: UITableViewDelegate {
             title: String.localized(key: LocalizationKey.share)
         ) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
-            self.showActivityViewController()
+            self.showActivityViewController(diary: diary)
             
             success(true)
         }
@@ -164,12 +166,18 @@ extension DiaryViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [delete, share])
     }
     
-    private func showActivityViewController() {
-        let shareObject = [Any]()
+    private func showActivityViewController(diary: Diary?) {
+        var activityItems = [Any]()
+        guard let validDiary = diary else { return }
         
-        let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
+        activityItems.append(validDiary.title)
+        activityItems.append(validDiary.body)
+        activityItems.append(validDiary.timeIntervalSince1970.convertFormattedDate())
+        
+        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
         activityViewController.popoverPresentationController?.sourceView = self.view
         
         self.present(activityViewController, animated: true, completion: nil)
     }
+    
 }
