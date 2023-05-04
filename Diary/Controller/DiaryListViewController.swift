@@ -138,8 +138,7 @@ extension DiaryListViewController: UITableViewDelegate {
 extension DiaryListViewController {
     private func presentDeleteAlert(indexPath: IndexPath) {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
-            guard let self = self else { return }
-            guard let id = self.diaryList[indexPath.row].id else { return }
+            guard let self, let id = self.diaryList[indexPath.row].id else { return }
             
             DiaryCoreDataManager.shared.deleteDiary(id: id)
             self.diaryList.remove(at: indexPath.row)

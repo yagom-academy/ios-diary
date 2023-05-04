@@ -162,57 +162,42 @@ final class DiaryContentViewController: UIViewController {
     
     @objc
     private func tapEllipsisButton() {
-//        presentActionSheet()
+        presentActionSheet()
     }
     
-//    private func presentActionSheet() {
-//        let share = AlertActionData(actionTitle: "Share...",
-//                                    actionStyle: .default,
-//                                    completion: presentActivityView)
-//        let delete = AlertActionData(actionTitle: "Delete",
-//                                     actionStyle: .destructive,
-//                                     completion: presentDeleteAlert)
-//        let cancel = AlertActionData(actionTitle: "Cancel",
-//                                     actionStyle: .cancel,
-//                                     completion: nil)
-//        let actionDataList = [share, delete, cancel]
-//
-//        let alertData = alertDataMaker.makeData(alertStyle: .actionSheet, actionDataList: actionDataList)
-//        let alertController = alertFactory.make(for: alertData)
-//
-//        present(alertController, animated: true)
-//    }
+    private func presentActionSheet() {
+        let alertData = alertDataMaker.actionSheetData { [weak self] in
+            guard let self = self else { return }
+            
+            self.presentActivityView()
+        } deleteCompletion: { [weak self] in
+            guard let self else { return }
+            
+            self.presentDeleteAlert()
+        }
+        let alert = alertFactory.actionSheet(for: alertData)
+
+        present(alert, animated: true)
+    }
     
     private func presentActivityView() {
         guard let text = textView.text else { return }
         
         let activityView = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         
-        self.present(activityView, animated: true)
+        present(activityView, animated: true)
     }
     
-    private func deleteDiary() {
-        guard let id = diary?.id else { return }
+    private func presentDeleteAlert() {
+        let alertData = alertDataMaker.deleteAlertData { [weak self] in
+            guard let self, let id = self.diary?.id else { return }
+            
+            DiaryCoreDataManager.shared.deleteDiary(id: id)
+            self.diary = nil
+            navigationController?.popViewController(animated: true)
+        }
+        let alert = alertFactory.deleteDiaryAlert(for: alertData)
         
-        DiaryCoreDataManager.shared.deleteDiary(id: id)
-        diary = nil
-        navigationController?.popViewController(animated: true)
+        present(alert, animated: true)
     }
-    
-//    private func presentDeleteAlert() {
-//        let delete = AlertActionData(actionTitle: "삭제",
-//                                     actionStyle: .destructive,
-//                                     completion: deleteDiary)
-//        let cancel = AlertActionData(actionTitle: "취소",
-//                                     actionStyle: .cancel,
-//                                     completion: nil)
-//        let actionDataList = [delete, cancel]
-//        let alertData = alertDataMaker.makeData(title: "진짜요?",
-//                                                message: "정말로 삭제하시겠어요?",
-//                                                alertStyle: .alert,
-//                                                actionDataList: actionDataList)
-//        let alertController = alertFactory.make(for: alertData)
-//
-//        present(alertController, animated: true)
-//    }
 }
