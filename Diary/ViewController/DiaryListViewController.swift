@@ -13,24 +13,25 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupLayout()
-        setupView()
+        setUpLayout()
+        setUpView()
         configureNavigationBar()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        setupMyDiary()
+        setUpMyDiary()
         diaryTableView.reloadData()
     }
     
-    private func setupMyDiary() {
+    private func setUpMyDiary() {
         guard let diary = CoreDataManager.shared.readAll() else { return }
         myDiary = diary
     }
     
-    private func setupLayout() {
+    // MARK: Autolayout
+    private func setUpLayout() {
         view.backgroundColor = .white
         view.addSubview(diaryTableView)
         let safeArea = view.safeAreaLayoutGuide
@@ -44,12 +45,13 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
-    private func setupView() {
+    private func setUpView() {
         diaryTableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
         diaryTableView.dataSource = self
         diaryTableView.delegate = self
     }
     
+    // MARK: NavigationBar
     private func configureNavigationBar() {
         navigationItem.title = "일기장"
         let plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(plusButtonTapped))
@@ -57,7 +59,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func plusButtonTapped() {
-        let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: nil, mode: .create)
+        let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: nil, mode: .create, titleText: nil, bodyText: nil)
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
@@ -98,7 +100,7 @@ extension DiaryListViewController: UITableViewDelegate {
               let title = diary[indexPath.row].title,
               let fetchedDiary = CoreDataManager.shared.read(key: title) else { return }
         
-        let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: fetchedDiary, mode: .edit)
+        let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: fetchedDiary, mode: .edit, titleText: fetchedDiary.title, bodyText: fetchedDiary.body)
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
@@ -122,7 +124,7 @@ extension DiaryListViewController: UITableViewDelegate {
             
             self?.showDeleteAlert(handler: { _ in
                 CoreDataManager.shared.delete(key: title)
-                self?.setupMyDiary()
+                self?.setUpMyDiary()
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 
             })

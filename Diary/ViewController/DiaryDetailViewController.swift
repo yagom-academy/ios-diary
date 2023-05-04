@@ -37,9 +37,11 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    init(fetchedDiary: DiaryCoreData?, mode: Mode) {
+    init(fetchedDiary: DiaryCoreData?, mode: Mode, titleText: String?, bodyText: String?) {
         self.fetchedDiary = fetchedDiary
         self.mode = mode
+        self.titleText = titleText
+        self.bodyText = bodyText
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -74,6 +76,27 @@ final class DiaryDetailViewController: UIViewController {
         saveDiary()
     }
     
+    // MARK: Autolayout
+    private func configureDiaryView() {
+        view.addSubview(diaryTextView)
+        
+        let safeArea = view.safeAreaLayoutGuide
+        
+        diaryTextView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
+        let textViewHeight = diaryTextView.heightAnchor.constraint(equalTo: safeArea.heightAnchor)
+        textViewHeight.priority = .defaultHigh
+        
+        diaryTextView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            diaryTextView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
+            diaryTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
+            diaryTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -14),
+            diaryTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            textViewHeight
+        ])
+    }
+    
+    // MARK: NavigationBar
     private func configureNavigationBar() {
         let ellipsisButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain, target: self, action: #selector(ellipsisButtonTapped))
         navigationItem.rightBarButtonItem = ellipsisButton
@@ -100,7 +123,14 @@ final class DiaryDetailViewController: UIViewController {
     
     private func showActivityView() {
         guard let titleText = titleText,
-              let bodyText = bodyText else { return }
+              let bodyText = bodyText else {
+            AlertManager.shared.showAlert(target: self,
+                                          title: "일기를 작성해주세요!",
+                                          message: "비어있는 일기는 공유되지 않습니다.",
+                                          defaultTitle: "확인",
+                                          destructiveTitle: nil,
+                                          destructiveHandler: nil)
+            return }
         
         let textToShare = DiaryActivityItemSource(title: titleText, body: bodyText)
         let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
@@ -121,25 +151,7 @@ final class DiaryDetailViewController: UIViewController {
         })
     }
     
-    private func configureDiaryView() {
-        view.addSubview(diaryTextView)
-        
-        let safeArea = view.safeAreaLayoutGuide
-        
-        diaryTextView.contentInset = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0)
-        let textViewHeight = diaryTextView.heightAnchor.constraint(equalTo: safeArea.heightAnchor)
-        textViewHeight.priority = .defaultHigh
-        
-        diaryTextView.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            diaryTextView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 10),
-            diaryTextView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 20),
-            diaryTextView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -14),
-            diaryTextView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            textViewHeight
-        ])
-    }
-    
+    // MARK: Keyboard
     private func setUpKeyboardNotification() {
         NotificationCenter.default.addObserver(
             self,
@@ -152,15 +164,6 @@ final class DiaryDetailViewController: UIViewController {
             self,
             selector: #selector(keyboardWillHide),
             name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
-    
-    private func setUpBackgroundNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(saveDiary),
-            name: UIScene.willDeactivateNotification,
             object: nil
         )
     }
@@ -187,7 +190,14 @@ final class DiaryDetailViewController: UIViewController {
     
     @objc private func saveDiary() {
         guard let titleText = titleText,
-              let bodyText = bodyText else { return }
+              let bodyText = bodyText else {
+            AlertManager.shared.showAlert(target: self,
+                                          title: "일기를 작성해주세요!",
+                                          message: "비어있는 일기는 저장되지 않습니다.",
+                                          defaultTitle: "확인",
+                                          destructiveTitle: nil,
+                                          destructiveHandler: nil)
+            return }
         
         switch mode {
         case .edit:
@@ -201,6 +211,16 @@ final class DiaryDetailViewController: UIViewController {
             CoreDataManager.shared.create(diary: diary)
         }
         mode = .edit
+    }
+    
+    // MARK: Background
+    private func setUpBackgroundNotification() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(saveDiary),
+            name: UIScene.willDeactivateNotification,
+            object: nil
+        )
     }
 }
 
