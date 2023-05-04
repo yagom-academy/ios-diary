@@ -172,7 +172,13 @@ final class DetailDiaryViewController: UIViewController {
     private func updateDiary() {
         let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
         let title = String(diaryContents[0])
-        let body = String(diaryContents[1])
+        var body: String
+        
+        if diaryContents.count == 2 {
+            body = String(diaryContents[1])
+        } else {
+            body = NameSpace.empty
+        }
         
         guard let id = diary?.id,
               let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
