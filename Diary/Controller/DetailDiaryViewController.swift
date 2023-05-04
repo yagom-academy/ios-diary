@@ -96,14 +96,17 @@ final class DetailDiaryViewController: UIViewController {
     private func configureDiary() -> Diary? {
         let id = UUID()
         let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
-        let title = String(diaryContents[0])
         var body: String
         
         if diaryContents.count == 2 {
             body = String(diaryContents[1])
-        } else {
+        } else if diaryContents.count == 1 {
             body = NameSpace.empty
+        } else {
+            return nil
         }
+        
+        let title = String(diaryContents[0])
         
         guard let date = Date().timeIntervalSince1970.roundDownNumber() else { return nil }
         
@@ -171,14 +174,18 @@ final class DetailDiaryViewController: UIViewController {
     
     private func updateDiary() {
         let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
-        let title = String(diaryContents[0])
         var body: String
         
         if diaryContents.count == 2 {
             body = String(diaryContents[1])
-        } else {
+        } else if diaryContents.count == 1 {
             body = NameSpace.empty
+        } else {
+            deleteDiary()
+            return
         }
+        
+        let title = String(diaryContents[0])
         
         guard let id = diary?.id,
               let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
