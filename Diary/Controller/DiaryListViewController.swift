@@ -110,6 +110,8 @@ extension DiaryListViewController: UITableViewDelegate {
             ActionController.showActivityViewController(from: self,
                                                         title: title,
                                                         body: body)
+            completionHandler(true)
+            
         }
         
         let delete = UIContextualAction(style: .destructive, title: NameSpace.delete) { action, view, completionHandler in

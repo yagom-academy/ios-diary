@@ -171,7 +171,7 @@ final class DetailDiaryViewController: UIViewController {
         
         let id = UUID()
         let title = String(diaryContents[0])
-        let body = checkValidDiary(diaryContents)
+        let body = validBody(diaryContents)
         
         let diary = Diary(id: id, title: title, body: body, date: date)
         
@@ -188,7 +188,7 @@ final class DetailDiaryViewController: UIViewController {
         }
         
         let title = String(diaryContents[0])
-        let body = checkValidDiary(diaryContents)
+        let body = validBody(diaryContents)
 
         guard let id = diary?.id,
               let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
@@ -207,7 +207,7 @@ final class DetailDiaryViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    private func checkValidDiary(_ string: [String.SubSequence]) -> String {
+    private func validBody(_ string: [String.SubSequence]) -> String {
         var result: String = NameSpace.empty
         
         if string.count == 2 {
