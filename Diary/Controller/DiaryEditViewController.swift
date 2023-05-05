@@ -9,7 +9,7 @@ import UIKit
 import Foundation
 
 final class DiaryEditViewController: UIViewController {
-    private let diaryData: DiaryData?
+    private var diaryData: DiaryData?
     private var diaryType: DiaryType
     
     private let textView: UITextView = {
@@ -72,10 +72,11 @@ final class DiaryEditViewController: UIViewController {
         self.textView.resignFirstResponder()
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "공유", style: .default) { _ in
-            self.presentShareSheet()
+        let shareAction = UIAlertAction(title: "공유", style: .default) { [weak self]_ in
+            self?.presentShareSheet()
         }
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+        }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
 
         actionSheet.addAction(shareAction)
@@ -151,7 +152,8 @@ final class DiaryEditViewController: UIViewController {
         
         switch diaryType {
         case .new:
-            CoreDataManger.shared.createDiary(title: title, body: body)
+            let diary = CoreDataManger.shared.createDiary(title: title, body: body)
+            self.diaryData = diary
             self.diaryType = .old
         case .old:
             guard let date = diaryData?.createDate,

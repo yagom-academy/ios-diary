@@ -40,6 +40,8 @@ class CoreDataManger {
     
     func fetchDiary() -> [DiaryData] {
         let fetchRequest =  NSFetchRequest<DiaryData>(entityName: "DiaryData")
+        let sortDescriptor = NSSortDescriptor(key: "createDate", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
             let fetchResult = try self.context.fetch(fetchRequest)
@@ -50,7 +52,8 @@ class CoreDataManger {
         }
     }
     
-    func createDiary(title: String = "", body: String?) {
+    @discardableResult
+    func createDiary(title: String = "", body: String?) -> DiaryData? {
         let entity = NSEntityDescription.entity(forEntityName: "DiaryData", in: self.context)
         
         if let entity {
@@ -63,10 +66,15 @@ class CoreDataManger {
             
             do {
                 try self.context.save()
+                
+                return diary as? DiaryData
             } catch {
                 print(error.localizedDescription)
+                return nil
             }
         }
+        
+        return nil
     }
     
     func updateDiary(id: UUID, title: String, createDate: Double, body: String?) {
@@ -78,7 +86,7 @@ class CoreDataManger {
             guard let diary = result[0] as? NSManagedObject else { return }
             
             diary.setValue(title, forKey: "title")
-            diary.setValue(createDate, forKey: "createDate")
+            diary.setValue(Date().timeIntervalSince1970, forKey: "createDate")
             diary.setValue(body, forKey: "body")
             
             try self.context.save()
