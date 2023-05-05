@@ -16,14 +16,14 @@
 
 ## 1. 팀원
 
-|[레옹아범](https://github.com/fatherLeon)| [kaki](https://github.com/kak1x) |
+|[<img src="https://i.imgur.com/IOAJpzu.png" width="22"/> 레옹아범](https://github.com/fatherLeon)| [<img src="https://i.imgur.com/IOAJpzu.png" width="22"/> kaki](https://github.com/kak1x) |
 | :--------: | :--------: |
 |<img height="180px" src="https://raw.githubusercontent.com/Rhode-park/ios-rock-paper-scissors/step02/image/leonFather.jpeg">| <img height="180px" src="https://i.imgur.com/KkFB7j3.png"> |
 
 <br>
 
 ## 2. 타임라인
-#### 프로젝트 진행 기간 : 23.04.24 (월) ~ 23.04.28 (금)
+#### 프로젝트 진행 기간 : 23.04.24 (월) ~ 23.05.12 (금)
 
 | 날짜 | 타임라인 |
 | --- | --- |
@@ -32,6 +32,12 @@
 |23.04.26 (수)| DiaryDetailViewController 구현, 코드 컨벤션 수정 |
 |23.04.27 (목)| 전체 코드 리팩토링 및 Keyboard 화면 가림 방지 로직 변경 |
 |23.04.28 (금)| 코드 컨벤션 수정, README 작성 |
+|23.05.01 (월)| DiaryDetailViewController 리팩토링 |
+|23.05.02 (화)| CoreData CRUD 기능 구현 |
+|23.05.03 (수)| 테이블 뷰 셀 스와이프 시 삭제, 공유 버튼 구현 및 <br> 백그라운드 상태 코어데이터 오류 수정 |
+|23.05.04 (목)| 공유 버튼 클릭시 UIActivityView 구현 |
+|23.05.05 (금)| 코드 리팩토링 및 README 작성 |
+
 
 <br>
 
@@ -43,7 +49,9 @@
 Diary
     ├── .swiftlint.yml
     ├── Model
-    |    └── Diary
+    |    ├── JsonDiary
+    |    ├── DiaryState
+    |    └── PersistenceManager
     ├── View
     |    └── DiaryInfoTableViewCell
     ├── Controller
@@ -52,7 +60,8 @@ Diary
     ├── Etc
     |    ├── ReuseIdentifiable
     |    ├── ArrayExtension
-    |    └── DateExtension
+    |    ├── DateExtension
+    |    └── UIViewControllerExtention
     ├── AppDelegate
     ├── SceneDelegate
     ├── Assets
@@ -67,7 +76,9 @@ Diary
 
 |**일기장 초기 화면**|**기존 일기 조회 페이지**|**새로운 일기 작성 페이지**|
 |:-----:|:-----:|:-----:|
-| <img src = "https://user-images.githubusercontent.com/51234397/235034788-8dd64d8c-4567-4b78-b062-f31cb8d1bf86.gif" width = "300">|<img src = "https://user-images.githubusercontent.com/51234397/235034793-62ef393a-fe30-4887-b3b6-1fbb2c44a5e5.gif" width = "300"> |<img src = "https://user-images.githubusercontent.com/51234397/235034796-8a0f2b3d-cc71-4ff4-af6e-350c07718e21.gif" width = "300">|
+| <img src = "https://i.imgur.com/8HiNqbM.png" width = "300">|<img src = "https://user-images.githubusercontent.com/51234397/236361609-32ebeb57-4364-49c7-ab22-f01163acb247.gif" width = "300"> |<img src = "https://user-images.githubusercontent.com/51234397/236361616-3a9cc476-c0ed-4cb3-9d3d-b35230397b67.gif" width = "300">|
+|**새 일기 작성**|**일기 수정**|**일기 수정 후 Background 진입**|
+| <img src = "https://user-images.githubusercontent.com/51234397/236361619-fc1d7bf2-db00-4cff-acd2-92c97b1073b0.gif" width = "300">|<img src = "https://user-images.githubusercontent.com/51234397/236361623-a173b84f-e6d8-4d6c-b174-291340f5417f.gif" width = "300"> |<img src = "https://user-images.githubusercontent.com/51234397/236361626-f5daf472-d861-49b9-9097-528b1f3d14ef.gif" width = "300">|
 
 <br>
 
