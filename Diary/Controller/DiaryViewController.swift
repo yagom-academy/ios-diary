@@ -37,6 +37,18 @@ final class DiaryViewController: UIViewController {
         self.navigationController?.pushViewController(detailVC, animated: true)
     }
     
+    private func deleteTableViewItem(item: Diary, indexPath: IndexPath) {
+        do {
+            try manager.deleteContent(at: item)
+            tableView.performBatchUpdates { [weak self] in
+                self?.diaryItems.remove(at: indexPath.row)
+                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+        } catch {
+            showFailAlert(error: error)
+        }
+    }
+    
     @objc private func plusButtonTapped() {
         pushDiaryDetailViewController(.create)
     }
@@ -68,33 +80,24 @@ extension DiaryViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let diary = self.diaryItems[safe: indexPath.row] else { return nil }
+        
         let deleteContextualAction = UIContextualAction(
             style: .destructive,
             title: nil) { [weak self] _, _, completionHandler in
-            guard let diary = self?.diaryItems[safe: indexPath.row] else { return }
-            
-            do {
-                try self?.manager.deleteContent(at: diary)
-                self?.diaryItems.remove(at: indexPath.row)
-                self?.tableView.reloadData()
+                self?.deleteTableViewItem(item: diary, indexPath: indexPath)
                 completionHandler(true)
-            } catch {
-                self?.showFailAlert(error: error)
-                completionHandler(false)
             }
-        }
         
         deleteContextualAction.image = UIImage(systemName: "trash.fill")?.withTintColor(.white)
         deleteContextualAction.backgroundColor = .systemRed
         
         let shareContextualAction = UIContextualAction(
             style: .normal,
-            title: nil) { [weak self] _, _, completionHandler in
-            guard let text = self?.diaryItems[safe: indexPath.row]?.content else { return }
-            
-            self?.showActivityView(text)
-            completionHandler(true)
-        }
+            title: nil) { [weak self] _, _, completionHandler in                
+                self?.showActivityView(diary.content)
+                completionHandler(true)
+            }
         
         shareContextualAction.image = UIImage(systemName: "square.and.arrow.up")
         shareContextualAction.backgroundColor = .systemBlue

@@ -17,7 +17,9 @@ extension UIViewController {
         present(alert, animated: true)
     }
     
-    func showActivityView(_ text: String) {
+    func showActivityView(_ text: String?) {
+        guard let text = text else { return }
+        
         let activityView = UIActivityViewController(activityItems: [text], applicationActivities: nil)
         
         present(activityView, animated: true)
