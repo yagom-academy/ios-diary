@@ -24,7 +24,7 @@ struct DiaryDataManager {
             diary.setValue(data.body, forKey: "body")
             diary.setValue(data.id, forKey: "id")
             
-            saveContext()
+            storage.saveContext()
         }
     }
     
@@ -52,30 +52,19 @@ struct DiaryDataManager {
         diary.setValue(data.updatedDate, forKey: "date")
         diary.setValue(data.body, forKey: "body")
         
-        saveContext()
+        storage.saveContext()
     }
     
-    func deleteDiary(id: UUID) {
+    func deleteDAO(id: UUID) {
         let request = DiaryDAO.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", id.uuidString)
         request.predicate = predicate
         
-        let fetchResult = try? self.context.fetch(request)
+        let fetchResult = storage.fetch(request: request)
         
-        guard let diary = fetchResult?.first else { return }
+        guard let diary = fetchResult.first else { return }
         
-        context.delete(diary)
-        saveContext()
-    }
-
-    private func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
-        }
+        storage.context.delete(diary)
+        storage.saveContext()
     }
 }
