@@ -10,5 +10,4 @@ import CoreData
 
 @objc(DiaryData)
 public class DiaryData: NSManagedObject {
-
 }

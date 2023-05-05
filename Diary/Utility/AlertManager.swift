@@ -8,10 +8,6 @@
 import UIKit
 
 struct AlertManager {
-    static let shared = AlertManager()
-    
-    private init() {}
-    
     func showAlert(target: UIViewController,
                    completion: @escaping () -> Void) {
         let alert = UIAlertController(title: "진짜요?",
@@ -21,10 +17,8 @@ struct AlertManager {
         let delete = UIAlertAction(title: "삭제", style: .destructive) { _ in
             completion()
         }
-        
         alert.addAction(cancel)
         alert.addAction(delete)
-        
         target.present(alert, animated: true)
     }
     
@@ -39,11 +33,9 @@ struct AlertManager {
             deleteCompletion()
         }
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-
         actionSheet.addAction(shareAction)
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
-        
         target.present(actionSheet, animated: true)
     }
 }

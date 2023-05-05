@@ -22,22 +22,6 @@ final class DiaryEditViewController: UIViewController {
         return textView
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        configureText()
-        configureUI()
-        configureTitle()
-        setupNotification()
-        showKeyboard()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        autoSaveDiary()
-    }
-    
     init(diaryData: DiaryData? = nil, type: DiaryType = .new) {
         self.diaryData = diaryData
         self.diaryType = type
@@ -48,18 +32,29 @@ final class DiaryEditViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureUI()
+        configureText()
+        configureTitle()
+        setupNotification()
+        showKeyboard()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        autoSaveDiary()
+    }
+
     private func configureUI() {
-        view.backgroundColor = .systemBackground
-        view.addSubview(textView)
-        
         let image = UIImage(systemName: "ellipsis.circle")
         let navigationRightButton = UIBarButtonItem(image: image,
                                                     style: .plain,
                                                     target: self,
                                                     action: #selector(ellipsisButtonTapped))
-        
-        self.navigationItem.rightBarButtonItem = navigationRightButton
-        
+        navigationItem.rightBarButtonItem = navigationRightButton
+        view.backgroundColor = .systemBackground
+        view.addSubview(textView)
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             textView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
@@ -68,24 +63,9 @@ final class DiaryEditViewController: UIViewController {
         ])
     }
     
-    @objc private func ellipsisButtonTapped() {
-        self.textView.resignFirstResponder()
-        
-        AlertManager.shared.showActionSheet(target: self) { [weak self] in
-            guard let self,
-                  let id = self.diaryData?.id else { return }
-            AlertManager.shared.showAlert(target: self) {
-                CoreDataManger.shared.deleteDiary(id: id)
-                self.navigationController?.popViewController(animated: true)
-            }
-        } shareCompletion: { [weak self] in
-            guard let self else { return }
-            Namespace.showAct(target: self)
-        }
-    }
-    
     private func configureText() {
         guard let title = diaryData?.title else { return }
+        
         if let body = diaryData?.body {
             textView.text = "\(title)\n\(body)"
         } else {
@@ -95,8 +75,24 @@ final class DiaryEditViewController: UIViewController {
     
     private func configureTitle() {
         guard let date = diaryData?.createDate else { return }
-        
         navigationItem.title = DateManger.shared.convertToDate(fromDouble: date)
+    }
+    
+    private func setupNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(saveDiary),
+                                               name: UIApplication.didEnterBackgroundNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(saveDiary),
+                                               name: UIApplication.keyboardDidHideNotification,
+                                               object: nil)
+    }
+    
+    private func showKeyboard() {
+        if diaryType == .new {
+            textView.becomeFirstResponder()
+        }
     }
     
     private func divide(text: String?) -> (title: String, body: String?) {
@@ -110,22 +106,22 @@ final class DiaryEditViewController: UIViewController {
         
         return (title, body)
     }
-    
-    private func showKeyboard() {
-        if diaryType == .new {
-            textView.becomeFirstResponder()
+
+    @objc
+    private func ellipsisButtonTapped() {
+        textView.resignFirstResponder()
+        
+        AlertManager().showActionSheet(target: self) { [weak self] in
+            guard let self,
+                  let id = self.diaryData?.id else { return }
+            AlertManager().showAlert(target: self) {
+                CoreDataManger.shared.deleteDiary(id: id)
+                self.navigationController?.popViewController(animated: true)
+            }
+        } shareCompletion: { [weak self] in
+            guard let self else { return }
+            ActivityViewManager().showActivityView(target: self)
         }
-    }
-    
-    private func setupNotification() {
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(saveDiary),
-                                               name: UIApplication.didEnterBackgroundNotification,
-                                               object: nil)
-        NotificationCenter.default.addObserver(self,
-                                               selector: #selector(saveDiary),
-                                               name: UIApplication.keyboardDidHideNotification,
-                                               object: nil)
     }
     
     @objc

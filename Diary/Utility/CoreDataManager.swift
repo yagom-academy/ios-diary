@@ -20,6 +20,7 @@ final class CoreDataManger {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        
         return container
     }()
     
@@ -45,9 +46,11 @@ final class CoreDataManger {
         
         do {
             let fetchResult = try self.context.fetch(fetchRequest)
+            
             return fetchResult
         } catch {
             print("\(error.localizedDescription)")
+            
             return []
         }
     }
@@ -58,7 +61,6 @@ final class CoreDataManger {
         
         if let entity {
             let diary = NSManagedObject(entity: entity, insertInto: self.context)
-            
             diary.setValue(title, forKey: "title")
             diary.setValue(body, forKey: "body")
             diary.setValue(Date().timeIntervalSince1970, forKey: "createDate")
@@ -70,6 +72,7 @@ final class CoreDataManger {
                 return diary as? DiaryData
             } catch {
                 print(error.localizedDescription)
+                
                 return nil
             }
         }
@@ -84,11 +87,9 @@ final class CoreDataManger {
         do {
             let result = try self.context.fetch(fetchRequest)
             guard let diary = result[0] as? NSManagedObject else { return }
-            
             diary.setValue(title, forKey: "title")
             diary.setValue(Date().timeIntervalSince1970, forKey: "createDate")
             diary.setValue(body, forKey: "body")
-            
             try self.context.save()
         } catch {
             print(error.localizedDescription)
@@ -102,7 +103,6 @@ final class CoreDataManger {
         do {
             let result = try self.context.fetch(fetchRequest)
             guard let diary = result[0] as? NSManagedObject else { return }
-            
             self.context.delete(diary)
             do {
                 try self.context.save()
