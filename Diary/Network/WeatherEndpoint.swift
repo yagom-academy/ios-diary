@@ -9,6 +9,7 @@ import Foundation
 
 enum WeatherEndpoint {
     case weatherInformation(latitude: String, longitude: String)
+    case weatherIcon(icon: String)
 }
 
 extension WeatherEndpoint {
@@ -16,6 +17,8 @@ extension WeatherEndpoint {
         switch self {
         case .weatherInformation:
             return "https://api.openweathermap.org"
+        case .weatherIcon:
+            return "https://openweathermap.org"
         }
     }
     
@@ -23,6 +26,8 @@ extension WeatherEndpoint {
         switch self {
         case .weatherInformation:
             return "/data/2.5/weather"
+        case .weatherIcon(let icon):
+            return "/img/wn/\(icon)@2x.png"
         }
     }
     
@@ -33,6 +38,10 @@ extension WeatherEndpoint {
                 URLQueryItem(name: "lat", value: latitude),
                 URLQueryItem(name: "lon", value: longitude),
                 URLQueryItem(name: "appid", value: key)
+            ]
+        case .weatherIcon:
+            return [
+                URLQueryItem(name: "", value: nil)
             ]
         }
     }
@@ -57,6 +66,8 @@ extension WeatherEndpoint {
         
         switch self {
         case .weatherInformation:
+            return urlRequest
+        case .weatherIcon:
             return urlRequest
         }
     }

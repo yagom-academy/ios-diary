@@ -92,6 +92,8 @@ final class CoreDataManager {
         target.setValue(diary.title, forKey: "title")
         target.setValue(diary.body, forKey: "body")
         target.setValue(diary.createdDate, forKey: "date")
+        target.setValue(diary.weatherState, forKey: "weatherState")
+        target.setValue(diary.icon, forKey: "icon")
     }
     
     private func save() {

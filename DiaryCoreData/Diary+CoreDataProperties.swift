@@ -18,7 +18,8 @@ extension DiaryCoreData {
     @NSManaged public var title: String?
     @NSManaged public var body: String?
     @NSManaged public var date: Double
-
+    @NSManaged public var weatherState: String?
+    @NSManaged public var icon: String?
 }
 
 extension DiaryCoreData: Identifiable {

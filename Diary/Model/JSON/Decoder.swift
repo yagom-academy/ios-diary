@@ -20,4 +20,16 @@ enum Decoder {
             throw DiaryError.decodeFailure
         }
     }
+    
+    static func parseJSON<Element: Decodable>(data: Data, returnType: Element.Type) throws -> Element? {
+        let jsonDecoder = JSONDecoder()
+        
+        do {
+            let result = try jsonDecoder.decode(returnType, from: data)
+            
+            return result
+        } catch {
+            throw DiaryError.decodeFailure
+        }
+    }
 }

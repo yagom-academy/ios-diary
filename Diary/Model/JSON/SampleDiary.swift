@@ -5,7 +5,7 @@
 //  Created by 리지, Goat on 2023/04/24.
 //
 
-struct SampleDiary: DiaryProtocol, Decodable {
+struct SampleDiary: Decodable {
     var title: String
     var body: String
     var createdDate: Double

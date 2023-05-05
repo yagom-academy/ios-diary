@@ -203,14 +203,36 @@ final class DiaryDetailViewController: UIViewController {
         case .edit:
             guard let keyTitle = fetchedDiary?.title,
                   let date = fetchedDiary?.date else { return }
-            let diary = MyDiary(title: titleText, body: bodyText, createdDate: date)
+            let diary = MyDiary(title: titleText, body: bodyText, createdDate: date, weatherState: "", icon: "")
             CoreDataManager.shared.update(key: keyTitle, diary: diary)
         case .create:
-            let today = Double(Date().timeIntervalSince1970)
-            let diary = MyDiary(title: titleText, body: bodyText, createdDate: today)
-            CoreDataManager.shared.create(diary: diary)
+            fetchWeatherAPI {weatherState, icon in
+                let today = Double(Date().timeIntervalSince1970)
+                let diary = MyDiary(title: titleText, body: bodyText, createdDate: today, weatherState: weatherState, icon: icon)
+                CoreDataManager.shared.create(diary: diary)
+            }
         }
         mode = .edit
+    }
+    
+    private func fetchWeatherAPI(completion: @escaping (String, String) -> Void) {
+        let information = WeatherEndpoint.weatherInformation(latitude: "44.34", longitude: "10.99")
+        NetworkManager.shared.startLoad(endPoint: information, returnType: WeatherInformation.self) {
+            switch $0 {
+            case .failure(let error):
+                AlertManager.shared.showAlert(
+                    target: self,
+                    title: "\(error)가 발생하였습니다.",
+                    message: "다시 시도해주세요.",
+                    defaultTitle: "확인",
+                    destructiveTitle: nil,
+                    destructiveHandler: nil)
+            case .success(let result):
+                let weatherState = result.weather[0].weatherState
+                let icon = result.weather[0].icon
+                completion(weatherState, icon)
+            }
+        }
     }
     
     // MARK: Background

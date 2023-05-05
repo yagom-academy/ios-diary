@@ -7,5 +7,7 @@
 
 enum DiaryError: Error {
     case decodeFailure
+    case networkUnknown
+    case networkResponse
+    case networkStatusCode
 }
-

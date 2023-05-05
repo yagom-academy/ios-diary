@@ -9,4 +9,6 @@ struct MyDiary: DiaryProtocol {
     var title: String
     var body: String
     var createdDate: Double
+    var weatherState: String
+    var icon: String
 }
