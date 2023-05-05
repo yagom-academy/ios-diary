@@ -9,6 +9,9 @@ import CoreData
 
 final class DiaryListViewController: UIViewController {
     private var coreDataManager = CoreDataManager.shared
+    private var diaries: [Diary]? {
+        return coreDataManager.readDiary()
+    }
     
     private let diaryListTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -66,7 +69,7 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let diaries = coreDataManager.readDiary() else { return 0 }
+        guard let diaries else { return 0 }
         
         return diaries.count
     }
@@ -78,7 +81,7 @@ extension DiaryListViewController: UITableViewDataSource {
         
         cell.accessoryType = .disclosureIndicator
         
-        guard let diaries = coreDataManager.readDiary() else { return DiaryListCell() }
+        guard let diaries else { return DiaryListCell() }
         
         cell.configureContent(data: diaries[indexPath.row])
         
@@ -94,18 +97,18 @@ extension DiaryListViewController: UITableViewDelegate {
                                                                   isSaveRequired: true)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
         
-        guard let diaries = coreDataManager.readDiary() else { return }
+        guard let diaries else { return }
         
         detailDiaryViewController.configureContent(diary: diaries[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let diary = self.coreDataManager.readDiary() else { return nil }
+        guard let diaries else { return nil }
         
         let share = UIContextualAction(style: .normal, title: NameSpace.share) { action, view, completionHandler in
-            let title = diary[indexPath.row].title
-            let body = diary[indexPath.row].body
+            let title = diaries[indexPath.row].title
+            let body = diaries[indexPath.row].body
             
             ActionController.showActivityViewController(from: self,
                                                         title: title,
@@ -115,7 +118,7 @@ extension DiaryListViewController: UITableViewDelegate {
         }
         
         let delete = UIContextualAction(style: .destructive, title: NameSpace.delete) { action, view, completionHandler in
-            let diaryToDelete = diary[indexPath.row]
+            let diaryToDelete = diaries[indexPath.row]
             self.coreDataManager.deleteDiary(diary: diaryToDelete)
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
