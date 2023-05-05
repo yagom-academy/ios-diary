@@ -87,15 +87,8 @@ final class DiaryDetailViewController: UIViewController {
             
             self.title = validDiary.timeIntervalSince1970.convertFormattedDate()
             self.id = validDiary.id
-            textView.text = formatContent(validDiary)
+            textView.text = validDiary.sharedText
         }
-    }
-    
-    private func formatContent(_ diary: Diary?) -> String? {
-        guard let title = diary?.title,
-              let body = diary?.body else { return nil}
-        
-        return title + "\n\n" + body
     }
     
     private func configureLayout() {
@@ -157,20 +150,6 @@ final class DiaryDetailViewController: UIViewController {
         shareActionSheet.addAction(deleteAction)
         
         present(shareActionSheet, animated: true)
-    }
-    
-    private func showActivityViewController(diary: Diary?) {
-        var activityItems = [Any]()
-        guard let validDiary = diary else { return }
-        
-        activityItems.append(validDiary.title)
-        activityItems.append(validDiary.body)
-        activityItems.append(validDiary.timeIntervalSince1970.convertFormattedDate())
-        
-        let activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        
-        self.present(activityViewController, animated: true, completion: nil)
     }
 
     private func configureNotification() {
@@ -241,20 +220,12 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func verifyText(text: String) -> String? {
-        var rawText = text
-        
-        while true {
-            if rawText.first == " " {
-                rawText.removeFirst()
-            } else {
-                break
-            }
-        }
-        
-        if rawText.isEmpty {
+        let trimmedText = text.trimmingCharacters(in: .whitespaces)
+
+        if trimmedText.isEmpty {
             return nil
         } else {
-            return rawText
+            return trimmedText
         }
     }
 }
