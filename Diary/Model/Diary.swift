@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Diary: Decodable {
-    
-    let title: String
-    let body: String
-    let createdAt: Double
-    
-}
-
-extension Diary {
-    static let new: Diary = .init(title: "", body: "", createdAt: Date().timeIntervalSince1970)
-}
+//struct Diary: Decodable {
+//
+//    var title: String
+//    var body: String
+//    var createdAt: Double
+//
+//}
+//
+//extension Diary {
+//    static let new: Diary = .init(title: "", body: "", createdAt: Date().timeIntervalSince1970)
+//}
