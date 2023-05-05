@@ -5,13 +5,12 @@
 //
 
 import UIKit
-import CoreData
 
 final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
     private var coreDataManager = CoreDataManager.shared
-    private var isCreateDiary: Bool = false
-    private var isSaveRequired: Bool = true
+    private let isDiaryCreated: Bool
+    private var isSaveRequired: Bool
     private var diary: Diary?
     
     private let diaryTextView: UITextView = {
@@ -26,7 +25,7 @@ final class DetailDiaryViewController: UIViewController {
     }()
     
     init(isCreateDiary: Bool, isSaveRequired: Bool) {
-        self.isCreateDiary = isCreateDiary
+        self.isDiaryCreated = isCreateDiary
         self.isSaveRequired = isSaveRequired
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,7 +54,7 @@ final class DetailDiaryViewController: UIViewController {
         diaryTextView.text = diary.title + NameSpace.newline + diary.body
         diaryTextView.contentOffset = CGPoint.zero
         diaryDate = Date(timeIntervalSince1970: diary.date).convertDate()
-        self.title = diaryDate
+        title = diaryDate
     }
     
     // MARK: - configure method
@@ -91,22 +90,9 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func configureKeyboard() {
-        if isCreateDiary {
+        if isDiaryCreated {
             diaryTextView.becomeFirstResponder()
         }
-    }
-    
-    private func configureDiary() -> Diary? {
-        let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
-
-        guard diaryContents.count != 0,
-              let date = Date().timeIntervalSince1970.roundDownNumber() else { return nil }
-        
-        let id = UUID()
-        let title = String(diaryContents[0])
-        let body = checkValidDiary(diaryContents)
-        
-        return Diary(id: id, title: title, body: body, date: date)
     }
     
     // MARK: - Notification method
@@ -167,7 +153,7 @@ final class DetailDiaryViewController: UIViewController {
     // MARK: - CoreData method
     private func saveDiary() {
         if isSaveRequired {
-            if isCreateDiary {
+            if isDiaryCreated {
                 createDiary()
             } else {
                 updateDiary()
@@ -178,7 +164,16 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func createDiary() {
-        guard let diary = configureDiary() else { return }
+        let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
+
+        guard diaryContents.count != 0,
+              let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
+        
+        let id = UUID()
+        let title = String(diaryContents[0])
+        let body = checkValidDiary(diaryContents)
+        
+        let diary = Diary(id: id, title: title, body: body, date: date)
         
         coreDataManager.createDiary(diary)
     }
