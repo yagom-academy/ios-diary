@@ -116,6 +116,7 @@ final class DetailDiaryViewController: UIViewController {
                                             preferredStyle: .actionSheet)
         
         let share = UIAlertAction(title: NameSpace.share, style: .default) { _ in
+            self.saveDiary()
             guard let diary = self.diary else { return }
             ActionController.showActivityViewController(from: self,
                                                         title: diary.title,
@@ -173,9 +174,11 @@ final class DetailDiaryViewController: UIViewController {
         let title = String(diaryContents[0])
         let body = validBody(diaryContents)
         
-        let diary = Diary(id: id, title: title, body: body, date: date)
+        diary = Diary(id: id, title: title, body: body, date: date)
         
-        coreDataManager.createDiary(diary)
+        guard let diaryForCoreData = diary else { return }
+        
+        coreDataManager.createDiary(diaryForCoreData)
     }
     
     private func updateDiary() {
@@ -193,9 +196,11 @@ final class DetailDiaryViewController: UIViewController {
         guard let id = diary?.id,
               let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
         
-        let updatedDiary = Diary(id: id, title: title, body: body, date: date)
+        diary = Diary(id: id, title: title, body: body, date: date)
         
-        coreDataManager.updateDiary(diary: updatedDiary)
+        guard let diaryForCoreData = diary else { return }
+        
+        coreDataManager.updateDiary(diary: diaryForCoreData)
     }
 
     private func deleteDiary() {
