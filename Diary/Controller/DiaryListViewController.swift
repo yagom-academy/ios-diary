@@ -6,14 +6,12 @@
 
 import UIKit
 
-private enum NavigationConstant {
-
-    static let navigationTitle = "일기장"
-    static let plusIcon = "plus"
-    
-}
-
 final class DiaryListViewController: UIViewController {
+    
+    private enum NavigationConstant {
+        static let navigationTitle = "일기장"
+        static let plusIcon = "plus"
+    }
 
     private let coreDataManager = CoreDataManager.shared
     

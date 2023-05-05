@@ -7,16 +7,16 @@
 
 import UIKit
 
-private enum ButtonConstant {
-    static let shareActionTitle = "공유"
-    static let cancelActionTitle = "취소"
-    static let deleteActionTitle = "삭제"
-    static let deleteAlertTitle = "진짜요?"
-    static let deleteAlertMessage = "정말로 삭제 하시겠어요?"
-}
-
 final class DiaryDetailViewController: UIViewController {
-    
+
+    private enum ButtonConstant {
+        static let shareActionTitle = "공유"
+        static let cancelActionTitle = "취소"
+        static let deleteActionTitle = "삭제"
+        static let deleteAlertTitle = "진짜요?"
+        static let deleteAlertMessage = "정말로 삭제 하시겠어요?"
+    }
+
     private let coreDataManager = CoreDataManager.shared
     
     private var diaryData: Diary?
