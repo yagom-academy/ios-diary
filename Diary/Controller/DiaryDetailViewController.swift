@@ -26,7 +26,7 @@ final class DiaryDetailViewController: UIViewController {
         configureInitailView()
         setupNotification()
     }
-
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
@@ -100,8 +100,6 @@ final class DiaryDetailViewController: UIViewController {
             } catch {
                 showFailAlert(error: error)
             }
-        case .delete:
-            return
         }
     }
     
@@ -154,7 +152,6 @@ extension DiaryDetailViewController {
             
             do {
                 try self?.manager.deleteContent(at: diaryItem)
-                self?.state = .delete
                 self?.navigationController?.popViewController(animated: true)
             } catch {
                 self?.showFailAlert(error: error)
