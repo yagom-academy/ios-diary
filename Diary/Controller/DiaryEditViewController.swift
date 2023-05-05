@@ -71,31 +71,17 @@ final class DiaryEditViewController: UIViewController {
     @objc private func ellipsisButtonTapped() {
         self.textView.resignFirstResponder()
         
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "공유", style: .default) { [weak self]_ in
-            self?.presentShareSheet()
+        AlertManager.shared.showActionSheet(target: self) { [weak self] in
+            guard let self,
+                  let id = self.diaryData?.id else { return }
+            AlertManager.shared.showAlert(target: self) {
+                CoreDataManger.shared.deleteDiary(id: id)
+                self.navigationController?.popViewController(animated: true)
+            }
+        } shareCompletion: { [weak self] in
+            guard let self else { return }
+            Namespace.showAct(target: self)
         }
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
-        }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-
-        actionSheet.addAction(shareAction)
-        actionSheet.addAction(deleteAction)
-        actionSheet.addAction(cancelAction)
-        
-        self.present(actionSheet, animated: true)
-    }
-    
-    func presentShareSheet() {
-        let shareText: String = "share text test!"
-        var shareObject = [Any]()
-        
-        shareObject.append(shareText)
-        
-        let activityViewController = UIActivityViewController(activityItems: shareObject,
-                                                              applicationActivities: nil)
-
-        self.present(activityViewController, animated: true)
     }
     
     private func configureText() {

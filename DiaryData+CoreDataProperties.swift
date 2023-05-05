@@ -8,7 +8,6 @@
 import Foundation
 import CoreData
 
-
 extension DiaryData {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<DiaryData> {
@@ -22,6 +21,4 @@ extension DiaryData {
 
 }
 
-extension DiaryData : Identifiable {
-
-}
+extension DiaryData: Identifiable { }

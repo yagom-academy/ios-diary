@@ -94,23 +94,21 @@ extension DiaryMainViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let share = UIContextualAction(style: .normal, title: nil) { (_, _, completion) in
-            let shareText: String = "share text test!"
-            var shareObject = [Any]()
-            
-            shareObject.append(shareText)
-            
-            let activityViewController = UIActivityViewController(activityItems: shareObject,
-                                                                  applicationActivities: nil)
-
-            self.present(activityViewController, animated: true)
+        let share = UIContextualAction(style: .normal, title: nil) { [weak self](_, _, completion) in
+            guard let self else { return }
+            Namespace.showAct(target: self)
             completion(true)
         }
         
-        let delete = UIContextualAction(style: .normal, title: nil) { (_, _, completion) in
-            CoreDataManger.shared.deleteDiary(id: self.diaryDatas[indexPath.row].id ?? UUID())
-            self.diaryDatas.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .left)
+        let delete = UIContextualAction(style: .normal, title: nil) { [weak self](_, _, completion) in
+            guard let self,
+                  let id = self.diaryDatas[indexPath.row].id else { return }
+            AlertManager.shared.showAlert(target: self) {
+                CoreDataManger.shared.deleteDiary(id: id)
+                self.diaryDatas.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .left)
+            }
+            
             completion(true)
         }
         
@@ -119,10 +117,23 @@ extension DiaryMainViewController: UITableViewDelegate {
         
         delete.title = "delete"
         delete.backgroundColor = .systemRed
-//        action.image = UIImage(systemName: "trash")
         
         let configuration = UISwipeActionsConfiguration(actions: [delete, share])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
+    }
+}
+
+enum Namespace {
+    static func showAct(target: UIViewController) {
+        let shareText: String = "share text test!"
+        var shareObject = [Any]()
+        
+        shareObject.append(shareText)
+        
+        let activityViewController = UIActivityViewController(activityItems: shareObject,
+                                                              applicationActivities: nil)
+
+        target.present(activityViewController, animated: true)
     }
 }
