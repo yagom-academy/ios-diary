@@ -35,12 +35,6 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        endEditingDiary()
-    }
-    
     init(diaryItem: Diary? = nil, state: DiaryState) {
         self.diaryItem = diaryItem
         self.state = state
