@@ -79,7 +79,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     @objc private func endEditingDiary() {
-        if diaryTextView.text.isEmpty { return }
+        guard !diaryTextView.text.isEmpty else { return }
         
         let content = diaryTextView.text
         

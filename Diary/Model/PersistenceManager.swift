@@ -39,13 +39,9 @@ final class PersistenceManager {
         
         guard let diary = managedObject as? Diary else { return nil }
         
-        do {
-            try context.save()
-            
-            return diary
-        } catch {
-            throw error
-        }
+        try context.save()
+        
+        return diary
     }
     
     func fetchContent() throws -> [Diary] {
@@ -54,34 +50,24 @@ final class PersistenceManager {
         
         fetchRequest.sortDescriptors = [sort]
         
-        do {
-            let diaryData = try context.fetch(fetchRequest)
-            
-            return diaryData
-        } catch {
-            throw error
-        }
+        let diaryData = try context.fetch(fetchRequest)
+        
+        return diaryData
     }
     
     func updateContent(at diary: Diary, _ content: String?) throws {
-        do {
-            let item = try context.existingObject(with: diary.objectID)
-            
-            item.setValue(content, forKey: "content")
-            try context.save()
-        } catch {
-            throw error
-        }
+        let item = try context.existingObject(with: diary.objectID)
+        
+        item.setValue(content, forKey: "content")
+        
+        try context.save()
     }
     
     func deleteContent(at diary: Diary) throws {
-        do {
-            let item = try context.existingObject(with: diary.objectID)
-            
-            context.delete(item)
-            try context.save()
-        } catch {
-            throw error
-        }
+        let item = try context.existingObject(with: diary.objectID)
+        
+        context.delete(item)
+        
+        try context.save()
     }
 }
