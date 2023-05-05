@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import Foundation
 
 final class DiaryEditViewController: UIViewController {
     private var diaryData: DiaryData?

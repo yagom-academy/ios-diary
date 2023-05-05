@@ -5,13 +5,12 @@
 //  Created by Christy, vetto on 2023/05/01.
 //
 
-import Foundation
 import CoreData
 
 final class CoreDataManger {
     static let shared = CoreDataManger()
     
-    private init() {}
+    private init() { }
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
