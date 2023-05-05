@@ -10,12 +10,12 @@ import UIKit
 final class DiaryContentViewController: UIViewController {
     typealias DiaryText = (title: String?, body: String?)
     
-    private var diary: Diary?
+    private var diary: DiaryDAO?
     private let textView = UITextView()
     private let alertFactory: DiaryAlertFactoryService = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
 
-    init(diary: Diary? = nil) {
+    init(diary: DiaryDAO? = nil) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }

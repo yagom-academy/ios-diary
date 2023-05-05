@@ -12,7 +12,7 @@ final class DiaryCoreDataManager {
     static var shared: DiaryCoreDataManager = DiaryCoreDataManager()
 
     private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "Diary")
+        let container = NSPersistentContainer(name: "DiaryDAO")
         
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
@@ -28,7 +28,7 @@ final class DiaryCoreDataManager {
     }
     
     private var diaryEntity: NSEntityDescription? {
-        NSEntityDescription.entity(forEntityName: "Diary", in: context)
+        NSEntityDescription.entity(forEntityName: "DiaryDAO", in: context)
     }
 
     private func saveContext() {
@@ -42,9 +42,9 @@ final class DiaryCoreDataManager {
         }
     }
     
-    func createDiary(title: String, body: String, date: Double, id: UUID) -> Diary? {
+    func createDiary(title: String, body: String, date: Double, id: UUID) -> DiaryDAO? {
         if let diaryEntity {
-            let diary = Diary(entity: diaryEntity, insertInto: context)
+            let diary = DiaryDAO(entity: diaryEntity, insertInto: context)
             diary.setValue(title, forKey: "title")
             diary.setValue(date, forKey: "date")
             diary.setValue(body, forKey: "body")
@@ -58,8 +58,8 @@ final class DiaryCoreDataManager {
         return nil
     }
     
-    func fetchDiary() -> Result<[Diary], Error> {
-        let request = Diary.fetchRequest()
+    func fetchDiary() -> Result<[DiaryDAO], Error> {
+        let request = DiaryDAO.fetchRequest()
         let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
         
         request.sortDescriptors = [sortDescriptor]
@@ -70,7 +70,7 @@ final class DiaryCoreDataManager {
     }
     
     func updateDiary(title: String?, body: String?, date: Double, id: UUID) {
-        let request = Diary.fetchRequest()
+        let request = DiaryDAO.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", id.uuidString)
         request.predicate = predicate
         
@@ -86,7 +86,7 @@ final class DiaryCoreDataManager {
     }
     
     func deleteDiary(id: UUID) {
-        let request = Diary.fetchRequest()
+        let request = DiaryDAO.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", id.uuidString)
         request.predicate = predicate
         

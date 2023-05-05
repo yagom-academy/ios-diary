@@ -8,14 +8,14 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
-    private var diaryList: [Diary] = []
+    private var diaryList: [DiaryDAO] = []
     private let sampleDecoder = DiaryDecodeManager()
     private let alertFactory: DiaryAlertFactoryService = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        print(NSHomeDirectory())
         setUpRootView()
         setUpNavigationBar()
         setUpTableView()
@@ -144,8 +144,8 @@ extension DiaryListViewController: UITableViewDelegate {
 extension DiaryListViewController {
     private func presentDeleteAlert(indexPath: IndexPath) {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
-            guard let self, let id = self.diaryList[indexPath.row].id else { return }
-            
+            guard let self else { return }
+            let id = self.diaryList[indexPath.row].id
             DiaryCoreDataManager.shared.deleteDiary(id: id)
             self.diaryList.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
