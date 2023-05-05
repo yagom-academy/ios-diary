@@ -203,12 +203,6 @@ extension DiaryDetailViewController: UITextViewDelegate {
 ### 4️⃣ Compression resistance priority를 이용한 label 크기 문제 해결
 `Horizontal StackView`를 사용하여 두개의 `Label`을 넣는 방식을 사용할 때, 텍스트의 길이가 긴 `Label`이  짧은 `Label`을 잡아 먹는 경우가 생겼습니다. 이를 해결하기 위해 날짜`Label`에 Compression Resistance Priority를 활용하여 수정하였습니다. Compression Resistance Priority이란 해석하면 압축을 저항하는 우선순위로, Priority 값이 높은 쪽이 형태를 유지하고, 낮은 쪽의 형태가 압축됩니다.
 
-- 수정 전
-![]()
-
-
-- 수정 후
-![]()
 
 | <center>수정 전</center> | <center>수정 후</center>|
 | --- | --- |
