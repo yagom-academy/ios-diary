@@ -17,15 +17,15 @@ struct DiaryDataManager {
     }
     
     func createDAO(from data: Diary) {
-        if let diaryEntity {
-            let diary = DiaryDAO(entity: diaryEntity, insertInto: storage.context)
-            diary.setValue(data.title, forKey: "title")
-            diary.setValue(data.updatedDate, forKey: "date")
-            diary.setValue(data.body, forKey: "body")
-            diary.setValue(data.id, forKey: "id")
-            
-            storage.saveContext()
-        }
+        guard let diaryEntity else { return }
+        
+        let diary = DiaryDAO(entity: diaryEntity, insertInto: storage.context)
+        diary.setValue(data.title, forKey: "title")
+        diary.setValue(data.updatedDate, forKey: "date")
+        diary.setValue(data.body, forKey: "body")
+        diary.setValue(data.id, forKey: "id")
+        
+        storage.saveContext()
     }
     
     func readAllDAO() -> [DiaryDAO] {

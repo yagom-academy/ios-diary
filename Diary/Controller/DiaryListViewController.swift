@@ -10,7 +10,7 @@ final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
     private var diaryList: [Diary] = []
     private let sampleDecoder = DiaryDecodeManager()
-    private let alertFactory: DiaryAlertFactoryService = DiaryAlertMaker()
+    private let alertMaker: DiaryAlertFactoryService = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
     private let storage = DiaryDataManager()
     
@@ -161,7 +161,7 @@ extension DiaryListViewController {
             self.diaryList.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
-        let alert = alertFactory.deleteDiaryAlert(for: alertData)
+        let alert = alertMaker.deleteDiaryAlert(for: alertData)
         
         present(alert, animated: true)
     }
