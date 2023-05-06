@@ -9,7 +9,7 @@
 import Foundation
 import CoreData
 
-extension DiaryDAO: DataAccessObject {
+extension DiaryDAO {
     
 //    @nonobjc public static func fetchRequest() -> NSFetchRequest<DiaryDAO> {
 //        return NSFetchRequest<DiaryDAO>(entityName: "DiaryDAO")
@@ -23,3 +23,26 @@ extension DiaryDAO: DataAccessObject {
 }
 
 extension DiaryDAO: Identifiable { }
+
+extension DiaryDAO: DataAccessObject {
+    typealias DTO = Diary
+    
+    convenience init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?, data: Diary) {
+        self.init(entity: entity, insertInto: context)
+        
+        self.title = data.title
+        self.body = data.body
+        self.date = data.updatedDate
+        self.id = data.id
+    }
+    
+    func setValues() {
+        
+    }
+    
+    func updateValue(data: Diary) {
+        self.title = data.title
+        self.body = data.body
+        self.date = data.updatedDate
+    }
+}

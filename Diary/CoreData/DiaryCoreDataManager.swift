@@ -16,14 +16,28 @@ struct DiaryDataManager {
                                           in: storage.context)
     }
     
-    func createDAO(from data: DataTransferObject) {
+    func createDAO<DTO: DataTransferObject, DAO: DataAccessObject>(entityType: DAO, from data: DTO) {
         guard let diaryEntity else { return }
         
-        let diary = DiaryDAO(entity: diaryEntity, insertInto: storage.context)
-        diary.setValue(data.title, forKey: "title")
-        diary.setValue(data.updatedDate, forKey: "date")
-        diary.setValue(data.body, forKey: "body")
-        diary.setValue(data.id, forKey: "id")
+        let diaryDAO = DAO.object(entityName: entityType.entity.name!, context: storage.context)
+
+        diaryDAO.updateValue(data: data)
+        
+        
+        diaryDAO.setValue(<#T##value: Any?##Any?#>, forKey: <#T##String#>)
+        
+//        let diary = DiaryDAO(entity: diaryEntity,
+//                             insertInto: storage.context,
+//                             data: data as! Diary)
+//        diary.setValue(data.title, forKey: "title")
+//        diary.setValue(data.updatedDate, forKey: "date")
+//        diary.setValue(data.body, forKey: "body")
+//        diary.setValue(data.id, forKey: "id")
+        if let diary = object as? Diary {
+            
+        } else if let diary = object as? ??? {
+            
+        }
         
         storage.saveContext()
     }

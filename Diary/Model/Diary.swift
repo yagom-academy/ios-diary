@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Diary: DataTransferObject {
+final class Diary {
     var title, body: String?
     var updatedDate: Double
     var id = UUID()
@@ -43,5 +43,11 @@ final class Diary: DataTransferObject {
         object.body = self.body
         object.date = self.updatedDate
         object.id = self.id
+    }
+}
+
+extension Diary: DataTransferObject {
+    func toDAO() {
+        let diaryDAO = DiaryDAO(entity: "DiaryDAO", insertInto: <#T##NSManagedObjectContext?#>, data: <#T##Diary#>)
     }
 }
