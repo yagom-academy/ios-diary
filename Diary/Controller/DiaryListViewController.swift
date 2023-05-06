@@ -113,27 +113,41 @@ extension DiaryListViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let share = UIContextualAction(style: .normal,
-                                       title: nil) { [weak self] _, _, completion in
+        let share = makeContextualAction(style: .normal,
+                                         imageName: "square.and.arrow.up",
+                                         color: .systemIndigo) { [weak self] in
             guard let self else { return }
             
             self.presentActivityView(indexPath: indexPath)
-            completion(true)
         }
-        share.image = UIImage(systemName: "square.and.arrow.up")
-        share.backgroundColor = .systemGreen
         
-        let delete = UIContextualAction(style: .destructive,
-                                        title: nil) { [weak self] _, _, completion in
+        let delete = makeContextualAction(style: .destructive,
+                                          imageName: "trash",
+                                          color: .systemRed) { [weak self] in
             guard let self else { return }
             
             self.presentDeleteAlert(indexPath: indexPath)
-            completion(true)
         }
-        delete.image = UIImage(systemName: "trash")
-        delete.backgroundColor = .systemRed
         
         return UISwipeActionsConfiguration(actions: [delete, share])
+    }
+    
+    private func makeContextualAction(
+        style: UIContextualAction.Style,
+        imageName: String,
+        color: UIColor,
+        completion: @escaping () -> Void
+    ) -> UIContextualAction {
+        let contextualAction = UIContextualAction(style: style,
+                                                  title: nil) { _, _, handler in
+            completion()
+            handler(true)
+        }
+        
+        contextualAction.image = UIImage(systemName: imageName)
+        contextualAction.backgroundColor = color
+        
+        return contextualAction
     }
 }
 

@@ -50,7 +50,7 @@ final class DiaryContentViewController: UIViewController {
     func updateDiary() {
         guard let diary else { return }
         
-        let currentContents: DiaryText = devide(text: textView.text)
+        let currentContents: DiaryText = devideTitleAndBody(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
         
         if isDiaryEdited(currentContents) {
@@ -71,7 +71,7 @@ final class DiaryContentViewController: UIViewController {
         }
     }
     
-    private func devide(text: String?) -> DiaryText {
+    private func devideTitleAndBody(text: String?) -> DiaryText {
         guard let text,
               let newLineIndex = text.firstIndex(of: "\n") else { return (text, nil) }
         
