@@ -9,9 +9,9 @@ import Foundation
 import CoreData
 
 struct DiaryDataManager {
-    let storage = CoreDataManager.shared
+    private let storage = CoreDataManager.shared
     
-    var diaryEntity: NSEntityDescription? {
+    private var diaryEntity: NSEntityDescription? {
         return NSEntityDescription.entity(forEntityName: "DiaryDAO",
                                           in: storage.context)
     }
@@ -47,12 +47,14 @@ struct DiaryDataManager {
         let fetchResult = storage.fetch(request: request)
         
         guard let diary = fetchResult.first else { return }
-//        data.copyInEntity(object: diary)
+        
         diary.setValue(data.title, forKey: "title")
         diary.setValue(data.updatedDate, forKey: "date")
         diary.setValue(data.body, forKey: "body")
         
-        storage.saveContext()
+        if storage.context.hasChanges {
+            storage.saveContext()
+        }
     }
     
     func deleteDAO(id: UUID) {

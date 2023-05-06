@@ -41,22 +41,34 @@ final class DiaryContentViewController: UIViewController {
         createDiaryIfNeeded()
     }
     
-    func updateDiary() {
-        guard let id = diary?.id else { return }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         
-        let devidedContents: DiaryText = devide(text: textView.text)
+        updateDiary()
+    }
+    
+    func updateDiary() {
+        guard let diary else { return }
+        
+        let currentContents: DiaryText = devide(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
-        diary?.updateContents(title: devidedContents.title,
-                              body: devidedContents.body,
-                              updatedDate: updatedDate)
-        guard let diary = diary else {
-            return
+        
+        if isDiaryEdited(currentContents) {
+            diary.updateContents(title: currentContents.title,
+                                  body: currentContents.body,
+                                  updatedDate: updatedDate)
+            storage.updateDAO(data: diary)
         }
-        storage.updateDAO(data: diary)
-//        DiaryCoreDataManager.shared.updateDiary(title: devidedContents.title,
-//                                                body: devidedContents.body,
-//                                                date: updatedDate,
-//                                                id: id)
+    }
+    
+    private func isDiaryEdited(_ currentContents: DiaryText) -> Bool {
+        guard let diary else { return false }
+        
+        if diary.title != currentContents.title || diary.body != currentContents.body {
+            return true
+        } else {
+            return false
+        }
     }
     
     private func devide(text: String?) -> DiaryText {
@@ -135,12 +147,10 @@ final class DiaryContentViewController: UIViewController {
             let createdDate = Date().timeIntervalSince1970
             
             self.diary = Diary(title: "", body: "", updatedDate: createdDate)
-            guard let diary = self.diary else { return }
+            
+            guard let diary else { return }
+            
             storage.createDAO(from: diary)
-//            DiaryCoreDataManager.shared.createDiary(title: "",
-//                                                            body: "",
-//                                                            date: createdDate,
-//                                                            id: UUID())
         }
     }
 }
@@ -199,7 +209,8 @@ extension DiaryContentViewController {
     private func presentActivityView() {
         guard let text = textView.text else { return }
         
-        let activityView = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        let activityView = UIActivityViewController(activityItems: [text],
+                                                    applicationActivities: nil)
         
         present(activityView, animated: true)
     }
@@ -208,7 +219,6 @@ extension DiaryContentViewController {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
             guard let self, let id = self.diary?.id else { return }
             
-//            DiaryCoreDataManager.shared.deleteDiary(id: id)
             self.storage.deleteDAO(id: id)
             self.diary = nil
             self.navigationController?.popViewController(animated: true)

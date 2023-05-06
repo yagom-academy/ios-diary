@@ -16,7 +16,7 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(NSHomeDirectory())
+
         setUpRootView()
         setUpNavigationBar()
         setUpTableView()
@@ -26,6 +26,7 @@ final class DiaryListViewController: UIViewController {
         super.viewWillAppear(animated)
         
         fetchDiaryList()
+        tableView.reloadData()
     }
 
     private func setUpRootView() {
@@ -69,26 +70,10 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchDiaryList() {
-        
         let result = storage.readAllDAO()
-//        DiaryCoreDataManager.shared.fetchDiary()
+        let mappedList = result.map { Diary(diaryDAO: $0) }
         
-//        switch result {
-//        case .success(let diaryList):
-//            self.diaryList = diaryList
-//            self.tableView.reloadData()
-//        case .failure(let error):
-//            print(error.localizedDescription)
-//        }
-        
-//        result.forEach { diaryDAO in
-//            self.diaryList.append(Diary(diaryDAO: diaryDAO))
-//        }
-        
-        let list = result.map { diaryDAO in
-            Diary(diaryDAO: diaryDAO)
-        }
-        self.diaryList = list
+        self.diaryList = mappedList
     }
 }
 
@@ -157,8 +142,9 @@ extension DiaryListViewController {
     private func presentDeleteAlert(indexPath: IndexPath) {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
             guard let self else { return }
+            
             let id = self.diaryList[indexPath.row].id
-//            DiaryCoreDataManager.shared.deleteDiary(id: id)
+            
             self.storage.deleteDAO(id: id)
             self.diaryList.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
