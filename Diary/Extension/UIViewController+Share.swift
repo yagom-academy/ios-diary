@@ -8,10 +8,10 @@
 import UIKit
 
 extension UIViewController {
-    func shareText(_ textToShare: String?) {
-        guard let textToShare else { return }
+    func share(someText: String?) {
+        guard let someText else { return }
         
-        let activityViewController = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: [someText], applicationActivities: nil)
 
         self.present(activityViewController, animated: true, completion: nil)
         

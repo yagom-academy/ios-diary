@@ -11,33 +11,38 @@ import CoreData
 final class CoreDataManager {
     
     static let shared = CoreDataManager()
+    static let modelName: String = "Diary"
+    
     private init() {}
     
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     
     lazy var context = appDelegate?.persistentContainer.viewContext
     
-    let modelName: String = "Diary"
-    
     // MARK: - Read 데이터 가져오기
     
-    func getDiaryListFromCoreData() -> [Diary] {
+    func getDiaryListFromCoreData() -> Result<[Diary], CoreDataError> {
         var diaryList = [Diary]()
         if let context = context {
-            let request = NSFetchRequest<Diary>(entityName: modelName)
+            let request = NSFetchRequest<Diary>(entityName: CoreDataManager.modelName)
             let dateOrder = NSSortDescriptor(key: "createdAt", ascending: false)
             request.sortDescriptors = [dateOrder]
             
-            if let fetchedDiaryList = try? context.fetch(request) {
+            do {
+                let fetchedDiaryList = try context.fetch(request)
                 diaryList = fetchedDiaryList
+                return .success(diaryList)
+            } catch {
+                return .failure(.fetchandLoadError)
             }
+        } else {
+            return .failure(.fetchandLoadError)
         }
-        return diaryList
     }
     
     // MARK: - Create 일기 생성하기
     
-    func saveDiaryData(titleText: String?, bodyText: String?, completion: ((Diary?) -> Void)? = nil) {
+    func saveDiaryData(titleText: String?, bodyText: String?) -> Result<Bool, CoreDataError> {
         if let context = context {
             let diaryData = Diary(context: context)
             
@@ -48,18 +53,17 @@ final class CoreDataManager {
             
             appDelegate?.saveContext()
             NotificationCenter.default.post(name: .coreDataChanged, object: nil)
-            completion?(diaryData)
+            return .success(true)
         } else {
-            completion?(nil)
+            return .failure(.saveError)
         }
     }
     
     // MARK: - 일기 삭제하기
     
-    func deleteDiaryData(data: Diary) {
+    func deleteDiaryData(data: Diary) -> Result<Bool, CoreDataError> {
         if let context = context {
-            let request = NSFetchRequest<Diary>(entityName: modelName)
-
+            let request = NSFetchRequest<Diary>(entityName: CoreDataManager.modelName)
             request.predicate = NSPredicate(format: "uuid == %@", data.uuid as CVarArg)
             
             let fetchedDiaryList = try? context.fetch(request)
@@ -68,25 +72,29 @@ final class CoreDataManager {
                 appDelegate?.saveContext()
             }
             NotificationCenter.default.post(name: .coreDataChanged, object: nil)
+            return .success(true)
+        } else {
+            return .failure(.deleteError)
         }
     }
     
     // MARK: - 일기 수정하기
     
-    func updateDiaryData(newDiaryData: Diary) {
+    func updateDiaryData(newDiaryData: Diary) -> Result<Bool, CoreDataError> {
         if let context = context {
-            let request = NSFetchRequest<Diary>(entityName: modelName)
+            let request = NSFetchRequest<Diary>(entityName: CoreDataManager.modelName)
             request.predicate = NSPredicate(format: "uuid == %@", newDiaryData.uuid as CVarArg)
-            
+
             let fetchedDiaryList = try? context.fetch(request)
             if let targetDiaryData = fetchedDiaryList?.first, !targetDiaryData.isDeleted {
                 targetDiaryData.title = newDiaryData.title
                 targetDiaryData.body = newDiaryData.body
-                
                 appDelegate?.saveContext()
+                NotificationCenter.default.post(name: .coreDataChanged, object: nil)
+                return .success(true)
             }
-            NotificationCenter.default.post(name: .coreDataChanged, object: nil)
         }
+        return .failure(.updateError)
     }
     
 }

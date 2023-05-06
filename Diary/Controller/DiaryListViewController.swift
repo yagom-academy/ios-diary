@@ -43,9 +43,34 @@ final class DiaryListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(reloadDataIfNeeded), name: .coreDataChanged, object: nil)
     }
     
+    private func handleCoreDataError(_ error: CoreDataError) {
+        print("Error: \(error.description)")
+        
+        let alertController = UIAlertController(
+            title: "에러발생",
+            message: error.userErrorMessage,
+            preferredStyle: .alert
+        )
+        let okAction = UIAlertAction(
+            title: "확인",
+            style: .default,
+            handler: nil
+        )
+        
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
+
     @objc private func reloadDataIfNeeded() {
-        diaryItems = coreDataManager.getDiaryListFromCoreData()
-        diaryListTableView.reloadData()
+        let result = coreDataManager.getDiaryListFromCoreData()
+        
+        switch result {
+        case .success(let diaryItems):
+            self.diaryItems = diaryItems
+            self.diaryListTableView.reloadData()
+        case .failure(let error):
+            self.handleCoreDataError(error)
+        }
     }
     
     private func setupTableView() {
@@ -82,11 +107,11 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
-    private func handleNetworkError(_ error: NetworkError) {
+    private func handleNetworkError(_ error: CoreDataError) {
         print("Error: \(error.description)")
         
         let alertController = UIAlertController(
-            title: "에러발생",
+            title: nil,
             message: error.userErrorMessage,
             preferredStyle: .alert
         )
@@ -100,10 +125,42 @@ final class DiaryListViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
 
-    private func deleteDiary(diaryData: Diary?) {
-        guard let diaryData else { return }
-        coreDataManager.deleteDiaryData(data: diaryData)
+    private func delete(diaryData: Diary) {
+        let result = coreDataManager.deleteDiaryData(data: diaryData)
+        switch result {
+        case .success:
+            print("삭제 성공")
+        case .failure(let error):
+            print("\(error.userErrorMessage)")
+            self.handleNetworkError(error)
+        }
     }
+    
+    private func createDeleteAction(at indexPath: IndexPath, tableView: UITableView) -> UIContextualAction {
+        return UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
+            guard let self = self else { return }
+
+            if let selectedItem = self.diaryItems[safe: indexPath.row] {
+                self.delete(diaryData: selectedItem)
+                tableView.reloadData()
+            }
+            
+            completionHandler(true)
+        }
+    }
+
+    private func createShareAction(at indexPath: IndexPath) -> UIContextualAction {
+        return UIContextualAction(style: .normal, title: "Share") { [weak self] (action, view, completionHandler) in
+            guard let self = self else { return }
+
+            if let selectedItem = self.diaryItems[safe: indexPath.row] {
+                self.share(someText: selectedItem.title)
+            }
+            
+            completionHandler(true)
+        }
+    }
+
 }
 
 extension DiaryListViewController: UITableViewDataSource {
@@ -118,11 +175,10 @@ extension DiaryListViewController: UITableViewDataSource {
             for: indexPath) as? DiaryTableViewCell else { return UITableViewCell() }
         cell.accessoryType = .disclosureIndicator
 
-        let diaryData = coreDataManager.getDiaryListFromCoreData()
-        diaryData[safe: indexPath.row].map {
-            cell.configureCell($0)
+        if let selectedItem = self.diaryItems[safe: indexPath.row] {
+            cell.configureCell(selectedItem)
         }
-        
+
         return cell
     }
 
@@ -136,38 +192,19 @@ extension DiaryListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        diaryItems[safe: indexPath.row].map {
-            let detailViewController = DiaryDetailViewController(diaryData: $0)
+        if let selectedDiaryItem = diaryItems[safe: indexPath.row] {
+            let detailViewController = DiaryDetailViewController(diary: selectedDiaryItem)
             navigationController?.pushViewController(detailViewController, animated: true)
         }
         
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { [weak self] (action, view, completionHandler) in
-            guard let self else { return }
-            
-            self.diaryItems[safe: indexPath.row].map {
-                self.deleteDiary(diaryData: $0)
-                tableView.reloadData()
-            }
-            
-            completionHandler(true)
-        }
-        
-        let shareAction = UIContextualAction(style: .normal, title: "Share") { [weak self] (action, view, completionHandler) in
-            guard let self else { return }
-            
-            self.diaryItems[safe: indexPath.row].map {
-                self.shareText($0.title)
-            }
-            completionHandler(true)
-        }
-        
+        let deleteAction = createDeleteAction(at: indexPath, tableView: tableView)
+        let shareAction = createShareAction(at: indexPath)
+
         let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         configuration.performsFirstActionWithFullSwipe = false
         return configuration
     }
-
 }

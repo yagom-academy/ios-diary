@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-
+    
     private enum ButtonConstant {
         static let shareActionTitle = "공유"
         static let cancelActionTitle = "취소"
@@ -16,18 +16,22 @@ final class DiaryDetailViewController: UIViewController {
         static let deleteAlertTitle = "진짜요?"
         static let deleteAlertMessage = "정말로 삭제 하시겠어요?"
     }
-
+    
     private let coreDataManager = CoreDataManager.shared
     
-    private var diaryData: Diary?
+    private var diary: Diary?
     
     private var isDeleted: Bool = false
+    
+    private var titleText: String = ""
+    private var bodyText: String = ""
     
     private let titleTextView: UITextView = {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .subheadline)
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.isScrollEnabled = false
+        textView.endEditing(true)
         return textView
     }()
     
@@ -35,11 +39,12 @@ final class DiaryDetailViewController: UIViewController {
         let textView = UITextView()
         textView.font = .preferredFont(forTextStyle: .subheadline)
         textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.endEditing(true)
         return textView
     }()
     
-    init(diaryData: Diary? = nil) {
-        self.diaryData = diaryData
+    init(diary: Diary? = nil) {
+        self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,9 +60,9 @@ final class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         configureNavigationBar()
         setupLayout()
-        setData()
-        setFirstResponder()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        configureView()
+        titleTextView.delegate = self
+        bodyTextView.delegate = self
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -67,28 +72,23 @@ final class DiaryDetailViewController: UIViewController {
         saveOrUpdateDiary()
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
-    
     private func configureNavigationBar() {
         navigationItem.rightBarButtonItem =
         UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain,
-                        target: self, action: #selector(tappedDetailButton))
+                        target: self, action: #selector(detailButtonTapped))
     }
     
     @objc func keyboardWillHide(notification: Notification) {
-        print(#function)
         saveOrUpdateDiary()
     }
     
     @objc
-    private func tappedDetailButton() {
+    private func detailButtonTapped() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let shareAction = UIAlertAction(title: ButtonConstant.shareActionTitle, style: .default) { [weak self] _ in
             guard let self else { return }
-            self.tappedSharebutton()
+            self.shareButtonTapped()
         }
         
         let deleteAction = UIAlertAction(title: ButtonConstant.deleteActionTitle, style: .destructive) { [weak self] _ in
@@ -97,38 +97,53 @@ final class DiaryDetailViewController: UIViewController {
         }
         let cancelAction = UIAlertAction(title: ButtonConstant.cancelActionTitle, style: .cancel)
         
-        [shareAction, deleteAction, cancelAction].forEach(actionSheet.addAction(_:))
+        [shareAction, deleteAction, cancelAction].forEach(actionSheet.addAction)
         
         present(actionSheet, animated: true)
     }
     
     func saveOrUpdateDiary() {
-        let titleText = titleTextView.text
-        let bodyText = bodyTextView.text
+        guard !titleText.isEmpty || !bodyText.isEmpty else { return }
         
-        guard titleText != "" || bodyText != "" else { return }
-        
-        if let diaryData {
-            diaryData.title = titleText
-            diaryData.body = bodyText
-            coreDataManager.updateDiaryData(newDiaryData: diaryData)
+        if let diary = diary {
+            diary.title = titleText
+            diary.body = bodyText
+            let result = coreDataManager.updateDiaryData(newDiaryData: diary)
+            switch result {
+            case .success:
+                print("업데이트 성공")
+            case .failure(let error):
+                print("\(error.userErrorMessage)")
+                self.showAlertWithMessage(error.userErrorMessage)
+            }
         } else {
-            coreDataManager.saveDiaryData(titleText: titleText, bodyText: bodyText) { [weak self] diary in
-                guard let self else { return }
-                self.diaryData = diary
+            let result = coreDataManager.saveDiaryData(titleText: titleText, bodyText: bodyText)
+            switch result {
+            case .success:
+                print("저장 성공")
+            case .failure(let error):
+                print("\(error.userErrorMessage)")
+                self.showAlertWithMessage(error.userErrorMessage)
             }
         }
     }
     
-    private func tappedSharebutton() {
-        shareText(diaryData?.title)
+    private func shareButtonTapped() {
+        share(someText: diary?.title)
     }
     
     private func deleteDiary() {
-        guard let diaryData = diaryData else { return }
-        coreDataManager.deleteDiaryData(data: diaryData)
-        self.diaryData = nil
-        isDeleted = true
+        guard let diaryData = diary else { return }
+        let result = coreDataManager.deleteDiaryData(data: diaryData)
+        switch result {
+        case .success:
+            print("삭제 성공")
+            self.diary = nil
+            isDeleted = true
+        case .failure(let error):
+            print("\(error.userErrorMessage)")
+            self.showAlertWithMessage(error.userErrorMessage)
+        }
     }
     
     func createDeleteAlert() {
@@ -144,15 +159,23 @@ final class DiaryDetailViewController: UIViewController {
         )
         let deleteAction = UIAlertAction(
             title: ButtonConstant.deleteActionTitle,
-            style: .destructive) { [weak self] _ in
-                guard let self else { return }
-                self.deleteDiary()
-                self.navigationController?.popViewController(animated: true)
-            }
+            style: .destructive
+        ) { [weak self] _ in
+            guard let self else { return }
+            self.deleteDiary()
+            self.navigationController?.popViewController(animated: true)
+        }
         
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
         present(alert, animated: true, completion: nil)
+    }
+    
+    private func showAlertWithMessage(_ message: String) {
+        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "확인", style: .default)
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
     }
     
     private func setupLayout() {
@@ -171,17 +194,33 @@ final class DiaryDetailViewController: UIViewController {
         ])
     }
     
+    private func configureView() {
+        setData()
+        setFirstResponder()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     private func setData() {
-        diaryData.map {
-            title = DateToStringFormatter.changeToString(from: $0.createdAt)
-            titleTextView.text = $0.title
-            bodyTextView.text = $0.body
+        if let diaryData = diary {
+            title = DateToStringFormatter.changeToString(from: diaryData.createdAt)
+            titleTextView.text = diaryData.title
+            bodyTextView.text = diaryData.body
         }
     }
     
     private func setFirstResponder() {
-        if diaryData == nil {
+        if diary == nil {
             titleTextView.becomeFirstResponder()
+        }
+    }
+}
+
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        if textView == titleTextView {
+            titleText = textView.text
+        } else if textView == bodyTextView {
+            bodyText = textView.text
         }
     }
 }
