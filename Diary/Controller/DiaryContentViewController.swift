@@ -10,12 +10,13 @@ import UIKit
 final class DiaryContentViewController: UIViewController {
     typealias DiaryText = (title: String?, body: String?)
     
-    private var diary: DiaryDAO?
+    private var diary: Diary?
     private let textView = UITextView()
     private let alertFactory: DiaryAlertFactoryService = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
+    private let storage = DiaryDataManager()
 
-    init(diary: DiaryDAO? = nil) {
+    init(diary: Diary? = nil) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
@@ -45,11 +46,17 @@ final class DiaryContentViewController: UIViewController {
         
         let devidedContents: DiaryText = devide(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
-
-        DiaryCoreDataManager.shared.updateDiary(title: devidedContents.title,
-                                                body: devidedContents.body,
-                                                date: updatedDate,
-                                                id: id)
+        diary?.updateContents(title: devidedContents.title,
+                              body: devidedContents.body,
+                              updatedDate: updatedDate)
+        guard let diary = diary else {
+            return
+        }
+        storage.updateDAO(data: diary)
+//        DiaryCoreDataManager.shared.updateDiary(title: devidedContents.title,
+//                                                body: devidedContents.body,
+//                                                date: updatedDate,
+//                                                id: id)
     }
     
     private func devide(text: String?) -> DiaryText {
@@ -71,7 +78,7 @@ final class DiaryContentViewController: UIViewController {
     }
     
     private func setUpNavigationBar() {
-        let timeInterval = diary?.date ?? Date().timeIntervalSince1970
+        let timeInterval = diary?.updatedDate ?? Date().timeIntervalSince1970
         let date = Date(timeIntervalSince1970: timeInterval)
         let image = UIImage(systemName: "ellipsis.circle")
         
@@ -127,10 +134,13 @@ final class DiaryContentViewController: UIViewController {
         if diary == nil {
             let createdDate = Date().timeIntervalSince1970
             
-            diary = DiaryCoreDataManager.shared.createDiary(title: "",
-                                                            body: "",
-                                                            date: createdDate,
-                                                            id: UUID())
+            self.diary = Diary(title: "", body: "", updatedDate: createdDate)
+            guard let diary = self.diary else { return }
+            storage.createDAO(from: diary)
+//            DiaryCoreDataManager.shared.createDiary(title: "",
+//                                                            body: "",
+//                                                            date: createdDate,
+//                                                            id: UUID())
         }
     }
 }
@@ -198,7 +208,8 @@ extension DiaryContentViewController {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
             guard let self, let id = self.diary?.id else { return }
             
-            DiaryCoreDataManager.shared.deleteDiary(id: id)
+//            DiaryCoreDataManager.shared.deleteDiary(id: id)
+            self.storage.deleteDAO(id: id)
             self.diary = nil
             self.navigationController?.popViewController(animated: true)
         }

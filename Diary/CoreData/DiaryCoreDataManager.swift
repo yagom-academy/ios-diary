@@ -47,7 +47,7 @@ struct DiaryDataManager {
         let fetchResult = storage.fetch(request: request)
         
         guard let diary = fetchResult.first else { return }
-        
+//        data.copyInEntity(object: diary)
         diary.setValue(data.title, forKey: "title")
         diary.setValue(data.updatedDate, forKey: "date")
         diary.setValue(data.body, forKey: "body")

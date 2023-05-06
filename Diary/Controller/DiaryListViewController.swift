@@ -8,10 +8,11 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
-    private var diaryList: [DiaryDAO] = []
+    private var diaryList: [Diary] = []
     private let sampleDecoder = DiaryDecodeManager()
     private let alertFactory: DiaryAlertFactoryService = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
+    private let storage = DiaryDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,15 +69,26 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchDiaryList() {
-        let result = DiaryCoreDataManager.shared.fetchDiary()
         
-        switch result {
-        case .success(let diaryList):
-            self.diaryList = diaryList
-            self.tableView.reloadData()
-        case .failure(let error):
-            print(error.localizedDescription)
+        let result = storage.readAllDAO()
+//        DiaryCoreDataManager.shared.fetchDiary()
+        
+//        switch result {
+//        case .success(let diaryList):
+//            self.diaryList = diaryList
+//            self.tableView.reloadData()
+//        case .failure(let error):
+//            print(error.localizedDescription)
+//        }
+        
+//        result.forEach { diaryDAO in
+//            self.diaryList.append(Diary(diaryDAO: diaryDAO))
+//        }
+        
+        let list = result.map { diaryDAO in
+            Diary(diaryDAO: diaryDAO)
         }
+        self.diaryList = list
     }
 }
 
@@ -93,7 +105,7 @@ extension DiaryListViewController: UITableViewDataSource {
         else { return UITableViewCell() }
         
         let diary = diaryList[indexPath.row]
-        let date = Date(timeIntervalSince1970: diary.date)
+        let date = Date(timeIntervalSince1970: diary.updatedDate)
         let formattedDate = DateFormatter.diaryForm.string(from: date)
         
         cell.configureLabels(title: diary.title, date: formattedDate, body: diary.body)
@@ -146,7 +158,8 @@ extension DiaryListViewController {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
             guard let self else { return }
             let id = self.diaryList[indexPath.row].id
-            DiaryCoreDataManager.shared.deleteDiary(id: id)
+//            DiaryCoreDataManager.shared.deleteDiary(id: id)
+            self.storage.deleteDAO(id: id)
             self.diaryList.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }
