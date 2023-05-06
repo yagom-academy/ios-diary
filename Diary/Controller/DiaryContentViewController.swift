@@ -90,11 +90,17 @@ final class DiaryContentViewController: UIViewController {
     }
     
     private func setUpNavigationBar() {
-        let timeInterval = diary?.updatedDate ?? Date().timeIntervalSince1970
-        let date = Date(timeIntervalSince1970: timeInterval)
+        if let diary {
+            navigationItem.title = diary.updatedDateText
+        } else {
+            let timeInterval = Date().timeIntervalSince1970
+            let date = Date(timeIntervalSince1970: timeInterval)
+            
+            navigationItem.title = DateFormatter.diaryForm.string(from: date)
+        }
+        
         let image = UIImage(systemName: "ellipsis.circle")
         
-        navigationItem.title = DateFormatter.diaryForm.string(from: date)
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: image,
                                                             style: .plain,
                                                             target: self,

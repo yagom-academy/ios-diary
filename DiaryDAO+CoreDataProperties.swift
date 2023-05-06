@@ -9,7 +9,6 @@
 import Foundation
 import CoreData
 
-
 extension DiaryDAO {
 
     @nonobjc public class func fetchRequest() -> NSFetchRequest<DiaryDAO> {
@@ -23,6 +22,4 @@ extension DiaryDAO {
 
 }
 
-extension DiaryDAO : Identifiable {
-
-}
+extension DiaryDAO: Identifiable { }

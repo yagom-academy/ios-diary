@@ -90,10 +90,8 @@ extension DiaryListViewController: UITableViewDataSource {
         else { return UITableViewCell() }
         
         let diary = diaryList[indexPath.row]
-        let date = Date(timeIntervalSince1970: diary.updatedDate)
-        let formattedDate = DateFormatter.diaryForm.string(from: date)
         
-        cell.configureLabels(title: diary.title, date: formattedDate, body: diary.body)
+        cell.configureLabels(with: diary)
         
         return cell
     }
@@ -103,9 +101,9 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diary = diaryList[indexPath.row]
-        let nextViewController = DiaryContentViewController(diary: diary)
+        let diaryContentViewController = DiaryContentViewController(diary: diary)
         
-        navigationController?.pushViewController(nextViewController, animated: true)
+        navigationController?.pushViewController(diaryContentViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
     

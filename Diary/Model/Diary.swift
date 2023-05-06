@@ -12,6 +12,13 @@ final class Diary {
     var updatedDate: Double
     var id = UUID()
     
+    var updatedDateText: String {
+        let date = Date(timeIntervalSince1970: self.updatedDate)
+        let formattedDate = DateFormatter.diaryForm.string(from: date)
+        
+        return formattedDate
+    }
+    
     init(title: String?, body: String?, updatedDate: Double) {
         self.title = title
         self.body = body
