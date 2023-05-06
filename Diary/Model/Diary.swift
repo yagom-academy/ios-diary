@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Diary {
+final class Diary: DataTransferObject {
     var title, body: String?
     var updatedDate: Double
     var id = UUID()

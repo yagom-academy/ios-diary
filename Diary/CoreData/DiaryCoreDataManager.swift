@@ -16,7 +16,7 @@ struct DiaryDataManager {
                                           in: storage.context)
     }
     
-    func createDAO(from data: Diary) {
+    func createDAO(from data: DataTransferObject) {
         guard let diaryEntity else { return }
         
         let diary = DiaryDAO(entity: diaryEntity, insertInto: storage.context)
@@ -39,7 +39,7 @@ struct DiaryDataManager {
         return fetchResult
     }
     
-    func updateDAO(data: Diary) {
+    func updateDAO(data: DataTransferObject) {
         let request = DiaryDAO.fetchRequest()
         let predicate = NSPredicate(format: "id == %@", data.id.uuidString)
         request.predicate = predicate

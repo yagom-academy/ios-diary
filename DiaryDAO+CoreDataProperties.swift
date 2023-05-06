@@ -9,11 +9,11 @@
 import Foundation
 import CoreData
 
-extension DiaryDAO {
-
-    @nonobjc public class func fetchRequest() -> NSFetchRequest<DiaryDAO> {
-        return NSFetchRequest<DiaryDAO>(entityName: "DiaryDAO")
-    }
+extension DiaryDAO: DataAccessObject {
+    
+//    @nonobjc public static func fetchRequest() -> NSFetchRequest<DiaryDAO> {
+//        return NSFetchRequest<DiaryDAO>(entityName: "DiaryDAO")
+//    }
 
     @NSManaged public var body: String?
     @NSManaged public var date: Double
