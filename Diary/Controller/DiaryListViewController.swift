@@ -10,12 +10,13 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
     private var contentsList: [Contents]?
+    private var selectedCellIndex: IndexPath?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUIOption()
-        decodeContents()
+        fetchContents()
         configureTableView()
     }
     
@@ -27,16 +28,11 @@ final class DiaryListViewController: UIViewController {
                                                             action: #selector(moveToAppendDiary))
     }
     
-    private func decodeContents() {
-        let assetName = "sample"
-        let result = DecodeManager().decodeJsonAsset(name: assetName, type: [Contents].self)
-        
-        switch result {
-        case .success(let data):
-            contentsList = data
-        case .failure(let error):
-            let alertManager = AlertManager()
-            alertManager.showErrorAlert(target: self, error: error)
+    private func fetchContents() {
+        do {
+            contentsList = try CoreDataManager.shared.read()
+        } catch {
+            AlertManager().showErrorAlert(target: self, error: error)
         }
     }
     
@@ -58,6 +54,7 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func moveToAppendDiary() {
         let diaryDetailViewController = DiaryDetailViewController(contents: nil)
+        diaryDetailViewController.delegate = self
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
@@ -79,7 +76,7 @@ extension DiaryListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.configure(title: contents.title, description: contents.description, date: contents.localizedDate)
+        cell.configure(title: contents.title, description: contents.body, date: contents.localizedDate)
         
         return cell
     }
@@ -90,8 +87,76 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let contents = contentsList?[indexPath.row] else { return }
         
+        selectedCellIndex = indexPath
+        
         let diaryDetailViewController = DiaryDetailViewController(contents: contents)
+        diaryDetailViewController.delegate = self
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: false)
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let contents = contentsList?[indexPath.row] else { return nil }
+        selectedCellIndex = indexPath
+        
+        let share = UIContextualAction(style: .normal, title: "Share") { [weak self] _, _, _ in
+            let activityViewController = UIActivityViewController(activityItems: [contents.title],
+                                                                  applicationActivities: nil)
+            
+            self?.present(activityViewController, animated: true)
+        }
+        
+        let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, _ in
+            guard let identifier = contents.identifier else { return }
+            
+            self?.showDeleteAlert(identifier: identifier)
+        }
+        
+        share.backgroundColor = .systemGreen
+        
+        return UISwipeActionsConfiguration(actions: [share, delete])
+    }
+    
+    private func showDeleteAlert(identifier: UUID) {
+        AlertManager().showDeleteAlert(target: self) { [weak self] in
+            do {
+                try CoreDataManager.shared.delete(identifier: identifier)
+                self?.deleteCell()
+            } catch {
+                guard let self else { return }
+                
+                AlertManager().showErrorAlert(target: self, error: error)
+            }
+        }
+    }
+}
+
+// MARK: - DiaryDetailViewController Delegate
+extension DiaryListViewController: DiaryDetailViewControllerDelegate {
+    func createCell(contents: Contents) {
+        guard let newIndexPathRow = contentsList?.count else { return }
+
+        selectedCellIndex = IndexPath(row: newIndexPathRow, section: 0)
+        
+        guard let selectedCellIndex else { return }
+        
+        contentsList?.append(contents)
+        tableView.insertRows(at: [selectedCellIndex], with: .automatic)
+    }
+    
+    func updateCell(contents: Contents) {
+        guard let selectedCellIndex else { return }
+        
+        contentsList?[selectedCellIndex.row] = contents
+        tableView.reloadRows(at: [selectedCellIndex], with: .automatic)
+    }
+    
+    func deleteCell() {
+        guard let selectedCellIndex else { return }
+        
+        contentsList?.remove(at: selectedCellIndex.row)
+        tableView.deleteRows(at: [selectedCellIndex], with: .fade)
+        self.selectedCellIndex = nil
     }
 }

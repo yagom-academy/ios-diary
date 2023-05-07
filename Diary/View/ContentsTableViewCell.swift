@@ -31,12 +31,12 @@ final class ContentsTableViewCell: UITableViewCell {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     func configure(title: String, description: String, date: String) {
         titleLabel.text = title
-        descriptionLabel.text = date + " " + description
+        descriptionLabel.text = date + " " + description.replacingOccurrences(of: "\n", with: "")
         descriptionLabel.applyAttribute(targetString: date)
     }
     
