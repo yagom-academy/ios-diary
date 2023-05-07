@@ -169,13 +169,13 @@ extension DiaryDetailViewController {
         let alertController = UIAlertController(title: nil,
                                                 message: nil,
                                                 preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
-            guard let text = self?.diaryItem?.content else { return }
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            guard let text = self.diaryItem?.content else { return }
             
-            self?.showActivityView(text)
+            self.showActivityView(text)
         }
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
-            self?.showDeleteAlert()
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.showDeleteAlert()
         }
         let cancelAction = UIAlertAction(title: "Cancle", style: .cancel)
         

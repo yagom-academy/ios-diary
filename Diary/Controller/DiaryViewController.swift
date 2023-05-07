@@ -40,9 +40,9 @@ final class DiaryViewController: UIViewController {
     private func deleteTableViewItem(item: Diary, indexPath: IndexPath) {
         do {
             try manager.deleteContent(at: item)
-            tableView.performBatchUpdates { [weak self] in
-                self?.diaryItems.remove(at: indexPath.row)
-                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+            tableView.performBatchUpdates {
+                diaryItems.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
             }
         } catch {
             showFailAlert(error: error)
