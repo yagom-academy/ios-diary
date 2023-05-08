@@ -43,7 +43,7 @@ final class DiaryViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
         
-        self.title = String.localized(key: LocalizationKey.mainTitle)
+        self.title = LocalizationKey.mainTitle.localized()
         
         let buttonItem: UIBarButtonItem = {
             let button = UIButton()
@@ -127,7 +127,7 @@ extension DiaryViewController: UITableViewDelegate {
         
         let delete = UIContextualAction(
             style: .destructive,
-            title: String.localized(key: LocalizationKey.delete)
+            title: LocalizationKey.delete.localized()
         ) { [weak self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             self?.presentDeleteAlert(diary: diary) { isSuccess in
                 if isSuccess {
@@ -139,7 +139,7 @@ extension DiaryViewController: UITableViewDelegate {
          
         let share = UIContextualAction(
             style: .normal,
-            title: String.localized(key: LocalizationKey.share)
+            title: LocalizationKey.share.localized()
         ) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
             self.presentActivityView(diary: diary)

@@ -36,14 +36,14 @@ final class DiaryDateFormatter {
     }
     
     func convertToInterval(from date: String) -> Int {
-        dateFormatter.dateFormat = String.localized(key: LocalizationKey.dateFormat)
+        dateFormatter.dateFormat = LocalizationKey.dateFormat.localized()
         let localDate = dateFormatter.date(from: date) ?? Date()
         
         return Int(localDate.timeIntervalSince1970)
     }
     
     func convertToString(from date: Date) -> String {
-        dateFormatter.dateFormat = String.localized(key: LocalizationKey.dateFormat)
+        dateFormatter.dateFormat = LocalizationKey.dateFormat.localized()
         let convertString = dateFormatter.string(from: date)
         
         return convertString
@@ -51,7 +51,7 @@ final class DiaryDateFormatter {
     
     func convertToString(from timeIntervalSince1970: Int) -> String {
         let date = Date(timeIntervalSince1970: TimeInterval(timeIntervalSince1970))
-        dateFormatter.dateFormat = String.localized(key: LocalizationKey.dateFormat)
+        dateFormatter.dateFormat = LocalizationKey.dateFormat.localized()
         let convertString = dateFormatter.string(from: date)
         
         return convertString

@@ -33,14 +33,14 @@ extension UIViewController {
         }
         
         let deleteAlert = UIAlertController(
-            title: String.localized(key: LocalizationKey.deleteAlertTitle),
-            message: String.localized(key: LocalizationKey.deleteAlertMessage),
+            title: LocalizationKey.deleteAlertTitle.localized(),
+            message: LocalizationKey.deleteAlertMessage.localized(),
             preferredStyle: .alert
         )
       
-        let cancelAction = UIAlertAction(title: String.localized(key: LocalizationKey.cancel), style: .cancel)
+        let cancelAction = UIAlertAction(title: LocalizationKey.cancel.localized(), style: .cancel)
         
-        let deleteAction = UIAlertAction(title: String.localized(key: LocalizationKey.delete), style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: LocalizationKey.delete.localized(), style: .destructive) { _ in
             
             CoreDataManager.shared.delete(id: validDiary.id)
             completion(true)

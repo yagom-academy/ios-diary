@@ -108,7 +108,7 @@ final class DiaryDetailViewController: UIViewController {
     private func configureNavigationBar() {
         let buttonItem: UIBarButtonItem = {
             let button = UIBarButtonItem(
-                title: String.localized(key: LocalizationKey.more),
+                title: LocalizationKey.more.localized(),
                 style: .plain,
                 target: self,
                 action: #selector(presentActionSheet)
@@ -124,19 +124,19 @@ final class DiaryDetailViewController: UIViewController {
         let shareActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
         let cancelAction = UIAlertAction(
-            title: String.localized(key: LocalizationKey.cancel),
+            title: LocalizationKey.cancel.localized(),
             style: .cancel
         )
         
         let shareAction = UIAlertAction(
-            title: String.localized(key: LocalizationKey.share),
+            title: LocalizationKey.share.localized(),
             style: .default
         ) { [weak self] _ in
             self?.presentActivityView(diary: self?.diary)
         }
         
         let deleteAction = UIAlertAction(
-            title: String.localized(key: LocalizationKey.delete),
+            title: LocalizationKey.delete.localized(),
             style: .destructive
         ) { [weak self] _ in
     
@@ -202,7 +202,7 @@ final class DiaryDetailViewController: UIViewController {
         guard let contents = verifyText(text: textView.text) else { return }
         let components = contents.split(separator: "\n", maxSplits: 1)
         
-        guard let title = components.first else { return }
+        guard let title = components.first, let date = self.title else { return }
         var body = components[safe: 1] ?? ""
         
         if body.first == "\n" {
@@ -213,7 +213,7 @@ final class DiaryDetailViewController: UIViewController {
             id: self.id,
             title: String(title),
             body: String(body),
-            timeIntervalSince1970: dateFormatter.convertToInterval(from: self.title) ?? dateFormatter.nowTimeIntervalSince1970
+            timeIntervalSince1970: dateFormatter.convertToInterval(from: date)
         )
         
         self.diary = currentDiary
