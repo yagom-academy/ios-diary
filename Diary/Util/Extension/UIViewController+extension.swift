@@ -1,5 +1,5 @@
 //
-//  AlertManager.swift
+//  UIViewController+extension.swift
 //  Diary
 //
 //  Created by rilla, songjun on 2023/05/04.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class AlertManager {
-    private enum LocalizationKey {
+extension UIViewController {
+    enum LocalizationKey {
         static let mainTitle = "mainTitle"
         static let deleteAlertTitle = "deleteAlertTitle"
         static let deleteAlertMessage = "deleteAlertMessage"
@@ -17,15 +17,15 @@ final class AlertManager {
         static let share = "share"
     }
     
-    static func presentActivityView(diary: Diary?, at viewController: UIViewController?) {
+    func presentActivityView(diary: Diary?) {
         guard let validDiary = diary else { return }
         let activityViewController = UIActivityViewController(activityItems: [validDiary.sharedText], applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = viewController?.view
+        activityViewController.popoverPresentationController?.sourceView = self.view
         
-        viewController?.present(activityViewController, animated: true, completion: nil)
+        self.present(activityViewController, animated: true, completion: nil)
     }
     
-    static func presentDeleteAlert(diary: Diary?, at viewController: UIViewController?, completion: @escaping (Bool) -> Void ) {
+    func presentDeleteAlert(diary: Diary?, completion: @escaping (Bool) -> Void ) {
         guard let validDiary = diary else {
          
             completion(false)
@@ -49,6 +49,6 @@ final class AlertManager {
         deleteAlert.addAction(cancelAction)
         deleteAlert.addAction(deleteAction)
         
-        viewController?.present(deleteAlert, animated: true)
+        self.present(deleteAlert, animated: true)
     }
 }

@@ -129,7 +129,7 @@ extension DiaryViewController: UITableViewDelegate {
             style: .destructive,
             title: String.localized(key: LocalizationKey.delete)
         ) { [weak self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            AlertManager.presentDeleteAlert(diary: diary, at: self) { isSuccess in
+            self?.presentDeleteAlert(diary: diary) { isSuccess in
                 if isSuccess {
                     self?.applySnapshot()
                     success(true)
@@ -142,7 +142,7 @@ extension DiaryViewController: UITableViewDelegate {
             title: String.localized(key: LocalizationKey.share)
         ) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             
-            AlertManager.presentActivityView(diary: diary, at: self)
+            self.presentActivityView(diary: diary)
             success(true)
         }
         

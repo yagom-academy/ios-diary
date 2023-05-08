@@ -23,6 +23,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     // MARK: - Properties
+    private let dateFormatter = DiaryDateFormatter.shared
     private var writeMode = WriteMode.create
     private var diary: Diary?
     private var id = UUID()
@@ -80,12 +81,12 @@ final class DiaryDetailViewController: UIViewController {
         
         switch writeMode {
         case .create:
-            self.title = Date.nowDate
+            self.title = dateFormatter.nowDateText
             textView.becomeFirstResponder()
         case .update:
             guard let validDiary = diary else { return }
             
-            self.title = validDiary.timeIntervalSince1970.convertFormattedDate()
+            self.title = dateFormatter.convertToString(from: validDiary.timeIntervalSince1970)
             self.id = validDiary.id
             textView.text = validDiary.sharedText
         }
@@ -131,7 +132,7 @@ final class DiaryDetailViewController: UIViewController {
             title: String.localized(key: LocalizationKey.share),
             style: .default
         ) { [weak self] _ in
-            AlertManager.presentActivityView(diary: self?.diary, at: self)
+            self?.presentActivityView(diary: self?.diary)
         }
         
         let deleteAction = UIAlertAction(
@@ -139,7 +140,7 @@ final class DiaryDetailViewController: UIViewController {
             style: .destructive
         ) { [weak self] _ in
     
-            AlertManager.presentDeleteAlert(diary: self?.diary, at: self) { _ in
+            self?.presentDeleteAlert(diary: self?.diary) { _ in
                 self?.isSave = false
                 self?.navigationController?.popViewController(animated: true)
             }
@@ -201,7 +202,7 @@ final class DiaryDetailViewController: UIViewController {
         guard let contents = verifyText(text: textView.text) else { return }
         let components = contents.split(separator: "\n", maxSplits: 1)
         
-        guard let title = components[safe: 0] else { return }
+        guard let title = components.first else { return }
         var body = components[safe: 1] ?? ""
         
         if body.first == "\n" {
@@ -212,7 +213,7 @@ final class DiaryDetailViewController: UIViewController {
             id: self.id,
             title: String(title),
             body: String(body),
-            timeIntervalSince1970: self.title?.convertToTimeInterval() ?? Date.nowTimeIntervalSince1970
+            timeIntervalSince1970: dateFormatter.convertToInterval(from: self.title) ?? dateFormatter.nowTimeIntervalSince1970
         )
         
         self.diary = currentDiary
