@@ -85,20 +85,38 @@ final class DiaryDetailViewController: UIViewController {
         
         switch state {
         case .create:
-            do {
-                let date = Date().timeIntervalSince1970
-                diaryItem = try manager.createContent(content, date)
-                state = .edit
-            } catch {
-                showFailAlert(error: error)
+//            do {
+//                let date = Date().timeIntervalSince1970
+//                diaryItem = try manager.createContent(content, date)
+//                state = .edit
+//            } catch {
+//                showFailAlert(error: error)
+//            }
+            let date = Date().timeIntervalSince1970
+            manager.createContent(content, date) { [weak self] result in
+                switch result {
+                case .success(let diary):
+                    self?.diaryItem = diary
+                    self?.state = .edit
+                case .failure(let error):
+                    self?.showFailAlert(error: error)
+                }
             }
         case .edit:
             guard let diary = diaryItem else { return }
             
-            do {
-                try manager.updateContent(at: diary, content)
-            } catch {
-                showFailAlert(error: error)
+//            do {
+//                try manager.updateContent(at: diary, content)
+//            } catch {
+//                showFailAlert(error: error)
+//            }
+            manager.updateContent(at: diary, content) { [weak self] result in
+                switch result {
+                case .success():
+                    return
+                case .failure(let error):
+                    self?.showFailAlert(error: error)
+                }
             }
         }
     }
@@ -150,12 +168,20 @@ extension DiaryDetailViewController {
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let diaryItem = self?.diaryItem else { return }
             
-            do {
-                try self?.manager.deleteContent(at: diaryItem)
-                self?.navigationController?.popViewController(animated: true)
-            } catch {
-                self?.showFailAlert(error: error)
-            }
+//            do {
+//                try self?.manager.deleteContent(at: diaryItem)
+//                self?.navigationController?.popViewController(animated: true)
+//            } catch {
+//                self?.showFailAlert(error: error)
+//            }
+            self?.manager.deleteContent(at: diaryItem, completion: { [weak self] result in
+                switch result {
+                case .success():
+                    self?.navigationController?.popViewController(animated: true)
+                case .failure(let error):
+                    self?.showFailAlert(error: error)
+                }
+            })
         }
         
         alert.addAction(cancelAction)

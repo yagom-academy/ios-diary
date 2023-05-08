@@ -5,6 +5,7 @@ disabled_rules: # Default Rules에서 비활성화할 규칙
     - trailing_whitespace
     - comma
     - colon
+    - empty_enum_arguments
     
 excluded: # SwiftLint 검사에서 제외할 파일 경로
   - Diary/AppDelegate.swift

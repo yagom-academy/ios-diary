@@ -23,11 +23,20 @@ final class DiaryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        do {
-            diaryItems = try manager.fetchContent()
-            tableView.reloadData()
-        } catch {
-            showFailAlert(error: error)
+//        do {
+//            diaryItems = try manager.fetchContent()
+//            tableView.reloadData()
+//        } catch {
+//            showFailAlert(error: error)
+//        }
+        manager.fetchContent { [weak self] result in
+            switch result {
+            case .success(let diary):
+                self?.diaryItems = diary
+                self?.tableView.reloadData()
+            case .failure(let error):
+                self?.showFailAlert(error: error)
+            }
         }
     }
     
@@ -38,14 +47,25 @@ final class DiaryViewController: UIViewController {
     }
     
     private func deleteTableViewItem(item: Diary, indexPath: IndexPath) {
-        do {
-            try manager.deleteContent(at: item)
-            tableView.performBatchUpdates {
-                diaryItems.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .automatic)
+//        do {
+//            try manager.deleteContent(at: item)
+//            tableView.performBatchUpdates {
+//                diaryItems.remove(at: indexPath.row)
+//                tableView.deleteRows(at: [indexPath], with: .automatic)
+//            }
+//        } catch {
+//            showFailAlert(error: error)
+//        }
+        manager.deleteContent(at: item) { [weak self] result in
+            switch result {
+            case .success():
+                self?.tableView.performBatchUpdates({
+                    self?.diaryItems.remove(at: indexPath.row)
+                    self?.tableView.deleteRows(at: [indexPath], with: .automatic)
+                })
+            case .failure(let error):
+                self?.showFailAlert(error: error)
             }
-        } catch {
-            showFailAlert(error: error)
         }
     }
     
