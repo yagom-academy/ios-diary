@@ -12,7 +12,7 @@ final class DiaryListViewController: UIViewController {
     private let sampleDecoder = DiaryDecodeManager()
     private let alertMaker: DiaryAlertFactoryService = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
-    private let dataManager = DiaryDataManager()
+    private let dataManager = CoreDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()

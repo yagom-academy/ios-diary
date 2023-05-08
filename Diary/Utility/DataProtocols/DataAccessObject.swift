@@ -8,12 +8,12 @@
 import CoreData
 
 protocol DataAccessObject: AnyObject, NSManagedObject {
-    associatedtype DTO: DataTransferObject
+    associatedtype Domain: DataTransferObject
     
     static func fetchRequest() -> NSFetchRequest<Self>?
     
-    func updateValue(data: DTO)
-    func setValues(from data: DTO)
+    func updateValue(data: Domain)
+    func setValues(from data: Domain)
 }
 
 extension DataAccessObject {

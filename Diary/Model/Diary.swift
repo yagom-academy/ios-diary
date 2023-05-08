@@ -37,11 +37,4 @@ final class Diary: DataTransferObject {
         self.body = body
         self.updatedDate = updatedDate
     }
-    
-    func copyInEntity(object: DiaryDAO) {
-        object.title = self.title
-        object.body = self.body
-        object.date = self.updatedDate
-        object.id = self.id
-    }
 }

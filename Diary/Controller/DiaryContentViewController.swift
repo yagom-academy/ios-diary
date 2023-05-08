@@ -14,7 +14,7 @@ final class DiaryContentViewController: UIViewController {
     private let textView = UITextView()
     private let alertFactory: DiaryAlertFactoryService = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
-    private let storage = DiaryDataManager()
+    private let storage = CoreDataManager()
 
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -156,7 +156,7 @@ final class DiaryContentViewController: UIViewController {
             
             guard let diary else { return }
             
-            storage.createDAO(entityType: DiaryDAO.self, from: diary)
+            storage.createDAO(type: DiaryDAO.self, from: diary)
         }
     }
 }

@@ -2,51 +2,69 @@
 //  CoreDataManager.swift
 //  Diary
 //
-//  Created by Rowan, Harry on 2023/05/05.
+//  Created by Rowan, Harry on 2023/04/28.
 //
 
 import Foundation
 import CoreData
 
-final class CoreDataManager {
-    static let shared = CoreDataManager()
+struct CoreDataManager {
+    private let storage = CoreDataStack.shared
     
-    private init() { }
-    
-    private var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: "DiaryDAO")
+    func createDAO<DAO: DataAccessObject, Domain: DataTransferObject>(type: DAO.Type, from data: Domain) {
+        guard let entityName = DAO.entity().name else { return }
+        guard let object = DAO.object(entityName: entityName, context: storage.context) else { return }
         
-        container.loadPersistentStores(completionHandler: { (_, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        
-        return container
-    }()
-    
-    var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
-    
-    func fetch<T: NSManagedObject>(request: NSFetchRequest<T>) -> [T] {
-        do {
-            let fetchResult = try self.context.fetch(request)
-            return fetchResult
-        } catch {
-            print(error.localizedDescription)
-            return []
+        if let castedData = data as? DAO.Domain {
+            object.setValues(from: castedData)
+            storage.saveContext()
         }
     }
     
-    func saveContext() {
-        if context.hasChanges {
-            do {
-                try context.save()
-            } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-            }
+    func readAllDAO<DAO: DataAccessObject>(type: DAO.Type, sortDescription: SortDescription?) -> [DAO] {
+        guard let request = DAO.fetchRequest() else { return [] }
+        
+        if let sortDescription {
+            let sortDescriptor = NSSortDescriptor(key: sortDescription.key,
+                                                  ascending: sortDescription.ascending)
+            
+            request.sortDescriptors = [sortDescriptor]
         }
+        
+        let fetchResult = storage.fetch(request: request)
+        
+        return fetchResult
+    }
+    
+    func updateDAO<DAO: DataAccessObject, Domain: DataTransferObject>(type: DAO.Type, data: Domain) {
+        guard let request = DAO.fetchRequest() else { return }
+        
+        let predicate = NSPredicate(format: "id == %@", data.id.uuidString)
+        request.predicate = predicate
+        
+        let fetchResult = storage.fetch(request: request)
+        
+        guard let object = fetchResult.first,
+              let data = data as? DAO.Domain else { return }
+
+        object.updateValue(data: data)
+        
+        if storage.context.hasChanges {
+            storage.saveContext()
+        }
+    }
+    
+    func deleteDAO<DAO: DataAccessObject>(type: DAO.Type, id: UUID) {
+        guard let request = DAO.fetchRequest() else { return }
+        
+        let predicate = NSPredicate(format: "id == %@", id.uuidString)
+        request.predicate = predicate
+        
+        let fetchResult = storage.fetch(request: request)
+        
+        guard let object = fetchResult.first else { return }
+        
+        storage.context.delete(object)
+        storage.saveContext()
     }
 }
