@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
-    private var contentsList: [Contents]?
+    private var contentsList: [ContentsDTO]?
     private var selectedCellIndex: IndexPath?
     
     override func viewDidLoad() {
@@ -18,6 +18,7 @@ final class DiaryListViewController: UIViewController {
         configureUIOption()
         fetchContents()
         configureTableView()
+        fetchWeather()
     }
     
     private func configureUIOption() {
@@ -33,6 +34,34 @@ final class DiaryListViewController: UIViewController {
             contentsList = try CoreDataManager.shared.read()
         } catch {
             AlertManager().showErrorAlert(target: self, error: error)
+        }
+    }
+    
+    private func fetchWeather() {
+        let networkManager = NetworkManager()
+        let endPoint = EndPoint.weatherInfo(latitude: "10.99", longitude: "44.34")
+        
+        networkManager.fetchData(urlRequest: endPoint.asURLRequest()) { result in
+            
+            switch result {
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    AlertManager().showErrorAlert(target: self, error: error)
+                }
+            case .success(let data):
+                
+                let weather = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
+                
+                switch weather {
+                case .success(let weather):
+                    print(weather.weather.first?.iconCode ?? "temp")
+                    
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        AlertManager().showErrorAlert(target: self, error: error)
+                    }
+                }
+            }
         }
     }
     
@@ -134,7 +163,7 @@ extension DiaryListViewController: UITableViewDelegate {
 
 // MARK: - DiaryDetailViewController Delegate
 extension DiaryListViewController: DiaryDetailViewControllerDelegate {
-    func createCell(contents: Contents) {
+    func createCell(contents: ContentsDTO) {
         guard let newIndexPathRow = contentsList?.count else { return }
 
         selectedCellIndex = IndexPath(row: newIndexPathRow, section: 0)
@@ -145,7 +174,7 @@ extension DiaryListViewController: DiaryDetailViewControllerDelegate {
         tableView.insertRows(at: [selectedCellIndex], with: .automatic)
     }
     
-    func updateCell(contents: Contents) {
+    func updateCell(contents: ContentsDTO) {
         guard let selectedCellIndex else { return }
         
         contentsList?[selectedCellIndex.row] = contents

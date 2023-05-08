@@ -26,7 +26,7 @@ final class CoreDataManager {
     
     private var context: NSManagedObjectContext { persistentContainer.viewContext }
     
-    func create(contents: Contents) throws {
+    func create(contents: ContentsDTO) throws {
         let storage = ContentsEntity(context: context)
         
         storage.setValue(contents.title, forKey: Constant.title)
@@ -41,7 +41,7 @@ final class CoreDataManager {
         }
     }
     
-    func read() throws -> [Contents]? {
+    func read() throws -> [ContentsDTO]? {
         let fetchRequest = NSFetchRequest<ContentsEntity>(entityName: ContentsEntity.description())
         
         do {
@@ -52,7 +52,7 @@ final class CoreDataManager {
         }
     }
     
-    func update(contents: Contents) throws {
+    func update(contents: ContentsDTO) throws {
         guard let identifier = contents.identifier else { return }
         
         do {
@@ -79,11 +79,11 @@ final class CoreDataManager {
         }
     }
     
-    private func entitiesToContents(_ contentsEntities: [ContentsEntity]) -> [Contents] {
-        var contents = [Contents]()
+    private func entitiesToContents(_ contentsEntities: [ContentsEntity]) -> [ContentsDTO] {
+        var contents = [ContentsDTO]()
         
         contentsEntities.forEach {
-            let content = Contents(title: $0.title ?? Constant.emptyString,
+            let content = ContentsDTO(title: $0.title ?? Constant.emptyString,
                                    body: $0.body ?? Constant.emptyString,
                                    date: $0.date,
                                    identifier: $0.identifier ?? UUID())

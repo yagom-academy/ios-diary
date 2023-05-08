@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-    private var contents: Contents?
+    private var contents: ContentsDTO?
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -19,7 +19,7 @@ final class DiaryDetailViewController: UIViewController {
     
     weak var delegate: DiaryDetailViewControllerDelegate?
     
-    init(contents: Contents?) {
+    init(contents: ContentsDTO?) {
         self.contents = contents
         super.init(nibName: nil, bundle: nil)
     }
@@ -162,7 +162,7 @@ extension DiaryDetailViewController {
         
         guard splitedContents.title.isEmpty == false else { return }
         
-        contents = Contents(title: splitedContents.title,
+        contents = ContentsDTO(title: splitedContents.title,
                             body: splitedContents.body,
                             date: date,
                             identifier: UUID())

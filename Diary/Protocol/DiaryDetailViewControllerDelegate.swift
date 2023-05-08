@@ -6,7 +6,7 @@
 //
 
 protocol DiaryDetailViewControllerDelegate: AnyObject {
-    func createCell(contents: Contents)
-    func updateCell(contents: Contents)
+    func createCell(contents: ContentsDTO)
+    func updateCell(contents: ContentsDTO)
     func deleteCell()
 }

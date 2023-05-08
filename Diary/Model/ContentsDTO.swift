@@ -1,5 +1,5 @@
 //
-//  Contents.swift
+//  ContentsDTO.swift
 //  Diary
 //
 //  Created by KokkilE, Hyemory on 2023/04/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Contents: Codable {
+struct ContentsDTO: Codable {
     var title: String
     var body: String
     let date: Double

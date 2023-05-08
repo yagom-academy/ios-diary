@@ -20,13 +20,8 @@ enum EndPoint {
     case weatherInfo(latitude: String, longitude: String)
     case weatherImage(iconCode: String)
     
-    private var key: String? {
-        switch self {
-        case .weatherInfo:
-            return "3a1457f28563a335c26ab4b987303134"
-        case .weatherImage:
-            return nil
-        }
+    private var key: String {
+        return "3a1457f28563a335c26ab4b987303134"
     }
 }
 
@@ -52,7 +47,7 @@ extension EndPoint: EndpointType {
     private var queries: Query? {
         switch self {
         case .weatherInfo(let latitude, let longitude):
-            return ["lat": latitude, "lon": longitude]
+            return ["lat": latitude, "lon": longitude, "appid": key]
         case .weatherImage:
             return nil
         }
@@ -79,7 +74,7 @@ extension EndPoint: EndpointType {
     func asURLRequest() -> URLRequest? {
         guard let url = createURL() else { return nil }
         
-        var request: URLRequest = URLRequest(url: url)
+        let request: URLRequest = URLRequest(url: url)
         
         return request
     }
