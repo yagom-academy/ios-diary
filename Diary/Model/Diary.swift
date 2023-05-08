@@ -48,6 +48,6 @@ final class Diary {
 
 extension Diary: DataTransferObject {
     func toDAO() {
-        let diaryDAO = DiaryDAO(entity: "DiaryDAO", insertInto: <#T##NSManagedObjectContext?#>, data: <#T##Diary#>)
+        
     }
 }

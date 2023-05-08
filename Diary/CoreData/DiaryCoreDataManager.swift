@@ -11,32 +11,13 @@ import CoreData
 struct DiaryDataManager {
     private let storage = CoreDataManager.shared
     
-    private var diaryEntity: NSEntityDescription? {
-        return NSEntityDescription.entity(forEntityName: "DiaryDAO",
-                                          in: storage.context)
-    }
-    
     func createDAO<DTO: DataTransferObject, DAO: DataAccessObject>(entityType: DAO, from data: DTO) {
-        guard let diaryEntity else { return }
+        guard let entityName = entityType.entity.name else { return }
         
-        let diaryDAO = DAO.object(entityName: entityType.entity.name!, context: storage.context)
-
-        diaryDAO.updateValue(data: data)
+        guard let dao = DAO.object(entityName: entityName, context: storage.context) else { return }
         
-        
-        diaryDAO.setValue(<#T##value: Any?##Any?#>, forKey: <#T##String#>)
-        
-//        let diary = DiaryDAO(entity: diaryEntity,
-//                             insertInto: storage.context,
-//                             data: data as! Diary)
-//        diary.setValue(data.title, forKey: "title")
-//        diary.setValue(data.updatedDate, forKey: "date")
-//        diary.setValue(data.body, forKey: "body")
-//        diary.setValue(data.id, forKey: "id")
-        if let diary = object as? Diary {
-            
-        } else if let diary = object as? ??? {
-            
+        if let castedData = data as? DAO.DTO {
+            dao.setValues(from: castedData)
         }
         
         storage.saveContext()

@@ -12,7 +12,10 @@ protocol DataAccessObject: AnyObject, NSManagedObject {
     associatedtype DTO: DataTransferObject
     
     static func fetchRequest() -> NSFetchRequest<FetchResult>?
+    
     func updateValue(data: DTO)
+    
+    func setValues(from data: DTO)
 }
 
 extension DataAccessObject {
@@ -21,8 +24,13 @@ extension DataAccessObject {
         return NSFetchRequest<Self>(entityName: entityName)
     }
     
-    static func object(entityName: String, context: NSManagedObjectContext) -> Self {
-        let entityDescription = NSEntityDescription.entity(forEntityName: entityName, in: context)
-        return NSManagedObject(entity: entityDescription!, insertInto: context) as! Self
+    static func object(entityName: String, context: NSManagedObjectContext) -> Self? {
+        guard let entityDescription = NSEntityDescription.entity(
+            forEntityName: entityName,
+            in: context
+        ) else { return nil }
+        guard let object = NSManagedObject(entity: entityDescription, insertInto: context) as? Self else { return nil }
+        
+        return object
     }
 }

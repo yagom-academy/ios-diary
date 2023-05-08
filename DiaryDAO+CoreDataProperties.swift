@@ -36,8 +36,11 @@ extension DiaryDAO: DataAccessObject {
         self.id = data.id
     }
     
-    func setValues() {
-        
+    func setValues(from data: DTO) {
+        self.title = data.title
+        self.body = data.body
+        self.date = data.updatedDate
+        self.id = data.id
     }
     
     func updateValue(data: Diary) {
