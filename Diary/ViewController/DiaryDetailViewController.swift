@@ -206,7 +206,7 @@ final class DiaryDetailViewController: UIViewController {
             let diary = MyDiary(title: titleText, body: bodyText, createdDate: date, weatherState: "", icon: "")
             CoreDataManager.shared.update(key: keyTitle, diary: diary)
         case .create:
-            fetchWeatherAPI {weatherState, icon in
+            fetchWeatherAPI { weatherState, icon in
                 let today = Double(Date().timeIntervalSince1970)
                 let diary = MyDiary(title: titleText, body: bodyText, createdDate: today, weatherState: weatherState, icon: icon)
                 CoreDataManager.shared.create(diary: diary)

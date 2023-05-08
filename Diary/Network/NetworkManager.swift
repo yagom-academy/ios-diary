@@ -5,7 +5,7 @@
 //  Created by 리지, Goat on 2023/05/05.
 //
 
-import Foundation
+import UIKit
 
 final class NetworkManager {
     static let shared = NetworkManager()
@@ -39,6 +39,31 @@ final class NetworkManager {
                 } catch {
                     completion(.failure(.decodeFailure))
                 }
+            }
+        }
+        task.resume()
+    }
+    
+    func imageLoad(endPoint: WeatherEndpoint, completion: @escaping (Result<Data, DiaryError>) -> Void) {
+        guard let urlRequest = endPoint.createURLRequestForGET() else { return }
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
+            if error != nil {
+                completion(.failure(.networkUnknown))
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(.networkResponse))
+                return
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(.networkStatusCode))
+                return
+            }
+            
+            if let data = data {
+                completion(.success(data))
             }
         }
         task.resume()

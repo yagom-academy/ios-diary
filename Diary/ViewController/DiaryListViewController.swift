@@ -86,10 +86,25 @@ extension DiaryListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let diaryCell: DiaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier) as? DiaryTableViewCell,
-              let myDiary = myDiary else { return UITableViewCell() }
+              let myDiary = myDiary,
+              let icon = myDiary[indexPath.row].icon else { return UITableViewCell() }
         
-        diaryCell.setupItem(item: myDiary[indexPath.row])
-        
+        let weatherEndpoint = WeatherEndpoint.weatherIcon(icon: icon)
+        NetworkManager.shared.imageLoad(endPoint: weatherEndpoint) {
+            switch $0 {
+            case .failure(let error):
+                AlertManager.shared.showAlert(
+                    target: self,
+                    title: "\(error)가 발생하였습니다.",
+                    message: "다시 시도해주세요.",
+                    defaultTitle: "확인",
+                    destructiveTitle: nil,
+                    destructiveHandler: nil)
+            case .success(let result):
+                guard let fetchedIcon = UIImage(data: result) else { return }
+                diaryCell.setupItem(item: myDiary[indexPath.row], iconImage: fetchedIcon)
+            }
+        }
         return diaryCell
     }
 }

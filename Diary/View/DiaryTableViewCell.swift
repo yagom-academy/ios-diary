@@ -55,6 +55,11 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let weatherIcon: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configureMainStackView()
@@ -81,10 +86,11 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private func configureSubtitleStackView() {
         subTitleStackView.addArrangedSubview(dateLabel)
+        subTitleStackView.addArrangedSubview(weatherIcon)
         subTitleStackView.addArrangedSubview(bodyLabel)
     }
     
-    func setupItem(item: DiaryCoreData) {
+    func setupItem(item: DiaryCoreData, iconImage: UIImage) {
         self.myDiary = item
         
         guard let myDiary = myDiary,
@@ -92,6 +98,7 @@ final class DiaryTableViewCell: UITableViewCell {
         
         titleLabel.text = myDiary.title
         dateLabel.text = formattedDate
+        weatherIcon.image = iconImage
         bodyLabel.text = myDiary.body
     }
 }
