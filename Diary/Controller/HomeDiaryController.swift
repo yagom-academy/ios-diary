@@ -117,19 +117,21 @@ extension HomeDiaryController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let deleteAction = UIContextualAction(style: .destructive, title: "삭제".localized()) { _, _, _ in
-            let diary = self.fetchedDiaryResultsController.object(at: indexPath)
-            self.diaryService.delete(id: diary.id)
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제".localized()) { [weak self]  _, _, _ in
+            guard let diary = self?.fetchedDiaryResultsController.object(at: indexPath) else {
+                return
+            }
+            self?.diaryService.delete(id: diary.id)
         }
         
-        let shareAction = UIContextualAction(style: .normal, title: "공유".localized()) { _, _, _ in
-            let diary = self.fetchedDiaryResultsController.object(at: indexPath)
+        let shareAction = UIContextualAction(style: .normal, title: "공유".localized()) { [weak self] _, _, _ in
+            let diary = self?.fetchedDiaryResultsController.object(at: indexPath)
             let activityVC = UIActivityViewController(
-                activityItems: [diary.title, diary.body],
+                activityItems: [diary?.title, diary?.body],
                 applicationActivities: nil
             )
             
-            self.present(activityVC, animated: true, completion: nil)
+            self?.present(activityVC, animated: true, completion: nil)
         }
         
         deleteAction.backgroundColor = .systemRed
