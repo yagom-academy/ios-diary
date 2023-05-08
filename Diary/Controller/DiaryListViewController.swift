@@ -43,9 +43,9 @@ final class DiaryListViewController: UIViewController {
     
     @objc
     private func addDiary() {
-        let nextViewController = DiaryContentViewController()
+        let diaryContentViewController = DiaryContentViewController()
         
-        navigationController?.pushViewController(nextViewController, animated: true)
+        navigationController?.pushViewController(diaryContentViewController, animated: true)
     }
     
     private func setUpTableView() {
