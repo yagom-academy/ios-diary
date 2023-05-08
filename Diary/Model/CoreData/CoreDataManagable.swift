@@ -8,4 +8,17 @@
 import CoreData
 
 protocol CoreDataManagable {
+    var managedContext: NSManagedObjectContext { get }
+    func saveContext() -> Bool
+}
+
+extension CoreDataManagable {
+    func saveContext() -> Bool {
+        do {
+            try managedContext.save()
+            return true
+        } catch {
+            return false
+        }
+    }
 }

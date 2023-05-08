@@ -15,6 +15,7 @@ enum StoreType {
 final class CoreDataManager {
     static let shared = CoreDataManager(modelName: "Diary")
     let modelName: String
+    var name: String = "hi"
 
     private init(modelName: String) {
         self.modelName = modelName
@@ -34,13 +35,4 @@ final class CoreDataManager {
 
         return container
     }()
-    
-    func saveContext() -> Bool {
-        do {
-            try managedContext.save()
-            return true
-        } catch {
-            return false
-        }
-    }
 }

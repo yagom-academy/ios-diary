@@ -9,12 +9,12 @@ import Foundation
 import CoreData
 
 final class DiaryService {
-    let coreDataStack: CoreDataManagable
+    let coreDataManager: CoreDataManagable
     let managedContext = CoreDataManager.shared.managedContext
     let entityName = "Diary"
     
     init(coreDataStack: CoreDataManagable) {
-        self.coreDataStack = coreDataStack
+        self.coreDataManager = coreDataStack
     }
 }
 
@@ -27,7 +27,7 @@ extension DiaryService {
         diary.body = body
         diary.createdAt = Date()
         
-        let result = CoreDataManager.shared.saveContext()
+        let result = coreDataManager.saveContext()
         
         if result {
             return .success(diary)
@@ -56,7 +56,7 @@ extension DiaryService {
         targetData.title = title
         targetData.createdAt = Date()
         
-        let result = CoreDataManager.shared.saveContext()
+        let result = coreDataManager.saveContext()
         
         if result {
             return .success(targetData)
@@ -83,7 +83,7 @@ extension DiaryService {
         
         managedContext.delete(targetData)
         
-        let result = CoreDataManager.shared.saveContext()
+        let result = coreDataManager.saveContext()
         
         if result {
             return .success(true)

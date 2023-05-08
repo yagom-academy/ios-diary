@@ -15,6 +15,7 @@ import CoreData
 // 근데 만약 private한 프로퍼티라면 Mock에서도 private
 
 final class MockCoreDataManager: CoreDataManagable {
+    
     static let shared = MockCoreDataManager(modelName: "Diary")
     private let modelName: String
     
