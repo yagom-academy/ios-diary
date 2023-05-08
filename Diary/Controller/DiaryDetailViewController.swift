@@ -17,7 +17,7 @@ final class DiaryDetailViewController: UIViewController {
         static let deleteAlertMessage = "정말로 삭제 하시겠어요?"
     }
     
-    private let coreDataManager = CoreDataManager.shared
+    private let coreDataManager = CoreDataManager()
     
     private var diary: Diary?
     

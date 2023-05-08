@@ -13,7 +13,9 @@ final class DiaryListViewController: UIViewController {
         static let plusIcon = "plus"
     }
 
-    private let coreDataManager = CoreDataManager.shared
+    private let coreDataManager = CoreDataManager()
+    
+    private var diaryItems = [Diary]()
     
     private var diaryListTableView: UITableView = {
         let tableView = UITableView(frame: CGRect.zero, style: .plain)
@@ -23,8 +25,6 @@ final class DiaryListViewController: UIViewController {
         
         return tableView
     }()
-    
-    private var diaryItems = [Diary]()
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: .coreDataChanged, object: nil)
