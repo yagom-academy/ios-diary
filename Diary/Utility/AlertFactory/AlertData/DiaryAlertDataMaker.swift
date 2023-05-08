@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct DiaryAlertDataMaker: DiaryAlertDataService {
+struct DiaryAlertDataMaker: DiaryAlertDataFactory {
     func deleteAlertData(completion: @escaping () -> Void) -> AlertViewData {
         let alertViewData = AlertViewData(title: "진짜요?",
                                           message: "정말로 삭제하시겠어요?",

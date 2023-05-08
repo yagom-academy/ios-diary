@@ -12,8 +12,8 @@ final class DiaryContentViewController: UIViewController {
     
     private var diary: Diary?
     private let textView = UITextView()
-    private let alertFactory: DiaryAlertFactoryService = DiaryAlertMaker()
-    private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
+    private let alertFactory: DiaryAlertFactory = DiaryAlertMaker()
+    private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
     private let storage = CoreDataManager()
 
     init(diary: Diary? = nil) {

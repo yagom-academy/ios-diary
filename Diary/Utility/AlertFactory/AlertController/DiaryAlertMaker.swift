@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct DiaryAlertMaker: DiaryAlertFactoryService {
+struct DiaryAlertMaker: DiaryAlertFactory {
     func deleteDiaryAlert(for data: AlertViewData) -> UIAlertController {
         let alertController = UIAlertController(title: data.title,
                                                 message: data.message,

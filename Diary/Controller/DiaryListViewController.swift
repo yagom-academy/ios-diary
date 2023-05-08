@@ -10,8 +10,8 @@ final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
     private var diaryList: [Diary] = []
     private let sampleDecoder = DiaryDecodeManager()
-    private let alertMaker: DiaryAlertFactoryService = DiaryAlertMaker()
-    private let alertDataMaker: DiaryAlertDataService = DiaryAlertDataMaker()
+    private let alertMaker: DiaryAlertFactory = DiaryAlertMaker()
+    private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
     private let dataManager = CoreDataManager()
     
     override func viewDidLoad() {
