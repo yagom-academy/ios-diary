@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		621340D029FB658000B55ADE /* ReusableIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 621340CF29FB658000B55ADE /* ReusableIdentifier.swift */; };
 		627C7BC02A00AB7400AF7134 /* DiaryServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627C7BBF2A00AB7400AF7134 /* DiaryServiceTests.swift */; };
-		627C7BCB2A00F40500AF7134 /* CoreDataFetchedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627C7BCA2A00F40500AF7134 /* CoreDataFetchedResults.swift */; };
 		6288090A29F7B819006145DD /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6288090929F7B818006145DD /* DateFormatterExtension.swift */; };
 		62CCC0A629F7693A00FB3106 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 62CCC0A529F7693A00FB3106 /* .swiftlint.yml */; };
 		62CF2C192A08DF7600A37CBD /* CoreDataManagable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CF2C182A08DF7600A37CBD /* CoreDataManagable.swift */; };
@@ -47,7 +46,6 @@
 		621340CF29FB658000B55ADE /* ReusableIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableIdentifier.swift; sourceTree = "<group>"; };
 		627C7BBD2A00AB7400AF7134 /* DiaryServiceTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryServiceTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		627C7BBF2A00AB7400AF7134 /* DiaryServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryServiceTests.swift; sourceTree = "<group>"; };
-		627C7BCA2A00F40500AF7134 /* CoreDataFetchedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFetchedResults.swift; sourceTree = "<group>"; };
 		6288090929F7B818006145DD /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		62CCC0A529F7693A00FB3106 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		62CF2C182A08DF7600A37CBD /* CoreDataManagable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManagable.swift; sourceTree = "<group>"; };
@@ -167,7 +165,6 @@
 				62CF2C1A2A08E07900A37CBD /* Extension */,
 				62D3D26229FFB61300C294FC /* CoreDataManager.swift */,
 				71714A3129FFBCB1006F3EA8 /* DiaryService.swift */,
-				627C7BCA2A00F40500AF7134 /* CoreDataFetchedResults.swift */,
 				719A35CE2A03DBD000158CCC /* CoreDataError.swift */,
 				62CF2C182A08DF7600A37CBD /* CoreDataManagable.swift */,
 			);
@@ -361,7 +358,6 @@
 				7169BD242A08C5C30071D048 /* ArrayExtension.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				621340D029FB658000B55ADE /* ReusableIdentifier.swift in Sources */,
-				627C7BCB2A00F40500AF7134 /* CoreDataFetchedResults.swift in Sources */,
 				719A35CF2A03DBD000158CCC /* CoreDataError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

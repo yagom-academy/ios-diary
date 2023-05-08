@@ -14,20 +14,28 @@ final class HomeDiaryController: UIViewController {
     )
     
     private let diaryService = DiaryService(coreDataStack: CoreDataManager.shared)
-    private let createdDateSort = NSSortDescriptor(key: "createdAt", ascending: false)
     
-    private lazy var fetchedDiaryResults = CoreDataFetchedResults(
-        ofType: Diary.self,
-        entityName: "Diary",
-        sortDescriptors: [createdDateSort],
-        managedContext: CoreDataManager.shared.managedContext,
-        delegate: self
-    )
+    private lazy var fetchedDiaryResultsController: NSFetchedResultsController<Diary> = {
+        let fetchRequest = NSFetchRequest<Diary>(entityName: "Diary")
+        let createdDateSort = NSSortDescriptor(key: "createdAt", ascending: false)
+        fetchRequest.sortDescriptors = [createdDateSort]
+        
+        let fetchResult = NSFetchedResultsController(
+            fetchRequest: fetchRequest,
+            managedObjectContext: CoreDataManager.shared.managedContext,
+            sectionNameKeyPath: nil,
+            cacheName: nil
+        )
+        fetchResult.delegate = self
+        
+        return fetchResult
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
         configureUI()
+        setupFetchedResultsController()
         fetchDiaryData()
     }
     
@@ -60,9 +68,14 @@ final class HomeDiaryController: UIViewController {
         )
     }
     
+    private func setupFetchedResultsController() {
+        fetchedDiaryResultsController.delegate = self
+        
+    }
+    
     private func fetchDiaryData() {
         do {
-            try fetchedDiaryResults.fetchedResultsController.performFetch()
+            try fetchedDiaryResultsController.performFetch()
         } catch {
             
         }
@@ -75,7 +88,7 @@ final class HomeDiaryController: UIViewController {
 
 extension HomeDiaryController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedDiaryResults.fetchedResultsController.sections?[safe: section]?.numberOfObjects ?? 0
+        return fetchedDiaryResultsController.sections?[safe: section]?.numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -86,7 +99,7 @@ extension HomeDiaryController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let diary = fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
+        let diary = fetchedDiaryResultsController.object(at: indexPath)
         cell.configureData(data: diary, localizedDateFormatter: localizedDateFormatter)
         
         return cell
@@ -95,7 +108,7 @@ extension HomeDiaryController: UITableViewDataSource {
 
 extension HomeDiaryController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diary = fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
+        let diary = fetchedDiaryResultsController.object(at: indexPath)
         let addDiaryViewController = ProcessViewController(diary: diary, diaryService: diaryService)
         navigationController?.pushViewController(addDiaryViewController, animated: true)
     }
@@ -105,12 +118,12 @@ extension HomeDiaryController: UITableViewDelegate {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let deleteAction = UIContextualAction(style: .destructive, title: "삭제".localized()) { _, _, _ in
-            let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
+            let diary = self.fetchedDiaryResultsController.object(at: indexPath)
             self.diaryService.delete(id: diary.id)
         }
         
         let shareAction = UIContextualAction(style: .normal, title: "공유".localized()) { _, _, _ in
-            let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
+            let diary = self.fetchedDiaryResultsController.object(at: indexPath)
             let activityVC = UIActivityViewController(
                 activityItems: [diary.title, diary.body],
                 applicationActivities: nil
