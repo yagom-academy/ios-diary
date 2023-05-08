@@ -29,6 +29,14 @@ class CoreDataManager {
         return  NSEntityDescription.entity(forEntityName: "Entity", in: context)
     }
     
+    private func saveContext() {
+        do {
+            try self.context.save()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
     func createDiary(_ diary: Diary) {
         if let entity = diaryEntity {
             let managedObject = NSManagedObject(entity: entity, insertInto: context)
@@ -37,11 +45,7 @@ class CoreDataManager {
             managedObject.setValue(diary.body, forKey: "body")
             managedObject.setValue(diary.date, forKey: "date")
             
-            do {
-                try self.context.save()
-            } catch {
-                print(error.localizedDescription)
-            }
+            saveContext()
         }
     }
     
@@ -75,11 +79,6 @@ class CoreDataManager {
             objectToUpdate.setValue(diary.body, forKey: "body")
             objectToUpdate.setValue(diary.date, forKey: "date")
             
-            do {
-                try self.context.save()
-            } catch {
-                print(error.localizedDescription)
-            }
         } catch {
             print(error.localizedDescription)
         }
