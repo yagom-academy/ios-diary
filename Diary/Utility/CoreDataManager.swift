@@ -10,7 +10,7 @@ import CoreData
 final class CoreDataManger {
     static let shared = CoreDataManger()
     
-    private init() { }
+    private init() {}
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")

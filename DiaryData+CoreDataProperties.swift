@@ -19,4 +19,4 @@ extension DiaryData {
     @NSManaged public var createDate: Double
 }
 
-extension DiaryData: Identifiable { }
+extension DiaryData: Identifiable {}

@@ -17,5 +17,5 @@ extension IdentifierType {
     }
 }
 
-extension UIViewController: IdentifierType { }
-extension UITableViewCell: IdentifierType { }
+extension UIViewController: IdentifierType {}
+extension UITableViewCell: IdentifierType {}

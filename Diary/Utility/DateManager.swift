@@ -10,7 +10,7 @@ import Foundation
 struct DateManger {
     static let shared = DateManger()
     
-    private init() { }
+    private init() {}
     
     let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
