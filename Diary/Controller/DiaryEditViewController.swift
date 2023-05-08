@@ -63,13 +63,14 @@ final class DiaryEditViewController: UIViewController {
     }
     
     private func configureText() {
-        guard let title = diaryData?.title else { return }
-        
-        if let body = diaryData?.body {
-            textView.text = "\(title)\n\(body)"
-        } else {
+        guard let diaryTitle = diaryData?.title else { return }
+        let title = checkNoTitle(title: diaryTitle)
+        guard let body = diaryData?.body else {
             textView.text = title
+            return
         }
+        
+        textView.text = "\(title)\n\(body)"
     }
     
     private func configureTitle() {
@@ -95,15 +96,35 @@ final class DiaryEditViewController: UIViewController {
     }
     
     private func divide(text: String?) -> (title: String, body: String?) {
-        guard let text = textView.text,
-              let spacingIndex = text.firstIndex(of: "\n") else {
-            return (text!, nil)
+        guard let text = textView.text else {
+            return ("", nil)
+        }
+        guard let spacingIndex = text.firstIndex(of: "\n") else {
+            return (checkEmptyTitle(title: text), nil)
         }
         let spacingNextIndex = text.index(after: spacingIndex)
-        let title = String(text[..<spacingIndex])
+        let title = checkEmptyTitle(title: String(text[..<spacingIndex]))
         let body = String(text[spacingNextIndex...])
         
         return (title, body)
+    }
+    
+    private func checkEmptyTitle(title: String) -> String {
+        let removeBlankTitle = title.filter { $0 != " " }
+        
+        if removeBlankTitle.isEmpty {
+            return "제목 없음"
+        } else {
+            return title
+        }
+    }
+    
+    private func checkNoTitle(title: String) -> String {
+        if title == "제목 없음" {
+            return ""
+        } else {
+            return title
+        }
     }
 
     @objc
