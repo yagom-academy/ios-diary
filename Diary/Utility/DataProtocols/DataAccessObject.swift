@@ -8,10 +8,10 @@
 import CoreData
 
 protocol DataAccessObject: AnyObject, NSManagedObject {
-    associatedtype FetchResult: NSFetchRequestResult
+//    associatedtype FetchResult: NSFetchRequestResult
     associatedtype DTO: DataTransferObject
     
-    static func fetchRequest() -> NSFetchRequest<FetchResult>?
+    static func fetchRequest() -> NSFetchRequest<Self>?
     
     func updateValue(data: DTO)
     

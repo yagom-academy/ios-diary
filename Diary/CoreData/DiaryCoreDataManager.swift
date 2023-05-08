@@ -23,8 +23,8 @@ struct DiaryDataManager {
         storage.saveContext()
     }
     
-    func readAllDAO() -> [DiaryDAO] {
-        let request = DiaryDAO.fetchRequest()
+    func readAllDAO<DAO: DataAccessObject>(type: DAO.Type) -> [DAO] {
+        guard let request = DAO.fetchRequest() else { return [] }
         let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
         
         request.sortDescriptors = [sortDescriptor]

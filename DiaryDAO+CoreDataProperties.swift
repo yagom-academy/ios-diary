@@ -24,7 +24,7 @@ extension DiaryDAO {
 
 extension DiaryDAO: Identifiable { }
 
-extension DiaryDAO: DataAccessObject {
+extension DiaryDAO: DataAccessObject {    
     typealias DTO = Diary
     
     convenience init(entity: NSEntityDescription, insertInto context: NSManagedObjectContext?, data: Diary) {
