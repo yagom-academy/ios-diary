@@ -28,11 +28,7 @@ final class HomeDiaryController: UIViewController {
         super.viewDidLoad()
         setupTableView()
         configureUI()
-        do {
-            try fetchedDiaryResults.fetchedResultsController.performFetch()
-        } catch {
-            print(error.localizedDescription)
-        }
+        fetchDiaryData()
     }
     
     private func setupTableView() {
@@ -62,6 +58,14 @@ final class HomeDiaryController: UIViewController {
             target: self,
             action: #selector(didTapAddDiaryButton)
         )
+    }
+    
+    private func fetchDiaryData() {
+        do {
+            try fetchedDiaryResults.fetchedResultsController.performFetch()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     @objc private func didTapAddDiaryButton() {
