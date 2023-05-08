@@ -7,12 +7,12 @@
 
 import CoreData
 
-public enum StoreType {
+enum StoreType {
     case onDisk
     case inMemory
 }
 
-public class CoreDataStack {
+class CoreDataStack {
     static let shared = CoreDataStack(modelName: "Diary")
     private let modelName: String
 
@@ -20,7 +20,7 @@ public class CoreDataStack {
         self.modelName = modelName
     }
 
-    public lazy var managedContext: NSManagedObjectContext = {
+    lazy var managedContext: NSManagedObjectContext = {
         return self.storeContainer.viewContext
     }()
     

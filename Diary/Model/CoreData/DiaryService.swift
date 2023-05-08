@@ -8,19 +8,19 @@
 import Foundation
 import CoreData
 
-public final class DiaryService {
+final class DiaryService {
     let coreDataStack: CoreDataStack
     let managedContext = CoreDataStack.shared.managedContext
     let entityName = "Diary"
     
-    public init(coreDataStack: CoreDataStack) {
+    init(coreDataStack: CoreDataStack) {
         self.coreDataStack = coreDataStack
     }
 }
 
 extension DiaryService {
     @discardableResult
-    public func create(id: UUID, title: String, body: String) -> Result<Diary, CoreDataError> {
+    func create(id: UUID, title: String, body: String) -> Result<Diary, CoreDataError> {
         let diary = Diary(context: managedContext)
         diary.id = id
         diary.title = title
@@ -38,7 +38,7 @@ extension DiaryService {
     }
     
     @discardableResult
-    public func update(id: UUID, title: String, body: String) -> Result<Diary, CoreDataError> {
+    func update(id: UUID, title: String, body: String) -> Result<Diary, CoreDataError> {
         var targetData: Diary?
         do {
             let filteredRequest = Diary.fetchRequest()
@@ -67,7 +67,7 @@ extension DiaryService {
     }
     
     @discardableResult
-    public func delete(id: UUID) -> Result<Bool, CoreDataError> {
+    func delete(id: UUID) -> Result<Bool, CoreDataError> {
         var targetData: Diary?
         do {
             let filteredRequest = Diary.fetchRequest()

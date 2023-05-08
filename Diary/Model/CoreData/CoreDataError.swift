@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum CoreDataError: Error {
+enum CoreDataError: Error {
     case entityNotFound
     case fetchError
     case insertError
@@ -16,7 +16,7 @@ public enum CoreDataError: Error {
 }
 
 extension CoreDataError: LocalizedError {
-    public var errorDescription: String? {
+    var errorDescription: String? {
         switch self {
         case .entityNotFound:
             return NSLocalizedString("엔티티를 찾지 못하였습니다", comment: "EntityName Error")
