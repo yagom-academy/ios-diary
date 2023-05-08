@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		165F05C92A08E71F0018B237 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 165F05C82A08E71F0018B237 /* CoreDataError.swift */; };
 		166C22AB29F7ECAF00E527AC /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 166C22AA29F7ECAF00E527AC /* DiaryDetailViewController.swift */; };
 		16C0929B29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */; };
 		16C0929D29F78D86002ACEB4 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C0929C29F78D86002ACEB4 /* ReuseIdentifiable.swift */; };
@@ -26,6 +27,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		165F05C82A08E71F0018B237 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		166C22AA29F7ECAF00E527AC /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		16C0929A29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryInfoTableViewCell.swift; sourceTree = "<group>"; };
 		16C0929C29F78D86002ACEB4 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
@@ -63,6 +65,7 @@
 				2600B96C29F792C60032E5BD /* JsonDiary.swift */,
 				2644766B29FFB8E7007C0BF3 /* DiaryState.swift */,
 				16C50AC12A009C4800D1B1C6 /* PersistenceManager.swift */,
+				165F05C82A08E71F0018B237 /* CoreDataError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 				166C22AB29F7ECAF00E527AC /* DiaryDetailViewController.swift in Sources */,
 				16C0929B29F78B58002ACEB4 /* DiaryInfoTableViewCell.swift in Sources */,
 				2600B96D29F792C60032E5BD /* JsonDiary.swift in Sources */,
+				165F05C92A08E71F0018B237 /* CoreDataError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
