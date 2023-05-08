@@ -11,6 +11,8 @@
 		AA9DF69C29F76B9F00653F70 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9DF69B29F76B9F00653F70 /* Date+.swift */; };
 		AAC80FA229FB8B9200C499CD /* ContentsEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC80FA029FB8B9200C499CD /* ContentsEntity+CoreDataClass.swift */; };
 		AAC80FA329FB8B9200C499CD /* ContentsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC80FA129FB8B9200C499CD /* ContentsEntity+CoreDataProperties.swift */; };
+		BF15022D2A08DE8700BB16F8 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF15022C2A08DE8700BB16F8 /* NetworkError.swift */; };
+		BF1502302A08DEAD00BB16F8 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF15022F2A08DEAD00BB16F8 /* EndPoint.swift */; };
 		BF523F8629F8F3C000BA8553 /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF523F8529F8F3C000BA8553 /* DecodeManager.swift */; };
 		BF523F8829F8F53F00BA8553 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF523F8729F8F53F00BA8553 /* DiaryError.swift */; };
 		BFA3F40029FB8CD200D3B6B6 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3F3FF29FB8CD200D3B6B6 /* CoreDataManager.swift */; };
@@ -33,6 +35,8 @@
 		AA9DF69B29F76B9F00653F70 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		AAC80FA029FB8B9200C499CD /* ContentsEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentsEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AAC80FA129FB8B9200C499CD /* ContentsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BF15022C2A08DE8700BB16F8 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		BF15022F2A08DEAD00BB16F8 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		BF523F8529F8F3C000BA8553 /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
 		BF523F8729F8F53F00BA8553 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
 		BFA3F3FF29FB8CD200D3B6B6 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -127,6 +131,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		BF15022E2A08DE9C00BB16F8 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BF15022F2A08DEAD00BB16F8 /* EndPoint.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		BF72A20C2A02054000231F21 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
@@ -140,6 +152,7 @@
 			isa = PBXGroup;
 			children = (
 				BF523F8729F8F53F00BA8553 /* DiaryError.swift */,
+				BF15022C2A08DE8700BB16F8 /* NetworkError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -176,6 +189,7 @@
 				BFF2F46D2A02547D006B728E /* Protocol */,
 				AA9DF69A29F76B6D00653F70 /* Extension */,
 				BF72A20C2A02054000231F21 /* Utility */,
+				BF15022E2A08DE9C00BB16F8 /* Network */,
 				BF72A20D2A0205AC00231F21 /* Error */,
 				AAB0417629F64BD5006B6D9A /* Model */,
 				AAB0417429F64BC9006B6D9A /* View */,
@@ -280,6 +294,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BF15022D2A08DE8700BB16F8 /* NetworkError.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				BFD3C62F29F790080000B28B /* DiaryDetailViewController.swift in Sources */,
 				BFBD2B8C29F6493400A5DC87 /* Contents.swift in Sources */,
@@ -291,6 +306,7 @@
 				BFF2F46F2A025492006B728E /* DiaryDetailViewControllerDelegate.swift in Sources */,
 				BFBD2B8E29F6528400A5DC87 /* ContentsTableViewCell.swift in Sources */,
 				AA6AF57D29F8FC8F00A5DB0A /* AlertManager.swift in Sources */,
+				BF1502302A08DEAD00BB16F8 /* EndPoint.swift in Sources */,
 				BFA3F40029FB8CD200D3B6B6 /* CoreDataManager.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				AAC80FA229FB8B9200C499CD /* ContentsEntity+CoreDataClass.swift in Sources */,
