@@ -13,5 +13,11 @@ struct Diary: Hashable, Identifiable {
     let body: String
     let timeIntervalSince1970: Int
     
-    var sharedText: String { title + "\n\n" + body }
+    var sharedText: String {
+        return title + "\n\n" + body
+    }
+    
+    var formattedDateText: String {
+        return DiaryDateFormatter.shared.convertToString(from: timeIntervalSince1970)
+    }
 }

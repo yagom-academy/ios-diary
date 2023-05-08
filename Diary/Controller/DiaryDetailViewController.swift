@@ -82,7 +82,7 @@ final class DiaryDetailViewController: UIViewController {
         case .update:
             guard let validDiary = diary else { return }
             
-            title = dateFormatter.convertToString(from: validDiary.timeIntervalSince1970)
+            title = validDiary.formattedDateText
             id = validDiary.id
             textView.text = validDiary.sharedText
         }
