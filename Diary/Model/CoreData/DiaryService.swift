@@ -9,9 +9,9 @@ import Foundation
 import CoreData
 
 final class DiaryService {
-    let coreDataManager: CoreDataManagable
-    let managedContext = CoreDataManager.shared.managedContext
-    let entityName = "Diary"
+    private let coreDataManager: CoreDataManagable
+    private let managedContext = CoreDataManager.shared.managedContext
+    private let entityName = "Diary"
     
     init(coreDataStack: CoreDataManagable) {
         self.coreDataManager = coreDataStack
@@ -32,7 +32,6 @@ extension DiaryService {
         if result {
             return .success(diary)
         } else {
-            print(CoreDataError.insertError.localizedDescription)
             return .failure(CoreDataError.insertError)
         }
     }

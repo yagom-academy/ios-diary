@@ -7,15 +7,9 @@
 
 import CoreData
 
-enum StoreType {
-    case onDisk
-    case inMemory
-}
-
 final class CoreDataManager {
     static let shared = CoreDataManager(modelName: "Diary")
-    let modelName: String
-    var name: String = "hi"
+    private let modelName: String
 
     private init(modelName: String) {
         self.modelName = modelName

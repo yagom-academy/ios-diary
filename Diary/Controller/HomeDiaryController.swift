@@ -64,7 +64,7 @@ final class HomeDiaryController: UIViewController {
         do {
             try fetchedDiaryResults.fetchedResultsController.performFetch()
         } catch {
-            print(error.localizedDescription)
+            
         }
     }
     
