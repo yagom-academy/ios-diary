@@ -11,30 +11,23 @@ import CoreData
 final class PersistenceManager {
     static var shared: PersistenceManager = PersistenceManager()
     
-//    private let persistentContainer: NSPersistentContainer = {
-//       let container = NSPersistentContainer(name: "Diary")
-//        container.loadPersistentStores { _, error in
-//            if let error = error as NSError? {
-//                fatalError("Unresolved error \(error), \(error.userInfo)")
-//            }
-//        }
-//
-//        return container
-//    }()
-//    private var context: NSManagedObjectContext {
-//        return self.persistentContainer.viewContext
-//    }
+    private var container: NSPersistentContainer?
     
     private init() { }
     
     private func getContext(completion: @escaping (Result<NSManagedObjectContext, NSError>) -> Void) {
-        let container = NSPersistentContainer(name: "Diary")
-        container.loadPersistentStores { _, error in
-            if let error = error as NSError? {
-                completion(.failure(error))
+        guard let container = self.container else {
+            let container = NSPersistentContainer(name: "Diary")
+            container.loadPersistentStores { _, error in
+                if let error = error as NSError? {
+                    completion(.failure(error))
+                }
             }
+            
+            self.container = container
+            completion(.success(container.viewContext))
+            return
         }
-        
         completion(.success(container.viewContext))
     }
     
@@ -62,21 +55,6 @@ final class PersistenceManager {
                 completion(.failure(error))
             }
         }
-        
-//        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context) else {
-//            return nil
-//        }
-//
-//        let managedObject = NSManagedObject(entity: entity, insertInto: self.context)
-//
-//        managedObject.setValue(content, forKey: "content")
-//        managedObject.setValue(date, forKey: "date")
-//
-//        guard let diary = managedObject as? Diary else { return nil }
-//
-//        try context.save()
-//
-//        return diary
     }
     
     func fetchContent(completion: @escaping (Result<[Diary], Error>) -> Void) {
@@ -98,10 +76,6 @@ final class PersistenceManager {
                 completion(.failure(error))
             }
         }
-        
-//        let diaryData = try context.fetch(fetchRequest)
-//
-//        return diaryData
     }
     
     func updateContent(at diary: Diary, _ content: String?, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -122,13 +96,6 @@ final class PersistenceManager {
                 completion(.failure(error))
             }
         }
-        
-        
-//        let item = try context.existingObject(with: diary.objectID)
-//
-//        item.setValue(content, forKey: "content")
-//
-//        try context.save()
     }
     
     func deleteContent(at diary: Diary, completion: @escaping (Result<Void, Error>) -> Void) {
@@ -149,11 +116,5 @@ final class PersistenceManager {
                 completion(.failure(error))
             }
         }
-        
-//        let item = try context.existingObject(with: diary.objectID)
-//        
-//        context.delete(item)
-//        
-//        try context.save()
     }
 }

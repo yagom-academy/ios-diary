@@ -85,13 +85,6 @@ final class DiaryDetailViewController: UIViewController {
         
         switch state {
         case .create:
-//            do {
-//                let date = Date().timeIntervalSince1970
-//                diaryItem = try manager.createContent(content, date)
-//                state = .edit
-//            } catch {
-//                showFailAlert(error: error)
-//            }
             let date = Date().timeIntervalSince1970
             manager.createContent(content, date) { [weak self] result in
                 switch result {
@@ -105,11 +98,6 @@ final class DiaryDetailViewController: UIViewController {
         case .edit:
             guard let diary = diaryItem else { return }
             
-//            do {
-//                try manager.updateContent(at: diary, content)
-//            } catch {
-//                showFailAlert(error: error)
-//            }
             manager.updateContent(at: diary, content) { [weak self] result in
                 switch result {
                 case .success():
