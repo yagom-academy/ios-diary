@@ -57,7 +57,7 @@ final class DiaryContentViewController: UIViewController {
             diary.updateContents(title: currentContents.title,
                                   body: currentContents.body,
                                   updatedDate: updatedDate)
-            storage.updateDAO(data: diary)
+            storage.updateDAO(type: DiaryDAO.self, data: diary)
         }
     }
     
@@ -156,7 +156,7 @@ final class DiaryContentViewController: UIViewController {
             
             guard let diary else { return }
             
-            storage.createDAO(from: diary)
+            storage.createDAO(entityType: DiaryDAO.self, from: diary)
         }
     }
 }
@@ -225,7 +225,7 @@ extension DiaryContentViewController {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
             guard let self, let id = self.diary?.id else { return }
             
-            self.storage.deleteDAO(id: id)
+            self.storage.deleteDAO(type: DiaryDAO.self, id: id)
             self.diary = nil
             self.navigationController?.popViewController(animated: true)
         }

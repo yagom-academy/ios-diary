@@ -11,13 +11,16 @@ import CoreData
 struct DiaryDataManager {
     private let storage = CoreDataManager.shared
     
-    func createDAO<DTO: DataTransferObject, DAO: DataAccessObject>(entityType: DAO, from data: DTO) {
-        guard let entityName = entityType.entity.name else { return }
+    func createDAO<DTO: DataTransferObject, DAO: DataAccessObject>(entityType: DAO.Type, from data: DTO) {
+        guard let entityName = DAO.entity().name else {
+            return
+            
+        }
         
-        guard let dao = DAO.object(entityName: entityName, context: storage.context) else { return }
+        guard let object = DAO.object(entityName: entityName, context: storage.context) else { return }
         
         if let castedData = data as? DAO.DTO {
-            dao.setValues(from: castedData)
+            object.setValues(from: castedData)
         }
         
         storage.saveContext()
@@ -42,26 +45,27 @@ struct DiaryDataManager {
         
         let fetchResult = storage.fetch(request: request)
         
-        guard let dao = fetchResult.first,
+        guard let object = fetchResult.first,
               let data = data as? DAO.DTO else { return }
 
-        dao.updateValue(data: data)
+        object.updateValue(data: data)
         
         if storage.context.hasChanges {
             storage.saveContext()
         }
     }
     
-    func deleteDAO(id: UUID) {
-        let request = DiaryDAO.fetchRequest()
+    func deleteDAO<DAO: DataAccessObject>(type: DAO.Type, id: UUID) {
+        guard let request = DAO.fetchRequest() else { return }
+        
         let predicate = NSPredicate(format: "id == %@", id.uuidString)
         request.predicate = predicate
         
         let fetchResult = storage.fetch(request: request)
         
-        guard let diary = fetchResult.first else { return }
+        guard let object = fetchResult.first else { return }
         
-        storage.context.delete(diary)
+        storage.context.delete(object)
         storage.saveContext()
     }
 }

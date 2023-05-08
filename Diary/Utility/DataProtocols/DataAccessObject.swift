@@ -20,7 +20,9 @@ protocol DataAccessObject: AnyObject, NSManagedObject {
 
 extension DataAccessObject {
     static func fetchRequest() -> NSFetchRequest<Self>? {
-        guard let entityName = Self.entity().name else { return nil }
+        guard let entityName = Self.entity().name else {
+            return nil
+        }
         return NSFetchRequest<Self>(entityName: entityName)
     }
     

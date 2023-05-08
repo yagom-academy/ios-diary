@@ -70,7 +70,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchDiaryList() {
-        let result = dataManager.readAllDAO()
+        let result = dataManager.readAllDAO(type: DiaryDAO.self)
         let mappedList = result.map { Diary(diaryDAO: $0) }
         
         self.diaryList = mappedList
@@ -157,7 +157,7 @@ extension DiaryListViewController {
             
             let id = self.diaryList[indexPath.row].id
             
-            self.dataManager.deleteDAO(id: id)
+            self.dataManager.deleteDAO(type: DiaryDAO.self, id: id)
             self.diaryList.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }

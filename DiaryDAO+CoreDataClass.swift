@@ -10,6 +10,6 @@ import Foundation
 import CoreData
 
 @objc(DiaryDAO)
-public class DiaryDAO: NSManagedObject {
+final public class DiaryDAO: NSManagedObject {
 
 }

@@ -13,7 +13,7 @@ final class CoreDataManager {
     
     private init() { }
     
-    private lazy var persistentContainer: NSPersistentContainer = {
+    private var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "DiaryDAO")
         
         container.loadPersistentStores(completionHandler: { (_, error) in
