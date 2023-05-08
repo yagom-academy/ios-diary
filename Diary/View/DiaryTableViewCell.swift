@@ -43,6 +43,12 @@ final class DiaryTableViewCell: UITableViewCell {
         configureCell()
     }
     
+    override func prepareForReuse() {
+        titleLabel.text = nil
+        infoLabel.text = nil
+        super.prepareForReuse()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -50,8 +56,7 @@ final class DiaryTableViewCell: UITableViewCell {
     private func configureCell() {
         diaryInfoStackView.addArrangedSubview(titleLabel)
         diaryInfoStackView.addArrangedSubview(infoLabel)
-        
-        self.contentView.addSubview(diaryInfoStackView)
+        contentView.addSubview(diaryInfoStackView)
         
         NSLayoutConstraint.activate([
             diaryInfoStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor,
@@ -65,11 +70,17 @@ final class DiaryTableViewCell: UITableViewCell {
         ])
     }
     
-    func configureLabel(diaryItem: DiaryItem) {
-        let dateText = DateManger.shared.convertToDate(fromInt: diaryItem.createDate)
+    func configureLabel(diaryData: DiaryData) {
+        guard let title = diaryData.title else { return }
+        let dateText = DateManger.shared.convertToDate(fromDouble: diaryData.createDate)
         
-        titleLabel.text = diaryItem.title
-        infoLabel.text = dateText + "  " + diaryItem.body
+        titleLabel.text = title
+        
+        if let body = diaryData.body {
+            infoLabel.text = dateText + "  " + body
+        } else {
+            infoLabel.text = dateText
+        }
         infoLabel.attributeText(targetString: dateText)
     }
 }
@@ -80,8 +91,9 @@ extension UILabel {
         let range = (fullText as NSString).range(of: targetString)
         let attributedString = NSMutableAttributedString(string: fullText)
         
-        attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .callout), range: range)
-        
+        attributedString.addAttribute(.font,
+                                      value: UIFont.preferredFont(forTextStyle: .callout),
+                                      range: range)
         self.attributedText = attributedString
     }
 }

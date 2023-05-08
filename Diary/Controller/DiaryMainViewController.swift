@@ -8,40 +8,45 @@
 import UIKit
 
 final class DiaryMainViewController: UIViewController {
+    private var diaryDatas: [DiaryData] = []
+    
     private let diaryTableView: UITableView = {
         let tableView: UITableView = UITableView()
-
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         return tableView
     }()
 
-    private let diaryItems: [DiaryItem] = AssetDecoder.decodeJson()
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        diaryDatas = CoreDataManger.shared.fetchDiary()
+        diaryTableView.reloadData()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureTableView()
     }
-
+    
     private func configureUI() {
         view.backgroundColor = .systemBackground
-        self.navigationItem.title = "일기장"
-        
         let navigationRightButton = UIBarButtonItem(barButtonSystemItem: .add,
                                                     target: self,
                                                     action: #selector(addDiaryButtonTapped))
         
-        self.navigationItem.rightBarButtonItem = navigationRightButton
+        navigationItem.rightBarButtonItem = navigationRightButton
+        navigationItem.title = "일기장"
     }
 
     private func configureTableView() {
         view.addSubview(diaryTableView)
-        diaryTableView.register(DiaryTableViewCell.self,
-                                forCellReuseIdentifier: DiaryTableViewCell.identifier)
         diaryTableView.delegate = self
         diaryTableView.dataSource = self
-
+        diaryTableView.register(DiaryTableViewCell.self,
+                                forCellReuseIdentifier: DiaryTableViewCell.identifier)
+        
         NSLayoutConstraint.activate([
             diaryTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             diaryTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -50,8 +55,10 @@ final class DiaryMainViewController: UIViewController {
         ])
     }
     
-    @objc private func addDiaryButtonTapped() {
-        let diaryEditViewController = DiaryEditViewController()
+    @objc
+    private func addDiaryButtonTapped() {
+        let diaryEditViewController = DiaryEditViewController(type: .new)
+        
         diaryEditViewController.title = DateManger.shared.generateTodayDate()
         navigationController?.pushViewController(diaryEditViewController, animated: true)
     }
@@ -59,17 +66,16 @@ final class DiaryMainViewController: UIViewController {
 
 extension DiaryMainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryItems.count
+        return diaryDatas.count
     }
-
+ 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier,
                                                        for: indexPath) as? DiaryTableViewCell else {
             return UITableViewCell()
         }
-        
         cell.accessoryType = .disclosureIndicator
-        cell.configureLabel(diaryItem: diaryItems[indexPath.row])
+        cell.configureLabel(diaryData: diaryDatas[indexPath.row])
         
         return cell
     }
@@ -77,8 +83,44 @@ extension DiaryMainViewController: UITableViewDataSource {
 
 extension DiaryMainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryEditViewController = DiaryEditViewController(diaryItem: diaryItems[indexPath.row])
+        let diaryEditViewController = DiaryEditViewController(diaryData: diaryDatas[indexPath.row],
+                                                              type: .old)
+        
         navigationController?.pushViewController(diaryEditViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let share = UIContextualAction(style: .normal, title: nil) { [weak self](_, _, completion) in
+            guard let self else { return }
+            
+            ActivityViewManager().showActivityView(target: self)
+            completion(true)
+        }
+        let delete = UIContextualAction(style: .normal, title: nil) { [weak self](_, _, completion) in
+            guard let self,
+                  let id = self.diaryDatas[indexPath.row].id else { return }
+            
+            AlertManager().showAlert(target: self) {
+                CoreDataManger.shared.deleteDiary(id: id)
+                self.diaryDatas.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .left)
+            }
+            completion(true)
+        }
+        
+        share.title = "share"
+        share.backgroundColor = .systemBlue
+        delete.title = "delete"
+        delete.backgroundColor = .systemRed
+        
+        let configuration = UISwipeActionsConfiguration(actions: [delete, share])
+        
+        configuration.performsFirstActionWithFullSwipe = false
+        
+        return configuration
     }
 }
