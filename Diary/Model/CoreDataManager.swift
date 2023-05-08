@@ -85,7 +85,7 @@ class CoreDataManager {
         }
     }
     
-    func deleteDiary(diary: Diary) {
+    func deleteDiary(diary: Diary) throws {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
         fetchRequest.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
         
@@ -97,10 +97,10 @@ class CoreDataManager {
             do {
                 try context.save()
             } catch {
-                print(error.localizedDescription)
+                throw error
             }
         } catch {
-            print(error.localizedDescription)
+            throw error
         }
     }
 }

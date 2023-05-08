@@ -206,7 +206,15 @@ final class DetailDiaryViewController: UIViewController {
     private func deleteDiary() {
         guard let diary else { return }
         
-        coreDataManager.deleteDiary(diary: diary)
+        do {
+            try self.coreDataManager.deleteDiary(diary: diary)
+        } catch {
+            let alert = UIAlertController(title: "알림", message: "\(error)", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "확인", style: .default)
+            alert.addAction(okAction)
+            self.present(alert, animated: true)
+        }
+        
         isSaveRequired = false
         
         self.navigationController?.popViewController(animated: true)

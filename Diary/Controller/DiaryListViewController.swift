@@ -119,7 +119,16 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let delete = UIContextualAction(style: .destructive, title: NameSpace.delete) { action, view, completionHandler in
             let diaryToDelete = diaries[indexPath.row]
-            self.coreDataManager.deleteDiary(diary: diaryToDelete)
+            
+            do {
+                try self.coreDataManager.deleteDiary(diary: diaryToDelete)
+            } catch {
+                let alert = UIAlertController(title: "알림", message: "\(error)", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(okAction)
+                self.present(alert, animated: true)
+            }
+            
             tableView.deleteRows(at: [indexPath], with: .fade)
         }
         
