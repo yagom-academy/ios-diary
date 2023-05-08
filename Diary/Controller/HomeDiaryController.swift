@@ -75,7 +75,7 @@ final class HomeDiaryController: UIViewController {
 
 extension HomeDiaryController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fetchedDiaryResults.fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        return fetchedDiaryResults.fetchedResultsController.sections?[safe: section]?.numberOfObjects ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

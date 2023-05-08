@@ -14,6 +14,7 @@
 		62CCC0A629F7693A00FB3106 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 62CCC0A529F7693A00FB3106 /* .swiftlint.yml */; };
 		62D3D26329FFB61300C294FC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D3D26229FFB61300C294FC /* CoreDataStack.swift */; };
 		715A682729F77CA300626385 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715A682629F77CA300626385 /* DiaryCell.swift */; };
+		7169BD242A08C5C30071D048 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7169BD232A08C5C30071D048 /* ArrayExtension.swift */; };
 		71714A3229FFBCB1006F3EA8 /* DiaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71714A3129FFBCB1006F3EA8 /* DiaryService.swift */; };
 		719A35CF2A03DBD000158CCC /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719A35CE2A03DBD000158CCC /* CoreDataError.swift */; };
 		719A35D42A03E7EA00158CCC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 719A35D62A03E7EA00158CCC /* Localizable.strings */; };
@@ -48,6 +49,7 @@
 		62CCC0A529F7693A00FB3106 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		62D3D26229FFB61300C294FC /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
 		715A682629F77CA300626385 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
+		7169BD232A08C5C30071D048 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		71714A3129FFBCB1006F3EA8 /* DiaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryService.swift; sourceTree = "<group>"; };
 		719A35CE2A03DBD000158CCC /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		719A35D52A03E7EA00158CCC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 			children = (
 				6288090929F7B818006145DD /* DateFormatterExtension.swift */,
 				719A35D92A03EBAA00158CCC /* StringExtension.swift */,
+				7169BD232A08C5C30071D048 /* ArrayExtension.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				71714A3229FFBCB1006F3EA8 /* DiaryService.swift in Sources */,
 				71C280902A00A1F20035E6D0 /* Diary+CoreDataClass.swift in Sources */,
 				71C280932A00A7380035E6D0 /* ProcessViewController.swift in Sources */,
+				7169BD242A08C5C30071D048 /* ArrayExtension.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				621340D029FB658000B55ADE /* ReusableIdentifier.swift in Sources */,
 				627C7BCB2A00F40500AF7134 /* CoreDataFetchedResults.swift in Sources */,
