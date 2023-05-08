@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class Diary {
+final class Diary: DataTransferObject {
     var title, body: String?
     var updatedDate: Double
     var id = UUID()
@@ -43,11 +43,5 @@ final class Diary {
         object.body = self.body
         object.date = self.updatedDate
         object.id = self.id
-    }
-}
-
-extension Diary: DataTransferObject {
-    func toDAO() {
-        
     }
 }

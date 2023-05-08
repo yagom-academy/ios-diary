@@ -34,18 +34,18 @@ struct DiaryDataManager {
         return fetchResult
     }
     
-    func updateDAO(data: DataTransferObject) {
-        let request = DiaryDAO.fetchRequest()
+    func updateDAO<DAO: DataAccessObject, DTO: DataTransferObject>(type: DAO.Type, data: DTO) {
+        guard let request = DAO.fetchRequest() else { return }
+        
         let predicate = NSPredicate(format: "id == %@", data.id.uuidString)
         request.predicate = predicate
         
         let fetchResult = storage.fetch(request: request)
         
-        guard let diary = fetchResult.first else { return }
-        
-        diary.setValue(data.title, forKey: "title")
-        diary.setValue(data.updatedDate, forKey: "date")
-        diary.setValue(data.body, forKey: "body")
+        guard let dao = fetchResult.first,
+              let data = data as? DAO.DTO else { return }
+
+        dao.updateValue(data: data)
         
         if storage.context.hasChanges {
             storage.saveContext()
