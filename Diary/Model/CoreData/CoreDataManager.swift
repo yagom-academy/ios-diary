@@ -12,8 +12,8 @@ enum StoreType {
     case inMemory
 }
 
-class CoreDataStack {
-    static let shared = CoreDataStack(modelName: "Diary")
+final class CoreDataManager {
+    static let shared = CoreDataManager(modelName: "Diary")
     private let modelName: String
 
     private init(modelName: String) {
@@ -45,7 +45,7 @@ class CoreDataStack {
     }
 }
 
-extension CoreDataStack {
+extension CoreDataManager {
     func changeStoreType(type: StoreType) {
         if type == .inMemory {
             let persistentStoreDescription = NSPersistentStoreDescription()

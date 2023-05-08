@@ -13,14 +13,14 @@ final class HomeDiaryController: UIViewController {
         languageIdentifier: Locale.preferredLanguages.first ?? Locale.current.identifier
     )
     
-    private let diaryService = DiaryService(coreDataStack: CoreDataStack.shared)
+    private let diaryService = DiaryService(coreDataStack: CoreDataManager.shared)
     private let createdDateSort = NSSortDescriptor(key: "createdAt", ascending: false)
     
     private lazy var fetchedDiaryResults = CoreDataFetchedResults(
         ofType: Diary.self,
         entityName: "Diary",
         sortDescriptors: [createdDateSort],
-        managedContext: CoreDataStack.shared.managedContext,
+        managedContext: CoreDataManager.shared.managedContext,
         delegate: self
     )
     

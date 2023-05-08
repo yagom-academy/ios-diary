@@ -12,7 +12,7 @@
 		627C7BCB2A00F40500AF7134 /* CoreDataFetchedResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 627C7BCA2A00F40500AF7134 /* CoreDataFetchedResults.swift */; };
 		6288090A29F7B819006145DD /* DateFormatterExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6288090929F7B818006145DD /* DateFormatterExtension.swift */; };
 		62CCC0A629F7693A00FB3106 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 62CCC0A529F7693A00FB3106 /* .swiftlint.yml */; };
-		62D3D26329FFB61300C294FC /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D3D26229FFB61300C294FC /* CoreDataStack.swift */; };
+		62D3D26329FFB61300C294FC /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62D3D26229FFB61300C294FC /* CoreDataManager.swift */; };
 		715A682729F77CA300626385 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 715A682629F77CA300626385 /* DiaryCell.swift */; };
 		7169BD242A08C5C30071D048 /* ArrayExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7169BD232A08C5C30071D048 /* ArrayExtension.swift */; };
 		71714A3229FFBCB1006F3EA8 /* DiaryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71714A3129FFBCB1006F3EA8 /* DiaryService.swift */; };
@@ -47,7 +47,7 @@
 		627C7BCA2A00F40500AF7134 /* CoreDataFetchedResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataFetchedResults.swift; sourceTree = "<group>"; };
 		6288090929F7B818006145DD /* DateFormatterExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatterExtension.swift; sourceTree = "<group>"; };
 		62CCC0A529F7693A00FB3106 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		62D3D26229FFB61300C294FC /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		62D3D26229FFB61300C294FC /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		715A682629F77CA300626385 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		7169BD232A08C5C30071D048 /* ArrayExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrayExtension.swift; sourceTree = "<group>"; };
 		71714A3129FFBCB1006F3EA8 /* DiaryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryService.swift; sourceTree = "<group>"; };
@@ -141,7 +141,7 @@
 		62D3D26629FFBBF100C294FC /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
-				62D3D26229FFB61300C294FC /* CoreDataStack.swift */,
+				62D3D26229FFB61300C294FC /* CoreDataManager.swift */,
 				71714A3129FFBCB1006F3EA8 /* DiaryService.swift */,
 				627C7BCA2A00F40500AF7134 /* CoreDataFetchedResults.swift */,
 				719A35CE2A03DBD000158CCC /* CoreDataError.swift */,
@@ -323,7 +323,7 @@
 				C739AE29284DF28600741E8F /* HomeDiaryController.swift in Sources */,
 				719A35DA2A03EBAA00158CCC /* StringExtension.swift in Sources */,
 				6288090A29F7B819006145DD /* DateFormatterExtension.swift in Sources */,
-				62D3D26329FFB61300C294FC /* CoreDataStack.swift in Sources */,
+				62D3D26329FFB61300C294FC /* CoreDataManager.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				715A682729F77CA300626385 /* DiaryCell.swift in Sources */,

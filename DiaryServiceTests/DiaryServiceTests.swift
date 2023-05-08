@@ -10,11 +10,11 @@ import CoreData
 @testable import Diary
 
 final class DiaryServiceTests: XCTestCase {
-    var coreDataStack: CoreDataStack!
+    var coreDataStack: CoreDataManager!
     var diaryService: DiaryService!
     
     override func setUp() {
-        coreDataStack = CoreDataStack.shared
+        coreDataStack = CoreDataManager.shared
         coreDataStack.changeStoreType(type: .inMemory)
         diaryService = DiaryService(coreDataStack: coreDataStack)
     }
@@ -37,7 +37,7 @@ final class DiaryServiceTests: XCTestCase {
         
         // then
         do {
-            let createdDiary = try CoreDataStack.shared.managedContext.fetch(filteredRequest).first
+            let createdDiary = try CoreDataManager.shared.managedContext.fetch(filteredRequest).first
             XCTAssertEqual(createdDiary?.title, title)
             XCTAssertEqual(createdDiary?.body, body)
         } catch {
@@ -62,7 +62,7 @@ final class DiaryServiceTests: XCTestCase {
         
         // then
         do {
-            let createdDiary = try CoreDataStack.shared.managedContext.fetch(filteredRequest).first
+            let createdDiary = try CoreDataManager.shared.managedContext.fetch(filteredRequest).first
             XCTAssertEqual(createdDiary?.title, updatedTitle)
             XCTAssertEqual(createdDiary?.body, updatedBody)
         } catch {
@@ -84,7 +84,7 @@ final class DiaryServiceTests: XCTestCase {
         
         // then
         do {
-            let createdDiary = try CoreDataStack.shared.managedContext.fetch(filteredRequest).first
+            let createdDiary = try CoreDataManager.shared.managedContext.fetch(filteredRequest).first
             XCTAssertNil(createdDiary)
         } catch {
             XCTFail("테스트가 실패하였습니다.")
