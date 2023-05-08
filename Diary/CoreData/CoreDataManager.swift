@@ -12,8 +12,8 @@ struct CoreDataManager {
     private let storage = CoreDataStack.shared
     
     func createDAO<DAO: DataAccessObject, Domain: DataTransferObject>(type: DAO.Type, from data: Domain) {
-        guard let entityName = DAO.entity().name else { return }
-        guard let object = DAO.object(entityName: entityName, context: storage.context) else { return }
+        guard let entityName = DAO.entity().name,
+              let object = DAO.object(entityName: entityName, context: storage.context) else { return }
         
         if let castedData = data as? DAO.Domain {
             object.setValues(from: castedData)
