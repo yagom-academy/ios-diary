@@ -26,7 +26,7 @@ final class ProcessViewController: UIViewController {
         }
     }
     
-    typealias DiaryInformation = (title: String, body: String)
+    private typealias DiaryInformation = (title: String, body: String)
     private let diaryTextView = UITextView()
     private var diary: Diary?
     private var isDeleteDiary: Bool = false
@@ -54,8 +54,7 @@ final class ProcessViewController: UIViewController {
     }
     
     override func viewWillDisappear(_ animated: Bool) {
-        let diaryInformation = currentDiaryInformation()
-        processDiary(diaryInformation)
+        autoSave()
     }
     
     private func configureNavigationItem() {
@@ -110,9 +109,20 @@ final class ProcessViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(autoSave),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
     }
     
-    func currentDiaryInformation() -> DiaryInformation? {
+    @objc private func autoSave() {
+        let diaryInformation = currentDiaryInformation()
+        processDiary(diaryInformation)
+    }
+    
+    private func currentDiaryInformation() -> DiaryInformation? {
         guard let text = diaryTextView.text else {
             return nil
         }
@@ -128,7 +138,7 @@ final class ProcessViewController: UIViewController {
         return (title: title, body: body)
     }
     
-    func processDiary(_ diaryInformation: DiaryInformation?) {
+    private func processDiary(_ diaryInformation: DiaryInformation?) {
         guard let diaryInformation else {
             return
         }
@@ -151,8 +161,7 @@ final class ProcessViewController: UIViewController {
     
     @objc private func didTapMoreButton() {
         diaryTextView.resignFirstResponder()
-        let currentDiary = currentDiaryInformation()
-        processDiary(currentDiary)
+        autoSave()
         
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         

@@ -43,11 +43,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        let navController = window?.rootViewController as? UINavigationController
-        let processViewController = navController?.topViewController as? ProcessViewController
-        let diaryInformation = processViewController?.currentDiaryInformation()
-        processViewController?.processDiary(diaryInformation)
         
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 }
