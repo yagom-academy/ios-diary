@@ -8,18 +8,25 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
-    private var diarySample: [DiarySample] = []
+    private var diaryList: [Diary] = []
     private let sampleDecoder = DiaryDecodeManager()
-    private let alertFactory: AlertFactoryService = AlertImplementation()
-    private let alertDataMaker: AlertDataService = AlertViewDataMaker()
+    private let alertMaker: DiaryAlertFactory = DiaryAlertMaker()
+    private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
+    private let dataManager = CoreDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         setUpRootView()
         setUpNavigationBar()
         setUpTableView()
-        parseDiarySample()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchDiaryList()
+        tableView.reloadData()
     }
 
     private func setUpRootView() {
@@ -36,9 +43,9 @@ final class DiaryListViewController: UIViewController {
     
     @objc
     private func addDiary() {
-        let nextViewController = DiaryContentViewController()
+        let diaryContentViewController = DiaryContentViewController()
         
-        navigationController?.pushViewController(nextViewController, animated: true)
+        navigationController?.pushViewController(diaryContentViewController, animated: true)
     }
     
     private func setUpTableView() {
@@ -62,26 +69,19 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
-    private func parseDiarySample() {
-        guard let data = NSDataAsset(name: "sample")?.data else { return }
+    private func fetchDiaryList() {
+        let sortDescription = SortDescription(key: "date", ascending: false)
+        let result = dataManager.readAllDAO(type: DiaryDAO.self, sortDescription: sortDescription)
+        let mappedList = result.map { Diary(diaryDAO: $0) }
         
-        let result = sampleDecoder.decode(type: [DiarySample].self, data: data)
-        
-        switch result {
-        case .success(let sample):
-            diarySample = sample
-        case .failure(let error):
-            let alertViewData = alertDataMaker.decodeError(error)
-            let alert = alertFactory.makeAlert(for: alertViewData)
-            
-            present(alert, animated: true)
-        }
+        self.diaryList = mappedList
     }
 }
 
+// MARK: - TableViewDataSource
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diarySample.count
+        return diaryList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -90,21 +90,90 @@ extension DiaryListViewController: UITableViewDataSource {
                                  for: indexPath) as? DiaryListCell
         else { return UITableViewCell() }
         
-        let diary = diarySample[indexPath.row]
-        let date = Date(timeIntervalSince1970: diary.createdDate)
-        let formattedDate = DateFormatter.diaryForm.string(from: date)
+        let diary = diaryList[indexPath.row]
         
-        cell.configureLabels(title: diary.title, date: formattedDate, body: diary.body)
+        cell.configureLabels(with: diary)
         
         return cell
     }
 }
 
+// MARK: - TableViewDelegate
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let nextViewController = DiaryContentViewController(diary: diarySample[indexPath.row])
+        let diary = diaryList[indexPath.row]
+        let diaryContentViewController = DiaryContentViewController(diary: diary)
         
-        navigationController?.pushViewController(nextViewController, animated: true)
+        navigationController?.pushViewController(diaryContentViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let share = makeContextualAction(style: .normal,
+                                         imageName: "square.and.arrow.up",
+                                         color: .systemIndigo) { [weak self] in
+            guard let self else { return }
+            
+            self.presentActivityView(indexPath: indexPath)
+        }
+        
+        let delete = makeContextualAction(style: .destructive,
+                                          imageName: "trash",
+                                          color: .systemRed) { [weak self] in
+            guard let self else { return }
+            
+            self.presentDeleteAlert(indexPath: indexPath)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [delete, share])
+    }
+    
+    private func makeContextualAction(
+        style: UIContextualAction.Style,
+        imageName: String,
+        color: UIColor,
+        completion: @escaping () -> Void
+    ) -> UIContextualAction {
+        let contextualAction = UIContextualAction(style: style,
+                                                  title: nil) { _, _, handler in
+            completion()
+            handler(true)
+        }
+        
+        contextualAction.image = UIImage(systemName: imageName)
+        contextualAction.backgroundColor = color
+        
+        return contextualAction
+    }
+}
+
+// MARK: - Present View
+extension DiaryListViewController {
+    private func presentDeleteAlert(indexPath: IndexPath) {
+        let alertData = alertDataMaker.deleteAlertData { [weak self] in
+            guard let self else { return }
+            
+            let id = self.diaryList[indexPath.row].id
+            
+            self.dataManager.deleteDAO(type: DiaryDAO.self, id: id)
+            self.diaryList.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        }
+        let alert = alertMaker.deleteDiaryAlert(for: alertData)
+        
+        present(alert, animated: true)
+    }
+    
+    private func presentActivityView(indexPath: IndexPath) {
+        let diary = diaryList[indexPath.row]
+        let title = diary.title ?? ""
+        let body = diary.body ?? ""
+        let text = title + body
+        let activityView = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        
+        self.present(activityView, animated: true)
     }
 }

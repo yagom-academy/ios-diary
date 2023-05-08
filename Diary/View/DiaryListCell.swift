@@ -90,9 +90,11 @@ final class DiaryListCell: UITableViewCell {
         ])
     }
     
-    func configureLabels(title: String, date: String, body: String) {
-        titleLabel.text = title
-        dateLabel.text = date
-        previewLabel.text = body
+    func configureLabels(with diary: Diary) {
+        guard let title = diary.title else { return }
+        
+        titleLabel.text = title.isEmpty ? "새로운 일기" : title
+        dateLabel.text = diary.updatedDateText
+        previewLabel.text = diary.body?.trimmingCharacters(in: ["\n"])
     }
 }

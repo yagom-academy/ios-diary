@@ -8,10 +8,15 @@
 import UIKit
 
 final class DiaryContentViewController: UIViewController {
-    private let diary: DiarySample?
-    private let textView = UITextView()
+    typealias DiaryText = (title: String?, body: String?)
     
-    init(diary: DiarySample? = nil) {
+    private var diary: Diary?
+    private let textView = UITextView()
+    private let alertFactory: DiaryAlertFactory = DiaryAlertMaker()
+    private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
+    private let storage = CoreDataManager()
+
+    init(diary: Diary? = nil) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
@@ -29,16 +34,82 @@ final class DiaryContentViewController: UIViewController {
         addObserver()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        showKeyboardIfNeeded()
+        createDiaryIfNeeded()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        updateDiary()
+    }
+    
+    func updateDiary() {
+        guard let diary else { return }
+        
+        let currentContents: DiaryText = devideTitleAndBody(text: textView.text)
+        let updatedDate = Date().timeIntervalSince1970
+        
+        if isDiaryEdited(currentContents) {
+            diary.updateContents(title: currentContents.title,
+                                  body: currentContents.body,
+                                  updatedDate: updatedDate)
+            storage.updateDAO(type: DiaryDAO.self, data: diary)
+        }
+    }
+    
+    private func isDiaryEdited(_ currentContents: DiaryText) -> Bool {
+        guard let diary else { return false }
+        
+        if diary.title != currentContents.title || diary.body != currentContents.body {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    private func devideTitleAndBody(text: String?) -> DiaryText {
+        guard let text,
+              let newLineIndex = text.firstIndex(of: "\n") else { return (text, nil) }
+        
+        let startIndex = text.startIndex
+        let titleRange = startIndex..<newLineIndex
+        let bodyRange = newLineIndex...
+        let title = String(text[titleRange])
+        let body = String(text[bodyRange])
+        
+        return (title, body)
+    }
+    
     private func setUpRootView() {
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
     }
     
     private func setUpNavigationBar() {
-        let timeInterval = diary?.createdDate ?? Date().timeIntervalSince1970
-        let date = Date(timeIntervalSince1970: timeInterval)
+        if let diary {
+            navigationItem.title = diary.updatedDateText
+        } else {
+            let timeInterval = Date().timeIntervalSince1970
+            let date = Date(timeIntervalSince1970: timeInterval)
+            
+            navigationItem.title = DateFormatter.diaryForm.string(from: date)
+        }
         
-        navigationItem.title = DateFormatter.diaryForm.string(from: date)
+        let image = UIImage(systemName: "ellipsis.circle")
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: image,
+                                                            style: .plain,
+                                                            target: self,
+                                                            action: #selector(tapEllipsisButton))
+    }
+    
+    @objc
+    private func tapEllipsisButton() {
+        presentActionSheet()
     }
     
     private func setUpTextView() {
@@ -47,12 +118,6 @@ final class DiaryContentViewController: UIViewController {
         
         setUpTextViewLayout()
         configureTextViewContent()
-    }
-    
-    private func configureTextViewContent() {
-        guard let content = diary else { return }
-        
-        textView.text = "\(content.title)\n\n\(content.body)"
     }
     
     private func setUpTextViewLayout() {
@@ -66,6 +131,38 @@ final class DiaryContentViewController: UIViewController {
         ])
     }
     
+    private func configureTextViewContent() {
+        guard let diary = diary else { return }
+        
+        if let title = diary.title, let body = diary.body {
+            textView.text = title + body
+        } else {
+            textView.text = diary.title
+        }
+        
+    }
+    
+    private func showKeyboardIfNeeded() {
+        if diary == nil {
+            textView.becomeFirstResponder()
+        }
+    }
+    
+    private func createDiaryIfNeeded() {
+        if diary == nil {
+            let createdDate = Date().timeIntervalSince1970
+            
+            self.diary = Diary(title: "", body: "", updatedDate: createdDate)
+            
+            guard let diary else { return }
+            
+            storage.createDAO(type: DiaryDAO.self, from: diary)
+        }
+    }
+}
+
+// MARK: - KeyboardNotification
+extension DiaryContentViewController {
     private func addObserver() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(noti:)),
@@ -93,5 +190,47 @@ final class DiaryContentViewController: UIViewController {
     private func keyboardWillHide() {
         textView.contentInset.bottom = .zero
         textView.verticalScrollIndicatorInsets.bottom = .zero
+        
+        updateDiary()
+    }
+}
+
+// MARK: - Present View
+extension DiaryContentViewController {
+    private func presentActionSheet() {
+        let alertData = alertDataMaker.actionSheetData { [weak self] in
+            guard let self = self else { return }
+            
+            self.presentActivityView()
+        } deleteCompletion: { [weak self] in
+            guard let self else { return }
+            
+            self.presentDeleteAlert()
+        }
+        let alert = alertFactory.actionSheet(for: alertData)
+
+        present(alert, animated: true)
+    }
+    
+    private func presentActivityView() {
+        guard let text = textView.text else { return }
+        
+        let activityView = UIActivityViewController(activityItems: [text],
+                                                    applicationActivities: nil)
+        
+        present(activityView, animated: true)
+    }
+    
+    private func presentDeleteAlert() {
+        let alertData = alertDataMaker.deleteAlertData { [weak self] in
+            guard let self, let id = self.diary?.id else { return }
+            
+            self.storage.deleteDAO(type: DiaryDAO.self, id: id)
+            self.diary = nil
+            self.navigationController?.popViewController(animated: true)
+        }
+        let alert = alertFactory.deleteDiaryAlert(for: alertData)
+        
+        present(alert, animated: true)
     }
 }
