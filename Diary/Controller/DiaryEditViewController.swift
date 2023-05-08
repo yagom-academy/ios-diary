@@ -51,9 +51,11 @@ final class DiaryEditViewController: UIViewController {
                                                     style: .plain,
                                                     target: self,
                                                     action: #selector(ellipsisButtonTapped))
+        
         navigationItem.rightBarButtonItem = navigationRightButton
         view.backgroundColor = .systemBackground
         view.addSubview(textView)
+        
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             textView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
@@ -75,6 +77,7 @@ final class DiaryEditViewController: UIViewController {
     
     private func configureTitle() {
         guard let date = diaryData?.createDate else { return }
+        
         navigationItem.title = DateManger.shared.convertToDate(fromDouble: date)
     }
     
@@ -134,12 +137,14 @@ final class DiaryEditViewController: UIViewController {
         AlertManager().showActionSheet(target: self) { [weak self] in
             guard let self,
                   let id = self.diaryData?.id else { return }
+            
             AlertManager().showAlert(target: self) {
                 CoreDataManger.shared.deleteDiary(id: id)
                 self.navigationController?.popViewController(animated: true)
             }
         } shareCompletion: { [weak self] in
             guard let self else { return }
+            
             ActivityViewManager().showActivityView(target: self)
         }
     }
@@ -155,15 +160,14 @@ final class DiaryEditViewController: UIViewController {
         switch diaryType {
         case .new:
             let diary = CoreDataManger.shared.createDiary(title: title, body: body)
+            
             self.diaryData = diary
             self.diaryType = .old
         case .old:
             guard let date = diaryData?.createDate,
                   let id = diaryData?.id else { return }
-            CoreDataManger.shared.updateDiary(id: id,
-                                              title: title,
-                                              createDate: date,
-                                              body: body)
+            
+            CoreDataManger.shared.updateDiary(id: id, title: title, createDate: date, body: body)
         }
     }
 }

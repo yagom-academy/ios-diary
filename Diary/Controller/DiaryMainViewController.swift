@@ -12,6 +12,7 @@ final class DiaryMainViewController: UIViewController {
     
     private let diaryTableView: UITableView = {
         let tableView: UITableView = UITableView()
+        
         tableView.translatesAutoresizingMaskIntoConstraints = false
 
         return tableView
@@ -45,6 +46,7 @@ final class DiaryMainViewController: UIViewController {
         diaryTableView.dataSource = self
         diaryTableView.register(DiaryTableViewCell.self,
                                 forCellReuseIdentifier: DiaryTableViewCell.identifier)
+        
         NSLayoutConstraint.activate([
             diaryTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             diaryTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -56,6 +58,7 @@ final class DiaryMainViewController: UIViewController {
     @objc
     private func addDiaryButtonTapped() {
         let diaryEditViewController = DiaryEditViewController(type: .new)
+        
         diaryEditViewController.title = DateManger.shared.generateTodayDate()
         navigationController?.pushViewController(diaryEditViewController, animated: true)
     }
@@ -82,6 +85,7 @@ extension DiaryMainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryEditViewController = DiaryEditViewController(diaryData: diaryDatas[indexPath.row],
                                                               type: .old)
+        
         navigationController?.pushViewController(diaryEditViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -92,12 +96,14 @@ extension DiaryMainViewController: UITableViewDelegate {
     ) -> UISwipeActionsConfiguration? {
         let share = UIContextualAction(style: .normal, title: nil) { [weak self](_, _, completion) in
             guard let self else { return }
+            
             ActivityViewManager().showActivityView(target: self)
             completion(true)
         }
         let delete = UIContextualAction(style: .normal, title: nil) { [weak self](_, _, completion) in
             guard let self,
                   let id = self.diaryDatas[indexPath.row].id else { return }
+            
             AlertManager().showAlert(target: self) {
                 CoreDataManger.shared.deleteDiary(id: id)
                 self.diaryDatas.remove(at: indexPath.row)
@@ -105,12 +111,14 @@ extension DiaryMainViewController: UITableViewDelegate {
             }
             completion(true)
         }
+        
         share.title = "share"
         share.backgroundColor = .systemBlue
         delete.title = "delete"
         delete.backgroundColor = .systemRed
         
         let configuration = UISwipeActionsConfiguration(actions: [delete, share])
+        
         configuration.performsFirstActionWithFullSwipe = false
         
         return configuration

@@ -14,6 +14,7 @@ struct DateManger {
     
     let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
+        
         dateFormatter.locale = Locale(identifier: Locale.preferredLanguages.first ?? Locale.current.identifier)
         dateFormatter.dateStyle = .long
         

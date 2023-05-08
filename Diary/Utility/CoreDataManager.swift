@@ -33,6 +33,7 @@ final class CoreDataManger {
                 try context.save()
             } catch {
                 let nserror = error as NSError
+                
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
@@ -41,6 +42,7 @@ final class CoreDataManger {
     func fetchDiary() -> [DiaryData] {
         let fetchRequest =  NSFetchRequest<DiaryData>(entityName: "DiaryData")
         let sortDescriptor = NSSortDescriptor(key: "createDate", ascending: false)
+        
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         do {
@@ -60,6 +62,7 @@ final class CoreDataManger {
         
         if let entity {
             let diary = NSManagedObject(entity: entity, insertInto: self.context)
+            
             diary.setValue(title, forKey: "title")
             diary.setValue(body, forKey: "body")
             diary.setValue(Date().timeIntervalSince1970, forKey: "createDate")
@@ -81,6 +84,7 @@ final class CoreDataManger {
     
     func updateDiary(id: UUID, title: String, createDate: Double, body: String?) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "DiaryData")
+        
         fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
         
         do {
@@ -97,11 +101,13 @@ final class CoreDataManger {
     
     func deleteDiary(id: UUID) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "DiaryData")
+        
         fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
         
         do {
             let result = try self.context.fetch(fetchRequest)
             guard let diary = result[0] as? NSManagedObject else { return }
+            
             self.context.delete(diary)
             do {
                 try self.context.save()

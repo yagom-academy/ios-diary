@@ -10,6 +10,7 @@ import UIKit
 final class DiaryTableViewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
+        
         label.font = .preferredFont(forTextStyle: .title2)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -19,6 +20,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private let infoLabel: UILabel = {
         let label = UILabel()
+        
         label.font = .preferredFont(forTextStyle: .footnote)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +30,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private let diaryInfoStackView: UIStackView = {
         let stackView = UIStackView()
+        
         stackView.axis = .vertical
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -41,9 +44,9 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
-        super.prepareForReuse()
         titleLabel.text = nil
         infoLabel.text = nil
+        super.prepareForReuse()
     }
     
     required init?(coder: NSCoder) {
@@ -54,6 +57,7 @@ final class DiaryTableViewCell: UITableViewCell {
         diaryInfoStackView.addArrangedSubview(titleLabel)
         diaryInfoStackView.addArrangedSubview(infoLabel)
         contentView.addSubview(diaryInfoStackView)
+        
         NSLayoutConstraint.activate([
             diaryInfoStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor,
                                                     constant: 8),
@@ -69,6 +73,7 @@ final class DiaryTableViewCell: UITableViewCell {
     func configureLabel(diaryData: DiaryData) {
         guard let title = diaryData.title else { return }
         let dateText = DateManger.shared.convertToDate(fromDouble: diaryData.createDate)
+        
         titleLabel.text = title
         
         if let body = diaryData.body {
@@ -85,7 +90,10 @@ extension UILabel {
         let fullText = self.text ?? ""
         let range = (fullText as NSString).range(of: targetString)
         let attributedString = NSMutableAttributedString(string: fullText)
-        attributedString.addAttribute(.font, value: UIFont.preferredFont(forTextStyle: .callout), range: range)
+        
+        attributedString.addAttribute(.font,
+                                      value: UIFont.preferredFont(forTextStyle: .callout),
+                                      range: range)
         self.attributedText = attributedString
     }
 }
