@@ -60,7 +60,6 @@ extension DiaryService {
         if result {
             return .success(targetData)
         } else {
-            print(CoreDataError.updateError.localizedDescription)
             return .failure(CoreDataError.updateError)
         }
     }
@@ -87,7 +86,6 @@ extension DiaryService {
         if result {
             return .success(true)
         } else {
-            print(CoreDataError.deleteError.localizedDescription)
             return .failure(CoreDataError.deleteError)
         }
     }

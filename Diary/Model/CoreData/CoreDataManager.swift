@@ -23,7 +23,7 @@ final class CoreDataManager {
         let container = NSPersistentContainer(name: modelName)
         container.loadPersistentStores { _, error in
             if let error = error {
-                print(error.localizedDescription)
+                
             }
         }
 
