@@ -70,7 +70,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchDiaryList() {
-        let result = dataManager.readAllDAO(type: DiaryDAO.self)
+        let sortDescription = SortDescription(key: "date", ascending: false)
+        let result = dataManager.readAllDAO(type: DiaryDAO.self, sortDescription: sortDescription)
         let mappedList = result.map { Diary(diaryDAO: $0) }
         
         self.diaryList = mappedList

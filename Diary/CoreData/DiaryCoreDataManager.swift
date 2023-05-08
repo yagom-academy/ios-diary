@@ -12,25 +12,24 @@ struct DiaryDataManager {
     private let storage = CoreDataManager.shared
     
     func createDAO<DTO: DataTransferObject, DAO: DataAccessObject>(entityType: DAO.Type, from data: DTO) {
-        guard let entityName = DAO.entity().name else {
-            return
-            
-        }
-        
+        guard let entityName = DAO.entity().name else { return }
         guard let object = DAO.object(entityName: entityName, context: storage.context) else { return }
         
         if let castedData = data as? DAO.DTO {
             object.setValues(from: castedData)
+            storage.saveContext()
         }
-        
-        storage.saveContext()
     }
     
-    func readAllDAO<DAO: DataAccessObject>(type: DAO.Type) -> [DAO] {
+    func readAllDAO<DAO: DataAccessObject>(type: DAO.Type, sortDescription: SortDescription?) -> [DAO] {
         guard let request = DAO.fetchRequest() else { return [] }
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
         
-        request.sortDescriptors = [sortDescriptor]
+        if let sortDescription {
+            let sortDescriptor = NSSortDescriptor(key: sortDescription.key,
+                                                  ascending: sortDescription.ascending)
+            
+            request.sortDescriptors = [sortDescriptor]
+        }
         
         let fetchResult = storage.fetch(request: request)
         

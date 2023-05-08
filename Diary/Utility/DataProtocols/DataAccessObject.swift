@@ -8,13 +8,11 @@
 import CoreData
 
 protocol DataAccessObject: AnyObject, NSManagedObject {
-//    associatedtype FetchResult: NSFetchRequestResult
     associatedtype DTO: DataTransferObject
     
     static func fetchRequest() -> NSFetchRequest<Self>?
     
     func updateValue(data: DTO)
-    
     func setValues(from data: DTO)
 }
 
@@ -23,6 +21,7 @@ extension DataAccessObject {
         guard let entityName = Self.entity().name else {
             return nil
         }
+        
         return NSFetchRequest<Self>(entityName: entityName)
     }
     
