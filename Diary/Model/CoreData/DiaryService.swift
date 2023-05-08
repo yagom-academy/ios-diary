@@ -9,11 +9,11 @@ import Foundation
 import CoreData
 
 final class DiaryService {
-    let coreDataStack: CoreDataManager
+    let coreDataStack: CoreDataManagable
     let managedContext = CoreDataManager.shared.managedContext
     let entityName = "Diary"
     
-    init(coreDataStack: CoreDataManager) {
+    init(coreDataStack: CoreDataManagable) {
         self.coreDataStack = coreDataStack
     }
 }

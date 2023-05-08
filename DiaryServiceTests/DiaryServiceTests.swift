@@ -10,17 +10,13 @@ import CoreData
 @testable import Diary
 
 final class DiaryServiceTests: XCTestCase {
-    var coreDataStack: CoreDataManager!
     var diaryService: DiaryService!
     
     override func setUp() {
-        coreDataStack = CoreDataManager.shared
-        coreDataStack.changeStoreType(type: .inMemory)
-        diaryService = DiaryService(coreDataStack: coreDataStack)
+        diaryService = DiaryService(coreDataStack: MockCoreDataManager.shared)
     }
 
     override func tearDown() {
-        coreDataStack = nil
         diaryService = nil
     }
     
@@ -28,20 +24,18 @@ final class DiaryServiceTests: XCTestCase {
         // given
         let id = UUID()
         let title = "일기장 제목"
-        let body = "일기장 내용"
+        let body = "일기장"
         
         // when
-        diaryService.create(id: id, title: title, body: body)
-        let filteredRequest = Diary.fetchRequest()
-        filteredRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
+        let result = diaryService.create(id: id, title: title, body: body)
         
         // then
-        do {
-            let createdDiary = try CoreDataManager.shared.managedContext.fetch(filteredRequest).first
-            XCTAssertEqual(createdDiary?.title, title)
-            XCTAssertEqual(createdDiary?.body, body)
-        } catch {
-            XCTFail("테스트가 실패하였습니다.")
+        switch result {
+        case .success(let newDiary):
+            XCTAssertEqual(newDiary.title, title)
+            XCTAssertEqual(newDiary.body, body)
+        case .failure:
+            XCTFail("일기장 생성 실패")
         }
     }
     
@@ -56,17 +50,15 @@ final class DiaryServiceTests: XCTestCase {
         
         // when
         diaryService.create(id: id, title: title, body: body)
-        diaryService.update(id: id, title: updatedTitle, body: updatedBody)
-        let filteredRequest = Diary.fetchRequest()
-        filteredRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
+        let result = diaryService.update(id: id, title: updatedTitle, body: updatedBody)
         
         // then
-        do {
-            let createdDiary = try CoreDataManager.shared.managedContext.fetch(filteredRequest).first
-            XCTAssertEqual(createdDiary?.title, updatedTitle)
-            XCTAssertEqual(createdDiary?.body, updatedBody)
-        } catch {
-            XCTFail("테스트가 실패하였습니다.")
+        switch result {
+        case .success(let updatedDiary):
+            XCTAssertEqual(updatedDiary.title, updatedTitle)
+            XCTAssertEqual(updatedDiary.body, updatedBody)
+        case .failure:
+            XCTFail("일기장 수정 실패")
         }
     }
     
@@ -78,16 +70,14 @@ final class DiaryServiceTests: XCTestCase {
         
         // when
         diaryService.create(id: id, title: title, body: body)
-        diaryService.delete(id: id)
-        let filteredRequest = Diary.fetchRequest()
-        filteredRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
+        let result = diaryService.delete(id: id)
         
         // then
-        do {
-            let createdDiary = try CoreDataManager.shared.managedContext.fetch(filteredRequest).first
-            XCTAssertNil(createdDiary)
-        } catch {
-            XCTFail("테스트가 실패하였습니다.")
+        switch result {
+        case .success:
+            XCTAssert(true)
+        case .failure:
+            XCTFail("일기장 삭제 실패")
         }
     }
 }

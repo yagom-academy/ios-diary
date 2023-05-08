@@ -14,7 +14,7 @@ enum StoreType {
 
 final class CoreDataManager {
     static let shared = CoreDataManager(modelName: "Diary")
-    private let modelName: String
+    let modelName: String
 
     private init(modelName: String) {
         self.modelName = modelName
@@ -41,17 +41,6 @@ final class CoreDataManager {
             return true
         } catch {
             return false
-        }
-    }
-}
-
-extension CoreDataManager {
-    func changeStoreType(type: StoreType) {
-        if type == .inMemory {
-            let persistentStoreDescription = NSPersistentStoreDescription()
-            persistentStoreDescription.type = NSInMemoryStoreType
-            
-            storeContainer.persistentStoreDescriptions = [persistentStoreDescription]
         }
     }
 }
