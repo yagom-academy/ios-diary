@@ -45,27 +45,31 @@ final class CoreDataManager {
         }
     }
     
-    // MARK: - Create & Update
-    func register(_ diary: Diary) {
+    // MARK: - CRUD
+    func create(_ diary: Diary) {
         let context = persistentContainer.viewContext
-        guard let entity = NSEntityDescription.entity(forEntityName: DiaryKey.EntityName, in: context) else { return }
-        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: DiaryKey.EntityName)
-        fetchRequest.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
+        let storage = DiaryEntity(context: context)
         
-        let fetchedObject = try? context.fetch(fetchRequest)[safe: 0] as? NSManagedObject ?? NSManagedObject(entity: entity, insertInto: context)
-        
-        setNSDiaryValue(for: diary, at: fetchedObject)
+        setNSDiaryValue(for: diary, at: storage)
         saveContext()
     }
     
-    private func setNSDiaryValue(for diary: Diary, at NSDiary: NSManagedObject?) {
-        NSDiary?.setValue(diary.title, forKey: DiaryKey.title)
-        NSDiary?.setValue(diary.body, forKey: DiaryKey.body)
-        NSDiary?.setValue(diary.timeIntervalSince1970, forKey: DiaryKey.timeIntervalSince1970)
-        NSDiary?.setValue(diary.id, forKey: DiaryKey.id)
+    func update(_ diary: Diary) {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: DiaryKey.EntityName)
+        fetchRequest.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
+        
+        do {
+            let test = try context.fetch(fetchRequest)
+            let objectUpdate = test[0] as? NSManagedObject
+            
+            setNSDiaryValue(for: diary, at: objectUpdate)
+            saveContext()
+        } catch {
+            print(error)
+        }
     }
     
-    // MARK: - Read
     func fetch() -> [Diary]? {
         let context = persistentContainer.viewContext
         let fetchRequest = NSFetchRequest<DiaryEntity>(entityName: DiaryKey.EntityName)
@@ -81,18 +85,6 @@ final class CoreDataManager {
         }
     }
     
-    private func convertToDiaryModel(for entities: [DiaryEntity]) -> [Diary] {
-        let diaries = entities.map { entity in
-            Diary(id: entity.id,
-                  title: entity.title ?? "",
-                  body: entity.body ?? "",
-                  timeIntervalSince1970: Int(entity.timeIntervalSince1970))
-        }
-        
-        return diaries
-    }
-    
-    // MARK: - Delete
     func delete(id: UUID) {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: DiaryKey.EntityName)
@@ -107,5 +99,35 @@ final class CoreDataManager {
         } catch {
             print(error)
         }
+    }
+    
+    // MARK: - Methods
+    func search(id: UUID) -> Bool {
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest.init(entityName: DiaryKey.EntityName)
+        fetchRequest.predicate = NSPredicate(format: "id == %@", id as CVarArg)
+        
+        guard let fetchedObject = try? context.fetch(fetchRequest) else { return false }
+        let result = fetchedObject.first != nil ? true : false
+        
+        return result
+    }
+    
+    private func setNSDiaryValue(for diary: Diary, at NSDiary: NSManagedObject?) {
+        NSDiary?.setValue(diary.title, forKey: DiaryKey.title)
+        NSDiary?.setValue(diary.body, forKey: DiaryKey.body)
+        NSDiary?.setValue(diary.timeIntervalSince1970, forKey: DiaryKey.timeIntervalSince1970)
+        NSDiary?.setValue(diary.id, forKey: DiaryKey.id)
+    }
+    
+    private func convertToDiaryModel(for entities: [DiaryEntity]) -> [Diary] {
+        let diaries = entities.map { entity in
+            Diary(id: entity.id,
+                  title: entity.title ?? "",
+                  body: entity.body ?? "",
+                  timeIntervalSince1970: Int(entity.timeIntervalSince1970))
+        }
+        
+        return diaries
     }
 }

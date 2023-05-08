@@ -19,7 +19,11 @@ extension UIViewController {
     
     func presentActivityView(diary: Diary?) {
         guard let validDiary = diary else { return }
-        let activityViewController = UIActivityViewController(activityItems: [validDiary.sharedText], applicationActivities: nil)
+        
+        let activityViewController = UIActivityViewController(
+            activityItems: [validDiary.sharedText],
+            applicationActivities: nil
+        )
         activityViewController.popoverPresentationController?.sourceView = self.view
         
         self.present(activityViewController, animated: true, completion: nil)
@@ -27,7 +31,6 @@ extension UIViewController {
     
     func presentDeleteAlert(diary: Diary?, completion: @escaping (Bool) -> Void ) {
         guard let validDiary = diary else {
-         
             completion(false)
             return
         }

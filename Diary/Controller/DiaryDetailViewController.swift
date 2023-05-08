@@ -62,9 +62,9 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        if isSave {
-            saveDiaryToStorage()
-        }
+        
+        saveDiaryToStorage()
+        
     }
     
     // MARK: - Methods
@@ -122,7 +122,7 @@ final class DiaryDetailViewController: UIViewController {
     
     @objc private func presentActionSheet() {
         let shareActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
+        
         let cancelAction = UIAlertAction(
             title: LocalizationKey.cancel.localized(),
             style: .cancel
@@ -139,20 +139,20 @@ final class DiaryDetailViewController: UIViewController {
             title: LocalizationKey.delete.localized(),
             style: .destructive
         ) { [weak self] _ in
-    
+            
             self?.presentDeleteAlert(diary: self?.diary) { _ in
                 self?.isSave = false
                 self?.navigationController?.popViewController(animated: true)
             }
         }
-          
+        
         shareActionSheet.addAction(cancelAction)
         shareActionSheet.addAction(shareAction)
         shareActionSheet.addAction(deleteAction)
         
         present(shareActionSheet, animated: true)
     }
-
+    
     private func configureNotification() {
         NotificationCenter.default.addObserver(
             self,
@@ -173,7 +173,7 @@ final class DiaryDetailViewController: UIViewController {
             selector: #selector(didEnterBackground),
             name: UIApplication.didEnterBackgroundNotification,
             object: nil)
-   
+        
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -198,11 +198,12 @@ final class DiaryDetailViewController: UIViewController {
         saveDiaryToStorage()
     }
     
-    private func saveDiaryToStorage() {
-        guard let contents = verifyText(text: textView.text) else { return }
+    private func createCurrentDiary() -> Diary? {
+        guard let contents = verifyText(text: textView.text) else { return nil }
         let components = contents.split(separator: "\n", maxSplits: 1)
         
-        guard let title = components.first, let date = self.title else { return }
+        guard let title = components.first,
+              let date = self.title else { return nil }
         var body = components[safe: 1] ?? ""
         
         if body.first == "\n" {
@@ -216,13 +217,25 @@ final class DiaryDetailViewController: UIViewController {
             timeIntervalSince1970: dateFormatter.convertToInterval(from: date)
         )
         
-        self.diary = currentDiary
-        CoreDataManager.shared.register(currentDiary)
+        return currentDiary
+    }
+    
+    private func saveDiaryToStorage() {
+        guard let diary = createCurrentDiary() else { return }
+        self.diary = diary
+        
+        if isSave {
+            if CoreDataManager.shared.search(id: diary.id) == true {
+                CoreDataManager.shared.update(diary)
+            } else {
+                CoreDataManager.shared.create(diary)
+            }
+        }
     }
     
     private func verifyText(text: String) -> String? {
         let trimmedText = text.trimmingCharacters(in: .whitespaces)
-
+        
         if trimmedText.isEmpty {
             return nil
         } else {
