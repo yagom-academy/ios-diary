@@ -17,13 +17,5 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = UINavigationController(rootViewController: rootViewController)
         window?.makeKeyAndVisible()
     }
-    
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        guard let navigationController = window?.rootViewController as? UINavigationController,
-              let topViewController = navigationController.topViewController,
-              let diaryDetailViewController = topViewController as? DiaryDetailViewController else { return }
-        
-        diaryDetailViewController.saveOrUpdateDiary()
-    }
-    
+
 }

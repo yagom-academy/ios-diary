@@ -67,9 +67,9 @@ final class DiaryListViewController: UIViewController {
         switch result {
         case .success(let diaryItems):
             self.diaryItems = diaryItems
-            self.diaryListTableView.reloadData()
+            diaryListTableView.reloadData()
         case .failure(let error):
-            self.handleCoreDataError(error)
+            handleCoreDataError(error)
         }
     }
     
@@ -132,7 +132,7 @@ final class DiaryListViewController: UIViewController {
             print("삭제 성공")
         case .failure(let error):
             print("\(error.userErrorMessage)")
-            self.handleNetworkError(error)
+            handleNetworkError(error)
         }
     }
     

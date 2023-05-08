@@ -54,6 +54,7 @@ final class DiaryDetailViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     override func viewDidLoad() {
@@ -63,8 +64,9 @@ final class DiaryDetailViewController: UIViewController {
         configureView()
         titleTextView.delegate = self
         bodyTextView.delegate = self
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         guard !isDeleted else { return }
@@ -76,6 +78,10 @@ final class DiaryDetailViewController: UIViewController {
         navigationItem.rightBarButtonItem =
         UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .plain,
                         target: self, action: #selector(detailButtonTapped))
+    }
+    
+    @objc func appDidEnterBackground() {
+        saveOrUpdateDiary()
     }
     
     @objc func keyboardWillHide(notification: Notification) {
@@ -105,7 +111,7 @@ final class DiaryDetailViewController: UIViewController {
     func saveOrUpdateDiary() {
         guard !titleText.isEmpty || !bodyText.isEmpty else { return }
         
-        if let diary = diary {
+        if let diary {
             diary.title = titleText
             diary.body = bodyText
             let result = coreDataManager.updateDiaryData(newDiaryData: diary)
@@ -113,8 +119,9 @@ final class DiaryDetailViewController: UIViewController {
             case .success:
                 print("업데이트 성공")
             case .failure(let error):
-                print("\(error.userErrorMessage)")
-                self.showAlertWithMessage(error.userErrorMessage)
+                let errorTitle = "업데이트 실패"
+                let errorMessage = error.userErrorMessage
+                showAlertWithMessage(errorTitle, errorMessage)
             }
         } else {
             let result = coreDataManager.saveDiaryData(titleText: titleText, bodyText: bodyText)
@@ -122,8 +129,9 @@ final class DiaryDetailViewController: UIViewController {
             case .success:
                 print("저장 성공")
             case .failure(let error):
-                print("\(error.userErrorMessage)")
-                self.showAlertWithMessage(error.userErrorMessage)
+                let errorTitle = "저장 실패"
+                let errorMessage = error.userErrorMessage
+                showAlertWithMessage(errorTitle, errorMessage)
             }
         }
     }
@@ -138,11 +146,12 @@ final class DiaryDetailViewController: UIViewController {
         switch result {
         case .success:
             print("삭제 성공")
-            self.diary = nil
+            diary = nil
             isDeleted = true
         case .failure(let error):
-            print("\(error.userErrorMessage)")
-            self.showAlertWithMessage(error.userErrorMessage)
+            let errorTitle = "삭제 실패"
+            let errorMessage = error.userErrorMessage
+            showAlertWithMessage(errorTitle, errorMessage)
         }
     }
     
@@ -171,8 +180,8 @@ final class DiaryDetailViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func showAlertWithMessage(_ message: String) {
-        let alertController = UIAlertController(title: nil, message: message, preferredStyle: .alert)
+    private func showAlertWithMessage(_ title: String, _ message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "확인", style: .default)
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)
@@ -213,6 +222,7 @@ final class DiaryDetailViewController: UIViewController {
             titleTextView.becomeFirstResponder()
         }
     }
+    
 }
 
 extension DiaryDetailViewController: UITextViewDelegate {

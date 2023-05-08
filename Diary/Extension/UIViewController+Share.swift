@@ -14,6 +14,5 @@ extension UIViewController {
         let activityViewController = UIActivityViewController(activityItems: [someText], applicationActivities: nil)
 
         self.present(activityViewController, animated: true, completion: nil)
-        
     }
 }
