@@ -125,10 +125,18 @@ extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let diary = diaries?[safe: indexPath.row] 
         
-        let delete = UIContextualAction(
+        let delete = createDeleteAction(with: diary)
+         
+        let share = createShareAction(with: diary)
+        
+        return UISwipeActionsConfiguration(actions: [delete, share])
+    }
+    
+    private func createDeleteAction(with diary: Diary?) -> UIContextualAction {
+        let deleteAction = UIContextualAction(
             style: .destructive,
             title: LocalizationKey.delete.localized()
-        ) { [weak self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+        ) { [weak self] (_, _, success: @escaping (Bool) -> Void) in
             self?.presentDeleteAlert(diary: diary) { isSuccess in
                 if isSuccess {
                     self?.applySnapshot()
@@ -136,19 +144,22 @@ extension DiaryViewController: UITableViewDelegate {
                 }
             }
         }
-         
-        let share = UIContextualAction(
+        deleteAction.backgroundColor = .systemRed
+        
+        return deleteAction
+    }
+    
+    private func createShareAction(with diary: Diary?) -> UIContextualAction {
+        let shareAction = UIContextualAction(
             style: .normal,
             title: LocalizationKey.share.localized()
-        ) { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+        ) { (_, _, success: @escaping (Bool) -> Void) in
             
             self.presentActivityView(diary: diary)
             success(true)
         }
+        shareAction.backgroundColor = .systemTeal
         
-        delete.backgroundColor = .systemRed
-        share.backgroundColor = .systemTeal
-        
-        return UISwipeActionsConfiguration(actions: [delete, share])
+        return shareAction
     }
 }
