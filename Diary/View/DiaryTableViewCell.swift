@@ -72,7 +72,7 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     private func configureCellStyle() {
-        self.accessoryType = .disclosureIndicator
+        accessoryType = .disclosureIndicator
     }
     
     private func createDynamicLabel(font: UIFont.TextStyle) -> UILabel {

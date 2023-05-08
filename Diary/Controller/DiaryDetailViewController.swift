@@ -69,11 +69,7 @@ final class DiaryDetailViewController: UIViewController {
     
     // MARK: - Methods
     private func checkWriteMode() {
-        if diary == nil {
-            writeMode = WriteMode.create
-        } else {
-            writeMode = WriteMode.update
-        }
+        writeMode = diary == nil ? .create : .update
     }
     
     private func configureUI() {
@@ -81,13 +77,13 @@ final class DiaryDetailViewController: UIViewController {
         
         switch writeMode {
         case .create:
-            self.title = dateFormatter.nowDateText
+            title = dateFormatter.nowDateText
             textView.becomeFirstResponder()
         case .update:
             guard let validDiary = diary else { return }
             
-            self.title = dateFormatter.convertToString(from: validDiary.timeIntervalSince1970)
-            self.id = validDiary.id
+            title = dateFormatter.convertToString(from: validDiary.timeIntervalSince1970)
+            id = validDiary.id
             textView.text = validDiary.sharedText
         }
     }
@@ -117,7 +113,7 @@ final class DiaryDetailViewController: UIViewController {
             return button
         }()
         
-        self.navigationItem.rightBarButtonItem = buttonItem
+        navigationItem.rightBarButtonItem = buttonItem
     }
     
     @objc private func presentActionSheet() {
@@ -211,7 +207,7 @@ final class DiaryDetailViewController: UIViewController {
         }
         
         let currentDiary = Diary(
-            id: self.id,
+            id: id,
             title: String(title),
             body: String(body),
             timeIntervalSince1970: dateFormatter.convertToInterval(from: date)

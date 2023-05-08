@@ -43,7 +43,7 @@ final class DiaryViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .white
         
-        self.title = LocalizationKey.mainTitle.localized()
+        title = LocalizationKey.mainTitle.localized()
         
         let buttonItem: UIBarButtonItem = {
             let button = UIButton()
@@ -56,7 +56,7 @@ final class DiaryViewController: UIViewController {
             return barButton
         }()
         
-        self.navigationItem.rightBarButtonItem = buttonItem
+        navigationItem.rightBarButtonItem = buttonItem
     }
     
     private func configureLayout() {
@@ -75,7 +75,7 @@ final class DiaryViewController: UIViewController {
     @objc private func presentAddingDiaryPage() {
         let diaryDetailViewController = DiaryDetailViewController(nil)
         
-        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
 
@@ -119,7 +119,7 @@ extension DiaryViewController: UITableViewDelegate {
         let diary = diaries?[safe: indexPath.row]
         let diaryDetailViewController = DiaryDetailViewController(diary)
         
-        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
