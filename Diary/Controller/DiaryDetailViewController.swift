@@ -66,6 +66,11 @@ final class DiaryDetailViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        setFirstResponder()
+    }
+    
     override func didMove(toParent parent: UIViewController?) {
         super.didMove(toParent: parent)
         
@@ -204,7 +209,6 @@ final class DiaryDetailViewController: UIViewController {
     
     private func configureView() {
         setData()
-        setFirstResponder()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
