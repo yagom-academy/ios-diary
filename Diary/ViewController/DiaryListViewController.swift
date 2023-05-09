@@ -9,51 +9,57 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     private let diaryTableView: UITableView = UITableView()
     private var myDiary: [DiaryCoreData]?
-    var weatherIcon: [UIImage]?
-
+    private var weatherIcon: [String: UIImage] = [:]
+    private let group = DispatchGroup()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setUpLayout()
         setUpView()
         configureNavigationBar()
+        CoreDataManager.shared.deleteAll()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
+    
         setUpMyDiary()
+        
+        group.notify(queue: .main) {
+            self.diaryTableView.reloadData()
+        }
     }
     
     private func setUpMyDiary() {
         guard let diary = CoreDataManager.shared.readAll() else { return }
         myDiary = diary
-
+        
         diary.forEach {
             guard let icon = $0.icon else { return }
+            
             fetchWeatherIcon(icon: icon)
         }
-
+        // group.notify(queue: .main) {
+        // self.diaryTableView.reloadData()
     }
 
     private func fetchWeatherIcon(icon: String) {
+        group.enter()
         let weatherEndpoint = WeatherEndpoint.weatherIcon(icon: icon)
         NetworkManager.shared.imageLoad(endPoint: weatherEndpoint) { [self] in
             switch $0 {
             case .failure(let error):
                 DispatchQueue.main.async {
-                    AlertManager.shared.showAlert(
-                        target: self,
-                        title: "\(error.description)가 발생하였습니다.",
-                        message: "다시 시도해주세요.",
-                        defaultTitle: "확인",
-                        destructiveTitle: nil,
-                        destructiveHandler: nil)
+                    AlertManager.shared.showErrorAlert(target: self, error: error)
                 }
             case .success(let result):
-                guard let fetchedIcon = UIImage(data: result) else { return }
-                self.weatherIcon?.append(fetchedIcon)
-                diaryTableView.reloadData()
+                guard let fetchedIconImage = UIImage(data: result) else { return }
+                self.weatherIcon[icon] = fetchedIconImage
+                self.group.leave()
+                DispatchQueue.main.async {
+                    self.diaryTableView.reloadData()
+                }
             }
         }
     }
@@ -115,9 +121,9 @@ extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let diaryCell: DiaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier) as? DiaryTableViewCell,
               let myDiary = myDiary,
-              let icon = weatherIcon?[indexPath.row] else { return UITableViewCell() }
+              let iconImage = weatherIcon[myDiary[indexPath.row].icon ?? ""] else { return UITableViewCell() }
                 
-        diaryCell.setupItem(item: myDiary[indexPath.row], iconImage: icon)
+        diaryCell.setupItem(item: myDiary[indexPath.row], iconImage: iconImage)
         return diaryCell
     }
 }
