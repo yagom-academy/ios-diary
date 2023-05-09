@@ -90,6 +90,7 @@ final class CoreDataManger {
         do {
             let result = try self.context.fetch(fetchRequest)
             guard let diary = result[0] as? NSManagedObject else { return }
+            
             diary.setValue(title, forKey: "title")
             diary.setValue(Date().timeIntervalSince1970, forKey: "createDate")
             diary.setValue(body, forKey: "body")

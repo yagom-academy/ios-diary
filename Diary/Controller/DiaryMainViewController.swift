@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryMainViewController: UIViewController {
-    private var diaryDatas: [DiaryData] = []
+    private var diaryDataList: [DiaryData] = []
     
     private let diaryTableView: UITableView = {
         let tableView: UITableView = UITableView()
@@ -20,7 +20,7 @@ final class DiaryMainViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        diaryDatas = CoreDataManger.shared.fetchDiary()
+        diaryDataList = CoreDataManger.shared.fetchDiary()
         diaryTableView.reloadData()
     }
     
@@ -66,7 +66,7 @@ final class DiaryMainViewController: UIViewController {
 
 extension DiaryMainViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryDatas.count
+        return diaryDataList.count
     }
  
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,7 +75,7 @@ extension DiaryMainViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.accessoryType = .disclosureIndicator
-        cell.configureLabel(diaryData: diaryDatas[indexPath.row])
+        cell.configureLabel(diaryData: diaryDataList[indexPath.row])
         
         return cell
     }
@@ -83,7 +83,7 @@ extension DiaryMainViewController: UITableViewDataSource {
 
 extension DiaryMainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryEditViewController = DiaryEditViewController(diaryData: diaryDatas[indexPath.row],
+        let diaryEditViewController = DiaryEditViewController(diaryData: diaryDataList[indexPath.row],
                                                               type: .old)
         
         navigationController?.pushViewController(diaryEditViewController, animated: true)
@@ -102,11 +102,11 @@ extension DiaryMainViewController: UITableViewDelegate {
         }
         let delete = UIContextualAction(style: .normal, title: nil) { [weak self](_, _, completion) in
             guard let self,
-                  let id = self.diaryDatas[indexPath.row].id else { return }
+                  let id = self.diaryDataList[indexPath.row].id else { return }
             
             AlertManager().showAlert(target: self) {
                 CoreDataManger.shared.deleteDiary(id: id)
-                self.diaryDatas.remove(at: indexPath.row)
+                self.diaryDataList.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .left)
             }
             completion(true)

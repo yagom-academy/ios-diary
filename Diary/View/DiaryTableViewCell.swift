@@ -18,7 +18,25 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
-    private let infoLabel: UILabel = {
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        
+        label.font = .preferredFont(forTextStyle: .callout)
+        label.adjustsFontForContentSizeCategory = true
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private var weatherImageView: UIImageView = {
+        let imageView = UIImageView()
+        
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
+    private let bodyLabel: UILabel = {
         let label = UILabel()
         
         label.font = .preferredFont(forTextStyle: .footnote)
@@ -26,6 +44,16 @@ final class DiaryTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
+    }()
+    
+    private let diaryDescriptionStackView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
     }()
     
     private let diaryInfoStackView: UIStackView = {
@@ -45,7 +73,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         titleLabel.text = nil
-        infoLabel.text = nil
+        bodyLabel.text = nil
         super.prepareForReuse()
     }
     
@@ -54,8 +82,13 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     private func configureCell() {
+        diaryDescriptionStackView.addArrangedSubview(dateLabel)
+        diaryDescriptionStackView.addArrangedSubview(weatherImageView)
+        diaryDescriptionStackView.addArrangedSubview(bodyLabel)
+        
         diaryInfoStackView.addArrangedSubview(titleLabel)
-        diaryInfoStackView.addArrangedSubview(infoLabel)
+        diaryInfoStackView.addArrangedSubview(diaryDescriptionStackView)
+        
         contentView.addSubview(diaryInfoStackView)
         
         NSLayoutConstraint.activate([
@@ -77,11 +110,11 @@ final class DiaryTableViewCell: UITableViewCell {
         titleLabel.text = title
         
         if let body = diaryData.body {
-            infoLabel.text = dateText + "  " + body
+            bodyLabel.text = dateText + "  " + body
         } else {
-            infoLabel.text = dateText
+            bodyLabel.text = dateText
         }
-        infoLabel.attributeText(targetString: dateText)
+        bodyLabel.attributeText(targetString: dateText)
     }
 }
 
