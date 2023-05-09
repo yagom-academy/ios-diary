@@ -125,9 +125,9 @@
 			isa = PBXGroup;
 			children = (
 				4AD397A629F7AF0C0066EB8E /* Diary.swift */,
-				4A863D6E2A0A06A200B3C8CC /* Network */,
-				ADCB774A2A0A1F9600122158 /* OpenWetherDataLoader.swift */,
 				ADCB774C2A0A22C800122158 /* Weather.swift */,
+				ADCB774A2A0A1F9600122158 /* OpenWetherDataLoader.swift */,
+				4A863D6E2A0A06A200B3C8CC /* Network */,
 			);
 			path = Model;
 			sourceTree = "<group>";

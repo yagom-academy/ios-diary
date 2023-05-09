@@ -6,15 +6,19 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryContentViewController: UIViewController {
     typealias DiaryText = (title: String?, body: String?)
     
     private var diary: Diary?
+    private var weather: Weather?
     private let textView = UITextView()
     private let alertFactory: DiaryAlertFactory = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
     private let storage = CoreDataManager()
+    private let locationManager = CLLocationManager()
+    private let weatherDataLoader = OpenWetherDataLoader()
 
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -28,6 +32,7 @@ final class DiaryContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpLocationManager()
         setUpRootView()
         setUpNavigationBar()
         setUpTextView()
@@ -48,17 +53,23 @@ final class DiaryContentViewController: UIViewController {
     }
     
     func updateDiary() {
-        guard let diary else { return }
+        guard let diary, let weather else { return }
         
         let currentContents: DiaryText = devideTitleAndBody(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
         
         if isDiaryEdited(currentContents) {
             diary.updateContents(title: currentContents.title,
-                                  body: currentContents.body,
-                                  updatedDate: updatedDate)
+                                 body: currentContents.body,
+                                 updatedDate: updatedDate,
+                                 weather: weather)
             storage.updateDAO(type: DiaryDAO.self, data: diary)
         }
+    }
+    
+    private func setUpLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
     }
     
     private func isDiaryEdited(_ currentContents: DiaryText) -> Bool {
@@ -232,5 +243,37 @@ extension DiaryContentViewController {
         let alert = alertFactory.deleteDiaryAlert(for: alertData)
         
         present(alert, animated: true)
+    }
+}
+
+// MARK: - Location
+extension DiaryContentViewController: CLLocationManagerDelegate {
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager.startUpdatingLocation()
+        case .restricted, .notDetermined:
+            locationManager.requestWhenInUseAuthorization()
+        case .denied:
+            locationManager.requestWhenInUseAuthorization()
+        default:
+            break
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let coordinate = locations.last?.coordinate {
+            weatherDataLoader.loadData(latitude: coordinate.latitude,
+                                       longitude: coordinate.longitude) { result in
+                switch result {
+                case .success(let currentWeather):
+                    guard let weather = currentWeather.weather.first else { return }
+                    
+                    self.weather = weather
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 }
