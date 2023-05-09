@@ -18,9 +18,12 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
     private var mode: Mode
     private var titleText: String?
     private var bodyText: String?
+    
     private let locationManager = CLLocationManager()
     private var latitude: String?
     private var longitude: String?
+    private var weatherState: String?
+    private var icon: String?
     
     private lazy var diaryTextView: UITextView = {
         let textView = UITextView()
@@ -72,7 +75,9 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    
         if mode == .create {
+            fetchWeatherAPI()
             diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
             diaryTextView.becomeFirstResponder()
         }
@@ -80,6 +85,7 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         saveDiary()
     }
     
@@ -234,18 +240,22 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
                   let key = fetchedDiary?.objectID else { return }
             
             let diary = MyDiary(title: titleText, body: bodyText, createdDate: date, weatherState: weatherState, icon: icon)
+            
             CoreDataManager.shared.update(key: key, diary: diary)
         case .create:
-            fetchWeatherAPI { weatherState, icon in
-                let today = Double(Date().timeIntervalSince1970)
-                let diary = MyDiary(title: titleText, body: bodyText, createdDate: today, weatherState: weatherState, icon: icon)
-                CoreDataManager.shared.create(diary: diary)
-            }
+            guard let weatherState = self.weatherState,
+                  let icon = self.icon else { return }
+            
+            let today = Double(Date().timeIntervalSince1970)
+            let diary = MyDiary(title: titleText, body: bodyText, createdDate: today, weatherState: weatherState, icon: icon)
+            
+            CoreDataManager.shared.create(diary: diary)
         }
         mode = .edit
     }
     
-    private func fetchWeatherAPI(completion: @escaping (String, String) -> Void) {
+    // MARK: weatherAPI
+    private func fetchWeatherAPI() {
         guard let latitude = self.latitude,
               let longitude = self.longitude else { return }
         
@@ -257,9 +267,8 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
                     AlertManager.shared.showErrorAlert(target: self, error: error)
                 }
             case .success(let result):
-                let weatherState = result.weather[0].weatherState
-                let icon = result.weather[0].icon
-                completion(weatherState, icon)
+                self.weatherState = result.weather[0].weatherState
+                self.icon = result.weather[0].icon
             }
         }
     }
@@ -293,8 +302,14 @@ extension DiaryDetailViewController: UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         guard let text = diaryTextView.text,
-        let titleText = text.components(separatedBy: "\n").first else { return }
+              let titleText = text.components(separatedBy: "\n").first else { return }
+        
         self.titleText = titleText
-        self.bodyText = text.replacingOccurrences(of: "\(String(describing: titleText))\n", with: "")
+        
+        if text.components(separatedBy: "\n").count == 1 {
+            self.bodyText = ""
+        } else {
+            self.bodyText = text.replacingOccurrences(of: "\(String(describing: titleText))\n", with: "")
+        }
     }
 }

@@ -18,20 +18,11 @@ final class DiaryListViewController: UIViewController {
         setUpLayout()
         setUpView()
         configureNavigationBar()
-        CoreDataManager.shared.deleteAll()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         setUpMyDiary()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-        group.notify(queue: .main) {
-            self.diaryTableView.reloadData()
-        }
     }
     
     private func setUpMyDiary() {
@@ -42,6 +33,10 @@ final class DiaryListViewController: UIViewController {
             guard let icon = $0.icon else { return }
             
             fetchWeatherIcon(icon: icon)
+        }
+        
+        group.notify(queue: .main) {
+            self.diaryTableView.reloadData()
         }
     }
 
