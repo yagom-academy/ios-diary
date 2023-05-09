@@ -44,21 +44,13 @@
 ```typescript
 Diary
 ├── Application
-├── AppDelegate.swift
+│    ├── AppDelegate.swift
 │    └── SceneDelegate.swift
 ├── Controller
 │    ├── DiaryDetailViewController.swift
 │    └── DiaryViewController.swift
-├── Error
-│    └── DecodeError.swift
-├── Extension
-│    ├── Array+Extension.swift
-│    ├── Date+Extension.swift
-│    ├── Int+Extension.swift
-│    ├── String+Extension.swift
-│    └── TextField+Extension.swift
 ├── Extra
-│    └── DecodeManager.swift
+│    └── AlertManager.swift
 ├── Localizable
 │    ├── en.lproj
 │    │    └── Localizable.strings
@@ -66,15 +58,20 @@ Diary
 │        └── Localizable.strings
 ├── Model
 │    └── Diary.swift
-├── Resources
-│    ├── Assets.xcassets
-│        └── sample.dataset
-│            ├── Contents.json
-│            └── sample.json
+├── Util
+│    ├── CoreData
+│    │    ├── DiaryEntity + CoreDataClass
+│    │    ├── DiaryEntity + CoreDataProperties
+│    │    ├── DiaryDataModel
+│    │    └── CoreDataManager
+│    └── Extension
+│         ├── Int + Extension
+│         ├── Array + Extension
+│         ├── Date + Extension
+│         └── String + Extension
+│    
 └── View
-    └── DiaryTableViewCell.swift
-
-
+     └── DiaryTableViewCell.swift
 ```
     
 </details>
@@ -93,6 +90,11 @@ Diary
 | **2023.04.26** | - TableView Cell 구현  |
 | **2023.04.27** | - 전체 View에 Localization 설정 |
 | **2023.04.28** | - 코드 리뷰 바탕으로 리팩토링  |
+| **2023.05.01** | -  </br>- 메인화면의 CollectionView 구현 </br>- JSONDecoder 구현|
+| **2023.05.02** | - CollectionView를 TableView로 수정 </br> - Diffable DataSource를 적용 |
+| **2023.05.03** | - TableView Cell 구현  |
+| **2023.05.04** | - 전체 View에 Localization 설정 |
+| **2023.05.05** | - 코드 리뷰 바탕으로 리팩토링  |
 
 
 
@@ -101,17 +103,20 @@ Diary
 ## 실행 화면 🎬
 
 
-| <center> 테이블 뷰에 데이터 연결</center> | <center>셀 클릭시 세부정보 화면 이동</center>  | <center>키보드가 사용될 때 레이아웃 조정</center> | <center> 내용이 없을경우 플레이스 홀더 적용</center> |
-| --- | --- | --- |--- |
-| <img src="https://i.imgur.com/uCD6D9t.gif" width =200> | <img src="https://i.imgur.com/2zSPIOb.gif" width =200> | <img src="https://i.imgur.com/d9L64Mo.gif" width =200> | <img src="https://i.imgur.com/TcZmDe4.gif" width =200> |
+| <center>셀 클릭시 세부정보 화면 이동</center>  | <center>키보드가 사용될 때 레이아웃 조정</center> | <center> 새로운 일기장 만들시 저장하기</center> |
+| --- | --- | --- |
+ | <img src="https://i.imgur.com/vomD5CG.gif" width =400> | <img src="https://i.imgur.com/d9L64Mo.gif" width =400> | <img src="https://i.imgur.com/HDXfdCe.gif" width =400> |
+
+| <center> 셀 스와이프해서 데이터 삭제</center> | <center>더 보기에서 공유할시 Activity뷰 출력</center>  | <center>더 보기에서 삭제할시 데이터 삭제 및 이전화면 가기</center> | 
+| --- | --- | --- |
+| <img src="https://i.imgur.com/e6IYJgq.gif" width =400> | <img src="https://i.imgur.com/FMHup27.gif" width =400> | <img src="https://i.imgur.com/WCA6PDK.gif" width =400> | 
+
 
 
 | <center>가로모드 전환시 레이아웃 조정</center>  | 
 | --- | 
- | <img src="https://i.imgur.com/6g1lfQh.gif" width =400> | 
+ | <img src="https://i.imgur.com/6g1lfQh.gif" width =600> | 
 
-
-</br>
 
 
 ## 트러블 슈팅 🚀
@@ -195,6 +200,17 @@ extension DiaryDetailViewController: UITextViewDelegate {
 }
 ```
 
+### 4️⃣ Compression resistance priority를 이용한 label 크기 문제 해결
+`Horizontal StackView`를 사용하여 두개의 `Label`을 넣는 방식을 사용할 때, 텍스트의 길이가 긴 `Label`이  짧은 `Label`을 잡아 먹는 경우가 생겼습니다. 이를 해결하기 위해 날짜`Label`에 Compression Resistance Priority를 활용하여 수정하였습니다. Compression Resistance Priority이란 해석하면 압축을 저항하는 우선순위로, Priority 값이 높은 쪽이 형태를 유지하고, 낮은 쪽의 형태가 압축됩니다.
+
+
+| <center>수정 전</center> | <center>수정 후</center>|
+| --- | --- |
+| <img src="https://i.imgur.com/6UnpsPX.png" width =300> |<img src="https://i.imgur.com/EEzqiEV.png" width =300> |
+
 ## Reference 📑
 - [UITextView - Apple Document](https://developer.apple.com/documentation/uikit/uitextview)
 - [DateFormatter - Apple Document](https://developer.apple.com/documentation/foundation/dateformatter)
+- [CoreData - Apple Document](https://developer.apple.com/documentation/coredata)
+- [Setting Up a Core Data Stack - Apple Document](https://developer.apple.com/documentation/coredata/setting_up_a_core_data_stack)
+- [Creating a Core Data Model - Apple Document](https://developer.apple.com/documentation/coredata/creating_a_core_data_model)

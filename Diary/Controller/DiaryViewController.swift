@@ -7,12 +7,18 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
+    // MARK: - Nested Type
     private enum LocalizationKey {
         static let mainTitle = "mainTitle"
+        static let deleteAlertTitle = "deleteAlertTitle"
+        static let deleteAlertMessage = "deleteAlertMessage"
+        static let delete = "delete"
+        static let cancel = "cancel"
+        static let share = "share"
     }
     
+    // MARK: - Properties
     private var diaries: [Diary]?
-    
     private var dataSource: UITableViewDiffableDataSource<Section, Diary>!
     
     private let tableView: UITableView = {
@@ -21,26 +27,23 @@ final class DiaryViewController: UIViewController {
         return tableView
     }()
     
+    // MARK: - State Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchDiaryData()
         configureUI()
         configureLayout()
         configureTableView()
     }
     
-    private func fetchDiaryData() {
-        do {
-            diaries = try DecodeManager().decodeJSON(fileName: "sample", type: [Diary].self)
-        } catch {
-            print(error.localizedDescription)
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        applySnapshot()
     }
-    
+
+    // MARK: - Methods
     private func configureUI() {
         view.backgroundColor = .white
         
-        self.title = String.localized(key: LocalizationKey.mainTitle)
+        title = LocalizationKey.mainTitle.localized()
         
         let buttonItem: UIBarButtonItem = {
             let button = UIButton()
@@ -53,7 +56,7 @@ final class DiaryViewController: UIViewController {
             return barButton
         }()
         
-        self.navigationItem.rightBarButtonItem = buttonItem
+        navigationItem.rightBarButtonItem = buttonItem
     }
     
     private func configureLayout() {
@@ -72,7 +75,7 @@ final class DiaryViewController: UIViewController {
     @objc private func presentAddingDiaryPage() {
         let diaryDetailViewController = DiaryDetailViewController(nil)
         
-        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
 
@@ -101,7 +104,8 @@ extension DiaryViewController: UITableViewDelegate {
     }
     
     private func applySnapshot() {
-        guard let diaries = diaries else { return }
+        guard let diaries = CoreDataManager.shared.fetch() else { return }
+        self.diaries = diaries
         
         var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         snapshot.appendSections([.main])
@@ -115,6 +119,47 @@ extension DiaryViewController: UITableViewDelegate {
         let diary = diaries?[safe: indexPath.row]
         let diaryDetailViewController = DiaryDetailViewController(diary)
         
-        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let diary = diaries?[safe: indexPath.row] 
+        
+        let delete = createDeleteAction(with: diary)
+         
+        let share = createShareAction(with: diary)
+        
+        return UISwipeActionsConfiguration(actions: [delete, share])
+    }
+    
+    private func createDeleteAction(with diary: Diary?) -> UIContextualAction {
+        let deleteAction = UIContextualAction(
+            style: .destructive,
+            title: LocalizationKey.delete.localized()
+        ) { [weak self] (_, _, success: @escaping (Bool) -> Void) in
+            self?.presentDeleteAlert(diary: diary) { isSuccess in
+                if isSuccess {
+                    self?.applySnapshot()
+                    success(true)
+                }
+            }
+        }
+        deleteAction.backgroundColor = .systemRed
+        
+        return deleteAction
+    }
+    
+    private func createShareAction(with diary: Diary?) -> UIContextualAction {
+        let shareAction = UIContextualAction(
+            style: .normal,
+            title: LocalizationKey.share.localized()
+        ) { (_, _, success: @escaping (Bool) -> Void) in
+            
+            self.presentActivityView(diary: diary)
+            success(true)
+        }
+        shareAction.backgroundColor = .systemTeal
+        
+        return shareAction
     }
 }

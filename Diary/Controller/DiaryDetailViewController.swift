@@ -2,19 +2,45 @@
 //  DiaryDetailViewController.swift
 //  Diary
 //
-//  Created by kimseongjun on 2023/04/25.
+//  Created by rilla, songjun on 2023/04/25.
 //
 
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
+    // MARK: - Nested Type
     private enum LocalizationKey {
-        static let titleTextFieldPlaceHolder = "titleTextFieldPlaceHolder"
-        static let bodyTextViewPlaceHolder = "bodyTextViewPlaceHolder"
+        static let barButtonTitle = "barButtonTitle"
+        static let delete = "delete"
+        static let cancel = "cancel"
+        static let share = "share"
+        static let more = "more"
     }
     
-    private let diary: Diary?
+    enum WriteMode {
+        case create
+        case update
+    }
     
+    // MARK: - Properties
+    private let dateFormatter = DiaryDateFormatter.shared
+    private var writeMode = WriteMode.create
+    private var diary: Diary?
+    private var id = UUID()
+    private var isSave: Bool = true
+    
+    private let textView: UITextView = {
+        let textView = UITextView()
+        textView.font = .preferredFont(forTextStyle: .body)
+        textView.layer.borderWidth = 0.8
+        textView.layer.cornerRadius = 4
+        textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return textView
+    }()
+    
+    // MARK: - Initializer
     init(_ diary: Diary?) {
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
@@ -24,83 +50,103 @@ final class DiaryDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private let scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return scrollView
-    }()
-    
-    private let contentStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 20
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return stackView
-    }()
-    
-    private let titleTextField: UITextField = {
-        let textField = UITextField()
-        textField.font = .preferredFont(forTextStyle: .title2)
-        textField.layer.borderWidth = 0.8
-        textField.layer.cornerRadius = 4
-        textField.addLeftPadding()
-        
-        return textField
-    }()
-    
-    private let bodyTextView: UITextView = {
-        let textView = UITextView()
-        textView.font = .preferredFont(forTextStyle: .body)
-        textView.isScrollEnabled = false
-        textView.layer.borderWidth = 0.8
-        textView.layer.cornerRadius = 4
-        textView.textContainerInset = UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
-        
-        return textView
-    }()
-    
+    // MARK: - State Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkWriteMode()
         configureUI()
         configureLayout()
+        configureNavigationBar()
         configureNotification()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        
+        saveDiaryToStorage()
+        
+    }
+    
+    // MARK: - Methods
+    private func checkWriteMode() {
+        writeMode = diary == nil ? .create : .update
     }
     
     private func configureUI() {
         view.backgroundColor = .white
         
-        if diary == nil {
-            self.title = Date.nowDate
-            placeholderSetting()
-        } else {
-            self.title = diary?.timeIntervalSince1970.convertFormattedDate()
-            titleTextField.text = diary?.title
-            bodyTextView.text = diary?.body
+        switch writeMode {
+        case .create:
+            title = dateFormatter.nowDateText
+            textView.becomeFirstResponder()
+        case .update:
+            guard let validDiary = diary else { return }
+            
+            title = validDiary.formattedDateText
+            id = validDiary.id
+            textView.text = validDiary.sharedText
         }
     }
     
     private func configureLayout() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentStackView)
-        contentStackView.addArrangedSubview(titleTextField)
-        contentStackView.addArrangedSubview(bodyTextView)
+        view.addSubview(textView)
         
         let safeArea = view.safeAreaLayoutGuide
         
         NSLayoutConstraint.activate([
-            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
-            
-            contentStackView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: 8),
-            contentStackView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: 8),
-            contentStackView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -8),
-            contentStackView.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -8),
-            contentStackView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -20)
+            textView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 8),
+            textView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor, constant: 8),
+            textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -8),
+            textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8)
         ])
+    }
+    
+    private func configureNavigationBar() {
+        let buttonItem: UIBarButtonItem = {
+            let button = UIBarButtonItem(
+                title: LocalizationKey.more.localized(),
+                style: .plain,
+                target: self,
+                action: #selector(presentActionSheet)
+            )
+            
+            return button
+        }()
+        
+        navigationItem.rightBarButtonItem = buttonItem
+    }
+    
+    @objc private func presentActionSheet() {
+        let shareActionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let cancelAction = UIAlertAction(
+            title: LocalizationKey.cancel.localized(),
+            style: .cancel
+        )
+        
+        let shareAction = UIAlertAction(
+            title: LocalizationKey.share.localized(),
+            style: .default
+        ) { [weak self] _ in
+            self?.presentActivityView(diary: self?.diary)
+        }
+        
+        let deleteAction = UIAlertAction(
+            title: LocalizationKey.delete.localized(),
+            style: .destructive
+        ) { [weak self] _ in
+            
+            self?.presentDeleteAlert(diary: self?.diary) { _ in
+                self?.isSave = false
+                self?.navigationController?.popViewController(animated: true)
+            }
+        }
+        
+        shareActionSheet.addAction(cancelAction)
+        shareActionSheet.addAction(shareAction)
+        shareActionSheet.addAction(deleteAction)
+        
+        present(shareActionSheet, animated: true)
     }
     
     private func configureNotification() {
@@ -117,6 +163,13 @@ final class DiaryDetailViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(didEnterBackground),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil)
+        
     }
     
     @objc private func keyboardWillShow(_ notification: Notification) {
@@ -126,47 +179,63 @@ final class DiaryDetailViewController: UIViewController {
         }
         keyboardFrame = view.convert(keyboardFrame, from: nil)
         
-        scrollView.contentInset.bottom = keyboardFrame.size.height
-        scrollView.scrollIndicatorInsets = scrollView.contentInset
+        textView.contentInset.bottom = keyboardFrame.size.height
+        textView.scrollIndicatorInsets = textView.contentInset
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
-        scrollView.contentInset = UIEdgeInsets.zero
-        scrollView.scrollIndicatorInsets = scrollView.contentInset
-    }
-}
-
-extension DiaryDetailViewController: UITextViewDelegate {
-    private var hasPlaceholder: Bool {
-        if bodyTextView.textColor == UIColor.lightGray && bodyTextView.text == String.localized(key: LocalizationKey.bodyTextViewPlaceHolder) {
-            return true
-        } else {
-            return false
-        }
+        textView.contentInset = UIEdgeInsets.zero
+        textView.scrollIndicatorInsets = textView.contentInset
+        
+        saveDiaryToStorage()
     }
     
-    private func placeholderSetting() {
-        titleTextField.attributedPlaceholder = NSAttributedString(
-            string: String.localized(key: LocalizationKey.titleTextFieldPlaceHolder),
-            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+    @objc private func didEnterBackground() {
+        saveDiaryToStorage()
+    }
+    
+    private func createCurrentDiary() -> Diary? {
+        guard let contents = verifyText(text: textView.text) else { return nil }
+        let components = contents.split(separator: "\n", maxSplits: 1)
+        
+        guard let title = components.first,
+              let date = self.title else { return nil }
+        var body = components[safe: 1] ?? ""
+        
+        if body.first == "\n" {
+            body.removeFirst()
+        }
+        
+        let currentDiary = Diary(
+            id: id,
+            title: String(title),
+            body: String(body),
+            timeIntervalSince1970: dateFormatter.convertToInterval(from: date)
         )
         
-        bodyTextView.delegate = self
-        bodyTextView.text = String.localized(key: LocalizationKey.bodyTextViewPlaceHolder)
-        bodyTextView.textColor = UIColor.lightGray
+        return currentDiary
     }
     
-    func textViewDidBeginEditing(_ textView: UITextView) {
-        if hasPlaceholder == true {
-            textView.text = nil
-            textView.textColor = UIColor.black
+    private func saveDiaryToStorage() {
+        guard let diary = createCurrentDiary() else { return }
+        self.diary = diary
+        
+        if isSave {
+            if CoreDataManager.shared.search(id: diary.id) == true {
+                CoreDataManager.shared.update(diary)
+            } else {
+                CoreDataManager.shared.create(diary)
+            }
         }
     }
     
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if textView.text.isEmpty {
-            textView.text = String.localized(key: LocalizationKey.bodyTextViewPlaceHolder)
-            textView.textColor = UIColor.lightGray
+    private func verifyText(text: String) -> String? {
+        let trimmedText = text.trimmingCharacters(in: .whitespaces)
+        
+        if trimmedText.isEmpty {
+            return nil
+        } else {
+            return trimmedText
         }
     }
 }

@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
     static let reuseIdentifier = DiaryTableViewCell.description()
-    
+
     // MARK: - Property
     
     private let mainStackView: UIStackView = {
@@ -48,7 +48,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private func configureUIContent(_ diary: Diary) {
         titleLabel.text = diary.title
-        dateLabel.text = diary.timeIntervalSince1970.convertFormattedDate()
+        dateLabel.text = DiaryDateFormatter.shared.convertToString(from: diary.timeIntervalSince1970) 
         contentsLabel.text = diary.body
     }
     
@@ -72,7 +72,7 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     private func configureCellStyle() {
-        self.accessoryType = .disclosureIndicator
+        accessoryType = .disclosureIndicator
     }
     
     private func createDynamicLabel(font: UIFont.TextStyle) -> UILabel {
