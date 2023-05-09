@@ -32,7 +32,7 @@ final class PersistenceManager {
         completion(.success(container.viewContext))
     }
     
-    func createContent(_ content: String?, _ date: Double, completion: @escaping (Result<Diary, CoreDataError>) -> Void) {
+    func createContent(_ content: String?, _ date: Date, completion: @escaping (Result<Diary, CoreDataError>) -> Void) {
         getContext { result in
             switch result {
             case .success(let context):

@@ -54,12 +54,12 @@ final class DiaryDetailViewController: UIViewController {
         self.navigationController?.delegate = self
         
         guard let diaryItem = diaryItem else {
-            self.navigationItem.title = Date.convertToDate(by: Date().timeIntervalSince1970)
+            self.navigationItem.title = Date().convertToDate()
             
             return
         }
         
-        self.navigationItem.title = Date.convertToDate(by: diaryItem.date)
+        self.navigationItem.title = diaryItem.date?.convertToDate()
         self.diaryTextView.text = diaryItem.content
     }
     
@@ -81,7 +81,7 @@ final class DiaryDetailViewController: UIViewController {
         
         switch state {
         case .create:
-            let date = Date().timeIntervalSince1970
+            let date = Date()
             manager.createContent(content, date) { [weak self] result in
                 switch result {
                 case .success(let diary):

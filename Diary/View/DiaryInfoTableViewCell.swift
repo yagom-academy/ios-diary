@@ -55,7 +55,7 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         
         let parsedContent = parseContent(content)
         titleLabel.text = parsedContent.title
-        dateLabel.text = Date.convertToDate(by: item.date)
+        dateLabel.text = item.date?.convertToDate()
         bodyLabel.text = parsedContent.body
     }
     
