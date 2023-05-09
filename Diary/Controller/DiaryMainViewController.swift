@@ -28,6 +28,20 @@ final class DiaryMainViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureTableView()
+        fetch()
+    }
+    
+    func fetch() {
+        let provider = WeatherProvider<WeatherAPI>()
+        provider.fetchData(.weather, type: WeatherJSONData.self) { [weak self] result in
+            switch result {
+            case .success(let weatherJsonData):
+                print(weatherJsonData)
+                print("sdf")
+            case .failure:
+                print("error")
+            }
+        }
     }
     
     private func configureUI() {
