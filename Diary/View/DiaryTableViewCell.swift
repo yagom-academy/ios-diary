@@ -47,17 +47,18 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let weatherIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.sizeToFit()
+        return imageView
+    }()
+    
     private let bodyLabel: UILabel = {
         let label = UILabel()
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         return label
-    }()
-    
-    private let weatherIcon: UIImageView = {
-        let imageView = UIImageView()
-        return imageView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -88,6 +89,13 @@ final class DiaryTableViewCell: UITableViewCell {
         subTitleStackView.addArrangedSubview(dateLabel)
         subTitleStackView.addArrangedSubview(weatherIcon)
         subTitleStackView.addArrangedSubview(bodyLabel)
+        
+        weatherIcon.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            weatherIcon.widthAnchor.constraint(equalTo: subTitleStackView.widthAnchor
+                                               , multiplier: 0.05),
+            weatherIcon.heightAnchor.constraint(equalTo: weatherIcon.widthAnchor, multiplier: 1)
+            ])
     }
     
     func setupItem(item: DiaryCoreData, iconImage: UIImage) {

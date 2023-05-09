@@ -220,13 +220,15 @@ final class DiaryDetailViewController: UIViewController {
         NetworkManager.shared.startLoad(endPoint: information, returnType: WeatherInformation.self) {
             switch $0 {
             case .failure(let error):
-                AlertManager.shared.showAlert(
-                    target: self,
-                    title: "\(error)가 발생하였습니다.",
-                    message: "다시 시도해주세요.",
-                    defaultTitle: "확인",
-                    destructiveTitle: nil,
-                    destructiveHandler: nil)
+                DispatchQueue.main.async {
+                    AlertManager.shared.showAlert(
+                        target: self,
+                        title: "\(error.description)가 발생하였습니다.",
+                        message: "다시 시도해주세요.",
+                        defaultTitle: "확인",
+                        destructiveTitle: nil,
+                        destructiveHandler: nil)
+                }
             case .success(let result):
                 let weatherState = result.weather[0].weatherState
                 let icon = result.weather[0].icon

@@ -13,29 +13,23 @@ struct WeatherInformation: Decodable {
     let main: Main
     let visibility: Int
     let wind: Wind
-    let rain: Rain
     let clouds: Clouds
-    let date: Int
+    let date: Double
     let system: System
     let timezone, id: Int
     let name: String
     let cod: Int
     
     private enum CodingKeys: String, CodingKey {
-        case coord, weather, base, main, visibility, wind, rain, clouds
+        case coord, weather, base, main, visibility, wind, clouds
         case date = "dt"
         case system = "sys"
         case timezone, id, name, cod
     }
 }
 
-// MARK: - Clouds
-struct Clouds: Codable {
-    let all: Int
-}
-
 // MARK: - Coord
-struct Coord: Codable {
+struct Coord: Decodable {
     let longitude: Double
     let latitude: Double
     
@@ -45,8 +39,20 @@ struct Coord: Codable {
     }
 }
 
+// MARK: - Weather
+struct Weather: Decodable {
+    let id: Int
+    let weatherState, description, icon: String
+    
+    private enum CodingKeys: String, CodingKey {
+        case id
+        case weatherState = "main"
+        case description, icon
+    }
+}
+
 // MARK: - Main
-struct Main: Codable {
+struct Main: Decodable {
     let temperature, feelsLike, temperatureMinimun, temperatureMaximum: Double
     let pressure, humidity, seaLevel, groundLevel: Int
 
@@ -61,43 +67,27 @@ struct Main: Codable {
     }
 }
 
-// MARK: - Rain
-struct Rain: Codable {
-    let per1H: Double
-
-    enum CodingKeys: String, CodingKey {
-        case per1H = "1h"
-    }
-}
-
-// MARK: - Sys
-struct System: Codable {
-    let type, id: Int
-    let country: String
-    let sunrise, sunset: Int
-}
-
-// MARK: - Weather
-struct Weather: Codable {
-    let id: Int
-    let weatherState, description, icon: String
-    
-    private enum CodingKeys: String, CodingKey {
-        case id
-        case weatherState = "main"
-        case description, icon
-    }
-}
-
 // MARK: - Wind
-struct Wind: Codable {
+struct Wind: Decodable {
     let speed: Double
-    let degress: Int
+    let degrees: Int
     let gust: Double
     
     private enum CodingKeys: String, CodingKey {
         case speed
-        case degress = "deg"
+        case degrees = "deg"
         case gust
     }
+}
+
+// MARK: - Clouds
+struct Clouds: Decodable {
+    let all: Int
+}
+
+// MARK: - System
+struct System: Decodable {
+    let type, id: Int
+    let country: String
+    let sunrise, sunset: Double
 }

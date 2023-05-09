@@ -25,7 +25,7 @@ final class NetworkManager {
             }
             
             guard (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(.networkStatusCode))
+                completion(.failure(.networkStatusCode(code: httpResponse.statusCode)))
                 return
             }
             
@@ -58,7 +58,7 @@ final class NetworkManager {
             }
             
             guard (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(.networkStatusCode))
+                completion(.failure(.networkStatusCode(code: httpResponse.statusCode)))
                 return
             }
             
