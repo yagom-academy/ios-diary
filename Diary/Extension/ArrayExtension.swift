@@ -2,7 +2,7 @@
 //  ArrayExtension.swift
 //  Diary
 //
-//  Created by Andrew, brody on 2023/04/28.
+//  Created by Andrew, brody on 2023/05/08.
 //
 
 extension Array {

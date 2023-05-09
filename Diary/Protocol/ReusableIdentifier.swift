@@ -6,12 +6,12 @@
 //
 
 import UIKit
-
-public protocol ReusableIdentifier: AnyObject {
+ 
+protocol ReusableIdentifier: AnyObject {
     static var identifier: String { get }
 }
 
-public extension ReusableIdentifier where Self: UIView {
+extension ReusableIdentifier where Self: UIView {
     static var identifier: String { return String(describing: self) }
 }
 

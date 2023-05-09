@@ -7,8 +7,14 @@
 
 ### 핵심 경험
 - ✅ Date Formatter의 지역 및 길이별 표현의 활용
-- ✅ Text View의 활용
+- ✅ UITextView의 활용
 - ✅ UIResponder.keyboardWillShowNotification의 활용
+- ✅ Localization의 활용
+- ✅ 코어데이터 모델 생성
+- ✅ 코어데이터 모델 및 DB 마이그레이션
+- ✅ 테이블뷰에서 스와이프를 통한 삭제기능 구현
+- ✅ TextViewDelegate의 활용
+- ✅ NSFetchResultsController의 활용
 - ✅ Localization의 활용
 
 ---
@@ -18,7 +24,7 @@
 3. [프로젝트 구조](#3-프로젝트-구조)
 4. [실행화면](#4-실행화면)
 5. [트러블 슈팅](#5-트러블-슈팅)
-6. [참고자료](#6-참고자료)
+6. [참고 자료](#6-참고-자료)
 
 ---
 ## 1. 팀원 소개
@@ -42,6 +48,11 @@
 |2023-04-26(수)|코드 컨벤션 수정 및 코드 정리|
 |2023-04-27(목)|CoreData 학습|
 |2023-04-28(금)|README 작성, CoreData 학습|
+|2023-05-01(월)|CoreDataStack, CoreDataFetchedResults객체 추가|
+|2023-05-02(화)|DiaryService Unit Test, 일기장 자동저장 기능 구현|
+|2023-05-03(수)|Activity, Alert 기능 구현|
+|2023-05-04(목)|Localizable 기능 추가, 버그 수정|
+|2023-05-05(금)|README 작성, 코드컨벤션 정리|
 
 </details>
 
@@ -54,29 +65,45 @@
 ### 1️⃣ 폴더 구조
 ```
 ├── Diary
+│   ├── AppDelegate.swift
+│   ├── Model
+│   │   ├── CoreData
+│   │   │   ├── CoreDataError.swift
+│   │   │   ├── CoreDataFetchedResults.swift
+│   │   │   ├── CoreDataStack.swift
+│   │   │   └── DiaryService.swift
+│   │   ├── Diary+CoreDataClass.swift
+│   │   └── Diary+CoreDataProperties.swift
+│   │─── View
+│   │   └── DiaryCell.swift
 │   ├── Controller
 │   │   ├── HomeDiaryController.swift
 │   │   └── ProcessViewController.swift
 │   ├── Extension
-│   │   ├── ArrayExtension.swift
-│   │   └── DateFormatterExtension.swift
-│   ├── Model
-│   │   ├── DiaryItem.swift
-│   │   └── LayoutType.swift
+│   │   ├── DateFormatterExtension.swift
+│   │   ├── ProcessViewController.swift
+│   │   └── StringExtension.swift
 │   ├── Protocol
 │   │   └── ReusableIdentifier.swift
-│   └── View
-│       └── DiaryCell.swift
-└── README.md
+│   └── SceneDelegate.swift
+└── DiaryServiceTests
+        └──DiaryServiceTests.swift
 ```
+
+
+
 
 <br/>
 <br/>
 
 ## 4. 실행화면
-|일기장 메인화면 및 생성화면|일기장 수정화면|
-|:--:|:--:|
-|<img src="https://i.imgur.com/LhrwsnL.gif" width="300">|<img src="https://i.imgur.com/G1ydGGp.gif" width="300">|
+|일기장 생성|일기장 수정|일기장 삭제|
+|:--:|:--:|:--:|
+|<img src="https://i.imgur.com/yQ6h5RN.gif" width="300">|<img src="https://i.imgur.com/yQ6h5RN.gif" width="300">|<img src="https://i.imgur.com/MX2eJmd.gif" width="300">|
+
+|Localization 적용|더보기->공유|더보기->삭제|
+|:--:|:--:|:--:|
+|<img src="https://i.imgur.com/hHciA5D.gif" width="300">|<img src="https://i.imgur.com/R9QdmQT.gif" width="300">|<img src="https://i.imgur.com/uAPXXSv.gif" width="300">|
 
 
 <br/>
@@ -155,7 +182,132 @@ private let localizedDateFormatter = DateFormatter(
 <br/>
 <br/>
 
-## 6. 참고자료
+### 4️⃣ NSFetchedResultsController의 사용
+
+#### ❓ 문제점
+코어데이터 저장소의 내용을 fetch해서 화면에 보여지게 한 뒤에 CRUD작업을 하는데 있어 다음과 같은 보일러 플레이트 코드가 존재했습니다. 다음은 delete의 예시입니다.
+1) 코어데이터 저장소에 특정 ID를 전달해서 delete메서드를 호출하는 코드
+2) 뷰컨에 존재하는 데이터배열의 index에 접근해서 제거하는 코드
+3) 테이블 뷰를 업데이트하기 위해 deleteRows하는 코드
+
+```swift
+func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    let object = self.list[indexPath.row]
+
+    if self.delete(object: object) {
+        self.list.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .fade)
+    }
+}
+```
+그리고 2번과 3번은 1번이 성공했을 때 실행되어야 하기 때문에 if문을 통해서 직접 제어해야 했습니다. 
+기능상 문제는 없지만 만약 이 함수 내부구현이 길어졌을 때 `tableViewDelegate`의 함수의 역할이 많아져서 유지보수하는데 조금 어려울 것이라고 생각했습니다. 
+
+#### 📖 해결한 점
+이러한 이유로 찾아본 것이 `NSFetchedResultsController`입니다. 이 컨트롤러는 CoreData에서 가져온 데이터의 결과를 관리하는 컨트롤러인데 코어데이터에 데이터를 CRUD했을 때를 감지할 수 있는 `NSFetchedResultsControllerDelegate`가 존재했습니다. 
+
+이를 사용해서 테이블뷰에서 swipe로 셀을 지웠을 때 `delete`메서드만 사용한 후에 실제로 코어데이터의 저장소에 변경이 생기면 `NSFetchedResultsControllerDelegate`에서 관리하도록 만들었습니다. 
+즉 코어데이터의 변경사항에 대한 UI변경사항을 이 객체에서 관리하게 되어 객체 간의 역할을 명확히 나누어서 유지보수에 용이하게 만들었습니다.
+```swift
+final class HomeDiaryController: UIViewController {
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let deleteAction = UIContextualAction(style: .destructive, title: "삭제".localized()) { _, _, _ in
+            let diary = self.fetchedDiaryResults.fetchedResultsController.object(at: indexPath)
+            self.diaryService.delete(id: diary.id)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+    
+}
+
+extension HomeDiaryController: NSFetchedResultsControllerDelegate {
+    func controller(
+        _ controller: NSFetchedResultsController<NSFetchRequestResult>,
+        didChange anObject: Any,
+        at indexPath: IndexPath?,
+        for type: NSFetchedResultsChangeType,
+        newIndexPath: IndexPath?
+    ) {
+        switch type {
+        case .insert:
+            if let newIndexPath = newIndexPath {
+                diaryTableView.insertRows(at: [newIndexPath], with: .automatic)
+            }
+        case .update:
+            if let indexPath = indexPath {
+                diaryTableView.reloadRows(at: [indexPath], with: .automatic)
+            }
+        case .delete:
+            if let indexPath = indexPath {
+                diaryTableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+        case .move:
+            if let indexPath = indexPath, let newIndexPath = newIndexPath {
+                diaryTableView.moveRow(at: indexPath, to: newIndexPath)
+                diaryTableView.reloadRows(at: [newIndexPath], with: .automatic)
+            }
+        }
+    }
+}
+```
+
+<br/>
+<br/>
+
+### 5️⃣ CoreData Diary관련 CRUD를 수행하는 객체 생성
+
+#### ❓ 문제점
+기존에는 `CoreDataManager`라는 객체 안에서 `Diary`라는 `NSManagedObject`에 대한 정보를 받아서 `CRUD`를 진행했습니다.
+
+하지만 이 방법은 `CoreDataManager`객체가 `Diary`에 강하고 의존하고 있기 때문에 `Diary`에 대해서만 동작하게 되었습니다. 
+
+#### 📖 해결한 점
+`DiaryService`라는 클래스를 만들어 `Diary`에 대한 `CRUD`를 이곳에서 관리할 수 있도록 만들었습니다.
+```swift
+public final class DiaryService {
+    let coreDataStack: CoreDataStack
+    let managedContext = CoreDataStack.shared.managedContext
+    let entityName = "Diary"
+    
+    public init(coreDataStack: CoreDataStack) {
+        self.coreDataStack = coreDataStack
+    }
+}
+
+extension DiaryService {
+    @discardableResult
+    public func create(id: UUID, title: String, body: String) -> Result<Diary, CoreDataError> {
+        // do something
+    }
+    
+    @discardableResult
+    public func update(id: UUID, title: String, body: String) -> Result<Diary, CoreDataError> {
+        // do something
+    }
+    
+    @discardableResult
+    public func delete(id: UUID) -> Result<Bool, CoreDataError> {
+        // do something
+    }
+}
+```
+
+<br/>
+
+**🛠️ 개선해야 할 점**
+
+하지만 이 방법은 코어데이터에서 `Diary`에 관한 처리를 보기 편해졌을뿐 범용성에 대한 부분은 향상되지 않았습니다. 
+만약 10개의 엔티티가 존재한다면 10개의 Service를 만들어야 하는 상황이었던 것이죠.
+
+이 부분은 추후 여러 코어데이터를 범용성있게 사용하는 사례를 찾아보면서 제네릭과 protocol Extension을 이용해 개선할 예정입니다.
+
+<br/>
+
+## 6. 참고 자료
 - [Apple Developer: Layout](https://developer.apple.com/design/human-interface-guidelines/foundations/layout/)
 - [WWDC 2016: Making apps adaptive part 1](https://www.youtube.com/watch?v=hLkqt2g-450&ab_channel=anhpham)
 - [WWDC 2016: Making apps adaptive part 2](https://www.youtube.com/watch?v=s3utpBiRbB0&ab_channel=anhpham)
@@ -168,4 +320,3 @@ private let localizedDateFormatter = DateFormatter(
 - [Apple Developoer: UISwipeActionsConfiguration](https://developer.apple.com/documentation/uikit/uiswipeactionsconfiguration)
 - [Apple Docs - adjustedcontentinset](https://developer.apple.com/documentation/uikit/uiscrollview/2902259-adjustedcontentinset)
 - [Apple Docs - contentInsetAdjustmentBehavior](https://developer.apple.com/documentation/uikit/uiscrollview/2902261-contentinsetadjustmentbehavior)
-
