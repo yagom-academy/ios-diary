@@ -8,15 +8,10 @@
 import Foundation
 
 enum Endpoint {
-    func request(for api: API) -> URLRequest? {
+    static func request(for api: API) -> URLRequest? {
         var urlComponents = URLComponents(string: api.baseURL + api.path)
-        urlComponents?.queryItems = []
-        
-        api.queries.forEach { (key, value) in
-            let queryItem = URLQueryItem(name: key , value: value)
-            
-            urlComponents?.queryItems?.append(queryItem)
-        }
+
+        urlComponents?.queryItems = api.queries
         
         guard let url = urlComponents?.url else { return nil }
         
