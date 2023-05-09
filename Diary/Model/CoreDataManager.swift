@@ -10,9 +10,10 @@ import CoreData
 
 final class CoreDataManager {
     
+    static let shared = CoreDataManager()
     static let modelName: String = "Diary"
     
-    init() {}
+    private init() {}
     
     let appDelegate = UIApplication.shared.delegate as? AppDelegate
     

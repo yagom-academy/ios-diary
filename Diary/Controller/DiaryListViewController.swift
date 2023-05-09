@@ -13,7 +13,16 @@ final class DiaryListViewController: UIViewController {
         static let plusIcon = "plus"
     }
 
-    private let coreDataManager = CoreDataManager()
+    private let coreDataManager: CoreDataManager
+    
+    init(coreDataManager: CoreDataManager = .shared) {
+        self.coreDataManager = coreDataManager
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private var diaryItems = [Diary]()
     
@@ -91,7 +100,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc func createDiaryButtonTapped() {
-        let createDiaryViewController = DiaryDetailViewController()
+        let createDiaryViewController = DiaryDetailViewController(coreDataManager: coreDataManager)
         navigationController?.pushViewController(createDiaryViewController, animated: true)
     }
     

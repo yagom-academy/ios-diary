@@ -17,7 +17,7 @@ final class DiaryDetailViewController: UIViewController {
         static let deleteAlertMessage = "정말로 삭제 하시겠어요?"
     }
     
-    private let coreDataManager = CoreDataManager()
+    private let coreDataManager: CoreDataManager
     
     private var diary: Diary?
     
@@ -43,7 +43,8 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    init(diary: Diary? = nil) {
+    init(coreDataManager: CoreDataManager = .shared, diary: Diary? = nil) {
+        self.coreDataManager = coreDataManager
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
