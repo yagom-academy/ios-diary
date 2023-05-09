@@ -1,14 +1,14 @@
 //
-//  Parser.swift
+//  DecodeManager.swift
 //  Diary
 //
-//  Created by kimseongjun on 2023/05/09.
+//  Created by rilla, songjun on 2023/05/09.
 //
 
 import Foundation
 
-struct Parser<T: Decodable> {
-    func parse(data: Data) -> T? {
+struct DecodeManager {
+    func decode<T: Decodable>(data: Data, type: T.Type) -> T? {
         var decodingResult: T?
         let jsonDecoder = JSONDecoder()
         

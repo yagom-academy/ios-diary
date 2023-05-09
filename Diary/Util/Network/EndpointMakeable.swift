@@ -2,12 +2,12 @@
 //  EndpointMakeable.swift
 //  Diary
 //
-//  Created by kimseongjun on 2023/05/09.
+//  Created by rilla, songjun on 2023/05/09.
 //
 
 import Foundation
 
-protocol EndpointMakeable {
+protocol EndpointMakable {
     var baseURL: String { get }
     var path: String { get }
     var method: String { get }
@@ -18,9 +18,9 @@ protocol EndpointMakeable {
     func makeURLRequest() -> URLRequest?
 }
 
-extension EndpointMakeable {
+extension EndpointMakable {
     
-    func makeURL() -> URL? {
+    private func makeURL() -> URL? {
         var urlComponents = URLComponents(string: baseURL)
         urlComponents?.path = path
         urlComponents?.queryItems = queryItems
