@@ -33,7 +33,7 @@ final class Diary: DataTransferObject {
         self.id = diaryDAO.id
     }
 
-    func updateContents(title: String?, body: String?, updatedDate: Double, weather: Weather) {
+    func updateContents(title: String?, body: String?, updatedDate: Double, weather: Weather?) {
         self.title = title
         self.body = body
         self.updatedDate = updatedDate

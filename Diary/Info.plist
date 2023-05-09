@@ -3,7 +3,8 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>날씨 정보를 가져오기 위해 권한이 필요합니다.</string>
+	<string>다이어리에 날씨 아이콘을 포함하려면 사용자 위치 서비스 권한이 필요합니다.
+</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

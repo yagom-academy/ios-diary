@@ -53,7 +53,7 @@ final class DiaryContentViewController: UIViewController {
     }
     
     func updateDiary() {
-        guard let diary, let weather else { return }
+        guard let diary else { return }
         
         let currentContents: DiaryText = devideTitleAndBody(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
@@ -62,14 +62,13 @@ final class DiaryContentViewController: UIViewController {
             diary.updateContents(title: currentContents.title,
                                  body: currentContents.body,
                                  updatedDate: updatedDate,
-                                 weather: weather)
+                                 weather: self.weather)
             storage.updateDAO(type: DiaryDAO.self, data: diary)
         }
     }
     
     private func setUpLocationManager() {
         locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
     }
     
     private func isDiaryEdited(_ currentContents: DiaryText) -> Bool {
