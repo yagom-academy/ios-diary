@@ -19,6 +19,11 @@
 		1C9590B229F6504D004FD951 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9590B129F6504D004FD951 /* DiaryTableViewCell.swift */; };
 		1C9590B429F65919004FD951 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 1C9590B329F65919004FD951 /* .swiftlint.yml */; };
 		1CDA87462A08D52C004A3285 /* Protocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDA87452A08D52C004A3285 /* Protocol.swift */; };
+		1CDA877D2A0A061E004A3285 /* EndpointMakeable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDA877C2A0A061E004A3285 /* EndpointMakeable.swift */; };
+		1CDA877F2A0A0667004A3285 /* OpenWeatherEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDA877E2A0A0667004A3285 /* OpenWeatherEndpoint.swift */; };
+		1CDA87812A0A0999004A3285 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDA87802A0A0999004A3285 /* HTTPMethod.swift */; };
+		1CDA87832A0A09AD004A3285 /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDA87822A0A09AD004A3285 /* Provider.swift */; };
+		1CDA87852A0A0A48004A3285 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CDA87842A0A0A48004A3285 /* Parser.swift */; };
 		1CE3F6CE29FAB1FE00375BD3 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1CE3F6D029FAB1FE00375BD3 /* Localizable.strings */; };
 		1CE3F6D429FAB23800375BD3 /* String+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CE3F6D329FAB23800375BD3 /* String+Extension.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
@@ -42,6 +47,11 @@
 		1C9590B129F6504D004FD951 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		1C9590B329F65919004FD951 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		1CDA87452A08D52C004A3285 /* Protocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocol.swift; sourceTree = "<group>"; };
+		1CDA877C2A0A061E004A3285 /* EndpointMakeable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointMakeable.swift; sourceTree = "<group>"; };
+		1CDA877E2A0A0667004A3285 /* OpenWeatherEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherEndpoint.swift; sourceTree = "<group>"; };
+		1CDA87802A0A0999004A3285 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
+		1CDA87822A0A09AD004A3285 /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
+		1CDA87842A0A0A48004A3285 /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		1CE3F6CF29FAB1FE00375BD3 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1CE3F6D129FAB20800375BD3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		1CE3F6D229FAB20800375BD3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -153,6 +163,18 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		1CDA877B2A0A05F3004A3285 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				1CDA877C2A0A061E004A3285 /* EndpointMakeable.swift */,
+				1CDA877E2A0A0667004A3285 /* OpenWeatherEndpoint.swift */,
+				1CDA87802A0A0999004A3285 /* HTTPMethod.swift */,
+				1CDA87822A0A09AD004A3285 /* Provider.swift */,
+				1CDA87842A0A0A48004A3285 /* Parser.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		1CE3F6CB29FAB1E800375BD3 /* Localizable */ = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +203,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				1CDA877B2A0A05F3004A3285 /* Network */,
 				08C6A6FE29F655D1005D3975 /* Application */,
 				08C6A70429F663D8005D3975 /* Model */,
 				08C6A70029F6564F005D3975 /* View */,
@@ -286,12 +309,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CDA87812A0A0999004A3285 /* HTTPMethod.swift in Sources */,
 				08D8924D2A009C17007CB670 /* DiaryEntity+CoreDataProperties.swift in Sources */,
+				1CDA877D2A0A061E004A3285 /* EndpointMakeable.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryViewController.swift in Sources */,
 				1C0B529329F79D22008F56BE /* DiaryDetailViewController.swift in Sources */,
 				08D8924F2A009C3B007CB670 /* CoreDataManager.swift in Sources */,
 				08D8924C2A009C17007CB670 /* DiaryEntity+CoreDataClass.swift in Sources */,
 				1CDA87462A08D52C004A3285 /* Protocol.swift in Sources */,
+				1CDA87832A0A09AD004A3285 /* Provider.swift in Sources */,
+				1CDA877F2A0A0667004A3285 /* OpenWeatherEndpoint.swift in Sources */,
 				08EB900129F7A7530061163B /* Array+Extension.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				1C6636522A038B6B00C85374 /* UIViewController+extension.swift in Sources */,
@@ -302,6 +329,7 @@
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				1C9590B229F6504D004FD951 /* DiaryTableViewCell.swift in Sources */,
 				08C6A70329F663D4005D3975 /* Diary.swift in Sources */,
+				1CDA87852A0A0A48004A3285 /* Parser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
