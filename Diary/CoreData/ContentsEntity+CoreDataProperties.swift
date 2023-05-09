@@ -16,6 +16,8 @@ extension ContentsEntity {
     @NSManaged public var body: String?
     @NSManaged public var date: Double
     @NSManaged public var identifier: UUID?
+    @NSManaged public var weatherType: String?
+    @NSManaged public var weatherIconCode: String?
 }
 
 extension ContentsEntity: Identifiable { }

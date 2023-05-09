@@ -18,7 +18,6 @@ final class DiaryListViewController: UIViewController {
         configureUIOption()
         fetchContents()
         configureTableView()
-        fetchWeather()
     }
     
     private func configureUIOption() {
@@ -27,42 +26,6 @@ final class DiaryListViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                             target: self,
                                                             action: #selector(moveToAppendDiary))
-    }
-    
-    private func fetchContents() {
-        do {
-            contentsList = try CoreDataManager.shared.read()
-        } catch {
-            AlertManager().showErrorAlert(target: self, error: error)
-        }
-    }
-    
-    private func fetchWeather() {
-        let networkManager = NetworkManager()
-        let endPoint = EndPoint.weatherInfo(latitude: "10.99", longitude: "44.34")
-        
-        networkManager.fetchData(urlRequest: endPoint.asURLRequest()) { result in
-            
-            switch result {
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    AlertManager().showErrorAlert(target: self, error: error)
-                }
-            case .success(let data):
-                
-                let weather = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
-                
-                switch weather {
-                case .success(let weather):
-                    print(weather.weather.first?.iconCode ?? "temp")
-                    
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        AlertManager().showErrorAlert(target: self, error: error)
-                    }
-                }
-            }
-        }
     }
     
     private func configureTableView() {
@@ -79,6 +42,14 @@ final class DiaryListViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    private func fetchContents() {
+        do {
+            contentsList = try CoreDataManager.shared.read()
+        } catch {
+            AlertManager().showErrorAlert(target: self, error: error)
+        }
     }
     
     @objc private func moveToAppendDiary() {

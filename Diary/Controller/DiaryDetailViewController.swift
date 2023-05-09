@@ -10,6 +10,7 @@ import CoreLocation
 
 final class DiaryDetailViewController: UIViewController {
     private var contents: ContentsDTO?
+    private var weather: Weather?
     private let locationManager = CLLocationManager()
     
     private let textView: UITextView = {
@@ -66,64 +67,16 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func checkLocation() {
+        guard contents == nil else { return }
+        
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
     }
     
-    private func fetchWeather(latitude: String, longitude: String) {
-        let endPoint = EndPoint.weatherInfo(latitude: latitude, longitude: longitude).asURLRequest()
-        
-        NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
-            guard let self else { return }
-            
-            switch result {
-            case .success(let data):
-                let weather = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
-                
-                switch weather {
-                case .success(let weather):
-                    guard let iconCode = weather.weather.first?.iconCode else {
-                        AlertManager().showErrorAlert(target: self, error: NetworkError.dataNotFound)
-                        return
-                    }
-                    
-                    self.fetchWeatherImage(iconCode: iconCode)
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        AlertManager().showErrorAlert(target: self, error: error)
-                    }
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    AlertManager().showErrorAlert(target: self, error: error)
-                }
-            }
-        }
-    }
-    
-    private func fetchWeatherImage(iconCode: String) {
-        let endPoint = EndPoint.weatherImage(iconCode: iconCode).asURLRequest()
-        
-        NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
-            guard let self else { return }
-            
-            switch result {
-            case .success(let image):
-                DispatchQueue.main.async {
-                    self.weatherIconImageView.image = UIImage(data: image)
-                    self.navigationItem.titleView = self.createStackView()
-                }
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    AlertManager().showErrorAlert(target: self, error: error)
-                }
-            }
-        }
-    }
-    
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
+        navigationItem.titleView = createStackView()
         dateLabel.text = contents?.localizedDate ?? Date().translateLocalizedFormat()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
                                                             style: .plain,
@@ -209,6 +162,59 @@ final class DiaryDetailViewController: UIViewController {
             name: UIScene.didEnterBackgroundNotification,
             object: nil)
     }
+    
+    private func fetchWeatherInfo(latitude: String, longitude: String) {
+        let endPoint = EndPoint.weatherInfo(latitude: latitude, longitude: longitude).asURLRequest()
+
+        NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let data):
+                let weather = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
+
+                switch weather {
+                case .success(let weather):
+                    guard let weatherIconCode = weather.weather.first?.iconCode,
+                          let weatherType = weather.weather.first?.type else {
+                        DispatchQueue.main.async {
+                            AlertManager().showErrorAlert(target: self, error: NetworkError.dataNotFound)
+                        }
+                        return
+                    }
+                    self.weather = Weather(type: weatherType, iconCode: weatherIconCode)
+                    self.fetchWeatherImage(iconCode: weatherIconCode)
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        AlertManager().showErrorAlert(target: self, error: error)
+                    }
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    AlertManager().showErrorAlert(target: self, error: error)
+                }
+            }
+        }
+    }
+
+    private func fetchWeatherImage(iconCode: String) {
+        let endPoint = EndPoint.weatherImage(iconCode: iconCode).asURLRequest()
+
+        NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    self.weatherIconImageView.image = UIImage(data: image)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    AlertManager().showErrorAlert(target: self, error: error)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - Data CRUD
@@ -245,9 +251,10 @@ extension DiaryDetailViewController {
         guard splitedContents.title.isEmpty == false else { return }
         
         contents = ContentsDTO(title: splitedContents.title,
-                            body: splitedContents.body,
-                            date: date,
-                            identifier: UUID())
+                               body: splitedContents.body,
+                               date: date,
+                               identifier: UUID(),
+                               weather: weather)
         
         guard let contents else { return }
         
@@ -295,10 +302,11 @@ extension DiaryDetailViewController: UITextViewDelegate {
     }
 }
 
+// MARK: - Core location delegate
 extension DiaryDetailViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.last?.coordinate {
-            fetchWeather(latitude: String(coordinate.latitude), longitude: String(coordinate.longitude))
+            fetchWeatherInfo(latitude: String(coordinate.latitude), longitude: String(coordinate.longitude))
         }
     }
 }

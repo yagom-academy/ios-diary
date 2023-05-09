@@ -5,11 +5,11 @@
 //  Created by KokkilE, Hyemory on 2023/05/08.
 //
 
-struct WeatherDTO: Decodable {
+struct WeatherDTO: Codable {
     let weather: [Weather]
 }
 
-struct Weather: Decodable {
+struct Weather: Codable {
     let type: String
     let iconCode: String
     
