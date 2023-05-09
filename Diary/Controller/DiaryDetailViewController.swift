@@ -132,7 +132,8 @@ final class DiaryDetailViewController: UIViewController {
         } else {
             let result = coreDataManager.saveDiaryData(titleText: titleText, bodyText: bodyText)
             switch result {
-            case .success:
+            case .success(let diary):
+                self.diary = diary
                 print("저장 성공")
                 NotificationCenter.default.post(name: .coreDataChanged, object: nil)
             case .failure(let error):

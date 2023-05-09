@@ -42,7 +42,7 @@ final class CoreDataManager {
     
     // MARK: - Create 일기 생성하기
     
-    func saveDiaryData(titleText: String?, bodyText: String?) -> Result<Bool, CoreDataError> {
+    func saveDiaryData(titleText: String?, bodyText: String?) -> Result<Diary, CoreDataError> {
         if let context = context {
             let diaryData = Diary(context: context)
             
@@ -51,7 +51,7 @@ final class CoreDataManager {
             diaryData.createdAt = Date().timeIntervalSince1970
             diaryData.uuid = UUID()
             appDelegate?.saveContext()
-            return .success(true)
+            return .success(diaryData)
         } else {
             return .failure(.saveError)
         }
