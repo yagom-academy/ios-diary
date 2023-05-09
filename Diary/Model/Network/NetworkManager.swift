@@ -9,16 +9,18 @@ import Foundation
 
 final class NetworkManager {
     let urlSession = URLSession.shared
-    var api: API?
     var jsonDecoder: JSONDecoder = JSONDecoder()
     
-    init(api: API) {
-        self.api = api
-    }
-    
-    func fetch<T: Codable>(decodingType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-        guard let api,
-              let request = Endpoint.request(for: api) else { return }
+    func fetch<T: Codable>(
+        request: URLRequest?,
+        decodingType: T.Type,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) {
+        guard let request else {
+            completion(.failure(NetworkError.urlError))
+            
+            return
+        }
         
         let task = urlSession.dataTask(with: request) { data, response, error in
             if let error = error {
