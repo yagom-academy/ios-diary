@@ -35,12 +35,6 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        
-        endEditingDiary()
-    }
-    
     init(diaryItem: Diary? = nil, state: DiaryState) {
         self.diaryItem = diaryItem
         self.state = state
@@ -57,6 +51,8 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureInitailView() {
+        self.navigationController?.delegate = self
+        
         guard let diaryItem = diaryItem else {
             self.navigationItem.title = Date.convertToDate(by: Date().timeIntervalSince1970)
             
@@ -114,6 +110,15 @@ final class DiaryDetailViewController: UIViewController {
     }
 }
 
+extension DiaryDetailViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        guard let diaryViewController = viewController as? DiaryViewController else { return }
+        
+        endEditingDiary()
+        diaryViewController.fetchDiary()
+    }
+}
+
 // MARK: UI
 extension DiaryDetailViewController {
     private func configureUI() {
@@ -156,12 +161,6 @@ extension DiaryDetailViewController {
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let diaryItem = self?.diaryItem else { return }
             
-//            do {
-//                try self?.manager.deleteContent(at: diaryItem)
-//                self?.navigationController?.popViewController(animated: true)
-//            } catch {
-//                self?.showFailAlert(error: error)
-//            }
             self?.manager.deleteContent(at: diaryItem, completion: { [weak self] result in
                 switch result {
                 case .success():

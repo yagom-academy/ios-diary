@@ -15,14 +15,13 @@ final class DiaryViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
+        fetchDiary()
         
         tableView.dataSource = self
         tableView.delegate = self
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
+    func fetchDiary() {
         manager.fetchContent { [weak self] result in
             switch result {
             case .success(let diary):
