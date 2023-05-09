@@ -10,9 +10,11 @@ struct WeatherDTO: Decodable {
 }
 
 struct Weather: Decodable {
+    let type: String
     let iconCode: String
     
     private enum CodingKeys: String, CodingKey {
+        case type = "main"
         case iconCode = "icon"
     }
 }
