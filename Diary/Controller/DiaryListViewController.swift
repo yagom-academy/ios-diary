@@ -151,7 +151,8 @@ final class DiaryListViewController: UIViewController {
 
             if let selectedItem = self.diaryItems[safe: indexPath.row] {
                 self.delete(diaryData: selectedItem)
-                tableView.reloadData()
+                self.diaryItems.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
             }
             
             completionHandler(true)

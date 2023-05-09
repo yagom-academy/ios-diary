@@ -50,9 +50,7 @@ final class CoreDataManager {
             diaryData.body = bodyText
             diaryData.createdAt = Date().timeIntervalSince1970
             diaryData.uuid = UUID()
-            
             appDelegate?.saveContext()
-            NotificationCenter.default.post(name: .coreDataChanged, object: nil)
             return .success(true)
         } else {
             return .failure(.saveError)
@@ -71,7 +69,6 @@ final class CoreDataManager {
                 context.delete(targetDiaryData)
                 appDelegate?.saveContext()
             }
-            NotificationCenter.default.post(name: .coreDataChanged, object: nil)
             return .success(true)
         } else {
             return .failure(.deleteError)

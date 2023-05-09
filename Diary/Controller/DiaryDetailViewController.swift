@@ -63,7 +63,6 @@ final class DiaryDetailViewController: UIViewController {
         configureView()
         titleTextView.delegate = self
         bodyTextView.delegate = self
-        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -123,6 +122,8 @@ final class DiaryDetailViewController: UIViewController {
             switch result {
             case .success:
                 print("업데이트 성공")
+                NotificationCenter.default.post(name: .coreDataChanged, object: nil)
+                
             case .failure(let error):
                 let errorTitle = "업데이트 실패"
                 let errorMessage = error.userErrorMessage
@@ -133,6 +134,7 @@ final class DiaryDetailViewController: UIViewController {
             switch result {
             case .success:
                 print("저장 성공")
+                NotificationCenter.default.post(name: .coreDataChanged, object: nil)
             case .failure(let error):
                 let errorTitle = "저장 실패"
                 let errorMessage = error.userErrorMessage
@@ -152,6 +154,7 @@ final class DiaryDetailViewController: UIViewController {
         case .success:
             print("삭제 성공")
             diary = nil
+            NotificationCenter.default.post(name: .coreDataChanged, object: nil)
         case .failure(let error):
             let errorTitle = "삭제 실패"
             let errorMessage = error.userErrorMessage
@@ -210,13 +213,14 @@ final class DiaryDetailViewController: UIViewController {
     private func configureView() {
         setData()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     private func setData() {
-        if let diaryData = diary {
-            title = DateToStringFormatter.changeToString(from: diaryData.createdAt)
-            titleTextView.text = diaryData.title
-            bodyTextView.text = diaryData.body
+        if let diary {
+            title = DateToStringFormatter.changeToString(from: diary.createdAt)
+            titleTextView.text = diary.title
+            bodyTextView.text = diary.body
         }
     }
     
