@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 class OpenWetherDataLoader {
     private let networkManager = NetworkManager()
@@ -17,5 +18,13 @@ class OpenWetherDataLoader {
         networkManager.fetch(request: request,
                              decodingType: CurrentWeather.self,
                              completion: completion)
+    }
+    
+    func loadIcon(code: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
+        let api = OpenWeatherAPI.icon(code: code)
+        let request = Endpoint.request(for: api)
+        
+        networkManager.fetchImage(request: request,
+                                  completion: completion)
     }
 }

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 final class NetworkManager {
     let urlSession = URLSession.shared
@@ -49,6 +50,45 @@ final class NetworkManager {
             }
             
             completion(.success(decodedData))
+        }
+        
+        task.resume()
+    }
+    
+    func fetchImage(request: URLRequest?, completion: @escaping (Result<UIImage, Error>) -> Void) {
+        guard let request else {
+            completion(.failure(NetworkError.urlError))
+            
+            return
+        }
+        
+        let task = urlSession.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                
+                return
+            }
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(NetworkError.invalidResponseError))
+                
+                return
+            }
+                    
+            guard (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(NetworkError.invalidHttpStatusCode(httpResponse.statusCode)))
+                
+                return
+            }
+            
+            guard let data = data,
+                  let image = UIImage(data: data) else {
+                completion(.failure(NetworkError.emptyData))
+                
+                return
+            }
+            
+            completion(.success(image))
         }
         
         task.resume()
