@@ -2,7 +2,7 @@
 //  DiaryDAO+CoreDataProperties.swift
 //  Diary
 //
-//  Created by Rowan, Harry on 2023/05/05.
+//  Created by Rowan, Harry on 2023/05/09.
 //
 //
 
@@ -14,6 +14,7 @@ extension DiaryDAO {
     @NSManaged public var date: Double
     @NSManaged public var id: UUID
     @NSManaged public var title: String?
+    @NSManaged public var weather: WeatherDAO?
 }
 
 extension DiaryDAO: Identifiable { }
