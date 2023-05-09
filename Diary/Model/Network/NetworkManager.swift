@@ -10,11 +10,10 @@ import Foundation
 final class NetworkManager {
     let urlSession = URLSession.shared
     var api: API?
-    var decoder: DiaryDecodeManager
+    var jsonDecoder: JSONDecoder = JSONDecoder()
     
-    init(api: API, decoder: DiaryDecodeManager = DiaryDecodeManager()) {
+    init(api: API) {
         self.api = api
-        self.decoder = decoder
     }
     
     func fetch<T: Codable>(decodingType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
@@ -28,21 +27,26 @@ final class NetworkManager {
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode) else {
-                completion(.failure(NetworkError.server))
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(NetworkError.invalidResponseError))
+                
+                return
+            }
+                    
+            guard (200...299).contains(httpResponse.statusCode) else {
+                completion(.failure(NetworkError.invalidHttpStatusCode(httpResponse.statusCode)))
                 
                 return
             }
             
-            if let data = data,
-               let decodedData = try? decoder.decode(decodingType, from: data) {
-                completion(.success(decodedData))
+            guard let data = data,
+                  let decodedData = try? self.jsonDecoder.decode(decodingType, from: data) else {
+                completion(.failure(NetworkError.decodeError))
                 
                 return
             }
-            print(request)
-            completion(.failure(NetworkError.decoding))
+            
+            completion(.success(decodedData))
         }
         
         task.resume()
