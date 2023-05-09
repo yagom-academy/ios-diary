@@ -63,7 +63,7 @@ final class DiaryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCellData(with diary: Diary) {
+    func configureCell(_ diary: Diary) {
         titleLabel.text = diary.title
         dateLabel.text = DateToStringFormatter.changeToString(from: diary.createdAt)
         bodyLabel.text = diary.body
