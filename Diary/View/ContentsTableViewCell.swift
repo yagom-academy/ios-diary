@@ -15,9 +15,25 @@ final class ContentsTableViewCell: UITableViewCell {
         return label
     }()
     
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = .preferredFont(forTextStyle: .body)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        return label
+    }()
+    
+    private let weatherIconImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
     private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
+        label.setContentHuggingPriority(.init(rawValue: 1), for: .horizontal)
         
         return label
     }()
@@ -25,7 +41,7 @@ final class ContentsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        let stackView = createStackView()
+        let stackView = createTitleStackView()
         configureLayout(stackView)
         accessoryType = .disclosureIndicator
     }
@@ -34,14 +50,35 @@ final class ContentsTableViewCell: UITableViewCell {
         super.init(coder: coder)
     }
     
-    func configure(title: String, description: String, date: String) {
-        titleLabel.text = title
-        descriptionLabel.text = date + " " + description.replacingOccurrences(of: "\n", with: "")
-        descriptionLabel.applyAttribute(targetString: date)
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        weatherIconImageView.image = nil
     }
     
-    private func createStackView() -> UIStackView {
-        let stackView = UIStackView(arrangedSubviews: [titleLabel, descriptionLabel])
+    func configure(title: String, description: String, date: String) {
+        titleLabel.text = title
+        dateLabel.text = date
+        descriptionLabel.text = description.replacingOccurrences(of: "\n", with: "")
+    }
+    
+    func configure(iconImage: UIImage?) {
+        weatherIconImageView.image = iconImage
+    }
+    
+    private func createDetailStackView() -> UIStackView {
+        let stackView = UIStackView(arrangedSubviews: [dateLabel,
+                                                       weatherIconImageView,
+                                                       descriptionLabel])
+        stackView.axis = .horizontal
+        stackView.spacing = 8
+        
+        return stackView
+    }
+    
+    private func createTitleStackView() -> UIStackView {
+        let stackView = UIStackView(arrangedSubviews: [titleLabel,
+                                                       createDetailStackView()])
         stackView.axis = .vertical
         stackView.spacing = 8
         
@@ -57,7 +94,10 @@ final class ContentsTableViewCell: UITableViewCell {
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            stackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            
+            weatherIconImageView.widthAnchor.constraint(equalToConstant: 24),
+            weatherIconImageView.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
 }

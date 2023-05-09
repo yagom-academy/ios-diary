@@ -52,6 +52,29 @@ final class DiaryListViewController: UIViewController {
         }
     }
     
+    private func fetchWeatherImage(cell: ContentsTableViewCell, iconCode: String) {
+        let endPoint = EndPoint.weatherImage(iconCode: iconCode).asURLRequest()
+        var iconImage: UIImage?
+        
+        NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let image):
+                iconImage = UIImage(data: image)
+
+                DispatchQueue.main.async {
+                    cell.configure(iconImage: iconImage)
+                }
+                
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    AlertManager().showErrorAlert(target: self, error: error)
+                }
+            }
+        }
+    }
+    
     @objc private func moveToAppendDiary() {
         let diaryDetailViewController = DiaryDetailViewController(contents: nil)
         diaryDetailViewController.delegate = self
@@ -77,6 +100,12 @@ extension DiaryListViewController: UITableViewDataSource {
         }
         
         cell.configure(title: contents.title, description: contents.body, date: contents.localizedDate)
+        
+        guard let iconCode = contents.weather?.iconCode else {
+            return cell
+        }
+
+        fetchWeatherImage(cell: cell, iconCode: iconCode)
         
         return cell
     }
