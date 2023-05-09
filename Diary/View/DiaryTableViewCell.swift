@@ -10,13 +10,16 @@ import UIKit
 final class DiaryTableViewCell: UITableViewCell {
     static let identifier = "DiaryTableViewCell"
     
-    private var sampleDiary: SampleDiary?
+    private var myDiary: DiaryCoreData?
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 10
         stackView.axis = .vertical
+        stackView.layoutMargins = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 40)
+        stackView.isLayoutMarginsRelativeArrangement = true
+        
         return stackView
     }()
     
@@ -25,12 +28,14 @@ final class DiaryTableViewCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 10
         stackView.axis = .horizontal
+        
         return stackView
     }()
     
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
+        
         return label
     }()
     
@@ -38,6 +43,7 @@ final class DiaryTableViewCell: UITableViewCell {
         let label = UILabel()
         label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        
         return label
     }()
     
@@ -45,6 +51,7 @@ final class DiaryTableViewCell: UITableViewCell {
         let label = UILabel()
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        
         return label
     }()
     
@@ -65,10 +72,10 @@ final class DiaryTableViewCell: UITableViewCell {
         mainStackView.addArrangedSubview(subTitleStackView)
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 5),
-            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
-            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5),
-            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50)
+            mainStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         ])
     }
     
@@ -76,15 +83,15 @@ final class DiaryTableViewCell: UITableViewCell {
         subTitleStackView.addArrangedSubview(dateLabel)
         subTitleStackView.addArrangedSubview(bodyLabel)
     }
-
-    func setupItem(item: SampleDiary) {
-        self.sampleDiary = item
+    
+    func setupItem(item: DiaryCoreData) {
+        self.myDiary = item
         
-        guard let sampleDiary = self.sampleDiary,
-              let formattedDate = DateFormatterManager.convertToFomattedDate(of: sampleDiary.createdDate) else { return }
+        guard let myDiary = myDiary,
+              let formattedDate = DateFormatterManager.shared.convertToFomattedDate(of: myDiary.date) else { return }
         
-        titleLabel.text = sampleDiary.title
+        titleLabel.text = myDiary.title
         dateLabel.text = formattedDate
-        bodyLabel.text = sampleDiary.body
+        bodyLabel.text = myDiary.body
     }
 }
