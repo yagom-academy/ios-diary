@@ -9,16 +9,13 @@ import Foundation
 import CoreData
 
 struct CoreDataManager {
-    private let storage = CoreDataStack.shared
+    let storage = CoreDataStack.shared
     
-    func createDAO<DAO: DataAccessObject, Domain: DataTransferObject>(type: DAO.Type, from data: Domain) {
+    func createDAO<DAO: DataAccessObject>(type: DAO.Type) -> DAO? {
         guard let entityName = DAO.entity().name,
-              let object = DAO.object(entityName: entityName, context: storage.context) else { return }
+              let object = DAO.object(entityName: entityName, context: storage.context) else { return nil }
         
-        if let castedData = data as? DAO.Domain {
-            object.setValues(from: castedData)
-            storage.saveContext()
-        }
+        return object
     }
     
     func readAllDAO<DAO: DataAccessObject>(type: DAO.Type, sortDescription: SortDescription?) -> [DAO] {
