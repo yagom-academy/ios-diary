@@ -21,8 +21,6 @@ final class DiaryDetailViewController: UIViewController {
     
     private var diary: Diary?
     
-    private var isDeleted: Bool = false
-    
     private var titleText: String = ""
     private var bodyText: String = ""
     
@@ -67,12 +65,13 @@ final class DiaryDetailViewController: UIViewController {
         bodyTextView.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        guard !isDeleted else { return }
+    
+    override func didMove(toParent parent: UIViewController?) {
+        super.didMove(toParent: parent)
         
-        saveOrUpdateDiary()
+        if parent == nil {
+            saveOrUpdateDiary()
+        }
     }
     
     private func configureNavigationBar() {
@@ -148,7 +147,6 @@ final class DiaryDetailViewController: UIViewController {
         case .success:
             print("삭제 성공")
             diary = nil
-            isDeleted = true
         case .failure(let error):
             let errorTitle = "삭제 실패"
             let errorMessage = error.userErrorMessage
