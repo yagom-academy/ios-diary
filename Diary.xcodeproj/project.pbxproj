@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		4A863D282A05239000B3C8CC /* DiaryDAO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A863D262A05239000B3C8CC /* DiaryDAO+CoreDataClass.swift */; };
 		4A863D292A05239000B3C8CC /* DiaryDAO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A863D272A05239000B3C8CC /* DiaryDAO+CoreDataProperties.swift */; };
+		4A863D702A0A06D000B3C8CC /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A863D6F2A0A06D000B3C8CC /* API.swift */; };
 		4AA2516429FB9285008B8BCA /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA2516329FB9285008B8BCA /* CoreDataManager.swift */; };
 		4AD397A729F7AF0C0066EB8E /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD397A629F7AF0C0066EB8E /* Diary.swift */; };
 		4AD397A929F7B19D0066EB8E /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AD397A829F7B19D0066EB8E /* DiaryListCell.swift */; };
@@ -38,6 +39,7 @@
 /* Begin PBXFileReference section */
 		4A863D262A05239000B3C8CC /* DiaryDAO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryDAO+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		4A863D272A05239000B3C8CC /* DiaryDAO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryDAO+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		4A863D6F2A0A06D000B3C8CC /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		4AA2516329FB9285008B8BCA /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		4AD397A629F7AF0C0066EB8E /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		4AD397A829F7B19D0066EB8E /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
@@ -88,6 +90,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		4A863D6E2A0A06A200B3C8CC /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				4A863D6F2A0A06D000B3C8CC /* API.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		4AA2517D2A0139D3008B8BCA /* AlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -100,6 +110,7 @@
 		4AD397A029F79ED50066EB8E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				4A863D6E2A0A06A200B3C8CC /* Network */,
 				4AD397A629F7AF0C0066EB8E /* Diary.swift */,
 			);
 			path = Model;
@@ -368,6 +379,7 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				ADEF04EA2A0640CA00CF82C2 /* DataTransferObject.swift in Sources */,
 				ADCB77442A08E37F00122158 /* SortDescription.swift in Sources */,
+				4A863D702A0A06D000B3C8CC /* API.swift in Sources */,
 				C739AE2F284DF28600741E8F /* DiaryDAO.xcdatamodeld in Sources */,
 				4A863D282A05239000B3C8CC /* DiaryDAO+CoreDataClass.swift in Sources */,
 				4AD397BD29FA61870066EB8E /* DiaryAlertDataFactory.swift in Sources */,
