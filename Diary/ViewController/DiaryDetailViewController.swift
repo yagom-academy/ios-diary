@@ -60,7 +60,6 @@ final class DiaryDetailViewController: UIViewController {
         configureNavigationBar()
         configureDiaryView()
         setUpKeyboardNotification()
-        setUpBackgroundNotification()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -188,7 +187,7 @@ final class DiaryDetailViewController: UIViewController {
         view.endEditing(true)
     }
     
-    @objc private func saveDiary() {
+    @objc func saveDiary() {
         guard let titleText = titleText,
               let bodyText = bodyText else {
             AlertManager.shared.showAlert(target: self,
@@ -211,16 +210,6 @@ final class DiaryDetailViewController: UIViewController {
             CoreDataManager.shared.create(diary: diary)
         }
         mode = .edit
-    }
-    
-    // MARK: Background
-    private func setUpBackgroundNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(saveDiary),
-            name: UIScene.willDeactivateNotification,
-            object: nil
-        )
     }
 }
 
