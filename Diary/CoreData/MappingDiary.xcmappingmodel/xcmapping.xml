@@ -66,7 +66,7 @@ cxIAAYagXxAPTlNLZXllZEFyY2hpdmVy0QAIAAlUcm9vdIABrxCVAAsADAAbADcAOAA5AEEAQgBdAF4A
         <relationship name="entitymappings" type="0/0" destination="XDDEVENTITYMAPPING" idrefs="z105"></relationship>
     </object>
     <object type="XDDEVENTITYMAPPING" id="z105">
-        <attribute name="migrationpolicyclassname" type="string"></attribute>
+        <attribute name="migrationpolicyclassname" type="string">CoreData.DiaryEntityMigrationPolicy</attribute>
         <attribute name="sourcename" type="string">Diary</attribute>
         <attribute name="mappingtypename" type="string">Undefined</attribute>
         <attribute name="mappingnumber" type="int16">1</attribute>
