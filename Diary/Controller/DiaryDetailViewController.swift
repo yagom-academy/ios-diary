@@ -30,6 +30,12 @@ final class DiaryDetailViewController: UIViewController {
         
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+        
+//        print(locationManager.location?.coordinate.latitude)
+//        print(locationManager.location?.coordinate.longitude)
+        guard let location = locationManager.location?.coordinate else { return }
+        
+        print(DiaryEndPoint.weather(lat: location.latitude, lon: location.longitude).url)
     }
     
     override func viewDidAppear(_ animated: Bool) {
