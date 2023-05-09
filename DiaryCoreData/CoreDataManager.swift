@@ -35,9 +35,9 @@ final class CoreDataManager {
         }
     }
     
-    func read(key: String) -> DiaryCoreData? {
+    func read(key: NSManagedObjectID) -> DiaryCoreData? {
         guard let context = self.context else { return nil }
-        let filter = filteredDataRequest(key: key)
+        let filter = filteredDataRequest(id: key)
         
         do {
             let data = try context.fetch(filter)
@@ -47,7 +47,7 @@ final class CoreDataManager {
         }
     }
     
-    func update(key: String, diary: DiaryProtocol) {
+    func update(key: NSManagedObjectID, diary: DiaryProtocol) {
         guard let fetchedData = read(key: key) else { return }
         
         setValue(at: fetchedData, diary: diary)
@@ -67,11 +67,10 @@ final class CoreDataManager {
         }
     }
     
-    func delete(key: String) {
+    func delete(id: NSManagedObjectID) {
         guard let context = self.context else { return }
-        
         let request: NSFetchRequest<NSFetchRequestResult> = DiaryCoreData.fetchRequest()
-        request.predicate = NSPredicate(format: "title == %@", key)
+        request.predicate = NSPredicate(format: "SELF == %@", id)
         let delete = NSBatchDeleteRequest(fetchRequest: request)
         
         do {
@@ -81,9 +80,9 @@ final class CoreDataManager {
         }
     }
     
-    private func filteredDataRequest(key: String) -> NSFetchRequest<NSManagedObject> {
+    private func filteredDataRequest(id: NSManagedObjectID) -> NSFetchRequest<NSManagedObject> {
         let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "DiaryCoreData")
-        fetchRequest.predicate = NSPredicate(format: "title == %@", key)
+        fetchRequest.predicate = NSPredicate(format: "SELF == %@", id)
         
         return fetchRequest
     }

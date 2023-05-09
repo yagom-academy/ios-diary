@@ -23,8 +23,11 @@ final class DiaryListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-    
         setUpMyDiary()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         
         group.notify(queue: .main) {
             self.diaryTableView.reloadData()
@@ -40,8 +43,6 @@ final class DiaryListViewController: UIViewController {
             
             fetchWeatherIcon(icon: icon)
         }
-        // group.notify(queue: .main) {
-        // self.diaryTableView.reloadData()
     }
 
     private func fetchWeatherIcon(icon: String) {
@@ -57,9 +58,6 @@ final class DiaryListViewController: UIViewController {
                 guard let fetchedIconImage = UIImage(data: result) else { return }
                 self.weatherIcon[icon] = fetchedIconImage
                 self.group.leave()
-                DispatchQueue.main.async {
-                    self.diaryTableView.reloadData()
-                }
             }
         }
     }
@@ -121,7 +119,8 @@ extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let diaryCell: DiaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier) as? DiaryTableViewCell,
               let myDiary = myDiary,
-              let iconImage = weatherIcon[myDiary[indexPath.row].icon ?? ""] else { return UITableViewCell() }
+              let icon = myDiary[indexPath.row].icon,
+              let iconImage = weatherIcon[icon] else { return UITableViewCell() }
                 
         diaryCell.setupItem(item: myDiary[indexPath.row], iconImage: iconImage)
         return diaryCell
@@ -131,10 +130,10 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let diary = myDiary,
-              let title = diary[indexPath.row].title,
-              let fetchedDiary = CoreDataManager.shared.read(key: title) else { return }
+              let fetchedDiary = CoreDataManager.shared.read(key: diary[indexPath.row].objectID) else { return }
         
         let diaryDetailViewController = DiaryDetailViewController(fetchedDiary: fetchedDiary, mode: .edit, titleText: fetchedDiary.title, bodyText: fetchedDiary.body)
+        
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
@@ -157,7 +156,8 @@ extension DiaryListViewController: UITableViewDelegate {
         let delete = UIContextualAction(style: .normal, title: "삭제") { [weak self] (_, _, success: @escaping (Bool) -> Void) in
             
             self?.showDeleteAlert(handler: { _ in
-                CoreDataManager.shared.delete(key: title)
+                let key = diary[indexPath.row].objectID
+                CoreDataManager.shared.delete(id: key)
                 self?.setUpMyDiary()
                 tableView.deleteRows(at: [indexPath], with: .fade)
                 

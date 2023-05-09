@@ -28,6 +28,7 @@ final class DiaryTableViewCell: UITableViewCell {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.spacing = 10
         stackView.axis = .horizontal
+        stackView.distribution = .equalSpacing
         
         return stackView
     }()
@@ -41,7 +42,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private let dateLabel: UILabel = {
         let label = UILabel()
-        label.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        label.setContentCompressionResistancePriority(UILayoutPriority(1000), for: .horizontal)
         label.font = UIFont.preferredFont(forTextStyle: .body)
         
         return label
@@ -49,13 +50,13 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private let weatherIcon: UIImageView = {
         let imageView = UIImageView()
-        imageView.sizeToFit()
+        imageView.setContentCompressionResistancePriority(UILayoutPriority(750), for: .horizontal)
         return imageView
     }()
     
     private let bodyLabel: UILabel = {
         let label = UILabel()
-        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        label.setContentCompressionResistancePriority(UILayoutPriority(250), for: .horizontal)
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         return label
@@ -93,7 +94,7 @@ final class DiaryTableViewCell: UITableViewCell {
         weatherIcon.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             weatherIcon.widthAnchor.constraint(equalTo: subTitleStackView.widthAnchor
-                                               , multiplier: 0.05),
+                                               , multiplier: 0.08),
             weatherIcon.heightAnchor.constraint(equalTo: weatherIcon.widthAnchor, multiplier: 1)
             ])
     }

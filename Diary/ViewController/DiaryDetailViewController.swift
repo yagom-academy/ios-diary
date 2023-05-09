@@ -6,8 +6,9 @@
 //
 
 import UIKit
+import CoreLocation
 
-final class DiaryDetailViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController, CLLocationManagerDelegate {
     enum Mode {
         case edit
         case create
@@ -17,6 +18,9 @@ final class DiaryDetailViewController: UIViewController {
     private var mode: Mode
     private var titleText: String?
     private var bodyText: String?
+    private let locationManager = CLLocationManager()
+    private var latitude: String?
+    private var longitude: String?
     
     private lazy var diaryTextView: UITextView = {
         let textView = UITextView()
@@ -59,6 +63,7 @@ final class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
         
+        setUpLocation()
         configureNavigationBar()
         configureDiaryView()
         setUpKeyboardNotification()
@@ -76,6 +81,26 @@ final class DiaryDetailViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         saveDiary()
+    }
+    
+    // MARK: CLLocation
+    private func setUpLocation() {
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.requestWhenInUseAuthorization()
+        
+        DispatchQueue.global().async { [weak self] in
+            if CLLocationManager.locationServicesEnabled() {
+                self?.locationManager.startUpdatingLocation()
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            latitude = String(location.coordinate.latitude)
+            longitude = String(location.coordinate.longitude)
+        }
     }
     
     // MARK: Autolayout
@@ -147,8 +172,8 @@ final class DiaryDetailViewController: UIViewController {
                                       defaultTitle: "취소",
                                       destructiveTitle: "삭제",
                                       destructiveHandler: { _ in
-            guard let key = self.fetchedDiary?.title else { return }
-            CoreDataManager.shared.delete(key: key)
+            guard let key = self.fetchedDiary?.objectID else { return }
+            CoreDataManager.shared.delete(id: key)
             self.navigationController?.popViewController(animated: true)
         })
     }
@@ -203,12 +228,13 @@ final class DiaryDetailViewController: UIViewController {
         
         switch mode {
         case .edit:
-            guard let keyTitle = fetchedDiary?.title,
-                  let date = fetchedDiary?.date,
+            guard let date = fetchedDiary?.date,
                   let weatherState = fetchedDiary?.weatherState,
-                  let icon = fetchedDiary?.icon else { return }
+                  let icon = fetchedDiary?.icon,
+                  let key = fetchedDiary?.objectID else { return }
+            
             let diary = MyDiary(title: titleText, body: bodyText, createdDate: date, weatherState: weatherState, icon: icon)
-            CoreDataManager.shared.update(key: keyTitle, diary: diary)
+            CoreDataManager.shared.update(key: key, diary: diary)
         case .create:
             fetchWeatherAPI { weatherState, icon in
                 let today = Double(Date().timeIntervalSince1970)
@@ -220,7 +246,10 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func fetchWeatherAPI(completion: @escaping (String, String) -> Void) {
-        let information = WeatherEndpoint.weatherInformation(latitude: "44.34", longitude: "10.99")
+        guard let latitude = self.latitude,
+              let longitude = self.longitude else { return }
+        
+        let information = WeatherEndpoint.weatherInformation(latitude: latitude, longitude: longitude)
         NetworkManager.shared.startLoad(endPoint: information, returnType: WeatherInformation.self) {
             switch $0 {
             case .failure(let error):

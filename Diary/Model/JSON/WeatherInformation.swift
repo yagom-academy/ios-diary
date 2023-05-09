@@ -54,7 +54,7 @@ struct Weather: Decodable {
 // MARK: - Main
 struct Main: Decodable {
     let temperature, feelsLike, temperatureMinimun, temperatureMaximum: Double
-    let pressure, humidity, seaLevel, groundLevel: Int
+    let pressure, humidity: Int
 
     private enum CodingKeys: String, CodingKey {
         case temperature = "temp"
@@ -62,8 +62,6 @@ struct Main: Decodable {
         case temperatureMinimun = "temp_min"
         case temperatureMaximum = "temp_max"
         case pressure, humidity
-        case seaLevel = "sea_level"
-        case groundLevel = "grnd_level"
     }
 }
 
