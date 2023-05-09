@@ -23,7 +23,9 @@ final class DiaryDetailViewController: UIViewController {
         
         switch mode {
         case .edit:
-            textView.text = fetchedDiary?.body
+            guard let title = fetchedDiary?.title,
+            let body = fetchedDiary?.body else { return textView }
+            textView.text = title + "\n" + body
         case .create:
             textView.text = "내용을 입력하세요"
             textView.textColor = .secondaryLabel
@@ -202,8 +204,10 @@ final class DiaryDetailViewController: UIViewController {
         switch mode {
         case .edit:
             guard let keyTitle = fetchedDiary?.title,
-                  let date = fetchedDiary?.date else { return }
-            let diary = MyDiary(title: titleText, body: bodyText, createdDate: date, weatherState: "", icon: "")
+                  let date = fetchedDiary?.date,
+                  let weatherState = fetchedDiary?.weatherState,
+                  let icon = fetchedDiary?.icon else { return }
+            let diary = MyDiary(title: titleText, body: bodyText, createdDate: date, weatherState: weatherState, icon: icon)
             CoreDataManager.shared.update(key: keyTitle, diary: diary)
         case .create:
             fetchWeatherAPI { weatherState, icon in
@@ -221,13 +225,7 @@ final class DiaryDetailViewController: UIViewController {
             switch $0 {
             case .failure(let error):
                 DispatchQueue.main.async {
-                    AlertManager.shared.showAlert(
-                        target: self,
-                        title: "\(error.description)가 발생하였습니다.",
-                        message: "다시 시도해주세요.",
-                        defaultTitle: "확인",
-                        destructiveTitle: nil,
-                        destructiveHandler: nil)
+                    AlertManager.shared.showErrorAlert(target: self, error: error)
                 }
             case .success(let result):
                 let weatherState = result.weather[0].weatherState
@@ -265,8 +263,9 @@ extension DiaryDetailViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        guard let text = diaryTextView.text else { return }
-        self.titleText = text.components(separatedBy: "\n").first
-        self.bodyText = text.replacingOccurrences(of: "\(String(describing: titleText)) \n", with: "")
+        guard let text = diaryTextView.text,
+        let titleText = text.components(separatedBy: "\n").first else { return }
+        self.titleText = titleText
+        self.bodyText = text.replacingOccurrences(of: "\(String(describing: titleText))\n", with: "")
     }
 }

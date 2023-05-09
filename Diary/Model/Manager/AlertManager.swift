@@ -37,4 +37,13 @@ final class AlertManager {
         
         target.present(alert, animated: true)
     }
+    
+    func showErrorAlert(target: UIViewController, error: DiaryError) {
+        let alert = UIAlertController(title: "\(error.description)가 발생하였습니다.", message: "다시 시도해주세요.", preferredStyle: .alert)
+        let defaultAction = UIAlertAction(title: "확인", style: .default)
+        
+        alert.addAction(defaultAction)
+        target.present(alert, animated: true)
+    }
 }
+
