@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryDetailViewController: UIViewController {
     private let diaryTextView: UITextView = {
@@ -18,6 +19,7 @@ final class DiaryDetailViewController: UIViewController {
     private var diaryItem: Diary?
     private var state: DiaryState
     private let manager = PersistenceManager.shared
+    private var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,6 +27,9 @@ final class DiaryDetailViewController: UIViewController {
         configureUI()
         configureInitailView()
         setupNotification()
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -116,6 +121,24 @@ extension DiaryDetailViewController: UINavigationControllerDelegate {
         
         endEditingDiary()
         diaryViewController.fetchDiary()
+    }
+}
+
+extension DiaryDetailViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("GPS 권한 설정됨")
+            locationManager.startUpdatingLocation()
+        case .restricted, .notDetermined:
+            print("GPS 권한 설정되지 않음")
+            locationManager.requestWhenInUseAuthorization()
+        case .denied:
+            print("GPS 권한 요청 거부됨")
+            locationManager.requestWhenInUseAuthorization()
+        default:
+            print("GPS: Default")
+        }
     }
 }
 
