@@ -25,6 +25,7 @@
 		98F3FF762A0A620600265D57 /* WeatherProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3FF752A0A620600265D57 /* WeatherProvider.swift */; };
 		98F3FF782A0A6D6500265D57 /* WeatherJsonData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3FF772A0A6D6500265D57 /* WeatherJsonData.swift */; };
 		98F3FF7B2A0A701100265D57 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98F3FF7A2A0A701100265D57 /* NetworkError.swift */; };
+		98F3FF7E2A0B70BD00265D57 /* MappingToV2.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 98F3FF7D2A0B70BD00265D57 /* MappingToV2.xcmappingmodel */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* DiaryMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryMainViewController.swift */; };
@@ -52,6 +53,8 @@
 		98F3FF752A0A620600265D57 /* WeatherProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherProvider.swift; sourceTree = "<group>"; };
 		98F3FF772A0A6D6500265D57 /* WeatherJsonData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherJsonData.swift; sourceTree = "<group>"; };
 		98F3FF7A2A0A701100265D57 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		98F3FF7C2A0B6FCE00265D57 /* Diary 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary 2.xcdatamodel"; sourceTree = "<group>"; };
+		98F3FF7D2A0B70BD00265D57 /* MappingToV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = MappingToV2.xcmappingmodel; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -189,6 +192,7 @@
 				9845129129F6629E000FDE1E /* Resources */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				98F3FF7D2A0B70BD00265D57 /* MappingToV2.xcmappingmodel */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -288,6 +292,7 @@
 				7F19783D2A0A7C2F006FEBAC /* Requestable.swift in Sources */,
 				98F3FF7B2A0A701100265D57 /* NetworkError.swift in Sources */,
 				98E01BE629FFCDD400A88AAA /* DiaryData+CoreDataProperties.swift in Sources */,
+				98F3FF7E2A0B70BD00265D57 /* MappingToV2.xcmappingmodel in Sources */,
 				7F7990AC2A01FC2300A92325 /* DiaryType.swift in Sources */,
 				9845129529F68552000FDE1E /* DiaryTableViewCell.swift in Sources */,
 				984B267529F7ABE800BFD72D /* DateManager.swift in Sources */,
@@ -520,9 +525,10 @@
 		C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				98F3FF7C2A0B6FCE00265D57 /* Diary 2.xcdatamodel */,
 				C739AE2E284DF28600741E8F /* Diary.xcdatamodel */,
 			);
-			currentVersion = C739AE2E284DF28600741E8F /* Diary.xcdatamodel */;
+			currentVersion = 98F3FF7C2A0B6FCE00265D57 /* Diary 2.xcdatamodel */;
 			path = Diary.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
