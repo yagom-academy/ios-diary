@@ -45,10 +45,7 @@ struct CoreDataManager {
               let data = data as? DAO.Domain else { return }
 
         object.updateValue(data: data)
-        
-        if storage.context.hasChanges {
-            storage.saveContext()
-        }
+        saveContext()
     }
     
     func deleteDAO<DAO: DataAccessObject>(type: DAO.Type, id: UUID) {
@@ -62,10 +59,17 @@ struct CoreDataManager {
         guard let object = fetchResult.first else { return }
         
         storage.context.delete(object)
-        storage.saveContext()
+        saveContext()
     }
     
     func saveContext() {
-        storage.saveContext()
+        if storage.context.hasChanges {
+            do {
+                try storage.context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
 }

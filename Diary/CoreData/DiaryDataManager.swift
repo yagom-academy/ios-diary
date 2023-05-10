@@ -8,7 +8,7 @@
 import Foundation
 
 struct DiaryDataManager {
-    let coreDataManager = CoreDataManager()
+    private let coreDataManager = CoreDataManager()
     
     func create(data: Diary) {
         let diaryDAO = coreDataManager.createDAO(type: DiaryDAO.self)
@@ -28,5 +28,9 @@ struct DiaryDataManager {
         }
         
         return diaryList
+    }
+    
+    func update(data: Diary) {
+        coreDataManager.updateDAO(type: DiaryDAO.self, data: data)
     }
 }
