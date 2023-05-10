@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		081383632A08CB2F00BEEB8B /* DiaryDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 081383622A08CB2F00BEEB8B /* DiaryDateFormatter.swift */; };
+		08C3B1BE2A0B8D8E00C0FB8B /* TitleStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C3B1BD2A0B8D8E00C0FB8B /* TitleStackView.swift */; };
 		08C6A70329F663D4005D3975 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08C6A70229F663D4005D3975 /* Diary.swift */; };
 		08CD0B3E2A0A1A9F00A0AA6C /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CD0B3D2A0A1A9F00A0AA6C /* NetworkError.swift */; };
 		08CD0B402A0A1BBD00A0AA6C /* DailyWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08CD0B3F2A0A1BBD00A0AA6C /* DailyWeather.swift */; };
@@ -39,6 +40,7 @@
 
 /* Begin PBXFileReference section */
 		081383622A08CB2F00BEEB8B /* DiaryDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDateFormatter.swift; sourceTree = "<group>"; };
+		08C3B1BD2A0B8D8E00C0FB8B /* TitleStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleStackView.swift; sourceTree = "<group>"; };
 		08C6A70229F663D4005D3975 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		08CD0B3D2A0A1A9F00A0AA6C /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		08CD0B3F2A0A1BBD00A0AA6C /* DailyWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWeather.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				1C9590B129F6504D004FD951 /* DiaryTableViewCell.swift */,
+				08C3B1BD2A0B8D8E00C0FB8B /* TitleStackView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -333,6 +336,7 @@
 				1CDA877F2A0A0667004A3285 /* OpenWeatherEndpoint.swift in Sources */,
 				08CD0B402A0A1BBD00A0AA6C /* DailyWeather.swift in Sources */,
 				08EB900129F7A7530061163B /* Array+Extension.swift in Sources */,
+				08C3B1BE2A0B8D8E00C0FB8B /* TitleStackView.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				1C6636522A038B6B00C85374 /* UIViewController+extension.swift in Sources */,
 				08D892482A009B14007CB670 /* DiaryDataModel.xcdatamodeld in Sources */,

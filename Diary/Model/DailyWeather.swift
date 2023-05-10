@@ -10,7 +10,6 @@ import Foundation
 struct DailyWeather: Decodable {
     let information: [WeatherInfo]
     
-    
     private enum CodingKeys: String, CodingKey {
         case information = "weather"
     }

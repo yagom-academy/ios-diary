@@ -16,6 +16,7 @@ final class CoreDataManager {
         static let body = "body"
         static let timeIntervalSince1970 = "timeIntervalSince1970"
         static let id = "id"
+        static let iconData = "iconData"
     }
     
     static let shared = CoreDataManager()
@@ -118,6 +119,7 @@ final class CoreDataManager {
         NSDiary?.setValue(diary.body, forKey: DiaryKey.body)
         NSDiary?.setValue(diary.timeIntervalSince1970, forKey: DiaryKey.timeIntervalSince1970)
         NSDiary?.setValue(diary.id, forKey: DiaryKey.id)
+        NSDiary?.setValue(diary.iconData, forKey: DiaryKey.iconData)
     }
     
     private func convertToDiaryModel(for entities: [DiaryEntity]) -> [Diary] {

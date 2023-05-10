@@ -70,7 +70,24 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        fetchWeatherIcon()
+        let formatter = DiaryDateFormatter.shared
+        
+        if writeMode == .create {
+            fetchWeatherIcon { resultData in
+                let date = self.diary?.timeIntervalSince1970 ?? formatter.nowTimeIntervalSince1970
+                let dateText = formatter.convertToString(from: date)
+                
+                let data = self.diary?.iconData ?? resultData
+                
+                DispatchQueue.main.async {
+                    let titleView = TitleStackView()
+                    titleView.configureContent(iconData: data, date: dateText)
+                    
+                    self.navigationItem.titleView = titleView
+                }
+               
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -81,7 +98,7 @@ final class DiaryDetailViewController: UIViewController {
     // MARK: - Methods
     private func configureLocationManager() {
         locationManager.delegate = self
-        print(locationManager.requestWhenInUseAuthorization())
+        locationManager.requestWhenInUseAuthorization()
     }
     
     private func checkWriteMode() {
@@ -93,12 +110,10 @@ final class DiaryDetailViewController: UIViewController {
         
         switch writeMode {
         case .create:
-            title = dateFormatter.nowDateText
             textView.becomeFirstResponder()
         case .update:
             guard let validDiary = diary else { return }
             
-            title = validDiary.formattedDateText
             id = validDiary.id
             textView.text = validDiary.sharedText
         }
@@ -215,9 +230,10 @@ final class DiaryDetailViewController: UIViewController {
         let components = contents.split(separator: "\n", maxSplits: 1)
         
         guard let title = components.first,
-              let date = self.title, let iconData = self.iconData else { return nil }
-        var body = components[safe: 1] ?? ""
+              let date = self.title,
+              let iconData = self.iconData else { return nil }
         
+        var body = components[safe: 1] ?? ""
         if body.first == "\n" {
             body.removeFirst()
         }
@@ -256,7 +272,7 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
-    private func verifyResult<T, E: Error>(result: Result<T,E>) throws -> T {
+    private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T {
         switch result {
         case.success(let data):
             return data
@@ -265,11 +281,10 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
-    private func fetchWeatherIcon() {
+    private func fetchWeatherIcon(completion: @escaping (Data) -> Void) {
         guard let latitude = self.latitude,
               let longitude = self.longitude else { return }
         
-        //개선의 여지가 있음.
         diaryService.fetchWeather(lat: latitude, lon: longitude) { result in
             
             guard let data = try? self.verifyResult(result: result),
@@ -278,7 +293,7 @@ final class DiaryDetailViewController: UIViewController {
             self.diaryService.fetchWeatherIcon(iconId: weather.information.first?.iconId) { result in
                 guard let data = try? self.verifyResult(result: result) else { return }
                 
-                self.iconData = data
+                completion(data)
             }
         }
     }
@@ -300,12 +315,13 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-       
         guard let location: CLLocation = locations.last else { return }
         let longitude1: CLLocationDegrees = location.coordinate.longitude
         let latitude1: CLLocationDegrees = location.coordinate.latitude
 
         self.latitude = Double(longitude1)
         self.longitude = Double(latitude1)
+        
+        manager.stopUpdatingLocation()
     }
 }
