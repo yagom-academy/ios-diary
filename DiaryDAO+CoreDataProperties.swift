@@ -27,11 +27,21 @@ extension DiaryDAO: DataAccessObject {
         self.body = data.body
         self.date = data.updatedDate
         self.id = data.id
+        
+        if let weatherData = data.weather {
+            self.weather?.setValues(from: weatherData)
+        }
     }
     
     func updateValue(data: Diary) {
+        guard data.id == self.id else { return }
+        
         self.title = data.title
         self.body = data.body
         self.date = data.updatedDate
+        
+        if let weatherData = data.weather {
+            self.weather?.updateValue(data: weatherData)
+        }
     }
 }

@@ -64,4 +64,8 @@ struct CoreDataManager {
         storage.context.delete(object)
         storage.saveContext()
     }
+    
+    func saveContext() {
+        storage.saveContext()
+    }
 }
