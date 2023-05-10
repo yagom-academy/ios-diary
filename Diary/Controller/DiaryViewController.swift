@@ -53,6 +53,22 @@ final class DiaryViewController: UIViewController {
         }
     }
     
+//    private func loadImage(url: URL?, completion: @escaping (UIImage?) -> Void) {
+//        guard let url = url else { return }
+//
+//        DispatchQueue.global(qos: .background).async {
+//            guard let data = try? Data(contentsOf: url) else {
+//                completion(nil)
+//                return
+//            }
+//            guard let image = UIImage(data: data) else {
+//                completion(nil)
+//                return
+//            }
+//            completion(image)
+//        }
+//    }
+    
     @objc private func plusButtonTapped() {
         pushDiaryDetailViewController(.create)
     }
@@ -65,11 +81,11 @@ extension DiaryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryInfoTableViewCell.identifier) as? DiaryInfoTableViewCell,
-              let sampleDiaryItem = diaryItems[safe: indexPath.row] else {
+              let diaryItem = diaryItems[safe: indexPath.row] else {
             return UITableViewCell()
         }
         
-        cell.configureLabel(item: sampleDiaryItem)
+        cell.configureLabel(item: diaryItem)
         
         return cell
     }

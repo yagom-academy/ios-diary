@@ -31,6 +31,13 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         
         return label
     }()
+    private let weatherIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,6 +54,7 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         
         titleLabel.text = nil
         dateLabel.text = nil
+        weatherIconView.image = nil
         bodyLabel.text = nil
     }
     
@@ -57,6 +65,9 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         titleLabel.text = parsedContent.title
         dateLabel.text = item.date?.convertToDate()
         bodyLabel.text = parsedContent.body
+        
+        let url = DiaryEndPoint.icon(id: item.iconID).url
+        weatherIconView.loadImage(url: url)
     }
     
     private func parseContent(_ content: String) -> (title: String?, body: String?) {
@@ -78,11 +89,11 @@ final class DiaryInfoTableViewCell: UITableViewCell {
 // MARK: UI
 extension DiaryInfoTableViewCell {
     private func configureCell() {
-        let dateAndBodyStackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
+        let bottomStackView = UIStackView(arrangedSubviews: [dateLabel, weatherIconView, bodyLabel])
         
-        dateAndBodyStackView.spacing = 5
+        bottomStackView.spacing = 5
         
-        let diaryStackView = UIStackView(arrangedSubviews: [titleLabel, dateAndBodyStackView])
+        let diaryStackView = UIStackView(arrangedSubviews: [titleLabel, bottomStackView])
         
         diaryStackView.axis = .vertical
         diaryStackView.spacing = 5
@@ -95,5 +106,21 @@ extension DiaryInfoTableViewCell {
             diaryStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -3),
             diaryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3)
         ])
+    }
+}
+
+fileprivate extension UIImageView {
+    func loadImage(url: URL?) {
+        guard let url = url else { return }
+        
+        DispatchQueue.global(qos: .background).async {
+            guard let data = try? Data(contentsOf: url) else { return }
+            
+            guard let image = UIImage(data: data) else { return }
+            
+            DispatchQueue.main.async { [weak self] in
+                self?.image = image
+            }
+        }
     }
 }
