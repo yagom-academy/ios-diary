@@ -11,7 +11,7 @@ final class DiaryListViewController: UIViewController {
     private var diaryList: [Diary] = []
     private let alertMaker: DiaryAlertFactory = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
-    private let dataManager = CoreDataManager()
+    private let diaryDataManager = DiaryDataManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -69,11 +69,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func fetchDiaryList() {
-        let sortDescription = SortDescription(key: "date", ascending: false)
-        let result = dataManager.readAllDAO(type: DiaryDAO.self, sortDescription: sortDescription)
-        let mappedList = result.map { Diary(diaryDAO: $0) }
-        
-        self.diaryList = mappedList
+        let diaryList = diaryDataManager.readAll()
+        self.diaryList = diaryList
     }
 }
 
@@ -157,7 +154,7 @@ extension DiaryListViewController {
             
             let id = self.diaryList[indexPath.row].id
             
-            self.dataManager.deleteDAO(type: DiaryDAO.self, id: id)
+            self.diaryDataManager.delete(id: id)
             self.diaryList.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }

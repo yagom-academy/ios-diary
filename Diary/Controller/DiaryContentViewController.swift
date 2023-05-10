@@ -16,7 +16,7 @@ final class DiaryContentViewController: UIViewController {
     private let textView = UITextView()
     private let alertFactory: DiaryAlertFactory = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
-    private let storage = CoreDataManager()
+    private let diaryDataManager = DiaryDataManager()
     private let locationManager = CLLocationManager()
     private let weatherDataLoader = OpenWetherDataLoader()
 
@@ -61,9 +61,8 @@ final class DiaryContentViewController: UIViewController {
         if isDiaryEdited(currentContents) {
             diary.updateContents(title: currentContents.title,
                                  body: currentContents.body,
-                                 updatedDate: updatedDate,
-                                 weather: self.weather)
-            storage.updateDAO(type: DiaryDAO.self, data: diary)
+                                 updatedDate: updatedDate)
+            diaryDataManager.update(data: diary)
         }
     }
     
@@ -163,10 +162,11 @@ final class DiaryContentViewController: UIViewController {
             let createdDate = Date().timeIntervalSince1970
             
             self.diary = Diary(title: "", body: "", updatedDate: createdDate)
+            self.diary?.weather = Weather()
             
             guard let diary else { return }
             
-            storage.createDAO(type: DiaryDAO.self, from: diary)
+            diaryDataManager.create(data: diary)
         }
     }
 }
@@ -235,7 +235,7 @@ extension DiaryContentViewController {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
             guard let self, let id = self.diary?.id else { return }
             
-            self.storage.deleteDAO(type: DiaryDAO.self, id: id)
+            self.diaryDataManager.delete(id: id)
             self.diary = nil
             self.navigationController?.popViewController(animated: true)
         }
@@ -268,7 +268,7 @@ extension DiaryContentViewController: CLLocationManagerDelegate {
                 case .success(let currentWeather):
                     guard let weather = currentWeather.weather.first else { return }
                     
-                    self.weather = weather
+                    self.diary?.weather?.updateContents(main: weather.main, icon: weather.icon)
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

@@ -37,10 +37,9 @@ final class Diary: DataTransferObject {
         }
     }
 
-    func updateContents(title: String?, body: String?, updatedDate: Double, weather: Weather?) {
+    func updateContents(title: String?, body: String?, updatedDate: Double) {
         self.title = title
         self.body = body
         self.updatedDate = updatedDate
-        self.weather = weather
     }
 }
