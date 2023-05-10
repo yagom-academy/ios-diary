@@ -56,7 +56,7 @@ final class DiaryListViewController: UIViewController {
         let endPoint = EndPoint.weatherImage(iconCode: iconCode).asURLRequest()
         var iconImage: UIImage?
         
-        NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
+        NetworkManager().fetchData(urlRequest: endPoint) { [weak self, weak cell] result in
             guard let self else { return }
 
             switch result {
@@ -64,9 +64,8 @@ final class DiaryListViewController: UIViewController {
                 iconImage = UIImage(data: image)
 
                 DispatchQueue.main.async {
-                    cell.configure(iconImage: iconImage)
+                    cell?.configure(iconImage: iconImage)
                 }
-                
             case .failure(let error):
                 DispatchQueue.main.async {
                     AlertManager().showErrorAlert(target: self, error: error)

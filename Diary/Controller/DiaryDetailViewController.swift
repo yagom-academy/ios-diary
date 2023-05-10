@@ -47,7 +47,7 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        checkLocation()
+        checkStatusToAddIcon()
         configureUIOption()
         configureTextView()
         configureLayout()
@@ -66,9 +66,18 @@ final class DiaryDetailViewController: UIViewController {
         textView.resignFirstResponder()
     }
     
-    private func checkLocation() {
-        guard contents == nil else { return }
+    private func checkStatusToAddIcon() {
+        guard contents != nil else {
+            activateLocation()
+            return
+        }
         
+        if let iconCode = contents?.weather?.iconCode {
+            fetchWeatherImage(iconCode: iconCode)
+        }
+    }
+    
+    private func activateLocation() {
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
         locationManager.startUpdatingLocation()
