@@ -20,7 +20,7 @@ protocol EndpointMakable {
 
 extension EndpointMakable {
     
-    private func makeURL() -> URL? {
+    func makeURL() -> URL? {
         var urlComponents = URLComponents(string: baseURL)
         urlComponents?.path = path
         urlComponents?.queryItems = queryItems

@@ -5,6 +5,7 @@
 // 
 
 import UIKit
+import CoreLocation
 
 final class DiaryViewController: UIViewController {
     // MARK: - Nested Type

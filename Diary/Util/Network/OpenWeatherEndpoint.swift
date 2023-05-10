@@ -14,7 +14,7 @@ struct OpenWeatherEndpoint: EndpointMakable {
     private(set) var queryItems: [URLQueryItem] = []
     private(set) var header: [String: String]?
     
-    mutating func updateCoordinate(lat: String, lon: String) {
+    mutating func updateQuery(lat: String, lon: String) {
         queryItems.removeAll()
         
         queryItems.append(URLQueryItem(name: "appid", value: "999fe28a79a2691ec4db3d709dca4e4d"))

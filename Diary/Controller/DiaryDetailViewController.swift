@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryDetailViewController: UIViewController {
     // MARK: - Nested Type
@@ -23,8 +24,11 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     // MARK: - Properties
+    private let locationManager = CLLocationManager()
     private let dateFormatter = DiaryDateFormatter.shared
     private var writeMode = WriteMode.create
+    private var longitude: Double?
+    private var latitude: Double?
     private var diary: Diary?
     private var id = UUID()
     private var isSave: Bool = true
@@ -53,11 +57,13 @@ final class DiaryDetailViewController: UIViewController {
     // MARK: - State Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureLocationManager()
         checkWriteMode()
         configureUI()
         configureLayout()
         configureNavigationBar()
         configureNotification()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -68,6 +74,11 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     // MARK: - Methods
+    private func configureLocationManager() {
+        locationManager.delegate = self
+        print(locationManager.requestWhenInUseAuthorization())
+    }
+    
     private func checkWriteMode() {
         writeMode = diary == nil ? .create : .update
     }
@@ -237,5 +248,37 @@ final class DiaryDetailViewController: UIViewController {
         } else {
             return trimmedText
         }
+    }
+}
+
+extension DiaryDetailViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        //location5
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("GPS 권한 설정됨")
+            self.locationManager.startUpdatingLocation() // 중요!
+        case .restricted, .notDetermined:
+            print("GPS 권한 설정되지 않음")
+        case .denied:
+            print("GPS 권한 요청 거부됨")
+        default:
+            print("GPS: Default")
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+
+            // the most recent location update is at the end of the array.
+            let location: CLLocation = locations[locations.count - 1]
+            let longitude: CLLocationDegrees = location.coordinate.longitude
+            let latitude: CLLocationDegrees = location.coordinate.latitude
+        let lon = Double(longitude)
+        let lat = Double(latitude)
+        self.latitude = lat
+        self.longitude = lon
+        
+        print(latitude)
+        print(longitude)
     }
 }

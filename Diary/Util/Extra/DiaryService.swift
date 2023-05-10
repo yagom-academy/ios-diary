@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import CoreLocation
 
 class DiaryService {
     private let provider = APIProvider()
+    private let locationManager = CLLocationManager()
     private var endPoint = OpenWeatherEndpoint()
     
     private var latitude: Double = 0
@@ -17,12 +19,16 @@ class DiaryService {
     private var weather: Weather?
     
     func fetchWeather(completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        endPoint.updateCoordinate(lat: String(latitude), lon: String(longitude))
+        endPoint.updateQuery(lat: String(latitude), lon: String(longitude))
         
         guard let request = endPoint.makeURLRequest() else { return }
         
         provider.fetchData(request: request) { result in
             completion(result)
         }
+    }
+    
+    private func updateCoordinate() {
+        
     }
 }
