@@ -57,6 +57,12 @@ final class DiaryListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configureContent(data: Diary) {
+        titleLabel.text = data.title
+        bodyLabel.text = data.body.removeNewLinePrefix()
+        dateLabel.text = Date(timeIntervalSince1970: data.date).convertDate()
+    }
+    
     private func configureSubViews() {
         contentView.addSubview(contentStackView)
         contentStackView.addArrangedSubview(titleLabel)
@@ -72,11 +78,5 @@ final class DiaryListCell: UITableViewCell {
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
         ])
-    }
-    
-    func configureContent(data: Diary) {
-        titleLabel.text = data.title
-        bodyLabel.text = data.body
-        dateLabel.text = Date(timeIntervalSince1970: data.date).convertDate()
     }
 }

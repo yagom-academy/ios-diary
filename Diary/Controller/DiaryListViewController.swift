@@ -5,19 +5,19 @@
 // 
 
 import UIKit
+import CoreData
 
 final class DiaryListViewController: UIViewController {
-    private let diaryDataDecoder = DiaryDataDecoder()
-    
-    private var diary: [Diary]? {
-        return diaryDataDecoder.decodeDiaryData()
+    private var coreDataManager = CoreDataManager.shared
+    private var diaries: [Diary]? {
+        return coreDataManager.readDiary()
     }
-        
+    
     private let diaryListTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         return tableView
     }()
     
@@ -26,6 +26,11 @@ final class DiaryListViewController: UIViewController {
         configureUI()
         configureSubview()
         configureConstraint()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        diaryListTableView.reloadData()
     }
     
     private func configureUI() {
@@ -43,7 +48,8 @@ final class DiaryListViewController: UIViewController {
     
     @objc
     private func addDiary() {
-        let detailDiaryViewController = DetailDiaryViewController()
+        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: true,
+                                                                  isSaveRequired: true)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
     }
     
@@ -63,9 +69,9 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let diary else { return 0 }
+        guard let diaries else { return 0 }
         
-        return diary.count
+        return diaries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,10 +81,10 @@ extension DiaryListViewController: UITableViewDataSource {
         
         cell.accessoryType = .disclosureIndicator
         
-        guard let diary else { return DiaryListCell() }
+        guard let diaries else { return DiaryListCell() }
         
-        cell.configureContent(data: diary[indexPath.row])
-
+        cell.configureContent(data: diaries[indexPath.row])
+        
         return cell
     }
 }
@@ -87,15 +93,52 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         
-        let detailDiaryViewController = DetailDiaryViewController()
+        let detailDiaryViewController = DetailDiaryViewController(isCreateDiary: false,
+                                                                  isSaveRequired: true)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
         
-        guard let diary else { return }
+        guard let diaries else { return }
         
-        detailDiaryViewController.configureContent(diary: diary[indexPath.row])
+        detailDiaryViewController.configureContent(diary: diaries[indexPath.row])
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let diaries else { return nil }
+        
+        let share = UIContextualAction(style: .normal, title: NameSpace.share) { action, view, completionHandler in
+            let title = diaries[indexPath.row].title
+            let body = diaries[indexPath.row].body
+            
+            ActionController.showActivityViewController(from: self,
+                                                        title: title,
+                                                        body: body)
+            completionHandler(true)
+            
+        }
+        
+        let delete = UIContextualAction(style: .destructive, title: NameSpace.delete) { action, view, completionHandler in
+            let diaryToDelete = diaries[indexPath.row]
+            
+            do {
+                try self.coreDataManager.deleteDiary(diary: diaryToDelete)
+            } catch {
+                let alert = UIAlertController(title: "알림", message: "\(error)", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "확인", style: .default)
+                alert.addAction(okAction)
+                self.present(alert, animated: true)
+            }
+            
+            tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [delete, share])
     }
 }
 
 private enum NameSpace {
     static let diary = "일기장"
+    static let share = "공유"
+    static let delete = "삭제"
+    static let newline = "\n"
 }
