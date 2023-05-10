@@ -10,15 +10,13 @@ import Foundation
 struct NetworkManager {
     private let session: URLSession = .shared
     
-    func fetchData<T: Decodable>(request: URLRequest?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-        guard let request = request else {
+    func fetchData<T: Decodable>(url: URL?, type: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
+        guard let url = url else {
             completion(.failure(NetworkError.urlError))
             return
         }
         
-        session.dataTask(with: request) { [weak self] data, response, error in
-            guard let self = self else { return }
-            
+        session.dataTask(with: url) { data, response, error in
             self.checkError(with: data, response, error) { result in
                 switch result {
                 case .success(let data):

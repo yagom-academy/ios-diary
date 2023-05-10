@@ -7,10 +7,10 @@
 
 import Foundation
 
-struct WeatherData: Codable {
+struct WeatherData: Decodable {
     let weather: [Weather]
 }
 
-struct Weather: Codable {
+struct Weather: Decodable {
     let icon: String
 }

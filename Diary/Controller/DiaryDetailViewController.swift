@@ -18,8 +18,9 @@ final class DiaryDetailViewController: UIViewController {
     }()
     private var diaryItem: Diary?
     private var state: DiaryState
-    private let manager = PersistenceManager()
+    private let persistenceManager = PersistenceManager()
     private var locationManager = CLLocationManager()
+    private let networkManager = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,15 +28,6 @@ final class DiaryDetailViewController: UIViewController {
         configureUI()
         configureInitailView()
         setupNotification()
-        
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        
-//        print(locationManager.location?.coordinate.latitude)
-//        print(locationManager.location?.coordinate.longitude)
-        guard let location = locationManager.location?.coordinate else { return }
-        
-        print(DiaryEndPoint.weather(lat: location.latitude, lon: location.longitude).url)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -62,7 +54,9 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureInitailView() {
-        self.navigationController?.delegate = self
+        navigationController?.delegate = self
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
         
         guard let diaryItem = diaryItem else {
             self.navigationItem.title = Date().convertToDate()
@@ -85,6 +79,21 @@ final class DiaryDetailViewController: UIViewController {
                                                object: nil)
     }
     
+    private func fetchWeatherID() {
+        guard let location = locationManager.location?.coordinate else { return }
+        
+        let url = DiaryEndPoint.weather(lat: location.latitude, lon: location.longitude).url
+        
+        networkManager.fetchData(url: url, type: WeatherData.self) { [weak self] result in
+            switch result {
+            case .success(let data):
+                print(data.weather[0].icon)
+            case .failure(let error):
+                self?.showFailAlert(error: error)
+            }
+        }
+    }
+    
     @objc private func endEditingDiary() {
         guard !diaryTextView.text.isEmpty else { return }
         
@@ -93,7 +102,7 @@ final class DiaryDetailViewController: UIViewController {
         switch state {
         case .create:
             let date = Date()
-            manager.createContent(content, date) { [weak self] result in
+            persistenceManager.createContent(content, date) { [weak self] result in
                 switch result {
                 case .success(let diary):
                     self?.diaryItem = diary
@@ -105,7 +114,7 @@ final class DiaryDetailViewController: UIViewController {
         case .edit:
             guard let diary = diaryItem else { return }
             
-            manager.updateContent(at: diary, content) { [weak self] result in
+            persistenceManager.updateContent(at: diary, content) { [weak self] result in
                 switch result {
                 case .success():
                     return
@@ -190,7 +199,7 @@ extension DiaryDetailViewController {
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let diaryItem = self?.diaryItem else { return }
             
-            self?.manager.deleteContent(at: diaryItem, completion: { [weak self] result in
+            self?.persistenceManager.deleteContent(at: diaryItem, completion: { [weak self] result in
                 switch result {
                 case .success():
                     self?.navigationController?.popViewController(animated: true)

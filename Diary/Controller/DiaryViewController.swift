@@ -9,7 +9,7 @@ import UIKit
 final class DiaryViewController: UIViewController {
     private let tableView: UITableView = UITableView()
     private var diaryItems: [Diary] = []
-    private let manager = PersistenceManager()
+    private let persistenceManager = PersistenceManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +22,7 @@ final class DiaryViewController: UIViewController {
     }
     
     func fetchDiary() {
-        manager.fetchContent { [weak self] result in
+        persistenceManager.fetchContent { [weak self] result in
             switch result {
             case .success(let diary):
                 self?.diaryItems = diary
@@ -40,7 +40,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func deleteTableViewItem(item: Diary, indexPath: IndexPath) {
-        manager.deleteContent(at: item) { [weak self] result in
+        persistenceManager.deleteContent(at: item) { [weak self] result in
             switch result {
             case .success():
                 self?.tableView.performBatchUpdates({
