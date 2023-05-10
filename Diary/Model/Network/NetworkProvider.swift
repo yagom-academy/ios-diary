@@ -2,7 +2,7 @@
 //  NetworkProvider.swift
 //  Diary
 //
-//  Created by Andrew on 2023/05/10.
+//  Created by Andrew, brody on 2023/05/10.
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import Foundation
 protocol NetworkProvider {
     var session: URLSession { get }
     func request<T: APIEndpoint>(
-        request: T,
+        _ request: T,
         completion: @escaping (Result<T.APIResponse, NetworkError>) -> Void )
 }
 
