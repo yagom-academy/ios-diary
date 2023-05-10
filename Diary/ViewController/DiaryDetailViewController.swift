@@ -70,7 +70,6 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
         configureNavigationBar()
         configureDiaryView()
         setUpKeyboardNotification()
-        setUpBackgroundNotification()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -221,7 +220,7 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
         view.endEditing(true)
     }
     
-    @objc private func saveDiary() {
+    @objc func saveDiary() {
         guard let titleText = titleText,
               let bodyText = bodyText else {
             AlertManager.shared.showAlert(target: self,
@@ -253,7 +252,7 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
         }
         mode = .edit
     }
-    
+
     // MARK: weatherAPI
     private func fetchWeatherAPI() {
         guard let latitude = self.latitude,
@@ -271,16 +270,6 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
                 self.icon = result.weather[0].icon
             }
         }
-    }
-    
-    // MARK: Background
-    private func setUpBackgroundNotification() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(saveDiary),
-            name: UIScene.willDeactivateNotification,
-            object: nil
-        )
     }
 }
 
