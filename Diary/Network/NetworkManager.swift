@@ -8,15 +8,13 @@
 import Foundation
 
 struct NetworkManager {
-    let urlSession = URLSession.shared
-    
     func fetchData(urlRequest: URLRequest?, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let urlRequest else {
             completion(.failure(NetworkError.invalidURL))
             return
         }
         
-        let task = urlSession.dataTask(with: urlRequest) { data, response, error in
+        let task = URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let error {
                 completion(.failure(NetworkError.transportFailed(error)))
                 return

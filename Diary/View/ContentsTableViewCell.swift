@@ -101,17 +101,3 @@ final class ContentsTableViewCell: UITableViewCell {
         ])
     }
 }
-
-private extension UILabel {
-    func applyAttribute(targetString: String) {
-        guard let fullText = text else { return }
-        
-        let attributedString = NSMutableAttributedString(string: fullText)
-        let range = (fullText as NSString).range(of: targetString)
-
-        attributedString.addAttribute(.font,
-                                      value: UIFont.preferredFont(forTextStyle: .body),
-                                      range: range)
-        attributedText = attributedString
-    }
-}

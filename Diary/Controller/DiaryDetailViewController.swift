@@ -12,6 +12,7 @@ final class DiaryDetailViewController: UIViewController {
     private var contents: ContentsDTO?
     private var weather: Weather?
     private let locationManager = CLLocationManager()
+    private weak var delegate: DiaryDetailViewControllerDelegate?
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -33,10 +34,10 @@ final class DiaryDetailViewController: UIViewController {
         return label
     }()
     
-    weak var delegate: DiaryDetailViewControllerDelegate?
-    
-    init(contents: ContentsDTO?) {
+    init(contents: ContentsDTO?, delegate: DiaryDetailViewControllerDelegate? = nil) {
         self.contents = contents
+        self.delegate = delegate
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -69,6 +70,7 @@ final class DiaryDetailViewController: UIViewController {
     private func checkStatusToAddIcon() {
         guard contents != nil else {
             activateLocation()
+            
             return
         }
         
@@ -180,28 +182,34 @@ final class DiaryDetailViewController: UIViewController {
 
             switch result {
             case .success(let data):
-                let weather = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
-
-                switch weather {
-                case .success(let weather):
-                    guard let weatherIconCode = weather.weather.first?.iconCode,
-                          let weatherType = weather.weather.first?.type else {
-                        DispatchQueue.main.async {
-                            AlertManager().showErrorAlert(target: self, error: NetworkError.dataNotFound)
-                        }
-                        return
-                    }
-                    self.weather = Weather(type: weatherType, iconCode: weatherIconCode)
-                    self.fetchWeatherImage(iconCode: weatherIconCode)
-                case .failure(let error):
-                    DispatchQueue.main.async {
-                        AlertManager().showErrorAlert(target: self, error: error)
-                    }
-                }
+                decode(data)
             case .failure(let error):
                 DispatchQueue.main.async {
                     AlertManager().showErrorAlert(target: self, error: error)
                 }
+            }
+        }
+    }
+    
+    private func decode(_ data: Data) {
+        let result = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
+        
+        switch result {
+        case .success(let weather):
+            guard let weatherIconCode = weather.weather.first?.iconCode,
+                  let weatherType = weather.weather.first?.type else {
+                DispatchQueue.main.async {
+                    AlertManager().showErrorAlert(target: self, error: NetworkError.dataNotFound)
+                }
+                
+                return
+            }
+            
+            self.weather = Weather(type: weatherType, iconCode: weatherIconCode)
+            self.fetchWeatherImage(iconCode: weatherIconCode)
+        case .failure(let error):
+            DispatchQueue.main.async {
+                AlertManager().showErrorAlert(target: self, error: error)
             }
         }
     }
@@ -231,6 +239,7 @@ extension DiaryDetailViewController {
     @objc private func saveContents() {
         guard contents != nil else {
             createContents()
+            
             return
         }
         

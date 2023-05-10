@@ -9,12 +9,6 @@ import Foundation
 
 typealias Query = [String: String]
 
-protocol EndpointType {
-    var baseURL: String { get }
-    var path: String { get }
-    func asURLRequest() -> URLRequest?
-}
-
 // MARK: - EndPoint
 enum EndPoint {
     case weatherInfo(latitude: String, longitude: String)
@@ -25,8 +19,8 @@ enum EndPoint {
     }
 }
 
-extension EndPoint: EndpointType {
-    var baseURL: String {
+extension EndPoint {
+    private var baseURL: String {
         switch self {
         case .weatherInfo:
             return "https://api.openweathermap.org"
@@ -35,7 +29,7 @@ extension EndPoint: EndpointType {
         }
     }
     
-    var path: String {
+    private var path: String {
         switch self {
         case .weatherInfo:
             return "/data/2.5/weather"
