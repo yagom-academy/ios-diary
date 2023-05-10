@@ -9,7 +9,7 @@ import UIKit
 final class DiaryViewController: UIViewController {
     private let tableView: UITableView = UITableView()
     private var diaryItems: [Diary] = []
-    private let manager = PersistenceManager.shared
+    private let manager = PersistenceManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()

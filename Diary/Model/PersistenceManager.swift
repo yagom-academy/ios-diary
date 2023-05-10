@@ -7,115 +7,85 @@
 
 import Foundation
 import CoreData
+import UIKit
 
 final class PersistenceManager {
-    static var shared: PersistenceManager = PersistenceManager()
+    private var context: NSManagedObjectContext?
     
-    private var container: NSPersistentContainer?
+    init() {
+        self.context = getContext()
+    }
     
-    private init() { }
-    
-    private func getContext(completion: @escaping (Result<NSManagedObjectContext, CoreDataError>) -> Void) {
-        guard let container = self.container else {
-            let container = NSPersistentContainer(name: "Diary")
-            container.loadPersistentStores { _, error in
-                guard error == nil else {
-                    completion(.failure(.persistentLoadError))
-                    return
-                }
-            }
-            
-            self.container = container
-            completion(.success(container.viewContext))
-            return
-        }
-        completion(.success(container.viewContext))
+    private func getContext() -> NSManagedObjectContext? {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else { return nil }
+        
+        return appDelegate.persistentContainer.viewContext
     }
     
     func createContent(_ content: String?, _ date: Double, completion: @escaping (Result<Diary, CoreDataError>) -> Void) {
-        getContext { result in
-            switch result {
-            case .success(let context):
-                guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context) else { return }
-                
-                let managedObject = NSManagedObject(entity: entity, insertInto: context)
-                
-                managedObject.setValue(content, forKey: "content")
-                managedObject.setValue(date, forKey: "date")
-                
-                guard let diary = managedObject as? Diary else { return }
-                
-                do {
-                    try context.save()
-                } catch {
-                    completion(.failure(.createError))
-                }
-                
-                completion(.success(diary))
-            case .failure(let error):
-                completion(.failure(error))
-            }
+        guard let context = context else { return }
+        
+        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context) else { return }
+        
+        let managedObject = NSManagedObject(entity: entity, insertInto: context)
+        
+        managedObject.setValue(content, forKey: "content")
+        managedObject.setValue(date, forKey: "date")
+        
+        guard let diary = managedObject as? Diary else { return }
+        
+        do {
+            try context.save()
+        } catch {
+            completion(.failure(.createError))
         }
+        
+        completion(.success(diary))
     }
     
     func fetchContent(completion: @escaping (Result<[Diary], CoreDataError>) -> Void) {
+        guard let context = context else { return }
+        
         let fetchRequest = NSFetchRequest<Diary>(entityName: "Diary")
         let sort = NSSortDescriptor(key: "date", ascending: false)
         
         fetchRequest.sortDescriptors = [sort]
         
-        getContext { result in
-            switch result {
-            case .success(let context):
-                do {
-                    let diaryData = try context.fetch(fetchRequest)
-                    completion(.success(diaryData))
-                } catch {
-                    completion(.failure(.fetchError))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
+        do {
+            let diaryData = try context.fetch(fetchRequest)
+            completion(.success(diaryData))
+        } catch {
+            completion(.failure(.fetchError))
         }
     }
     
     func updateContent(at diary: Diary, _ content: String?, completion: @escaping (Result<Void, CoreDataError>) -> Void) {
-        getContext { result in
-            switch result {
-            case .success(let context):
-                do {
-                    let item = try context.existingObject(with: diary.objectID)
-                    
-                    item.setValue(content, forKey: "content")
-                    
-                    try context.save()
-                    completion(.success(()))
-                } catch {
-                    completion(.failure(.updateError))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
+        guard let context = context else { return }
+        
+        do {
+            let item = try context.existingObject(with: diary.objectID)
+            
+            item.setValue(content, forKey: "content")
+            
+            try context.save()
+            completion(.success(()))
+        } catch {
+            completion(.failure(.updateError))
         }
     }
     
     func deleteContent(at diary: Diary, completion: @escaping (Result<Void, CoreDataError>) -> Void) {
-        getContext { result in
-            switch result {
-            case .success(let context):
-                do {
-                    let item = try context.existingObject(with: diary.objectID)
-                    
-                    context.delete(item)
-                    
-                    try context.save()
-                    completion(.success(()))
-                } catch {
-                    completion(.failure(.deleteError))
-                }
-            case .failure(let error):
-                completion(.failure(error))
-            }
+        guard let context = context else { return }
+        
+        do {
+            let item = try context.existingObject(with: diary.objectID)
+            
+            context.delete(item)
+            
+            try context.save()
+            completion(.success(()))
+        } catch {
+            completion(.failure(.deleteError))
         }
     }
 }

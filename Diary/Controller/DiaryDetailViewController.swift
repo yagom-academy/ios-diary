@@ -17,7 +17,7 @@ final class DiaryDetailViewController: UIViewController {
     }()
     private var diaryItem: Diary?
     private var state: DiaryState
-    private let manager = PersistenceManager.shared
+    private let manager = PersistenceManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
