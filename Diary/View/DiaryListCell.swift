@@ -28,7 +28,6 @@ final class DiaryListCell: UITableViewCell {
     
     private let iconView: UIImageView = {
         let imageView = UIImageView()
-//        imageView.setContentHuggingPriority(.required, for: .horizontal)
         
         return imageView
     }()
