@@ -2,7 +2,7 @@
 //  APIEndpoint.swift
 //  Diary
 //
-//  Created by Andrew on 2023/05/10.
+//  Created by Andrew, brody on 2023/05/10.
 //
 
 import Foundation
