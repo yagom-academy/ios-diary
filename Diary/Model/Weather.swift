@@ -12,8 +12,14 @@ struct CurrentWeather: Codable {
 }
 
 final class Weather: Codable, DataTransferObject {
-    var main, icon: String
+    var main, icon: String?
     var id = UUID()
+    
+    init(weatherDAO: WeatherDAO) {
+        self.main = weatherDAO.main
+        self.icon = weatherDAO.icon
+        self.id = weatherDAO.id
+    }
     
     func updateContents(main: String, icon: String) {
         self.main = main

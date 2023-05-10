@@ -31,6 +31,10 @@ final class Diary: DataTransferObject {
         self.body = diaryDAO.body
         self.updatedDate = diaryDAO.date
         self.id = diaryDAO.id
+        
+        if let weatherDAO = diaryDAO.weather {
+            self.weather = Weather(weatherDAO: weatherDAO)
+        }
     }
 
     func updateContents(title: String?, body: String?, updatedDate: Double, weather: Weather?) {

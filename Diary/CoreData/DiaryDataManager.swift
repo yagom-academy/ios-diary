@@ -17,10 +17,16 @@ struct DiaryDataManager {
         diaryDAO?.weather = weatherDAO
         diaryDAO?.setValues(from: data)
         
-        if let weather = data.weather {
-            weatherDAO?.setValues(from: weather)
+        coreDataManager.saveContext()
+    }
+    
+    func readAll() -> [Diary] {
+        let sortDescription = SortDescription(key: "date", ascending: false)
+        let diaryDAOList = coreDataManager.readAllDAO(type: DiaryDAO.self, sortDescription: sortDescription)
+        let diaryList = diaryDAOList.map { diaryDAO in
+            Diary(diaryDAO: diaryDAO)
         }
         
-        coreDataManager.saveContext()
+        return diaryList
     }
 }

@@ -12,7 +12,7 @@ import CoreData
 extension WeatherDAO {
     @NSManaged public var main: String?
     @NSManaged public var icon: String?
-    @NSManaged public var id: UUID?
+    @NSManaged public var id: UUID
     @NSManaged public var diary: DiaryDAO?
 }
 
