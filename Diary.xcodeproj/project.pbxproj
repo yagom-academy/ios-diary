@@ -27,6 +27,7 @@
 		ADCEF2812A0A77D600CE0EA7 /* WeatherDAO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCEF27D2A0A77D600CE0EA7 /* WeatherDAO+CoreDataProperties.swift */; };
 		ADCEF2822A0A77D600CE0EA7 /* DiaryDAO+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCEF27E2A0A77D600CE0EA7 /* DiaryDAO+CoreDataClass.swift */; };
 		ADCEF2832A0A77D600CE0EA7 /* DiaryDAO+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCEF27F2A0A77D600CE0EA7 /* DiaryDAO+CoreDataProperties.swift */; };
+		ADCEF2852A0B662B00CE0EA7 /* NotCoded.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADCEF2842A0B662B00CE0EA7 /* NotCoded.swift */; };
 		ADD4EFAE2A012EFA00FF0529 /* ActionSheetViewData.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADD4EFAD2A012EFA00FF0529 /* ActionSheetViewData.swift */; };
 		ADDB489329F7C81300BE5B04 /* DateFormatter+diaryForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDB489229F7C81300BE5B04 /* DateFormatter+diaryForm.swift */; };
 		ADDB489729F8BA8700BE5B04 /* DiaryContentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADDB489629F8BA8700BE5B04 /* DiaryContentViewController.swift */; };
@@ -69,6 +70,7 @@
 		ADCEF27D2A0A77D600CE0EA7 /* WeatherDAO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherDAO+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		ADCEF27E2A0A77D600CE0EA7 /* DiaryDAO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryDAO+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		ADCEF27F2A0A77D600CE0EA7 /* DiaryDAO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryDAO+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		ADCEF2842A0B662B00CE0EA7 /* NotCoded.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotCoded.swift; sourceTree = "<group>"; };
 		ADD4EFAD2A012EFA00FF0529 /* ActionSheetViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewData.swift; sourceTree = "<group>"; };
 		ADDB489229F7C81300BE5B04 /* DateFormatter+diaryForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+diaryForm.swift"; sourceTree = "<group>"; };
 		ADDB489629F8BA8700BE5B04 /* DiaryContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentViewController.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 		4AD397A029F79ED50066EB8E /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				ADCEF2842A0B662B00CE0EA7 /* NotCoded.swift */,
 				4AD397A629F7AF0C0066EB8E /* Diary.swift */,
 				ADCB774C2A0A22C800122158 /* Weather.swift */,
 				ADCB774A2A0A1F9600122158 /* OpenWetherDataLoader.swift */,
@@ -422,6 +425,7 @@
 				ADCB77492A0A131500122158 /* NetworkManager.swift in Sources */,
 				ADCB77442A08E37F00122158 /* SortDescription.swift in Sources */,
 				4A863D702A0A06D000B3C8CC /* API.swift in Sources */,
+				ADCEF2852A0B662B00CE0EA7 /* NotCoded.swift in Sources */,
 				C739AE2F284DF28600741E8F /* DiaryDAO.xcdatamodeld in Sources */,
 				ADCB774D2A0A22C800122158 /* Weather.swift in Sources */,
 				4AD397BD29FA61870066EB8E /* DiaryAlertDataFactory.swift in Sources */,

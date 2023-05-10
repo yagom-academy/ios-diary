@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct CurrentWeather: Codable {
+struct CurrentWeather: Decodable {
     let weather: [Weather]
 }
 
-final class Weather: Codable, DataTransferObject {
+final class Weather: Decodable, DataTransferObject {
     var main, icon: String?
-    var id = UUID()
+    @NotCodedID var id: UUID
     
     init(weatherDAO: WeatherDAO) {
         self.main = weatherDAO.main

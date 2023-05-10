@@ -12,7 +12,7 @@ final class NetworkManager {
     let urlSession = URLSession.shared
     var jsonDecoder: JSONDecoder = JSONDecoder()
     
-    func fetch<T: Codable>(
+    func fetch<T: Decodable>(
         request: URLRequest?,
         decodingType: T.Type,
         completion: @escaping (Result<T, Error>) -> Void
