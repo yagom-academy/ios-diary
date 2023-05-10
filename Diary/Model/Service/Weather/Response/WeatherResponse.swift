@@ -60,3 +60,9 @@ struct Wind: Decodable {
     let deg: Int
     let gust: Double
 }
+
+extension WeatherResponse {
+    func convertToWeatherItems() -> WeatherInformation {
+        return WeatherInformation(main: self.weather[0].main, icon: self.weather[0].icon)
+    }
+}
