@@ -182,7 +182,7 @@ final class DiaryDetailViewController: UIViewController {
 
             switch result {
             case .success(let data):
-                decode(data)
+                self.decode(data)
             case .failure(let error):
                 DispatchQueue.main.async {
                     AlertManager().showErrorAlert(target: self, error: error)
@@ -195,9 +195,9 @@ final class DiaryDetailViewController: UIViewController {
         let result = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
         
         switch result {
-        case .success(let weather):
-            guard let weatherIconCode = weather.weather.first?.iconCode,
-                  let weatherType = weather.weather.first?.type else {
+        case .success(let weatherDTO):
+            guard let weatherIconCode = weatherDTO.weather.first?.iconCode,
+                  let weatherType = weatherDTO.weather.first?.type else {
                 DispatchQueue.main.async {
                     AlertManager().showErrorAlert(target: self, error: NetworkError.dataNotFound)
                 }
