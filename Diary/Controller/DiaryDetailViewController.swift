@@ -18,6 +18,7 @@ final class DiaryDetailViewController: UIViewController {
     }()
     private var diaryItem: Diary?
     private var state: DiaryState
+    private var weatherID: String? = nil
     private let persistenceManager = PersistenceManager()
     private var locationManager = CLLocationManager()
     private let networkManager = NetworkManager()
@@ -87,7 +88,7 @@ final class DiaryDetailViewController: UIViewController {
         networkManager.fetchData(url: url, type: WeatherData.self) { [weak self] result in
             switch result {
             case .success(let data):
-                print(data.weather[0].icon)
+                self?.weatherID = data.weather.first?.icon
             case .failure(let error):
                 self?.showFailAlert(error: error)
             }
@@ -102,7 +103,7 @@ final class DiaryDetailViewController: UIViewController {
         switch state {
         case .create:
             let date = Date()
-            persistenceManager.createContent(content, date) { [weak self] result in
+            persistenceManager.createContent(content, date, weatherID) { [weak self] result in
                 switch result {
                 case .success(let diary):
                     self?.diaryItem = diary
@@ -143,16 +144,14 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            print("GPS 권한 설정됨")
             locationManager.startUpdatingLocation()
+            fetchWeatherID()
         case .restricted, .notDetermined:
-            print("GPS 권한 설정되지 않음")
             locationManager.requestWhenInUseAuthorization()
         case .denied:
-            print("GPS 권한 요청 거부됨")
             locationManager.requestWhenInUseAuthorization()
         default:
-            print("GPS: Default")
+            return
         }
     }
 }

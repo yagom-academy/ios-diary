@@ -22,7 +22,7 @@ struct PersistenceManager {
         return appDelegate.persistentContainer.viewContext
     }
     
-    func createContent(_ content: String?, _ date: Date, completion: @escaping (Result<Diary, CoreDataError>) -> Void) {
+    func createContent(_ content: String?, _ date: Date, _ weatherID: String?, completion: @escaping (Result<Diary, CoreDataError>) -> Void) {
         guard let context = context else { return }
         
         guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context) else { return }
@@ -31,6 +31,7 @@ struct PersistenceManager {
         
         managedObject.setValue(content, forKey: "content")
         managedObject.setValue(date, forKey: "date")
+        managedObject.setValue(weatherID, forKey: "iconID")
         
         guard let diary = managedObject as? Diary else { return }
         
