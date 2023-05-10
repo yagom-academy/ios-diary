@@ -88,6 +88,7 @@ extension DiaryViewController: UITableViewDelegate {
     
     private func configureTableView() {
         tableView.delegate = self
+        
         configureDataSource()
         applySnapshot()
     }

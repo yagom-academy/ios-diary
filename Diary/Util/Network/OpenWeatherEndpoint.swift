@@ -21,6 +21,16 @@ struct OpenWeatherEndpoint: EndpointMakable {
         queryItems.append(URLQueryItem(name: "lat", value: lat))
         queryItems.append(URLQueryItem(name: "lon", value: lon))
     }
+    
+    func makeURLRequest(iconId: String) -> URLRequest? {
+        let urlText = "https://openweathermap.org/img/wn/\(iconId)@2x.png"
+        
+        guard let url = URL(string: urlText ) else { return nil }
+        var request = URLRequest(url: url)
+        request.httpMethod = method
+        
+        return request
+    }
 }
 /// 해보면 좋을거
 /// Key 값 외부노출 안되게 감추기

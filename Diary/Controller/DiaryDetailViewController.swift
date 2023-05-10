@@ -25,6 +25,7 @@ final class DiaryDetailViewController: UIViewController {
     
     // MARK: - Properties
     private var locationManager: CLLocationManager!
+    private let diaryService = DiaryService()
     private let dateFormatter = DiaryDateFormatter.shared
     private var writeMode = WriteMode.create
     private var longitude: Double?
@@ -66,14 +67,25 @@ final class DiaryDetailViewController: UIViewController {
         configureNotification()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        print("ViewWillAppear")
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        print("ViewDidAppear")
+        
+        guard let latitude = self.latitude,
+              let longitude = self.longitude else { return }
+        
+        //개선의 여지가 있음.
+        diaryService.fetchWeather(lat: latitude, lon: longitude) { result in
+            
+            guard let data = try? self.verifyResult(result: result),
+                  let weather = DecodeManager().decode(data: data, type: DailyWeather.self)  else { return }
+
+            
+            self.diaryService.fetchWeatherIcon(iconId: weather.information.first?.iconId) { result in
+                guard let data = try? self.verifyResult(result: result) else { return }
+                //이 data가 이미지 데이터
+                UIImage(data: data)
+            }
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -258,11 +270,19 @@ final class DiaryDetailViewController: UIViewController {
             return trimmedText
         }
     }
+    
+    private func verifyResult<T, E: Error>(result: Result<T,E>) throws -> T {
+        switch result {
+        case.success(let data):
+            return data
+        case .failure(let error):
+            throw error
+        }
+    }
 }
 
 extension DiaryDetailViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        //location5
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("GPS 권한 설정됨")
@@ -277,17 +297,12 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+       
+        guard let location: CLLocation = locations.last else { return }
+        let longitude1: CLLocationDegrees = location.coordinate.longitude
+        let latitude1: CLLocationDegrees = location.coordinate.latitude
 
-            // the most recent location update is at the end of the array.
-            let location: CLLocation = locations[locations.count - 1]
-            let longitude1: CLLocationDegrees = location.coordinate.longitude
-            let latitude1: CLLocationDegrees = location.coordinate.latitude
-        let lon = Double(longitude1)
-        let lat = Double(latitude1)
-        self.latitude = lat
-        self.longitude = lon
-        
-        print(self.latitude)
-        print(self.longitude)
+        self.latitude = Double(longitude1)
+        self.longitude = Double(latitude1)
     }
 }
