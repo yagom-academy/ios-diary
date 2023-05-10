@@ -18,6 +18,6 @@ extension WeatherAPIInformationOwner {
     }
     
     var baseURLLiteral: String {
-        return "http://www.openweathermap.org"
+        return "https://www.openweathermap.org"
     }
 }

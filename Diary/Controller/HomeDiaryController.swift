@@ -37,6 +37,16 @@ final class HomeDiaryController: UIViewController {
         configureUI()
         setupFetchedResultsController()
         fetchDiaryData()
+        
+        let weatherService = DefaultWeatherService()
+        weatherService.fetchWeatherInformation(latitude: 42.33, longtitude: 34.33) { result in
+            switch result {
+            case .success(let info):
+                print(info)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     private func setupTableView() {

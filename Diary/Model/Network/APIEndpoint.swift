@@ -30,11 +30,11 @@ extension APIEndpoint {
         }
         
         var urlComponents = URLComponents(string: url.absoluteString)
-        let quries = self.queries.map { key, value in
+        let queries = self.queries.map { key, value in
             URLQueryItem(name: key, value: value)
         }
         
-        urlComponents?.queryItems = quries
+        urlComponents?.queryItems = queries
         return urlComponents?.url
     }
     
