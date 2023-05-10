@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class OpenWetherDataLoader {
+final class OpenWetherDataLoader {
     private let networkManager = NetworkManager()
     
     func loadData(latitude: Double, longitude: Double, completion: @escaping (Result<CurrentWeather, Error>) -> Void) {
@@ -20,7 +20,9 @@ class OpenWetherDataLoader {
                              completion: completion)
     }
     
-    func loadIcon(code: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
+    func loadIcon(code: String?, completion: @escaping (Result<UIImage, Error>) -> Void) {
+        guard let code else { return }
+        
         let api = OpenWeatherAPI.icon(code: code)
         let request = Endpoint.request(for: api)
         

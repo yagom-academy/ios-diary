@@ -12,7 +12,6 @@ final class DiaryContentViewController: UIViewController {
     typealias DiaryText = (title: String?, body: String?)
     
     private var diary: Diary?
-    private var weather: Weather?
     private let textView = UITextView()
     private let alertFactory: DiaryAlertFactory = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()

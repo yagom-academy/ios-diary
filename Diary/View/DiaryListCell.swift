@@ -25,6 +25,13 @@ final class DiaryListCell: UITableViewCell {
 
         return label
     }()
+    
+    private let iconView: UIImageView = {
+        let imageView = UIImageView()
+//        imageView.setContentHuggingPriority(.required, for: .horizontal)
+        
+        return imageView
+    }()
 
     private let previewLabel: UILabel = {
         let label = UILabel()
@@ -42,6 +49,7 @@ final class DiaryListCell: UITableViewCell {
         stackView.alignment = .fill
         stackView.spacing = 10
         stackView.addArrangedSubview(dateLabel)
+        stackView.addArrangedSubview(iconView)
         stackView.addArrangedSubview(previewLabel)
 
         return stackView
@@ -86,7 +94,10 @@ final class DiaryListCell: UITableViewCell {
             contentStackView.leadingAnchor.constraint(equalTo: safe.leadingAnchor),
             contentStackView.topAnchor.constraint(equalTo: safe.topAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: safe.bottomAnchor)
+            contentStackView.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
+            
+            iconView.widthAnchor.constraint(equalToConstant: 35),
+            iconView.heightAnchor.constraint(equalTo: iconView.widthAnchor, multiplier: 1)
         ])
     }
     
@@ -96,5 +107,9 @@ final class DiaryListCell: UITableViewCell {
         titleLabel.text = title.isEmpty ? "새로운 일기" : title
         dateLabel.text = diary.updatedDateText
         previewLabel.text = diary.body?.trimmingCharacters(in: ["\n"])
+    }
+    
+    func configureIcon(image: UIImage) {
+        iconView.image = image
     }
 }
