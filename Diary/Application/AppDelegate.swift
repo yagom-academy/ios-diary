@@ -8,7 +8,6 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
     func applicationDidEnterBackground(_ application: UIApplication) {
         
     }

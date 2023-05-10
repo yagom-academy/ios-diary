@@ -24,7 +24,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     // MARK: - Properties
-    private let locationManager = CLLocationManager()
+    private var locationManager: CLLocationManager!
     private let dateFormatter = DiaryDateFormatter.shared
     private var writeMode = WriteMode.create
     private var longitude: Double?
@@ -57,20 +57,29 @@ final class DiaryDetailViewController: UIViewController {
     // MARK: - State Methods
     override func viewDidLoad() {
         super.viewDidLoad()
+        locationManager = CLLocationManager()
         configureLocationManager()
         checkWriteMode()
         configureUI()
         configureLayout()
         configureNavigationBar()
         configureNotification()
-        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        print("ViewWillAppear")
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        print("ViewDidAppear")
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         
         saveDiaryToStorage()
-        
     }
     
     // MARK: - Methods
@@ -271,14 +280,14 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
 
             // the most recent location update is at the end of the array.
             let location: CLLocation = locations[locations.count - 1]
-            let longitude: CLLocationDegrees = location.coordinate.longitude
-            let latitude: CLLocationDegrees = location.coordinate.latitude
-        let lon = Double(longitude)
-        let lat = Double(latitude)
+            let longitude1: CLLocationDegrees = location.coordinate.longitude
+            let latitude1: CLLocationDegrees = location.coordinate.latitude
+        let lon = Double(longitude1)
+        let lat = Double(latitude1)
         self.latitude = lat
         self.longitude = lon
         
-        print(latitude)
-        print(longitude)
+        print(self.latitude)
+        print(self.longitude)
     }
 }
