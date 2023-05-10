@@ -33,4 +33,8 @@ struct DiaryDataManager {
     func update(data: Diary) {
         coreDataManager.updateDAO(type: DiaryDAO.self, data: data)
     }
+    
+    func delete(id: UUID) {
+        coreDataManager.deleteDAO(type: DiaryDAO.self, id: id)
+    }
 }
