@@ -63,6 +63,6 @@ struct Wind: Decodable {
 
 extension WeatherResponse {
     func convertToWeatherItems() -> WeatherInformation {
-        return WeatherInformation(main: self.weather[0].main, icon: self.weather[0].icon)
+        return WeatherInformation(main: self.weather[0].main, iconCode: self.weather[0].icon)
     }
 }

@@ -10,10 +10,24 @@
 //protocol WeatherService {
 //    var networkProvider: NetworkProvider { get }
 //
-//    @discardableResult
 //    func fetchWeatherInformation(
 //        latitude: Double,
 //        longtitude: Double,
-//        completion: @escaping ((Result<Bool, NetworkProvider>) -> Void)
+//        completion: @escaping ((Result<WeatherResponse, NetworkError>) -> Void)
 //    )
+//
+//    func fetchWeatherImage(
+//        iconCode: String,
+//        completion: @escaping ((Result<Data, NetworkError>) -> Void)
+//    )
+//}
+//
+//extension WeatherService {
+//    func fetchWeatherInformation(
+//        latitude: Double,
+//        longtitude: Double,
+//        completion: @escaping ((Result<WeatherResponse, NetworkError>) -> Void)
+//    ) {
+//
+//    }
 //}

@@ -9,5 +9,5 @@ import Foundation
 
 struct WeatherInformation {
     let main: String
-    let icon: String
+    let iconCode: String
 }
