@@ -19,6 +19,7 @@ extension DiaryEntity {
     @NSManaged public var body: String?
     @NSManaged public var timeIntervalSince1970: Int32
     @NSManaged public var id: UUID
+    @NSManaged public var iconData: Data
 
 }
 

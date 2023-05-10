@@ -32,6 +32,7 @@ final class DiaryDetailViewController: UIViewController {
     private var latitude: Double?
     private var diary: Diary?
     private var id = UUID()
+    private var iconData: Data?
     private var isSave: Bool = true
     
     private let textView: UITextView = {
@@ -69,28 +70,11 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        
-        guard let latitude = self.latitude,
-              let longitude = self.longitude else { return }
-        
-        //개선의 여지가 있음.
-        diaryService.fetchWeather(lat: latitude, lon: longitude) { result in
-            
-            guard let data = try? self.verifyResult(result: result),
-                  let weather = DecodeManager().decode(data: data, type: DailyWeather.self)  else { return }
-
-            
-            self.diaryService.fetchWeatherIcon(iconId: weather.information.first?.iconId) { result in
-                guard let data = try? self.verifyResult(result: result) else { return }
-                //이 data가 이미지 데이터
-                UIImage(data: data)
-            }
-        }
+        fetchWeatherIcon()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        
         saveDiaryToStorage()
     }
     
@@ -231,7 +215,7 @@ final class DiaryDetailViewController: UIViewController {
         let components = contents.split(separator: "\n", maxSplits: 1)
         
         guard let title = components.first,
-              let date = self.title else { return nil }
+              let date = self.title, let iconData = self.iconData else { return nil }
         var body = components[safe: 1] ?? ""
         
         if body.first == "\n" {
@@ -242,7 +226,8 @@ final class DiaryDetailViewController: UIViewController {
             id: id,
             title: String(title),
             body: String(body),
-            timeIntervalSince1970: dateFormatter.convertToInterval(from: date)
+            timeIntervalSince1970: dateFormatter.convertToInterval(from: date),
+            iconData: iconData
         )
         
         return currentDiary
@@ -279,6 +264,24 @@ final class DiaryDetailViewController: UIViewController {
             throw error
         }
     }
+    
+    private func fetchWeatherIcon() {
+        guard let latitude = self.latitude,
+              let longitude = self.longitude else { return }
+        
+        //개선의 여지가 있음.
+        diaryService.fetchWeather(lat: latitude, lon: longitude) { result in
+            
+            guard let data = try? self.verifyResult(result: result),
+                  let weather = DecodeManager().decode(data: data, type: DailyWeather.self)  else { return }
+
+            self.diaryService.fetchWeatherIcon(iconId: weather.information.first?.iconId) { result in
+                guard let data = try? self.verifyResult(result: result) else { return }
+                
+                self.iconData = data
+            }
+        }
+    }
 }
 
 extension DiaryDetailViewController: CLLocationManagerDelegate {
@@ -286,7 +289,7 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             print("GPS 권한 설정됨")
-            self.locationManager.startUpdatingLocation() // 중요!
+            self.locationManager.startUpdatingLocation()
         case .restricted, .notDetermined:
             print("GPS 권한 설정되지 않음")
         case .denied:

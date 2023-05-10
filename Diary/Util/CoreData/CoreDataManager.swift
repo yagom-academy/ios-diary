@@ -125,7 +125,9 @@ final class CoreDataManager {
             Diary(id: entity.id,
                   title: entity.title ?? "",
                   body: entity.body ?? "",
-                  timeIntervalSince1970: Int(entity.timeIntervalSince1970))
+                  timeIntervalSince1970: Int(entity.timeIntervalSince1970),
+                  iconData: entity.iconData
+            )
         }
         
         return diaries

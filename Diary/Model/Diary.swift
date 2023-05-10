@@ -12,6 +12,7 @@ struct Diary: Hashable, Identifiable {
     let title: String
     let body: String
     let timeIntervalSince1970: Int
+    let iconData: Data
     
     var sharedText: String {
         return title + "\n\n" + body
