@@ -19,6 +19,8 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         return label
     }()
@@ -35,6 +37,8 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFit
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         
         return imageView
     }()
@@ -91,7 +95,7 @@ extension DiaryInfoTableViewCell {
     private func configureCell() {
         let bottomStackView = UIStackView(arrangedSubviews: [dateLabel, weatherIconView, bodyLabel])
         
-        bottomStackView.spacing = 5
+        bottomStackView.spacing = 4
         
         let diaryStackView = UIStackView(arrangedSubviews: [titleLabel, bottomStackView])
         
@@ -104,7 +108,11 @@ extension DiaryInfoTableViewCell {
             diaryStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 3),
             diaryStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
             diaryStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -3),
-            diaryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3)
+            diaryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3),
+            
+            weatherIconView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor
+                                                    , multiplier: 0.05),
+            weatherIconView.widthAnchor.constraint(equalTo: weatherIconView.heightAnchor)
         ])
     }
 }
