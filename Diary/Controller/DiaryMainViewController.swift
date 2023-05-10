@@ -37,7 +37,6 @@ final class DiaryMainViewController: UIViewController {
             switch result {
             case .success(let weatherJsonData):
                 print(weatherJsonData)
-                print("sdf")
             case .failure:
                 print("error")
             }

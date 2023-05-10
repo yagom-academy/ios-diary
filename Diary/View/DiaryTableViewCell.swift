@@ -108,13 +108,12 @@ final class DiaryTableViewCell: UITableViewCell {
         let dateText = DateManger.shared.convertToDate(fromDouble: diaryData.createDate)
         
         titleLabel.text = title
+        dateLabel.text = dateText
+        weatherImageView.image = UIImage(systemName: "sun.min")
         
         if let body = diaryData.body {
-            bodyLabel.text = dateText + "  " + body
-        } else {
-            bodyLabel.text = dateText
+            bodyLabel.text = body
         }
-        bodyLabel.attributeText(targetString: dateText)
     }
 }
 
