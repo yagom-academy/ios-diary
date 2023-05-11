@@ -139,6 +139,23 @@
 			path = Entity;
 			sourceTree = "<group>";
 		};
+		4A863D842A0D23DC00B3C8CC /* DiaryListView */ = {
+			isa = PBXGroup;
+			children = (
+				4AD397A129F79EE20066EB8E /* View */,
+				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
+			);
+			path = DiaryListView;
+			sourceTree = "<group>";
+		};
+		4A863D852A0D23EA00B3C8CC /* DiaryContentView */ = {
+			isa = PBXGroup;
+			children = (
+				ADDB489629F8BA8700BE5B04 /* DiaryContentViewController.swift */,
+			);
+			path = DiaryContentView;
+			sourceTree = "<group>";
+		};
 		4AA2517D2A0139D3008B8BCA /* AlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -165,13 +182,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		4AD397A229F79EE70066EB8E /* Controller */ = {
+		4AD397A229F79EE70066EB8E /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
-				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
-				ADDB489629F8BA8700BE5B04 /* DiaryContentViewController.swift */,
+				4A863D852A0D23EA00B3C8CC /* DiaryContentView */,
+				4A863D842A0D23DC00B3C8CC /* DiaryListView */,
 			);
-			path = Controller;
+			path = ViewController;
 			sourceTree = "<group>";
 		};
 		4AD397A429F79F330066EB8E /* Resource */ = {
@@ -279,8 +296,7 @@
 				ADDB489129F7C7E200BE5B04 /* Utility */,
 				4AD397A529F79F590066EB8E /* CoreData */,
 				4AD397A429F79F330066EB8E /* Resource */,
-				4AD397A229F79EE70066EB8E /* Controller */,
-				4AD397A129F79EE20066EB8E /* View */,
+				4AD397A229F79EE70066EB8E /* ViewController */,
 				4AD397A029F79ED50066EB8E /* Model */,
 				4A863D6E2A0A06A200B3C8CC /* Network */,
 				C739AE35284DF28600741E8F /* Info.plist */,

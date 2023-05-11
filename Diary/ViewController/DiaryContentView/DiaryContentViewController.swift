@@ -219,6 +219,7 @@ extension DiaryContentViewController {
 }
 
 // MARK: - Present View
+fileprivate
 extension DiaryContentViewController {
     private func presentActionSheet() {
         let alertData = alertDataMaker.actionSheetData { [weak self] in
