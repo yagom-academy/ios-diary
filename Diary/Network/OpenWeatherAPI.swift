@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum OpenWeatherAPI: API {
+enum OpenWeatherAPI: APIInfo {
     case currentData(latitude: Double, longitude: Double)
     case icon(code: String)
     

@@ -17,7 +17,7 @@ final class DiaryContentViewController: UIViewController {
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
     private let diaryDataManager = DiaryDataManager()
     private let locationManager = CLLocationManager()
-    private let weatherDataLoader = OpenWetherDataLoader()
+    private let weatherHelper = OpenWeatherHelper()
 
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -255,7 +255,7 @@ extension DiaryContentViewController: CLLocationManagerDelegate {
     }
     
     private func loadWeather(coordinate: CLLocationCoordinate2D) {
-        weatherDataLoader.loadData(latitude: coordinate.latitude,
+        weatherHelper.loadData(latitude: coordinate.latitude,
                                    longitude: coordinate.longitude) { [weak self] result in
             guard let self else { return }
 

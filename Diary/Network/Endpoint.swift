@@ -8,16 +8,16 @@
 import Foundation
 
 enum Endpoint {
-    static func request(for api: API) -> URLRequest? {
-        var urlComponents = URLComponents(string: api.baseURL + api.path)
+    static func request(for information: APIInfo) -> URLRequest? {
+        var urlComponents = URLComponents(string: information.baseURL + information.path)
 
-        urlComponents?.queryItems = api.queries
+        urlComponents?.queryItems = information.queries
         
         guard let url = urlComponents?.url else { return nil }
         
         var urlRequest = URLRequest(url: url)
         
-        api.headers.forEach { (key, value) in
+        information.headers.forEach { (key, value) in
             urlRequest.setValue(value, forHTTPHeaderField: key)
         }
         

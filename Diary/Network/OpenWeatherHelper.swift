@@ -1,14 +1,13 @@
 //
-//  OpenWetherDataLoader.swift
+//  OpenWeatherHelper.swift
 //  Diary
 //
 //  Created by Rowan, Harry on 2023/05/09.
 //
 
-import Foundation
 import UIKit
 
-final class OpenWetherDataLoader {
+final class OpenWeatherHelper {
     private let networkManager = NetworkManager()
     
     func loadData(latitude: Double, longitude: Double, completion: @escaping (Result<CurrentWeather, Error>) -> Void) {
