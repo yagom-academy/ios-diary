@@ -25,7 +25,7 @@ struct DiaryAlertDataMaker: DiaryAlertDataFactory {
         return actionSheetViewData
     }
     
-    func reloadAlertData(completion: @escaping () -> Void) -> AlertViewData {
+    func retryAlertData(completion: @escaping () -> Void) -> AlertViewData {
         let alertViewData = AlertViewData(title: "재시도",
                                           message: "날씨 정보를 가져오는 데 실패했습니다.",
                                           completion: completion)

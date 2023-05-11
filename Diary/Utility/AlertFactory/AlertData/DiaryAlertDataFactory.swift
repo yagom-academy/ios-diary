@@ -9,5 +9,5 @@ protocol DiaryAlertDataFactory {
     func deleteAlertData(completion: @escaping () -> Void) -> AlertViewData
     func actionSheetData(shareCompletion: @escaping () -> Void,
                          deleteCompletion: @escaping () -> Void) -> ActionSheetViewData
-    func reloadAlertData(completion: @escaping () -> Void) -> AlertViewData
+    func retryAlertData(completion: @escaping () -> Void) -> AlertViewData
 }

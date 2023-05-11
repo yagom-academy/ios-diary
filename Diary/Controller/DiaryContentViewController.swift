@@ -267,10 +267,10 @@ extension DiaryContentViewController: CLLocationManagerDelegate {
             case .failure(let error):
                 print(error.localizedDescription)
 
-                let alertData = self.alertDataMaker.reloadAlertData {
+                let alertData = self.alertDataMaker.retryAlertData {
                     self.loadWeather(coordinate: coordinate)
                 }
-                let alert = self.alertFactory.reloadAlert(for: alertData)
+                let alert = self.alertFactory.retryAlert(for: alertData)
 
                 DispatchQueue.main.async {
                     self.present(alert, animated: true)
