@@ -5,6 +5,7 @@
 //  Created by Andrew, brody on 2023/04/25.
 //
 import UIKit
+import CoreLocation
 
 final class ProcessViewController: UIViewController {
     private enum LocalizationText {
@@ -48,7 +49,23 @@ final class ProcessViewController: UIViewController {
         configureNavigationItem()
         configureDiaryTextView()
         setUpNotification()
+//        setDiaryWeatherInformation(coordinate: )
     }
+    
+    func setDiaryWeatherInformation(coordinate: CLLocationCoordinate2D) {
+        let weatherService = DefaultWeatherService()
+        weatherService.fetchWeatherInformation(latitude: coordinate.latitude, longtitude: coordinate.longitude) { result in
+            switch result {
+            case .success(let info):
+                print(info)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        
+    }
+    
+    
     
     override func viewDidAppear(_ animated: Bool) {
         diaryTextView.becomeFirstResponder()
