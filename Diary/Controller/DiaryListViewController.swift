@@ -13,7 +13,7 @@ final class DiaryListViewController: UIViewController {
         return coreDataManager.readDiary()
     }
     
-    private let diaryListTableView: UITableView = {
+    let diaryListTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,11 +26,19 @@ final class DiaryListViewController: UIViewController {
         configureUI()
         configureSubview()
         configureConstraint()
+        addObserver()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         diaryListTableView.reloadData()
+    }
+    
+    private func addObserver() {
+        NotificationCenter.default.addObserver(forName: .init("reload"), object: nil, queue: .main) { _ in
+            self.diaryListTableView.reloadData()
+            self.diaryListTableView.layoutIfNeeded()
+        }
     }
     
     private func configureUI() {

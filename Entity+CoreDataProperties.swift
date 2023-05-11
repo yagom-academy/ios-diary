@@ -1,7 +1,9 @@
 //
-//  Diary - Entity+CoreDataProperties.swift
-//  Created by Rhode, 무리.
-//  Copyright © yagom. All rights reserved.
+//  Entity+CoreDataProperties.swift
+//  Diary
+//
+//  Created by 박소연 on 2023/05/11.
+//
 //
 
 import Foundation
@@ -13,9 +15,11 @@ extension Entity {
         return NSFetchRequest<Entity>(entityName: "Entity")
     }
 
-    @NSManaged public var title: String?
     @NSManaged public var body: String?
     @NSManaged public var date: Double
+    @NSManaged public var id: UUID?
+    @NSManaged public var title: String?
+    @NSManaged public var iconName: String?
 
 }
 

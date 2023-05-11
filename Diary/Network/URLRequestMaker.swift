@@ -12,11 +12,11 @@ struct URLRequestMaker {
  
     func request(latitude: String, longitude: String) -> URLRequest? {
         var urlComponents = URLComponents(string: baseURL)
-        let lattitude = URLQueryItem(name: "lat", value: lattitude)
+        let latitude = URLQueryItem(name: "lat", value: latitude)
         let longitude = URLQueryItem(name: "lon", value: longitude)
         let APIkey = URLQueryItem(name: "appid", value: weatherAPIKey)
         
-        urlComponents?.queryItems = [lattitude, longitude, APIkey]
+        urlComponents?.queryItems = [latitude, longitude, APIkey]
         
         guard let url = urlComponents?.url else { return nil }
         

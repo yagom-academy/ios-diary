@@ -20,6 +20,7 @@ final class DetailDiaryViewController: UIViewController {
     private var latitude: String?
     private var longitude: String?
     private var iconName: String?
+    private let diaryListView = DiaryListViewController()
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -168,56 +169,64 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     // MARK: - CoreData method
-    private func saveDiary() {
-        configureLocation()
-        if isSaveRequired {
-            if isDiaryCreated {
-                createDiary()
-            } else {
-                updateDiary()
-            }
-            
-            isSaveRequired = false
+    
+    private func makeDiary() -> Diary? {
+        if isDiaryCreated {
+            return createDiary()
+        } else {
+            return updateDiary()
         }
     }
     
-    private func createDiary() {
+    private func saveDiary() {
+        configureLocation()
+        
+        guard let diary = makeDiary() else { return }
+        
+        
+        fetchWeatherData() {
+            if self.isSaveRequired {
+                if self.isDiaryCreated {
+                    self.coreDataManager.createDiary(diary)
+                } else {
+                    self.coreDataManager.updateDiary(diary: diary)
+                }
+            }
+            self.isSaveRequired = false
+            print("웨더받아오기끝")
+        }
+    }
+    
+    private func createDiary() -> Diary? {
         let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
         
         guard diaryContents.count != 0,
-              let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
+              let date = Date().timeIntervalSince1970.roundDownNumber() else { return nil }
         
         let id = UUID()
         let title = String(diaryContents[0])
         let body = validBody(diaryContents)
+        print("아이콘 : \(iconName)")
         
-        diary = Diary(id: id, title: title, body: body, date: date)
-        
-        guard let diaryForCoreData = diary else { return }
-        
-        coreDataManager.createDiary(diaryForCoreData)
+        return Diary(id: id, title: title, body: body, date: date, iconName: self.iconName)
     }
     
-    private func updateDiary() {
+    private func updateDiary() -> Diary? {
         let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
         
         guard diaryContents.count != 0 else {
             deleteDiary()
             
-            return
+            return nil
         }
         
         let title = String(diaryContents[0])
         let body = validBody(diaryContents)
         
         guard let id = diary?.id,
-              let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
+              let date = Date().timeIntervalSince1970.roundDownNumber() else { return nil }
         
-        diary = Diary(id: id, title: title, body: body, date: date)
-        
-        guard let diaryForCoreData = diary else { return }
-        
-        coreDataManager.updateDiary(diary: diaryForCoreData)
+        return Diary(id: id, title: title, body: body, date: date, iconName: self.iconName)
     }
     
     private func deleteDiary() {
@@ -261,11 +270,11 @@ final class DetailDiaryViewController: UIViewController {
                 guard let verifiedDecodingResult = try self.verifyResult(result: decodedFile) else { return }
                 
                 self.iconName = verifiedDecodingResult.weather[0].icon
+                print("iconName:  \(self.iconName)")
                 completion()
             } catch {
                 print(error)
             }
-            completion()
         }
     }
     

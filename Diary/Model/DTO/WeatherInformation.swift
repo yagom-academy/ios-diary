@@ -1,21 +1,18 @@
 //
-//  WeatherInformation.swift
-//  Diary
-//
-//  Created by Jinah Park on 2023/05/11.
+//  Diary - WeatherInformation.swift
+//  Created by Rhode, 무리.
+//  Copyright © yagom. All rights reserved.
 //
 
 import Foundation
 
-// MARK: - Welcome
-struct WeatherInformation: Codable {
+struct WeatherInformation: Decodable {
     let coord: Coord
     let weather: [Weather]
     let base: String
     let main: Main
     let visibility: Int
     let wind: Wind
-    let rain: Rain
     let clouds: Clouds
     let dt: Int
     let sys: Sys
@@ -25,56 +22,44 @@ struct WeatherInformation: Codable {
 }
 
 // MARK: - Clouds
-struct Clouds: Codable {
+struct Clouds: Decodable {
     let all: Int
 }
 
 // MARK: - Coord
-struct Coord: Codable {
+struct Coord: Decodable {
     let lon, lat: Double
 }
 
 // MARK: - Main
-struct Main: Codable {
+struct Main: Decodable {
     let temp, feelsLike, tempMin, tempMax: Double
-    let pressure, humidity, seaLevel, grndLevel: Int
-
+    let pressure, humidity: Int
+    
     enum CodingKeys: String, CodingKey {
         case temp
         case feelsLike = "feels_like"
         case tempMin = "temp_min"
         case tempMax = "temp_max"
         case pressure, humidity
-        case seaLevel = "sea_level"
-        case grndLevel = "grnd_level"
-    }
-}
-
-// MARK: - Rain
-struct Rain: Codable {
-    let the1H: Double
-
-    enum CodingKeys: String, CodingKey {
-        case the1H = "1h"
     }
 }
 
 // MARK: - Sys
-struct Sys: Codable {
+struct Sys: Decodable {
     let type, id: Int
     let country: String
     let sunrise, sunset: Int
 }
 
 // MARK: - Weather
-struct Weather: Codable {
+struct Weather: Decodable {
     let id: Int
     let main, description, icon: String
 }
 
 // MARK: - Wind
-struct Wind: Codable {
+struct Wind: Decodable {
     let speed: Double
     let deg: Int
-    let gust: Double
 }

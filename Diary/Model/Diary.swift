@@ -11,4 +11,5 @@ struct Diary {
     var title: String
     var body: String
     var date: Double
+    var iconName: String?
 }

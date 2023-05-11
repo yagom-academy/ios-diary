@@ -32,6 +32,7 @@ class CoreDataManager {
     private func saveContext() {
         do {
             try self.context.save()
+            NotificationCenter.default.post(name: .init("reload"), object: nil)
         } catch {
             print(error.localizedDescription)
         }
@@ -44,7 +45,7 @@ class CoreDataManager {
             managedObject.setValue(diary.title, forKey: "title")
             managedObject.setValue(diary.body, forKey: "body")
             managedObject.setValue(diary.date, forKey: "date")
-            
+            managedObject.setValue(diary.iconName, forKey: "iconName")
             saveContext()
         }
     }
@@ -60,8 +61,8 @@ class CoreDataManager {
                   let title = diary.value(forKey: "title") as? String,
                   let body = diary.value(forKey: "body") as? String,
                   let date = diary.value(forKey: "date") as? Double else { return nil }
-            
-            diaries.append(Diary(id: id, title: title, body: body, date: date))
+            let iconName = diary.value(forKey: "iconName") as? String
+            diaries.append(Diary(id: id, title: title, body: body, date: date, iconName: iconName))
         }
         
         return diaries
@@ -82,6 +83,25 @@ class CoreDataManager {
         } catch {
             print(error.localizedDescription)
         }
+        
+        saveContext()
+    }
+    
+    func updateDiary(diary: Diary, iconName: String) {
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
+        fetchRequest.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
+        
+        do {
+            let objects = try context.fetch(fetchRequest)
+            let objectToUpdate = objects[0]
+            
+            objectToUpdate.setValue(diary.iconName, forKey: "iconName")
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        saveContext()
     }
     
     func deleteDiary(diary: Diary) throws {
