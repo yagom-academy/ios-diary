@@ -20,12 +20,14 @@ final class DiaryService {
 
 extension DiaryService {
     @discardableResult
-    func create(id: UUID, title: String, body: String) -> Result<Diary, CoreDataError> {
+    func create(id: UUID, title: String, body: String, weather: String, weatherIcon: String) -> Result<Diary, CoreDataError> {
         let diary = Diary(context: managedContext)
         diary.id = id
         diary.title = title
         diary.body = body
         diary.createdAt = Date()
+        diary.weather = weather
+        diary.weatherIcon = weatherIcon
         
         let result = coreDataManager.saveContext()
         

@@ -9,6 +9,7 @@ import CoreLocation
 
 protocol SettingAlertPresentable: AnyObject {
     func presentSystemSettingAlert()
+    func setDiaryWeatherInformation(coordinate: CLLocationCoordinate2D)
 }
 
 final class LocationDataManager: NSObject {

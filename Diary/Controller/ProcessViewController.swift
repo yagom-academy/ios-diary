@@ -52,18 +52,6 @@ final class ProcessViewController: UIViewController {
 //        setDiaryWeatherInformation(coordinate: )
     }
     
-    func setDiaryWeatherInformation(coordinate: CLLocationCoordinate2D) {
-        let weatherService = DefaultWeatherService()
-        weatherService.fetchWeatherInformation(latitude: coordinate.latitude, longtitude: coordinate.longitude) { result in
-            switch result {
-            case .success(let info):
-                print(info)
-            case .failure(let error):
-                print(error)
-            }
-        }
-    }
-    
     override func viewDidAppear(_ animated: Bool) {
         diaryTextView.becomeFirstResponder()
     }
@@ -166,7 +154,7 @@ final class ProcessViewController: UIViewController {
         if let diary {
             diaryService.update(id: diary.id, title: diaryInformation.title, body: diaryInformation.body)
         } else {
-            let result = diaryService.create(id: UUID(), title: diaryInformation.title, body: diaryInformation.body)
+            let result = diaryService.create(id: UUID(), title: diaryInformation.title, body: diaryInformation.body, weather: )
             
             if case .success(let newDiary) = result {
                 diary = newDiary
@@ -268,5 +256,17 @@ extension ProcessViewController: SettingAlertPresentable {
         requestLocationServiceAlert.addAction(goSetting)
         
         present(requestLocationServiceAlert, animated: true)
+    }
+    
+    func setDiaryWeatherInformation(coordinate: CLLocationCoordinate2D) {
+        let weatherService = DefaultWeatherService()
+        weatherService.fetchWeatherInformation(latitude: coordinate.latitude, longtitude: coordinate.longitude) { result in
+            switch result {
+            case .success(let info):
+                print(info)
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
 }
