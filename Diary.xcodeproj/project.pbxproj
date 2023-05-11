@@ -120,6 +120,14 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
+		4A863D822A0CD23200B3C8CC /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				ADDB489229F7C81300BE5B04 /* DateFormatter+diaryForm.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
 		4AA2517D2A0139D3008B8BCA /* AlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -211,9 +219,9 @@
 		ADDB489129F7C7E200BE5B04 /* Utility */ = {
 			isa = PBXGroup;
 			children = (
+				4A863D822A0CD23200B3C8CC /* Extension */,
 				ADEF04E82A0640B600CF82C2 /* DataProtocols */,
 				ADDB489B29FA56F800BE5B04 /* AlertFactory */,
-				ADDB489229F7C81300BE5B04 /* DateFormatter+diaryForm.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
