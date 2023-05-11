@@ -52,7 +52,12 @@ struct Sys: Decodable {
 
 struct Weather: Decodable {
     let id: Int
-    let main, description, icon: String
+    let weatherCondition, description, icon: String
+    
+    enum CodingKeys: String, CodingKey {
+        case id, description, icon
+        case weatherCondition  = "main"
+    }
 }
 
 struct Wind: Decodable {
@@ -63,6 +68,6 @@ struct Wind: Decodable {
 
 extension WeatherResponse {
     func convertToWeatherItems() -> WeatherInformation {
-        return WeatherInformation(main: self.weather[0].main, iconCode: self.weather[0].icon)
+        return WeatherInformation(main: self.weather[0].weatherCondition, iconCode: self.weather[0].icon)
     }
 }

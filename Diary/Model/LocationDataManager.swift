@@ -9,7 +9,7 @@ import CoreLocation
 
 protocol SettingAlertPresentable: AnyObject {
     func presentSystemSettingAlert()
-    func setDiaryWeatherInformation(coordinate: CLLocationCoordinate2D)
+    func setDiaryWeatherInformation(with currentCoordinate: CLLocationCoordinate2D)
 }
 
 final class LocationDataManager: NSObject {
@@ -25,8 +25,8 @@ final class LocationDataManager: NSObject {
 
 extension LocationDataManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let coordinate = locations.last?.coordinate {
-            print(coordinate)
+        if let currentCoordinate = locations.last?.coordinate {
+            delegate?.setDiaryWeatherInformation(with: currentCoordinate)
         }
     }
     

@@ -49,7 +49,7 @@ final class ProcessViewController: UIViewController {
         configureNavigationItem()
         configureDiaryTextView()
         setUpNotification()
-//        setDiaryWeatherInformation(coordinate: )
+        locationDataManager.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -154,7 +154,7 @@ final class ProcessViewController: UIViewController {
         if let diary {
             diaryService.update(id: diary.id, title: diaryInformation.title, body: diaryInformation.body)
         } else {
-            let result = diaryService.create(id: UUID(), title: diaryInformation.title, body: diaryInformation.body, weather: )
+            let result = diaryService.create(id: UUID(), title: diaryInformation.title, body: diaryInformation.body, weather: "", weatherIcon: "")
             
             if case .success(let newDiary) = result {
                 diary = newDiary
@@ -258,9 +258,12 @@ extension ProcessViewController: SettingAlertPresentable {
         present(requestLocationServiceAlert, animated: true)
     }
     
-    func setDiaryWeatherInformation(coordinate: CLLocationCoordinate2D) {
+    func setDiaryWeatherInformation(with currentCoordinate: CLLocationCoordinate2D) {
         let weatherService = DefaultWeatherService()
-        weatherService.fetchWeatherInformation(latitude: coordinate.latitude, longtitude: coordinate.longitude) { result in
+        weatherService.fetchWeatherInformation(
+            latitude: currentCoordinate.latitude,
+            longtitude: currentCoordinate.longitude
+        ) { result in
             switch result {
             case .success(let info):
                 print(info)
