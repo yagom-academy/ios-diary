@@ -51,9 +51,27 @@ final class DiaryInfoTableViewCell: UITableViewCell {
     }
     
     func configureLabel(item: Diary) {
-        titleLabel.text = item.title
+        guard let content = item.content else { return }
+        
+        let parsedContent = parseContent(content)
+        titleLabel.text = parsedContent.title
         dateLabel.text = Date.convertToDate(by: item.date)
-        bodyLabel.text = item.body
+        bodyLabel.text = parsedContent.body
+    }
+    
+    private func parseContent(_ content: String) -> (title: String?, body: String?) {
+        let parsingDiary = content.split(separator: "\n").map { String($0) }
+        let titleIndex = parsingDiary.firstIndex { str in
+            !str.replacingOccurrences(of: " ", with: "").isEmpty
+        }
+        
+        guard let titleIndex = titleIndex else { return (nil, nil) }
+        
+        let title = parsingDiary[safe: titleIndex]
+        let bodyIndex = titleIndex + 1
+        let body = parsingDiary[safe: bodyIndex...]?.map { String($0) }.joined(separator: "\n")
+        
+        return (title, body)
     }
 }
 
