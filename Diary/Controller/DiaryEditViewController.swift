@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryEditViewController: UIViewController {
     private var diaryData: DiaryData?
     private var diaryType: DiaryType
+    let locationManager = CLLocationManager()
+    var currentLocation: CLLocationCoordinate2D!
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -38,13 +41,17 @@ final class DiaryEditViewController: UIViewController {
         configureTitle()
         setupNotification()
         showKeyboard()
+        
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         autoSaveDiary()
     }
-
+    
     private func configureUI() {
         let image = UIImage(systemName: "ellipsis.circle")
         let navigationRightButton = UIBarButtonItem(image: image,
@@ -129,7 +136,7 @@ final class DiaryEditViewController: UIViewController {
             return title
         }
     }
-
+    
     @objc
     private func ellipsisButtonTapped() {
         textView.resignFirstResponder()
@@ -138,7 +145,7 @@ final class DiaryEditViewController: UIViewController {
             guard let self,
                   let id = self.diaryData?.id else { return }
             
-            AlertManager().showAlert(target: self) {
+            AlertManager().showDeleteAlert(target: self) {
                 CoreDataManger.shared.deleteDiary(id: id)
                 self.navigationController?.popViewController(animated: true)
             }
@@ -171,3 +178,30 @@ final class DiaryEditViewController: UIViewController {
         }
     }
 }
+
+//extension DiaryEditViewController: CLLocationManagerDelegate {
+//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+//        if let location = locations.last {
+//            locationManager.stopUpdatingLocation()
+//            let lat = location.coordinate.latitude
+//            let lon = location.coordinate.longitude
+//            
+//            
+//        }
+//    }
+//    
+//    // 생성될 때, 권한 바뀔 때
+//    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+//        if manager.authorizationStatus == .authorizedWhenInUse {
+////            locationManager.stopUpdatingLocation()
+////            let lat = location.coordinate.latitude
+////            let lon = location.coordinate.longitude
+////
+////            print("lat = \(lat), lon = \(lon)")
+////            
+//            currentLocation = locationManager.location?.coordinate
+//            print(currentLocation.latitude) // 위도
+//            print(currentLocation.longitude) // 경도
+//        }
+//    }
+//}

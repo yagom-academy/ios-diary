@@ -32,13 +32,17 @@ final class DiaryMainViewController: UIViewController {
     }
     
     func fetch() {
-        let provider = WeatherProvider<WeatherAPI>()
-        provider.fetchData(.weather, type: WeatherJSONData.self) { [weak self] result in
+        WeatherProvider().fetchData(.weatherInfo(latitude: "44.34", longitude: "10.99")) { result in
             switch result {
-            case .success(let weatherJsonData):
-                print(weatherJsonData)
-            case .failure:
-                print("error")
+            case .success(let data):
+                do {
+                    let data = try JSONDecoder().decode(WeatherJSONData.self, from: data)
+                    print(data)
+                } catch {
+                    
+                }
+            case .failure(let error):
+                AlertManager().showErrorAlert(target: self, error: error)
             }
         }
     }
@@ -117,7 +121,7 @@ extension DiaryMainViewController: UITableViewDelegate {
             guard let self,
                   let id = self.diaryDataList[indexPath.row].id else { return }
             
-            AlertManager().showAlert(target: self) {
+            AlertManager().showDeleteAlert(target: self) {
                 CoreDataManger.shared.deleteDiary(id: id)
                 self.diaryDataList.remove(at: indexPath.row)
                 tableView.deleteRows(at: [indexPath], with: .left)

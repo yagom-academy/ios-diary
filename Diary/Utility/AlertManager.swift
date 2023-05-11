@@ -8,7 +8,7 @@
 import UIKit
 
 struct AlertManager {
-    func showAlert(target: UIViewController,
+    func showDeleteAlert(target: UIViewController,
                    completion: @escaping () -> Void) {
         let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         let cancel = UIAlertAction(title: "취소", style: .cancel)
@@ -19,6 +19,14 @@ struct AlertManager {
         alert.addAction(cancel)
         alert.addAction(delete)
         target.present(alert, animated: true)
+    }
+    
+    func showErrorAlert(target: UIViewController, error: Error) {
+        let alert = UIAlertController(title: "Error Occured", message: error.localizedDescription, preferredStyle: .alert)
+        let confirmed = UIAlertAction(title: "확인", style: .default)
+        
+        alert.addAction(confirmed)
+        target.present(target, animated: true)
     }
     
     func showActionSheet(target: UIViewController,

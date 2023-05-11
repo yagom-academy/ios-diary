@@ -7,32 +7,17 @@
 
 import Foundation
 
-protocol Provider {
-    associatedtype Target
-    func fetchData<T: Decodable>(_ target: Target,
-                                 type: T.Type,
-                                 completion: @escaping (Result<T, Error>) -> Void)
-}
-
-final class WeatherProvider<Target: Requestable>: Provider {
-    func fetchData<T>(_ target: Target,
-                      type: T.Type,
-                      completion: @escaping (Result<T, Error>) -> Void) where T: Decodable {
-        guard let endPoint = self.makeEndpoint(for: target),
-              let request = endPoint.urlRequest() else { return }
+struct WeatherProvider {
+    func fetchData(_ target: WeatherAPI,
+                   completion: @escaping (Result<Data, Error>) -> Void) {
+        guard let request = target.createURLRequest() else { return }
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             let result = self.checkError(with: data, response, error)
+            
             switch result {
             case .success(let data):
-                do {
-                    let decodeData = try JSONDecoder().decode(type, from: data)
-                    completion(.success(decodeData))
-                } catch NetworkError.invalidResponseError {
-                    completion(.failure(NetworkError.invalidResponseError))
-                } catch {
-                    completion(.failure(NetworkError.failToParse))
-                }
+                completion(.success(data))
             case .failure(let error):
                 completion(.failure(error))
             }
@@ -44,7 +29,7 @@ final class WeatherProvider<Target: Requestable>: Provider {
                     _ response: URLResponse?,
                     _ error: Error?
     ) -> Result<Data, Error> {
-        if let _ = error {
+        if error != nil {
             return .failure(NetworkError.unknownError)
         }
         
@@ -68,15 +53,5 @@ final class WeatherProvider<Target: Requestable>: Provider {
         }
         
         return .success(data)
-    }
-}
-
-extension WeatherProvider {
-    func makeEndpoint(for target: Requestable) -> Endpoint? {
-        guard let url = target.urlComponents?.url else {
-            return nil
-        }
-        
-        return Endpoint(url: url.absoluteString, method: .get, headers: target.headers)
     }
 }

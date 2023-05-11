@@ -8,45 +8,36 @@
 import Foundation
 
 enum WeatherAPI {
-    case weather
+    case weatherInfo(latitude: String, longitude: String)
+    case weatherImage(iconCode: String)
 }
 
-extension WeatherAPI: Requestable {
-    var urlComponents: URLComponents? {
-        var components = URLComponents(string: baseURL)
-        components?.path = self.path
-        
-        var queriesItem: [URLQueryItem] = []
-        self.queries.forEach { queryItem in
-            let queryItem = URLQueryItem(name: queryItem.key, value: queryItem.value)
-            queriesItem.append(queryItem)
-        }
-        
-        components?.queryItems = queriesItem
-        
-        return components
-    }
-    
+extension WeatherAPI {
     var baseURL: String {
-        return "https://api.openweathermap.org"
+        switch self {
+        case .weatherInfo:
+            return "https://api.openweathermap.org"
+        case .weatherImage:
+            return "https://openweathermap.org"
+        }
     }
     
     var path: String {
         switch self {
-        case .weather:
+        case .weatherInfo:
             return "/data/2.5/weather"
+        case .weatherImage(let iconCode):
+            return "/img/wn/\(iconCode)@2x.png"
         }
     }
     
-    var queries: [String: String] {
+    var queries: [String: String]? {
         switch self {
-        case .weather:
-            return ["appid": self.key, "lat": "44.34", "lon": "10.99"]
+        case .weatherInfo(let latitude, let longitude):
+            return ["appid": self.key, "lat": "\(latitude)", "lon": "\(longitude)"]
+        case .weatherImage:
+            return nil
         }
-    }
-    
-    var method: HttpMethod {
-        return .get
     }
     
     var key: String {
@@ -65,7 +56,29 @@ extension WeatherAPI: Requestable {
         return "be61fea903194c94cb32f87980cbf5dc"
     }
     
-    var headers: [String: String]? {
-        return nil
+    func createURL() -> URL? {
+        var urlComponents: URLComponents? = URLComponents(string: baseURL)
+        
+        urlComponents?.path = path
+        if let queries {
+            var queryItems: [URLQueryItem] = []
+            
+            queries.forEach { query in
+                let queryItem = URLQueryItem(name: query.key, value: query.value)
+                queryItems.append(queryItem)
+            }
+            
+            urlComponents?.queryItems = queryItems
+        }
+        
+        return urlComponents?.url
+    }
+    
+    func createURLRequest() -> URLRequest? {
+        guard let url = createURL() else {
+            return nil
+        }
+        
+        return URLRequest(url: url)
     }
 }
