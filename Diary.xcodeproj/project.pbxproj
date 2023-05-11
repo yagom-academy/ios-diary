@@ -65,10 +65,10 @@
 		ADCB774A2A0A1F9600122158 /* OpenWeatherHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherHelper.swift; sourceTree = "<group>"; };
 		ADCB774C2A0A22C800122158 /* Weather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		ADCEF2772A0A768200CE0EA7 /* Diary v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary v2.xcdatamodel"; sourceTree = "<group>"; };
-		ADCEF27C2A0A77D600CE0EA7 /* WeatherDAO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherDAO+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		ADCEF27D2A0A77D600CE0EA7 /* WeatherDAO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WeatherDAO+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		ADCEF27E2A0A77D600CE0EA7 /* DiaryDAO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryDAO+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		ADCEF27F2A0A77D600CE0EA7 /* DiaryDAO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryDAO+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		ADCEF27C2A0A77D600CE0EA7 /* WeatherDAO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "WeatherDAO+CoreDataClass.swift"; path = "Diary/CoreData/Entity/WeatherDAO+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		ADCEF27D2A0A77D600CE0EA7 /* WeatherDAO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "WeatherDAO+CoreDataProperties.swift"; path = "Diary/CoreData/Entity/WeatherDAO+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		ADCEF27E2A0A77D600CE0EA7 /* DiaryDAO+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryDAO+CoreDataClass.swift"; path = "Diary/CoreData/Entity/DiaryDAO+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		ADCEF27F2A0A77D600CE0EA7 /* DiaryDAO+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "DiaryDAO+CoreDataProperties.swift"; path = "Diary/CoreData/Entity/DiaryDAO+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		ADD4EFAD2A012EFA00FF0529 /* ActionSheetViewData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetViewData.swift; sourceTree = "<group>"; };
 		ADDB489229F7C81300BE5B04 /* DateFormatter+diaryForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+diaryForm.swift"; sourceTree = "<group>"; };
 		ADDB489629F8BA8700BE5B04 /* DiaryContentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentViewController.swift; sourceTree = "<group>"; };
@@ -128,6 +128,17 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		4A863D832A0CD2D100B3C8CC /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				ADCEF27C2A0A77D600CE0EA7 /* WeatherDAO+CoreDataClass.swift */,
+				ADCEF27D2A0A77D600CE0EA7 /* WeatherDAO+CoreDataProperties.swift */,
+				ADCEF27E2A0A77D600CE0EA7 /* DiaryDAO+CoreDataClass.swift */,
+				ADCEF27F2A0A77D600CE0EA7 /* DiaryDAO+CoreDataProperties.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
 		4AA2517D2A0139D3008B8BCA /* AlertController */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,11 +186,8 @@
 		4AD397A529F79F590066EB8E /* CoreData */ = {
 			isa = PBXGroup;
 			children = (
+				4A863D832A0CD2D100B3C8CC /* Entity */,
 				ADCB77432A08E37F00122158 /* SortDescription.swift */,
-				ADCEF27C2A0A77D600CE0EA7 /* WeatherDAO+CoreDataClass.swift */,
-				ADCEF27D2A0A77D600CE0EA7 /* WeatherDAO+CoreDataProperties.swift */,
-				ADCEF27E2A0A77D600CE0EA7 /* DiaryDAO+CoreDataClass.swift */,
-				ADCEF27F2A0A77D600CE0EA7 /* DiaryDAO+CoreDataProperties.swift */,
 				C739AE2D284DF28600741E8F /* DiaryDAO.xcdatamodeld */,
 				4AA2516329FB9285008B8BCA /* CoreDataManager.swift */,
 				AD82F37D2A0528BD0043308A /* CoreDataStack.swift */,
