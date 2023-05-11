@@ -1,5 +1,5 @@
 //
-//  OpenWeatherHelper.swift
+//  OpenWeatherService.swift
 //  Diary
 //
 //  Created by Rowan, Harry on 2023/05/09.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class OpenWeatherHelper {
+final class OpenWeatherService {
     private let networkManager = NetworkManager()
     
     func loadData(latitude: Double, longitude: Double, completion: @escaping (Result<CurrentWeather, Error>) -> Void) {

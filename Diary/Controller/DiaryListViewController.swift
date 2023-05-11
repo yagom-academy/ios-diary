@@ -12,7 +12,7 @@ final class DiaryListViewController: UIViewController {
     private let alertMaker: DiaryAlertFactory = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
     private let diaryDataManager = DiaryDataManager()
-    private let weatherHelper = OpenWeatherHelper()
+    private let openWeatherService = OpenWeatherService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -89,7 +89,7 @@ extension DiaryListViewController: UITableViewDataSource {
         
         let diary = diaryList[indexPath.row]
         
-        weatherHelper.loadIcon(code: diary.weather?.icon) { [weak cell] result in
+        openWeatherService.loadIcon(code: diary.weather?.icon) { [weak cell] result in
             guard let cell else { return }
             
             switch result {

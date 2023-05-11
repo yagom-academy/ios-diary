@@ -17,7 +17,7 @@ final class DiaryContentViewController: UIViewController {
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
     private let diaryDataManager = DiaryDataManager()
     private let locationManager = CLLocationManager()
-    private let weatherHelper = OpenWeatherHelper()
+    private let openWeatherService = OpenWeatherService()
 
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -156,9 +156,35 @@ final class DiaryContentViewController: UIViewController {
             diaryDataManager.create(data: diary)
         }
     }
+    
+    private func loadWeather(coordinate: CLLocationCoordinate2D) {
+        openWeatherService.loadData(latitude: coordinate.latitude,
+                                   longitude: coordinate.longitude) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let currentWeather):
+                guard let weather = currentWeather.weather.first else { return }
+                
+                self.diary?.weather?.updateContents(main: weather.main, icon: weather.icon)
+            case .failure(let error):
+                print(error.localizedDescription)
+
+                let alertData = self.alertDataMaker.retryAlertData {
+                    self.loadWeather(coordinate: coordinate)
+                }
+                let alert = self.alertMaker.retryAlert(for: alertData)
+
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
+                }
+            }
+        }
+    }
 }
 
 // MARK: - KeyboardNotification
+fileprivate
 extension DiaryContentViewController {
     private func addObserver() {
         NotificationCenter.default.addObserver(self,
@@ -233,6 +259,7 @@ extension DiaryContentViewController {
 }
 
 // MARK: - Location
+
 extension DiaryContentViewController: CLLocationManagerDelegate {
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
@@ -250,31 +277,6 @@ extension DiaryContentViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.last?.coordinate {
             loadWeather(coordinate: coordinate)
-        }
-    }
-    
-    private func loadWeather(coordinate: CLLocationCoordinate2D) {
-        weatherHelper.loadData(latitude: coordinate.latitude,
-                                   longitude: coordinate.longitude) { [weak self] result in
-            guard let self else { return }
-
-            switch result {
-            case .success(let currentWeather):
-                guard let weather = currentWeather.weather.first else { return }
-                
-                self.diary?.weather?.updateContents(main: weather.main, icon: weather.icon)
-            case .failure(let error):
-                print(error.localizedDescription)
-
-                let alertData = self.alertDataMaker.retryAlertData {
-                    self.loadWeather(coordinate: coordinate)
-                }
-                let alert = self.alertMaker.retryAlert(for: alertData)
-
-                DispatchQueue.main.async {
-                    self.present(alert, animated: true)
-                }
-            }
         }
     }
 }
