@@ -31,6 +31,7 @@ final class ProcessViewController: UIViewController {
     private var diary: Diary?
     private var isDeleteDiary: Bool = false
     private let diaryService: DiaryService
+    private let locationDataManager = LocationDataManager()
     
     init(diary: Diary? = nil, diaryService: DiaryService) {
         self.diary = diary
