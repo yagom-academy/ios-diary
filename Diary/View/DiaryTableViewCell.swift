@@ -40,14 +40,14 @@ final class DiaryTableViewCell: UITableViewCell {
     // MARK: - Method
     
     func configureCell(diary: Diary) {
-        configureconstantPriority()
+        configureConstantPriority()
         configureUIContent(diary)
         configureUI()
         configureLayout()
         configureCellStyle()
     }
     
-    func configureconstantPriority() {
+    func configureConstantPriority() {
         dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         weatherIcon.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         contentsLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)

@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreLocation
 
 final class DiaryDetailViewController: UIViewController {
     // MARK: - Nested Type
@@ -24,16 +23,14 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     // MARK: - Properties
-    private var locationManager: CLLocationManager!
     private let diaryService = DiaryService()
     private let dateFormatter = DiaryDateFormatter.shared
     private var writeMode = WriteMode.create
-    private var longitude: Double?
-    private var latitude: Double?
+
     private var diary: Diary?
     private var id = UUID()
     private var iconData: Data?
-    private var date: String?
+    private var timeInterval: Int?
     private var isSave: Bool = true
     
     private let textView: UITextView = {
@@ -46,14 +43,7 @@ final class DiaryDetailViewController: UIViewController {
         
         return textView
     }()
-    
-    private let activityIndicator: UIActivityIndicatorView = {
-        let activityIndicator = UIActivityIndicatorView()
-        activityIndicator.style = UIActivityIndicatorView.Style.medium
-        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
-        return activityIndicator
-    }()
-    
+
     // MARK: - Initializer
     init(_ diary: Diary?) {
         self.diary = diary
@@ -67,36 +57,16 @@ final class DiaryDetailViewController: UIViewController {
     // MARK: - State Methods
     override func viewDidLoad() {
         super.viewDidLoad()
-        locationManager = CLLocationManager()
-        configureLocationManager()
         checkWriteMode()
         configureUI()
         configureLayout()
         configureNavigationBar()
         configureNotification()
-        setActivityIndicator()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        let formatter = DiaryDateFormatter.shared
-        
-        if writeMode == .create {
-            fetchWeatherIcon { resultData in
-                let timeInterval = self.diary?.timeIntervalSince1970 ?? formatter.nowTimeIntervalSince1970
-                self.date = formatter.convertToString(from: timeInterval)
-                
-                let data = self.diary?.iconData ?? resultData
-                self.iconData = data
-                
-                DispatchQueue.main.async {
-  
-                    self.configureTitleView(iconData:  data, timeInterval: timeInterval)
-                    self.activityIndicator.stopAnimating()
-                }
-               
-            }
-        }
+
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -105,11 +75,6 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     // MARK: - Methods
-    private func configureLocationManager() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-    }
-    
     private func checkWriteMode() {
         writeMode = diary == nil ? .create : .update
     }
@@ -120,12 +85,29 @@ final class DiaryDetailViewController: UIViewController {
         switch writeMode {
         case .create:
             textView.becomeFirstResponder()
+            fetchWeatherIcon()
         case .update:
             guard let validDiary = diary else { return }
             
             id = validDiary.id
             textView.text = validDiary.sharedText
             configureTitleView(iconData: validDiary.iconData, timeInterval: validDiary.timeIntervalSince1970)
+        }
+    }
+    
+    private func fetchWeatherIcon() {
+        let formatter = DiaryDateFormatter.shared
+        
+        diaryService.fetchWeatherIcon { data in
+            let timeInterval = self.diary?.timeIntervalSince1970 ?? formatter.nowTimeIntervalSince1970
+            self.timeInterval = timeInterval
+            
+            guard let data = self.diary?.iconData ?? data else { return }
+            self.iconData = data
+            
+            DispatchQueue.main.async {
+                self.configureTitleView(iconData: data, timeInterval: timeInterval)
+            }
         }
     }
     
@@ -248,8 +230,8 @@ final class DiaryDetailViewController: UIViewController {
         let components = contents.split(separator: "\n", maxSplits: 1)
         
         guard let title = components.first,
-              let date = self.date,
-              let iconData = self.iconData else { return nil }
+              let iconData = self.iconData,
+              let timeInterval = self.timeInterval  else { return nil }
         
         var body = components[safe: 1] ?? ""
         if body.first == "\n" {
@@ -260,7 +242,7 @@ final class DiaryDetailViewController: UIViewController {
             id: id,
             title: String(title),
             body: String(body),
-            timeIntervalSince1970: dateFormatter.convertToInterval(from: date),
+            timeIntervalSince1970: timeInterval,
             iconData: iconData
         )
         
@@ -288,65 +270,5 @@ final class DiaryDetailViewController: UIViewController {
         } else {
             return trimmedText
         }
-    }
-    
-    private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T {
-        switch result {
-        case.success(let data):
-            return data
-        case .failure(let error):
-            throw error
-        }
-    }
-    
-    private func fetchWeatherIcon(completion: @escaping (Data) -> Void) {
-        guard let latitude = self.latitude,
-              let longitude = self.longitude else { return }
-        
-        diaryService.fetchWeather(lat: latitude, lon: longitude) { result in
-            
-            guard let data = try? self.verifyResult(result: result),
-                  let weather = DecodeManager().decode(data: data, type: DailyWeather.self)  else { return }
-
-            self.diaryService.fetchWeatherIcon(iconId: weather.information.first?.iconId) { result in
-                guard let data = try? self.verifyResult(result: result) else { return }
-                
-                completion(data)
-            }
-        }
-    }
-    
-    private func setActivityIndicator() {
-        if writeMode == .create {
-            self.navigationItem.titleView = activityIndicator
-            activityIndicator.startAnimating()
-        }
-    }
-}
-
-extension DiaryDetailViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        switch status {
-        case .authorizedAlways, .authorizedWhenInUse:
-            print("GPS 권한 설정됨")
-            self.locationManager.startUpdatingLocation()
-        case .restricted, .notDetermined:
-            print("GPS 권한 설정되지 않음")
-        case .denied:
-            print("GPS 권한 요청 거부됨")
-        default:
-            print("GPS: Default")
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location: CLLocation = locations.last else { return }
-        let longitude1: CLLocationDegrees = location.coordinate.longitude
-        let latitude1: CLLocationDegrees = location.coordinate.latitude
-
-        self.latitude = Double(longitude1)
-        self.longitude = Double(latitude1)
-        
-        manager.stopUpdatingLocation()
     }
 }
