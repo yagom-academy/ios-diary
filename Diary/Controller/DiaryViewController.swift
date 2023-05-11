@@ -10,6 +10,13 @@ final class DiaryViewController: UIViewController {
     private let tableView: UITableView = UITableView()
     private var diaryItems: [Diary] = []
     private let persistenceManager = PersistenceManager()
+    private var filteredDiary: [Diary] = []
+    private var isFiltering: Bool {
+        let searchController = navigationItem.searchController
+        let isSearchBarHasText = searchController?.searchBar.text?.isEmpty == false
+        
+        return isSearchBarHasText
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,6 +26,11 @@ final class DiaryViewController: UIViewController {
         
         tableView.dataSource = self
         tableView.delegate = self
+        
+        let searchController = UISearchController()
+        navigationItem.searchController = searchController
+        
+        searchController.searchResultsUpdater = self
     }
     
     func fetchDiary() {
@@ -53,22 +65,6 @@ final class DiaryViewController: UIViewController {
         }
     }
     
-//    private func loadImage(url: URL?, completion: @escaping (UIImage?) -> Void) {
-//        guard let url = url else { return }
-//
-//        DispatchQueue.global(qos: .background).async {
-//            guard let data = try? Data(contentsOf: url) else {
-//                completion(nil)
-//                return
-//            }
-//            guard let image = UIImage(data: data) else {
-//                completion(nil)
-//                return
-//            }
-//            completion(image)
-//        }
-//    }
-    
     @objc private func plusButtonTapped() {
         pushDiaryDetailViewController(.create)
     }
@@ -76,16 +72,18 @@ final class DiaryViewController: UIViewController {
 
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryItems.count
+        return isFiltering ? filteredDiary.count : diaryItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let diaryItem = isFiltering ? filteredDiary[safe: indexPath.row] : diaryItems[safe: indexPath.row]
+        
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryInfoTableViewCell.identifier) as? DiaryInfoTableViewCell,
-              let diaryItem = diaryItems[safe: indexPath.row] else {
+              let diary = diaryItem else {
             return UITableViewCell()
         }
         
-        cell.configureLabel(item: diaryItem)
+        cell.configureLabel(item: diary)
         
         return cell
     }
@@ -125,6 +123,20 @@ extension DiaryViewController: UITableViewDelegate {
         let configuration = UISwipeActionsConfiguration(actions: [deleteContextualAction, shareContextualAction])
         
         return configuration
+    }
+}
+
+extension DiaryViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text?.lowercased() else { return }
+        
+        filteredDiary = diaryItems.filter { diary in
+            guard let content = diary.content else { return false }
+            
+            return content.lowercased().contains(text)
+        }
+        
+        tableView.reloadData()
     }
 }
 
