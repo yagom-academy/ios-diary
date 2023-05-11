@@ -98,7 +98,6 @@ extension HomeDiaryController: UITableViewDataSource {
         ) as? DiaryCell else {
             return UITableViewCell()
         }
-        print(fetchedDiaryResultsController.object(at: indexPath).weather)
         let diary = fetchedDiaryResultsController.object(at: indexPath)
         cell.configureData(data: diary, localizedDateFormatter: localizedDateFormatter)
         

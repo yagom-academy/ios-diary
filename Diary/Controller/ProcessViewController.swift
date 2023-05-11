@@ -62,10 +62,7 @@ final class ProcessViewController: UIViewController {
                 print(error)
             }
         }
-        
     }
-    
-    
     
     override func viewDidAppear(_ animated: Bool) {
         diaryTextView.becomeFirstResponder()
