@@ -9,5 +9,5 @@ disabled_rules:
 
 excluded:
   - Pods
-  - Diary/App/AppDelegate.swift
-  - Diary/App/SceneDelegate.swift
+  - Diary/AppDelegate.swift
+  - Diary/SceneDelegate.swift
