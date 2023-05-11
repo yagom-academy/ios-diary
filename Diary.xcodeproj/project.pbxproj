@@ -110,7 +110,7 @@
 		4A863D6E2A0A06A200B3C8CC /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				ADCB77452A0A085600122158 /* NetworkProtocol */,
+				ADCB77452A0A085600122158 /* Protocol */,
 				ADCB77462A0A087C00122158 /* Endpoint.swift */,
 				4A863D712A0A0B4F00B3C8CC /* OpenWeatherAPI.swift */,
 				ADCB77482A0A131500122158 /* NetworkManager.swift */,
@@ -205,12 +205,12 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
-		ADCB77452A0A085600122158 /* NetworkProtocol */ = {
+		ADCB77452A0A085600122158 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				4A863D6F2A0A06D000B3C8CC /* APIInfo.swift */,
 			);
-			path = NetworkProtocol;
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		ADD4EFAA2A012DF500FF0529 /* AlertData */ = {
