@@ -7,13 +7,13 @@
 
 import CoreLocation
 
-protocol Presentable: AnyObject {
+protocol SettingAlertPresentable: AnyObject {
     func presentSystemSettingAlert()
 }
 
 final class LocationDataManager: NSObject {
     private let locationManager = CLLocationManager()
-    weak var delegate: Presentable?
+    weak var delegate: SettingAlertPresentable?
     
     override init() {
         super.init()
