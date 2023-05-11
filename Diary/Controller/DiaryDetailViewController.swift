@@ -95,10 +95,10 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
-    private func fetchWeatherIcon() {
+    private func configureNewTitleView() {
         let formatter = DiaryDateFormatter.shared
         
-        diaryService.fetchWeatherIcon { data in
+        diaryService.fetchWeatherIcon { data in //fetchweathericon
             let timeInterval = self.diary?.timeIntervalSince1970 ?? formatter.nowTimeIntervalSince1970
             self.timeInterval = timeInterval
             

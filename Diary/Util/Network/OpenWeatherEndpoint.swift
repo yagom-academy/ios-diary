@@ -32,5 +32,3 @@ struct OpenWeatherEndpoint: EndpointMakable {
         return request
     }
 }
-/// 해보면 좋을거
-/// Key 값 외부노출 안되게 감추기

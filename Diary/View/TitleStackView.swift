@@ -2,7 +2,7 @@
 //  TitleStackView.swift
 //  Diary
 //
-//  Created by 김성준 on 2023/05/10.
+//  Created by rilla, songjun on 2023/05/10.
 //
 
 import UIKit
