@@ -9,6 +9,8 @@ final class NetworkManager {
     static let shared = NetworkManager()
     private let urlSession = URLSession(configuration: .default)
     
+    private init() { }
+    
     func startLoad(request: URLRequest, completion: @escaping (Result<Data, NetworkError>) -> Void) {
         urlSession.dataTask(with: request) { data, response, error in
             guard error == nil else {

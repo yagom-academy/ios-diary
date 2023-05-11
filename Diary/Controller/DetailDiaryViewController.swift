@@ -9,13 +9,17 @@ import CoreLocation
 
 final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
-    private var coreDataManager = CoreDataManager.shared
-    private var locationDataManager = LocationDataManager.shared
+    private let coreDataManager = CoreDataManager.shared
+    private let locationDataManager = LocationDataManager.shared
+    private let server = NetworkManager.shared
+    private let decodeManager = DecodeManager.shared
+    private let urlRequestMaker = URLRequestMaker()
     private let isDiaryCreated: Bool
     private var isSaveRequired: Bool
     private var diary: Diary?
-    private var latitude: CLLocationDegrees?
-    private var longitude: CLLocationDegrees?
+    private var latitude: String?
+    private var longitude: String?
+    private var iconName: String?
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -100,9 +104,11 @@ final class DetailDiaryViewController: UIViewController {
     }
     
     private func configureLocation() {
-        latitude = locationDataManager.fetchLocation()?.latitude
-        longitude = locationDataManager.fetchLocation()?.longitude
-        print(latitude, longitude)
+        guard let latitudeData = locationDataManager.fetchLocation()?.latitude,
+              let longitudeData = locationDataManager.fetchLocation()?.longitude else { return }
+        
+        latitude = String(format: "%.2f", latitudeData)
+        longitude = String(format: "%.2f", longitudeData)
     }
     
     // MARK: - Notification method
@@ -177,7 +183,7 @@ final class DetailDiaryViewController: UIViewController {
     
     private func createDiary() {
         let diaryContents = diaryTextView.text.split(separator: "\n", maxSplits: 1)
-
+        
         guard diaryContents.count != 0,
               let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
         
@@ -203,7 +209,7 @@ final class DetailDiaryViewController: UIViewController {
         
         let title = String(diaryContents[0])
         let body = validBody(diaryContents)
-
+        
         guard let id = diary?.id,
               let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
         
@@ -213,7 +219,7 @@ final class DetailDiaryViewController: UIViewController {
         
         coreDataManager.updateDiary(diary: diaryForCoreData)
     }
-
+    
     private func deleteDiary() {
         guard let diary else { return }
         
@@ -239,6 +245,37 @@ final class DetailDiaryViewController: UIViewController {
         }
         
         return result
+    }
+    
+    // MARK: -
+    private func fetchWeatherData(completion: @escaping () -> Void) {
+        guard let latitude, let longitude,
+              let request = urlRequestMaker.request(latitude: latitude, longitude: longitude) else { return }
+        
+        server.startLoad(request: request) { result in
+            do {
+                guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
+                
+                let decodedFile = self.decodeManager.decodeJSON(data: verifiedFetchingResult, type: WeatherInformation.self)
+                
+                guard let verifiedDecodingResult = try self.verifyResult(result: decodedFile) else { return }
+                
+                self.iconName = verifiedDecodingResult.weather[0].icon
+                completion()
+            } catch {
+                print(error)
+            }
+            completion()
+        }
+    }
+    
+    private func verifyResult<T, E: Error>(result: Result<T, E>) throws -> T? {
+        switch result {
+        case .success(let data):
+            return data
+        case .failure(let error):
+            throw error
+        }
     }
 }
 

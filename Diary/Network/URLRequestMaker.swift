@@ -10,7 +10,7 @@ struct URLRequestMaker {
     private let weatherAPIKey = "2e7f86fff79b58087d75569edba173a1"
     private let baseURL = "https://api.openweathermap.org/data/2.5/weather"
  
-    func request(lattitude: String, longitude: String) -> URLRequest? {
+    func request(latitude: String, longitude: String) -> URLRequest? {
         var urlComponents = URLComponents(string: baseURL)
         let lattitude = URLQueryItem(name: "lat", value: lattitude)
         let longitude = URLQueryItem(name: "lon", value: longitude)

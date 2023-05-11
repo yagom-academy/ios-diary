@@ -27,6 +27,9 @@
 		D0BAD8EF29F6705B0068E24B /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BAD8EE29F6705B0068E24B /* Date+.swift */; };
 		D0BAD8F129F770060068E24B /* DetailDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BAD8F029F770060068E24B /* DetailDiaryViewController.swift */; };
 		D0C102712A0CAC280059F549 /* LocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C102702A0CAC280059F549 /* LocationDataManager.swift */; };
+		D0C102732A0CCF010059F549 /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C102722A0CCF010059F549 /* DecodeManager.swift */; };
+		D0C102762A0CCFCB0059F549 /* DecodeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C102752A0CCFCB0059F549 /* DecodeError.swift */; };
+		D0C102792A0CD2060059F549 /* WeatherInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C102782A0CD2060059F549 /* WeatherInformation.swift */; };
 		D0ED6A3E29F6529E00C025E9 /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ED6A3D29F6529E00C025E9 /* DiaryListCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,6 +56,9 @@
 		D0BAD8EE29F6705B0068E24B /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		D0BAD8F029F770060068E24B /* DetailDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDiaryViewController.swift; sourceTree = "<group>"; };
 		D0C102702A0CAC280059F549 /* LocationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataManager.swift; sourceTree = "<group>"; };
+		D0C102722A0CCF010059F549 /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
+		D0C102752A0CCFCB0059F549 /* DecodeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeError.swift; sourceTree = "<group>"; };
+		D0C102782A0CD2060059F549 /* WeatherInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherInformation.swift; sourceTree = "<group>"; };
 		D0ED6A3D29F6529E00C025E9 /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,6 +103,7 @@
 		4B983AAB29F66DCA00190F50 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				D0C102772A0CD1A40059F549 /* DTO */,
 				4B983AA629F6650300190F50 /* Diary.swift */,
 				D00E414029FFABF0006A0F81 /* CoreDataManager.swift */,
 				D0C102702A0CAC280059F549 /* LocationDataManager.swift */,
@@ -152,6 +159,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				D0C102742A0CCF2A0059F549 /* Decode */,
 				4B656A6F2A0CBC0C005DA5FC /* Network */,
 				4B983AAA29F66DB500190F50 /* App */,
 				4B983AAB29F66DCA00190F50 /* Model */,
@@ -174,6 +182,23 @@
 				D00E414229FFC9C4006A0F81 /* String+.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		D0C102742A0CCF2A0059F549 /* Decode */ = {
+			isa = PBXGroup;
+			children = (
+				D0C102722A0CCF010059F549 /* DecodeManager.swift */,
+				D0C102752A0CCFCB0059F549 /* DecodeError.swift */,
+			);
+			path = Decode;
+			sourceTree = "<group>";
+		};
+		D0C102772A0CD1A40059F549 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				D0C102782A0CD2060059F549 /* WeatherInformation.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,6 +296,7 @@
 			files = (
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				D0ED6A3E29F6529E00C025E9 /* DiaryListCell.swift in Sources */,
+				D0C102732A0CCF010059F549 /* DecodeManager.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				D074DF5629FF8E9000ADC9D1 /* Entity+CoreDataProperties.swift in Sources */,
 				4B656A6E2A0CBB4A005DA5FC /* NetworkManager.swift in Sources */,
@@ -284,8 +310,10 @@
 				D074DF5529FF8E9000ADC9D1 /* Entity+CoreDataClass.swift in Sources */,
 				D074DF5829FF98A700ADC9D1 /* Double+.swift in Sources */,
 				D00E414329FFC9C4006A0F81 /* String+.swift in Sources */,
+				D0C102792A0CD2060059F549 /* WeatherInformation.swift in Sources */,
 				4B656A742A0CC4A8005DA5FC /* NetworkError.swift in Sources */,
 				4B656A712A0CBC27005DA5FC /* URLRequestMaker.swift in Sources */,
+				D0C102762A0CCFCB0059F549 /* DecodeError.swift in Sources */,
 				D0BAD8EF29F6705B0068E24B /* Date+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
