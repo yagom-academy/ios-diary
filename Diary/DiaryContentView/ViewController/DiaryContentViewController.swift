@@ -16,7 +16,7 @@ final class DiaryContentViewController: UIViewController {
     private let alertMaker: DiaryAlertFactory = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
     private let diaryDataManager = DiaryDataManager()
-    private let locationManager = CLLocationManager()
+    private let locationHelper = LocationHelper()
     private let openWeatherService = OpenWeatherService()
 
     init(diary: Diary? = nil) {
@@ -31,7 +31,7 @@ final class DiaryContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpLocationManager()
+        setUpLocationHelper()
         setUpRootView()
         setUpNavigationBar()
         setUpTextView()
@@ -63,8 +63,36 @@ final class DiaryContentViewController: UIViewController {
         diaryDataManager.update(data: diary)
     }
     
-    private func setUpLocationManager() {
-        locationManager.delegate = self
+    private func setUpLocationHelper() {
+        locationHelper.setEventHandler { [weak self] coordinate in
+            guard let self else { return }
+            self.loadWeather(coordinate: coordinate)
+        }
+    }
+    
+    private func loadWeather(coordinate: CLLocationCoordinate2D) {
+        openWeatherService.loadData(latitude: coordinate.latitude,
+                                   longitude: coordinate.longitude) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let currentWeather):
+                guard let weather = currentWeather.weather.first else { return }
+                
+                self.diary?.weather?.updateContents(main: weather.main, icon: weather.icon)
+            case .failure(let error):
+                print(error.localizedDescription)
+
+                let alertData = self.alertDataMaker.retryAlertData {
+                    self.loadWeather(coordinate: coordinate)
+                }
+                let alert = self.alertMaker.retryAlert(for: alertData)
+
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
+                }
+            }
+        }
     }
     
     private func devideTitleAndBody(text: String?) -> DiaryText {
@@ -156,31 +184,6 @@ final class DiaryContentViewController: UIViewController {
             diaryDataManager.create(data: diary)
         }
     }
-    
-    private func loadWeather(coordinate: CLLocationCoordinate2D) {
-        openWeatherService.loadData(latitude: coordinate.latitude,
-                                   longitude: coordinate.longitude) { [weak self] result in
-            guard let self else { return }
-
-            switch result {
-            case .success(let currentWeather):
-                guard let weather = currentWeather.weather.first else { return }
-                
-                self.diary?.weather?.updateContents(main: weather.main, icon: weather.icon)
-            case .failure(let error):
-                print(error.localizedDescription)
-
-                let alertData = self.alertDataMaker.retryAlertData {
-                    self.loadWeather(coordinate: coordinate)
-                }
-                let alert = self.alertMaker.retryAlert(for: alertData)
-
-                DispatchQueue.main.async {
-                    self.present(alert, animated: true)
-                }
-            }
-        }
-    }
 }
 
 // MARK: - KeyboardNotification
@@ -256,28 +259,5 @@ extension DiaryContentViewController {
         let alert = alertMaker.deleteDiaryAlert(for: alertData)
         
         present(alert, animated: true)
-    }
-}
-
-// MARK: - Location
-
-extension DiaryContentViewController: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        switch manager.authorizationStatus {
-        case .authorizedWhenInUse, .authorizedAlways:
-            locationManager.startUpdatingLocation()
-        case .restricted, .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .denied:
-            locationManager.requestWhenInUseAuthorization()
-        default:
-            break
-        }
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let coordinate = locations.last?.coordinate {
-            loadWeather(coordinate: coordinate)
-        }
     }
 }
