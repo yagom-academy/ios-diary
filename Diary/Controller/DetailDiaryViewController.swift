@@ -5,13 +5,17 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DetailDiaryViewController: UIViewController {
     private var diaryDate: String?
     private var coreDataManager = CoreDataManager.shared
+    private var locationDataManager = LocationDataManager.shared
     private let isDiaryCreated: Bool
     private var isSaveRequired: Bool
     private var diary: Diary?
+    private var latitude: CLLocationDegrees?
+    private var longitude: CLLocationDegrees?
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -95,6 +99,12 @@ final class DetailDiaryViewController: UIViewController {
         }
     }
     
+    private func configureLocation() {
+        latitude = locationDataManager.fetchLocation()?.latitude
+        longitude = locationDataManager.fetchLocation()?.longitude
+        print(latitude, longitude)
+    }
+    
     // MARK: - Notification method
     private func addDeactiveNotificationObserver() {
         NotificationCenter.default.addObserver(self,
@@ -153,6 +163,7 @@ final class DetailDiaryViewController: UIViewController {
     
     // MARK: - CoreData method
     private func saveDiary() {
+        configureLocation()
         if isSaveRequired {
             if isDiaryCreated {
                 createDiary()

@@ -23,6 +23,7 @@
 		D074DF5829FF98A700ADC9D1 /* Double+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D074DF5729FF98A700ADC9D1 /* Double+.swift */; };
 		D0BAD8EF29F6705B0068E24B /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BAD8EE29F6705B0068E24B /* Date+.swift */; };
 		D0BAD8F129F770060068E24B /* DetailDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0BAD8F029F770060068E24B /* DetailDiaryViewController.swift */; };
+		D0C102712A0CAC280059F549 /* LocationDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0C102702A0CAC280059F549 /* LocationDataManager.swift */; };
 		D0ED6A3E29F6529E00C025E9 /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0ED6A3D29F6529E00C025E9 /* DiaryListCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,6 +46,7 @@
 		D074DF5729FF98A700ADC9D1 /* Double+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+.swift"; sourceTree = "<group>"; };
 		D0BAD8EE29F6705B0068E24B /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		D0BAD8F029F770060068E24B /* DetailDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailDiaryViewController.swift; sourceTree = "<group>"; };
+		D0C102702A0CAC280059F549 /* LocationDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationDataManager.swift; sourceTree = "<group>"; };
 		D0ED6A3D29F6529E00C025E9 /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -81,6 +83,7 @@
 			children = (
 				4B983AA629F6650300190F50 /* Diary.swift */,
 				D00E414029FFABF0006A0F81 /* CoreDataManager.swift */,
+				D0C102702A0CAC280059F549 /* LocationDataManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 				D0ED6A3E29F6529E00C025E9 /* DiaryListCell.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				D074DF5629FF8E9000ADC9D1 /* Entity+CoreDataProperties.swift in Sources */,
+				D0C102712A0CAC280059F549 /* LocationDataManager.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				4B116D142A020056001D63F0 /* ActionController.swift in Sources */,
 				D0BAD8F129F770060068E24B /* DetailDiaryViewController.swift in Sources */,
