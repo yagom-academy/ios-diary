@@ -48,7 +48,7 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureconstantPriority() {
-        dateLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
+        dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         weatherIcon.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         contentsLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
@@ -91,7 +91,6 @@ final class DiaryTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: font)
         label.adjustsFontForContentSizeCategory = true
-        label.sizeToFit()
         
         return label
     }

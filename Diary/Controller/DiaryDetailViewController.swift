@@ -86,13 +86,12 @@ final class DiaryDetailViewController: UIViewController {
                 let timeInterval = self.diary?.timeIntervalSince1970 ?? formatter.nowTimeIntervalSince1970
                 self.date = formatter.convertToString(from: timeInterval)
                 
-                self.iconData = self.diary?.iconData ?? resultData
+                let data = self.diary?.iconData ?? resultData
+                self.iconData = data
                 
                 DispatchQueue.main.async {
-                    let titleView = TitleStackView()
-                    titleView.configureContent(iconData: self.iconData, date: self.date)
-                    
-                    self.navigationItem.titleView = titleView
+  
+                    self.configureTitleView(iconData:  data, timeInterval: timeInterval)
                     self.activityIndicator.stopAnimating()
                 }
                
@@ -126,6 +125,7 @@ final class DiaryDetailViewController: UIViewController {
             
             id = validDiary.id
             textView.text = validDiary.sharedText
+            configureTitleView(iconData: validDiary.iconData, timeInterval: validDiary.timeIntervalSince1970)
         }
     }
     
@@ -140,6 +140,14 @@ final class DiaryDetailViewController: UIViewController {
             textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor, constant: -8),
             textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor, constant: -8)
         ])
+    }
+    
+    private func configureTitleView(iconData: Data, timeInterval: Int) {
+        let titleView = TitleStackView()
+        let dateText = dateFormatter.convertToString(from: timeInterval)
+        titleView.configureContent(iconData: iconData, date: dateText)
+        
+        self.navigationItem.titleView = titleView
     }
     
     private func configureNavigationBar() {
@@ -309,8 +317,10 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func setActivityIndicator() {
-        self.navigationItem.titleView = activityIndicator
-        activityIndicator.startAnimating()
+        if writeMode == .create {
+            self.navigationItem.titleView = activityIndicator
+            activityIndicator.startAnimating()
+        }
     }
 }
 
