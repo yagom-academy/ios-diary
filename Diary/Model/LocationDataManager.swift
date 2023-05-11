@@ -7,8 +7,13 @@
 
 import CoreLocation
 
+protocol Presentable: AnyObject {
+    func presentSystemSettingAlert()
+}
+
 final class LocationDataManager: NSObject {
     private let locationManager = CLLocationManager()
+    weak var delegate: Presentable?
     
     override init() {
         super.init()
@@ -22,8 +27,6 @@ extension LocationDataManager: CLLocationManagerDelegate {
         if let coordinate = locations.last?.coordinate {
             print(coordinate)
         }
-        
-        locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -32,12 +35,14 @@ extension LocationDataManager: CLLocationManagerDelegate {
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
-        case .authorizedWhenInUse, .authorizedAlways:
+        case .authorizedWhenInUse:
             locationManager.requestLocation()
         case .restricted, .denied:
-            break
+            delegate?.presentSystemSettingAlert()
         case .notDetermined:
             manager.requestWhenInUseAuthorization()
+        default:
+            break
         }
     }
 }
