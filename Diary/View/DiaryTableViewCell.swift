@@ -30,6 +30,13 @@ final class DiaryTableViewCell: UITableViewCell {
     private lazy var titleLabel: UILabel = createDynamicLabel(font: .title3)
     private lazy var dateLabel: UILabel = createDynamicLabel(font: .body)
     private lazy var contentsLabel: UILabel = createDynamicLabel(font: .caption1)
+    private lazy var weatherIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        imageView.backgroundColor = .lightGray
+        
+       return imageView
+    }()
     
     // MARK: - Method
     
@@ -43,6 +50,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     func configureconstantPriority() {
         dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        weatherIcon.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         contentsLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
     
@@ -59,11 +67,15 @@ final class DiaryTableViewCell: UITableViewCell {
         mainStackView.addArrangedSubview(subTitleStackView)
         
         subTitleStackView.addArrangedSubview(dateLabel)
+        subTitleStackView.addArrangedSubview(weatherIcon)
         subTitleStackView.addArrangedSubview(contentsLabel)
     }
     
     private func configureLayout() {
         NSLayoutConstraint.activate([
+            weatherIcon.heightAnchor.constraint(equalToConstant: 16),
+            weatherIcon.widthAnchor.constraint(equalToConstant: 16),
+            
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50),
             mainStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 15),

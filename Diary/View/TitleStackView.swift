@@ -12,6 +12,7 @@ final class TitleStackView: UIStackView {
     private let weatherIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
@@ -25,7 +26,6 @@ final class TitleStackView: UIStackView {
     
     func configureContent(iconData: Data, date: String) {
         configureUI()
-        weatherIcon.contentMode = .scaleAspectFit
         weatherIcon.image = UIImage(data: iconData)
         dateLabel.text = date
     }
