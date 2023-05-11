@@ -9,7 +9,12 @@ import UIKit
 
 final class TitleStackView: UIStackView {
 
-    private let weatherIcon = UIImageView()
+    private let weatherIcon: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
@@ -26,9 +31,12 @@ final class TitleStackView: UIStackView {
     }
     
     private func configureUI() {
-        self.distribution = .fillProportionally
-        
         self.addArrangedSubview(weatherIcon)
         self.addArrangedSubview(dateLabel)
+        
+        NSLayoutConstraint.activate ([
+            weatherIcon.heightAnchor.constraint(equalToConstant: 40),
+            weatherIcon.widthAnchor.constraint(equalToConstant: 40)
+        ])
     }
 }

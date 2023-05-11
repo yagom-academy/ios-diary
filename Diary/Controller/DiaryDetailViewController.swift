@@ -46,6 +46,13 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
+    private let activityIndicator: UIActivityIndicatorView = {
+        let activityIndicator = UIActivityIndicatorView()
+        activityIndicator.style = UIActivityIndicatorView.Style.medium
+        activityIndicator.translatesAutoresizingMaskIntoConstraints = false
+        return activityIndicator
+    }()
+    
     // MARK: - Initializer
     init(_ diary: Diary?) {
         self.diary = diary
@@ -66,6 +73,7 @@ final class DiaryDetailViewController: UIViewController {
         configureLayout()
         configureNavigationBar()
         configureNotification()
+        setActivityIndicator()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -84,6 +92,7 @@ final class DiaryDetailViewController: UIViewController {
                     titleView.configureContent(iconData: data, date: dateText)
                     
                     self.navigationItem.titleView = titleView
+                    self.activityIndicator.stopAnimating()
                 }
                
             }
@@ -296,6 +305,11 @@ final class DiaryDetailViewController: UIViewController {
                 completion(data)
             }
         }
+    }
+    
+    private func setActivityIndicator() {
+        self.navigationItem.titleView = activityIndicator
+        activityIndicator.startAnimating()
     }
 }
 
