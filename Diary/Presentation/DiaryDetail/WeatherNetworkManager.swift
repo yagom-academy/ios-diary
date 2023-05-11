@@ -7,10 +7,10 @@
 
 import Foundation
 
-final class WeatherDataManager {
+final class WeatherNetworkManager {
     private let networkManager = NetworkManager()
     
-    func fetchWeatherInfo(coordinate: Coordinate, completion: @escaping (Result<Data, Error>) -> Void) {
+    func fetchInfo(coordinate: Coordinate, completion: @escaping (Result<(Data, Weather), Error>) -> Void) {
         let endPoint = EndPoint.weatherInfo(latitude: coordinate.latitude,
                                             longitude: coordinate.longitude).asURLRequest()
 
@@ -21,52 +21,40 @@ final class WeatherDataManager {
             case .success(let data):
                 self.decode(data, completion: completion)
             case .failure(let error):
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
+                completion(.failure(error))
             }
         }
     }
 
-    private func decode(_ data: Data, completion: @escaping (Result<Data, Error>) -> Void) {
+    private func decode(_ data: Data, completion: @escaping (Result<(Data, Weather), Error>) -> Void) {
         let result = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
 
         switch result {
         case .success(let weatherDTO):
             guard let weatherIconCode = weatherDTO.weather.first?.iconCode,
                   let weatherType = weatherDTO.weather.first?.type else {
-                DispatchQueue.main.async {
-                    completion(.failure(NetworkError.dataNotFound))
-                }
+                completion(.failure(NetworkError.dataNotFound))
 
                 return
             }
 
             let weather = Weather(type: weatherType, iconCode: weatherIconCode)
             
-            fetchWeatherImage(weather: weather, completion: completion)
+            fetchImage(weather: weather, completion: completion)
         case .failure(let error):
-            DispatchQueue.main.async {
-                completion(.failure(error))
-            }
+            completion(.failure(error))
         }
     }
 
-    private func fetchWeatherImage(weather: Weather, completion: @escaping (Result<Data, Error>) -> Void) {
+    func fetchImage(weather: Weather, completion: @escaping (Result<(Data, Weather), Error>) -> Void) {
         let endPoint = EndPoint.weatherImage(iconCode: weather.iconCode).asURLRequest()
 
-        NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
-            guard let self else { return }
-
+        NetworkManager().fetchData(urlRequest: endPoint) { result in
             switch result {
             case .success(let image):
-                DispatchQueue.main.async {
-                    completion(.success(image))
-                }
+                completion(.success((image, weather)))
             case .failure(let error):
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
+                completion(.failure(error))
             }
         }
     }

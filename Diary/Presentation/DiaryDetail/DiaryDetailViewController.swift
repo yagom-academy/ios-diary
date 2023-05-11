@@ -11,6 +11,7 @@ final class DiaryDetailViewController: UIViewController {
     private var contents: ContentsDTO?
     private var weather: Weather?
     private let locationManager = LocationManager()
+    private let weatherNetworkManager = WeatherNetworkManager()
     private weak var delegate: DiaryDetailViewControllerDelegate?
     
     private let textView: UITextView = {
@@ -63,10 +64,26 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func checkStatusToAddIcon() {
-        if contents == nil {
+        guard let contents else {
             locationManager.activateLocation()
-        } else {
-//            fetchWeatherImage(iconCode: contents?.weather?.iconCode)
+            return
+        }
+        
+        guard let weather = contents.weather else { return }
+        
+        weatherNetworkManager.fetchImage(weather: weather) { [weak self] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let (data, _)):
+                DispatchQueue.main.async {
+                    self.weatherIconImageView.image = UIImage(data: data)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    AlertManager().showErrorAlert(target: self, error: error)
+                }
+            }
         }
     }
     
@@ -160,21 +177,22 @@ final class DiaryDetailViewController: UIViewController {
         
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(receiveWeatherInfo),
+            selector: #selector(fetchWeatherInfo),
             name: .didGetLocationNotification,
             object: nil)
     }
     
-    @objc private func receiveWeatherInfo(noti: Notification) {
+    @objc private func fetchWeatherInfo(_ noti: Notification) {
         guard let coordinate = noti.object as? Coordinate else { return }
         
-        WeatherDataManager().fetchWeatherInfo(coordinate: coordinate) { [weak self] result in
+        weatherNetworkManager.fetchInfo(coordinate: coordinate) { [weak self] result in
             guard let self else { return }
             
             switch result {
-            case .success(let image):
+            case .success(let (data, weather)):
                 DispatchQueue.main.async {
-                    self.weatherIconImageView.image = UIImage(data: image)
+                    self.weatherIconImageView.image = UIImage(data: data)
+                    self.weather = weather
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
