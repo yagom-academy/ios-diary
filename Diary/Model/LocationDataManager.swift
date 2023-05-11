@@ -13,6 +13,7 @@ final class LocationDataManager: NSObject {
     override init() {
         super.init()
         locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
     }
 }
 
@@ -39,5 +40,4 @@ extension LocationDataManager: CLLocationManagerDelegate {
             manager.requestWhenInUseAuthorization()
         }
     }
-    
 }
