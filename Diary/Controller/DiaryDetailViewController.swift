@@ -146,9 +146,7 @@ extension DiaryDetailViewController: CLLocationManagerDelegate {
         case .authorizedAlways, .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
             fetchWeatherID()
-        case .restricted, .notDetermined:
-            locationManager.requestWhenInUseAuthorization()
-        case .denied:
+        case .restricted, .notDetermined, .denied:
             locationManager.requestWhenInUseAuthorization()
         default:
             return
