@@ -33,6 +33,7 @@ final class DiaryDetailViewController: UIViewController {
     private var diary: Diary?
     private var id = UUID()
     private var iconData: Data?
+    private var date: String?
     private var isSave: Bool = true
     
     private let textView: UITextView = {
@@ -82,14 +83,14 @@ final class DiaryDetailViewController: UIViewController {
         
         if writeMode == .create {
             fetchWeatherIcon { resultData in
-                let date = self.diary?.timeIntervalSince1970 ?? formatter.nowTimeIntervalSince1970
-                let dateText = formatter.convertToString(from: date)
+                let timeInterval = self.diary?.timeIntervalSince1970 ?? formatter.nowTimeIntervalSince1970
+                self.date = formatter.convertToString(from: timeInterval)
                 
-                let data = self.diary?.iconData ?? resultData
+                self.iconData = self.diary?.iconData ?? resultData
                 
                 DispatchQueue.main.async {
                     let titleView = TitleStackView()
-                    titleView.configureContent(iconData: data, date: dateText)
+                    titleView.configureContent(iconData: self.iconData, date: self.date)
                     
                     self.navigationItem.titleView = titleView
                     self.activityIndicator.stopAnimating()
@@ -239,7 +240,7 @@ final class DiaryDetailViewController: UIViewController {
         let components = contents.split(separator: "\n", maxSplits: 1)
         
         guard let title = components.first,
-              let date = self.title,
+              let date = self.date,
               let iconData = self.iconData else { return nil }
         
         var body = components[safe: 1] ?? ""

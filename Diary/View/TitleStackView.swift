@@ -24,9 +24,11 @@ final class TitleStackView: UIStackView {
         return label
     }()
     
-    func configureContent(iconData: Data, date: String) {
+    func configureContent(iconData: Data?, date: String?) {
         configureUI()
-        weatherIcon.image = UIImage(data: iconData)
+        
+        guard let data = iconData else { return }
+        weatherIcon.image = UIImage(data: data)
         dateLabel.text = date
     }
     

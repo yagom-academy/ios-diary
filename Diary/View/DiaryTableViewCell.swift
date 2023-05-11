@@ -33,7 +33,6 @@ final class DiaryTableViewCell: UITableViewCell {
     private lazy var weatherIcon: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFit
-        imageView.backgroundColor = .lightGray
         
        return imageView
     }()
@@ -49,7 +48,7 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureconstantPriority() {
-        dateLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        dateLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         weatherIcon.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
         contentsLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
     }
@@ -58,6 +57,7 @@ final class DiaryTableViewCell: UITableViewCell {
         titleLabel.text = diary.title
         dateLabel.text = DiaryDateFormatter.shared.convertToString(from: diary.timeIntervalSince1970) 
         contentsLabel.text = diary.body
+        weatherIcon.image = UIImage(data: diary.iconData)
     }
     
     private func configureUI() {
@@ -73,9 +73,9 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private func configureLayout() {
         NSLayoutConstraint.activate([
-            weatherIcon.heightAnchor.constraint(equalToConstant: 16),
-            weatherIcon.widthAnchor.constraint(equalToConstant: 16),
-            
+            weatherIcon.heightAnchor.constraint(equalToConstant: 35),
+            weatherIcon.widthAnchor.constraint(equalToConstant: 35),
+
             mainStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 15),
             mainStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -50),
             mainStackView.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 15),
@@ -91,6 +91,7 @@ final class DiaryTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: font)
         label.adjustsFontForContentSizeCategory = true
+        label.sizeToFit()
         
         return label
     }
