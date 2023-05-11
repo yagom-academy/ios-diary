@@ -76,6 +76,12 @@ final class DiaryListCell: UITableViewCell {
         setUpLayout()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        iconView.image = nil
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -41,4 +41,19 @@ struct DiaryAlertMaker: DiaryAlertFactory {
         
         return alertController
     }
+    
+    func reloadAlert(for data: AlertViewData) -> UIAlertController {
+        let alertController = UIAlertController(title: data.title,
+                                                message: data.message,
+                                                preferredStyle: .alert)
+        let reloadAction = UIAlertAction(title: "재시도", style: .default) { _ in
+            data.completion()
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        
+        alertController.addAction(reloadAction)
+        alertController.addAction(cancelAction)
+        
+        return alertController
+    }
 }

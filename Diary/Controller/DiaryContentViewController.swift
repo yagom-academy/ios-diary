@@ -57,26 +57,14 @@ final class DiaryContentViewController: UIViewController {
         let currentContents: DiaryText = devideTitleAndBody(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
         
-        if isDiaryEdited(currentContents) {
-            diary.updateContents(title: currentContents.title,
-                                 body: currentContents.body,
-                                 updatedDate: updatedDate)
-            diaryDataManager.update(data: diary)
-        }
+        diary.updateContents(title: currentContents.title,
+                             body: currentContents.body,
+                             updatedDate: updatedDate)
+        diaryDataManager.update(data: diary)
     }
     
     private func setUpLocationManager() {
         locationManager.delegate = self
-    }
-    
-    private func isDiaryEdited(_ currentContents: DiaryText) -> Bool {
-        guard let diary else { return false }
-        
-        if diary.title != currentContents.title || diary.body != currentContents.body {
-            return true
-        } else {
-            return false
-        }
     }
     
     private func devideTitleAndBody(text: String?) -> DiaryText {
@@ -261,15 +249,31 @@ extension DiaryContentViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.last?.coordinate {
-            weatherDataLoader.loadData(latitude: coordinate.latitude,
-                                       longitude: coordinate.longitude) { result in
-                switch result {
-                case .success(let currentWeather):
-                    guard let weather = currentWeather.weather.first else { return }
-                    
-                    self.diary?.weather?.updateContents(main: weather.main, icon: weather.icon)
-                case .failure(let error):
-                    print(error.localizedDescription)
+            loadWeather(coordinate: coordinate)
+            print(coordinate)
+        }
+    }
+    
+    private func loadWeather(coordinate: CLLocationCoordinate2D) {
+        weatherDataLoader.loadData(latitude: coordinate.latitude,
+                                   longitude: coordinate.longitude) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let currentWeather):
+                guard let weather = currentWeather.weather.first else { return }
+
+                self.diary?.weather?.updateContents(main: weather.main, icon: weather.icon)
+            case .failure(let error):
+                print(error.localizedDescription)
+
+                let alertData = self.alertDataMaker.reloadAlertData {
+                    self.loadWeather(coordinate: coordinate)
+                }
+                let alert = self.alertFactory.reloadAlert(for: alertData)
+
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
                 }
             }
         }
