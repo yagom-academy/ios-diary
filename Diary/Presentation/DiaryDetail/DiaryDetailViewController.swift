@@ -66,7 +66,7 @@ final class DiaryDetailViewController: UIViewController {
         if contents == nil {
             locationManager.activateLocation()
         } else {
-            fetchWeatherImage(iconCode: contents?.weather?.iconCode)
+//            fetchWeatherImage(iconCode: contents?.weather?.iconCode)
         }
     }
     
@@ -160,62 +160,17 @@ final class DiaryDetailViewController: UIViewController {
         
         NotificationCenter.default.addObserver(
             self,
-            selector: #selector(fetchWeatherInfo),
+            selector: #selector(receiveWeatherInfo),
             name: .didGetLocationNotification,
             object: nil)
     }
     
-    @objc private func fetchWeatherInfo(_ noti: Notification) {
+    @objc private func receiveWeatherInfo(noti: Notification) {
         guard let coordinate = noti.object as? Coordinate else { return }
         
-        let endPoint = EndPoint.weatherInfo(latitude: coordinate.latitude,
-                                            longitude: coordinate.longitude).asURLRequest()
-
-        NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
+        WeatherDataManager().fetchWeatherInfo(coordinate: coordinate) { [weak self] result in
             guard let self else { return }
-
-            switch result {
-            case .success(let data):
-                self.decode(data)
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    AlertManager().showErrorAlert(target: self, error: error)
-                }
-            }
-        }
-    }
-
-    private func decode(_ data: Data) {
-        let result = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
-
-        switch result {
-        case .success(let weatherDTO):
-            guard let weatherIconCode = weatherDTO.weather.first?.iconCode,
-                  let weatherType = weatherDTO.weather.first?.type else {
-                DispatchQueue.main.async {
-                    AlertManager().showErrorAlert(target: self, error: NetworkError.dataNotFound)
-                }
-
-                return
-            }
-
-            self.weather = Weather(type: weatherType, iconCode: weatherIconCode)
-            self.fetchWeatherImage(iconCode: weatherIconCode)
-        case .failure(let error):
-            DispatchQueue.main.async {
-                AlertManager().showErrorAlert(target: self, error: error)
-            }
-        }
-    }
-
-    private func fetchWeatherImage(iconCode: String?) {
-        guard let iconCode else { return }
-        
-        let endPoint = EndPoint.weatherImage(iconCode: iconCode).asURLRequest()
-
-        NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
-            guard let self else { return }
-
+            
             switch result {
             case .success(let image):
                 DispatchQueue.main.async {
