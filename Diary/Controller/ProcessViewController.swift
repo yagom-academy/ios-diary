@@ -27,12 +27,15 @@ final class ProcessViewController: UIViewController {
         }
     }
     
+    private typealias WeatherIconInformation = (weatherCondision: String, weatherIcon: String)
     private typealias DiaryInformation = (title: String, body: String)
+    
     private let diaryTextView = UITextView()
     private var diary: Diary?
     private var isDeleteDiary: Bool = false
     private let diaryService: DiaryService
     private let locationDataManager = LocationDataManager()
+    private var weatherInformation: WeatherIconInformation?
     
     init(diary: Diary? = nil, diaryService: DiaryService) {
         self.diary = diary
@@ -266,7 +269,7 @@ extension ProcessViewController: SettingAlertPresentable {
         ) { result in
             switch result {
             case .success(let info):
-                print(info)
+                self.weatherInformation = (weatherCondision: info.main, weatherIcon: info.iconCode)
             case .failure(let error):
                 print(error)
             }
