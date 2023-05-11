@@ -8,8 +8,8 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private let tableView: UITableView = UITableView()
-    private var diaryItems: [Diary] = []
     private let persistenceManager = PersistenceManager()
+    private var diaryItems: [Diary] = []
     private var filteredDiary: [Diary] = []
     private var isFiltering: Bool {
         let searchController = navigationItem.searchController
@@ -22,15 +22,7 @@ final class DiaryViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        fetchDiary()
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        let searchController = UISearchController()
-        navigationItem.searchController = searchController
-        
-        searchController.searchResultsUpdater = self
+        configureInitialView()
     }
     
     func fetchDiary() {
@@ -43,6 +35,17 @@ final class DiaryViewController: UIViewController {
                 self?.showFailAlert(error: error)
             }
         }
+    }
+    
+    private func configureInitialView() {
+        let searchController = UISearchController()
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        fetchDiary()
     }
     
     private func pushDiaryDetailViewController(with diary: Diary? = nil, _ state: DiaryState) {
@@ -79,9 +82,7 @@ extension DiaryViewController: UITableViewDataSource {
         let diaryItem = isFiltering ? filteredDiary[safe: indexPath.row] : diaryItems[safe: indexPath.row]
         
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryInfoTableViewCell.identifier) as? DiaryInfoTableViewCell,
-              let diary = diaryItem else {
-            return UITableViewCell()
-        }
+              let diary = diaryItem else { return UITableViewCell() }
         
         cell.configureLabel(item: diary)
         

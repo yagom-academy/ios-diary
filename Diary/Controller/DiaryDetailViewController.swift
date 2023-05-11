@@ -16,12 +16,12 @@ final class DiaryDetailViewController: UIViewController {
         
         return textView
     }()
+    private let persistenceManager = PersistenceManager()
+    private let networkManager = NetworkManager()
     private var diaryItem: Diary?
     private var state: DiaryState
-    private var weatherID: String? = nil
-    private let persistenceManager = PersistenceManager()
+    private var weatherID: String?
     private var locationManager = CLLocationManager()
-    private let networkManager = NetworkManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +39,7 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
-    init(diaryItem: Diary? = nil, state: DiaryState) {
+    init(diaryItem: Diary?, state: DiaryState) {
         self.diaryItem = diaryItem
         self.state = state
         super.init(nibName: nil, bundle: nil)
