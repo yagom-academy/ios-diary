@@ -89,7 +89,9 @@ extension DiaryListViewController: UITableViewDataSource {
         
         let diary = diaryList[indexPath.row]
         
-        weatherHelper.loadIcon(code: diary.weather?.icon) { result in
+        weatherHelper.loadIcon(code: diary.weather?.icon) { [weak cell] result in
+            guard let cell else { return }
+            
             switch result {
             case .success(let icon):
                 DispatchQueue.main.async {

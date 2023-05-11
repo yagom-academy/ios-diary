@@ -9,7 +9,7 @@ import Foundation
 import CoreData
 
 struct CoreDataManager {
-    let storage = CoreDataStack.shared
+    private let storage = CoreDataStack.shared
     
     func createDAO<DAO: DataAccessObject>(type: DAO.Type) -> DAO? {
         guard let entityName = DAO.entity().name,

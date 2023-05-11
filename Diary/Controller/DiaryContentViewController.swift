@@ -13,7 +13,7 @@ final class DiaryContentViewController: UIViewController {
     
     private var diary: Diary?
     private let textView = UITextView()
-    private let alertFactory: DiaryAlertFactory = DiaryAlertMaker()
+    private let alertMaker: DiaryAlertFactory = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
     private let diaryDataManager = DiaryDataManager()
     private let locationManager = CLLocationManager()
@@ -204,7 +204,7 @@ extension DiaryContentViewController {
             
             self.presentDeleteAlert()
         }
-        let alert = alertFactory.actionSheet(for: alertData)
+        let alert = alertMaker.actionSheet(for: alertData)
 
         present(alert, animated: true)
     }
@@ -226,7 +226,7 @@ extension DiaryContentViewController {
             self.diary = nil
             self.navigationController?.popViewController(animated: true)
         }
-        let alert = alertFactory.deleteDiaryAlert(for: alertData)
+        let alert = alertMaker.deleteDiaryAlert(for: alertData)
         
         present(alert, animated: true)
     }
@@ -250,7 +250,6 @@ extension DiaryContentViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let coordinate = locations.last?.coordinate {
             loadWeather(coordinate: coordinate)
-            print(coordinate)
         }
     }
     
@@ -262,7 +261,7 @@ extension DiaryContentViewController: CLLocationManagerDelegate {
             switch result {
             case .success(let currentWeather):
                 guard let weather = currentWeather.weather.first else { return }
-
+                
                 self.diary?.weather?.updateContents(main: weather.main, icon: weather.icon)
             case .failure(let error):
                 print(error.localizedDescription)
@@ -270,7 +269,7 @@ extension DiaryContentViewController: CLLocationManagerDelegate {
                 let alertData = self.alertDataMaker.retryAlertData {
                     self.loadWeather(coordinate: coordinate)
                 }
-                let alert = self.alertFactory.retryAlert(for: alertData)
+                let alert = self.alertMaker.retryAlert(for: alertData)
 
                 DispatchQueue.main.async {
                     self.present(alert, animated: true)

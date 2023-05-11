@@ -26,8 +26,10 @@ final class DiaryListCell: UITableViewCell {
         return label
     }()
     
-    private let iconView: UIImageView = {
+    private let iconImageView: UIImageView = {
         let imageView = UIImageView()
+        
+        imageView.contentMode = .scaleToFill
         
         return imageView
     }()
@@ -48,7 +50,7 @@ final class DiaryListCell: UITableViewCell {
         stackView.alignment = .fill
         stackView.spacing = 10
         stackView.addArrangedSubview(dateLabel)
-        stackView.addArrangedSubview(iconView)
+        stackView.addArrangedSubview(iconImageView)
         stackView.addArrangedSubview(previewLabel)
 
         return stackView
@@ -79,7 +81,7 @@ final class DiaryListCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        iconView.image = nil
+        iconImageView.image = nil
     }
     
     required init?(coder: NSCoder) {
@@ -101,8 +103,8 @@ final class DiaryListCell: UITableViewCell {
             contentStackView.trailingAnchor.constraint(equalTo: safe.trailingAnchor),
             contentStackView.bottomAnchor.constraint(equalTo: safe.bottomAnchor),
             
-            iconView.widthAnchor.constraint(equalToConstant: 35),
-            iconView.heightAnchor.constraint(equalTo: iconView.widthAnchor, multiplier: 1)
+            iconImageView.widthAnchor.constraint(equalToConstant: 35),
+            iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor, multiplier: 1)
         ])
     }
     
@@ -115,6 +117,6 @@ final class DiaryListCell: UITableViewCell {
     }
     
     func configureIcon(image: UIImage) {
-        iconView.image = image
+        iconImageView.image = image
     }
 }
