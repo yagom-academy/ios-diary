@@ -6,12 +6,11 @@
 //
 
 import UIKit
-import CoreLocation
 
 final class DiaryDetailViewController: UIViewController {
     private var contents: ContentsDTO?
     private var weather: Weather?
-    private let locationManager = CLLocationManager()
+    private let locationManager = LocationManager()
     private weak var delegate: DiaryDetailViewControllerDelegate?
     
     private let textView: UITextView = {
@@ -69,7 +68,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private func checkStatusToAddIcon() {
         guard contents != nil else {
-            activateLocation()
+            locationManager.activateLocation()
             
             return
         }
@@ -77,12 +76,6 @@ final class DiaryDetailViewController: UIViewController {
         if let iconCode = contents?.weather?.iconCode {
             fetchWeatherImage(iconCode: iconCode)
         }
-    }
-    
-    private func activateLocation() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
     }
     
     private func configureUIOption() {
@@ -172,10 +165,19 @@ final class DiaryDetailViewController: UIViewController {
             selector: #selector(saveContents),
             name: UIScene.didEnterBackgroundNotification,
             object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(fetchWeatherInfo),
+            name: .didGetLocationNotification,
+            object: nil)
     }
     
-    private func fetchWeatherInfo(latitude: String, longitude: String) {
-        let endPoint = EndPoint.weatherInfo(latitude: latitude, longitude: longitude).asURLRequest()
+    @objc private func fetchWeatherInfo(_ noti: Notification) {
+        guard let coordinate = noti.object as? Coordinate else { return }
+        
+        let endPoint = EndPoint.weatherInfo(latitude: coordinate.latitude,
+                                            longitude: coordinate.longitude).asURLRequest()
 
         NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
             guard let self else { return }
@@ -190,10 +192,10 @@ final class DiaryDetailViewController: UIViewController {
             }
         }
     }
-    
+
     private func decode(_ data: Data) {
         let result = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
-        
+
         switch result {
         case .success(let weatherDTO):
             guard let weatherIconCode = weatherDTO.weather.first?.iconCode,
@@ -201,10 +203,10 @@ final class DiaryDetailViewController: UIViewController {
                 DispatchQueue.main.async {
                     AlertManager().showErrorAlert(target: self, error: NetworkError.dataNotFound)
                 }
-                
+
                 return
             }
-            
+
             self.weather = Weather(type: weatherType, iconCode: weatherIconCode)
             self.fetchWeatherImage(iconCode: weatherIconCode)
         case .failure(let error):
@@ -317,14 +319,5 @@ extension DiaryDetailViewController {
 extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         saveContents()
-    }
-}
-
-// MARK: - Core location delegate
-extension DiaryDetailViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let coordinate = locations.last?.coordinate {
-            fetchWeatherInfo(latitude: String(coordinate.latitude), longitude: String(coordinate.longitude))
-        }
     }
 }
