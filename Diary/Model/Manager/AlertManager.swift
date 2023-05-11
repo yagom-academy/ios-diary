@@ -46,4 +46,3 @@ final class AlertManager {
         target.present(alert, animated: true)
     }
 }
-

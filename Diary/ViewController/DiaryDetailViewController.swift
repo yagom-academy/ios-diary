@@ -31,7 +31,7 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
         switch mode {
         case .edit:
             guard let title = fetchedDiary?.title,
-            let body = fetchedDiary?.body else { return textView }
+                  let body = fetchedDiary?.body else { return textView }
             textView.text = title + "\n" + body
         case .create:
             textView.text = "내용을 입력하세요"
@@ -66,21 +66,20 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
         super.viewDidLoad()
         view.backgroundColor = .white
         
-        setUpLocation()
         configureNavigationBar()
         configureDiaryView()
         setUpKeyboardNotification()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-    
-        if mode == .create {
-            fetchWeatherAPI()
-            diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
-            diaryTextView.becomeFirstResponder()
-        }
-    }
+           super.viewDidAppear(animated)
+           
+           if mode == .create {
+               setUpLocation()
+               diaryTextView.addDoneButton(title: "Done", target: self, selector: #selector(dismissKeyboard))
+               diaryTextView.becomeFirstResponder()
+           }
+       }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
@@ -102,9 +101,33 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        manager.stopUpdatingLocation()
         if let location = locations.first {
             latitude = String(location.coordinate.latitude)
             longitude = String(location.coordinate.longitude)
+            fetchWeatherAPI()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error.localizedDescription)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            break
+        default:
+            AlertManager.shared.showAlert(target: self,
+                                          title: "위치 정보 필요",
+                                          message: "날씨를 표시하려면 위치 권한이 필요합니다. \n 허용하지 않으면 날씨표시 없이 일기를 작성합니다.",
+                                          defaultTitle: "날씨없는 일기 작성",
+                                          destructiveTitle: "권한 변경",
+                                          destructiveHandler: { _ in
+                if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+                }
+            })
         }
     }
     
@@ -234,25 +257,32 @@ final class DiaryDetailViewController: UIViewController, CLLocationManagerDelega
         switch mode {
         case .edit:
             guard let date = fetchedDiary?.date,
-                  let weatherState = fetchedDiary?.weatherState,
-                  let icon = fetchedDiary?.icon,
                   let key = fetchedDiary?.objectID else { return }
             
-            let diary = MyDiary(title: titleText, body: bodyText, createdDate: date, weatherState: weatherState, icon: icon)
+            if let weatherState = self.weatherState,
+               let icon = self.icon {
+                let diary = MyDiary(title: titleText, body: bodyText, createdDate: date, weatherState: weatherState, icon: icon)
+                CoreDataManager.shared.update(key: key, diary: diary)
+            } else {
+                let diary = MyDiary(title: titleText, body: bodyText, createdDate: date)
+                CoreDataManager.shared.update(key: key, diary: diary)
+            }
             
-            CoreDataManager.shared.update(key: key, diary: diary)
         case .create:
-            guard let weatherState = self.weatherState,
-                  let icon = self.icon else { return }
-            
             let today = Double(Date().timeIntervalSince1970)
-            let diary = MyDiary(title: titleText, body: bodyText, createdDate: today, weatherState: weatherState, icon: icon)
             
-            CoreDataManager.shared.create(diary: diary)
+            if let weatherState = self.weatherState,
+               let icon = self.icon {
+                let diary = MyDiary(title: titleText, body: bodyText, createdDate: today, weatherState: weatherState, icon: icon)
+                CoreDataManager.shared.create(diary: diary)
+            } else {
+                let diary = MyDiary(title: titleText, body: bodyText, createdDate: today)
+                CoreDataManager.shared.create(diary: diary)
+            }
         }
         mode = .edit
     }
-
+    
     // MARK: weatherAPI
     private func fetchWeatherAPI() {
         guard let latitude = self.latitude,

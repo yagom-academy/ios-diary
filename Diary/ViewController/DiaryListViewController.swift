@@ -30,16 +30,16 @@ final class DiaryListViewController: UIViewController {
         myDiary = diary
         
         diary.forEach {
-            guard let icon = $0.icon else { return }
-            
-            fetchWeatherIcon(icon: icon)
+            if let icon = $0.icon {
+                fetchWeatherIcon(icon: icon)
+            }
         }
         
         group.notify(queue: .main) {
             self.diaryTableView.reloadData()
         }
     }
-
+    
     private func fetchWeatherIcon(icon: String) {
         group.enter()
         let weatherEndpoint = WeatherEndpoint.weatherIcon(icon: icon)
@@ -56,7 +56,7 @@ final class DiaryListViewController: UIViewController {
             }
         }
     }
-
+    
     // MARK: Autolayout
     private func setUpLayout() {
         view.backgroundColor = .white
@@ -113,11 +113,14 @@ extension DiaryListViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let diaryCell: DiaryTableViewCell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier) as? DiaryTableViewCell,
-              let myDiary = myDiary,
-              let icon = myDiary[indexPath.row].icon,
-              let iconImage = weatherIcon[icon] else { return UITableViewCell() }
-                
-        diaryCell.setupItem(item: myDiary[indexPath.row], iconImage: iconImage)
+              let myDiary = myDiary else { return UITableViewCell() }
+        
+        if let icon = myDiary[indexPath.row].icon,
+           let iconImage = weatherIcon[icon] {
+            diaryCell.setupItem(item: myDiary[indexPath.row], iconImage: iconImage)
+        } else {
+            diaryCell.setupItem(item: myDiary[indexPath.row], iconImage: nil)
+        }
         return diaryCell
     }
 }

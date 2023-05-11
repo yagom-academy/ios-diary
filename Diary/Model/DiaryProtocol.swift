@@ -9,6 +9,6 @@ protocol DiaryProtocol {
     var title: String { get set }
     var body: String { get set }
     var createdDate: Double { get set }
-    var weatherState: String { get set }
-    var icon: String { get set }
+    var weatherState: String? { get set }
+    var icon: String? { get set }
 }

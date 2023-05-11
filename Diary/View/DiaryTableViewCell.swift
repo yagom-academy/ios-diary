@@ -99,7 +99,7 @@ final class DiaryTableViewCell: UITableViewCell {
             ])
     }
     
-    func setupItem(item: DiaryCoreData, iconImage: UIImage) {
+    func setupItem(item: DiaryCoreData, iconImage: UIImage?) {
         self.myDiary = item
         
         guard let myDiary = myDiary,
