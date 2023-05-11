@@ -20,11 +20,7 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    private let weatherIconImageView: UIImageView = {
-        let imageView = UIImageView()
-        
-        return imageView
-    }()
+    private let weatherIconImageView = UIImageView()
     
     private let dateLabel: UILabel = {
         let label = UILabel()
@@ -67,14 +63,10 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func checkStatusToAddIcon() {
-        guard contents != nil else {
+        if contents == nil {
             locationManager.activateLocation()
-            
-            return
-        }
-        
-        if let iconCode = contents?.weather?.iconCode {
-            fetchWeatherImage(iconCode: iconCode)
+        } else {
+            fetchWeatherImage(iconCode: contents?.weather?.iconCode)
         }
     }
     
@@ -216,7 +208,9 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
 
-    private func fetchWeatherImage(iconCode: String) {
+    private func fetchWeatherImage(iconCode: String?) {
+        guard let iconCode else { return }
+        
         let endPoint = EndPoint.weatherImage(iconCode: iconCode).asURLRequest()
 
         NetworkManager().fetchData(urlRequest: endPoint) { [weak self] result in
@@ -239,13 +233,11 @@ final class DiaryDetailViewController: UIViewController {
 // MARK: - Data CRUD
 extension DiaryDetailViewController {
     @objc private func saveContents() {
-        guard contents != nil else {
+        if contents == nil {
             createContents()
-            
-            return
+        } else {
+            updateContents()
         }
-        
-        updateContents()
     }
     
     private func updateContents() {

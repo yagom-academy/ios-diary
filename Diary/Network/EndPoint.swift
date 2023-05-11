@@ -13,10 +13,6 @@ typealias Query = [String: String]
 enum EndPoint {
     case weatherInfo(latitude: String, longitude: String)
     case weatherImage(iconCode: String)
-    
-    private var key: String {
-        return "3a1457f28563a335c26ab4b987303134"
-    }
 }
 
 extension EndPoint {
@@ -41,6 +37,8 @@ extension EndPoint {
     private var queries: Query? {
         switch self {
         case .weatherInfo(let latitude, let longitude):
+            let key = "3a1457f28563a335c26ab4b987303134"
+            
             return ["lat": latitude, "lon": longitude, "appid": key]
         case .weatherImage:
             return nil
