@@ -64,13 +64,13 @@ final class DiaryMainViewController: UIViewController {
     }
     
     func fetchImage(cell: DiaryTableViewCell, icon: String) {
-        WeatherProvider().fetchData(.weatherImage(iconCode: icon)) { [weak self] result in
+        WeatherProvider().fetchData(.weatherImage(iconCode: icon)) { [weak cell] result in
             switch result {
             case .success(let data):
                 guard let image = UIImage(data: data) else { return }
                 
                 DispatchQueue.main.async {
-                    cell.configureImage(iconImage: image)
+                    cell?.configureImage(iconImage: image)
                 }
             case .failure:
                 print("error")

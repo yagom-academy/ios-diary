@@ -219,7 +219,13 @@ final class DiaryEditViewController: UIViewController {
             self.diaryData = diary
             self.diaryType = .old
         case .old:
-            guard let id = diaryData?.id else { return }
+            guard let id = diaryData?.id,
+                  let diaryTitle = diaryData?.title,
+                  let diaryBody = diaryData?.body else { return }
+            
+            if title == diaryTitle && body == diaryBody {
+                return
+            }
             
             CoreDataManger.shared.updateDiary(id: id, title: title, body: body)
         }

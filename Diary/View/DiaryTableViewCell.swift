@@ -24,6 +24,7 @@ final class DiaryTableViewCell: UITableViewCell {
         label.font = .preferredFont(forTextStyle: .callout)
         label.adjustsFontForContentSizeCategory = true
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         return label
     }()
@@ -32,6 +33,7 @@ final class DiaryTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         return imageView
     }()
@@ -100,7 +102,10 @@ final class DiaryTableViewCell: UITableViewCell {
             diaryInfoStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor,
                                                         constant: 8),
             diaryInfoStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor,
-                                                         constant: -8)
+                                                         constant: -8),
+            
+            weatherImageView.widthAnchor.constraint(equalToConstant: 24),
+            weatherImageView.heightAnchor.constraint(equalToConstant: 24)
         ])
     }
     
@@ -118,18 +123,5 @@ final class DiaryTableViewCell: UITableViewCell {
     
     func configureImage(iconImage: UIImage) {
         weatherImageView.image = iconImage
-    }
-}
-
-extension UILabel {
-    func attributeText(targetString: String) {
-        let fullText = self.text ?? ""
-        let range = (fullText as NSString).range(of: targetString)
-        let attributedString = NSMutableAttributedString(string: fullText)
-        
-        attributedString.addAttribute(.font,
-                                      value: UIFont.preferredFont(forTextStyle: .callout),
-                                      range: range)
-        self.attributedText = attributedString
     }
 }
