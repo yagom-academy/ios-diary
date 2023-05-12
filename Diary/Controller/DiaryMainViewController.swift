@@ -62,6 +62,21 @@ final class DiaryMainViewController: UIViewController {
         diaryEditViewController.title = DateManger.shared.generateTodayDate()
         navigationController?.pushViewController(diaryEditViewController, animated: true)
     }
+    
+    func fetchImage(cell: DiaryTableViewCell, icon: String) {
+        WeatherProvider().fetchData(.weatherImage(iconCode: icon)) { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else { return }
+                
+                DispatchQueue.main.async {
+                    cell.configureImage(iconImage: image)
+                }
+            case .failure:
+                print("error")
+            }
+        }
+    }
 }
 
 extension DiaryMainViewController: UITableViewDataSource {
@@ -77,6 +92,12 @@ extension DiaryMainViewController: UITableViewDataSource {
         
         cell.accessoryType = .disclosureIndicator
         cell.configureLabel(diaryData: diaryDataList[indexPath.row])
+        
+        guard let icon = diaryDataList[indexPath.row].weatherIcon else {
+            return cell
+        }
+        
+        fetchImage(cell: cell, icon: icon)
         
         return cell
     }

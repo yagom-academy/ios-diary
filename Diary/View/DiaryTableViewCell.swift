@@ -74,6 +74,7 @@ final class DiaryTableViewCell: UITableViewCell {
     override func prepareForReuse() {
         titleLabel.text = nil
         bodyLabel.text = nil
+        weatherImageView.image = nil
         super.prepareForReuse()
     }
     
@@ -109,11 +110,14 @@ final class DiaryTableViewCell: UITableViewCell {
         
         titleLabel.text = title
         dateLabel.text = dateText
-        weatherImageView.image = UIImage(systemName: "sun.min")
         
         if let body = diaryData.body {
             bodyLabel.text = body
         }
+    }
+    
+    func configureImage(iconImage: UIImage) {
+        weatherImageView.image = iconImage
     }
 }
 

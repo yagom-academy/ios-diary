@@ -227,7 +227,6 @@ final class DiaryEditViewController: UIViewController {
 }
 
 extension DiaryEditViewController: CLLocationManagerDelegate {
-    // 생성될 때, 권한 바뀔 때
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         switch manager.authorizationStatus {
         case .authorizedWhenInUse, .authorizedAlways:
