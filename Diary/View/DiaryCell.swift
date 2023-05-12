@@ -90,11 +90,13 @@ final class DiaryCell: UITableViewCell {
         dateLabel.text = localizedDateFormatter.string(from: data.createdAt)
         previewLabel.text = data.body
         
-        let imageUrl = URL(string: "https://openweathermap.org/img/wn/\(data.weatherIcon)@2x.png")
-        guard let imageUrl else {
+        let weatherImageUrl = WeatherImageEndpoint(iConCode: data.weatherIcon).url
+        
+        guard let weatherImageUrl else {
             return
         }
-        ImageUtility.fetchImage(imageURL: imageUrl) { imageData in
+        
+        ImageUtility.fetchImage(imageURL: weatherImageUrl) { imageData in
             DispatchQueue.main.async {
                 self.weatherImageView.image = UIImage(data: imageData)
             }

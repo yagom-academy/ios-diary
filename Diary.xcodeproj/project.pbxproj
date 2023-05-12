@@ -30,6 +30,7 @@
 		719A35CF2A03DBD000158CCC /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719A35CE2A03DBD000158CCC /* CoreDataError.swift */; };
 		719A35D42A03E7EA00158CCC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 719A35D62A03E7EA00158CCC /* Localizable.strings */; };
 		719A35DA2A03EBAA00158CCC /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 719A35D92A03EBAA00158CCC /* StringExtension.swift */; };
+		71BC836A2A0DEBA50009EC75 /* WeatherImageEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BC83692A0DEBA50009EC75 /* WeatherImageEndpoint.swift */; };
 		71BFDF272A0B2E7B00A04DE3 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BFDF262A0B2E7B00A04DE3 /* APIEndpoint.swift */; };
 		71BFDF292A0B369200A04DE3 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BFDF282A0B369200A04DE3 /* HTTPMethod.swift */; };
 		71BFDF2B2A0BB21A00A04DE3 /* NetworkProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71BFDF2A2A0BB21A00A04DE3 /* NetworkProvider.swift */; };
@@ -84,6 +85,7 @@
 		719A35CE2A03DBD000158CCC /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		719A35D52A03E7EA00158CCC /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		719A35D92A03EBAA00158CCC /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		71BC83692A0DEBA50009EC75 /* WeatherImageEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherImageEndpoint.swift; sourceTree = "<group>"; };
 		71BFDF262A0B2E7B00A04DE3 /* APIEndpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
 		71BFDF282A0B369200A04DE3 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		71BFDF2A2A0BB21A00A04DE3 /* NetworkProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProvider.swift; sourceTree = "<group>"; };
@@ -271,6 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				71BFDF312A0BD16400A04DE3 /* WeatherInformationEndpoint.swift */,
+				71BC83692A0DEBA50009EC75 /* WeatherImageEndpoint.swift */,
 			);
 			path = Endpoint;
 			sourceTree = "<group>";
@@ -448,6 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				71BFDF292A0B369200A04DE3 /* HTTPMethod.swift in Sources */,
+				71BC836A2A0DEBA50009EC75 /* WeatherImageEndpoint.swift in Sources */,
 				62CF2C222A0B377600A37CBD /* DecodingUtility.swift in Sources */,
 				71E130DA2A0CB1ED004D01EE /* LocationDataManager.swift in Sources */,
 				71C280912A00A1F20035E6D0 /* Diary+CoreDataProperties.swift in Sources */,
