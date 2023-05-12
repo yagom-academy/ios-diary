@@ -9,7 +9,7 @@ import CoreLocation
 
 final class LocationHelper: NSObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
-    var eventHandler: ((CLLocationCoordinate2D) -> Void)?
+    private var eventHandler: ((CLLocationCoordinate2D) -> Void)?
     
     override init() {
         super.init()

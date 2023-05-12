@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class DiaryListViewController: UIViewController {
+final class DiaryListViewController: UIViewController, DiaryContentsViewDelegate {
     private let tableView = UITableView()
     private var diaryList: [Diary] = []
     private let alertMaker: DiaryAlertFactory = DiaryAlertMaker()
@@ -26,7 +26,6 @@ final class DiaryListViewController: UIViewController {
         super.viewWillAppear(animated)
         
         fetchDiaryList()
-        tableView.reloadData()
     }
 
     private func setUpRootView() {
@@ -45,6 +44,7 @@ final class DiaryListViewController: UIViewController {
     private func addDiary() {
         let diaryContentViewController = DiaryContentViewController()
         
+        diaryContentViewController.delegate = self
         navigationController?.pushViewController(diaryContentViewController, animated: true)
     }
     
@@ -69,9 +69,15 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
-    private func fetchDiaryList() {
+    func fetchDiaryList() {
         let diaryList = diaryDataManager.readAll()
         self.diaryList = diaryList
+        
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -114,6 +120,7 @@ extension DiaryListViewController: UITableViewDelegate {
         let diary = diaryList[indexPath.row]
         let diaryContentViewController = DiaryContentViewController(diary: diary)
         
+        diaryContentViewController.delegate = self
         navigationController?.pushViewController(diaryContentViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }

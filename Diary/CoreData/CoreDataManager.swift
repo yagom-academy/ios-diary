@@ -43,7 +43,7 @@ struct CoreDataManager {
         
         guard let object = fetchResult.first,
               let data = data as? DAO.Domain else { return }
-
+        
         object.updateValue(data: data)
         saveContext()
     }

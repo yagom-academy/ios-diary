@@ -18,6 +18,7 @@ final class DiaryContentViewController: UIViewController {
     private let diaryDataManager = DiaryDataManager()
     private let locationHelper = LocationHelper()
     private let openWeatherService = OpenWeatherService()
+    weak var delegate: DiaryContentsViewDelegate?
 
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -66,6 +67,7 @@ final class DiaryContentViewController: UIViewController {
     private func setUpLocationHelper() {
         locationHelper.setEventHandler { [weak self] coordinate in
             guard let self else { return }
+            
             self.loadWeather(coordinate: coordinate)
         }
     }
@@ -77,9 +79,12 @@ final class DiaryContentViewController: UIViewController {
 
             switch result {
             case .success(let currentWeather):
-                guard let weather = currentWeather.weather.first else { return }
+                guard let weather = currentWeather.weather.first,
+                      let diary = self.diary else { return }
                 
                 self.diary?.weather?.updateContents(main: weather.main, icon: weather.icon)
+                self.diaryDataManager.update(data: diary)
+                self.delegate?.fetchDiaryList()
             case .failure(let error):
                 print(error.localizedDescription)
 
