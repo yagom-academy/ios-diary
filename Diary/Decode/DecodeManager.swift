@@ -4,7 +4,6 @@
 //  Copyright © yagom. All rights reserved.
 //
 
-
 import UIKit
 
 final class DecodeManager {

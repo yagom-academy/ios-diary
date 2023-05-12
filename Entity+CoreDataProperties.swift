@@ -1,9 +1,7 @@
 //
-//  Entity+CoreDataProperties.swift
-//  Diary
-//
-//  Created by 박소연 on 2023/05/11.
-//
+//  Diary - Entity+CoreDataProperties.swift
+//  Created by Rhode, 무리.
+//  Copyright © yagom. All rights reserved.
 //
 
 import Foundation

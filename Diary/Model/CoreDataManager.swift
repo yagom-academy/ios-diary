@@ -7,8 +7,8 @@
 import CoreData
 import Foundation
 
-class CoreDataManager {
-    static var shared: CoreDataManager = CoreDataManager()
+final class CoreDataManager {
+    static var shared = CoreDataManager()
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")

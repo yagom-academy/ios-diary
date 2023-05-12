@@ -6,7 +6,7 @@
 
 import CoreLocation
 
-class LocationDataManager: NSObject {
+final class LocationDataManager: NSObject {
     static let shared = LocationDataManager()
     private var locationManager = CLLocationManager()
     
@@ -20,24 +20,12 @@ class LocationDataManager: NSObject {
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
         locationManager.requestWhenInUseAuthorization()
     }
-    
-    func startUpdatingLocation() {
-        locationManager.startUpdatingLocation()
-    }
-    
+
     func fetchLocation() -> (latitude: CLLocationDegrees, longitude: CLLocationDegrees)? {
         guard let latitude,
               let longitude else { return nil }
         
         return (latitude: latitude, longitude: longitude)
-    }
-    
-    func requestLocation() {
-        locationManager.requestLocation()
-    }
-    
-    func stopUpdatingLocation() {
-        locationManager.stopUpdatingLocation()
     }
 }
 
@@ -68,7 +56,6 @@ extension LocationDataManager: CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // Handle location update errors
         print("Location update failed with error: \(error.localizedDescription)")
     }
 }

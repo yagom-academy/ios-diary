@@ -30,7 +30,9 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func addObserver() {
-        NotificationCenter.default.addObserver(forName: .init("reload"), object: nil, queue: .main) { _ in
+        NotificationCenter.default.addObserver(forName: .init("reload"),
+                                               object: nil,
+                                               queue: .main) { _ in
             self.diaryListTableView.reloadData()
             self.diaryListTableView.layoutIfNeeded()
         }
@@ -118,7 +120,6 @@ extension DiaryListViewController: UITableViewDelegate {
                                                         title: title,
                                                         body: body)
             completionHandler(true)
-            
         }
         
         let delete = UIContextualAction(style: .destructive, title: NameSpace.delete) { action, view, completionHandler in

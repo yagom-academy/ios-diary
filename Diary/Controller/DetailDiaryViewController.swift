@@ -196,7 +196,11 @@ final class DetailDiaryViewController: UIViewController {
         let title = String(diaryContents[0])
         let body = validBody(diaryContents)
         
-        coreDataManager.createDiary(Diary(id: id, title: title, body: body, date: date, iconName: self.iconName))
+        coreDataManager.createDiary(Diary(id: id,
+                                          title: title,
+                                          body: body,
+                                          date: date,
+                                          iconName: self.iconName))
     }
     
     private func updateDiary() {
@@ -214,7 +218,11 @@ final class DetailDiaryViewController: UIViewController {
         guard let id = diary?.id,
               let date = Date().timeIntervalSince1970.roundDownNumber() else { return }
         
-        coreDataManager.updateDiary(diary: Diary(id: id, title: title, body: body, date: date, iconName: self.iconName))
+        coreDataManager.updateDiary(diary: Diary(id: id,
+                                                 title: title,
+                                                 body: body,
+                                                 date: date,
+                                                 iconName: self.iconName))
     }
     
     private func deleteDiary() {
@@ -247,13 +255,15 @@ final class DetailDiaryViewController: UIViewController {
     // MARK: -
     private func fetchWeatherData(completion: @escaping () -> Void) {
         guard let latitude, let longitude,
-              let request = urlRequestMaker.request(latitude: latitude, longitude: longitude) else { return }
+              let request = urlRequestMaker.request(latitude: latitude,
+                                                    longitude: longitude) else { return }
         
         server.startLoad(request: request) { result in
             do {
                 guard let verifiedFetchingResult = try self.verifyResult(result: result) else { return }
                 
-                let decodedFile = self.decodeManager.decodeJSON(data: verifiedFetchingResult, type: WeatherInformation.self)
+                let decodedFile = self.decodeManager.decodeJSON(data: verifiedFetchingResult,
+                                                                type: WeatherInformation.self)
                 
                 guard let verifiedDecodingResult = try self.verifyResult(result: decodedFile) else { return }
                 
