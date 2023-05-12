@@ -27,8 +27,9 @@ final class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        configureInitailView()
+        configureInitialView()
         setupNotification()
+        setupProperty()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -54,10 +55,13 @@ final class DiaryDetailViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    private func configureInitailView() {
+    private func setupProperty() {
         navigationController?.delegate = self
         locationManager.delegate = self
         locationManager.requestWhenInUseAuthorization()
+    }
+    
+    private func configureInitialView() {
         
         guard let diaryItem = diaryItem else {
             self.navigationItem.title = Date().convertToDate()
