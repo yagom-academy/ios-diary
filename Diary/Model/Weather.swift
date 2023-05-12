@@ -13,11 +13,12 @@ struct CurrentWeather: Decodable {
 
 final class Weather: Decodable, DataTransferObject {
     var main, icon: String?
-    var id: UUID = UUID()
+    var id: UUID
     
-    init(main: String? = nil, icon: String? = nil) {
+    init(main: String? = nil, icon: String? = nil, id: UUID = UUID()) {
         self.main = main
         self.icon = icon
+        self.id = id
     }
     
     init(weatherDAO: WeatherDAO) {
@@ -26,20 +27,16 @@ final class Weather: Decodable, DataTransferObject {
         self.id = weatherDAO.id
     }
     
-    func updateContents(main: String?, icon: String?) {
-        self.main = main
-        self.icon = icon
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.main = try container.decodeIfPresent(String.self, forKey: .main)
+        self.icon = try container.decodeIfPresent(String.self, forKey: .icon)
+        self.id = UUID()
     }
     
     enum CodingKeys: CodingKey {
         case main
         case icon
         case id
-    }
-    
-    init(from decoder: Decoder) throws {
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        self.main = try container.decodeIfPresent(String.self, forKey: .main)
-        self.icon = try container.decodeIfPresent(String.self, forKey: .icon)
     }
 }

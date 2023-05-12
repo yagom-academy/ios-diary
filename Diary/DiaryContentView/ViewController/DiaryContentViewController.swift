@@ -57,11 +57,12 @@ final class DiaryContentViewController: UIViewController {
         
         let currentContents: DiaryText = devideTitleAndBody(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
-        
-        diary.updateContents(title: currentContents.title,
-                             body: currentContents.body,
-                             updatedDate: updatedDate)
-        diaryDataManager.update(data: diary)
+        let updatedDiary = Diary(title: currentContents.title,
+                                 body: currentContents.body,
+                                 updatedDate: updatedDate,
+                                 id: diary.id)
+
+        diaryDataManager.update(data: updatedDiary)
     }
     
     private func setUpLocationHelper() {
@@ -80,9 +81,14 @@ final class DiaryContentViewController: UIViewController {
             switch result {
             case .success(let currentWeather):
                 guard let weather = currentWeather.weather.first,
-                      let diary = self.diary else { return }
+                      let diary = self.diary,
+                      let weatherId = self.diary?.weather?.id else { return }
                 
-                self.diary?.weather?.updateContents(main: weather.main, icon: weather.icon)
+                let updatedWeather = Weather(main: weather.main,
+                                              icon: weather.icon,
+                                              id: weatherId)
+                
+                diary.updateWeather(data: updatedWeather)
                 self.diaryDataManager.update(data: diary)
                 self.delegate?.fetchDiaryList()
             case .failure(let error):
