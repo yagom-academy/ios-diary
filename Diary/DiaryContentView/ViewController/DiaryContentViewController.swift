@@ -198,7 +198,7 @@ final class DiaryContentViewController: UIViewController {
 }
 
 // MARK: - KeyboardNotification
-fileprivate
+private
 extension DiaryContentViewController {
     private func addObserver() {
         NotificationCenter.default.addObserver(self,
@@ -233,7 +233,7 @@ extension DiaryContentViewController {
 }
 
 // MARK: - Present View
-fileprivate
+private
 extension DiaryContentViewController {
     private func presentActionSheet() {
         let alertData = alertDataMaker.actionSheetData { [weak self] in

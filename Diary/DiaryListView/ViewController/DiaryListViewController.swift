@@ -168,6 +168,7 @@ extension DiaryListViewController: UITableViewDelegate {
 }
 
 // MARK: - Present View
+private
 extension DiaryListViewController {
     private func presentDeleteAlert(indexPath: IndexPath) {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
