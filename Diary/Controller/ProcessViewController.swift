@@ -158,7 +158,6 @@ final class ProcessViewController: UIViewController {
             diaryService.update(id: diary.id, title: diaryInformation.title, body: diaryInformation.body)
         } else {
             let result = diaryService.create(id: UUID(), title: diaryInformation.title, body: diaryInformation.body, weather: "", weatherIcon: "")
-            
             if case .success(let newDiary) = result {
                 diary = newDiary
             }

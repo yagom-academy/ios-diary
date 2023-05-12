@@ -23,6 +23,12 @@ final class DiaryCell: UITableViewCell {
         return label
     }()
     
+    private let weatherImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+    
     private let previewLabel = {
         let label = UILabel()
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -63,11 +69,15 @@ final class DiaryCell: UITableViewCell {
     private func configureUI() {
         contentView.addSubview(diaryStackView)
         contentStackView.addArrangedSubview(dateLabel)
+        contentStackView.addArrangedSubview(weatherImageView)
         contentStackView.addArrangedSubview(previewLabel)
         diaryStackView.addArrangedSubview(titleLabel)
         diaryStackView.addArrangedSubview(contentStackView)
         
         NSLayoutConstraint.activate([
+            weatherImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.05) ,
+            weatherImageView.heightAnchor.constraint(equalTo: weatherImageView.widthAnchor),
+            
             diaryStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             diaryStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             diaryStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
