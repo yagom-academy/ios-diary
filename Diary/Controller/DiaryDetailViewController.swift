@@ -85,12 +85,14 @@ final class DiaryDetailViewController: UIViewController {
         switch writeMode {
         case .create:
             textView.becomeFirstResponder()
-            fetchWeatherIcon()
+            configureNewTitleView()
         case .update:
             guard let validDiary = diary else { return }
             
             id = validDiary.id
+            iconData = validDiary.iconData
             textView.text = validDiary.sharedText
+            timeInterval = validDiary.timeIntervalSince1970
             configureTitleView(iconData: validDiary.iconData, timeInterval: validDiary.timeIntervalSince1970)
         }
     }
