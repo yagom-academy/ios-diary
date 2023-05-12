@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryDetailViewController: UIViewController {
     private let diaryTextView: UITextView = {
@@ -15,16 +16,20 @@ final class DiaryDetailViewController: UIViewController {
         
         return textView
     }()
+    private let persistenceManager = PersistenceManager()
+    private let networkManager = NetworkManager()
     private var diaryItem: Diary?
     private var state: DiaryState
-    private let manager = PersistenceManager()
+    private var weatherID: String?
+    private var locationManager = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
-        configureInitailView()
+        configureInitialView()
         setupNotification()
+        setupProperty()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -35,7 +40,7 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
-    init(diaryItem: Diary? = nil, state: DiaryState) {
+    init(diaryItem: Diary?, state: DiaryState) {
         self.diaryItem = diaryItem
         self.state = state
         super.init(nibName: nil, bundle: nil)
@@ -50,16 +55,21 @@ final class DiaryDetailViewController: UIViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
-    private func configureInitailView() {
-        self.navigationController?.delegate = self
+    private func setupProperty() {
+        navigationController?.delegate = self
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+    }
+    
+    private func configureInitialView() {
         
         guard let diaryItem = diaryItem else {
-            self.navigationItem.title = Date.convertToDate(by: Date().timeIntervalSince1970)
+            self.navigationItem.title = Date().convertToDate()
             
             return
         }
         
-        self.navigationItem.title = Date.convertToDate(by: diaryItem.date)
+        self.navigationItem.title = diaryItem.date?.convertToDate()
         self.diaryTextView.text = diaryItem.content
     }
     
@@ -74,6 +84,21 @@ final class DiaryDetailViewController: UIViewController {
                                                object: nil)
     }
     
+    private func fetchWeatherID() {
+        guard let location = locationManager.location?.coordinate else { return }
+        
+        let url = DiaryEndPoint.weather(lat: location.latitude, lon: location.longitude).url
+        
+        networkManager.fetchData(url: url, type: WeatherData.self) { [weak self] result in
+            switch result {
+            case .success(let data):
+                self?.weatherID = data.weather.first?.icon
+            case .failure(let error):
+                self?.showFailAlert(error: error)
+            }
+        }
+    }
+    
     @objc private func endEditingDiary() {
         guard !diaryTextView.text.isEmpty else { return }
         
@@ -81,8 +106,8 @@ final class DiaryDetailViewController: UIViewController {
         
         switch state {
         case .create:
-            let date = Date().timeIntervalSince1970
-            manager.createContent(content, date) { [weak self] result in
+            let date = Date()
+            persistenceManager.createContent(content, date, weatherID) { [weak self] result in
                 switch result {
                 case .success(let diary):
                     self?.diaryItem = diary
@@ -94,7 +119,7 @@ final class DiaryDetailViewController: UIViewController {
         case .edit:
             guard let diary = diaryItem else { return }
             
-            manager.updateContent(at: diary, content) { [weak self] result in
+            persistenceManager.updateContent(at: diary, content) { [weak self] result in
                 switch result {
                 case .success():
                     return
@@ -116,6 +141,20 @@ extension DiaryDetailViewController: UINavigationControllerDelegate {
         
         endEditingDiary()
         diaryViewController.fetchDiary()
+    }
+}
+
+extension DiaryDetailViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            locationManager.startUpdatingLocation()
+            fetchWeatherID()
+        case .restricted, .notDetermined, .denied:
+            locationManager.requestWhenInUseAuthorization()
+        default:
+            return
+        }
     }
 }
 
@@ -161,7 +200,7 @@ extension DiaryDetailViewController {
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let diaryItem = self?.diaryItem else { return }
             
-            self?.manager.deleteContent(at: diaryItem, completion: { [weak self] result in
+            self?.persistenceManager.deleteContent(at: diaryItem, completion: { [weak self] result in
                 switch result {
                 case .success():
                     self?.navigationController?.popViewController(animated: true)

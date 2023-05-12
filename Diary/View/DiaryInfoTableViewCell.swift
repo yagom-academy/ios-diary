@@ -19,6 +19,8 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         return label
     }()
@@ -30,6 +32,15 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return label
+    }()
+    private let weatherIconView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        
+        return imageView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -47,6 +58,7 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         
         titleLabel.text = nil
         dateLabel.text = nil
+        weatherIconView.image = nil
         bodyLabel.text = nil
     }
     
@@ -55,8 +67,11 @@ final class DiaryInfoTableViewCell: UITableViewCell {
         
         let parsedContent = parseContent(content)
         titleLabel.text = parsedContent.title
-        dateLabel.text = Date.convertToDate(by: item.date)
+        dateLabel.text = item.date?.convertToDate()
         bodyLabel.text = parsedContent.body
+        
+        let url = DiaryEndPoint.icon(id: item.iconID).url
+        weatherIconView.loadImage(url: url)
     }
     
     private func parseContent(_ content: String) -> (title: String?, body: String?) {
@@ -78,11 +93,11 @@ final class DiaryInfoTableViewCell: UITableViewCell {
 // MARK: UI
 extension DiaryInfoTableViewCell {
     private func configureCell() {
-        let dateAndBodyStackView = UIStackView(arrangedSubviews: [dateLabel, bodyLabel])
+        let bottomStackView = UIStackView(arrangedSubviews: [dateLabel, weatherIconView, bodyLabel])
         
-        dateAndBodyStackView.spacing = 5
+        bottomStackView.spacing = 4
         
-        let diaryStackView = UIStackView(arrangedSubviews: [titleLabel, dateAndBodyStackView])
+        let diaryStackView = UIStackView(arrangedSubviews: [titleLabel, bottomStackView])
         
         diaryStackView.axis = .vertical
         diaryStackView.spacing = 5
@@ -93,7 +108,35 @@ extension DiaryInfoTableViewCell {
             diaryStackView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 3),
             diaryStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 15),
             diaryStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -3),
-            diaryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3)
+            diaryStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -3),
+            
+            weatherIconView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor
+                                                    , multiplier: 0.05),
+            weatherIconView.widthAnchor.constraint(equalTo: weatherIconView.heightAnchor)
         ])
+    }
+}
+
+fileprivate extension UIImageView {
+    func loadImage(url: URL?) {
+        guard let url = url else { return }
+        
+        DispatchQueue.global(qos: .background).async {
+            let cachedKey = NSString(string: url.absoluteString)
+            
+            if let cachedImage = ImageCacheManager.shared.object(forKey: cachedKey) {
+                DispatchQueue.main.async {
+                    self.image = cachedImage
+                }
+            } else {
+                guard let data = try? Data(contentsOf: url) else { return }
+                
+                guard let image = UIImage(data: data) else { return }
+                
+                DispatchQueue.main.async {
+                    self.image = image
+                }
+            }
+        }
     }
 }

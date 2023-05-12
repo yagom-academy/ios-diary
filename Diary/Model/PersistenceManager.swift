@@ -5,11 +5,10 @@
 //  Created by kaki, 레옹아범 on 2023/05/02.
 //
 
-import Foundation
 import CoreData
 import UIKit
 
-final class PersistenceManager {
+struct PersistenceManager {
     private var context: NSManagedObjectContext?
     
     init() {
@@ -22,7 +21,7 @@ final class PersistenceManager {
         return appDelegate.persistentContainer.viewContext
     }
     
-    func createContent(_ content: String?, _ date: Double, completion: @escaping (Result<Diary, CoreDataError>) -> Void) {
+    func createContent(_ content: String?, _ date: Date, _ weatherID: String?, completion: @escaping (Result<Diary, CoreDataError>) -> Void) {
         guard let context = context else { return }
         
         guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context) else { return }
@@ -31,6 +30,7 @@ final class PersistenceManager {
         
         managedObject.setValue(content, forKey: "content")
         managedObject.setValue(date, forKey: "date")
+        managedObject.setValue(weatherID, forKey: "iconID")
         
         guard let diary = managedObject as? Diary else { return }
         

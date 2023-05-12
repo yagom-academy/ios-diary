@@ -8,21 +8,25 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private let tableView: UITableView = UITableView()
+    private let persistenceManager = PersistenceManager()
     private var diaryItems: [Diary] = []
-    private let manager = PersistenceManager()
+    private var filteredDiary: [Diary] = []
+    private var isFiltering: Bool {
+        let searchController = navigationItem.searchController
+        let isSearchBarHasText = searchController?.searchBar.text?.isEmpty == false
+        
+        return isSearchBarHasText
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
-        fetchDiary()
-        
-        tableView.dataSource = self
-        tableView.delegate = self
+        configureInitialView()
     }
     
     func fetchDiary() {
-        manager.fetchContent { [weak self] result in
+        persistenceManager.fetchContent { [weak self] result in
             switch result {
             case .success(let diary):
                 self?.diaryItems = diary
@@ -33,6 +37,17 @@ final class DiaryViewController: UIViewController {
         }
     }
     
+    private func configureInitialView() {
+        let searchController = UISearchController()
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        fetchDiary()
+    }
+    
     private func pushDiaryDetailViewController(with diary: Diary? = nil, _ state: DiaryState) {
         let detailVC = DiaryDetailViewController(diaryItem: diary, state: state)
         
@@ -40,7 +55,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func deleteTableViewItem(item: Diary, indexPath: IndexPath) {
-        manager.deleteContent(at: item) { [weak self] result in
+        persistenceManager.deleteContent(at: item) { [weak self] result in
             switch result {
             case .success():
                 self?.tableView.performBatchUpdates({
@@ -60,16 +75,16 @@ final class DiaryViewController: UIViewController {
 
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryItems.count
+        return isFiltering ? filteredDiary.count : diaryItems.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryInfoTableViewCell.identifier) as? DiaryInfoTableViewCell,
-              let sampleDiaryItem = diaryItems[safe: indexPath.row] else {
-            return UITableViewCell()
-        }
+        let diaryItem = isFiltering ? filteredDiary[safe: indexPath.row] : diaryItems[safe: indexPath.row]
         
-        cell.configureLabel(item: sampleDiaryItem)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryInfoTableViewCell.identifier) as? DiaryInfoTableViewCell,
+              let diary = diaryItem else { return UITableViewCell() }
+        
+        cell.configureLabel(item: diary)
         
         return cell
     }
@@ -109,6 +124,20 @@ extension DiaryViewController: UITableViewDelegate {
         let configuration = UISwipeActionsConfiguration(actions: [deleteContextualAction, shareContextualAction])
         
         return configuration
+    }
+}
+
+extension DiaryViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard let text = searchController.searchBar.text?.lowercased() else { return }
+        
+        filteredDiary = diaryItems.filter { diary in
+            guard let content = diary.content else { return false }
+            
+            return content.lowercased().contains(text)
+        }
+        
+        tableView.reloadData()
     }
 }
 
