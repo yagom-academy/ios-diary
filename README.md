@@ -6,7 +6,7 @@
 
 ## 팀원
 | kokkilE | 혜모리 |
-| :--------: |  :--------: | 
+| :---:|:---:| 
 | <Img src ="https://i.imgur.com/4I8bNFT.png" width="200" height="200"/>      |<Img src ="https://i.imgur.com/VJtnO5j.png" width="200" height="200"/>
 | [Github Profile](https://github.com/kokkilE) |[Github Profile](https://github.com/hyemory)
 
@@ -16,7 +16,7 @@
 3. [실행 화면](#실행-화면)
 4. [트러블 슈팅](#트러블-슈팅) 
 5. [참고 링크](#참고-링크)
-
+6. [팀 회고](#팀-회고)
 
 # 타임라인 
 
@@ -30,10 +30,27 @@
 | 2023.05.02 | - CoreDataManager - Update, Delete 기능 구현<br>- VC의 데이터 CRUD 기능 구현 |
 | 2023.05.03 | - 에러 Alert 기능 구현 <br> - 데이터가 편집될 때 전체 데이터가 아닌 편집된 데이터만 reload 하도록 기능 수정 |
 | 2023.05.04 | - 에러 처리 위치 수정 (model → VC)|
+| 2023.05.05 | - 프로젝트 회고 및 휴식 |
+| 2023.05.08 | - NetworkManager, EndPoint 구현 |
+| 2023.05.09 | - Core Location으로 사용자 위치정보 저장 구현 |
+| 2023.05.10 | - 화면에 날씨 아이콘을 보여주는 기능 구현 |
+| 2023.05.11 | - 코드 전체 리팩토링 (타입 분리, 컨벤션 정리) |
+| 2023.05.12 | - 프로젝트 회고 |
 
 <br/>
 
 # 프로젝트 구조
+## Class Diagram
+<details>
+<summary> 클래스 다이어그램 보기 (클릭) </summary>
+<div markdown="1">
+
+![](https://github.com/hyemory/ios-diary/blob/64756e52bd1a257e2bb5c6d5d059e6e9d04b93d6/images/Class%20Diagram.png?raw=true)
+
+    
+</div>
+</details>
+
 ## File Tree
 
 <details>
@@ -42,42 +59,42 @@
 
 ```typescript!
 ├── .swiftlint.yml
-├── CoreData
-│   ├── ContentsEntity+CoreDataClass.swift
-│   ├── ContentsEntity+CoreDataProperties.swift
-│   ├── CoreDataManager.swift
-│   └── Diary.xcdatamodeld
-│       └── Diary.xcdatamodel
-│           └── contents
-├── Error
-│   └── DiaryError.swift
-├── Extension
-│   └── Date+.swift
-├── Protocol
-│   └── DiaryDetailViewControllerDelegate.swift
-├── Utility
-│   ├── AlertManager.swift
-│   └── DecodeManager.swift
-├── View
-│   ├── ContentsTableViewCell.swift
-│   └── IdentifierType.swift
-├── Model
-│   └── Contents.swift
-├── Controller
-│   ├── DiaryDetailViewController.swift
-│   └── DiaryListViewController.swift
+├── Common
+│   ├── CoreData
+│   │   ├── Diary.xcdatamodeld
+│   │   │   ├── Diary v2.xcdatamodel
+│   │   │   └── Diary.xcdatamodel
+│   │   ├── ContentsEntity+CoreDataClass.swift
+│   │   ├── ContentsEntity+CoreDataProperties.swift
+│   │   └── CoreDataManager.swift
+│   ├── Extension
+│   │   ├── Date+.swift
+│   │   └── NotificationName+.swift
+│   ├── Network
+│   │   ├── EndPoint.swift
+│   │   └── NetworkManager.swift
+│   ├── Error
+│   │   ├── DiaryError.swift
+│   │   └── NetworkError.swift
+│   ├── Utility
+│   │   ├── AlertManager.swift
+│   │   ├── DecodeManager.swift
+│   │   └── LocationManager.swift
+│   └── Model
+│       ├── ContentsDTO.swift
+│       ├── WeatherDTO.swift
+│       └── Coordinate.swift
+├── Presentation
+│   ├── DiaryList
+│   │   ├── Protocol
+│   │   │   ├── DiaryDetailViewControllerDelegate.swift
+│   │   │   └── IdentifierType.swift
+│   │   ├── ContentsTableViewCell.swift
+│   │   └── DiaryListViewController.swift
+│   └── DiaryDetail
+│       ├── DiaryDetailViewController.swift
+│       └── WeatherNetworkManager.swift
 ├── Resources
-│   ├── Assets.xcassets
-│   │   ├── AccentColor.colorset
-│   │   │   └── Contents.json
-│   │   ├── AppIcon.appiconset
-│   │   │   └── Contents.json
-│   │   ├── Contents.json
-│   │   └── sample.dataset
-│   │       ├── Contents.json
-│   │       └── sample.json
-│   ├── Base.lproj
-│   │   └── LaunchScreen.storyboard
 │   └── Info.plist
 └── Application
     ├── AppDelegate.swift
@@ -89,27 +106,13 @@
 
 # 실행 화면
 
-### Step 1
+|<center>초기 화면<br>일기 목록 화면</center>|<center>데이터 로드 실패 시<br>알림 표시</center>|<center>일기 목록 화면<br>스와이프로 공유 및 삭제</center>|
+|--| -- | -- |
+|<img src="https://hackmd.io/_uploads/H1CTDXj42.gif" width=250> | <img src="https://i.imgur.com/kWbnD8y.gif" width=250> | <img src="https://hackmd.io/_uploads/SJn-uXiNn.gif" width=250> |
 
-<details>
-<summary> Step1 실행화면 보기 (클릭) </summary>
-<div markdown="1">
-    
-|<center>초기화면<br>일기 목록<br></center>|<center>+버튼 클릭 시<br> 일기 상세 화면 이동 (create)</center>|<center>셀 클릭 시<br>일기 상세 화면 이동 (update)</center> |<center>가로모드 지원</center>|
-| -- | -- | -- | -- |
-|<img src="https://i.imgur.com/rQklltq.gif" width=250> | <img src="https://i.imgur.com/USRIrfI.gif" width=250> | <img src="https://i.imgur.com/Yobrjbc.gif" width=250> | <img src="https://i.imgur.com/l9koVPD.gif" width=250> |
-
-</div>
-</details>
-    
-### Step 2
-|<center>앱 실행 시<br>저장된 데이터 로드</center>|<center>데이터 로드 실패 시<br>알림 표시</center>|<center>일기 목록 화면<br>스와이프로 공유</center>|<center>일기 목록 화면<br>스와이프로 삭제</center>|
-|--| -- | -- | -- |
-|<img src="https://i.imgur.com/xqQftkN.gif" width=250> | <img src="https://i.imgur.com/kWbnD8y.gif" width=250> | <img src="https://i.imgur.com/ScKxczX.gif" width=250> | <img src="https://i.imgur.com/6vbOfR4.gif" width=250> |
-
-|<center>일기 상세 화면<br>일기 자동 저장</center> |<center>일기 상세 화면<br>더보기 버튼 클릭 시<br>공유, 삭제 선택</center>|<center>일기 상세 화면<br>더보기 → 공유</center> |<center>일기 상세 화면<br>더보기 → 삭제</center>|
-| -- | -- | -- | -- |
-|<img src="https://i.imgur.com/EtKZ99W.gif" width=250> | <img src="https://i.imgur.com/dYIi5Jh.gif" width=250> | <img src="https://i.imgur.com/xU7RDNA.gif" width=250> | <img src="https://i.imgur.com/AeedOOy.gif" width=250> |
+|<center>일기 상세 화면<br>새로운 데이터 저장</center> |<center>일기 상세 화면<br>데이터 편집 후 저장</center>|<center>일기 상세 화면<br>더보기 → 공유 및 삭제</center> |
+| -- | -- | -- |
+|<img src="https://hackmd.io/_uploads/SJhKuXjE2.gif" width=250> | <img src="https://hackmd.io/_uploads/HkST_7sVn.gif" width=250> | <img src="https://hackmd.io/_uploads/Hy9wYQoNn.gif" width=250> |
 
 # 트러블 슈팅
 
@@ -298,13 +301,44 @@ extension DiaryListViewController: DiaryDetailViewControllerDelegate {
 	}
 ```
 
+## 5️⃣ 날씨 표시 기능 구현 전에 저장된 데이터를 보존하기 위한 처리
+
+### 🔍 문제점
+
+날씨 정보를 표시하는 기능을 추가하면서 Core Data의 Entity 모델이 변경되었습니다.
+
+### ⚒️ 해결방안
+
+그에 따라 기존에 Core Data에 저장되어있던 모델과 Migration하였습니다.
+
+이 과정에서 기존에 날씨 정보가 없던 데이터는 날씨 정보가 없는 채로 받아오기 위해, `ContentsDTO`에 다음과 같이 `weather`를 옵셔널로 구현하였습니다.
+
+``` swift
+/*  ContentsDTO은 다음의 용도로 사용됩니다.
+    1. JSON 데이터 Decode를 위한 모델
+    2. VC에서 사용되는 모델
+    3. VC에서 CoreData와 데이터를 주고받는 모델 */
+
+struct ContentsDTO: Codable {
+    var title: String
+    var body: String
+    let date: Double
+    let identifier: UUID?
+    var weather: Weather?
+    ...
+}
+```
+
+날짜 정보가 없으면 없는 대로, 있으면 있는 대로 앱에 표시됩니다.
+
 
 # 참고 링크
 ## 블로그
 - [WWDC 21 분석: Adjust Your Layout with Keyboard Layout Guide](https://zeddios.tistory.com/1282)
+- [iOS) CoreData - Migration](https://yeonduing.tistory.com/48)
+- [IOS SWIFT 현재위치 구하기 (CoreLocation, CLLocationManager)](https://tom7930.tistory.com/28)
 
 ## 공식 문서
-
 - [UITextView](https://developer.apple.com/documentation/uikit/uitextview)
 - [DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter)
 - [preferredLanguages](https://developer.apple.com/documentation/foundation/nslocale/1415614-preferredlanguages)
@@ -318,3 +352,36 @@ extension DiaryListViewController: DiaryDetailViewControllerDelegate {
 - [init(context:)](https://developer.apple.com/documentation/coredata/nsmanagedobject/1640602-init)
 - [UIActivityViewController](https://developer.apple.com/documentation/uikit/uiactivityviewcontroller)
     - [init(activityItems:applicationActivities:)](https://developer.apple.com/documentation/uikit/uiactivityviewcontroller/1622019-init)
+- [dataTask(with:completionHandler:)](https://developer.apple.com/documentation/foundation/urlsession/1407613-datatask)
+- [Core Location](https://developer.apple.com/documentation/corelocation)
+    - [Getting the User’s Location](https://developer.apple.com/documentation/corelocation/getting_the_user_s_location)
+    - [Adding Location Services to Your App](https://developer.apple.com/documentation/corelocation/adding_location_services_to_your_app)
+    - [Requesting Authorization for Location Services](https://developer.apple.com/documentation/corelocation/requesting_authorization_for_location_services)
+- [Using Lightweight Migration](https://developer.apple.com/documentation/coredata/using_lightweight_migration)
+
+## API
+- [Open Weather - Current weather data](https://openweathermap.org/current)
+
+# 팀 회고
+
+<details>
+<summary> 팀 회고 보기 (클릭) </summary>
+<div markdown="1">
+    
+### 우리 팀이 잘한 점
+
+- 시간 약속을 하루도 빠짐없이 잘 지켰습니다.
+- 서로 원하는 점을 솔직하게 이야기하고 잘 협의하여 원하는 결과를 도출했습니다.
+- 적용할 기술을 충분히 이해하면서 프로젝트를 진행하였습니다.
+    
+### 서로 칭찬할 점
+
+- 코낄이 -> 혜모리
+    - 팀원의 의견을 잘 들어주고, 본인의 의견도 적극적으로 표현하였습니다. 항상 의견에 근거가 있었기 때문에 협의가 원만했습니다.
+    - 대화를 잘 이끌어줘서 즐겁게 협업할 수 있었습니다.
+- 혜모리 -> 코낄이
+    - 코낄이는 정말 꼼꼼하셔서 오류가 발생할 때도 금방 찾을 수 있었고, 제 얘기를 충분히 잘 들어주시고 적절한 대안을 주셔서 정말 많이 배울 수 있는 기회였습니다. 
+    - 어려운 개념을 잘 이해하시고 잘 설명해 주셔서 듣는 저도 이해하기가 무척 쉬웠습니다.
+    
+</div>
+</details>
