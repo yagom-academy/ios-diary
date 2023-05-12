@@ -89,5 +89,15 @@ final class DiaryCell: UITableViewCell {
         titleLabel.text = data.title.isEmpty ? "새로운 일기장".localized() : data.title
         dateLabel.text = localizedDateFormatter.string(from: data.createdAt)
         previewLabel.text = data.body
+        
+        let imageUrl = URL(string: "https://openweathermap.org/img/wn/\(data.weatherIcon)@2x.png")
+        guard let imageUrl else {
+            return
+        }
+        ImageUtility.fetchImage(imageURL: imageUrl) { imageData in
+            DispatchQueue.main.async {
+                self.weatherImageView.image = UIImage(data: imageData)
+            }
+        }
     }
 }
