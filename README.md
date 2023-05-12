@@ -1,7 +1,7 @@
 # 일기장 프로젝트 📓
 > CoreData를 활용해 일기장을 관리하는 앱
 > 
-> 프로젝트 기간: 2023.04.24 - 2023.05.13
+> 프로젝트 기간: 2023.04.24 - 2023.05.12
 
 <br/>
 
@@ -15,7 +15,9 @@
 - ✅ 테이블뷰에서 스와이프를 통한 삭제기능 구현
 - ✅ TextViewDelegate의 활용
 - ✅ NSFetchResultsController의 활용
-- ✅ Localization의 활용
+- ✅ 지역화 적용
+- ✅ CoreLocalization의 활용
+- ✅ CoreData Migration 적용
 
 ---
 ## 목차 📋
@@ -24,15 +26,14 @@
 3. [프로젝트 구조](#3-프로젝트-구조)
 4. [실행화면](#4-실행화면)
 5. [트러블 슈팅](#5-트러블-슈팅)
-6. [참고 자료](#6-참고-자료)
+6. [참고자료](#6-참고자료)
 
 ---
 ## 1. 팀원 소개
 |Brody|Andrew|
 |:--:|:--:|
-|<img src="https://avatars.githubusercontent.com/u/70146658?v=4" width="200">|<img src="https://github.com/hyemory/ios-exposition-universelle/blob/step2/images/Andrew.png?raw=true" width="200">|
+|<img src="https://avatars.githubusercontent.com/u/70146658?v=4" width="200">|<img src="https://github.com/Andrew-0411/ios-diary/assets/45560895/2872b119-d22b-46a7-85c4-d9e0c3dd6da8" width="250">|
 | [<img src="https://i.imgur.com/IOAJpzu.png" width="22"/> Github](https://github.com/seunghyunCheon) | [<img src="https://i.imgur.com/IOAJpzu.png" width="22"/> Github](https://github.com/Andrew-0411) |
-
 
 <br/>
 <br/>
@@ -53,42 +54,78 @@
 |2023-05-03(수)|Activity, Alert 기능 구현|
 |2023-05-04(목)|Localizable 기능 추가, 버그 수정|
 |2023-05-05(금)|README 작성, 코드컨벤션 정리|
+|2023-05-08(월)|CoreDataStack 테스트 코드 작성|
+|2023-05-09(화)|CoreLocation, CoreData Migration 학습|
+|2023-05-10(수)|WeatherAPI 네트워킹 객체 구성|
+|2023-05-11(목)|CoreLocation 객체 구성|
+|2023-05-12(금)|날씨 Icon UI에 적용, README 작성|
 
 </details>
-
 
 <br/>
 <br/>
 
 ## 3. 프로젝트 구조
 
-### 1️⃣ 폴더 구조
+### 폴더 구조
 ```
 ├── Diary
-│   ├── AppDelegate.swift
-│   ├── Model
-│   │   ├── CoreData
-│   │   │   ├── CoreDataError.swift
-│   │   │   ├── CoreDataFetchedResults.swift
-│   │   │   ├── CoreDataStack.swift
-│   │   │   └── DiaryService.swift
-│   │   ├── Diary+CoreDataClass.swift
-│   │   └── Diary+CoreDataProperties.swift
-│   │─── View
-│   │   └── DiaryCell.swift
-│   ├── Controller
-│   │   ├── HomeDiaryController.swift
-│   │   └── ProcessViewController.swift
 │   ├── Extension
+│   │   ├── ArrayExtension.swift
 │   │   ├── DateFormatterExtension.swift
 │   │   ├── ProcessViewController.swift
 │   │   └── StringExtension.swift
+│   ├── Model
+│   │   ├── CoreData
+│   │   │   ├── CoreDataError.swift
+│   │   │   ├── CoreDataManagable.swift
+│   │   │   ├── CoreDataManager.swift
+│   │   │   ├── DiaryService.swift
+│   │   │   └── Extension
+│   │   │       └── CoreDataManger+CoreDataManagable.swift
+│   │   ├── Diary+CoreDataClass.swift
+│   │   ├── Diary+CoreDataProperties.swift
+│   │   ├── LocationDataManager.swift
+│   │   ├── Network
+│   │   │   ├── APIEndpoint.swift
+│   │   │   ├── DefaultNetworkProvider.swift
+│   │   │   ├── HTTPMethod.swift
+│   │   │   ├── NetworkError.swift
+│   │   │   └── NetworkProvider.swift
+│   │   └── Service
+│   │       └── Weather
+│   │           ├── DefaultWeatherService.swift
+│   │           ├── Endpoint
+│   │           │   ├── WeatherImageEndpoint.swift
+│   │           │   └── WeatherInformationEndpoint.swift
+│   │           ├── Protocol
+│   │           │   ├── WeatherAPIEndpoint.swift
+│   │           │   └── WeatherAPIInformationOwner.swift
+│   │           ├── Response
+│   │           │   └── WeatherResponse.swift
+│   │           ├── WeatherInformation.swift
+│   │           └── WeatherService.swift
+│   │───View
+│   │   └── DiaryCell.swift
+│   ├── Controller
+│   │   ├── HomeDiaryController.swift
+│   │   └── ProcessViewController.swift
 │   ├── Protocol
 │   │   └── ReusableIdentifier.swift
-│   └── SceneDelegate.swift
-└── DiaryServiceTests
-        └──DiaryServiceTests.swift
+│   ├── SceneDelegate.swift
+│   ├── Utility
+│   │   ├── DecodingUtility.swift
+│   │   ├── ImageLoadUtility.swift
+│   │   └── JSONDecodingUtility.swift
+├── DiaryServiceTests
+│   ├── DiaryServiceTests.swift
+└───└── Mock
+         └── MockCoreDataManager.swift
 ```
+
+### UML</big></summary>
+
+![](https://github.com/seunghyunCheon/box-office/assets/70146658/1a3573da-6fc8-45e2-a8cb-e03ecdcca4d8)
 
 
 
@@ -101,9 +138,9 @@
 |:--:|:--:|:--:|
 |<img src="https://i.imgur.com/yQ6h5RN.gif" width="300">|<img src="https://i.imgur.com/yQ6h5RN.gif" width="300">|<img src="https://i.imgur.com/MX2eJmd.gif" width="300">|
 
-|Localization 적용|더보기->공유|더보기->삭제|
+|Localization 적용|더보기->공유, 삭제|위치 정보를 통한 날씨 표시|
 |:--:|:--:|:--:|
-|<img src="https://i.imgur.com/hHciA5D.gif" width="300">|<img src="https://i.imgur.com/R9QdmQT.gif" width="300">|<img src="https://i.imgur.com/uAPXXSv.gif" width="300">|
+|<img src="https://i.imgur.com/hHciA5D.gif" width="300">|<img src="https://github.com/yagom-academy/ios-diary/assets/45560895/cce6fab3-33ff-4e8d-a800-b4ca7169436b" width="300">|<img src="https://github.com/Andrew-0411/Study/assets/45560895/c648f1ec-ed3c-4b2c-9079-2e0881296579" width="300">
 
 
 <br/>
@@ -298,25 +335,30 @@ extension DiaryService {
 
 <br/>
 
-**🛠️ 개선해야 할 점**
 
+**🛠️ 개선해야 할 점**
+<br/>
 하지만 이 방법은 코어데이터에서 `Diary`에 관한 처리를 보기 편해졌을뿐 범용성에 대한 부분은 향상되지 않았습니다. 
 만약 10개의 엔티티가 존재한다면 10개의 Service를 만들어야 하는 상황이었던 것이죠.
 
 이 부분은 추후 여러 코어데이터를 범용성있게 사용하는 사례를 찾아보면서 제네릭과 protocol Extension을 이용해 개선할 예정입니다.
 
-<br/>
 
-## 6. 참고 자료
-- [Apple Developer: Layout](https://developer.apple.com/design/human-interface-guidelines/foundations/layout/)
+## 6. 참고자료
+- [Apple Docs: Layout](https://developer.apple.com/design/human-interface-guidelines/foundations/layout/)
 - [WWDC 2016: Making apps adaptive part 1](https://www.youtube.com/watch?v=hLkqt2g-450&ab_channel=anhpham)
 - [WWDC 2016: Making apps adaptive part 2](https://www.youtube.com/watch?v=s3utpBiRbB0&ab_channel=anhpham)
 - [WWDC 2018: UIKit: Apps for Every Size and Shape](https://developer.apple.com/videos/play/wwdc2018/235/)
 - [WWDC 2019: Making Apps with Core Data](https://developer.apple.com/videos/play/wwdc2019/230/)
-- [Apple Developer: DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter)
-- [Apple Developer: UITextView](https://developer.apple.com/documentation/uikit/uitextview)
-- [Apple Developer: Core Data](https://developer.apple.com/documentation/coredata)
-- [Apple Developoer: UITextViewDelegate](https://developer.apple.com/documentation/uikit/uitextviewdelegate)
-- [Apple Developoer: UISwipeActionsConfiguration](https://developer.apple.com/documentation/uikit/uiswipeactionsconfiguration)
+- [Apple Docs: DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter)
+- [Apple Docs: UITextView](https://developer.apple.com/documentation/uikit/uitextview)
+- [Apple Docs: Core Data](https://developer.apple.com/documentation/coredata)
+- [Apple Docs: UITextViewDelegate](https://developer.apple.com/documentation/uikit/uitextviewdelegate)
+- [Apple Docs: UISwipeActionsConfiguration](https://developer.apple.com/documentation/uikit/uiswipeactionsconfiguration)
 - [Apple Docs - adjustedcontentinset](https://developer.apple.com/documentation/uikit/uiscrollview/2902259-adjustedcontentinset)
 - [Apple Docs - contentInsetAdjustmentBehavior](https://developer.apple.com/documentation/uikit/uiscrollview/2902261-contentinsetadjustmentbehavior)
+- [Apple Docs - Core Location](https://developer.apple.com/documentation/corelocation)
+- [Apple Docs - Getting the current location of a device](https://developer.apple.com/documentation/corelocation/getting_the_current_location_of_a_device)
+- [Apple Docs - Configuring your app to use location services](https://developer.apple.com/documentation/corelocation/configuring_your_app_to_use_location_services)
+- [Apple Docs - Requesting authorization to use location services](https://developer.apple.com/documentation/corelocation/requesting_authorization_to_use_location_services)
+- [Apple Docs - Using Lightweight Migration](https://developer.apple.com/documentation/coredata/using_lightweight_migration)
