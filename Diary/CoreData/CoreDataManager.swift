@@ -11,14 +11,11 @@ import CoreData
 struct CoreDataManager {
     private let storage = CoreDataStack.shared
     
-    func createDAO<DAO: DataAccessObject, Domain: DataTransferObject>(type: DAO.Type, from data: Domain) {
+    func createDAO<DAO: DataAccessObject>(type: DAO.Type) -> DAO? {
         guard let entityName = DAO.entity().name,
-              let object = DAO.object(entityName: entityName, context: storage.context) else { return }
+              let object = DAO.object(entityName: entityName, context: storage.context) else { return nil }
         
-        if let castedData = data as? DAO.Domain {
-            object.setValues(from: castedData)
-            storage.saveContext()
-        }
+        return object
     }
     
     func readAllDAO<DAO: DataAccessObject>(type: DAO.Type, sortDescription: SortDescription?) -> [DAO] {
@@ -46,12 +43,9 @@ struct CoreDataManager {
         
         guard let object = fetchResult.first,
               let data = data as? DAO.Domain else { return }
-
-        object.updateValue(data: data)
         
-        if storage.context.hasChanges {
-            storage.saveContext()
-        }
+        object.updateValue(data: data)
+        saveContext()
     }
     
     func deleteDAO<DAO: DataAccessObject>(type: DAO.Type, id: UUID) {
@@ -65,6 +59,17 @@ struct CoreDataManager {
         guard let object = fetchResult.first else { return }
         
         storage.context.delete(object)
-        storage.saveContext()
+        saveContext()
+    }
+    
+    func saveContext() {
+        if storage.context.hasChanges {
+            do {
+                try storage.context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
     }
 }

@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol DataTransferObject: Identifiable {
+protocol DataTransferObject {
     var id: UUID { get set }
 }

@@ -6,13 +6,13 @@
 
 import UIKit
 
-final class DiaryListViewController: UIViewController {
+final class DiaryListViewController: UIViewController, DiaryContentsViewDelegate {
     private let tableView = UITableView()
     private var diaryList: [Diary] = []
-    private let sampleDecoder = DiaryDecodeManager()
     private let alertMaker: DiaryAlertFactory = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
-    private let dataManager = CoreDataManager()
+    private let diaryDataManager = DiaryDataManager()
+    private let openWeatherService = OpenWeatherService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +26,6 @@ final class DiaryListViewController: UIViewController {
         super.viewWillAppear(animated)
         
         fetchDiaryList()
-        tableView.reloadData()
     }
 
     private func setUpRootView() {
@@ -45,6 +44,7 @@ final class DiaryListViewController: UIViewController {
     private func addDiary() {
         let diaryContentViewController = DiaryContentViewController()
         
+        diaryContentViewController.delegate = self
         navigationController?.pushViewController(diaryContentViewController, animated: true)
     }
     
@@ -69,12 +69,15 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
-    private func fetchDiaryList() {
-        let sortDescription = SortDescription(key: "date", ascending: false)
-        let result = dataManager.readAllDAO(type: DiaryDAO.self, sortDescription: sortDescription)
-        let mappedList = result.map { Diary(diaryDAO: $0) }
+    func fetchDiaryList() {
+        let diaryList = diaryDataManager.readAll()
+        self.diaryList = diaryList
         
-        self.diaryList = mappedList
+        DispatchQueue.main.async { [weak self] in
+            guard let self else { return }
+            
+            self.tableView.reloadData()
+        }
     }
 }
 
@@ -92,6 +95,19 @@ extension DiaryListViewController: UITableViewDataSource {
         
         let diary = diaryList[indexPath.row]
         
+        openWeatherService.loadIcon(code: diary.weather?.icon) { [weak cell] result in
+            guard let cell else { return }
+            
+            switch result {
+            case .success(let icon):
+                DispatchQueue.main.async {
+                    cell.configureIcon(image: icon)
+                }
+            case .failure(let error):
+                print(error.localizedDescription)
+            }
+        }
+        
         cell.configureLabels(with: diary)
         
         return cell
@@ -104,6 +120,7 @@ extension DiaryListViewController: UITableViewDelegate {
         let diary = diaryList[indexPath.row]
         let diaryContentViewController = DiaryContentViewController(diary: diary)
         
+        diaryContentViewController.delegate = self
         navigationController?.pushViewController(diaryContentViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -151,6 +168,7 @@ extension DiaryListViewController: UITableViewDelegate {
 }
 
 // MARK: - Present View
+private
 extension DiaryListViewController {
     private func presentDeleteAlert(indexPath: IndexPath) {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
@@ -158,7 +176,7 @@ extension DiaryListViewController {
             
             let id = self.diaryList[indexPath.row].id
             
-            self.dataManager.deleteDAO(type: DiaryDAO.self, id: id)
+            self.diaryDataManager.delete(id: id)
             self.diaryList.remove(at: indexPath.row)
             self.tableView.deleteRows(at: [indexPath], with: .automatic)
         }

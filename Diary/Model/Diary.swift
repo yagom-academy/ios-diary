@@ -10,7 +10,8 @@ import Foundation
 final class Diary: DataTransferObject {
     var title, body: String?
     var updatedDate: Double
-    var id = UUID()
+    var weather: Weather?
+    var id: UUID
     
     var updatedDateText: String {
         let date = Date(timeIntervalSince1970: self.updatedDate)
@@ -19,10 +20,11 @@ final class Diary: DataTransferObject {
         return formattedDate
     }
     
-    init(title: String?, body: String?, updatedDate: Double) {
+    init(title: String?, body: String?, updatedDate: Double, id: UUID = UUID()) {
         self.title = title
         self.body = body
         self.updatedDate = updatedDate
+        self.id = id
     }
     
     init(diaryDAO: DiaryDAO) {
@@ -30,11 +32,15 @@ final class Diary: DataTransferObject {
         self.body = diaryDAO.body
         self.updatedDate = diaryDAO.date
         self.id = diaryDAO.id
+        
+        if let weatherDAO = diaryDAO.weather {
+            self.weather = Weather(weatherDAO: weatherDAO)
+        }
     }
 
-    func updateContents(title: String?, body: String?, updatedDate: Double) {
-        self.title = title
-        self.body = body
-        self.updatedDate = updatedDate
+    func updateWeather(data: Weather) {
+        if self.weather != nil {
+            self.weather = data
+        }
     }
 }

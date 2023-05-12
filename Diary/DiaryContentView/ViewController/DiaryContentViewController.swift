@@ -6,15 +6,19 @@
 //
 
 import UIKit
+import CoreLocation
 
 final class DiaryContentViewController: UIViewController {
     typealias DiaryText = (title: String?, body: String?)
     
     private var diary: Diary?
     private let textView = UITextView()
-    private let alertFactory: DiaryAlertFactory = DiaryAlertMaker()
+    private let alertMaker: DiaryAlertFactory = DiaryAlertMaker()
     private let alertDataMaker: DiaryAlertDataFactory = DiaryAlertDataMaker()
-    private let storage = CoreDataManager()
+    private let diaryDataManager = DiaryDataManager()
+    private let locationHelper = LocationHelper()
+    private let openWeatherService = OpenWeatherService()
+    weak var delegate: DiaryContentsViewDelegate?
 
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -28,6 +32,7 @@ final class DiaryContentViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpLocationHelper()
         setUpRootView()
         setUpNavigationBar()
         setUpTextView()
@@ -52,22 +57,52 @@ final class DiaryContentViewController: UIViewController {
         
         let currentContents: DiaryText = devideTitleAndBody(text: textView.text)
         let updatedDate = Date().timeIntervalSince1970
-        
-        if isDiaryEdited(currentContents) {
-            diary.updateContents(title: currentContents.title,
-                                  body: currentContents.body,
-                                  updatedDate: updatedDate)
-            storage.updateDAO(type: DiaryDAO.self, data: diary)
+        let updatedDiary = Diary(title: currentContents.title,
+                                 body: currentContents.body,
+                                 updatedDate: updatedDate,
+                                 id: diary.id)
+
+        diaryDataManager.update(data: updatedDiary)
+    }
+    
+    private func setUpLocationHelper() {
+        locationHelper.setEventHandler { [weak self] coordinate in
+            guard let self else { return }
+            
+            self.loadWeather(coordinate: coordinate)
         }
     }
     
-    private func isDiaryEdited(_ currentContents: DiaryText) -> Bool {
-        guard let diary else { return false }
-        
-        if diary.title != currentContents.title || diary.body != currentContents.body {
-            return true
-        } else {
-            return false
+    private func loadWeather(coordinate: CLLocationCoordinate2D) {
+        openWeatherService.loadData(latitude: coordinate.latitude,
+                                   longitude: coordinate.longitude) { [weak self] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let currentWeather):
+                guard let weather = currentWeather.weather.first,
+                      let diary = self.diary,
+                      let weatherId = self.diary?.weather?.id else { return }
+                
+                let updatedWeather = Weather(main: weather.main,
+                                              icon: weather.icon,
+                                              id: weatherId)
+                
+                diary.updateWeather(data: updatedWeather)
+                self.diaryDataManager.update(data: diary)
+                self.delegate?.fetchDiaryList()
+            case .failure(let error):
+                print(error.localizedDescription)
+
+                let alertData = self.alertDataMaker.retryAlertData {
+                    self.loadWeather(coordinate: coordinate)
+                }
+                let alert = self.alertMaker.retryAlert(for: alertData)
+
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true)
+                }
+            }
         }
     }
     
@@ -153,15 +188,17 @@ final class DiaryContentViewController: UIViewController {
             let createdDate = Date().timeIntervalSince1970
             
             self.diary = Diary(title: "", body: "", updatedDate: createdDate)
+            self.diary?.weather = Weather()
             
             guard let diary else { return }
             
-            storage.createDAO(type: DiaryDAO.self, from: diary)
+            diaryDataManager.create(data: diary)
         }
     }
 }
 
 // MARK: - KeyboardNotification
+private
 extension DiaryContentViewController {
     private func addObserver() {
         NotificationCenter.default.addObserver(self,
@@ -196,6 +233,7 @@ extension DiaryContentViewController {
 }
 
 // MARK: - Present View
+private
 extension DiaryContentViewController {
     private func presentActionSheet() {
         let alertData = alertDataMaker.actionSheetData { [weak self] in
@@ -207,7 +245,7 @@ extension DiaryContentViewController {
             
             self.presentDeleteAlert()
         }
-        let alert = alertFactory.actionSheet(for: alertData)
+        let alert = alertMaker.actionSheet(for: alertData)
 
         present(alert, animated: true)
     }
@@ -225,11 +263,11 @@ extension DiaryContentViewController {
         let alertData = alertDataMaker.deleteAlertData { [weak self] in
             guard let self, let id = self.diary?.id else { return }
             
-            self.storage.deleteDAO(type: DiaryDAO.self, id: id)
+            self.diaryDataManager.delete(id: id)
             self.diary = nil
             self.navigationController?.popViewController(animated: true)
         }
-        let alert = alertFactory.deleteDiaryAlert(for: alertData)
+        let alert = alertMaker.deleteDiaryAlert(for: alertData)
         
         present(alert, animated: true)
     }
