@@ -71,12 +71,22 @@ final class DiaryListCell: UITableViewCell {
         bodyLabel.text = data.body.removeNewLinePrefix()
         dateLabel.text = Date(timeIntervalSince1970: data.date).convertDate()
         
-        guard let url = URL(string: imageURLString(diary: data)) else { return }
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.iconImage.image = image
+        let urlString = imageURLString(diary: data)
+        
+        guard let url = URL(string: urlString) else { return }
+        
+        if let cachedImage = CacheManager.shared.cachedImage(urlString: urlString) {
+            DispatchQueue.main.async {
+                self.iconImage.image = cachedImage
+            }
+        } else {
+            DispatchQueue.global().async { [weak self] in
+                if let data = try? Data(contentsOf: url) {
+                    if let image = UIImage(data: data) {
+                        DispatchQueue.main.async {
+                            self?.iconImage.image = image
+                            CacheManager.shared.store(image: image, urlString: urlString)
+                        }
                     }
                 }
             }

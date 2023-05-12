@@ -1,8 +1,7 @@
 //
-//  DecodeError.swift
-//  Diary
-//
-//  Created by Jinah Park on 2023/05/11.
+//  Diary - DecodeError.swift
+//  Created by Rhode, 무리.
+//  Copyright © yagom. All rights reserved.
 //
 
 import Foundation

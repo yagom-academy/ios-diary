@@ -1,9 +1,9 @@
 //
-//  DecodeManager.swift
-//  Diary
+//  Diary - DecodeManager.swift
+//  Created by Rhode, 무리.
+//  Copyright © yagom. All rights reserved.
 //
-//  Created by Jinah Park on 2023/05/11.
-//
+
 
 import UIKit
 
