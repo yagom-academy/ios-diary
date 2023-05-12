@@ -29,11 +29,6 @@ final class DiaryListViewController: UIViewController {
         addObserver()
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        diaryListTableView.reloadData()
-    }
-    
     private func addObserver() {
         NotificationCenter.default.addObserver(forName: .init("reload"), object: nil, queue: .main) { _ in
             self.diaryListTableView.reloadData()
@@ -87,6 +82,7 @@ extension DiaryListViewController: UITableViewDataSource {
             return DiaryListCell()
         }
         
+        cell.iconImage.image = nil
         cell.accessoryType = .disclosureIndicator
         
         guard let diaries else { return DiaryListCell() }

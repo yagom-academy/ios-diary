@@ -79,22 +79,6 @@ class CoreDataManager {
             objectToUpdate.setValue(diary.title, forKey: "title")
             objectToUpdate.setValue(diary.body, forKey: "body")
             objectToUpdate.setValue(diary.date, forKey: "date")
-            
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        saveContext()
-    }
-    
-    func updateDiary(diary: Diary, iconName: String) {
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Entity")
-        fetchRequest.predicate = NSPredicate(format: "id == %@", diary.id as CVarArg)
-        
-        do {
-            let objects = try context.fetch(fetchRequest)
-            let objectToUpdate = objects[0]
-            
             objectToUpdate.setValue(diary.iconName, forKey: "iconName")
             
         } catch {

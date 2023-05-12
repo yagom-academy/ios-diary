@@ -49,7 +49,7 @@ final class DiaryListCell: UITableViewCell {
         return label
     }()
     
-    private let iconImage: UIImageView = {
+    let iconImage: UIImageView = {
         let imageView = UIImageView()
         imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
