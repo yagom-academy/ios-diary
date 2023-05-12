@@ -17,3 +17,7 @@
 "취소" = "Cancel";
 "진짜요?" = "Really?";
 "정말로 삭제하시겠어요?" = "Are you sure you want to delete";
+"위치 정보 이용" = "Use of location information";
+"설정으로 이동" = "Move setting";
+"위치 서비스를 사용할 수 없습니다.\n디바이스의 '설정 > 개인정보 보호'에서 위치 서비스를 켜주세요." =
+"Location services are not available.\nTurn on location services in 'Settings > Privacy' on the device.";
