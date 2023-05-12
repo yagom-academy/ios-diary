@@ -88,6 +88,18 @@ final class DiaryListCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configureLabels(with diary: Diary) {
+        guard let title = diary.title else { return }
+        
+        titleLabel.text = title.isEmpty ? "새로운 일기" : title
+        dateLabel.text = diary.updatedDateText
+        previewLabel.text = diary.body?.trimmingCharacters(in: ["\n"])
+    }
+    
+    func configureIcon(image: UIImage) {
+        iconImageView.image = image
+    }
+    
     private func setUpAccessory() {
         self.accessoryType = .disclosureIndicator
     }
@@ -106,17 +118,5 @@ final class DiaryListCell: UITableViewCell {
             iconImageView.widthAnchor.constraint(equalToConstant: 35),
             iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor, multiplier: 1)
         ])
-    }
-    
-    func configureLabels(with diary: Diary) {
-        guard let title = diary.title else { return }
-        
-        titleLabel.text = title.isEmpty ? "새로운 일기" : title
-        dateLabel.text = diary.updatedDateText
-        previewLabel.text = diary.body?.trimmingCharacters(in: ["\n"])
-    }
-    
-    func configureIcon(image: UIImage) {
-        iconImageView.image = image
     }
 }
