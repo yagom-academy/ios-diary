@@ -11,7 +11,7 @@ final class CacheManager {
     private let storage = NSCache<NSString, UIImage>()
     
     private init() {
-        storage.countLimit = 30
+        storage.countLimit = 18
     }
     
     func store(image: UIImage, urlString: String) {

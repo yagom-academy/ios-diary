@@ -252,7 +252,7 @@ final class DetailDiaryViewController: UIViewController {
         return result
     }
     
-    // MARK: -
+    // MARK: - Network method
     private func fetchWeatherData(completion: @escaping () -> Void) {
         guard let latitude, let longitude,
               let request = urlRequestMaker.request(latitude: latitude,
