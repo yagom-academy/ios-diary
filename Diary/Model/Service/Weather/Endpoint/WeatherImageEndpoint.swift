@@ -16,7 +16,6 @@ struct WeatherImageEndpoint: WeatherAPIInformationOwner {
     
     var url: URL? {
         let weatherImageUrl = baseURLLiteral + path + iConCode + imageInfomation
-        print(weatherImageUrl)
         return URL(string: weatherImageUrl)
     }
 }

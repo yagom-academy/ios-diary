@@ -11,14 +11,14 @@ struct WeatherInformationEndpoint: WeatherAPIEndpoint {
     typealias APIResponse = WeatherResponse
     
     let latitude: String
-    let longtitude: String
+    let longitude: String
     let method: HTTPMethod = .get
     let path = "/data/2.5/weather"
-    var headers: [String : String]?
-    var queries: [String : String?] {
+    var headers: [String: String]?
+    var queries: [String: String?] {
         [
             "lat": self.latitude,
-            "lon": self.longtitude,
+            "lon": self.longitude,
             "appid": self.serviceKey
         ]
     }

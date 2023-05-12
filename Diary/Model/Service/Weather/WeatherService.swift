@@ -12,7 +12,7 @@ protocol WeatherService {
 
     func fetchWeatherInformation(
         latitude: Double,
-        longtitude: Double,
+        longitude: Double,
         completion: @escaping ((Result<WeatherInformation, NetworkError>) -> Void)
     )
 }
@@ -20,12 +20,12 @@ protocol WeatherService {
 extension WeatherService {
     func fetchWeatherInformation(
         latitude: Double,
-        longtitude: Double,
+        longitude: Double,
         completion: @escaping ((Result<WeatherInformation, NetworkError>) -> Void)
     ) {
         let endPoint = WeatherInformationEndpoint(
             latitude: String(latitude),
-            longtitude: String(longtitude)
+            longitude: String(longitude)
         )
         return self.networkProvider.request(endPoint) { result in
             completion(result.map { $0.convertToWeatherItems() })

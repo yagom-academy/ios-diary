@@ -7,7 +7,7 @@
 
 import Foundation
 
-class JSONDecodingUtility: DecodingUtility {
+final class JSONDecodingUtility: DecodingUtility {
     func decode<T: Decodable>(data: Data) throws -> T {
         let decoder = JSONDecoder()
         let result = try decoder.decode(T.self, from: data)

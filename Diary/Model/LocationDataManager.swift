@@ -7,14 +7,14 @@
 
 import CoreLocation
 
-protocol SettingAlertPresentable: AnyObject {
+protocol LocationDataManagerProtocol: AnyObject {
     func presentSystemSettingAlert()
     func setDiaryWeatherInformation(with currentCoordinate: CLLocationCoordinate2D)
 }
 
 final class LocationDataManager: NSObject {
     private let locationManager = CLLocationManager()
-    weak var delegate: SettingAlertPresentable?
+    weak var delegate: LocationDataManagerProtocol?
     
     override init() {
         super.init()
@@ -31,7 +31,7 @@ extension LocationDataManager: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(#function)
+        print(error.localizedDescription)
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {

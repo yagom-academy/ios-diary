@@ -149,24 +149,30 @@ final class ProcessViewController: UIViewController {
             return
         }
         
-        if isDeleteDiary {
+        guard !isDeleteDiary else {
             self.navigationController?.popViewController(animated: true)
             return
         }
         
         if let diary {
-            diaryService.update(id: diary.id, title: diaryInformation.title, body: diaryInformation.body)
-        } else {
-            let result = diaryService.create(
-                id: UUID(),
+            diaryService.update(
+                id: diary.id,
                 title: diaryInformation.title,
-                body: diaryInformation.body,
-                weather: weatherInformation?.weatherCondition ?? "",
-                weatherIcon: weatherInformation?.weatherIcon ?? ""
+                body: diaryInformation.body
             )
-            if case .success(let newDiary) = result {
-                diary = newDiary
-            }
+            return
+        }
+        
+        let result = diaryService.create(
+            id: UUID(),
+            title: diaryInformation.title,
+            body: diaryInformation.body,
+            weather: weatherInformation?.weatherCondition ?? "",
+            weatherIcon: weatherInformation?.weatherIcon ?? ""
+        )
+        
+        if case .success(let newDiary) = result {
+            diary = newDiary
         }
     }
     
@@ -247,7 +253,9 @@ final class ProcessViewController: UIViewController {
     }
 }
 
-extension ProcessViewController: SettingAlertPresentable {
+// MARK: - LocationDataManagerProtocol
+
+extension ProcessViewController: LocationDataManagerProtocol {
     func presentSystemSettingAlert() {
         let requestLocationServiceAlert = UIAlertController(
             title: "위치 정보 이용",
@@ -270,13 +278,13 @@ extension ProcessViewController: SettingAlertPresentable {
         let weatherService = DefaultWeatherService()
         weatherService.fetchWeatherInformation(
             latitude: currentCoordinate.latitude,
-            longtitude: currentCoordinate.longitude
+            longitude: currentCoordinate.longitude
         ) { result in
             switch result {
             case .success(let info):
                 self.weatherInformation = (weatherCondition: info.main, weatherIcon: info.iconCode)
             case .failure(let error):
-                print(error)
+                print(error.localizedDescription)
             }
         }
     }
