@@ -122,12 +122,20 @@ fileprivate extension UIImageView {
         guard let url = url else { return }
         
         DispatchQueue.global(qos: .background).async {
-            guard let data = try? Data(contentsOf: url) else { return }
+            let cachedKey = NSString(string: url.absoluteString)
             
-            guard let image = UIImage(data: data) else { return }
-            
-            DispatchQueue.main.async { [weak self] in
-                self?.image = image
+            if let cachedImage = ImageCacheManager.shared.object(forKey: cachedKey) {
+                DispatchQueue.main.async {
+                    self.image = cachedImage
+                }
+            } else {
+                guard let data = try? Data(contentsOf: url) else { return }
+                
+                guard let image = UIImage(data: data) else { return }
+                
+                DispatchQueue.main.async {
+                    self.image = image
+                }
             }
         }
     }

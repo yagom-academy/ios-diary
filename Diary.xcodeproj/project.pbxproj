@@ -16,6 +16,7 @@
 		16C50AC22A009C4800D1B1C6 /* PersistenceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C50AC12A009C4800D1B1C6 /* PersistenceManager.swift */; };
 		16C50AC42A00D5C200D1B1C6 /* UIViewControllerExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16C50AC32A00D5C200D1B1C6 /* UIViewControllerExtention.swift */; };
 		16E25EF22A0B66120011E24E /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16E25EF12A0B66120011E24E /* NetworkError.swift */; };
+		16F11C232A0E275200F1A08C /* ImageCacheManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 16F11C222A0E275200F1A08C /* ImageCacheManager.swift */; };
 		2600B96D29F792C60032E5BD /* JsonDiary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600B96C29F792C60032E5BD /* JsonDiary.swift */; };
 		2600B96F29F79AFC0032E5BD /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2600B96E29F79AFC0032E5BD /* DateExtension.swift */; };
 		2644766C29FFB8E7007C0BF3 /* DiaryState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2644766B29FFB8E7007C0BF3 /* DiaryState.swift */; };
@@ -43,6 +44,7 @@
 		16C50AC12A009C4800D1B1C6 /* PersistenceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceManager.swift; sourceTree = "<group>"; };
 		16C50AC32A00D5C200D1B1C6 /* UIViewControllerExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtention.swift; sourceTree = "<group>"; };
 		16E25EF12A0B66120011E24E /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		16F11C222A0E275200F1A08C /* ImageCacheManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCacheManager.swift; sourceTree = "<group>"; };
 		2600B96C29F792C60032E5BD /* JsonDiary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JsonDiary.swift; sourceTree = "<group>"; };
 		2600B96E29F79AFC0032E5BD /* DateExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		2644766B29FFB8E7007C0BF3 /* DiaryState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryState.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				26627EE32A0A3EB100C6B688 /* DiaryEndPoint.swift */,
 				2696129D2A0B64480059A463 /* NetworkManager.swift */,
 				16E25EF12A0B66120011E24E /* NetworkError.swift */,
+				16F11C222A0E275200F1A08C /* ImageCacheManager.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 				2644766C29FFB8E7007C0BF3 /* DiaryState.swift in Sources */,
 				16C50AC22A009C4800D1B1C6 /* PersistenceManager.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				16F11C232A0E275200F1A08C /* ImageCacheManager.swift in Sources */,
 				16C50AC42A00D5C200D1B1C6 /* UIViewControllerExtention.swift in Sources */,
 				16E25EF22A0B66120011E24E /* NetworkError.swift in Sources */,
 				16C0929F29F79642002ACEB4 /* ArrayExtension.swift in Sources */,
