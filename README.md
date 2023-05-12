@@ -618,16 +618,15 @@ extension Entity {
     
 </br>
 ## Reference 📑
-[🍎 Apple Developer 공식문서 - UITextView ](https://developer.apple.com/documentation/uikit/uitextview)
-[🍎 Apple Developer 공식문서 - DateFormatter ](https://developer.apple.com/documentation/foundation/dateformatter)
-[🍎 Apple Developer 공식문서 - NotificationCenter ](https://developer.apple.com/documentation/foundation/notificationcenter)
-[🍎 Apple Developer 공식문서 - NSNotification-Name-UIKit ](https://developer.apple.com/documentation/foundation/nsnotification/name#3875993)
-[🍎 Apple Developer 공식문서 - NsLayoutConstraint-constant ](https://developer.apple.com/documentation/uikit/nslayoutconstraint/1526928-constant)
-[🍎 Apple Developer 공식문서 - Core Data](https://developer.apple.com/documentation/coredata)
-[🍎 Apple Developer 공식문서 - Core Location](https://developer.apple.com/documentation/corelocation)
-[🍎 Apple Developer 공식문서 - Configuring your app to use location services](https://developer.apple.com/documentation/corelocation/configuring_your_app_to_use_location_services)
-[🍎 Apple Developer 공식문서 - Getting the current location of a device](https://developer.apple.com/documentation/corelocation/getting_the_current_location_of_a_device)
-[🍎 Apple Developer 공식문서 - Requesting authorization to use location services](https://developer.apple.com/documentation/corelocation/requesting_authorization_to_use_location_services)
-[🍎 Apple Developer 공식문서 - Using Lightweight Migration](https://developer.apple.com/documentation/coredata/using_lightweight_migration)
-[🌤️ OpenWeatherAPI](https://openweathermap.org/current#multi)
-
+- [🍎 Apple Developer 공식문서 - UITextView ](https://developer.apple.com/documentation/uikit/uitextview)
+- [🍎 Apple Developer 공식문서 - DateFormatter ](https://developer.apple.com/documentation/foundation/dateformatter)
+- [🍎 Apple Developer 공식문서 - NotificationCenter ](https://developer.apple.com/documentation/foundation/notificationcenter)
+- [🍎 Apple Developer 공식문서 - NSNotification-Name-UIKit ](https://developer.apple.com/documentation/foundation/nsnotification/name#3875993)
+- [🍎 Apple Developer 공식문서 - NsLayoutConstraint-constant ](https://developer.apple.com/documentation/uikit/nslayoutconstraint/1526928-constant)
+- [🍎 Apple Developer 공식문서 - Core Data](https://developer.apple.com/documentation/coredata)
+- [🍎 Apple Developer 공식문서 - Core Location](https://developer.apple.com/documentation/corelocation)
+- [🍎 Apple Developer 공식문서 - Configuring your app to use location services](https://developer.apple.com/documentation/corelocation/configuring_your_app_to_use_location_services)
+- [🍎 Apple Developer 공식문서 - Getting the current location of a device](https://developer.apple.com/documentation/corelocation/getting_the_current_location_of_a_device)
+- [🍎 Apple Developer 공식문서 - Requesting authorization to use location services](https://developer.apple.com/documentation/corelocation/requesting_authorization_to_use_location_services)
+- [🍎 Apple Developer 공식문서 - Using Lightweight Migration](https://developer.apple.com/documentation/coredata/using_lightweight_migration)
+- [🌤️ OpenWeatherAPI](https://openweathermap.org/current#multi)
