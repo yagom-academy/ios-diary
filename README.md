@@ -618,6 +618,7 @@ extension Entity {
     
 </br>
 ## Reference 📑
+    
 - [🍎 Apple Developer 공식문서 - UITextView ](https://developer.apple.com/documentation/uikit/uitextview)
 - [🍎 Apple Developer 공식문서 - DateFormatter ](https://developer.apple.com/documentation/foundation/dateformatter)
 - [🍎 Apple Developer 공식문서 - NotificationCenter ](https://developer.apple.com/documentation/foundation/notificationcenter)
