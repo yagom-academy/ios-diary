@@ -36,6 +36,7 @@ final class DiaryListCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         
         return label
     }()
@@ -43,8 +44,16 @@ final class DiaryListCell: UITableViewCell {
     private let bodyLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.textAlignment = .right
         
         return label
+    }()
+    
+    private let iconImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        
+        return imageView
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -61,6 +70,26 @@ final class DiaryListCell: UITableViewCell {
         titleLabel.text = data.title
         bodyLabel.text = data.body.removeNewLinePrefix()
         dateLabel.text = Date(timeIntervalSince1970: data.date).convertDate()
+        
+        guard let url = URL(string: imageURLString(diary: data)) else { return }
+        DispatchQueue.global().async { [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.iconImage.image = image
+                    }
+                }
+            }
+        }
+    }
+    
+    private func imageURLString(diary: Diary) -> String {
+        guard let iconName = diary.iconName else { return "" }
+        
+        let baseURL = "https://openweathermap.org/img/wn/"
+        let resolution = "@2x.png"
+        
+        return baseURL + iconName + resolution
     }
     
     private func configureSubViews() {
@@ -68,6 +97,7 @@ final class DiaryListCell: UITableViewCell {
         contentStackView.addArrangedSubview(titleLabel)
         contentStackView.addArrangedSubview(detailStackView)
         detailStackView.addArrangedSubview(dateLabel)
+        detailStackView.addArrangedSubview(iconImage)
         detailStackView.addArrangedSubview(bodyLabel)
     }
     
@@ -76,7 +106,9 @@ final class DiaryListCell: UITableViewCell {
             contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10)
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
+            iconImage.widthAnchor.constraint(equalTo: contentStackView.widthAnchor, multiplier: 1/10),
+            iconImage.heightAnchor.constraint(equalTo: iconImage.widthAnchor)
         ])
     }
 }

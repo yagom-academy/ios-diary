@@ -183,7 +183,6 @@ final class DetailDiaryViewController: UIViewController {
         
         guard let diary = makeDiary() else { return }
         
-        
         fetchWeatherData() {
             if self.isSaveRequired {
                 if self.isDiaryCreated {
