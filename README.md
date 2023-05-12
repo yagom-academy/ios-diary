@@ -9,12 +9,13 @@
 
 
 - [1. 팀원을 소개합니다 👀](#팀원을-소개합니다-) 
-- [2. 파일트리 🌲](#file-tree-)
+- [2. 프로젝트 구조 🔍](#프로젝트-구조-)
 - [3. 타임라인 ⏰](#타임라인-) 
 - [4. 실행 화면 🎬](#실행-화면-) 
 - [5. 트러블슈팅 🚀](#트러블-슈팅-) 
 - [6. 핵심경험 📌](#핵심경험-)
-- [7. Reference 📑](#reference-) 
+- [7. 팀 회고 👯‍♀️](#팀-회고-)
+- [8. Reference 📑](#reference-) 
 
 </br>
 
@@ -27,7 +28,9 @@
 
 </br>
 
-## File Tree 🌲
+## 프로젝트 구조 🔍
+
+### File Tree 🌲
 
 ```typescript
 Diary
@@ -38,14 +41,25 @@ Diary
 │   │   ├── AppDelegate.swift
 │   │   └── SceneDelegate.swift
 │   ├── Model
+│   │   ├── DTO
+│   │   │   └── WeatherInformation.swift
 │   │   ├── Diary.swift
-│   │   └── CoreDataManager.swift
+│   │   ├── CoreDataManager.swift
+│   │   ├── LocationDataManager.swift
+│   │   └── CacheManager.swift
 │   ├── View
 │   │   ├── LaunchScreen
 │   │   └── DiaryListCell.swift
 │   ├── Controller
 │   │   ├── DiaryListViewController.swift
 │   │   └── DetailDiaryViewController.swift
+│   ├── Decode
+│   │   ├── DecodeManager.swift
+│   │   └── DecodeError.swift
+│   ├── Network
+│   │   ├── URLRequestMaker.swift
+│   │   ├── NetworkManager.swift
+│   │   └── NetworkError.swift
 │   ├── Utility
 │   │   └── ActionController.swift
 │   ├── Resource
@@ -56,8 +70,14 @@ Diary
 │       ├── Double+.swift
 │       └── String+.swift
 ├── Diary
+│       ├── Diary v2
+│       └── Diary
 └── .swiftlint
 ```
+
+### UML 📊
+
+![](https://hackmd.io/_uploads/ByL0CDo42.png)
 
 
 </br>
@@ -75,7 +95,11 @@ Diary
 | **2023.05.02** | - CoreData deleteDiary()구현 </br>- 테이블에서 스와이프 및 삭제 구현 </br>- Entity에 id 프로퍼티 추가 </br>- DetailDiaryViewController updateDiary()구현 </br>- showActivieyVC() 구현 및 NotificationObserver 추가 |
 | **2023.05.03** | - 일기 저장 로직 수정 </br>- CoreData delete로직 수정 및 DetailDiaryViewController에서 삭제기능 추가 </br>- 스와이프 로직 수정 </br>- ActionViewController 분리 </br>- DetailViewController에서 삭제 시 alert 구현 </br>- 키보드 레이아웃 로직 keyboardLayout으로 수정|
 | **2023.05.04** | - ActivityViewController에서 다이어리 내용 전달할 수 있게 수정 </br>- 바번튼 아이템 수정 </br>- DetailDiaryViewController updateDiary() 로직 수정 </br>- 다이어리 저장 시 중복으로 저장되는 오류 처리|
-
+| **2023.05.05** | - DiaryListViewController가 Diary 변수를 가지도록 수정</br>- 수정 중 저장기능 리팩토링|
+| **2023.05.08** | - 에러처리 방법 변경 </br>- CoreDataManager 내부 반복 로직 메서드로 분리|
+| **2023.05.09** | - Core Location 구현 및 Location Manager 생성 </br>- NetworkManger 구현 </br>- DecodeManager 구현</br>- CoreData Migration 및 로직 오류 해결|
+| **2023.05.11** | - ActivityViewController에서 다이어리 내용 전달할 수 있게 수정 </br>- 바번튼 아이템 수정 </br>- DetailDiaryViewController updateDiary() 로직 수정 </br>- 다이어리 저장 시 중복으로 저장되는 오류 처리|
+| **2023.05.12** | - URL 사용하여 ListCell에 날씨 아이콘 추가 및 오류 수정 </br>- Cache Manager 구현 및 아이콘 이미지 캐싱|
 
 </br>
 
@@ -109,6 +133,19 @@ Diary
 |<center>생성 화면</center>|<center>수정 화면</center>|
 | --- | --- |
 |<img src=https://i.imgur.com/1kl70hn.gif width=300>|<img src=https://i.imgur.com/FKQ1aVk.gif width=300>|
+
+
+
+## 날씨 아이콘 추가 후 CRUD
+|<center>Create</center>|<center>Read&Update</center>|<center>Delete</center>
+|---|---|---|
+|<img src=https://hackmd.io/_uploads/B17zePs43.gif width=300>|<img src=https://hackmd.io/_uploads/rkmGewjVn.gif width=300>|<img src=https://hackmd.io/_uploads/S1QflviV2.gif width=300>
+
+## 날씨 아이콘 이미지 캐싱
+
+|<center>이미지 캐싱 전</center>|<center>이미지 캐싱 후</center>|
+|---|---|
+|<img src=https://hackmd.io/_uploads/r1HtWwiNn.gif width=300>|<img src=https://hackmd.io/_uploads/HkvIe_sEh.gif width=300>|
 
 ---
 
@@ -185,7 +222,6 @@ private func keyboardWillHide(notification: NSNotification) {
 
 ### 2️⃣ 사용자가 키보드를 내릴 때 텍스트뷰의 레이아웃
 현재 트러블슈팅 1️⃣에서는 **키보드가 올라왔을 때** 텍스트 뷰의 크기를 동적으로 줄여 사용하고있었습니다. `⌘+k`를 이용하여 키보드를 없앨 때는 느끼지 못했던 부분인 **사용자가 키보드를 내릴 때**의 텍스트 뷰 레이아웃이 어색하게 느껴졌습니다.
-
 <img src=https://i.imgur.com/PfWmHP8.gif width=300>
 
 이를 해결하기 위해 **iOS 15.0+** 부터 사용 가능한  `keyboardLayoutGuide`를 사용해주었습니다.
@@ -240,10 +276,7 @@ barButtonItem의 image를 UIImage에 넣어 사용하는 방법으로 한결 간
 
 그래서 각각의 상황에 `saveDiary()`메서드를 넣어주었습니다:
 ```swift
-
-
 @objc
-
 final class DetailDiaryViewController: UIViewController {
     
     ...
@@ -287,6 +320,31 @@ private func saveDiary() {
 ```
 `isSaveRequired`는 `DiaryListViewController`에서 `addDiary()`를 해줄 때 혹은 테이블뷰의 셀을 선택할 때, true로 초기화됩니다. 그래서 이 때는 `if isSaveRequired`를 타고 들어가 `createDiary()`혹은 `updateDiary()`가 호출됩니다. 그렇지만, 나머지 상황에서는 `isSaveRequired`가 false이기 때문에 일기가 저장되거나 수정되지 않습니다. 
 
+### 5️⃣ DiaryListVC의 `.reloadData()`의 호출 순서 오류
+로직 수정 중, DiaryListViewController의 `viewWillAppear()` 내부에서 사용하고있는 `diaryTableView.reloadData()`가 제대로 작동하지 않은 오류가 있었습니다. 
+확인 결과 사용하고있던 escaping closure가 뷰컨트롤러의 전환 후 작동하여 나타났던 오류로, 일기장 작성 페이지에서 뒤로가기 시 저장이 되는 로직을 가지고 있었기 때문에 화면전환 시 불리우는 CoreDataManager의 `saveContext()` 메서드에 Notification의 post기능을 이용하여 해결할 수 있었습니다.
+```swift!
+// CoreDataManager.swift
+private func saveContext() {
+    do {
+        try self.context.save()
+        NotificationCenter.default.post(name: .init("reload"), object: nil)
+    } catch {
+        print(error.localizedDescription)
+    }
+}
+```
+```swift
+// DiaryListViewController.swift
+private func addObserver() {
+    NotificationCenter.default.addObserver(forName: .init("reload"),
+                                           object: nil,
+                                           queue: .main) { _ in
+        self.diaryListTableView.reloadData()
+        self.diaryListTableView.layoutIfNeeded()
+    }
+}
+```
 
 
 <br/>
@@ -465,15 +523,111 @@ enum ActionController {
     }
 }
 ```
+
+</details>
+    
+<details>
+<summary><big>✅ Core Location 활용 </big></summary>
+    
+일기를 저장하는 장소에서의 현재 날씨를 구하기 위해, Core Location을 활용하여 해당 지역의 위/경도를 구할 수 있었습니다. 
+    
+```swift 
+// LocationDataManager.swift
+final class LocationDataManager: NSObject {
+    static let shared = LocationDataManager()
+    private var locationManager = CLLocationManager()
+
+    var latitude: CLLocationDegrees?
+    var longitude: CLLocationDegrees?
+
+    private override init() {
+        super.init()
+
+        locationManager.delegate = self
+        locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters
+        locationManager.requestWhenInUseAuthorization()
+    }
+
+    func fetchLocation() -> (latitude: CLLocationDegrees, longitude: CLLocationDegrees)? {
+        guard let latitude,
+              let longitude else { return nil }
+
+        return (latitude: latitude, longitude: longitude)
+    }
+}
+    
+extension LocationDataManager: CLLocationManagerDelegate {
+    // 권한설정 메서드 등
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+
+        latitude = location.coordinate.latitude
+        longitude = location.coordinate.longitude
+    }
+}
+```
     
 </details>
     
-</br>
+<details>
+<summary><big>✅ Core Data Lightweight Migration</big></summary>
+OpenWeather API에서 받아오는 날씨의 icon값을 저장하기 위해 Core Data의 Migration을 할 필요가 있었습니다. 
+CoreData에서 `Add Model Version`을 하여 새로운 버전을 관리 해 주었습니다. 그 후 `Create NSManagedObject Subclass`하여 수정 내용을 반영해준 후 실행하여 마이그레이션을 해볼 수 있었습니다.
+    
+```swift
+import Foundation
+import CoreData
 
+extension Entity {
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Entity> {
+        return NSFetchRequest<Entity>(entityName: "Entity")
+    }
+
+    @NSManaged public var body: String?
+    @NSManaged public var date: Double
+    @NSManaged public var id: UUID?
+    @NSManaged public var title: String?
+    @NSManaged public var iconName: String?
+}
+// ...
+    
+```
+    
+</details>
+        
+    
+</br>
+    
+## 팀 회고 👯‍♀️
+    
+### 우리팀이 잘한 점
+- 리뷰가 오기 전에 각자 집중해서 공부할 수 있는 시간을 가졌던 점이 참 좋았습니다.
+- 그라운드 룰에 적어놓은 시간약속을 잘 지켰어요!
+    
+### 우리 팀의 아쉬웠던 점
+- 프로젝트 후반부에 체력적으로 많이 지쳤던 것 같아요...😭
+- 자잘한 실수 큰 오류...😅
+
+### 팀원 서로 칭찬하기
+#### 무리 -> 로데
+로데의 넓은 지식...! 멋져요. 로데 덕분에 새로운 메서드, 컨벤션 등 많이 알아갑니다! 오류를 만났을때도 이런저런 방법으로 시도해보시는 점 너무 멋있었습니다! 공식문서와 가까우신 점, 코드짜실 때 일관성있는 점도 꼭 배우고싶은 부분입니다. 로데는 정말 어디가서든지 적응 잘하실것같아요🥹 로데 최고입니다!!!
+
+#### 로데 -> 무리
+무리는 유연한 사고와 꼼꼼함을 두루 갖추고 있는 정육각형 개발자입니다. 늘 성실하면서도 생각이나 일정을 계획하는데에 있어서 유연함을 가지고 있어서 배울 점이 많습니다. 체력 안배도 잘 하시는 편인지 후반부에 체력적으로 많이 지쳤음에도 프로젝트를 이끌어나갈 힘이 있으신 것 같았습니다. 모든 점을 균형있게 잘 하시는 것이 무리의 가장 큰 장점이라고 볼 수 있을 것 같습니다.
+
+    
+</br>
 ## Reference 📑
-- [🍎 Apple Developer 공식문서 - UITextView](https://developer.apple.com/documentation/uikit/uitextview)
-- [🍎 Apple Developer 공식문서 - DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter)
-- [🍎 Apple Developer 공식문서 - NotificationCenter](https://developer.apple.com/documentation/foundation/notificationcenter)
-- [🍎 Apple Developer 공식문서 - NSNotification-Name-UIKit](https://developer.apple.com/documentation/foundation/nsnotification/name#3875993)
-- [🍎 Apple Developer 공식문서 - NsLayoutConstraint-constant](https://developer.apple.com/documentation/uikit/nslayoutconstraint/1526928-constant)
-- [🍎 Apple Developer 공식문서 - CoreData](https://developer.apple.com/documentation/coredata)
+[🍎 Apple Developer 공식문서 - UITextView ](https://developer.apple.com/documentation/uikit/uitextview)
+[🍎 Apple Developer 공식문서 - DateFormatter ](https://developer.apple.com/documentation/foundation/dateformatter)
+[🍎 Apple Developer 공식문서 - NotificationCenter ](https://developer.apple.com/documentation/foundation/notificationcenter)
+[🍎 Apple Developer 공식문서 - NSNotification-Name-UIKit ](https://developer.apple.com/documentation/foundation/nsnotification/name#3875993)
+[🍎 Apple Developer 공식문서 - NsLayoutConstraint-constant ](https://developer.apple.com/documentation/uikit/nslayoutconstraint/1526928-constant)
+[🍎 Apple Developer 공식문서 - Core Data](https://developer.apple.com/documentation/coredata)
+[🍎 Apple Developer 공식문서 - Core Location](https://developer.apple.com/documentation/corelocation)
+[🍎 Apple Developer 공식문서 - Configuring your app to use location services](https://developer.apple.com/documentation/corelocation/configuring_your_app_to_use_location_services)
+[🍎 Apple Developer 공식문서 - Getting the current location of a device](https://developer.apple.com/documentation/corelocation/getting_the_current_location_of_a_device)
+[🍎 Apple Developer 공식문서 - Requesting authorization to use location services](https://developer.apple.com/documentation/corelocation/requesting_authorization_to_use_location_services)
+[🍎 Apple Developer 공식문서 - Using Lightweight Migration](https://developer.apple.com/documentation/coredata/using_lightweight_migration)
+[🌤️ OpenWeatherAPI](https://openweathermap.org/current#multi)
+
