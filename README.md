@@ -101,6 +101,40 @@
 </div>
 </details>
 
+</br>
+
+
+### UML
+
+<details>
+<summary> UML 보기 (클릭) </summary>
+<div markdown="1">
+
+* **전체 UML**
+    
+![](https://hackmd.io/_uploads/B1xeDgoi4h.png)
+    
+* **Model UML**
+    
+![](https://hackmd.io/_uploads/SJxDxsj42.png)
+
+* **CoreData UML, Network UML**
+    
+![](https://hackmd.io/_uploads/ryewlij42.png)
+
+* **Utility UML**
+    
+![](https://hackmd.io/_uploads/r1gDlssEh.png)
+    
+* **View UML**
+    
+![](https://hackmd.io/_uploads/Hkgvxoj43.png)
+
+</div>
+</details>
+
+
+
 
 </br>
 
@@ -225,4 +259,3 @@ private func createLocationManager() {
 - [Apple Docs - Migration](https://developer.apple.com/documentation/coredata/using_lightweight_migration)
 - [Apple H.I.G - Typography](https://developer.apple.com/design/human-interface-guidelines/typography)
 <br/>
-
