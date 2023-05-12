@@ -220,10 +220,9 @@ final class DiaryEditViewController: UIViewController {
             self.diaryType = .old
         case .old:
             guard let id = diaryData?.id,
-                  let diaryTitle = diaryData?.title,
-                  let diaryBody = diaryData?.body else { return }
+                  let diaryTitle = diaryData?.title else { return }
             
-            if title == diaryTitle && body == diaryBody {
+            if title == diaryTitle && body == diaryData?.body {
                 return
             }
             

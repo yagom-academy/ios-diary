@@ -59,7 +59,6 @@ final class DiaryMainViewController: UIViewController {
     private func addDiaryButtonTapped() {
         let diaryEditViewController = DiaryEditViewController(type: .new)
         
-        diaryEditViewController.title = DateManger.shared.generateTodayDate()
         navigationController?.pushViewController(diaryEditViewController, animated: true)
     }
     
