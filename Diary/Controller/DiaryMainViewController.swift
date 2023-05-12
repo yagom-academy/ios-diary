@@ -28,23 +28,6 @@ final class DiaryMainViewController: UIViewController {
         super.viewDidLoad()
         configureUI()
         configureTableView()
-        fetch()
-    }
-    
-    func fetch() {
-        WeatherProvider().fetchData(.weatherInfo(latitude: "44.34", longitude: "10.99")) { result in
-            switch result {
-            case .success(let data):
-                do {
-                    let data = try JSONDecoder().decode(WeatherJSONData.self, from: data)
-                    print(data)
-                } catch {
-                    
-                }
-            case .failure(let error):
-                AlertManager().showErrorAlert(target: self, error: error)
-            }
-        }
     }
     
     private func configureUI() {
@@ -91,6 +74,7 @@ extension DiaryMainViewController: UITableViewDataSource {
                                                        for: indexPath) as? DiaryTableViewCell else {
             return UITableViewCell()
         }
+        
         cell.accessoryType = .disclosureIndicator
         cell.configureLabel(diaryData: diaryDataList[indexPath.row])
         

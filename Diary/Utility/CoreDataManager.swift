@@ -57,7 +57,7 @@ final class CoreDataManger {
     }
     
     @discardableResult
-    func createDiary(title: String = "", body: String?) -> DiaryData? {
+    func createDiary(title: String = "", body: String?, icon: String?, main: String?) -> DiaryData? {
         let entity = NSEntityDescription.entity(forEntityName: "DiaryData", in: self.context)
         
         if let entity {
@@ -67,6 +67,8 @@ final class CoreDataManger {
             diary.setValue(body, forKey: "body")
             diary.setValue(Date().timeIntervalSince1970, forKey: "createDate")
             diary.setValue(UUID(), forKey: "id")
+            diary.setValue(icon, forKey: "weatherIcon")
+            diary.setValue(main, forKey: "weatherMain")
             
             do {
                 try self.context.save()
@@ -82,7 +84,7 @@ final class CoreDataManger {
         return nil
     }
     
-    func updateDiary(id: UUID, title: String, createDate: Double, body: String?) {
+    func updateDiary(id: UUID, title: String, body: String?) {
         let fetchRequest = NSFetchRequest<NSFetchRequestResult>.init(entityName: "DiaryData")
         
         fetchRequest.predicate = NSPredicate(format: "id == %@", id.uuidString)
@@ -94,6 +96,7 @@ final class CoreDataManger {
             diary.setValue(title, forKey: "title")
             diary.setValue(Date().timeIntervalSince1970, forKey: "createDate")
             diary.setValue(body, forKey: "body")
+            
             try self.context.save()
         } catch {
             print(error.localizedDescription)

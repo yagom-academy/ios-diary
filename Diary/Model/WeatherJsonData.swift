@@ -10,8 +10,21 @@ struct WeatherJSONData: Decodable {
     private enum CodingKeys: String, CodingKey {
         case weather
     }
-    // MARK: - Weather
-    struct Weather: Decodable {
-        let main, icon: String
+    
+    var weatherMain: String {
+        guard let main = self.weather.first?.main else { return "" }
+        
+        return main
     }
+    
+    var weatherIcon: String {
+        guard let icon = self.weather.first?.icon else { return "" }
+        
+        return icon
+    }
+}
+
+// MARK: - Weather
+struct Weather: Decodable {
+    var main, icon: String
 }

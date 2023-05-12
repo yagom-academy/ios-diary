@@ -11,8 +11,7 @@ import CoreLocation
 final class DiaryEditViewController: UIViewController {
     private var diaryData: DiaryData?
     private var diaryType: DiaryType
-    let locationManager = CLLocationManager()
-    var currentLocation: CLLocationCoordinate2D!
+    private var locationManager: CLLocationManager?
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -22,6 +21,25 @@ final class DiaryEditViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         return textView
+    }()
+    
+    private let titleView: UIStackView = {
+        let stackView = UIStackView()
+        
+        stackView.axis = .horizontal
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stackView
+    }()
+    
+    private let weatherImageView = UIImageView()
+    
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        
+        label.adjustsFontForContentSizeCategory  = true
+        
+        return label
     }()
     
     init(diaryData: DiaryData? = nil, type: DiaryType = .new) {
@@ -36,20 +54,24 @@ final class DiaryEditViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        createLocationManager()
         configureUI()
         configureText()
         configureTitle()
         setupNotification()
         showKeyboard()
-        
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.requestLocation()
+        setupLocationManager()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         autoSaveDiary()
+    }
+    
+    private func createLocationManager() {
+        if diaryType == .new {
+            self.locationManager = CLLocationManager()
+        }
     }
     
     private func configureUI() {
@@ -67,7 +89,9 @@ final class DiaryEditViewController: UIViewController {
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             textView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
+            textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            
+            weatherImageView.widthAnchor.constraint(equalTo: weatherImageView.heightAnchor)
         ])
     }
     
@@ -85,7 +109,24 @@ final class DiaryEditViewController: UIViewController {
     private func configureTitle() {
         guard let date = diaryData?.createDate else { return }
         
-        navigationItem.title = DateManger.shared.convertToDate(fromDouble: date)
+        switch diaryType {
+        case .new:
+            dateLabel.text = DateManger.shared.convertToDate(fromDouble: date)
+        case .old:
+            guard let icon = diaryData?.weatherIcon else { return }
+            dateLabel.text = DateManger.shared.convertToDate(fromDouble: date)
+            fetchImage(icon: icon)
+        }
+        
+        navigationItem.titleView = createStackView()
+    }
+    
+    private func createStackView() -> UIStackView {
+        let stackView = UIStackView(arrangedSubviews: [weatherImageView, dateLabel])
+        
+        stackView.axis = .horizontal
+        
+        return stackView
     }
     
     private func setupNotification() {
@@ -103,6 +144,10 @@ final class DiaryEditViewController: UIViewController {
         if diaryType == .new {
             textView.becomeFirstResponder()
         }
+    }
+    
+    private func setupLocationManager() {
+        locationManager?.delegate = self
     }
     
     private func divide(text: String?) -> (title: String, body: String?) {
@@ -161,47 +206,77 @@ final class DiaryEditViewController: UIViewController {
         autoSaveDiary()
     }
     
-    private func autoSaveDiary() {
+    private func autoSaveDiary(icon: String? = nil, main: String? = nil) {
         let (title, body) = divide(text: textView.text)
         
         switch diaryType {
         case .new:
-            let diary = CoreDataManger.shared.createDiary(title: title, body: body)
+            let diary = CoreDataManger.shared.createDiary(title: title,
+                                                          body: body,
+                                                          icon: icon,
+                                                          main: main)
             
             self.diaryData = diary
             self.diaryType = .old
         case .old:
-            guard let date = diaryData?.createDate,
-                  let id = diaryData?.id else { return }
+            guard let id = diaryData?.id else { return }
             
-            CoreDataManger.shared.updateDiary(id: id, title: title, createDate: date, body: body)
+            CoreDataManger.shared.updateDiary(id: id, title: title, body: body)
         }
     }
 }
 
-//extension DiaryEditViewController: CLLocationManagerDelegate {
-//    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-//        if let location = locations.last {
-//            locationManager.stopUpdatingLocation()
-//            let lat = location.coordinate.latitude
-//            let lon = location.coordinate.longitude
-//            
-//            
-//        }
-//    }
-//    
-//    // 생성될 때, 권한 바뀔 때
-//    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-//        if manager.authorizationStatus == .authorizedWhenInUse {
-////            locationManager.stopUpdatingLocation()
-////            let lat = location.coordinate.latitude
-////            let lon = location.coordinate.longitude
-////
-////            print("lat = \(lat), lon = \(lon)")
-////            
-//            currentLocation = locationManager.location?.coordinate
-//            print(currentLocation.latitude) // 위도
-//            print(currentLocation.longitude) // 경도
-//        }
-//    }
-//}
+extension DiaryEditViewController: CLLocationManagerDelegate {
+    // 생성될 때, 권한 바뀔 때
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .authorizedWhenInUse, .authorizedAlways:
+            locationManager?.startUpdatingLocation()
+            locationManager?.stopUpdatingLocation()
+        case .restricted, .notDetermined:
+            locationManager?.requestWhenInUseAuthorization()
+        case .denied:
+            locationManager?.requestWhenInUseAuthorization()
+        default:
+            break
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let coordinate = locations.last?.coordinate {
+            WeatherProvider().fetchData(.weatherInfo(latitude: coordinate.latitude,
+                                                     longitude: coordinate.longitude)) { [weak self] result in
+                switch result {
+                case .success(let data):
+                    do {
+                        let weatherInfo = try JSONDecoder().decode(WeatherJSONData.self, from: data)
+                        
+                        DispatchQueue.main.async {
+                            self?.autoSaveDiary(icon: weatherInfo.weatherIcon,
+                                                main: weatherInfo.weatherMain)
+                            self?.fetchImage(icon: weatherInfo.weatherIcon)
+                            self?.configureTitle()
+                        }
+                    } catch {
+                        print("error")
+                    }
+                case .failure:
+                    print("error")
+                }
+            }
+        }
+    }
+    
+    func fetchImage(icon: String) {
+        WeatherProvider().fetchData(.weatherImage(iconCode: icon)) { [weak self] result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    self?.weatherImageView.image = UIImage(data: data)
+                }
+            case .failure:
+                print("error")
+            }
+        }
+    }
+}

@@ -8,7 +8,7 @@
 import Foundation
 
 enum WeatherAPI {
-    case weatherInfo(latitude: String, longitude: String)
+    case weatherInfo(latitude: Double, longitude: Double)
     case weatherImage(iconCode: String)
 }
 
