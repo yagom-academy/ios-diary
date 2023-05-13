@@ -136,11 +136,11 @@
 ## 4. 실행화면
 |일기장 생성|일기장 수정|일기장 삭제|
 |:--:|:--:|:--:|
-|<img src="https://i.imgur.com/yQ6h5RN.gif" width="300">|<img src="https://i.imgur.com/yQ6h5RN.gif" width="300">|<img src="https://i.imgur.com/MX2eJmd.gif" width="300">|
+|<img src="https://i.imgur.com/yQ6h5RN.gif" width="200">|<img src="https://i.imgur.com/yQ6h5RN.gif" width="200">|<img src="https://i.imgur.com/MX2eJmd.gif" width="200">|
 
 |Localization 적용|더보기->공유, 삭제|위치 정보를 통한 날씨 표시|
 |:--:|:--:|:--:|
-|<img src="https://i.imgur.com/hHciA5D.gif" width="300">|<img src="https://github.com/yagom-academy/ios-diary/assets/45560895/cce6fab3-33ff-4e8d-a800-b4ca7169436b" width="300">|<img src="https://github.com/Andrew-0411/Study/assets/45560895/c648f1ec-ed3c-4b2c-9079-2e0881296579" width="300">
+|<img src="https://i.imgur.com/hHciA5D.gif" width="200">|<img src="https://github.com/yagom-academy/ios-diary/assets/45560895/cce6fab3-33ff-4e8d-a800-b4ca7169436b" width="200">|<img src="https://github.com/Andrew-0411/Study/assets/45560895/c648f1ec-ed3c-4b2c-9079-2e0881296579" width="200">
 
 
 <br/>
