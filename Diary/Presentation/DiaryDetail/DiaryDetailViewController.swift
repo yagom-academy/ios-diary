@@ -8,11 +8,11 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-    private var contents: ContentsDTO?
+    private var contents: Contents?
     private var weather: Weather?
     private let locationManager = LocationManager()
     private let weatherNetworkManager = WeatherNetworkManager()
-    private weak var delegate: DiaryDetailViewControllerDelegate?
+    weak var delegate: DiaryDetailViewControllerDelegate?
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -30,9 +30,8 @@ final class DiaryDetailViewController: UIViewController {
         return label
     }()
     
-    init(contents: ContentsDTO?, delegate: DiaryDetailViewControllerDelegate? = nil) {
+    init(contents: Contents?) {
         self.contents = contents
-        self.delegate = delegate
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -235,7 +234,7 @@ extension DiaryDetailViewController {
         
         guard splitedContents.title.isEmpty == false else { return }
         
-        contents = ContentsDTO(title: splitedContents.title,
+        contents = Contents(title: splitedContents.title,
                                body: splitedContents.body,
                                date: date,
                                identifier: UUID(),

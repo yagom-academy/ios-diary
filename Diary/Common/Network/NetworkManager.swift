@@ -20,8 +20,12 @@ struct NetworkManager {
                 return
             }
             
-            if let httpResponse = response as? HTTPURLResponse,
-               !(200...299).contains(httpResponse.statusCode) {
+            guard let httpResponse = response as? HTTPURLResponse else {
+                completion(.failure(NetworkError.invalidResponse))
+                return
+            }
+            
+            guard (200...299).contains(httpResponse.statusCode) else {
                 completion(.failure(checkStatus(code: httpResponse.statusCode)))
                 return
             }

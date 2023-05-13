@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
-    private var contentsList: [ContentsDTO]?
+    private var contentsList: [Contents]?
     private var selectedCellIndex: IndexPath?
     
     override func viewDidLoad() {
@@ -53,7 +53,9 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func moveToAppendDiary() {
-        let diaryDetailViewController = DiaryDetailViewController(contents: nil, delegate: self)
+        let diaryDetailViewController = DiaryDetailViewController(contents: nil)
+        
+        diaryDetailViewController.delegate = self
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
@@ -115,7 +117,9 @@ extension DiaryListViewController: UITableViewDelegate {
         
         selectedCellIndex = indexPath
         
-        let diaryDetailViewController = DiaryDetailViewController(contents: contents, delegate: self)
+        let diaryDetailViewController = DiaryDetailViewController(contents: contents)
+        
+        diaryDetailViewController.delegate = self
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: false)
     }
@@ -159,7 +163,7 @@ extension DiaryListViewController: UITableViewDelegate {
 
 // MARK: - DiaryDetailViewController Delegate
 extension DiaryListViewController: DiaryDetailViewControllerDelegate {
-    func createCell(contents: ContentsDTO) {
+    func createCell(contents: Contents) {
         guard let newIndexPathRow = contentsList?.count else { return }
 
         selectedCellIndex = IndexPath(row: newIndexPathRow, section: 0)
@@ -170,7 +174,7 @@ extension DiaryListViewController: DiaryDetailViewControllerDelegate {
         tableView.insertRows(at: [selectedCellIndex], with: .automatic)
     }
     
-    func updateCell(contents: ContentsDTO) {
+    func updateCell(contents: Contents) {
         guard let selectedCellIndex else { return }
         
         contentsList?[selectedCellIndex.row] = contents

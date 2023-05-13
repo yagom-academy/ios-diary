@@ -14,6 +14,7 @@ enum NetworkError: LocalizedError {
     case serverError(Int)
     case unknown(Int)
     case dataNotFound
+    case invalidResponse
     
     var errorDescription: String? {
         switch self {
@@ -29,6 +30,8 @@ enum NetworkError: LocalizedError {
             return "알 수 없는 오류 - \(code)"
         case .dataNotFound:
             return "데이터를 찾을 수 없습니다."
+        case .invalidResponse:
+            return "유효한 응답이 아닙니다."
         }
     }
 }

@@ -1,11 +1,11 @@
 //
-//  WeatherDTO.swift
+//  WeatherData.swift
 //  Diary
 //
 //  Created by KokkilE, Hyemory on 2023/05/08.
 //
 
-struct WeatherDTO: Codable {
+struct WeatherData: Codable {
     let weather: [Weather]
 }
 

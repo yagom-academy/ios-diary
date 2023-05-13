@@ -27,12 +27,12 @@ final class WeatherNetworkManager {
     }
 
     private func decode(_ data: Data, completion: @escaping (Result<(Data, Weather), Error>) -> Void) {
-        let result = DecodeManager().decodeAPI(data: data, type: WeatherDTO.self)
+        let result = DecodeManager().decodeAPI(data: data, type: WeatherData.self)
 
         switch result {
-        case .success(let weatherDTO):
-            guard let weatherIconCode = weatherDTO.weather.first?.iconCode,
-                  let weatherType = weatherDTO.weather.first?.type else {
+        case .success(let weatherData):
+            guard let weatherIconCode = weatherData.weather.first?.iconCode,
+                  let weatherType = weatherData.weather.first?.type else {
                 completion(.failure(NetworkError.dataNotFound))
 
                 return
