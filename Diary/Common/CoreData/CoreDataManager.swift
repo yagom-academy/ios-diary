@@ -12,7 +12,7 @@ final class CoreDataManager {
     
     private init() { }
     
-    private lazy var persistentContainer: NSPersistentContainer = {
+    private let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: Constant.container)
         
         container.loadPersistentStores { (storeDescription, error) in
@@ -33,6 +33,8 @@ final class CoreDataManager {
         storage.setValue(contents.body, forKey: Constant.body)
         storage.setValue(contents.date, forKey: Constant.date)
         storage.setValue(contents.identifier, forKey: Constant.identifier)
+        storage.setValue(contents.weather?.type, forKey: Constant.weatherType)
+        storage.setValue(contents.weather?.iconCode, forKey: Constant.weatherIconCode)
         
         do {
             try context.save()
@@ -83,10 +85,17 @@ final class CoreDataManager {
         var contents = [Contents]()
         
         contentsEntities.forEach {
-            let content = Contents(title: $0.title ?? Constant.emptyString,
-                                   body: $0.body ?? Constant.emptyString,
-                                   date: $0.date,
-                                   identifier: $0.identifier ?? UUID())
+            var content = Contents(title: $0.title ?? Constant.emptyString,
+                                      body: $0.body ?? Constant.emptyString,
+                                      date: $0.date,
+                                      identifier: $0.identifier ?? UUID())
+            
+            if let weatherType = $0.weatherType,
+               let weatherIconCode = $0.weatherIconCode {
+                let weather = Weather(type: weatherType, iconCode: weatherIconCode)
+                
+                content.weather = weather
+            }
             
             contents.append(content)
         }
@@ -114,6 +123,8 @@ extension CoreDataManager {
         static let body = "body"
         static let date = "date"
         static let identifier = "identifier"
+        static let weatherType = "weatherType"
+        static let weatherIconCode = "weatherIconCode"
         static let identifierCondition = "identifier == %@"
         static let emptyString = ""
     }

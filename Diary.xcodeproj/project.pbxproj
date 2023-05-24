@@ -7,10 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA18881B2A08F49E0034CF79 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA18881A2A08F49E0034CF79 /* WeatherData.swift */; };
 		AA6AF57D29F8FC8F00A5DB0A /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA6AF57C29F8FC8F00A5DB0A /* AlertManager.swift */; };
 		AA9DF69C29F76B9F00653F70 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9DF69B29F76B9F00653F70 /* Date+.swift */; };
+		AAB544AE2A08E2A50003141B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB544AD2A08E2A50003141B /* NetworkManager.swift */; };
 		AAC80FA229FB8B9200C499CD /* ContentsEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC80FA029FB8B9200C499CD /* ContentsEntity+CoreDataClass.swift */; };
 		AAC80FA329FB8B9200C499CD /* ContentsEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC80FA129FB8B9200C499CD /* ContentsEntity+CoreDataProperties.swift */; };
+		BF15022D2A08DE8700BB16F8 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF15022C2A08DE8700BB16F8 /* NetworkError.swift */; };
+		BF1502302A08DEAD00BB16F8 /* EndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF15022F2A08DEAD00BB16F8 /* EndPoint.swift */; };
 		BF523F8629F8F3C000BA8553 /* DecodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF523F8529F8F3C000BA8553 /* DecodeManager.swift */; };
 		BF523F8829F8F53F00BA8553 /* DiaryError.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF523F8729F8F53F00BA8553 /* DiaryError.swift */; };
 		BFA3F40029FB8CD200D3B6B6 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFA3F3FF29FB8CD200D3B6B6 /* CoreDataManager.swift */; };
@@ -19,6 +23,10 @@
 		BFBD2B9029F6531000A5DC87 /* IdentifierType.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFBD2B8F29F6531000A5DC87 /* IdentifierType.swift */; };
 		BFBD2B9329F6570600A5DC87 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = BFBD2B9229F6570600A5DC87 /* .swiftlint.yml */; };
 		BFD3C62F29F790080000B28B /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD3C62E29F790080000B28B /* DiaryDetailViewController.swift */; };
+		BFDA879E2A0CB5D000A80314 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDA879D2A0CB5D000A80314 /* LocationManager.swift */; };
+		BFDA87A02A0CBA7600A80314 /* NotificationName+.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDA879F2A0CBA7600A80314 /* NotificationName+.swift */; };
+		BFDA87A22A0CBD4900A80314 /* Coordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDA87A12A0CBD4900A80314 /* Coordinate.swift */; };
+		BFDA87A72A0CE71800A80314 /* WeatherNetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDA87A62A0CE71800A80314 /* WeatherNetworkManager.swift */; };
 		BFF2F46F2A025492006B728E /* DiaryDetailViewControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFF2F46E2A025492006B728E /* DiaryDetailViewControllerDelegate.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
@@ -29,10 +37,15 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA18881A2A08F49E0034CF79 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
 		AA6AF57C29F8FC8F00A5DB0A /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		AA9DF69B29F76B9F00653F70 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		AAB09A1D2A0A18D300D39318 /* Diary v2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Diary v2.xcdatamodel"; sourceTree = "<group>"; };
+		AAB544AD2A08E2A50003141B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		AAC80FA029FB8B9200C499CD /* ContentsEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentsEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		AAC80FA129FB8B9200C499CD /* ContentsEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentsEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		BF15022C2A08DE8700BB16F8 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		BF15022F2A08DEAD00BB16F8 /* EndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndPoint.swift; sourceTree = "<group>"; };
 		BF523F8529F8F3C000BA8553 /* DecodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodeManager.swift; sourceTree = "<group>"; };
 		BF523F8729F8F53F00BA8553 /* DiaryError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryError.swift; sourceTree = "<group>"; };
 		BFA3F3FF29FB8CD200D3B6B6 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -41,6 +54,10 @@
 		BFBD2B8F29F6531000A5DC87 /* IdentifierType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifierType.swift; sourceTree = "<group>"; };
 		BFBD2B9229F6570600A5DC87 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		BFD3C62E29F790080000B28B /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
+		BFDA879D2A0CB5D000A80314 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		BFDA879F2A0CBA7600A80314 /* NotificationName+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NotificationName+.swift"; sourceTree = "<group>"; };
+		BFDA87A12A0CBD4900A80314 /* Coordinate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinate.swift; sourceTree = "<group>"; };
+		BFDA87A62A0CE71800A80314 /* WeatherNetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherNetworkManager.swift; sourceTree = "<group>"; };
 		BFF2F46E2A025492006B728E /* DiaryDetailViewControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewControllerDelegate.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				AA9DF69B29F76B9F00653F70 /* Date+.swift */,
+				BFDA879F2A0CBA7600A80314 /* NotificationName+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -101,30 +119,32 @@
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		AAB0417329F64BBF006B6D9A /* Controller */ = {
+		AAB0417329F64BBF006B6D9A /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
-				BFD3C62E29F790080000B28B /* DiaryDetailViewController.swift */,
+				BFDA87A32A0CE60500A80314 /* DiaryList */,
+				BFDA87A42A0CE65B00A80314 /* DiaryDetail */,
 			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		AAB0417429F64BC9006B6D9A /* View */ = {
-			isa = PBXGroup;
-			children = (
-				BFBD2B8D29F6528400A5DC87 /* ContentsTableViewCell.swift */,
-				BFBD2B8F29F6531000A5DC87 /* IdentifierType.swift */,
-			);
-			path = View;
+			path = Presentation;
 			sourceTree = "<group>";
 		};
 		AAB0417629F64BD5006B6D9A /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				BFBD2B8B29F6493400A5DC87 /* Contents.swift */,
+				AA18881A2A08F49E0034CF79 /* WeatherData.swift */,
+				BFDA87A12A0CBD4900A80314 /* Coordinate.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		BF15022E2A08DE9C00BB16F8 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BF15022F2A08DEAD00BB16F8 /* EndPoint.swift */,
+				AAB544AD2A08E2A50003141B /* NetworkManager.swift */,
+			);
+			path = Network;
 			sourceTree = "<group>";
 		};
 		BF72A20C2A02054000231F21 /* Utility */ = {
@@ -132,6 +152,7 @@
 			children = (
 				BF523F8529F8F3C000BA8553 /* DecodeManager.swift */,
 				AA6AF57C29F8FC8F00A5DB0A /* AlertManager.swift */,
+				BFDA879D2A0CB5D000A80314 /* LocationManager.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -140,14 +161,48 @@
 			isa = PBXGroup;
 			children = (
 				BF523F8729F8F53F00BA8553 /* DiaryError.swift */,
+				BF15022C2A08DE8700BB16F8 /* NetworkError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		BFDA87A32A0CE60500A80314 /* DiaryList */ = {
+			isa = PBXGroup;
+			children = (
+				BFF2F46D2A02547D006B728E /* Protocol */,
+				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
+				BFBD2B8D29F6528400A5DC87 /* ContentsTableViewCell.swift */,
+			);
+			path = DiaryList;
+			sourceTree = "<group>";
+		};
+		BFDA87A42A0CE65B00A80314 /* DiaryDetail */ = {
+			isa = PBXGroup;
+			children = (
+				BFD3C62E29F790080000B28B /* DiaryDetailViewController.swift */,
+				BFDA87A62A0CE71800A80314 /* WeatherNetworkManager.swift */,
+			);
+			path = DiaryDetail;
+			sourceTree = "<group>";
+		};
+		BFDA87A52A0CE6AC00A80314 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				AA75AC8F29FB6D1400CA7782 /* CoreData */,
+				AA9DF69A29F76B6D00653F70 /* Extension */,
+				BF15022E2A08DE9C00BB16F8 /* Network */,
+				BF72A20D2A0205AC00231F21 /* Error */,
+				BF72A20C2A02054000231F21 /* Utility */,
+				AAB0417629F64BD5006B6D9A /* Model */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 		BFF2F46D2A02547D006B728E /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				BFF2F46E2A025492006B728E /* DiaryDetailViewControllerDelegate.swift */,
+				BFBD2B8F29F6531000A5DC87 /* IdentifierType.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -172,14 +227,8 @@
 			isa = PBXGroup;
 			children = (
 				BFBD2B9229F6570600A5DC87 /* .swiftlint.yml */,
-				AA75AC8F29FB6D1400CA7782 /* CoreData */,
-				BFF2F46D2A02547D006B728E /* Protocol */,
-				AA9DF69A29F76B6D00653F70 /* Extension */,
-				BF72A20C2A02054000231F21 /* Utility */,
-				BF72A20D2A0205AC00231F21 /* Error */,
-				AAB0417629F64BD5006B6D9A /* Model */,
-				AAB0417429F64BC9006B6D9A /* View */,
-				AAB0417329F64BBF006B6D9A /* Controller */,
+				BFDA87A52A0CE6AC00A80314 /* Common */,
+				AAB0417329F64BBF006B6D9A /* Presentation */,
 				AAB0417229F64BB5006B6D9A /* Resources */,
 				AAB0417129F64BA1006B6D9A /* Application */,
 			);
@@ -280,8 +329,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFDA87A72A0CE71800A80314 /* WeatherNetworkManager.swift in Sources */,
+				AAB544AE2A08E2A50003141B /* NetworkManager.swift in Sources */,
+				BF15022D2A08DE8700BB16F8 /* NetworkError.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				BFD3C62F29F790080000B28B /* DiaryDetailViewController.swift in Sources */,
+				BFDA87A22A0CBD4900A80314 /* Coordinate.swift in Sources */,
 				BFBD2B8C29F6493400A5DC87 /* Contents.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				AAC80FA329FB8B9200C499CD /* ContentsEntity+CoreDataProperties.swift in Sources */,
@@ -289,10 +342,14 @@
 				BF523F8629F8F3C000BA8553 /* DecodeManager.swift in Sources */,
 				BF523F8829F8F53F00BA8553 /* DiaryError.swift in Sources */,
 				BFF2F46F2A025492006B728E /* DiaryDetailViewControllerDelegate.swift in Sources */,
+				AA18881B2A08F49E0034CF79 /* WeatherData.swift in Sources */,
 				BFBD2B8E29F6528400A5DC87 /* ContentsTableViewCell.swift in Sources */,
+				BFDA87A02A0CBA7600A80314 /* NotificationName+.swift in Sources */,
 				AA6AF57D29F8FC8F00A5DB0A /* AlertManager.swift in Sources */,
+				BF1502302A08DEAD00BB16F8 /* EndPoint.swift in Sources */,
 				BFA3F40029FB8CD200D3B6B6 /* CoreDataManager.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				BFDA879E2A0CB5D000A80314 /* LocationManager.swift in Sources */,
 				AAC80FA229FB8B9200C499CD /* ContentsEntity+CoreDataClass.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				AA9DF69C29F76B9F00653F70 /* Date+.swift in Sources */,
@@ -510,9 +567,10 @@
 		C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				AAB09A1D2A0A18D300D39318 /* Diary v2.xcdatamodel */,
 				C739AE2E284DF28600741E8F /* Diary.xcdatamodel */,
 			);
-			currentVersion = C739AE2E284DF28600741E8F /* Diary.xcdatamodel */;
+			currentVersion = AAB09A1D2A0A18D300D39318 /* Diary v2.xcdatamodel */;
 			path = Diary.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

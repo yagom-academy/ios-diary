@@ -12,13 +12,14 @@ struct Contents: Codable {
     var body: String
     let date: Double
     let identifier: UUID?
+    var weather: Weather?
     var localizedDate: String {
         let date = Date(timeIntervalSince1970: date)
         return date.translateLocalizedFormat()
     }
     
     private enum CodingKeys: String, CodingKey {
-        case title, body, identifier
+        case title, body, identifier, weather
         case date = "created_at"
     }
 }

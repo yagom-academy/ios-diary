@@ -28,14 +28,6 @@ final class DiaryListViewController: UIViewController {
                                                             action: #selector(moveToAppendDiary))
     }
     
-    private func fetchContents() {
-        do {
-            contentsList = try CoreDataManager.shared.read()
-        } catch {
-            AlertManager().showErrorAlert(target: self, error: error)
-        }
-    }
-    
     private func configureTableView() {
         view.addSubview(tableView)
         
@@ -52,8 +44,17 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
+    private func fetchContents() {
+        do {
+            contentsList = try CoreDataManager.shared.read()
+        } catch {
+            AlertManager().showErrorAlert(target: self, error: error)
+        }
+    }
+    
     @objc private func moveToAppendDiary() {
         let diaryDetailViewController = DiaryDetailViewController(contents: nil)
+        
         diaryDetailViewController.delegate = self
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
@@ -78,7 +79,34 @@ extension DiaryListViewController: UITableViewDataSource {
         
         cell.configure(title: contents.title, description: contents.body, date: contents.localizedDate)
         
+        guard let iconCode = contents.weather?.iconCode else {
+            return cell
+        }
+
+        fetchWeatherImage(cell: cell, iconCode: iconCode)
+        
         return cell
+    }
+    
+    private func fetchWeatherImage(cell: ContentsTableViewCell, iconCode: String) {
+        let endPoint = EndPoint.weatherImage(iconCode: iconCode).asURLRequest()
+        
+        NetworkManager().fetchData(urlRequest: endPoint) { [weak self, weak cell] result in
+            guard let self else { return }
+
+            switch result {
+            case .success(let image):
+                let iconImage = UIImage(data: image)
+
+                DispatchQueue.main.async {
+                    cell?.configure(iconImage: iconImage)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    AlertManager().showErrorAlert(target: self, error: error)
+                }
+            }
+        }
     }
 }
 
@@ -90,6 +118,7 @@ extension DiaryListViewController: UITableViewDelegate {
         selectedCellIndex = indexPath
         
         let diaryDetailViewController = DiaryDetailViewController(contents: contents)
+        
         diaryDetailViewController.delegate = self
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
         tableView.deselectRow(at: indexPath, animated: false)

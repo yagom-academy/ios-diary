@@ -9,6 +9,10 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController {
     private var contents: Contents?
+    private var weather: Weather?
+    private let locationManager = LocationManager()
+    private let weatherNetworkManager = WeatherNetworkManager()
+    weak var delegate: DiaryDetailViewControllerDelegate?
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -17,10 +21,18 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    weak var delegate: DiaryDetailViewControllerDelegate?
+    private let weatherIconImageView = UIImageView()
+    
+    private let dateLabel: UILabel = {
+        let label = UILabel()
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        return label
+    }()
     
     init(contents: Contents?) {
         self.contents = contents
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -31,6 +43,7 @@ final class DiaryDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        checkStatusToAddIcon()
         configureUIOption()
         configureTextView()
         configureLayout()
@@ -49,9 +62,34 @@ final class DiaryDetailViewController: UIViewController {
         textView.resignFirstResponder()
     }
     
+    private func checkStatusToAddIcon() {
+        guard let contents else {
+            locationManager.activateLocation()
+            return
+        }
+        
+        guard let weather = contents.weather else { return }
+        
+        weatherNetworkManager.fetchImage(weather: weather) { [weak self] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let (data, _)):
+                DispatchQueue.main.async {
+                    self.weatherIconImageView.image = UIImage(data: data)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    AlertManager().showErrorAlert(target: self, error: error)
+                }
+            }
+        }
+    }
+    
     private func configureUIOption() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = contents?.localizedDate ?? Date().translateLocalizedFormat()
+        navigationItem.titleView = createStackView()
+        dateLabel.text = contents?.localizedDate ?? Date().translateLocalizedFormat()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"),
                                                             style: .plain,
                                                             target: self,
@@ -103,6 +141,13 @@ final class DiaryDetailViewController: UIViewController {
         }
     }
     
+    private func createStackView() -> UIStackView {
+        let stackView = UIStackView(arrangedSubviews: [weatherIconImageView, dateLabel])
+        stackView.axis = .horizontal
+        
+        return stackView
+    }
+    
     private func configureLayout() {
         view.addSubview(textView)
         textView.contentOffset = .zero
@@ -116,7 +161,9 @@ final class DiaryDetailViewController: UIViewController {
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            textView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
+            textView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
+            
+            weatherIconImageView.widthAnchor.constraint(equalTo: weatherIconImageView.heightAnchor)
         ])
     }
     
@@ -126,18 +173,43 @@ final class DiaryDetailViewController: UIViewController {
             selector: #selector(saveContents),
             name: UIScene.didEnterBackgroundNotification,
             object: nil)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(fetchWeatherInfo),
+            name: .didGetLocationNotification,
+            object: nil)
+    }
+    
+    @objc private func fetchWeatherInfo(_ noti: Notification) {
+        guard let coordinate = noti.object as? Coordinate else { return }
+        
+        weatherNetworkManager.fetchInfo(coordinate: coordinate) { [weak self] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let (data, weather)):
+                DispatchQueue.main.async {
+                    self.weatherIconImageView.image = UIImage(data: data)
+                    self.weather = weather
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    AlertManager().showErrorAlert(target: self, error: error)
+                }
+            }
+        }
     }
 }
 
 // MARK: - Data CRUD
 extension DiaryDetailViewController {
     @objc private func saveContents() {
-        guard contents != nil else {
+        if contents == nil {
             createContents()
-            return
+        } else {
+            updateContents()
         }
-        
-        updateContents()
     }
     
     private func updateContents() {
@@ -163,9 +235,10 @@ extension DiaryDetailViewController {
         guard splitedContents.title.isEmpty == false else { return }
         
         contents = Contents(title: splitedContents.title,
-                            body: splitedContents.body,
-                            date: date,
-                            identifier: UUID())
+                               body: splitedContents.body,
+                               date: date,
+                               identifier: UUID(),
+                               weather: weather)
         
         guard let contents else { return }
         
