@@ -71,7 +71,6 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
-				926A86412A9CC69000DCBBD7 /* DiaryTableViewCell.swift */,
 			);
 			path = ViewController;
 			sourceTree = "<group>";
@@ -97,6 +96,7 @@
 		CB9CBC0E2A9CC37D00999DF0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				926A86412A9CC69000DCBBD7 /* DiaryTableViewCell.swift */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 			);
 			path = View;
