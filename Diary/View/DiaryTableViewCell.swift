@@ -7,42 +7,44 @@
 
 import UIKit
 
-class DiaryTableViewCell: UITableViewCell {
     static let identifier = "cell"
     
-    let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.spacing = 8
         
         return stackView
     }()
     
-    let descriptionStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.distribution = .fill
+        stackView.spacing = 8
         
         return stackView
     }()
     
-    let title: UILabel = {
         let label = UILabel()
-        label.text = "TITLE"
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.text = "제목입니다. 제목입니다. 제목입니다. 제목입니다. 제목입니다. 제목입니다."
         
         return label
     }()
     
-    let date: UILabel = {
         let label = UILabel()
-        label.text = "23.08.28"
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.text = "2023년 08월 28일"
         
         return label
     }()
     
-    let preview: UILabel = {
         let label = UILabel()
-        label.text = "안녕하세요? 비모와 민트입니다."
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.text = "안녕하세요? 민트와 비모입니다. 안녕하세요? 민트와 비모입니다. 안녕하세요? 민트와 비모입니다. 안녕하세요? 민트와 비모입니다."
         
         return label
     }()
@@ -56,17 +58,24 @@ class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureCell() {
+        configureCellSubviews()
+        configureCellConstraint()
+    }
+    
+    private func configureCellSubviews() {
         contentView.addSubview(contentStackView)
         descriptionStackView.addArrangedSubview(date)
         descriptionStackView.addArrangedSubview(preview)
         contentStackView.addArrangedSubview(title)
         contentStackView.addArrangedSubview(descriptionStackView)
-        
+    }
+    
+    private func configureCellConstraint() {
         NSLayoutConstraint.activate([
-            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
 }
