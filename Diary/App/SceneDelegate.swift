@@ -7,19 +7,17 @@
 import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
-
     var window: UIWindow?
 
-
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowSecene = (scene as? UIWindowScene) else {
+        guard let windowScene = (scene as? UIWindowScene) else {
             return
         }
         
-        window = UIWindow(windowScene: windowSecene)
-        let viewController = ViewController()
+        window = UIWindow(windowScene: windowScene)
+        let diaryViewController = DiaryViewController()
         
-        window?.rootViewController = UINavigationController(rootViewController: viewController)
+        window?.rootViewController = UINavigationController(rootViewController: diaryViewController)
         window?.makeKeyAndVisible()
     }
 
