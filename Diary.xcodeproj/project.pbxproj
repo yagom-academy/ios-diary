@@ -46,16 +46,10 @@
 			path = Application;
 			sourceTree = "<group>";
 		};
-		4495F2EA2A9CBFFD007D5278 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		4495F2EB2A9CC00D007D5278 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -97,9 +91,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				4495F2EA2A9CBFFD007D5278 /* Model */,
 				4495F2EB2A9CC00D007D5278 /* View */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				4495F2EC2A9CC013007D5278 /* Controller */,
 				4495F2E92A9CBFF0007D5278 /* Application */,
 				4495F2ED2A9CC031007D5278 /* Resource */,
