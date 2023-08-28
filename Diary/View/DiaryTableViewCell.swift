@@ -7,8 +7,10 @@
 
 import UIKit
 
+final class DiaryTableViewCell: UITableViewCell {
     static let identifier = "cell"
     
+    private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,6 +19,7 @@ import UIKit
         return stackView
     }()
     
+    private let descriptionStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,6 +29,7 @@ import UIKit
         return stackView
     }()
     
+    private let title: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.text = "제목입니다. 제목입니다. 제목입니다. 제목입니다. 제목입니다. 제목입니다."
@@ -33,6 +37,7 @@ import UIKit
         return label
     }()
     
+    private let date: UILabel = {
         let label = UILabel()
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
@@ -42,6 +47,7 @@ import UIKit
         return label
     }()
     
+    private let preview: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.text = "안녕하세요? 민트와 비모입니다. 안녕하세요? 민트와 비모입니다. 안녕하세요? 민트와 비모입니다. 안녕하세요? 민트와 비모입니다."
