@@ -1,6 +1,6 @@
 //
 //  Diary - ViewController.swift
-//  Created by yagom. 
+//  Created by Dasan, kyungmin on 2023/08/28.
 //  Copyright © yagom. All rights reserved.
 // 
 
@@ -10,9 +10,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        view.backgroundColor = .brown
     }
-
-
 }
 

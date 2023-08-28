@@ -1,6 +1,6 @@
 //
 //  Diary - AppDelegate.swift
-//  Created by yagom. 
+//  Created by Dasan, kyungmin on 2023/08/28.
 //  Copyright © yagom. All rights reserved.
 // 
 
