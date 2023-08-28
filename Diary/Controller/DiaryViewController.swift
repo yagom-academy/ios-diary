@@ -21,6 +21,15 @@ final class DiaryViewController: UIViewController {
     private func configureView() {
         view.backgroundColor = .systemBackground
         view.addSubview(listCollectionView)
+        
+        configureNavigationItem()
+    }
+    
+    private func configureNavigationItem() {
+        navigationItem.title = "일기장"
+        
+        let addDiaryBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
+        navigationItem.rightBarButtonItem = addDiaryBarButtonItem
     }
     
     private func configureCollectionView() {
