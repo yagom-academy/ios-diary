@@ -7,7 +7,7 @@
 
 import UIKit
 
-class AssetDiaryStorage: DiaryStorageProtocol {
+final class AssetDiaryStorage: DiaryStorageProtocol {
     
     func diaryEntrys() -> [DiaryEntry] {
         guard let asset = NSDataAsset(name: "sample"),
