@@ -67,10 +67,27 @@ extension DiaryViewController {
 
 // MARK: CollectionView DataSource
 extension DiaryViewController {
+    private func configureDataSource() {
+        let registration = UICollectionView.CellRegistration<DiaryCollectionViewListCell, Diary> { cell, indexPath, diary in
+            // 복잡한 데이터 구성 및 셀 디자인
+        }
+
+        diaryDataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView) {
+            collectionView, indexPath, diary in
+            return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: diary)
+        }
+    }
     
+    private func applySnapshot() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(diaryManager.diaryList)
+        
+        diaryDataSource.apply(snapshot, animatingDifferences: true)
+    }
 }
 
-// MARK: CollectionVeiw Layout
+// MARK: CollectionView Layout
 extension DiaryViewController {
     private func listLayout() -> UICollectionViewLayout {
         let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
