@@ -16,6 +16,7 @@
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
+		D0204A2E2A9D9F1E003C2022 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0204A2D2A9D9F1E003C2022 /* DetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D0204A2D2A9D9F1E003C2022 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,18 +64,59 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				0A86C77B2A9D9CCC00584161 /* DiaryTableViewCell.swift */,
-				C739AE24284DF28600741E8F /* AppDelegate.swift */,
-				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE28284DF28600741E8F /* ViewController.swift */,
-				C739AE2A284DF28600741E8F /* Main.storyboard */,
-				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
-				C739AE35284DF28600741E8F /* Info.plist */,
-				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-				0A86C77C2A9D9CCC00584161 /* DiaryTableViewCell.xib */,
+				D03533492A9D9E8400D270A7 /* Resource */,
+				D03533482A9D9E7D00D270A7 /* Model */,
+				D03533472A9D9E7400D270A7 /* ViewController */,
+				D03533462A9D9E6B00D270A7 /* View */,
+				D03533452A9D9E6200D270A7 /* Application */,
 			);
 			path = Diary;
+			sourceTree = "<group>";
+		};
+		D03533452A9D9E6200D270A7 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+				C739AE24284DF28600741E8F /* AppDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		D03533462A9D9E6B00D270A7 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE2A284DF28600741E8F /* Main.storyboard */,
+				0A86C77C2A9D9CCC00584161 /* DiaryTableViewCell.xib */,
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		D03533472A9D9E7400D270A7 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE28284DF28600741E8F /* ViewController.swift */,
+				0A86C77B2A9D9CCC00584161 /* DiaryTableViewCell.swift */,
+				D0204A2D2A9D9F1E003C2022 /* DetailViewController.swift */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		D03533482A9D9E7D00D270A7 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		D03533492A9D9E8400D270A7 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE35284DF28600741E8F /* Info.plist */,
+				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				C739AE30284DF28600741E8F /* Assets.xcassets */,
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -151,6 +194,7 @@
 				C739AE29284DF28600741E8F /* ViewController.swift in Sources */,
 				0A86C77D2A9D9CCC00584161 /* DiaryTableViewCell.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				D0204A2E2A9D9F1E003C2022 /* DetailViewController.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);
@@ -302,7 +346,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = Diary/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -330,7 +374,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = Diary/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
