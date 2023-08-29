@@ -8,7 +8,7 @@
 import UIKit
 
 struct DiaryManager {
-    private(set) var diaryList: [Diary]?
+    private(set) var diaryList: [Diary] = []
     
     mutating func updateDiary() -> Bool {
         guard let dataAsset = NSDataAsset(name: "sample") else {
