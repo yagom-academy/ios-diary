@@ -5,10 +5,6 @@
 //  Created by redmango1446 on 2023/08/28.
 //
 
-struct DiaryList: Decodable {
-    let diary: [Diary]
-}
-
 struct Diary: Decodable {
     let title: String
     let body: String
