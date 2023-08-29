@@ -24,7 +24,7 @@ final class DiaryListViewController: UIViewController {
     }
 }
 
-// MARK: - Setting UI Object
+// MARK: - Setup UI Object
 extension DiaryListViewController {
     private func setupUIObject() {
         setupView()
@@ -68,7 +68,7 @@ extension DiaryListViewController {
     }
 }
 
-// MARK: - Setting Constraint
+// MARK: - Setup Constraint
 extension DiaryListViewController {
     private func setupConstraints() {
         setupTableViewConstraint()
