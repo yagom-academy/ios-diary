@@ -61,7 +61,7 @@ final class DiaryTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        setupAccessory()
+        setupTableViewCell()
         configureUI()
         setupConstraints()
     }
@@ -82,7 +82,7 @@ extension DiaryTableViewCell {
 
 // MARK: - Setup UI Object
 extension DiaryTableViewCell {
-    private func setupAccessory() {
+    private func setupTableViewCell() {
         self.accessoryType = .disclosureIndicator
         self.selectionStyle = .none
     }
