@@ -51,9 +51,9 @@ extension DiaryListViewController {
     }
     
     private func setupNavigationItem() {
-        let plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: nil)
+        let plusButton = UIBarButtonItem(image: UIImage(systemName: NameSpace.plus), style: .plain, target: self, action: nil)
         
-        navigationItem.title = "일기장"
+        navigationItem.title = NameSpace.diary
         navigationItem.rightBarButtonItem = plusButton
     }
     
@@ -116,5 +116,13 @@ extension DiaryListViewController {
             tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+}
+
+// MARK: - Name Space
+extension DiaryListViewController {
+    private enum NameSpace {
+        static let diary = "일기장"
+        static let plus = "plus"
     }
 }
