@@ -11,6 +11,7 @@ class DiaryTableViewCell: UITableViewCell {
     private let diaryTitle: UILabel = {
         let label = UILabel()
         label.text = "여기는 제목이 들어갈 자리"
+        label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.setContentHuggingPriority(.defaultHigh + 1, for: .vertical)
         
         return label
@@ -19,6 +20,7 @@ class DiaryTableViewCell: UITableViewCell {
     private let dateAndPreview: UILabel = {
         let label = UILabel()
         label.text = "2021년 8월 29일, 작은 글자로 텍스트가 들어갈 자리."
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
         return label
@@ -27,7 +29,7 @@ class DiaryTableViewCell: UITableViewCell {
     private let contentStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.spacing = 3
+        stackView.spacing = 10
         
         return stackView
     }()
@@ -58,10 +60,10 @@ extension DiaryTableViewCell {
         contentStackView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            contentStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            contentStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
     
