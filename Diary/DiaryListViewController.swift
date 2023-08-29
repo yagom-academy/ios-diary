@@ -26,6 +26,13 @@ class DiaryListViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         self.title = "일기장"
+
+        let addDiary = UIAction(image: UIImage(systemName: "plus")) { [weak self] _ in
+            //
+        }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(primaryAction: addDiary)
+        
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
