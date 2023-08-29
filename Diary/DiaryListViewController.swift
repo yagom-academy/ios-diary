@@ -18,6 +18,7 @@ class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setUpData()
         configureUI()
         setUpTableView()
     }
@@ -40,6 +41,18 @@ class DiaryListViewController: UIViewController {
         tableView.dataSource = self
         tableView.register(DiaryListTableViewCell.self, forCellReuseIdentifier: "cell")
     }
+    
+    private func setUpData() {
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .secondsSince1970
+        
+        guard let dataAsset = NSDataAsset(name: "sample"),
+              let decodedData = try? decoder.decode([DiaryEntity].self, from: dataAsset.data) else {
+            return
+        }
+        
+        diaryEntity = decodedData
+    }
 }
 
 extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
@@ -50,6 +63,10 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as?
                 DiaryListTableViewCell else { return UITableViewCell() }
+        
+        let singleEntity = diaryEntity[indexPath.row]
+        
+        cell.setModel(singleEntity)
         
         return cell
     }
