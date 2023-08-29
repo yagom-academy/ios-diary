@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryListTableViewCell: UITableViewCell {
+final class DiaryListTableViewCell: UITableViewCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +33,7 @@ class DiaryListTableViewCell: UITableViewCell {
         
         return label
     }()
-
+    
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         setUpLabel()

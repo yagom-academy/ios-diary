@@ -6,7 +6,7 @@
 
 import UIKit
 
-class DiaryListViewController: UIViewController {
+final class DiaryListViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -14,7 +14,7 @@ class DiaryListViewController: UIViewController {
         return tableView
     }()
     private var diaryEntity = [DiaryEntity]()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,9 +26,11 @@ class DiaryListViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         self.title = "일기장"
-
+        
         let addDiary = UIAction(image: UIImage(systemName: "plus")) { [weak self] _ in
-            //
+            guard let self else { return }
+            let createDiaryView = CreateDiaryViewController()
+            self.navigationController?.pushViewController(createDiaryView, animated: true)
         }
         
         navigationItem.rightBarButtonItem = UIBarButtonItem(primaryAction: addDiary)
