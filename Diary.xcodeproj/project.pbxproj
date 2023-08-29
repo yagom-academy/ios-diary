@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0A86C77D2A9D9CCC00584161 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A86C77B2A9D9CCC00584161 /* DiaryTableViewCell.swift */; };
 		0A86C77E2A9D9CCC00584161 /* DiaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A86C77C2A9D9CCC00584161 /* DiaryTableViewCell.xib */; };
+		0A86C7832A9DA5E800584161 /* Sample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A86C7822A9DA5E800584161 /* Sample.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* ViewController.swift */; };
@@ -22,6 +23,7 @@
 /* Begin PBXFileReference section */
 		0A86C77B2A9D9CCC00584161 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		0A86C77C2A9D9CCC00584161 /* DiaryTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DiaryTableViewCell.xib; sourceTree = "<group>"; };
+		0A86C7822A9DA5E800584161 /* Sample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sample.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -45,6 +47,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0A86C7812A9DA5D600584161 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				0A86C7822A9DA5E800584161 /* Sample.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
@@ -64,8 +74,8 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				0A86C7812A9DA5D600584161 /* Model */,
 				D03533492A9D9E8400D270A7 /* Resource */,
-				D03533482A9D9E7D00D270A7 /* Model */,
 				D03533472A9D9E7400D270A7 /* ViewController */,
 				D03533462A9D9E6B00D270A7 /* View */,
 				D03533452A9D9E6200D270A7 /* Application */,
@@ -100,13 +110,6 @@
 				D0204A2D2A9D9F1E003C2022 /* DetailViewController.swift */,
 			);
 			path = ViewController;
-			sourceTree = "<group>";
-		};
-		D03533482A9D9E7D00D270A7 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		D03533492A9D9E8400D270A7 /* Resource */ = {
@@ -196,6 +199,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				D0204A2E2A9D9F1E003C2022 /* DetailViewController.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				0A86C7832A9DA5E800584161 /* Sample.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
