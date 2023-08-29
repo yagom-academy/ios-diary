@@ -2,17 +2,14 @@
 //  Diary.swift
 //  Diary
 //
-//  Created by Dasan, kyungmin on 2023/08/28.
+//  Created by Dasan, kyungmin on 2023/08/29.
 //
 
-struct Diary: Decodable, Hashable {
+import Foundation
+
+struct Diary: Hashable {
+    let identifier: UUID
     let title: String
     let body: String
     let createdDate: Int
-    
-    private enum CodingKeys: String, CodingKey {
-        case title
-        case body
-        case createdDate = "created_at"
-    }
 }
