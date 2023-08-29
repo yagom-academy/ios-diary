@@ -4,8 +4,8 @@ opt_in_rules:
     
 excluded: # SwiftLint 검사에서 제외할 파일 경로
   - Pods
-  - Diary/AppDelegate.swift
-  - Diary/SceneDelegate.swift
+  - Diary/Application/AppDelegate.swift
+  - Diary/Application/SceneDelegate.swift
   
 #- 네이밍 규칙 -#
 
@@ -26,5 +26,6 @@ identifier_name:
     - URL
     - GlobalAPIKey
 
-
+disabled_rules:
+    - trailing_whitespace
     
