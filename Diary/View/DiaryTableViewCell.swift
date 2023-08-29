@@ -9,8 +9,10 @@ import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
     
+    // MARK: - Static Property
     static let identifier = String(describing: DiaryTableViewCell.self)
     
+    // MARK: - Private Property
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -35,6 +37,7 @@ final class DiaryTableViewCell: UITableViewCell {
         return label
     }()
     
+    // MARK: - Life Cycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         

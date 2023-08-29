@@ -8,6 +8,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     
+    // MARK: - Private Property
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -15,6 +16,7 @@ final class DiaryListViewController: UIViewController {
         return tableView
     }()
     
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
