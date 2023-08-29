@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38912A9DDA520022FB70 /* Diary.swift */; };
+		AC8C38942A9DDAAF0022FB70 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38932A9DDAAF0022FB70 /* DataManager.swift */; };
 		AC8C38972A9E16E50022FB70 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38962A9E16E50022FB70 /* DataError.swift */; };
 		AC8C38992A9E177F0022FB70 /* AssertDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38982A9E177F0022FB70 /* AssertDataManager.swift */; };
 		AC938AA42A9CC94D00627F8E /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC938AA32A9CC94D00627F8E /* DiaryData.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		AC8C38912A9DDA520022FB70 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
+		AC8C38932A9DDAAF0022FB70 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		AC8C38962A9E16E50022FB70 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		AC8C38982A9E177F0022FB70 /* AssertDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertDataManager.swift; sourceTree = "<group>"; };
 		AC938AA32A9CC94D00627F8E /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				AC8C38902A9DD4680022FB70 /* DTO */,
 				AC8C38912A9DDA520022FB70 /* Diary.swift */,
 				AC8C38982A9E177F0022FB70 /* AssertDataManager.swift */,
+				AC8C38932A9DDAAF0022FB70 /* DataManager.swift */,
 				AC938AA52A9CCC7200627F8E /* DiaryManager.swift */,
 			);
 			path = Model;
@@ -228,6 +231,7 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				AC938AA62A9CCC7200627F8E /* DiaryManager.swift in Sources */,
+				AC8C38942A9DDAAF0022FB70 /* DataManager.swift in Sources */,
 				AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
