@@ -99,12 +99,10 @@
 		45C4AF802A9C9BF2003142B6 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				45C4AF832A9CA0A1003142B6 /* DiaryEntry.swift */,
-				4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */,
-				4541CC412A9D95CE0095C258 /* AssetDiaryStorage.swift */,
+				45F052272A9DD0D8004B5225 /* DTO */,
+				45F052252A9DD081004B5225 /* Storage */,
+				45F052262A9DD0A1004B5225 /* LocaleDateFormatter */,
 				4541CC432A9D9B4A0095C258 /* DateFormatManager.swift */,
-				4541CC472A9DB67D0095C258 /* LocaleDateFormatterProtocol.swift */,
-				4541CC492A9DB6AC0095C258 /* UserDateFormatter.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -133,6 +131,32 @@
 				45DEA7642A9D929E00D8F686 /* DiaryEntryTests.swift */,
 			);
 			path = DiaryEntryTests;
+			sourceTree = "<group>";
+		};
+		45F052252A9DD081004B5225 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */,
+				4541CC412A9D95CE0095C258 /* AssetDiaryStorage.swift */,
+			);
+			path = Storage;
+			sourceTree = "<group>";
+		};
+		45F052262A9DD0A1004B5225 /* LocaleDateFormatter */ = {
+			isa = PBXGroup;
+			children = (
+				4541CC472A9DB67D0095C258 /* LocaleDateFormatterProtocol.swift */,
+				4541CC492A9DB6AC0095C258 /* UserDateFormatter.swift */,
+			);
+			path = LocaleDateFormatter;
+			sourceTree = "<group>";
+		};
+		45F052272A9DD0D8004B5225 /* DTO */ = {
+			isa = PBXGroup;
+			children = (
+				45C4AF832A9CA0A1003142B6 /* DiaryEntry.swift */,
+			);
+			path = DTO;
 			sourceTree = "<group>";
 		};
 		C739AE18284DF28600741E8F = {
