@@ -20,6 +20,7 @@
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		CD2D454F2A9CDCC0002F9633 /* DiaryCollectionViewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2D454E2A9CDCC0002F9633 /* DiaryCollectionViewListCell.swift */; };
+		CDC4247C2A9E28C2007BB488 /* DateFomatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4247B2A9E28C2007BB488 /* DateFomatter+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD2D454E2A9CDCC0002F9633 /* DiaryCollectionViewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCollectionViewListCell.swift; sourceTree = "<group>"; };
+		CDC4247B2A9E28C2007BB488 /* DateFomatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFomatter+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 				AC938AA22A9CC8B300627F8E /* Model */,
 				CD2D45272A9CBE46002F9633 /* View */,
 				CD2D45292A9CBE64002F9633 /* Controller */,
+				CDC424792A9E2873007BB488 /* Extension */,
 				AC8C38952A9E16D40022FB70 /* Error */,
 				CD2D45262A9CBE34002F9633 /* Resource */,
 				CD2D454C2A9CC1BC002F9633 /* CoreData */,
@@ -150,6 +153,14 @@
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 			);
 			path = CoreData;
+			sourceTree = "<group>";
+		};
+		CDC424792A9E2873007BB488 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				CDC4247B2A9E28C2007BB488 /* DateFomatter+.swift */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -231,6 +242,7 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				AC938AA62A9CCC7200627F8E /* DiaryManager.swift in Sources */,
+				CDC4247C2A9E28C2007BB488 /* DateFomatter+.swift in Sources */,
 				AC8C38942A9DDAAF0022FB70 /* DataManager.swift in Sources */,
 				AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */,
 			);
