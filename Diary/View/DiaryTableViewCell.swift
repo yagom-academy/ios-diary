@@ -27,7 +27,6 @@ final class DiaryTableViewCell: UITableViewCell {
     private let title: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .title3)
-        label.text = "제목입니다. 제목입니다. 제목입니다. 제목입니다. 제목입니다. 제목입니다."
         return label
     }()
     private let date: UILabel = {
@@ -35,13 +34,11 @@ final class DiaryTableViewCell: UITableViewCell {
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         label.font = UIFont.preferredFont(forTextStyle: .body)
-        label.text = "2023년 08월 28일"
         return label
     }()
     private let preview: UILabel = {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
-        label.text = "안녕하세요? 민트와 비모입니다. 안녕하세요? 민트와 비모입니다. 안녕하세요? 민트와 비모입니다. 안녕하세요? 민트와 비모입니다."
         return label
     }()
     override func awakeFromNib() {
@@ -51,7 +48,10 @@ final class DiaryTableViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    func configureCell() {
+    func configureCell(_ diary: Diary) {
+        self.title.text = diary.title
+        self.date.text = diary.date
+        self.preview.text = diary.body
         configureCellSubviews()
         configureCellConstraint()
     }
