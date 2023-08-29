@@ -24,6 +24,7 @@ final class DiaryListViewController: UIViewController {
         decodeData()
         collectionView.dataSource = self
         collectionView.delegate = self
+        configureNavigation()
         configureUI()
         configureAutoLayout()
         
@@ -52,18 +53,39 @@ final class DiaryListViewController: UIViewController {
         let decodedData = try? JSONDecoder().decode([DiaryEntity].self, from: asset.data)
         diaryEntity = decodedData
     }
+    
+    private func configureNavigation() {
+        navigationItem.title = "일기장"
+        
+        let addDiary: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(abc))
+        self.navigationItem.rightBarButtonItem = addDiary
+
+    }
+    
+    @objc private func abc() {
+        
+    }
 }
 
 extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return diaryEntity?.count ?? 0
+        guard let diaryEntity = diaryEntity else {
+            return 0
+        }
+        
+        return diaryEntity.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryCollectionViewListCell.identifier, for: indexPath) as? DiaryCollectionViewListCell else {
             return UICollectionViewCell()
         }
-        cell.configureLabel(diaryEntity![indexPath.item])
+        
+        guard let diaryEntity = diaryEntity else {
+            return UICollectionViewCell()
+        }
+        
+        cell.configureLabel(diaryEntity[indexPath.item])
         
         return cell
     }

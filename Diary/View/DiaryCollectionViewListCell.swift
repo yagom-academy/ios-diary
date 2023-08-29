@@ -24,6 +24,7 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentCompressionResistancePriority(.init(800), for: .horizontal)
         
         return label
     }()
@@ -78,7 +79,6 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
     
     private func configureAutoLayout() {
         NSLayoutConstraint.activate([
-            dateLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
             titleLabelStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             titleLabelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleLabelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
@@ -91,8 +91,18 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
     }
     
     func configureLabel(_ data: DiaryEntity) {
+        let dateFormatter: DateFormatter = {
+            let dateFormatter: DateFormatter = DateFormatter()
+            dateFormatter.locale = Locale(identifier: "ko_KR")
+            dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+            dateFormatter.dateStyle = .long
+            
+            return dateFormatter
+        }()
+        let date: Date = Date(timeIntervalSince1970: TimeInterval(data.createdAt))
+        
         titleLabel.text = data.title
-        dateLabel.text = String(data.createdAt)
+        dateLabel.text = dateFormatter.string(from: date)
         previewLabel.text = data.body
     }
 }
