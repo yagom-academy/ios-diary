@@ -13,14 +13,13 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         registerNib()
+        tableView.rowHeight = 55
         tableView.dataSource = self
         tableView.delegate = self
         decodeJSON()
-
     }
-
+    
     @IBAction func tapAddButton(_ sender: Any) {
-        
     }
     
     private func registerNib() {
