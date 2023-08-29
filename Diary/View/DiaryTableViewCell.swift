@@ -1,5 +1,5 @@
 //
-//  ListCollectionViewCell.swift
+//  DiaryTableViewCell.swift
 //  Diary
 //
 //  Created by Mary & Whales on 2023/08/28.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class ListCollectionViewCell: UICollectionViewListCell {
+final class DiaryTableViewCell: UITableViewCell {
     static let identifier = "cell"
     
     private let titleLabel: UILabel = {
@@ -52,8 +52,8 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         return stackView
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         configureUI()
     }
@@ -70,7 +70,7 @@ final class ListCollectionViewCell: UICollectionViewListCell {
         titleStackView.addArrangedSubview(descriptionStackView)
         
         contentView.addSubview(titleStackView)
-        accessories = [.disclosureIndicator()]
+        accessoryType = .disclosureIndicator
         setUpConstraints()
     }
     
@@ -82,5 +82,4 @@ final class ListCollectionViewCell: UICollectionViewListCell {
             titleStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
         ])
     }
-    
 }
