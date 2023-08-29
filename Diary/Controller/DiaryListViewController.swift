@@ -97,7 +97,7 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
         
         collectionView.deselectItem(at: indexPath, animated: true)
         
-        let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(data: diaryEntity)
+        let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(data: diaryEntity[indexPath.item])
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
