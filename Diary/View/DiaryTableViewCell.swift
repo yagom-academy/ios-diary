@@ -13,25 +13,45 @@ final class DiaryTableViewCell: UITableViewCell {
     static let identifier = String(describing: DiaryTableViewCell.self)
     
     // MARK: - Private Property
+    private let diaryStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        
+        return stackView
+    }()
+    
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         
         return label
     }()
     
+    private let dateAndBodyStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.distribution = .fill
+        stackView.spacing = 8
+        
+        return stackView
+    }()
+    
     private let creationDateLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return label
     }()
     
     private let bodyLabel: UILabel = {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.font = UIFont.preferredFont(forTextStyle: .body)
         
         return label
@@ -48,11 +68,6 @@ final class DiaryTableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-        
     }
 }
 
@@ -76,47 +91,37 @@ extension DiaryTableViewCell {
 extension DiaryTableViewCell {
     private func configureUI() {
         configureContentView()
+        configureDiaryStackView()
+        configureDateAndBodyStackView()
     }
     
     private func configureContentView() {
-        contentView.addSubview(titleLabel)
-        contentView.addSubview(creationDateLabel)
-        contentView.addSubview(bodyLabel)
+        contentView.addSubview(diaryStackView)
+    }
+    
+    private func configureDiaryStackView() {
+        diaryStackView.addArrangedSubview(titleLabel)
+        diaryStackView.addArrangedSubview(dateAndBodyStackView)
+    }
+    
+    private func configureDateAndBodyStackView() {
+        dateAndBodyStackView.addArrangedSubview(creationDateLabel)
+        dateAndBodyStackView.addArrangedSubview(bodyLabel)
     }
 }
 
 // MARK: - Setup Constraint
 extension DiaryTableViewCell {
     private func setupConstraints() {
-        setupTitleLabelConstraints()
-        setupCreationDateLabelConstraints()
-        setupBodyLabelConstraints()
+        setupDiaryStackViewConstraints()
     }
     
-    private func setupTitleLabelConstraints() {
+    private func setupDiaryStackViewConstraints() {
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8)
-        ])
-    }
-    
-    private func setupCreationDateLabelConstraints() {
-        NSLayoutConstraint.activate([
-            creationDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            creationDateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            creationDateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-        ])
-        
-        creationDateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
-    }
-    
-    private func setupBodyLabelConstraints() {
-        NSLayoutConstraint.activate([
-            bodyLabel.leadingAnchor.constraint(equalTo: creationDateLabel.trailingAnchor, constant: 8),
-            bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            bodyLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            diaryStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            diaryStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            diaryStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            diaryStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
 }
