@@ -7,55 +7,64 @@
 
 import UIKit
 
-class DiaryCollectionViewListCell: UICollectionViewListCell {
+final class DiaryCollectionViewListCell: UICollectionViewListCell {
     static let identifier: String = "DiaryCollectionViewListCell"
+    
     private let titleLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.text = "타이틀레이블"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.font = .preferredFont(forTextStyle: .title2)
+        
         return label
     }()
+    
     private let dateLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.text = "2020년 12월 23일"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.font = .preferredFont(forTextStyle: .body)
+        
         return label
     }()
+    
     private let previewLabel: UILabel = {
         let label: UILabel = UILabel()
-        label.text = "프리뷰레이블"
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textAlignment = .left
-        label.setContentHuggingPriority(.init(200), for: .horizontal)
         label.font = .preferredFont(forTextStyle: .body)
+        
         return label
     }()
+    
     private let titleLabelStackView: UIStackView = {
         let stackView: UIStackView = UIStackView()
         stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
+    
     private let dateAndPreviewStackView: UIStackView = {
         let stackView: UIStackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 8
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        
         return stackView
     }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
         configureAutoLayout()
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     private func configureUI() {
         titleLabelStackView.addArrangedSubview(titleLabel)
 //        titleLabelStackView.addArrangedSubview(dateAndPreviewStackView)
@@ -66,19 +75,24 @@ class DiaryCollectionViewListCell: UICollectionViewListCell {
         
         self.accessories = [.disclosureIndicator()]
     }
+    
     private func configureAutoLayout() {
         NSLayoutConstraint.activate([
+            dateLabel.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.3),
             titleLabelStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             titleLabelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             titleLabelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titleLabelStackView.bottomAnchor.constraint(equalTo: dateAndPreviewStackView.topAnchor, constant: -8),
             
-            
             dateAndPreviewStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             dateAndPreviewStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             dateAndPreviewStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
-            
-            
         ])
+    }
+    
+    func configureLabel(_ data: DiaryEntity) {
+        titleLabel.text = data.title
+        dateLabel.text = String(data.createdAt)
+        previewLabel.text = data.body
     }
 }
