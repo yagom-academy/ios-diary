@@ -26,10 +26,10 @@ final class DiaryViewController: UIViewController {
         super.viewDidLoad()
         diaryManager.delegate = self
         
+        loadData()
         setupComponents()
         configureUI()
         setupConstraint()
-        diaryManager.fetchDiaryList()
         configureDataSource()
         applySnapshot()
     }
@@ -41,11 +41,24 @@ extension DiaryViewController: DiaryManagerDelegate {
     }
 }
 
+// MARK: Road Data
+extension DiaryViewController {
+    private func loadData() {
+        diaryManager.fetchDiaryList()
+    }
+}
+
+// MARK: Button Action
+extension DiaryViewController {
+    @objc private func didTapSelectPlusButton() {}
+}
+
 // MARK: Setup Components
 extension DiaryViewController {
     private func setupComponents() {
         setupView()
         setupCollectionView()
+        setupNavigationBar()
     }
     
     private func setupView() {
@@ -55,6 +68,13 @@ extension DiaryViewController {
     private func setupCollectionView() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    private func setupNavigationBar() {
+        let selectDateButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(didTapSelectPlusButton))
+        navigationItem.title = "일기장"
+        navigationItem.rightBarButtonItem = selectDateButton
+        navigationController?.setToolbarHidden(false, animated: false)
     }
 }
 
