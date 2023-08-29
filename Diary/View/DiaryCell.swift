@@ -13,11 +13,11 @@ final class DiaryCell: UICollectionViewListCell {
     
     private let cellStackView: UIStackView = {
         let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
         stackView.distribution = .fill
-
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.alignment = .fill
+        
         return stackView
     }()
     
@@ -31,7 +31,7 @@ final class DiaryCell: UICollectionViewListCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .left
         
@@ -60,6 +60,7 @@ final class DiaryCell: UICollectionViewListCell {
     func configureCell(diary: Diary) {
         injectDataIntoLabelText(diary: diary)
         addSubviews()
+        configureLayoutConstraint()
     }
     
     private func injectDataIntoLabelText(diary: Diary) {
@@ -69,23 +70,21 @@ final class DiaryCell: UICollectionViewListCell {
     }
     
     private func addSubviews() {
-        addSubview(cellStackView)
+        contentView.addSubview(cellStackView)
         cellStackView.addArrangedSubview(titleLabel)
         cellStackView.addArrangedSubview(contentStackView)
-        
         contentStackView.addArrangedSubview(createdDateLabel)
         contentStackView.addArrangedSubview(contentLabel)
         
         accessories = [.disclosureIndicator()]
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
+    func configureLayoutConstraint() {
         NSLayoutConstraint.activate([
-            cellStackView.topAnchor.constraint(equalTo: topAnchor),
-            cellStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            cellStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
-            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+            cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
     }
 }
