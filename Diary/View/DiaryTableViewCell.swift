@@ -65,9 +65,9 @@ final class DiaryTableViewCell: UITableViewCell {
     private func configureCellConstraint() {
         NSLayoutConstraint.activate([
             contentStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
-            contentStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            contentStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
         ])
     }
 }
