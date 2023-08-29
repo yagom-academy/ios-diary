@@ -5,7 +5,7 @@
 //  Created by Dasan, kyungmin on 2023/08/28.
 //
 
-struct Diary: Decodable {
+struct Diary: Decodable, Hashable {
     let title: String
     let body: String
     let createdDate: Int
