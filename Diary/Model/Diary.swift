@@ -7,13 +7,17 @@
 
 import Foundation
 
-struct Diary {
+struct Diary: Decodable {
     let title: String
     let body: String
-    let date: Int
+    private let unixTime: Int
+    private let dateFormatter = DateFormatter()
+    var date: String {
+        return dateFormatter.transformDiaryDate(using: unixTime)
+    }
     private enum CodingKeys: String, CodingKey {
         case title
         case body
-        case date = "created_at"
+        case unixTime = "created_at"
     }
 }
