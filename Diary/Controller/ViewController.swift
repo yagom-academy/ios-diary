@@ -24,6 +24,7 @@ final class ViewController: UIViewController {
         setView()
         registerCustomCell()
         configureCollectionViewConstraint()
+        configureNavigation()
     }
     
     private func setView() {
@@ -66,6 +67,17 @@ final class ViewController: UIViewController {
     
     private func registerCustomCell() {
         collectionView.register(DiaryCell.self, forCellWithReuseIdentifier: DiaryCell.id)
+    }
+    
+    private func configureNavigation() {
+        self.navigationItem.title = "일기장"
+        
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(add))
+        self.navigationItem.rightBarButtonItem = addButton
+    }
+    
+    @objc private func add() {
+        print("add")
     }
     
 }

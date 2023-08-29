@@ -65,7 +65,11 @@ final class DiaryCell: UICollectionViewListCell {
     
     private func injectDataIntoLabelText(diary: Diary) {
         titleLabel.text = diary.title
-        createdDateLabel.text = String(diary.createdDate)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .long
+        dateFormatter.locale = .current
+        
+        createdDateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: Double(diary.createdDate)))
         contentLabel.text = diary.body
     }
     
