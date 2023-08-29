@@ -77,9 +77,11 @@ extension DiaryListViewController: UITableViewDataSource {
         
         let diaryEntrys = diaryStore.diaryEntrys()
         let diaryEntry = diaryEntrys[indexPath.row]
+        let creationDate = DateFormatManager.string(localeDateFormatter: UserDateFormatter(),
+                                                    timestamp: diaryEntry.creationDate)
         
         cell.setupContent(title: diaryEntry.title,
-                          creationDate: String(diaryEntry.creationDate),
+                          creationDate: creationDate,
                           body: diaryEntry.body)
         
         return cell
