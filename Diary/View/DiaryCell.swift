@@ -14,9 +14,10 @@ final class DiaryCell: UICollectionViewListCell {
     private let cellStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 8
+        stackView.distribution = .fill
+
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.alignment = .fill
         return stackView
     }()
     
@@ -30,10 +31,10 @@ final class DiaryCell: UICollectionViewListCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .title1)
+        label.font = UIFont.preferredFont(forTextStyle: .largeTitle)
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .left
-        label.adjustsFontSizeToFitWidth = true
+        
         return label
     }()
     
@@ -82,8 +83,8 @@ final class DiaryCell: UICollectionViewListCell {
         super.layoutSubviews()
         NSLayoutConstraint.activate([
             cellStackView.topAnchor.constraint(equalTo: topAnchor),
-            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+            cellStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            cellStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }

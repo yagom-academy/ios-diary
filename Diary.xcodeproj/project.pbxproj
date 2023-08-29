@@ -75,7 +75,6 @@
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-				5D2CF6FE2A9CBB4A009EECB3 /* .swiftlint.yml */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -99,6 +98,7 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
+				5D2CF6FE2A9CBB4A009EECB3 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
 			);
