@@ -16,7 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = UINavigationController(rootViewController: DiaryListViewController())
+        window?.rootViewController = UINavigationController(rootViewController: DiaryListViewController(diaryStore: AssetDiaryStorage()))
         window?.makeKeyAndVisible()
     }
 

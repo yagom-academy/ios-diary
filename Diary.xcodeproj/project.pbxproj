@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4541CC422A9D95CE0095C258 /* AssetDiaryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541CC412A9D95CE0095C258 /* AssetDiaryStorage.swift */; };
+		4541CC4E2A9DB7140095C258 /* DiaryStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */; };
 		45C4AF842A9CA0A1003142B6 /* DiaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C4AF832A9CA0A1003142B6 /* DiaryEntry.swift */; };
 		45C4AF882A9CBFE4003142B6 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C4AF872A9CBFE4003142B6 /* DiaryTableViewCell.swift */; };
 		45DEA7652A9D929E00D8F686 /* DiaryEntryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEA7642A9D929E00D8F686 /* DiaryEntryTests.swift */; };
@@ -29,6 +31,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4541CC412A9D95CE0095C258 /* AssetDiaryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDiaryStorage.swift; sourceTree = "<group>"; };
+		4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryStorageProtocol.swift; sourceTree = "<group>"; };
 		45C4AF832A9CA0A1003142B6 /* DiaryEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntry.swift; sourceTree = "<group>"; };
 		45C4AF872A9CBFE4003142B6 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		45DEA7622A9D929E00D8F686 /* DiaryEntryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryEntryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -90,6 +94,8 @@
 			isa = PBXGroup;
 			children = (
 				45C4AF832A9CA0A1003142B6 /* DiaryEntry.swift */,
+				4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */,
+				4541CC412A9D95CE0095C258 /* AssetDiaryStorage.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -260,7 +266,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
+				4541CC4E2A9DB7140095C258 /* DiaryStorageProtocol.swift in Sources */,
 				45C4AF842A9CA0A1003142B6 /* DiaryEntry.swift in Sources */,
+				4541CC422A9D95CE0095C258 /* AssetDiaryStorage.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
