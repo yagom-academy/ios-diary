@@ -8,10 +8,24 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private var tableView: UITableView = UITableView()
+    private var diaryModel: [DiaryModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        parseData()
+    }
+    
+    private func parseData() {
+        guard let dataAsset = NSDataAsset(name: "sample") else {
+            return
+        }
+                
+        do {
+            diaryModel = try JSONDecoder().decode([DiaryModel].self, from: dataAsset.data)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
 
