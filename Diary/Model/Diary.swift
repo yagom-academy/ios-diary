@@ -11,7 +11,6 @@ struct Diary {
     let title: String
     let body: String
     let date: Int
-    
     private enum CodingKeys: String, CodingKey {
         case title
         case body
