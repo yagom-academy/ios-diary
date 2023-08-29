@@ -9,6 +9,7 @@ import Foundation
 
 protocol LocaleDateFormatterProtocol {
     var dateFormatter: DateFormatter { get }
+    
     func string(from date: Date) -> String
 }
 
