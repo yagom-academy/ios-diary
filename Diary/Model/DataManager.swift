@@ -10,7 +10,8 @@ import UIKit
 struct DataManager {
     func diary(diaryList: [DiaryData]) -> [Diary] {
         return diaryList.map {
-            return Diary(identifier: UUID(), title: $0.title, body: $0.body, createdDate: $0.createdDate)
+            let createdDate = DateFormatter().dateString(from: Date(timeIntervalSinceReferenceDate: Double($0.createdDate)), at: DateFormatter.Location.korea, with: DateFormatter.FormatTemplate.attached)
+            return Diary(identifier: UUID(), title: $0.title, body: $0.body, createdDate: createdDate)
         }
     }
 }
