@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AC938AA42A9CC94D00627F8E /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC938AA32A9CC94D00627F8E /* Diary.swift */; };
+		AC8C38972A9E16E50022FB70 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38962A9E16E50022FB70 /* DataError.swift */; };
 		AC938AA62A9CCC7200627F8E /* DiaryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC938AA52A9CCC7200627F8E /* DiaryManager.swift */; };
 		AC938AA82A9CCFA100627F8E /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC938AA72A9CCFA100627F8E /* DiaryViewController.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		AC938AA32A9CC94D00627F8E /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
+		AC8C38962A9E16E50022FB70 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		AC938AA52A9CCC7200627F8E /* DiaryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManager.swift; sourceTree = "<group>"; };
 		AC938AA72A9CCFA100627F8E /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -43,6 +45,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AC8C38952A9E16D40022FB70 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				AC8C38962A9E16E50022FB70 /* DataError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		AC938AA22A9CC8B300627F8E /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -75,6 +85,7 @@
 				AC938AA22A9CC8B300627F8E /* Model */,
 				CD2D45272A9CBE46002F9633 /* View */,
 				CD2D45292A9CBE64002F9633 /* Controller */,
+				AC8C38952A9E16D40022FB70 /* Error */,
 				CD2D45262A9CBE34002F9633 /* Resource */,
 				CD2D454C2A9CC1BC002F9633 /* CoreData */,
 			);
@@ -195,6 +206,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC938AA42A9CC94D00627F8E /* Diary.swift in Sources */,
+				AC8C38972A9E16E50022FB70 /* DataError.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				CD2D454F2A9CDCC0002F9633 /* DiaryCollectionViewListCell.swift in Sources */,
 				AC938AA82A9CCFA100627F8E /* DiaryViewController.swift in Sources */,
