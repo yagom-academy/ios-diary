@@ -12,7 +12,7 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
-        stackView.spacing = .zero
+        stackView.spacing = 8
         stackView.alignment = .fill
         stackView.distribution = .fill
         
@@ -22,7 +22,8 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -31,7 +32,7 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
-        stackView.spacing = .zero
+        stackView.spacing = 8
         stackView.alignment = .fill
         stackView.distribution = .fill
         
@@ -42,6 +43,7 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
         let label = UILabel()
         label.textAlignment = .left
         label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -49,7 +51,8 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
     private let previewLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .caption1)
+        label.adjustsFontForContentSizeCategory = true
         
         return label
     }()
@@ -71,7 +74,7 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
 extension DiaryCollectionViewListCell {
     func setupLabels(_ diary: Diary) {
         titleLabel.text = diary.title
-        createdDateLabel.text = String(diary.createdDate)
+        createdDateLabel.text = diary.createdDate
         previewLabel.text = diary.body
     }
 }
@@ -119,16 +122,16 @@ extension DiaryCollectionViewListCell {
     
     private func setupContentsStackViewConstraint() {
         NSLayoutConstraint.activate([
-            contentsStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            contentsStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            contentsStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
-            contentsStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor)
+            contentsStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+            contentsStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10),
+            contentsStackView.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 25),
+            contentsStackView.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -10)
         ])
     }
     
     private func setupCreatedDateLabelConstraint() {
         NSLayoutConstraint.activate([
-            createdDateLabel.widthAnchor.constraint(equalTo: createdDateLabel.heightAnchor, multiplier: 10)
+            createdDateLabel.widthAnchor.constraint(equalTo: createdDateLabel.heightAnchor, multiplier: 8)
         ])
     }
 }
