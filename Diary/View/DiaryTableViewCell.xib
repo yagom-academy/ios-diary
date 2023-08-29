@@ -18,7 +18,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" axis="vertical" alignment="top" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="ahW-xp-ekR">
-                        <rect key="frame" x="16.000000000000007" y="0.0" width="100.66666666666669" height="42.666666666666664"/>
+                        <rect key="frame" x="16" y="0.0" width="100.66666666666666" height="42.666666666666664"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3oq-dQ-Fub">
                                 <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="20.333333333333332"/>
@@ -48,6 +48,11 @@
                 </subviews>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <connections>
+                <outlet property="bodyLabel" destination="BrO-Kq-yyg" id="m2B-cG-z65"/>
+                <outlet property="createdDateLabel" destination="l4G-zF-qvW" id="kVn-DW-iXC"/>
+                <outlet property="titleLabel" destination="3oq-dQ-Fub" id="6Lm-aK-ldp"/>
+            </connections>
             <point key="canvasLocation" x="6" y="-11"/>
         </tableViewCell>
     </objects>
