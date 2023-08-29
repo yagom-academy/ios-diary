@@ -48,11 +48,11 @@
                                 <rect key="frame" x="290" y="0.0" width="87" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system"/>
+                                <buttonConfiguration key="configuration" style="plain" image="plus" catalog="system" title=" "/>
+                                <connections>
+                                    <action selector="tapAddButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="41a-cv-bUy"/>
+                                </connections>
                             </button>
-                            <connections>
-                                <action selector="tapAddButton:" destination="BYZ-38-t0r" id="uUe-sM-znf"/>
-                            </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>

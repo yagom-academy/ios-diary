@@ -32,8 +32,15 @@ class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureLabel(sample: Sample) {
+        let timeInterval = TimeInterval(sample.createdDate)
+        let inputDate = Date(timeIntervalSince1970: timeInterval)
+
+        let outputFormatter = DateFormatter()
+        outputFormatter.dateFormat = "yyyy년 MM월 dd일"
+        let formattedDate = outputFormatter.string(from: inputDate)
+         
+        createdDateLabel.text = formattedDate
         titleLabel.text = sample.title
         bodyLabel.text = sample.body
-        createdDateLabel.text = String(sample.createdDate)
     }
 }
