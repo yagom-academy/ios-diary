@@ -30,15 +30,23 @@ final class DiaryViewController: UIViewController {
 }
 
 extension DiaryViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return diaryModel.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? DiaryCell else {
             return UITableViewCell()
         }
-
+        
+        cell.configureCell(title: diaryModel[indexPath.row].title,
+                           date: String(diaryModel[indexPath.row].date),
+                           preview: diaryModel[indexPath.row].body)
+        
         return cell
     }
 }
@@ -48,7 +56,7 @@ private extension DiaryViewController {
         configureRootView()
         configureNavigation()
         configureTableView()
-        configureCell()
+        registerCell()
         configureSubviews()
         configureConstraints()
     }
@@ -68,7 +76,7 @@ private extension DiaryViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    func configureCell() {
+    func registerCell() {
         tableView.register(DiaryCell.self, forCellReuseIdentifier: "cell")
     }
     
