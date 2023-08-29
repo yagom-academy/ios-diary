@@ -24,15 +24,20 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        diaryManager.delegate = self
         
         setupComponents()
         configureUI()
         setupConstraint()
-        if diaryManager.updateDiary() {
-            print("성공")
-        }
+        diaryManager.fetchDiaryList()
         configureDataSource()
         applySnapshot()
+    }
+}
+
+extension DiaryViewController: DiaryManagerDelegate {
+    func showErrorAlert(error: Error) {
+        //얼럿 띄우기
     }
 }
 

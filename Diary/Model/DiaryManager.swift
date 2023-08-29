@@ -7,20 +7,23 @@
 
 import UIKit
 
+protocol DiaryManagerDelegate {
+    func showErrorAlert(error: Error)
+}
+
 struct DiaryManager {
     private(set) var diaryList: [Diary] = []
+    var delegate: DiaryManagerDelegate?
     
-    mutating func updateDiary() -> Bool {
-        guard let dataAsset = NSDataAsset(name: "sample") else {
-            return false
+    mutating func fetchDiaryList() {
+        let dataManager = DataManager()
+        let assertDataManager = AssertDataManager()
+        
+        do {
+            let datas = try assertDataManager.fetchDiaryData()
+            diaryList = dataManager.diary(diaryList: datas)
+        } catch {
+            delegate?.showErrorAlert(error: error)
         }
-        
-        guard let diaryList = try? JSONDecoder().decode([Diary].self, from: dataAsset.data) else {
-            return false
-        }
-        
-        self.diaryList = diaryList
-        
-        return true
     }
 }
