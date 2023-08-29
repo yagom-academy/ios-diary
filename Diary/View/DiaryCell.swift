@@ -34,7 +34,6 @@ final class DiaryCell: UICollectionViewListCell {
         label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .left
         label.adjustsFontSizeToFitWidth = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -43,7 +42,6 @@ final class DiaryCell: UICollectionViewListCell {
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -53,7 +51,6 @@ final class DiaryCell: UICollectionViewListCell {
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         label.adjustsFontForContentSizeCategory = true
-        label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 
         return label
@@ -62,7 +59,6 @@ final class DiaryCell: UICollectionViewListCell {
     func configureCell(diary: Diary) {
         injectDataIntoLabelText(diary: diary)
         addSubviews()
-        layout()
     }
     
     private func injectDataIntoLabelText(diary: Diary) {
@@ -82,20 +78,13 @@ final class DiaryCell: UICollectionViewListCell {
         accessories = [.disclosureIndicator()]
     }
     
-    private func layout() {
+    override func layoutSubviews() {
+        super.layoutSubviews()
         NSLayoutConstraint.activate([
             cellStackView.topAnchor.constraint(equalTo: topAnchor),
             cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
-            titleLabel.leadingAnchor.constraint(equalTo: cellStackView.leadingAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: cellStackView.trailingAnchor),
-            
-            createdDateLabel.leadingAnchor.constraint(equalTo: contentStackView.leadingAnchor),
-            createdDateLabel.trailingAnchor.constraint(equalTo: contentLabel.leadingAnchor),
-            
-            contentLabel.trailingAnchor.constraint(equalTo: contentStackView.trailingAnchor)
+            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }
