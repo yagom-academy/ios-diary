@@ -34,7 +34,7 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.textAlignment = .left
-        label.font = .preferredFont(forTextStyle: .body)
+        label.font = UIFont.systemFont(ofSize: 12)
         
         return label
     }()
@@ -79,14 +79,14 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
     
     private func configureAutoLayout() {
         NSLayoutConstraint.activate([
-            titleLabelStackView.topAnchor.constraint(equalTo: contentView.topAnchor),
-            titleLabelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            titleLabelStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            titleLabelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             titleLabelStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             titleLabelStackView.bottomAnchor.constraint(equalTo: dateAndPreviewStackView.topAnchor, constant: -8),
             
-            dateAndPreviewStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            dateAndPreviewStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
             dateAndPreviewStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            dateAndPreviewStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
+            dateAndPreviewStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
     }
     

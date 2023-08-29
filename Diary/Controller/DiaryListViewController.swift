@@ -89,4 +89,15 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
         
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let diaryEntity = diaryEntity else {
+            return
+        }
+        
+        collectionView.deselectItem(at: indexPath, animated: true)
+        
+        let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(data: diaryEntity)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
 }
