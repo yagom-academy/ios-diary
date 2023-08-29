@@ -31,10 +31,21 @@ extension DiaryViewController: UITableViewDataSource, UITableViewDelegate {
 
 private extension DiaryViewController {
     func configure() {
+        configureRootView()
+        configureNavigation()
         configureTableView()
         configureCell()
         configureSubviews()
         configureConstraints()
+    }
+    
+    func configureRootView() {
+        view.backgroundColor = .systemBackground
+    }
+    
+    func configureNavigation() {
+        navigationItem.title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
     }
     
     func configureTableView() {
