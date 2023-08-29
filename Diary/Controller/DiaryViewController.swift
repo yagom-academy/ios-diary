@@ -14,6 +14,7 @@ final class DiaryViewController: UIViewController {
     
     init(diaryManager: DiaryManager) {
         self.diaryManager = diaryManager
+        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,6 +28,11 @@ final class DiaryViewController: UIViewController {
         setupComponents()
         configureUI()
         setupConstraint()
+        if diaryManager.updateDiary() {
+            print("성공")
+        }
+        configureDataSource()
+        applySnapshot()
     }
 }
 
@@ -78,7 +84,7 @@ extension DiaryViewController {
 extension DiaryViewController {
     private func configureDataSource() {
         let registration = UICollectionView.CellRegistration<DiaryCollectionViewListCell, Diary> { cell, indexPath, diary in
-            // 복잡한 데이터 구성 및 셀 디자인
+            cell.setupLabels(diary)
         }
 
         diaryDataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView) {
