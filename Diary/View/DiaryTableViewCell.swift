@@ -26,7 +26,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .title2)
+        label.font = UIFont.preferredFont(forTextStyle: .title3)
         
         return label
     }()
@@ -44,7 +44,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private let creationDateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .title3)
+        label.font = UIFont.preferredFont(forTextStyle: .body)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         return label
@@ -52,7 +52,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     private let bodyLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.preferredFont(forTextStyle: .body)
+        label.font = UIFont.preferredFont(forTextStyle: .footnote)
         
         return label
     }()
@@ -84,6 +84,7 @@ extension DiaryTableViewCell {
 extension DiaryTableViewCell {
     private func setupAccessory() {
         self.accessoryType = .disclosureIndicator
+        self.selectionStyle = .none
     }
 }
 
