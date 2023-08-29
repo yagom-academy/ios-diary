@@ -30,11 +30,19 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController {
     private func setupUIObject() {
         setupView()
+        setupNavigationItem()
         setupTableView()
     }
     
     private func setupView() {
         view.backgroundColor = .systemBackground
+    }
+    
+    private func setupNavigationItem() {
+        let plusButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: nil)
+        
+        navigationItem.title = "일기장"
+        navigationItem.rightBarButtonItem = plusButton
     }
     
     private func setupTableView() {
