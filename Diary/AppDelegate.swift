@@ -2,7 +2,7 @@
 //  Diary - AppDelegate.swift
 //  Created by yagom. 
 //  Copyright © yagom. All rights reserved.
-// 
+//  Last modified by Maxhyunm, Hamg.
 
 import UIKit
 import CoreData
