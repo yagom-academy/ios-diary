@@ -11,7 +11,10 @@ final class AppManager {
     private let navigationController: UINavigationController
     private let dateFormatter: DateFormatter = {
         let dateFormatter = DateFormatter()
+        let localeID = Locale.preferredLanguages.first ?? "kr_KR"
+        let deviceLocale = Locale(identifier: localeID).languageCode ?? "KST"
         
+        dateFormatter.locale = Locale(identifier: deviceLocale)
         dateFormatter.dateFormat = "yyyy년 MM월 dd일"
         return dateFormatter
     }()
