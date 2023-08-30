@@ -88,7 +88,7 @@ extension MainTableViewCell {
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
     }
     
