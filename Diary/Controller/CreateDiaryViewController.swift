@@ -19,7 +19,7 @@ final class CreateDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setUpNotification()
+        setupNotification()
     }
     
     private func configureUI() {
@@ -35,7 +35,7 @@ final class CreateDiaryViewController: UIViewController {
         ])
     }
     
-    private func setUpNotification() {
+    private func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
                                                name: UIResponder.keyboardWillShowNotification,

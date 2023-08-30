@@ -13,15 +13,15 @@ final class DiaryListViewController: UIViewController {
         
         return tableView
     }()
-    private var diaryEntity = [DiaryEntity]()
+    private var diaryEntities = [DiaryEntity]()
     private let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setUpData()
+        setupData()
         configureUI()
-        setUpTableView()
+        setupTableView()
     }
     
     private func configureUI() {
@@ -46,22 +46,22 @@ final class DiaryListViewController: UIViewController {
         ])
     }
     
-    private func setUpTableView() {
+    private func setupTableView() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(DiaryListTableViewCell.self, forCellReuseIdentifier: DiaryListTableViewCell.identifier)
     }
     
-    private func setUpData() {
+    private func setupData() {
         guard let loadDiaryEntity: [DiaryEntity] = DecodingManager.decodeJson(from: "sample") else { return }
         
-        diaryEntity = loadDiaryEntity
+        diaryEntities = loadDiaryEntity
     }
 }
 
 extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        diaryEntity.count
+        diaryEntities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -69,10 +69,10 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
                                                        for: indexPath) as?
                 DiaryListTableViewCell else { return UITableViewCell() }
         
-        let singleEntity = diaryEntity[indexPath.row]
-        let date = dateFormatter.formatToString(from: singleEntity.createdAt, with: "YYYY년 MM월 dd일")
+        let diaryEntity = diaryEntities[indexPath.row]
+        let date = dateFormatter.formatToString(from: diaryEntity.createdAt, with: "YYYY년 MM월 dd일")
         
-        cell.setModel(title: singleEntity.title, date: date, body: singleEntity.body)
+        cell.setModel(title: diaryEntity.title, date: date, body: diaryEntity.body)
         
         return cell
     }

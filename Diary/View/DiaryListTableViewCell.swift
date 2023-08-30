@@ -37,7 +37,7 @@ final class DiaryListTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setUpLabel()
+        setupLabel()
         configureUI()
     }
     
@@ -45,7 +45,7 @@ final class DiaryListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setUpLabel() {
+    private func setupLabel() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(bodyLabel)
