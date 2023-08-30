@@ -8,6 +8,7 @@
 import UIKit
 
 final class DiaryListTableViewCell: UITableViewCell {
+    static let identifier: String = "cell"
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false

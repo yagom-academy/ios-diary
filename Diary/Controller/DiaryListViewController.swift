@@ -48,7 +48,7 @@ final class DiaryListViewController: UIViewController {
     private func setUpTableView() {
         tableView.dataSource = self
         tableView.dataSource = self
-        tableView.register(DiaryListTableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(DiaryListTableViewCell.self, forCellReuseIdentifier: DiaryListTableViewCell.identifier)
     }
     
     private func setUpData() {
@@ -70,7 +70,8 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as?
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListTableViewCell.identifier,
+                                                       for: indexPath) as?
                 DiaryListTableViewCell else { return UITableViewCell() }
         
         let singleEntity = diaryEntity[indexPath.row]

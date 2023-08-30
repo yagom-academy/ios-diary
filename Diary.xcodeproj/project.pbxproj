@@ -69,6 +69,49 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		63E5273C2A9ECD5A0000FBA6 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE24284DF28600741E8F /* AppDelegate.swift */,
+				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		63E5273D2A9ECD660000FBA6 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				BA1A55EA2A9D84AF0012C89D /* DiaryEntity.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		63E5273E2A9ECD800000FBA6 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				BA1A55EC2A9D90810012C89D /* DateFormatter+.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		63E5273F2A9ECDA90000FBA6 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
+				63E527382A9D97160000FBA6 /* CreateDiaryViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		63E527402A9ECDB70000FBA6 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
+				63E527362A9D87660000FBA6 /* DiaryListTableViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
@@ -91,17 +134,14 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				C739AE24284DF28600741E8F /* AppDelegate.swift */,
-				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
-				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
-				63E527362A9D87660000FBA6 /* DiaryListTableViewCell.swift */,
-				63E527382A9D97160000FBA6 /* CreateDiaryViewController.swift */,
+				63E5273E2A9ECD800000FBA6 /* Extension */,
+				63E5273D2A9ECD660000FBA6 /* Model */,
+				63E5273F2A9ECDA90000FBA6 /* Controller */,
+				63E527402A9ECDB70000FBA6 /* View */,
+				63E5273C2A9ECD5A0000FBA6 /* App */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-				BA1A55EA2A9D84AF0012C89D /* DiaryEntity.swift */,
-				BA1A55EC2A9D90810012C89D /* DateFormatter+.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
