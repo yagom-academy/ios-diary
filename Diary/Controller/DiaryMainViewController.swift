@@ -14,6 +14,8 @@ class DiaryMainViewController: UIViewController {
         return tableView
     }()
 
+    private var diarylist: [Diary]?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -26,10 +28,30 @@ class DiaryMainViewController: UIViewController {
         
         addSubViews()
         diaryTableViewConstraints()
+        
+        do {
+            try decodeDiary()
+        } catch {
+            print(error.localizedDescription)
+        }
     }
     
     @objc private func didTapAddDiaryButton() {
         print("didTapAddDiaryButton")
+    }
+    
+    private func decodeDiary() throws {
+        let decoder = JSONDecoder()
+        
+        guard let dataAsset = NSDataAsset(name: "sample") else {
+            throw DecodeError.assetNotFound
+        }
+        
+        guard let decodedData = try? decoder.decode([Diary].self, from: dataAsset.data) else {
+            throw DecodeError.failed
+        }
+        
+        diarylist = decodedData
     }
 }
 
