@@ -53,9 +53,17 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupData() {
-        guard let loadDiaryEntity: [DiaryEntity] = DecodingManager.decodeJson(from: "sample") else { return }
+        do {
+            let loadDiaryEntity: [DiaryEntity] = try DecodingManager.decodeJson(from: "sample")
+            diaryEntities = loadDiaryEntity
+        } catch DecodingError.fileNotFound {
+            print(DecodingError.fileNotFound.message)
+        } catch DecodingError.decodingFailure {
+            print(DecodingError.decodingFailure.message)
+        } catch {
+            print(DecodingError.unknown.message)
+        }
         
-        diaryEntities = loadDiaryEntity
     }
 }
 
