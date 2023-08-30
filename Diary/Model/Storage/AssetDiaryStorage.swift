@@ -11,8 +11,12 @@ final class AssetDiaryStorage: DiaryStorageProtocol {
     
     func diaryEntrys() -> [DiaryEntry] {
         guard let asset = NSDataAsset(name: "sample"),
-              let diaryEntrys = try? JSONDecoder().decode([DiaryEntry].self, from: asset.data) else {
+              let diarys = try? JSONDecoder().decode([Diary].self, from: asset.data) else {
             return []
+        }
+        
+        let diaryEntrys = diarys.map {
+            $0.diaryEntry()
         }
         
         return diaryEntrys

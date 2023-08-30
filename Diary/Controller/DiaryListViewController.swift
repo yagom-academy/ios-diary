@@ -18,6 +18,22 @@ final class DiaryListViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var dataSource: UITableViewDiffableDataSource = {        
+        let dataSource = UITableViewDiffableDataSource<Section, DiaryEntry>(tableView: tableView, cellProvider: { tableView, indexPath, item in
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
+                return UITableViewCell()
+            }
+            
+            let creationDate = DateFormatManager.string(localeDateFormatter: UserDateFormatter(), timestamp: item.creationDate)
+            
+            cell.setupContent(title: item.title, creationDate: creationDate, body: item.body)
+            
+            return cell
+        })
+        
+        return dataSource
+    }()
+    
     // MARK: - Life Cycle
     init(diaryStore: AssetDiaryStorage) {
         self.diaryStore = diaryStore
@@ -33,8 +49,19 @@ final class DiaryListViewController: UIViewController {
         super.viewDidLoad()
         
         setupUIObject()
+        setupContentTableView()
         configureUI()
         setupConstraints()
+    }
+}
+
+// MARK: Setup Data
+extension DiaryListViewController {
+    private func setupContentTableView() {
+        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryEntry>()
+        snapshot.appendSections([.main])
+        snapshot.appendItems(diaryStore.diaryEntrys())
+        dataSource.apply(snapshot)
     }
 }
 
@@ -58,30 +85,9 @@ extension DiaryListViewController {
     }
     
     private func setupTableView() {
-        tableView.dataSource = self
+        tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
-    }
-}
-
-// MARK: - TableView DataSource
-extension DiaryListViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryStore.diaryEntrys().count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
-            return UITableViewCell()
-        }
-        
-        let diaryEntrys = diaryStore.diaryEntrys()
-        let diaryEntry = diaryEntrys[indexPath.row]
-        let creationDate = DateFormatManager.string(localeDateFormatter: UserDateFormatter(), timestamp: diaryEntry.creationDate)
-        
-        cell.setupContent(title: diaryEntry.title, creationDate: creationDate, body: diaryEntry.body)
-        
-        return cell
     }
 }
 
@@ -116,6 +122,13 @@ extension DiaryListViewController {
             tableView.topAnchor.constraint(equalTo: safeArea.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+}
+
+// MARK: - TableView Section
+extension DiaryListViewController {
+    private enum Section {
+        case main
     }
 }
 
