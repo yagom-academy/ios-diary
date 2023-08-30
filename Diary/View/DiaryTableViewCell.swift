@@ -52,7 +52,7 @@ class DiaryTableViewCell: UITableViewCell {
     }
     
     private func attributedDateAndPreview(data: Diary, font: UIFont) -> NSMutableAttributedString {
-        let text = "\(data.createdAt) \(data.body)"
+        let text = "\(formatCreatedAt(data.createdAt)) \(data.body)"
         let attributedString = NSMutableAttributedString(string: text)
         let attributes = [
             NSAttributedString.Key.font: font as Any,
@@ -62,6 +62,11 @@ class DiaryTableViewCell: UITableViewCell {
         attributedString.addAttributes(attributes, range: (text as NSString).range(of: data.body))
         
         return attributedString
+    }
+    
+    private func formatCreatedAt(_ date: Int) -> String {
+        
+        return DateFormatter.shared.fetchDate(date, Locale.current.identifier)
     }
 }
 
@@ -82,5 +87,4 @@ extension DiaryTableViewCell {
             contentStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -10)
         ])
     }
-    
 }
