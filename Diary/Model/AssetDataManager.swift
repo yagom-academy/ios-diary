@@ -1,5 +1,5 @@
 //
-//  AssertDataManager.swift
+//  AssetDataManager.swift
 //  Diary
 //
 //  Created by Dasan, kyungmin on 2023/08/29.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct AssertDataManager {
+struct AssetDataManager {
     func fetchDiaryData() throws -> [DiaryData] {
         guard let dataAsset = NSDataAsset(name: "sample") else {
             throw DataError.notFoundAsset

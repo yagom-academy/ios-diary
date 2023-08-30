@@ -10,7 +10,7 @@
 		AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38912A9DDA520022FB70 /* Diary.swift */; };
 		AC8C38942A9DDAAF0022FB70 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38932A9DDAAF0022FB70 /* DataManager.swift */; };
 		AC8C38972A9E16E50022FB70 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38962A9E16E50022FB70 /* DataError.swift */; };
-		AC8C38992A9E177F0022FB70 /* AssertDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38982A9E177F0022FB70 /* AssertDataManager.swift */; };
+		AC8C38992A9E177F0022FB70 /* AssetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38982A9E177F0022FB70 /* AssetDataManager.swift */; };
 		AC938AA42A9CC94D00627F8E /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC938AA32A9CC94D00627F8E /* DiaryData.swift */; };
 		AC938AA62A9CCC7200627F8E /* DiaryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC938AA52A9CCC7200627F8E /* DiaryManager.swift */; };
 		AC938AA82A9CCFA100627F8E /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC938AA72A9CCFA100627F8E /* DiaryViewController.swift */; };
@@ -27,7 +27,7 @@
 		AC8C38912A9DDA520022FB70 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		AC8C38932A9DDAAF0022FB70 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		AC8C38962A9E16E50022FB70 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
-		AC8C38982A9E177F0022FB70 /* AssertDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertDataManager.swift; sourceTree = "<group>"; };
+		AC8C38982A9E177F0022FB70 /* AssetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDataManager.swift; sourceTree = "<group>"; };
 		AC938AA32A9CC94D00627F8E /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
 		AC938AA52A9CCC7200627F8E /* DiaryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManager.swift; sourceTree = "<group>"; };
 		AC938AA72A9CCFA100627F8E /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
@@ -74,7 +74,7 @@
 			children = (
 				AC8C38902A9DD4680022FB70 /* DTO */,
 				AC8C38912A9DDA520022FB70 /* Diary.swift */,
-				AC8C38982A9E177F0022FB70 /* AssertDataManager.swift */,
+				AC8C38982A9E177F0022FB70 /* AssetDataManager.swift */,
 				AC8C38932A9DDAAF0022FB70 /* DataManager.swift */,
 				AC938AA52A9CCC7200627F8E /* DiaryManager.swift */,
 			);
@@ -234,7 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AC8C38972A9E16E50022FB70 /* DataError.swift in Sources */,
-				AC8C38992A9E177F0022FB70 /* AssertDataManager.swift in Sources */,
+				AC8C38992A9E177F0022FB70 /* AssetDataManager.swift in Sources */,
 				AC938AA42A9CC94D00627F8E /* DiaryData.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				CD2D454F2A9CDCC0002F9633 /* DiaryCollectionViewListCell.swift in Sources */,
