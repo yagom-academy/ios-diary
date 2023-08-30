@@ -18,6 +18,7 @@
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		DC3EA1662A9CAE8400986F72 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DC3EA1652A9CAE8400986F72 /* .swiftlint.yml */; };
+		DC5B191F2A9ED2D90064550A /* NewDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5B191E2A9ED2D90064550A /* NewDiaryViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DC3EA1652A9CAE8400986F72 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		DC5B191E2A9ED2D90064550A /* NewDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDiaryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,6 +64,7 @@
 			children = (
 				C739AE28284DF28600741E8F /* DiaryListViewController.swift */,
 				3BBC98952A9DC5330047DE81 /* DiaryDetailViewController.swift */,
+				DC5B191E2A9ED2D90064550A /* NewDiaryViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -223,6 +226,7 @@
 				3BBC98992A9E449E0047DE81 /* DateFormatter+.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				3BBC98902A9D73D70047DE81 /* DiaryCollectionViewListCell.swift in Sources */,
+				DC5B191F2A9ED2D90064550A /* NewDiaryViewController.swift in Sources */,
 				3BBC98942A9D89D20047DE81 /* DiaryEntity.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

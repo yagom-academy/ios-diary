@@ -10,7 +10,6 @@ import UIKit
 final class DiaryCollectionViewListCell: UICollectionViewListCell {
     static let identifier: String = "DiaryCollectionViewListCell"
     
-    
     private let titleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -69,7 +68,6 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
     
     private func configureUI() {
         titleLabelStackView.addArrangedSubview(titleLabel)
-//        titleLabelStackView.addArrangedSubview(dateAndPreviewStackView)
         dateAndPreviewStackView.addArrangedSubview(dateLabel)
         dateAndPreviewStackView.addArrangedSubview(previewLabel)
         contentView.addSubview(titleLabelStackView)

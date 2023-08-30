@@ -57,13 +57,15 @@ final class DiaryListViewController: UIViewController {
     private func configureNavigation() {
         navigationItem.title = "일기장"
         
-        let addDiary: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(abc))
+        let addDiary: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(createNewDiary))
         self.navigationItem.rightBarButtonItem = addDiary
 
     }
     
-    @objc private func abc() {
+    @objc private func createNewDiary() {
+        let newDiaryViewController: NewDiaryViewController = NewDiaryViewController()
         
+        navigationController?.pushViewController(newDiaryViewController, animated: true)
     }
 }
 
