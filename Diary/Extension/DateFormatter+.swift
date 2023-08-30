@@ -8,6 +8,8 @@
 import Foundation
 
 extension DateFormatter {
+    static let shared: DateFormatter = DateFormatter()
+    
     func convertDate(_ date: Date, _ locale: String) -> String {
         self.locale = Locale(identifier: locale)
         let region = String(locale.suffix(2))
@@ -17,6 +19,15 @@ extension DateFormatter {
         
         return self.string(from: date)
     }
+    
+    func fetchDate(_ createdAt: Int, _ locale: String) -> String {
+        let timeInterval = TimeInterval(createdAt)
+        let date = Date(timeIntervalSince1970: timeInterval)
+        
+        return self.convertDate(date, locale)
+    }
+    
+    
 }
 extension DateFormatter {
     enum Region: String {
