@@ -46,8 +46,8 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupUIObject()
         setupContentTableView()
+        setupUIObject()
         configureUI()
         setupConstraints()
     }
@@ -60,6 +60,15 @@ extension DiaryListViewController {
         snapshot.appendSections([.main])
         snapshot.appendItems(diaryStore.diaryEntrys())
         dataSource.apply(snapshot)
+    }
+}
+
+// MARK: - Push ViewController
+extension DiaryListViewController {
+    @objc private func pushDiaryViewController() {
+        let diaryViewController = DiaryViewController(diaryStore: diaryStore, diaryEntry: nil)
+        
+        navigationController?.pushViewController(diaryViewController, animated: true)
     }
 }
 
@@ -76,7 +85,7 @@ extension DiaryListViewController {
     }
     
     private func setupNavigationItem() {
-        let plusButton = UIBarButtonItem(image: UIImage(systemName: NameSpace.plus), style: .plain, target: self, action: nil)
+        let plusButton = UIBarButtonItem(image: UIImage(systemName: NameSpace.plus), style: .plain, target: self, action: #selector(pushDiaryViewController))
         
         navigationItem.title = NameSpace.diary
         navigationItem.rightBarButtonItem = plusButton
@@ -91,7 +100,12 @@ extension DiaryListViewController {
 
 // MARK: - TableView Delegate
 extension DiaryListViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diaryEntry = diaryStore.diaryEntrys()[indexPath.row]
+        let diaryViewController = DiaryViewController(diaryStore: diaryStore, diaryEntry: diaryEntry)
+        
+        navigationController?.pushViewController(diaryViewController, animated: true)
+    }
 }
 
 // MARK: - Configure UI
