@@ -43,8 +43,11 @@ extension DiaryViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
+        let date = Date(timeIntervalSince1970: diaryModel[indexPath.row].date)
+        let formattedDate = DateFormatter.diaryFormatter.string(from: date)
+        
         cell.configureCell(title: diaryModel[indexPath.row].title,
-                           date: String(diaryModel[indexPath.row].date),
+                           date: formattedDate,
                            preview: diaryModel[indexPath.row].body)
         
         return cell
