@@ -17,6 +17,7 @@ final class DiaryViewController: UIViewController {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.addObserveKeyboardNotification()
         
         return textView
     }()
