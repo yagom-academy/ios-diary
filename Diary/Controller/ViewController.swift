@@ -77,7 +77,8 @@ final class ViewController: UIViewController {
     }
     
     @objc private func add() {
-        print("add")
+        let diaryViewController = DiaryViewController()
+        self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
 }
