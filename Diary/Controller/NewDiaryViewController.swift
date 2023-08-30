@@ -57,11 +57,11 @@ final class NewDiaryViewController: UIViewController {
         keyboardFrame = view.convert(keyboardFrame, from: nil)
         contentInset.bottom = keyboardFrame.size.height
         textView.contentInset = contentInset
-        textView.scrollIndicatorInsets = textView.contentInset
+        textView.verticalScrollIndicatorInsets = textView.contentInset
     }
     
     @objc private func keyboardWillHide() {
         textView.contentInset = UIEdgeInsets.zero
-        textView.scrollIndicatorInsets = textView.contentInset
+        textView.verticalScrollIndicatorInsets = textView.contentInset
     }
 }
