@@ -15,7 +15,9 @@ class DetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         initTitleTextView()
-        initbodyTextView()
+        initBodyTextView()
+        configureNavigationTitle()
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -29,11 +31,22 @@ class DetailViewController: UIViewController {
         titleTextView.delegate = self
     }
     
-    private func initbodyTextView() {
+    private func initBodyTextView() {
         bodyTextView.text = placeHolderText
         bodyTextView.textColor = .lightGray
         bodyTextView.layer.borderWidth = 1
         bodyTextView.delegate = self
+    }
+    
+    private func configureNavigationTitle() {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ko_KR")
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        
+        let today = Date()
+        let formattedTodayDate = dateFormatter.string(from: today)
+        
+        self.navigationItem.title = formattedTodayDate
     }
 }
 
