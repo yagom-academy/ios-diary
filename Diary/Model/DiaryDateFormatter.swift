@@ -1,5 +1,5 @@
 //
-//  DateFormatter+.swift
+//  DiaryDateFormatter.swift
 //  Diary
 //
 //  Created by Kobe, Moon on 2023/08/29.
@@ -7,30 +7,31 @@
 
 import Foundation
 
-extension DateFormatter {
-    static let shared: DateFormatter = DateFormatter()
+final class DiaryDateFormatter {
+    static private let formatter: DateFormatter = DateFormatter()
     
-    func convertDate(_ date: Date, _ locale: String) -> String {
-        self.locale = Locale(identifier: locale)
+    private init() {}
+    
+    static func convertDate(_ date: Date, _ locale: String) -> String {
+        formatter.locale = Locale(identifier: locale)
         let region = String(locale.suffix(2))
         let localeID = Region(region: region)
         let dateFormat = localeID.dateFormat
-        self.dateFormat = dateFormat
+        formatter.dateFormat = dateFormat
         
-        return self.string(from: date)
+        return formatter.string(from: date)
     }
     
-    func fetchDate(_ createdAt: Int, _ locale: String) -> String {
+    static func fetchDate(_ createdAt: Int, _ locale: String) -> String {
         let timeInterval = TimeInterval(createdAt)
         let date = Date(timeIntervalSince1970: timeInterval)
         
         return self.convertDate(date, locale)
     }
-    
-    
 }
-extension DateFormatter {
-    enum Region: String {
+
+extension DiaryDateFormatter {
+    private enum Region: String {
         case korea = "KR"
         case usa = "US"
         case japan = "JP"
