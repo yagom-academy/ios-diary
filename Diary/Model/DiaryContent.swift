@@ -5,7 +5,7 @@
 //  Created by Mary & Whales on 8/30/23.
 //
 
-struct DiaryContent: Codable {
+struct DiaryContent: Decodable {
     var title: String
     var body: String
     var timeInterval: Double
