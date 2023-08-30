@@ -11,9 +11,9 @@ struct DiaryEntry: Hashable {
     let id: UUID
     let title: String
     let body: String
-    let creationDate: Int
+    let creationDate: String
     
-    init(title: String, body: String, creationDate: Int) {
+    init(title: String, body: String, creationDate: String) {
         self.id = UUID()
         self.title = title
         self.body = body

@@ -24,9 +24,7 @@ final class DiaryListViewController: UIViewController {
                 return UITableViewCell()
             }
             
-            let creationDate = DateFormatManager.string(localeDateFormatter: UserDateFormatter(), timestamp: item.creationDate)
-            
-            cell.setupContent(title: item.title, creationDate: creationDate, body: item.body)
+            cell.setupContent(title: item.title, creationDate: item.creationDate, body: item.body)
             
             return cell
         })
