@@ -9,6 +9,7 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController {
     private var diaryEntity: DiaryEntity?
+    
     private lazy var textView: UITextView = {
         let view: UITextView = UITextView()
         view.text = diaryEntity!.title + "\n\n" + diaryEntity!.body
@@ -22,6 +23,7 @@ final class DiaryDetailViewController: UIViewController {
         configureNavigation()
         configureUI()
         configureAutoLayout()
+        setUpKeyboardEvent()
     }
     
     init(data: DiaryEntity) {
@@ -34,7 +36,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        navigationItem.title = "네이게이션타이틀"
+        navigationItem.title = DateFormatter().formatDate(diaryEntity!)
     }
     
     private func configureUI() {
@@ -50,5 +52,27 @@ final class DiaryDetailViewController: UIViewController {
             textView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
             textView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
+    }
+    
+    private func setUpKeyboardEvent() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as NSDictionary?,
+              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
+        var contentInset = textView.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        textView.contentInset = contentInset
+        textView.scrollIndicatorInsets = textView.contentInset
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        textView.contentInset = UIEdgeInsets.zero
+        textView.scrollIndicatorInsets = textView.contentInset
     }
 }

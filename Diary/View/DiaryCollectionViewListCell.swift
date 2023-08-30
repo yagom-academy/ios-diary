@@ -10,6 +10,7 @@ import UIKit
 final class DiaryCollectionViewListCell: UICollectionViewListCell {
     static let identifier: String = "DiaryCollectionViewListCell"
     
+    
     private let titleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -91,18 +92,8 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
     }
     
     func configureLabel(_ data: DiaryEntity) {
-        let dateFormatter: DateFormatter = {
-            let dateFormatter: DateFormatter = DateFormatter()
-            dateFormatter.locale = Locale(identifier: "ko_KR")
-            dateFormatter.timeZone = TimeZone(abbreviation: "KST")
-            dateFormatter.dateStyle = .long
-            
-            return dateFormatter
-        }()
-        let date: Date = Date(timeIntervalSince1970: TimeInterval(data.createdAt))
-        
         titleLabel.text = data.title
-        dateLabel.text = dateFormatter.string(from: date)
+        dateLabel.text = DateFormatter().formatDate(data)
         previewLabel.text = data.body
     }
 }
