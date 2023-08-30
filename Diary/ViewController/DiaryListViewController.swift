@@ -40,7 +40,15 @@ final class DiaryListViewController: UIViewController {
     }
     private func configureNavigation() {
         navigationItem.title = "일기장"
-        navigationItem.rightBarButtonItem = .init(systemItem: .add)
+        let action = UIAction { _ in
+            self.addDiary()
+        }
+        let barButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: action)
+        navigationItem.rightBarButtonItem = barButtonItem
+    }
+    private func addDiary() {
+        let diaryViewController = DiaryViewController()
+        navigationController?.pushViewController(diaryViewController, animated: true)
     }
     private func configureBackgroundColor() {
         view.backgroundColor = .systemBackground
