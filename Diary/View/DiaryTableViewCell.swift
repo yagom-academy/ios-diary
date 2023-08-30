@@ -19,7 +19,6 @@ final class DiaryTableViewCell: UITableViewCell {
     private let descriptionStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fill
         stackView.spacing = 8
         return stackView
