@@ -8,6 +8,7 @@
 import UIKit
 
 final class MainTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "MainTableViewCell"
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         
@@ -36,6 +37,7 @@ final class MainTableViewCell: UITableViewCell {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 13)
+        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
     }()
     
@@ -43,6 +45,7 @@ final class MainTableViewCell: UITableViewCell {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 10)
+        label.setContentHuggingPriority(.init(1), for: .horizontal)
         return label
     }()
     
@@ -59,6 +62,15 @@ final class MainTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func setUpContents(title: String, date: String, body: String) {
+        titleLabel.text = title
+        dateLabel.text = date
+        previewLabel.text = body
+    }
+}
+
+// MARK: - Private
+extension MainTableViewCell {
     private func configureUI() {
         [dateLabel, previewLabel].forEach {
             contentsStackView.addArrangedSubview($0)
