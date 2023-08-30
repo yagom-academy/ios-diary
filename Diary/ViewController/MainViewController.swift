@@ -20,6 +20,9 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func tapAddButton(_ sender: Any) {
+        guard let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") else { return }
+        
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
     
     private func registerNib() {
