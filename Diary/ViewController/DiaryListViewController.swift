@@ -75,7 +75,7 @@ extension DiaryListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let diary = diaryList[indexPath.row]
-        cell.configureCell(diary)
+        cell.configureContents(diary: diary)
         cell.accessoryType = .disclosureIndicator
         return cell
     }
