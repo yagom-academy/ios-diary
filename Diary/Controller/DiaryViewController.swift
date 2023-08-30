@@ -24,14 +24,12 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        diaryManager.delegate = self
         
-        loadData()
-        setupComponents()
+        setupObject()
         configureUI()
         setupConstraint()
         configureDataSource()
-        applySnapshot()
+        loadData()
     }
 }
 
@@ -45,20 +43,25 @@ extension DiaryViewController: DiaryManagerDelegate {
 extension DiaryViewController {
     private func loadData() {
         diaryManager.fetchDiaryList()
+        applySnapshot()
     }
 }
 
 // MARK: Button Action
 extension DiaryViewController {
-    @objc private func didTapSelectPlusButton() {}
+    @objc private func didTapSelectPlusButton() {
+        let diaryDetailViewController = DiaryDetailViewController()
+        show(diaryDetailViewController, sender: self)
+    }
 }
 
-// MARK: Setup Components
+// MARK: Setup Object
 extension DiaryViewController {
-    private func setupComponents() {
+    private func setupObject() {
         setupView()
         setupCollectionView()
         setupNavigationBar()
+        setupDiaryManager()
     }
     
     private func setupView() {
@@ -68,6 +71,7 @@ extension DiaryViewController {
     private func setupCollectionView() {
         collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.delegate = self
     }
     
     private func setupNavigationBar() {
@@ -75,6 +79,10 @@ extension DiaryViewController {
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = selectDateButton
         navigationController?.setToolbarHidden(false, animated: false)
+    }
+    
+    private func setupDiaryManager() {
+        diaryManager.delegate = self
     }
 }
 
@@ -102,6 +110,14 @@ extension DiaryViewController {
             collectionView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             collectionView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor)
         ])
+    }
+}
+
+// MARK: CollectionView Delegate
+extension DiaryViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let diaryDetailViewController = DiaryDetailViewController()
+        show(diaryDetailViewController, sender: self)
     }
 }
 
