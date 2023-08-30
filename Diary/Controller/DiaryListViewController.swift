@@ -55,7 +55,7 @@ final class DiaryListViewController: UIViewController {
     }
 }
 
-// MARK: Setup Data
+// MARK: - Setup Data
 extension DiaryListViewController {
     private func setupContentTableView() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryEntry>()

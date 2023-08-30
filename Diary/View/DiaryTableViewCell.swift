@@ -71,7 +71,7 @@ final class DiaryTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: Setup Data
+// MARK: - Setup Data
 extension DiaryTableViewCell {
     func setupContent(title: String, creationDate: String, body: String) {
         titleLabel.text = title
