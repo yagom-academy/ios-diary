@@ -10,8 +10,8 @@ final class MainViewController: UIViewController {
     enum Section {
         case main
     }
-    private var dairySamples: [DairySample] = []
-    private var diffableDatasource: UITableViewDiffableDataSource<Section, DairySample>?
+    private var dairySamples: [DiaryContent]
+    private var diffableDatasource: UITableViewDiffableDataSource<Section, DiaryContent>?
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -21,6 +21,16 @@ final class MainViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    init(dairySamples: [DiaryContent]) {
+        self.dairySamples = dairySamples
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +47,7 @@ final class MainViewController: UIViewController {
     private func configureUI() {
         view.addSubview(tableView)
     }
-    
+        
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
@@ -56,7 +66,7 @@ final class MainViewController: UIViewController {
     private func decodeDairySample(filename: String) {
         let jsonDecoder = JSONDecoder()
         guard let asset = NSDataAsset(name: filename) else { return }
-        guard let data = try? jsonDecoder.decode([DairySample].self, from: asset.data) else { return }
+        guard let data = try? jsonDecoder.decode([DiaryContent].self, from: asset.data) else { return }
         
         dairySamples = data
     }
@@ -83,7 +93,7 @@ extension MainViewController {
     }
     
     private func setUpTableViewDiffableDataSourceSnapShot() {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, DairySample>()
+        var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryContent>()
         
         snapShot.appendSections([.main])
         snapShot.appendItems(dairySamples)

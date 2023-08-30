@@ -1,5 +1,5 @@
 //
-//  DairySample.swift
+//  DiaryContent.swift
 //  Diary
 //
 //  Created by Zion, Serena on 2023/08/30.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct DairySample: Decodable, Hashable {
+struct DiaryContent: Decodable, Hashable {
     private let id: UUID = UUID()
     let title: String
     let body: String

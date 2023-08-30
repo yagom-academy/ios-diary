@@ -14,8 +14,9 @@
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
-		D2C1FBEF2A9F058000526DA5 /* DairySample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBEE2A9F058000526DA5 /* DairySample.swift */; };
+		D2C1FBEF2A9F058000526DA5 /* DiaryContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBEE2A9F058000526DA5 /* DiaryContent.swift */; };
 		D2C1FBF32A9F0A0900526DA5 /* AddDairyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBF22A9F0A0900526DA5 /* AddDairyViewController.swift */; };
+		D2C1FBF62A9F1EC100526DA5 /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,8 +29,9 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D2C1FBEE2A9F058000526DA5 /* DairySample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DairySample.swift; sourceTree = "<group>"; };
+		D2C1FBEE2A9F058000526DA5 /* DiaryContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContent.swift; sourceTree = "<group>"; };
 		D2C1FBF22A9F0A0900526DA5 /* AddDairyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDairyViewController.swift; sourceTree = "<group>"; };
+		D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,7 +76,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
-				D2C1FBEE2A9F058000526DA5 /* DairySample.swift */,
+				D2C1FBEE2A9F058000526DA5 /* DiaryContent.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -111,9 +113,18 @@
 				5BBC44362A9F025500C528DD /* Model */,
 				5BBC44352A9F025000C528DD /* View */,
 				5BBC44342A9F024B00C528DD /* Controller */,
+				D2C1FBF42A9F1EA400526DA5 /* Manager */,
 				5BBC44332A9F024500C528DD /* App */,
 			);
 			path = Diary;
+			sourceTree = "<group>";
+		};
+		D2C1FBF42A9F1EA400526DA5 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -190,9 +201,10 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				D2C1FBF32A9F0A0900526DA5 /* AddDairyViewController.swift in Sources */,
-				D2C1FBEF2A9F058000526DA5 /* DairySample.swift in Sources */,
+				D2C1FBEF2A9F058000526DA5 /* DiaryContent.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				5BBC44392A9F036000C528DD /* MainTableViewCell.swift in Sources */,
+				D2C1FBF62A9F1EC100526DA5 /* AppManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
