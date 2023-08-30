@@ -42,30 +42,30 @@ final class DiaryListTableViewCell: UITableViewCell {
     }
     
     private func setUpLabel() {
-        addSubview(titleLabel)
-        addSubview(dateLabel)
-        addSubview(bodyLabel)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(dateLabel)
+        contentView.addSubview(bodyLabel)
     }
     
     private func configureUI() {
         accessoryType = .disclosureIndicator
         
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 5),
-            titleLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -40)
+            titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40)
         ])
         
         NSLayoutConstraint.activate([
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            dateLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 20),
-            dateLabel.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -5)
+            dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
         
         NSLayoutConstraint.activate([
             bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             bodyLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 4),
-            bodyLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -40),
+            bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
             bodyLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor)
         ])
     }
