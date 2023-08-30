@@ -27,6 +27,14 @@ final class AppManager {
         mainViewController.delegate = self
         navigationController.viewControllers = [mainViewController]
     }
+    
+    private func decodeDairySample(fileName: String) -> [DiaryContent]? {
+        let jsonDecoder = JSONDecoder()
+        guard let asset = NSDataAsset(name: fileName) else { return nil }
+        guard let data = try? jsonDecoder.decode([DiaryContent].self, from: asset.data) else { return nil }
+        
+        return data
+    }
 }
 
 // MARK: - MainViewControllerDelegate
@@ -39,16 +47,5 @@ extension AppManager: MainViewControllerDelegate {
                                                             diaryDescription: diarySample.description)
         
         navigationController.pushViewController(addDiaryViewController, animated: true)
-    }
-}
-
-// MARK: - Private
-extension AppManager {
-    private func decodeDairySample(fileName: String) -> [DiaryContent]? {
-        let jsonDecoder = JSONDecoder()
-        guard let asset = NSDataAsset(name: fileName) else { return nil }
-        guard let data = try? jsonDecoder.decode([DiaryContent].self, from: asset.data) else { return nil }
-        
-        return data
     }
 }
