@@ -15,6 +15,7 @@ final class AppManager {
         let deviceLocale = Locale(identifier: localeID).languageCode ?? "KST"
         
         dateFormatter.locale = Locale(identifier: deviceLocale)
+        dateFormatter.timeZone = TimeZone.current
         dateFormatter.dateFormat = "yyyy년 MM월 dd일"
         return dateFormatter
     }()
