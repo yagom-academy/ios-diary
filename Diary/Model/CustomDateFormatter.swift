@@ -1,19 +1,19 @@
 //
-//  DateFormatterManager.swift
+//  CustomDateFormatter.swift
 //  Diary
 //
-//  Created by 박종화 on 2023/08/30.
+//  Created by yyss99, Jusbug on 2023/08/30.
 //
 
 import Foundation
 
 struct CustomDateFormatter {
     static let customDateFormatter: DateFormatter = {
-        let todayDateFormatter = DateFormatter()
-        todayDateFormatter.locale = Locale(identifier: "koKR")
-        todayDateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        let customDateFormatter = DateFormatter()
+        customDateFormatter.locale = Locale(identifier: "koKR")
+        customDateFormatter.dateFormat = "yyyy년 MM월 dd일"
 
-        return todayDateFormatter
+        return customDateFormatter
     }()
 
     static func formatTodayDate() -> String {
