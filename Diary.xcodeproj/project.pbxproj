@@ -20,6 +20,7 @@
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
 		CD2D454F2A9CDCC0002F9633 /* DiaryCollectionViewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD2D454E2A9CDCC0002F9633 /* DiaryCollectionViewListCell.swift */; };
+		CD5788522A9EC9F200309679 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD5788512A9EC9F200309679 /* DiaryDetailViewController.swift */; };
 		CDC4247C2A9E28C2007BB488 /* DateFomatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC4247B2A9E28C2007BB488 /* DateFomatter+.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CD2D454E2A9CDCC0002F9633 /* DiaryCollectionViewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCollectionViewListCell.swift; sourceTree = "<group>"; };
+		CD5788512A9EC9F200309679 /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		CDC4247B2A9E28C2007BB488 /* DateFomatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFomatter+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +145,7 @@
 			isa = PBXGroup;
 			children = (
 				AC938AA72A9CCFA100627F8E /* DiaryViewController.swift */,
+				CD5788512A9EC9F200309679 /* DiaryDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -243,6 +246,7 @@
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				AC938AA62A9CCC7200627F8E /* DiaryManager.swift in Sources */,
 				CDC4247C2A9E28C2007BB488 /* DateFomatter+.swift in Sources */,
+				CD5788522A9EC9F200309679 /* DiaryDetailViewController.swift in Sources */,
 				AC8C38942A9DDAAF0022FB70 /* DataManager.swift in Sources */,
 				AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */,
 			);
