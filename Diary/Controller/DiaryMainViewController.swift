@@ -74,14 +74,23 @@ extension DiaryMainViewController {
 
 extension DiaryMainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let diarylist else {
+            return .zero
+        }
         
-        return 5
+        return diarylist.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
             return UITableViewCell()
         }
+        
+        guard let diarylist else {
+            return UITableViewCell()
+        }
+        
+        cell.fetchData(diarylist[indexPath.row])
         
         return cell
     }

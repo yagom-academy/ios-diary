@@ -47,6 +47,30 @@ class DiaryTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func fetchData(_ data: Diary) {
+        diaryTitle.text = data.title
+        dateAndPreview.attributedText = attributedDateAndPreview(data: data)
+    }
+    
+    private func convertAttributedString(text: String, font: UIFont.TextStyle) -> NSAttributedString {
+        let attributes = [NSAttributedString.Key.font: font as Any] as [NSAttributedString.Key : Any]
+        let attributedString = NSAttributedString(string: text, attributes: attributes)
+        
+        return attributedString
+    }
+    
+    private func attributedDateAndPreview(data: Diary) -> NSMutableAttributedString {
+        let createdAt = convertAttributedString(text: String(data.createdAt), font: .body)
+        let textBody = convertAttributedString(text: String(data.body), font: .caption1)
+        let combinedAttributedString = NSMutableAttributedString()
+        
+        combinedAttributedString.append(createdAt)
+        combinedAttributedString.append(NSAttributedString(string: " "))
+        combinedAttributedString.append(textBody)
+        
+        return combinedAttributedString
+    }
 }
 
 extension DiaryTableViewCell {
