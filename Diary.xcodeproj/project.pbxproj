@@ -14,6 +14,8 @@
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
+		D2C1FBEF2A9F058000526DA5 /* DairySample.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBEE2A9F058000526DA5 /* DairySample.swift */; };
+		D2C1FBF32A9F0A0900526DA5 /* AddDairyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBF22A9F0A0900526DA5 /* AddDairyViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +28,8 @@
 		C739AE30284DF28600741E8F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D2C1FBEE2A9F058000526DA5 /* DairySample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DairySample.swift; sourceTree = "<group>"; };
+		D2C1FBF22A9F0A0900526DA5 /* AddDairyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDairyViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,6 +56,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE28284DF28600741E8F /* MainViewController.swift */,
+				D2C1FBF22A9F0A0900526DA5 /* AddDairyViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -69,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+				D2C1FBEE2A9F058000526DA5 /* DairySample.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -183,6 +189,8 @@
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				D2C1FBF32A9F0A0900526DA5 /* AddDairyViewController.swift in Sources */,
+				D2C1FBEF2A9F058000526DA5 /* DairySample.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				5BBC44392A9F036000C528DD /* MainTableViewCell.swift in Sources */,
 			);

@@ -2,7 +2,7 @@
 //  MainTableViewCell.swift
 //  Diary
 //
-//  Created by Hyungmin Lee on 2023/08/30.
+//  Created by Zion, Serena on 2023/08/30.
 //
 
 import UIKit
