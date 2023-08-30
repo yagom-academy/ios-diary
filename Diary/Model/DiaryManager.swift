@@ -17,10 +17,10 @@ struct DiaryManager {
     
     mutating func fetchDiaryList() {
         let dataManager = DataManager()
-        let assertDataManager = AssertDataManager()
+        let assetDataManager = AssetDataManager()
         
         do {
-            let datas = try assertDataManager.fetchDiaryData()
+            let datas = try assetDataManager.fetchDiaryData()
             diaryList = dataManager.diary(diaryList: datas)
         } catch {
             delegate?.showErrorAlert(error: error)
