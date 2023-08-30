@@ -17,11 +17,10 @@ class NewDiaryViewController: UIViewController {
         initTitleTextView()
         initBodyTextView()
         configureNavigationTitle()
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.titleTextView.resignFirstResponder()
+        self.view.endEditing(true)
     }
     
     private func initTitleTextView() {
@@ -39,12 +38,7 @@ class NewDiaryViewController: UIViewController {
     }
     
     private func configureNavigationTitle() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        
-        let today = Date()
-        let formattedTodayDate = dateFormatter.string(from: today)
+        let formattedTodayDate = CustomDateFormatter.formatTodayDate()
         
         self.navigationItem.title = formattedTodayDate
     }

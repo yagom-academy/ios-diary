@@ -24,22 +24,11 @@ class DiaryTableViewCell: UITableViewCell {
         createdDateLabel.text = nil
         bodyLabel.text = nil
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
     
     func configureLabel(sample: Sample) {
-        let timeInterval = TimeInterval(sample.createdDate)
-        let inputDate = Date(timeIntervalSince1970: timeInterval)
+        let formattedSampleDate = CustomDateFormatter.formatSampleDate(sampleDate: sample.createdDate)
 
-        let outputFormatter = DateFormatter()
-        outputFormatter.dateFormat = "yyyy년 MM월 dd일"
-        let formattedDate = outputFormatter.string(from: inputDate)
-         
-        createdDateLabel.text = formattedDate
+        createdDateLabel.text = formattedSampleDate
         titleLabel.text = sample.title
         bodyLabel.text = sample.body
     }
