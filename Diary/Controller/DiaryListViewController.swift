@@ -14,6 +14,7 @@ final class DiaryListViewController: UIViewController {
         return tableView
     }()
     private var diaryEntity = [DiaryEntity]()
+    private let dateFormatter = DateFormatter()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -75,8 +76,9 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
                 DiaryListTableViewCell else { return UITableViewCell() }
         
         let singleEntity = diaryEntity[indexPath.row]
+        let date = dateFormatter.formatToString(from: singleEntity.createdAt, with: "YYYY년 MM월 dd일")
         
-        cell.setModel(singleEntity)
+        cell.setModel(title: singleEntity.title, date: date, body: singleEntity.body)
         
         return cell
     }

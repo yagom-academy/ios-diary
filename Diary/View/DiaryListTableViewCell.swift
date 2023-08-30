@@ -70,9 +70,9 @@ final class DiaryListTableViewCell: UITableViewCell {
         ])
     }
     
-    func setModel(_ entity: DiaryEntity) {
-        titleLabel.text = entity.title
-        dateLabel.text = DateFormatter().formatToString(from: entity.createdAt, with: "YYYY년 MM월 dd일")
-        bodyLabel.text = entity.body
+    func setModel(title: String, date: String, body: String) {
+        titleLabel.text = title
+        dateLabel.text = date
+        bodyLabel.text = body
     }
 }
