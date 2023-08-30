@@ -6,8 +6,7 @@
 //
 
 struct DiaryEntity: Decodable {
-    let title: String
-    let body: String
+    let title, body: String
     let createdAt: Int
     
     enum CodingKeys: String, CodingKey {

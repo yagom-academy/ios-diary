@@ -41,17 +41,17 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
     
     private let titleLabelStackView: UIStackView = {
         let stackView: UIStackView = UIStackView()
-        stackView.axis = .vertical
         stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .vertical
         
         return stackView
     }()
     
     private let dateAndPreviewStackView: UIStackView = {
         let stackView: UIStackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .horizontal
         stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -59,7 +59,7 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
-        configureAutoLayout()
+        configureLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -68,15 +68,17 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
     
     private func configureUI() {
         titleLabelStackView.addArrangedSubview(titleLabel)
+        
         dateAndPreviewStackView.addArrangedSubview(dateLabel)
         dateAndPreviewStackView.addArrangedSubview(previewLabel)
+        
         contentView.addSubview(titleLabelStackView)
         contentView.addSubview(dateAndPreviewStackView)
         
         self.accessories = [.disclosureIndicator()]
     }
     
-    private func configureAutoLayout() {
+    private func configureLayout() {
         NSLayoutConstraint.activate([
             titleLabelStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             titleLabelStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),

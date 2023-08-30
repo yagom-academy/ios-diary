@@ -22,27 +22,10 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         decodeData()
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        configureCollectionView()
         configureNavigation()
         configureUI()
-        configureAutoLayout()
-        
-    }
-    
-    private func configureUI() {
-        view.addSubview(collectionView)
-        view.backgroundColor = .systemBackground
-    }
-    
-    private func configureAutoLayout() {
-        let safeArea = view.safeAreaLayoutGuide
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
-        ])
+        configureLayout()
     }
     
     private func decodeData() {
@@ -54,17 +37,34 @@ final class DiaryListViewController: UIViewController {
         diaryEntity = decodedData
     }
     
-    private func configureNavigation() {
-        navigationItem.title = "일기장"
-        
-        let addDiary: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(createNewDiary))
-        self.navigationItem.rightBarButtonItem = addDiary
-
+    private func configureCollectionView() {
+        collectionView.dataSource = self
+        collectionView.delegate = self
     }
     
+    private func configureNavigation() {
+        let addDiary: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(createNewDiary))
+        self.navigationItem.rightBarButtonItem = addDiary
+        navigationItem.title = "일기장"
+    }
+    
+    private func configureUI() {
+        view.addSubview(collectionView)
+        view.backgroundColor = .systemBackground
+    }
+    
+    private func configureLayout() {
+        let safeArea = view.safeAreaLayoutGuide
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
+        ])
+    }
+
     @objc private func createNewDiary() {
         let newDiaryViewController: NewDiaryViewController = NewDiaryViewController()
-        
         navigationController?.pushViewController(newDiaryViewController, animated: true)
     }
 }
@@ -98,7 +98,6 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
         }
         
         collectionView.deselectItem(at: indexPath, animated: true)
-        
         let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(data: diaryEntity[indexPath.item])
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }

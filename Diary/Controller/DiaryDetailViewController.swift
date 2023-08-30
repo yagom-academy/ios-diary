@@ -12,17 +12,22 @@ final class DiaryDetailViewController: UIViewController {
     
     private lazy var textView: UITextView = {
         let view: UITextView = UITextView()
-        view.text = diaryEntity!.title + "\n\n" + diaryEntity!.body
         view.translatesAutoresizingMaskIntoConstraints = false
+        
+        guard let diaryEntity = diaryEntity else {
+            return view
+        }
+        
+        view.text = diaryEntity.title + "\n\n" + diaryEntity.body
+        
         return view
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureNavigation()
         configureUI()
-        configureAutoLayout()
+        configureLayout()
         setUpKeyboardEvent()
     }
     
@@ -44,7 +49,7 @@ final class DiaryDetailViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
-    private func configureAutoLayout() {
+    private func configureLayout() {
         let safeArea = view.safeAreaLayoutGuide
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: safeArea.topAnchor),
@@ -64,14 +69,15 @@ final class DiaryDetailViewController: UIViewController {
               var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
-        keyboardFrame = view.convert(keyboardFrame, from: nil)
+        
         var contentInset = textView.contentInset
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
         contentInset.bottom = keyboardFrame.size.height
         textView.contentInset = contentInset
         textView.scrollIndicatorInsets = textView.contentInset
     }
     
-    @objc private func keyboardWillHide(_ notification: Notification) {
+    @objc private func keyboardWillHide() {
         textView.contentInset = UIEdgeInsets.zero
         textView.scrollIndicatorInsets = textView.contentInset
     }
