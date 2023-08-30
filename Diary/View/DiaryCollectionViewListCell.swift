@@ -7,8 +7,14 @@
 
 import UIKit
 
-final class DiaryCollectionViewListCell: UICollectionViewListCell {
-    static let identifier: String = "DiaryCollectionViewListCell"
+protocol IdentifiableCell {
+    static var identifier: String { get }
+}
+
+final class DiaryCollectionViewListCell: UICollectionViewListCell, IdentifiableCell {
+    static var identifier: String {
+        return String(describing: self)
+    }
     
     private let titleLabel: UILabel = {
         let label: UILabel = UILabel()
@@ -91,9 +97,16 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell {
         ])
     }
     
-    func configureLabel(_ data: DiaryEntity) {
-        titleLabel.text = data.title
-        dateLabel.text = DateFormatter().formatDate(data)
-        previewLabel.text = data.body
+    func configureLabel(with diary: DiaryEntity) {
+        titleLabel.text = diary.title
+        dateLabel.text = DateFormatter().formatDate(diary)
+        previewLabel.text = diary.body
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = ""
+        dateLabel.text = ""
+        previewLabel.text = ""
     }
 }

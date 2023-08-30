@@ -11,6 +11,8 @@
 		3BBC98942A9D89D20047DE81 /* DiaryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBC98932A9D89D20047DE81 /* DiaryEntity.swift */; };
 		3BBC98962A9DC5330047DE81 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBC98952A9DC5330047DE81 /* DiaryDetailViewController.swift */; };
 		3BBC98992A9E449E0047DE81 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBC98982A9E449E0047DE81 /* DateFormatter+.swift */; };
+		3BBC989B2A9F1C4C0047DE81 /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBC989A2A9F1C4C0047DE81 /* DecodingError.swift */; };
+		3BBC989D2A9F2BFA0047DE81 /* Array+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBC989C2A9F2BFA0047DE81 /* Array+.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* DiaryListViewController.swift */; };
@@ -26,6 +28,8 @@
 		3BBC98932A9D89D20047DE81 /* DiaryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntity.swift; sourceTree = "<group>"; };
 		3BBC98952A9DC5330047DE81 /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		3BBC98982A9E449E0047DE81 /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
+		3BBC989A2A9F1C4C0047DE81 /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
+		3BBC989C2A9F2BFA0047DE81 /* Array+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+.swift"; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,8 +94,17 @@
 			isa = PBXGroup;
 			children = (
 				3BBC98982A9E449E0047DE81 /* DateFormatter+.swift */,
+				3BBC989C2A9F2BFA0047DE81 /* Array+.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		3BBC989E2A9F2C6F0047DE81 /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				3BBC989A2A9F1C4C0047DE81 /* DecodingError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		C739AE18284DF28600741E8F = {
@@ -114,6 +127,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				3BBC989E2A9F2C6F0047DE81 /* Error */,
 				3BBC98972A9E44820047DE81 /* Extension */,
 				3BBC98922A9D897B0047DE81 /* Model */,
 				3BBC988E2A9D683C0047DE81 /* View */,
@@ -220,6 +234,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
+				3BBC989D2A9F2BFA0047DE81 /* Array+.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				3BBC98962A9DC5330047DE81 /* DiaryDetailViewController.swift in Sources */,
@@ -228,6 +243,7 @@
 				3BBC98902A9D73D70047DE81 /* DiaryCollectionViewListCell.swift in Sources */,
 				DC5B191F2A9ED2D90064550A /* NewDiaryViewController.swift in Sources */,
 				3BBC98942A9D89D20047DE81 /* DiaryEntity.swift in Sources */,
+				3BBC989B2A9F1C4C0047DE81 /* DecodingError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

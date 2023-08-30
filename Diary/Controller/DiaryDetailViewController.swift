@@ -8,16 +8,11 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-    private var diaryEntity: DiaryEntity?
+    private var diaryEntity: DiaryEntity
     
     private lazy var textView: UITextView = {
         let view: UITextView = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        
-        guard let diaryEntity = diaryEntity else {
-            return view
-        }
-        
         view.text = diaryEntity.title + "\n\n" + diaryEntity.body
         
         return view
@@ -31,8 +26,8 @@ final class DiaryDetailViewController: UIViewController {
         setUpKeyboardEvent()
     }
     
-    init(data: DiaryEntity) {
-        self.diaryEntity = data
+    init(diaryEntity: DiaryEntity) {
+        self.diaryEntity = diaryEntity
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -41,10 +36,6 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        guard let diaryEntity = diaryEntity else {
-            return
-        }
-        
         navigationItem.title = DateFormatter().formatDate(diaryEntity)
     }
     

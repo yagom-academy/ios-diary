@@ -21,20 +21,32 @@ final class DiaryListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        decodeData()
+        updateDiaryEntity()
         configureCollectionView()
         configureNavigation()
         configureUI()
         configureLayout()
     }
     
-    private func decodeData() {
+    private func decodeData() throws -> [DiaryEntity]? {
         guard let asset = NSDataAsset(name: "sample") else {
-            return
+            throw DecodingError.decodingFailure
         }
         
         let decodedData = try? JSONDecoder().decode([DiaryEntity].self, from: asset.data)
         diaryEntity = decodedData
+        
+        return decodedData
+    }
+    
+    private func updateDiaryEntity() {
+        do {
+            diaryEntity = try decodeData()
+        } catch DecodingError.decodingFailure {
+            print(DecodingError.decodingFailure.description)
+        } catch {
+            print(error)
+        }
     }
     
     private func configureCollectionView() {
@@ -43,7 +55,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        let addDiary: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(createNewDiary))
+        let addDiary: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(hitCreateNewDiaryButton))
         self.navigationItem.rightBarButtonItem = addDiary
         navigationItem.title = "일기장"
     }
@@ -63,7 +75,7 @@ final class DiaryListViewController: UIViewController {
         ])
     }
 
-    @objc private func createNewDiary() {
+    @objc private func hitCreateNewDiaryButton() {
         let newDiaryViewController: NewDiaryViewController = NewDiaryViewController()
         navigationController?.pushViewController(newDiaryViewController, animated: true)
     }
@@ -83,11 +95,11 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
             return UICollectionViewCell()
         }
         
-        guard let diaryEntity = diaryEntity else {
-            return UICollectionViewCell()
+        guard let diaryIndex = diaryEntity?[index: indexPath.item] else {
+            return cell
         }
         
-        cell.configureLabel(diaryEntity[indexPath.item])
+        cell.configureLabel(with: diaryIndex)
         
         return cell
     }
@@ -97,8 +109,12 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
             return
         }
         
+        guard let diaryIndex = diaryEntity[index: indexPath.item] else {
+            return
+        }
+        
         collectionView.deselectItem(at: indexPath, animated: true)
-        let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(data: diaryEntity[indexPath.item])
+        let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(diaryEntity: diaryIndex)
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }
