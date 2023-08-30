@@ -69,8 +69,13 @@ private extension DiaryViewController {
     }
     
     func configureNavigation() {
+        let action = UIAction { _ in
+            let diaryDetailViewController = DiaryDetailViewController()
+            self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        }
+        
         navigationItem.title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: nil, action: nil)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: action)
     }
     
     func configureTableView() {
