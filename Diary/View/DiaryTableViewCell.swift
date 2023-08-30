@@ -48,16 +48,16 @@ class DiaryTableViewCell: UITableViewCell {
     
     func fetchData(_ data: Diary) {
         diaryTitle.text = data.title
-        dateAndPreview.attributedText = attributedDateAndPreview(data: data, font: UIFont.preferredFont(forTextStyle: .caption1))
+        dateAndPreview.attributedText = attributedDateAndPreview(data: data)
     }
     
-    private func attributedDateAndPreview(data: Diary, font: UIFont) -> NSMutableAttributedString {
+    private func attributedDateAndPreview(data: Diary) -> NSMutableAttributedString {
         let text = "\(formatCreatedAt(data.createdAt)) \(data.body)"
         let attributedString = NSMutableAttributedString(string: text)
-        let attributes = [
-            NSAttributedString.Key.font: font as Any,
-            NSAttributedString.Key.baselineOffset: NSNumber(value: 2) as Any
-        ] as [NSAttributedString.Key: Any]
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.preferredFont(forTextStyle: .caption1),
+            .baselineOffset: 2
+        ]
         
         attributedString.addAttributes(attributes, range: (text as NSString).range(of: data.body))
         
