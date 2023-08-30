@@ -9,11 +9,11 @@ import Foundation
 
 extension DateFormatter {
     func transformDiaryDate(using unixTime: Int) -> String {
-        congifureDiaryDateFormat()
+        configureDiaryDateFormat()
         let date = Date(timeIntervalSince1970: TimeInterval(unixTime))
         return string(from: date)
     }
-    func congifureDiaryDateFormat() {
+    func configureDiaryDateFormat() {
         dateStyle = .long
         timeStyle = .none
         locale = Locale(identifier: "ko_KR")
