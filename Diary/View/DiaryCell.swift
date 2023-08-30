@@ -2,16 +2,20 @@
 //  DiaryCell.swift
 //  Diary
 //
-//  Created by 김민성 on 2023/08/29.
+//  Created by RedMango, Minsup on 2023/08/29.
 //
 
 import UIKit
 
 final class DiaryCell: UICollectionViewListCell {
     
+    // MARK: - Internal Property
+    
     static let id = "DiaryCell"
     
-    private let cellStackView: UIStackView = {
+    // MARK: - Private Property
+    
+    private let outerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -21,11 +25,12 @@ final class DiaryCell: UICollectionViewListCell {
         return stackView
     }()
     
-    private let contentStackView: UIStackView = {
+    private let innerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
         stackView.spacing = 8
+        
         return stackView
     }()
     
@@ -57,38 +62,43 @@ final class DiaryCell: UICollectionViewListCell {
         return label
     }()
     
+    // MARK: - Internal Method
+    
     func configureCell(diary: Diary) {
-        injectDataIntoLabelText(diary: diary)
         addSubviews()
-        configureLayoutConstraint()
+        configureLabel(from: diary)
+        constraintOuterStackView()
     }
     
-    private func injectDataIntoLabelText(diary: Diary) {
+    // MARK: - Private Method
+    
+    private func addSubviews() {
+        contentView.addSubview(outerStackView)
+        outerStackView.addArrangedSubview(titleLabel)
+        outerStackView.addArrangedSubview(innerStackView)
+        innerStackView.addArrangedSubview(createdDateLabel)
+        innerStackView.addArrangedSubview(contentLabel)
+        
+        accessories = [.disclosureIndicator()]
+    }
+    
+    private func configureLabel(from diary: Diary) {
         titleLabel.text = diary.title
+        contentLabel.text = diary.body
+        
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         dateFormatter.locale = .current
         
         createdDateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: Double(diary.createdDate)))
-        contentLabel.text = diary.body
     }
     
-    private func addSubviews() {
-        contentView.addSubview(cellStackView)
-        cellStackView.addArrangedSubview(titleLabel)
-        cellStackView.addArrangedSubview(contentStackView)
-        contentStackView.addArrangedSubview(createdDateLabel)
-        contentStackView.addArrangedSubview(contentLabel)
-        
-        accessories = [.disclosureIndicator()]
-    }
-    
-    func configureLayoutConstraint() {
+    private func constraintOuterStackView() {
         NSLayoutConstraint.activate([
-            cellStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            cellStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            cellStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            cellStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            outerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            outerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            outerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            outerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
     }
 }

@@ -2,7 +2,7 @@
 //  Diary.swift
 //  Diary
 //
-//  Created by redmango1446 on 2023/08/28.
+//  Created by Redmango, Minsup on 2023/08/28.
 //
 
 struct Diary: Decodable {
