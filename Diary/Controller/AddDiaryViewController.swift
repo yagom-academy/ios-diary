@@ -1,5 +1,5 @@
 //
-//  AddDairyViewController.swift
+//  AddDiaryViewController.swift
 //  Diary
 //
 //  Created by Zion, Serena on 2023/08/30.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AddDairyViewController: UIViewController {
+final class AddDiaryViewController: UIViewController {
     private lazy var textView: UITextView = {
         let textView = UITextView()
         
@@ -16,10 +16,12 @@ final class AddDairyViewController: UIViewController {
         return textView
     }()
     
+    private let todayDate: String
     private let diaryTitle: String
     private let diaryDescription: String
     
-    init(diaryTitle: String, diaryDescription: String) {
+    init(todayDate: String, diaryTitle: String, diaryDescription: String) {
+        self.todayDate = todayDate
         self.diaryTitle = diaryTitle
         self.diaryDescription = diaryDescription
         
@@ -53,14 +55,6 @@ final class AddDairyViewController: UIViewController {
     
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = convertFormattedTodayDate()
-    }
-    
-    private func convertFormattedTodayDate() -> String {
-        let todayDate = Date()
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        return dateFormatter.string(from: todayDate)
+        navigationItem.title = todayDate
     }
 }

@@ -6,11 +6,18 @@
 
 import UIKit
 
+protocol MainViewControllerDelegate: AnyObject {
+    func didTappedRightAddButton()
+}
+
 final class MainViewController: UIViewController {
     enum Section {
         case main
     }
-    private var dairySamples: [DiaryContent]
+    
+    weak var delegate: MainViewControllerDelegate?
+    private let diaryContents: [DiaryContent]
+    private let dateFormatter: DateFormatter
     private var diffableDatasource: UITableViewDiffableDataSource<Section, DiaryContent>?
     
     private let tableView: UITableView = {
@@ -22,8 +29,9 @@ final class MainViewController: UIViewController {
         return tableView
     }()
     
-    init(dairySamples: [DiaryContent]) {
-        self.dairySamples = dairySamples
+    init(diaryContents: [DiaryContent], dateFormatter: DateFormatter) {
+        self.diaryContents = diaryContents
+        self.dateFormatter = dateFormatter
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -34,8 +42,6 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        decodeDairySample(filename: "sample")
         
         configureUI()
         setUpConstraints()
@@ -62,22 +68,6 @@ final class MainViewController: UIViewController {
         navigationItem.title = "일기장"
         navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .add, target: self, action: #selector(didTappedRightAddButton))
     }
-    
-    private func decodeDairySample(filename: String) {
-        let jsonDecoder = JSONDecoder()
-        guard let asset = NSDataAsset(name: filename) else { return }
-        guard let data = try? jsonDecoder.decode([DiaryContent].self, from: asset.data) else { return }
-        
-        dairySamples = data
-    }
-    
-    private func convertFormattedDate(date: Double) -> String {
-        let date = Date(timeIntervalSince1970: date)
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        return dateFormatter.string(from: date)
-    }
 }
 
 // MARK: - TableViewDiffableDataSource
@@ -86,7 +76,8 @@ extension MainViewController {
         diffableDatasource = UITableViewDiffableDataSource(tableView: tableView, cellProvider: { tableView, indexPath, diarySample in
             guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
             
-            let formattedDate = self.convertFormattedDate(date: diarySample.date)
+            let date = Date(timeIntervalSince1970: diarySample.date)
+            let formattedDate = self.dateFormatter.string(from: date)
             cell.setUpContents(title: diarySample.title, date: formattedDate, body: diarySample.body)
             return cell
         })
@@ -96,7 +87,7 @@ extension MainViewController {
         var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryContent>()
         
         snapShot.appendSections([.main])
-        snapShot.appendItems(dairySamples)
+        snapShot.appendItems(diaryContents)
         diffableDatasource?.apply(snapShot)
     }
 }
@@ -105,9 +96,6 @@ extension MainViewController {
 extension MainViewController {
     @objc
     private func didTappedRightAddButton() {
-        let addDairyViewController = AddDairyViewController(diaryTitle: "드라고요롱이마초미미진사오미",
-                                                            diaryDescription: "A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot, which was created for the bliss of souls like mine.\n\nI am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now.\n\nWhen, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath\n\nI am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now.\n\nWhen, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath\n\nI am so happy, my dear friend, so absorbed in the exquisite sense of mere tranquil existence, that I neglect my talents. I should be incapable of drawing a single stroke at the present moment; and yet I feel that I never was a greater artist than now.\n\nWhen, while the lovely valley teems with vapour around me, and the meridian sun strikes the upper surface of the impenetrable foliage of my trees, and but a few stray gleams steal into the inner sanctuary, I throw myself down among the tall grass by the trickling stream; and, as I lie close to the earth, a thousand unknown plants are noticed by me: when I hear the buzz of the little world among the stalks, and grow familiar with the countless indescribable forms of the insects and flies, then I feel the presence of the Almighty, who formed us in his own image, and the breath")
-        
-        navigationController?.pushViewController(addDairyViewController, animated: true)
+        delegate?.didTappedRightAddButton()
     }
 }
