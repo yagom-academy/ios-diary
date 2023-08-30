@@ -61,4 +61,8 @@ final class CreateDiaryViewController: UIViewController {
     @objc private func keyboardWillHide(_ notification: Notification) {
         textView.contentInset = .zero
     }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }

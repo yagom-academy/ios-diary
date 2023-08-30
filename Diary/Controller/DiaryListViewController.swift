@@ -53,15 +53,9 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setUpData() {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .secondsSince1970
+        guard let loadDiaryEntity: [DiaryEntity] = DecodingManager.decodeJson(from: "sample") else { return }
         
-        guard let dataAsset = NSDataAsset(name: "sample"),
-              let decodedData = try? decoder.decode([DiaryEntity].self, from: dataAsset.data) else {
-            return
-        }
-        
-        diaryEntity = decodedData
+        diaryEntity = loadDiaryEntity
     }
 }
 
