@@ -73,8 +73,9 @@ final class MainViewController: UIViewController {
 // MARK: - TableViewDiffableDataSource
 extension MainViewController {
     private func setUpTableViewDiffableDataSource() {
-        diffableDatasource = UITableViewDiffableDataSource(tableView: tableView, cellProvider: { tableView, indexPath, diarySample in
-            guard let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
+        diffableDatasource = UITableViewDiffableDataSource(tableView: tableView, cellProvider: { [weak self] tableView, indexPath, diarySample in
+            guard let self = self,
+                    let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
             
             let date = Date(timeIntervalSince1970: diarySample.date)
             let formattedDate = self.dateFormatter.string(from: date)
