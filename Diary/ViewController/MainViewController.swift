@@ -20,9 +20,9 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func tapAddButton(_ sender: Any) {
-        guard let detailViewController = self.storyboard?.instantiateViewController(withIdentifier: "DetailViewController") else { return }
+        guard let newDiaryViewController = self.storyboard?.instantiateViewController(withIdentifier: "NewDiaryViewController") else { return }
         
-        self.navigationController?.pushViewController(detailViewController, animated: true)
+        self.navigationController?.pushViewController(newDiaryViewController, animated: true)
     }
     
     private func registerNib() {
@@ -57,6 +57,13 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         cell.configureLabel(sample: sample)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let sample: Sample = self.sample[indexPath.row]
+        guard let detailViewController = self.storyboard?.instantiateViewController(identifier: "DetailViewController", creator: {coder in DetailViewController(sample: sample, coder: coder)}) else { return }
+        
+        self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
 
