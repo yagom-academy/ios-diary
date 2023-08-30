@@ -62,6 +62,12 @@ final class DiaryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func configureCell(data: DiaryContent) {
+        titleLabel.text = data.title
+        dateLabel.text = data.date
+        previewLabel.text = data.body
+    }
+    
     private func configureUI() {
         descriptionStackView.addArrangedSubview(dateLabel)
         descriptionStackView.addArrangedSubview(previewLabel)

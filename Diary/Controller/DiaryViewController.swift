@@ -7,6 +7,9 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
+    private let diaryManager = DiaryManager()
+    private var data: [DiaryContent]?
+    
     private var tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,6 +23,7 @@ final class DiaryViewController: UIViewController {
         configureView()
         configureTableView()
         setUpConstraints()
+        fetchData()
     }
     
     private func configureView() {
@@ -49,15 +53,29 @@ final class DiaryViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
+    
+    private func fetchData() {
+        data = diaryManager.fetchDiaryContents(name: "sample")
+    }
 }
 
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
+        return data?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+                as? DiaryTableViewCell
+        else {
+            return UITableViewCell()
+        }
+        
+        guard let data = data else {
+            return UITableViewCell()
+        }
+        
+        cell.configureCell(data: data[indexPath.row])
 
         return cell
     }
