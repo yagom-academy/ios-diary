@@ -47,7 +47,7 @@ final class DiaryListViewController: UIViewController {
     
     private func setUpTableView() {
         tableView.dataSource = self
-        tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(DiaryListTableViewCell.self, forCellReuseIdentifier: DiaryListTableViewCell.identifier)
     }
     
@@ -79,5 +79,9 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
         cell.setModel(singleEntity)
         
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
