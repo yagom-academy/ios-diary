@@ -10,7 +10,6 @@ import UIKit
 class DiaryTableViewCell: UITableViewCell {
     private let diaryTitle: UILabel = {
         let label = UILabel()
-        label.text = "여기는 제목이 들어갈 자리"
         label.font = UIFont.preferredFont(forTextStyle: .title2)
         label.setContentHuggingPriority(.defaultHigh + 1, for: .vertical)
         
@@ -19,7 +18,6 @@ class DiaryTableViewCell: UITableViewCell {
     
     private let dateAndPreview: UILabel = {
         let label = UILabel()
-        label.text = "2021년 8월 29일, 작은 글자로 텍스트가 들어갈 자리."
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.setContentHuggingPriority(.defaultHigh, for: .vertical)
         
@@ -50,26 +48,20 @@ class DiaryTableViewCell: UITableViewCell {
     
     func fetchData(_ data: Diary) {
         diaryTitle.text = data.title
-        dateAndPreview.attributedText = attributedDateAndPreview(data: data)
+        dateAndPreview.attributedText = attributedDateAndPreview(data: data, font: UIFont.preferredFont(forTextStyle: .caption1))
     }
     
-    private func convertAttributedString(text: String, font: UIFont.TextStyle) -> NSAttributedString {
-        let attributes = [NSAttributedString.Key.font: font as Any] as [NSAttributedString.Key : Any]
-        let attributedString = NSAttributedString(string: text, attributes: attributes)
+    private func attributedDateAndPreview(data: Diary, font: UIFont) -> NSMutableAttributedString {
+        let text = "\(data.createdAt) \(data.body)"
+        let attributedString = NSMutableAttributedString(string: text)
+        let attributes = [
+            NSAttributedString.Key.font: font as Any,
+            NSAttributedString.Key.baselineOffset: NSNumber(value: 2) as Any
+        ] as [NSAttributedString.Key: Any]
+        
+        attributedString.addAttributes(attributes, range: (text as NSString).range(of: data.body))
         
         return attributedString
-    }
-    
-    private func attributedDateAndPreview(data: Diary) -> NSMutableAttributedString {
-        let createdAt = convertAttributedString(text: String(data.createdAt), font: .body)
-        let textBody = convertAttributedString(text: String(data.body), font: .caption1)
-        let combinedAttributedString = NSMutableAttributedString()
-        
-        combinedAttributedString.append(createdAt)
-        combinedAttributedString.append(NSAttributedString(string: " "))
-        combinedAttributedString.append(textBody)
-        
-        return combinedAttributedString
     }
 }
 
