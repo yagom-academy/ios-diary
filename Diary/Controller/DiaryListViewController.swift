@@ -46,10 +46,10 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupContentTableView()
         setupUIObject()
         configureUI()
         setupConstraints()
+        setupContentTableView()
     }
 }
 
