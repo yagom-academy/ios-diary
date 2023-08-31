@@ -26,4 +26,11 @@ struct DiaryManager {
             delegate?.showErrorAlert(error: error)
         }
     }
+    
+    func newDiary() -> Diary {
+        let dateManager = DateManager()
+        let diary = Diary(title: "", body: "", createdDate: dateManager.todayString())
+        
+        return diary
+    }
 }
