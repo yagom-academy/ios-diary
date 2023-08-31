@@ -20,9 +20,13 @@ final class DiaryStorageTests: XCTestCase {
     }
 
     func test_DiaryStorageProtocol_타입의_DiaryEntrys를_사용하면_DiaryEntry배열을_반환합니다() {
-        // when
-        let result = sut?.diaryEntrys() is [DiaryEntry]
-        // then
-        XCTAssertTrue(result)
+        do {
+            // when
+            let result = try sut?.diaryEntrys() is [DiaryEntry]
+            // then
+            XCTAssertTrue(result)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
 }
