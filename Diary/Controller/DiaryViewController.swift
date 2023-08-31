@@ -8,7 +8,6 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private let diaryManager = DiaryManager()
-    private var diaryContents: [DiaryContent]?
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -23,7 +22,6 @@ final class DiaryViewController: UIViewController {
         configureView()
         configureTableView()
         setUpConstraints()
-        fetchData()
     }
     
     private func configureView() {
@@ -43,7 +41,7 @@ final class DiaryViewController: UIViewController {
     }
     
     @objc private func addDiary() {
-        let today = DiaryDateFormatter().format(from: Date(), by: "yyyyMMMd")
+        let today = DiaryDateFormatter().format(from: Date())
         
         showEditingDiaryViewController(date: today)
     }
@@ -68,15 +66,11 @@ final class DiaryViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
-    
-    private func fetchData() {
-        diaryContents = diaryManager.fetchDiaryContents(name: "sample")
-    }
 }
 
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryContents?.count ?? 0
+        return diaryManager.diaryContents?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -86,7 +80,7 @@ extension DiaryViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        guard let diaryContents = diaryContents else {
+        guard let diaryContents = diaryManager.diaryContents else {
             return UITableViewCell()
         }
         
@@ -98,7 +92,7 @@ extension DiaryViewController: UITableViewDataSource {
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diaryContents = diaryContents else { return }
+        guard let diaryContents = diaryManager.diaryContents else { return }
         
         showEditingDiaryViewController(date: diaryContents[indexPath.row].date)
         tableView.deselectRow(at: indexPath, animated: true)

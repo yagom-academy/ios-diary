@@ -10,9 +10,11 @@ import Foundation
 struct DiaryDateFormatter {
     private let dateFormatter = DateFormatter()
     
-    func format(from date: Date, by form: String) -> String {
-        dateFormatter.locale = Locale(identifier: Locale.current.identifier)
-        dateFormatter.setLocalizedDateFormatFromTemplate(form)
+    func format(from date: Date) -> String {
+        dateFormatter.locale = Locale.current
+        dateFormatter.dateStyle = .long
+        dateFormatter.timeStyle = .none
+        dateFormatter.timeZone = .current
         
         return dateFormatter.string(from: date)
     }
