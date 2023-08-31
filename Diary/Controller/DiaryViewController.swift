@@ -42,12 +42,13 @@ final class DiaryViewController: UIViewController {
     
     @objc private func addDiary() {
         let today = DiaryDateFormatter().format(from: Date())
+        let diaryContent = DiaryContent(title: "", body: "", date: today)
         
-        showEditingDiaryViewController(date: today)
+        showEditingDiaryViewController(with: diaryContent)
     }
     
-    private func showEditingDiaryViewController(date: String) {
-        let editingDiaryViewController = EditingDiaryViewController(createdDate: date)
+    private func showEditingDiaryViewController(with diaryContent: DiaryContent) {
+        let editingDiaryViewController = EditingDiaryViewController(with: diaryContent)
         
         show(editingDiaryViewController, sender: self)
     }
@@ -94,7 +95,7 @@ extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let diaryContents = diaryManager.diaryContents else { return }
         
-        showEditingDiaryViewController(date: diaryContents[indexPath.row].date)
+        showEditingDiaryViewController(with: diaryContents[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

@@ -8,7 +8,8 @@
 import UIKit
 
 final class EditingDiaryViewController: UIViewController {
-    var createdDate: String
+    var diaryContent: DiaryContent
+    let isNew: Bool
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -17,8 +18,9 @@ final class EditingDiaryViewController: UIViewController {
         return textView
     }()
     
-    init(createdDate: String) {
-        self.createdDate = createdDate
+    init(with diaryContent: DiaryContent) {
+        self.diaryContent = diaryContent
+        isNew = diaryContent.title.isEmpty ? true : false
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -32,6 +34,7 @@ final class EditingDiaryViewController: UIViewController {
 
         configureView()
         setUpConstraints()
+        fillDiaryTextView()
     }
     
     private func configureView() {
@@ -42,7 +45,7 @@ final class EditingDiaryViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        navigationItem.title = createdDate
+        navigationItem.title = diaryContent.date
     }
     
     private func setUpConstraints() {
@@ -52,5 +55,11 @@ final class EditingDiaryViewController: UIViewController {
             diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
+    }
+    
+    private func fillDiaryTextView() {
+        if !isNew {
+            diaryTextView.text = diaryContent.title + "\n\n" + diaryContent.body
+        }
     }
 }
