@@ -24,4 +24,3 @@ extension Diary {
         return DiaryEntry(title: title, body: body, creationDate: creationDate)
     }
 }
-
