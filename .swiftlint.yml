@@ -1,0 +1,10 @@
+disabled_rules:
+  - control_statement
+  - line_length
+  - trailing_whitespace
+  - class_delegate_protocol
+
+excluded:
+  - Pods
+  - Diary/App/AppDelegate.swift
+  - Diary/App/SceneDelegate.swift
