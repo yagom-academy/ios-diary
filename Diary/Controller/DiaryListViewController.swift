@@ -92,7 +92,6 @@ extension DiaryListViewController {
     }
     
     private func setupTableView() {
-        tableView.dataSource = dataSource
         tableView.delegate = self
         tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
     }
