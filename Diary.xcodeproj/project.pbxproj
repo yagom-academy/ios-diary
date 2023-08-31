@@ -18,9 +18,10 @@
 		455170EB2A9EE5C1002A043C /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455170EA2A9EE5C1002A043C /* DiaryViewController.swift */; };
 		455170F12A9F0007002A043C /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455170F02A9F0007002A043C /* UITextView+.swift */; };
 		455171082AA07797002A043C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 455171072AA07797002A043C /* .swiftlint.yml */; };
+		45A131F32AA0B5B200433FCC /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEA7642A9D929E00D8F686 /* DiaryTests.swift */; };
+		45A131F62AA0B98F00433FCC /* StorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A131F52AA0B98F00433FCC /* StorageError.swift */; };
 		45C4AF842A9CA0A1003142B6 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C4AF832A9CA0A1003142B6 /* Diary.swift */; };
 		45C4AF882A9CBFE4003142B6 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C4AF872A9CBFE4003142B6 /* DiaryTableViewCell.swift */; };
-		45DEA7652A9D929E00D8F686 /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEA7642A9D929E00D8F686 /* DiaryTests.swift */; };
 		45F052292A9DE723004B5225 /* DiaryEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45F052282A9DE723004B5225 /* DiaryEntry.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
@@ -68,6 +69,7 @@
 		455170EA2A9EE5C1002A043C /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		455170F02A9F0007002A043C /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		455171072AA07797002A043C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		45A131F52AA0B98F00433FCC /* StorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageError.swift; sourceTree = "<group>"; };
 		45C4AF832A9CA0A1003142B6 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		45C4AF872A9CBFE4003142B6 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		45DEA7622A9D929E00D8F686 /* DiaryTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DiaryTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -146,6 +148,14 @@
 				455170F02A9F0007002A043C /* UITextView+.swift */,
 			);
 			path = Extension;
+			sourceTree = "<group>";
+		};
+		45A131F42AA0B96A00433FCC /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				45A131F52AA0B98F00433FCC /* StorageError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		45C4AF7D2A9C9B79003142B6 /* Application */ = {
@@ -268,6 +278,7 @@
 				45C4AF802A9C9BF2003142B6 /* Model */,
 				45C4AF7E2A9C9B84003142B6 /* Controller */,
 				45C4AF7F2A9C9BE4003142B6 /* View */,
+				45A131F42AA0B96A00433FCC /* Error */,
 				455170EE2A9EFFEC002A043C /* Util */,
 				45C4AF822A9C9C50003142B6 /* Data */,
 				45C4AF812A9C9C0F003142B6 /* Resource */,
@@ -476,7 +487,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				45DEA7652A9D929E00D8F686 /* DiaryTests.swift in Sources */,
+				45A131F32AA0B5B200433FCC /* DiaryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +500,7 @@
 				45C4AF842A9CA0A1003142B6 /* Diary.swift in Sources */,
 				4541CC422A9D95CE0095C258 /* AssetDiaryStorage.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				45A131F62AA0B98F00433FCC /* StorageError.swift in Sources */,
 				4541CC442A9D9B4A0095C258 /* DateFormatManager.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				4541CC4A2A9DB6AC0095C258 /* UserDateFormatter.swift in Sources */,
