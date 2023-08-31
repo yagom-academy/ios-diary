@@ -15,13 +15,3 @@ extension DateFormatter {
         return self.string(from: date)
     }
 }
-
-extension DateFormatter {
-    enum FormatTemplate {
-        static let attached = "MMMMddyyyy"
-    }
-    
-    enum Location {
-        static let korea = "ko_KR"
-    }
-}

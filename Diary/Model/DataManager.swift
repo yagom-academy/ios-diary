@@ -14,7 +14,7 @@ struct DataManager {
             let createdDate = dataFormatter.dateString(
                 from: Date(timeIntervalSince1970: Double($0.createdDate)),
                 at: Locale.current.identifier,
-                with: DateFormatter.FormatTemplate.attached
+                with: DateManager.FormatTemplate.attached
             )
             return Diary(
                 identifier: UUID(),
