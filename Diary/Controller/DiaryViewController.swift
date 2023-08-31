@@ -20,7 +20,7 @@ final class DiaryViewController: UIViewController {
         guard let dataAsset = NSDataAsset(name: "sample") else {
             return
         }
-                
+        
         do {
             diaryModel = try JSONDecoder().decode([DiaryModel].self, from: dataAsset.data)
         } catch {
@@ -31,7 +31,14 @@ final class DiaryViewController: UIViewController {
 
 extension DiaryViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diaryDetailViewController = DiaryDetailViewController(
+            title: diaryModel[indexPath.row].title,
+            body: diaryModel[indexPath.row].body,
+            date: Date(timeIntervalSince1970: diaryModel[indexPath.row].date)
+        )
+        
         tableView.deselectRow(at: indexPath, animated: true)
+        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -46,9 +53,11 @@ extension DiaryViewController: UITableViewDataSource, UITableViewDelegate {
         let date = Date(timeIntervalSince1970: diaryModel[indexPath.row].date)
         let formattedDate = DateFormatter.diaryFormatter.string(from: date)
         
-        cell.configureCell(title: diaryModel[indexPath.row].title,
-                           date: formattedDate,
-                           preview: diaryModel[indexPath.row].body)
+        cell.configureCell(
+            title: diaryModel[indexPath.row].title,
+            date: formattedDate,
+            preview: diaryModel[indexPath.row].body
+        )
         
         return cell
     }

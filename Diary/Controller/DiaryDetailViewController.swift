@@ -8,10 +8,16 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
+    private let diaryTitle: String
+    private let diaryBody: String
+    private let diaryDate: Date
+    
     private let titleTextView = {
         let textView = UITextView()
         textView.isEditable = true
-        textView.backgroundColor = .red
+        textView.isScrollEnabled = false
+        textView.adjustsFontForContentSizeCategory = true
+        textView.font = .preferredFont(forTextStyle: .body)
 
         return textView
     }()
@@ -19,7 +25,8 @@ final class DiaryDetailViewController: UIViewController {
     private let bodyTextView = {
         let textView = UITextView()
         textView.isEditable = true
-        textView.backgroundColor = .blue
+        textView.adjustsFontForContentSizeCategory = true
+        textView.font = .preferredFont(forTextStyle: .body)
         
         return textView
     }()
@@ -28,9 +35,7 @@ final class DiaryDetailViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.spacing = 8
-        stackView.distribution = .fillEqually
         stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.backgroundColor = .black
         
         return stackView
     }()
@@ -39,6 +44,17 @@ final class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         configure()
     }
+    
+    init(title: String = "", body: String = "", date: Date = Date()) {
+        self.diaryTitle = title
+        self.diaryBody = body
+        self.diaryDate = date
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 private extension DiaryDetailViewController {
@@ -46,6 +62,7 @@ private extension DiaryDetailViewController {
         configureRootView()
         configureNavigation()
         configureSubviews()
+        configureContents()
         configureContentStackView()
         configureConstraints()
     }
@@ -55,12 +72,16 @@ private extension DiaryDetailViewController {
     }
     
     func configureNavigation() {
-        let date = DateFormatter.diaryFormatter.string(from: Date())
-        navigationItem.title = date
+        navigationItem.title = DateFormatter.diaryFormatter.string(from: diaryDate)
     }
     
     func configureSubviews() {
         view.addSubview(contentStackView)
+    }
+    
+    func configureContents() {
+        titleTextView.text = diaryTitle
+        bodyTextView.text = diaryBody
     }
     
     func configureContentStackView() {
