@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private let diaryManager = DiaryManager()
-    private var data: [DiaryContent]?
+    private var diaryContents: [DiaryContent]?
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -34,14 +34,29 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        navigationItem.title = "일기장"
+        let addDiaryBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+                                                    target: self,
+                                                    action: #selector(addDiary))
         
-        let addDiaryBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
         navigationItem.rightBarButtonItem = addDiaryBarButtonItem
+        navigationItem.title = "일기장"
+    }
+    
+    @objc private func addDiary() {
+        let today = DiaryDateFormatter().format(from: Date(), by: "yyyyMMMd")
+        
+        showEditingDiaryViewController(date: today)
+    }
+    
+    private func showEditingDiaryViewController(date: String) {
+        let editingDiaryViewController = EditingDiaryViewController(createdDate: date)
+        
+        show(editingDiaryViewController, sender: self)
     }
     
     private func configureTableView() {
         tableView.dataSource = self
+        tableView.delegate = self
         tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
     }
     
@@ -55,13 +70,13 @@ final class DiaryViewController: UIViewController {
     }
     
     private func fetchData() {
-        data = diaryManager.fetchDiaryContents(name: "sample")
+        diaryContents = diaryManager.fetchDiaryContents(name: "sample")
     }
 }
 
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data?.count ?? 0
+        return diaryContents?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -71,12 +86,21 @@ extension DiaryViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        guard let data = data else {
+        guard let diaryContents = diaryContents else {
             return UITableViewCell()
         }
         
-        cell.configureCell(data: data[indexPath.row])
+        cell.configureCell(data: diaryContents[indexPath.row])
 
         return cell
+    }
+}
+
+extension DiaryViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let diaryContents = diaryContents else { return }
+        
+        showEditingDiaryViewController(date: diaryContents[indexPath.row].date)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
