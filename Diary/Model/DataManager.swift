@@ -17,7 +17,6 @@ struct DataManager {
                 with: DateManager.FormatTemplate.attached
             )
             return Diary(
-                identifier: UUID(),
                 title: $0.title,
                 body: $0.body,
                 createdDate: createdDate
