@@ -31,10 +31,15 @@ final class DiaryDetailViewController: UIViewController {
 extension DiaryDetailViewController {
     private func setupComponents() {
         setupView()
+        setupNavigationBar()
     }
     
     private func setupView() {
         view.backgroundColor = .white
+    }
+    
+    private func setupNavigationBar() {
+        navigationItem.title = diary.createdDate
     }
 }
 
