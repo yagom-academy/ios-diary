@@ -48,7 +48,9 @@ extension DiaryViewController {
 // MARK: Button Action
 extension DiaryViewController {
     @objc private func didTapSelectPlusButton() {
-        let diaryDetailViewController = DiaryDetailViewController()
+        let diary = diaryManager.newDiary()
+        
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary)
         show(diaryDetailViewController, sender: self)
     }
 }
@@ -114,7 +116,9 @@ extension DiaryViewController {
 // MARK: CollectionView Delegate
 extension DiaryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let diaryDetailViewController = DiaryDetailViewController()
+        let diary = diaryManager.diaryList[indexPath.item]
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary)
+        
         show(diaryDetailViewController, sender: self)
     }
 }
