@@ -22,6 +22,7 @@
 		DC3EA1662A9CAE8400986F72 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = DC3EA1652A9CAE8400986F72 /* .swiftlint.yml */; };
 		DC5B191F2A9ED2D90064550A /* NewDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5B191E2A9ED2D90064550A /* NewDiaryViewController.swift */; };
 		DC5B192E2AA07FAD0064550A /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5B192D2AA07FAD0064550A /* KeyboardManager.swift */; };
+		DC5B19302AA08AE70064550A /* LocaleIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5B192F2AA08AE70064550A /* LocaleIdentifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,6 +43,7 @@
 		DC3EA1652A9CAE8400986F72 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		DC5B191E2A9ED2D90064550A /* NewDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewDiaryViewController.swift; sourceTree = "<group>"; };
 		DC5B192D2AA07FAD0064550A /* KeyboardManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardManager.swift; sourceTree = "<group>"; };
+		DC5B192F2AA08AE70064550A /* LocaleIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleIdentifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +131,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				DC5B19312AA08AEB0064550A /* Enum */,
 				DC5B192C2AA07FA10064550A /* Manager */,
 				3BBC989E2A9F2C6F0047DE81 /* Error */,
 				3BBC98972A9E44820047DE81 /* Extension */,
@@ -148,6 +151,14 @@
 				DC5B192D2AA07FAD0064550A /* KeyboardManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		DC5B19312AA08AEB0064550A /* Enum */ = {
+			isa = PBXGroup;
+			children = (
+				DC5B192F2AA08AE70064550A /* LocaleIdentifier.swift */,
+			);
+			path = Enum;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -251,6 +262,7 @@
 				3BBC98962A9DC5330047DE81 /* DiaryDetailViewController.swift in Sources */,
 				3BBC98992A9E449E0047DE81 /* DateFormatter+.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
+				DC5B19302AA08AE70064550A /* LocaleIdentifier.swift in Sources */,
 				3BBC98902A9D73D70047DE81 /* DiaryCollectionViewListCell.swift in Sources */,
 				DC5B192E2AA07FAD0064550A /* KeyboardManager.swift in Sources */,
 				DC5B191F2A9ED2D90064550A /* NewDiaryViewController.swift in Sources */,

@@ -99,7 +99,7 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell, IdentifiableC
     
     func configureLabel(with diary: DiaryEntity) {
         titleLabel.text = diary.title
-        dateLabel.text = DateFormatter().formatDate(diary)
+        dateLabel.text = DateFormatter().formatDate(diary, locale: .KOR)
         previewLabel.text = diary.body
     }
     
