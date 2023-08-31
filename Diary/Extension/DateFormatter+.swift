@@ -22,7 +22,7 @@ extension DateFormatter {
         let dateFormatter: DateFormatter = DateFormatter()
         let date: Date = Date(timeIntervalSince1970: TimeInterval(data.createdAt))
         dateFormatter.locale = Locale(identifier: "ko_KR")
-        dateFormatter.timeZone = TimeZone(abbreviation: "KST")
+        dateFormatter.timeZone = TimeZone(identifier: TimeZone.current.identifier)
         dateFormatter.dateStyle = .long
         
         return dateFormatter.string(from: date)

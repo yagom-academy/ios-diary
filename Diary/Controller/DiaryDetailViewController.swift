@@ -9,6 +9,7 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController {
     private var diaryEntity: DiaryEntity
+    private var keyboardManager: KeyboardManager?
     
     private lazy var textView: UITextView = {
         let view: UITextView = UITextView()
@@ -23,7 +24,7 @@ final class DiaryDetailViewController: UIViewController {
         configureNavigation()
         configureUI()
         configureLayout()
-        setUpKeyboardEvent()
+        setUpKeyboard()
     }
     
     init(diaryEntity: DiaryEntity) {
@@ -54,26 +55,7 @@ final class DiaryDetailViewController: UIViewController {
         ])
     }
     
-    private func setUpKeyboardEvent() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo as NSDictionary?,
-              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
-        
-        var contentInset = textView.contentInset
-        keyboardFrame = view.convert(keyboardFrame, from: nil)
-        contentInset.bottom = keyboardFrame.size.height
-        textView.contentInset = contentInset
-        textView.scrollIndicatorInsets = textView.contentInset
-    }
-    
-    @objc private func keyboardWillHide() {
-        textView.contentInset = UIEdgeInsets.zero
-        textView.scrollIndicatorInsets = textView.contentInset
+    private func setUpKeyboard() {
+        keyboardManager = KeyboardManager(textView: textView)
     }
 }
