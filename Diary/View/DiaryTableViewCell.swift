@@ -73,10 +73,10 @@ final class DiaryTableViewCell: UITableViewCell {
 
 // MARK: - Setup Data
 extension DiaryTableViewCell {
-    func setupContent(title: String, creationDate: String, body: String) {
-        titleLabel.text = title
-        creationDateLabel.text = creationDate
-        bodyLabel.text = body
+    func setupContent(_ diaryEntry: DiaryEntry) {
+        titleLabel.text = diaryEntry.title
+        creationDateLabel.text = diaryEntry.creationDate
+        bodyLabel.text = diaryEntry.body
     }
 }
 

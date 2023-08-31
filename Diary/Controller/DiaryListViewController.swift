@@ -24,7 +24,7 @@ final class DiaryListViewController: UIViewController {
                 return UITableViewCell()
             }
             
-            cell.setupContent(title: item.title, creationDate: item.creationDate, body: item.body)
+            cell.setupContent(item)
             
             return cell
         })
