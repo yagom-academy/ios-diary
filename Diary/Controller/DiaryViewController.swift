@@ -34,9 +34,7 @@ final class DiaryViewController: UIViewController {
 }
 
 extension DiaryViewController: DiaryManagerDelegate {
-    func showErrorAlert(error: Error) {
-        //얼럿 띄우기
-    }
+    func showErrorAlert(error: Error) {}
 }
 
 // MARK: Road Data
@@ -124,12 +122,11 @@ extension DiaryViewController: UICollectionViewDelegate {
 // MARK: CollectionView DataSource
 extension DiaryViewController {
     private func configureDataSource() {
-        let registration = UICollectionView.CellRegistration<DiaryCollectionViewListCell, Diary> { cell, indexPath, diary in
+        let registration = UICollectionView.CellRegistration<DiaryCollectionViewListCell, Diary> { cell, _, diary in
             cell.setupLabels(diary)
         }
 
-        diaryDataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView) {
-            collectionView, indexPath, diary in
+        diaryDataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView) { collectionView, indexPath, diary in
             return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: diary)
         }
     }
