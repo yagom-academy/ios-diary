@@ -9,10 +9,11 @@ import UIKit
 
 struct DataManager {
     func diary(diaryList: [DiaryData]) -> [Diary] {
+        let dataFormatter = DateFormatter()
         return diaryList.map {
-            let createdDate = DateFormatter().dateString(
+            let createdDate = dataFormatter.dateString(
                 from: Date(timeIntervalSince1970: Double($0.createdDate)),
-                at: DateFormatter.Location.korea,
+                at: Locale.current.identifier,
                 with: DateFormatter.FormatTemplate.attached
             )
             return Diary(
