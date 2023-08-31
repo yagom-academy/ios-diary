@@ -11,7 +11,7 @@ extension DateFormatter {
     static let diaryFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .long
-        formatter.locale = Locale(identifier: Locale.current.identifier)
+        formatter.locale = Locale.current
         
         return formatter
     }()
