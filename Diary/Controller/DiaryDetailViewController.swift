@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryDetailViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController {
     private let titleTextView = {
         let textView = UITextView()
         textView.isEditable = true
@@ -73,7 +73,7 @@ private extension DiaryDetailViewController {
             contentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            contentStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
     }
 }
