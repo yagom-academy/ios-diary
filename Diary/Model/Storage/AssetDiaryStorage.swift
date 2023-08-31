@@ -9,10 +9,10 @@ import UIKit
 
 final class AssetDiaryStorage: DiaryStorageProtocol {
     
-    func diaryEntrys() -> [DiaryEntry] {
+    func diaryEntrys() throws -> [DiaryEntry] {
         guard let asset = NSDataAsset(name: "sample"),
               let diarys = try? JSONDecoder().decode([Diary].self, from: asset.data) else {
-            return []
+            throw StorageError.loadDataFailed
         }
         
         let diaryEntrys = diarys.map {

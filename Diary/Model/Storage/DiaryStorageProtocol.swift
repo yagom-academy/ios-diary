@@ -6,6 +6,6 @@
 //
 
 protocol DiaryStorageProtocol {
-    func diaryEntrys() -> [DiaryEntry]
+    func diaryEntrys() throws -> [DiaryEntry]
     func storeDiary(_ diary: DiaryEntry)
 }

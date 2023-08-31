@@ -56,10 +56,15 @@ final class DiaryListViewController: UIViewController {
 // MARK: - Setup Data
 extension DiaryListViewController {
     private func setupContentTableView() {
-        var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryEntry>()
-        snapshot.appendSections([.main])
-        snapshot.appendItems(diaryStore.diaryEntrys())
-        dataSource.apply(snapshot)
+        do {
+            let diaryEntrys = try diaryStore.diaryEntrys()
+            var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryEntry>()
+            snapshot.appendSections([.main])
+            snapshot.appendItems(diaryEntrys)
+            dataSource.apply(snapshot)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
 
@@ -100,10 +105,14 @@ extension DiaryListViewController {
 // MARK: - TableView Delegate
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryEntry = diaryStore.diaryEntrys()[indexPath.row]
-        let diaryViewController = DiaryViewController(diaryStore: diaryStore, diaryEntry: diaryEntry)
-        
-        navigationController?.pushViewController(diaryViewController, animated: true)
+        do {
+            let diaryEntry = try diaryStore.diaryEntrys()[indexPath.row]
+            let diaryViewController = DiaryViewController(diaryStore: diaryStore, diaryEntry: diaryEntry)
+            
+            navigationController?.pushViewController(diaryViewController, animated: true)
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
 
