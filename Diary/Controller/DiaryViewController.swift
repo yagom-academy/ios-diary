@@ -31,10 +31,11 @@ final class DiaryViewController: UIViewController {
 
 extension DiaryViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let index = indexPath.row
         let diaryDetailViewController = DiaryDetailViewController(
-            title: diaryModel[indexPath.row].title,
-            body: diaryModel[indexPath.row].body,
-            date: Date(timeIntervalSince1970: diaryModel[indexPath.row].date)
+            title: diaryModel[index].title,
+            body: diaryModel[index].body,
+            date: Date(timeIntervalSince1970: diaryModel[index].date)
         )
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -50,13 +51,14 @@ extension DiaryViewController: UITableViewDataSource, UITableViewDelegate {
             return UITableViewCell()
         }
         
-        let date = Date(timeIntervalSince1970: diaryModel[indexPath.row].date)
+        let index = indexPath.row
+        let date = Date(timeIntervalSince1970: diaryModel[index].date)
         let formattedDate = DateFormatter.diaryFormatter.string(from: date)
         
         cell.configureCell(
-            title: diaryModel[indexPath.row].title,
+            title: diaryModel[index].title,
             date: formattedDate,
-            preview: diaryModel[indexPath.row].body
+            preview: diaryModel[index].body
         )
         
         return cell
