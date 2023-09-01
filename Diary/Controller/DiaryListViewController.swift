@@ -15,11 +15,14 @@ final class DiaryListViewController: UIViewController {
     }()
     private var diaryEntities = [DiaryEntity]()
     private let dateFormatter = DateFormatter()
+    private let container = CoreDataManager.shard.persistentContainer
+    private var diaryList = [Diary]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupData()
+        readCoreData()
         configureUI()
         setupTableView()
     }
@@ -63,13 +66,21 @@ final class DiaryListViewController: UIViewController {
         } catch {
             print(DecodingError.unknown.message)
         }
-        
+    }
+    
+    private func readCoreData() {
+        do {
+            let diaryList = try container.viewContext.fetch(Diary.fetchRequest())
+            tableView.reloadData()
+        } catch {
+            // TODO : AlertController Error
+        }
     }
 }
 
 extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        diaryEntities.count
+        diaryList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -77,10 +88,13 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
                                                        for: indexPath) as?
                 DiaryListTableViewCell else { return UITableViewCell() }
         
-        let diaryEntity = diaryEntities[indexPath.row]
-        let date = dateFormatter.formatToString(from: diaryEntity.createdAt, with: "YYYY년 MM월 dd일")
+        let diaryEntity = diaryList[indexPath.row]
+        guard let title = diaryEntity.title,
+              let createdAt = diaryEntity.createdAt,
+              let body = diaryEntity.body else { return UITableViewCell() }
+        let date = dateFormatter.formatToString(from: createdAt, with: "YYYY년 MM월 dd일")
         
-        cell.setModel(title: diaryEntity.title, date: date, body: diaryEntity.body)
+        cell.setModel(title: title, date: date, body: body)
         
         return cell
     }

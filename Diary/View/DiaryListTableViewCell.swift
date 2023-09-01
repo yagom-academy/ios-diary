@@ -57,16 +57,12 @@ final class DiaryListTableViewCell: UITableViewCell {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40)
-        ])
-        
-        NSLayoutConstraint.activate([
+            titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
+            
             dateLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             dateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
-        ])
-        
-        NSLayoutConstraint.activate([
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
+            
             bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
             bodyLabel.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 4),
             bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
