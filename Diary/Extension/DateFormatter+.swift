@@ -16,7 +16,6 @@ extension DateFormatter {
     func configureDiaryDateFormat() {
         dateStyle = .long
         timeStyle = .none
-        locale = Locale(identifier: "ko_KR")
-        dateFormat = "yyyy년 MM월 dd일"
+        locale = Locale(identifier: Locale.current.identifier)
     }
 }
