@@ -10,9 +10,10 @@ import UIKit
 final class DetailViewController: UIViewController {
     @IBOutlet private weak var titleTextView: UITextView!
     @IBOutlet private weak var bodyTextView: UITextView!
-    private var sample: Sample
+    private let sample: Sample?
+    let placeHolderText = "Input Text"
     
-    init?(sample: Sample, coder: NSCoder) {
+    init?(sample: Sample? = nil, coder: NSCoder) {
         self.sample = sample
         super.init(coder: coder)
     }
@@ -38,17 +39,33 @@ final class DetailViewController: UIViewController {
     }
     
     private func configureNavigationTitle() {
-        let createdDate = sample.createdDate
+        guard let createdDate = sample?.createdDate else {
+            let formattedTodayDate = CustomDateFormatter.formatTodayDate()
+            self.navigationItem.title = formattedTodayDate
+            return
+        }
         let formattedSampleDate = CustomDateFormatter.formatSampleDate(sampleDate: createdDate)
         
         self.navigationItem.title = formattedSampleDate
     }
     
     private func configureTextView() {
-        titleTextView.text = sample.title
-        bodyTextView.text = sample.body
         titleTextView.layer.borderWidth = 1
         bodyTextView.layer.borderWidth = 1
+        
+        guard let sample else {
+            titleTextView.text = placeHolderText
+            titleTextView.textColor = .lightGray
+            titleTextView.delegate = self
+            
+            bodyTextView.text = placeHolderText
+            bodyTextView.textColor = .lightGray
+            bodyTextView.delegate = self
+            return
+        }
+        
+        titleTextView.text = sample.title
+        bodyTextView.text = sample.body
     }
     
     @objc func keyboardWillShow(_ sender: Notification) {
@@ -63,5 +80,31 @@ final class DetailViewController: UIViewController {
     
     @objc func keyboardWillHide(_ sender: Notification) {
         bodyTextView.contentInset = UIEdgeInsets.zero
+    }
+}
+
+extension DetailViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        if titleTextView.text == placeHolderText {
+            titleTextView.text = nil
+            titleTextView.textColor = .black
+        }
+        
+        if bodyTextView.text == placeHolderText {
+            bodyTextView.text = nil
+            bodyTextView.textColor = .black
+        }
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        if titleTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            titleTextView.text = placeHolderText
+            titleTextView.textColor = .lightGray
+        }
+        
+        if bodyTextView.text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            bodyTextView.text = placeHolderText
+            bodyTextView.textColor = .lightGray
+        }
     }
 }
