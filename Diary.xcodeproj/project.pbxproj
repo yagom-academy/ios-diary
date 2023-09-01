@@ -16,6 +16,7 @@
 		C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */; };
 		C739AE31284DF28600741E8F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C739AE30284DF28600741E8F /* Assets.xcassets */; };
 		C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C739AE32284DF28600741E8F /* LaunchScreen.storyboard */; };
+		CB9739BE2AA1741200629F49 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = CB9739BD2AA1741200629F49 /* .swiftlint.yml */; };
 		CBC4C42F2A9E1693009D495E /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC4C42E2A9E1693009D495E /* DateFormatter+.swift */; };
 		CBC4C4322A9E347B009D495E /* DataLoadError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC4C4312A9E347B009D495E /* DataLoadError.swift */; };
 		CBC4C4342A9F248F009D495E /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC4C4332A9F248F009D495E /* DiaryViewController.swift */; };
@@ -35,6 +36,7 @@
 		C739AE33284DF28600741E8F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		C739AE35284DF28600741E8F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CAEDB10AAD4489A6B47E9668 /* Pods-Diary.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Diary.debug.xcconfig"; path = "Target Support Files/Pods-Diary/Pods-Diary.debug.xcconfig"; sourceTree = "<group>"; };
+		CB9739BD2AA1741200629F49 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		CBC4C42E2A9E1693009D495E /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
 		CBC4C4312A9E347B009D495E /* DataLoadError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoadError.swift; sourceTree = "<group>"; };
 		CBC4C4332A9F248F009D495E /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
@@ -72,6 +74,7 @@
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
 			children = (
+				CB9739BD2AA1741200629F49 /* .swiftlint.yml */,
 				C739AE23284DF28600741E8F /* Diary */,
 				C739AE22284DF28600741E8F /* Products */,
 				6C1BD10DF337C45228AE55A2 /* Pods */,
@@ -222,6 +225,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CB9739BE2AA1741200629F49 /* .swiftlint.yml in Resources */,
 				C739AE34284DF28600741E8F /* LaunchScreen.storyboard in Resources */,
 				C739AE31284DF28600741E8F /* Assets.xcassets in Resources */,
 			);

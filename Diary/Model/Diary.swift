@@ -15,6 +15,7 @@ struct Diary: Decodable {
     var date: String {
         return dateFormatter.transformDiaryDate(using: unixTime)
     }
+    
     private enum CodingKeys: String, CodingKey {
         case title
         case body
