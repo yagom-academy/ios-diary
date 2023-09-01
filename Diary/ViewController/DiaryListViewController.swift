@@ -36,7 +36,10 @@ final class DiaryListViewController: UIViewController {
             
             diaryList = data
         } catch {
-            print(error.localizedDescription)
+            let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+            let closeAction = UIAlertAction(title: "확인", style: .cancel)
+            alert.addAction(closeAction)
+            self.present(alert, animated: true)
         }
     }
     
