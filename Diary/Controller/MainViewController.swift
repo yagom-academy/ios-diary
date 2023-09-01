@@ -24,7 +24,7 @@ final class MainViewController: UIViewController {
         let tableView = UITableView()
         
         tableView.allowsSelection = false
-        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.reuseIdentifier)
+        tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.indentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -75,7 +75,7 @@ extension MainViewController {
     private func setUpTableViewDiffableDataSource() {
         diffableDatasource = UITableViewDiffableDataSource(tableView: tableView, cellProvider: { [weak self] tableView, indexPath, diarySample in
             guard let self = self,
-                    let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.reuseIdentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
+                  let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.indentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
             
             let date = Date(timeIntervalSince1970: diarySample.date)
             let formattedDate = self.dateFormatter.string(from: date)

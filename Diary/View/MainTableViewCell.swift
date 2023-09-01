@@ -7,8 +7,7 @@
 
 import UIKit
 
-final class MainTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "MainTableViewCell"
+final class MainTableViewCell: UITableViewCell, ReuseIdentifiable {
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         

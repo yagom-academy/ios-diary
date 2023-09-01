@@ -19,6 +19,7 @@
 		D2C1FBEF2A9F058000526DA5 /* DiaryContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBEE2A9F058000526DA5 /* DiaryContent.swift */; };
 		D2C1FBF32A9F0A0900526DA5 /* AddDiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBF22A9F0A0900526DA5 /* AddDiaryViewController.swift */; };
 		D2C1FBF62A9F1EC100526DA5 /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */; };
+		D2DB46872AA1A83B009D1926 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DB46862AA1A83B009D1926 /* ReuseIdentifiable.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		D2C1FBEE2A9F058000526DA5 /* DiaryContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContent.swift; sourceTree = "<group>"; };
 		D2C1FBF22A9F0A0900526DA5 /* AddDiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddDiaryViewController.swift; sourceTree = "<group>"; };
 		D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
+		D2DB46862AA1A83B009D1926 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				C739AE35284DF28600741E8F /* Info.plist */,
+				D2DB46852AA1A7BC009D1926 /* Protocol */,
 				5BBC44372A9F025A00C528DD /* Resource */,
 				5BBC44362A9F025500C528DD /* Model */,
 				5BBC44352A9F025000C528DD /* View */,
@@ -131,6 +134,14 @@
 				D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		D2DB46852AA1A7BC009D1926 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				D2DB46862AA1A83B009D1926 /* ReuseIdentifiable.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -235,6 +246,7 @@
 				5BBC44392A9F036000C528DD /* MainTableViewCell.swift in Sources */,
 				D2C1FBF62A9F1EC100526DA5 /* AppManager.swift in Sources */,
 				5BBC443B2A9F276100C528DD /* DiarySample.swift in Sources */,
+				D2DB46872AA1A83B009D1926 /* ReuseIdentifiable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
