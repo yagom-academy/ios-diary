@@ -55,7 +55,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        let addDiary: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(hitCreateNewDiaryButton))
+        let addDiary: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .done, target: self, action: #selector(createNewDiaryButtonTapped))
         self.navigationItem.rightBarButtonItem = addDiary
         navigationItem.title = "일기장"
     }
@@ -75,7 +75,7 @@ final class DiaryListViewController: UIViewController {
         ])
     }
 
-    @objc private func hitCreateNewDiaryButton() {
+    @objc private func createNewDiaryButtonTapped() {
         let newDiaryViewController: NewDiaryViewController = NewDiaryViewController()
         navigationController?.pushViewController(newDiaryViewController, animated: true)
     }
