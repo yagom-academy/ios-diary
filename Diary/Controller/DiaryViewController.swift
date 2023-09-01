@@ -38,7 +38,7 @@ final class DiaryViewController: UIViewController {
     }
 }
 
-extension DiaryViewController: UITableViewDataSource, UITableViewDelegate {
+extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row
         let diaryDetailViewController = DiaryDetailViewController(
@@ -50,7 +50,9 @@ extension DiaryViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
-    
+}
+
+extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return diaryModel.count
     }
