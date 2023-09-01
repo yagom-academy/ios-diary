@@ -45,7 +45,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        navigationItem.title = "일기장"
+        navigationItem.title = String(localized: "DiaryListNavigationTitle")
         
         let action = UIAction { _ in
             self.addDiary()
