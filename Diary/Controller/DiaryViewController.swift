@@ -75,10 +75,9 @@ extension DiaryViewController {
     }
     
     private func setupNavigationBar() {
-        let selectDateButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(didTapSelectPlusButton))
-        navigationItem.title = "일기장"
+        let selectDateButton = UIBarButtonItem(image: UIImage(systemName: NameSpace.plusButtonImage), style: .plain, target: self, action: #selector(didTapSelectPlusButton))
+        navigationItem.title = NameSpace.diaryTitle
         navigationItem.rightBarButtonItem = selectDateButton
-        navigationController?.setToolbarHidden(false, animated: false)
     }
     
     private func setupDiaryManager() {
@@ -157,5 +156,14 @@ extension DiaryViewController {
 extension DiaryViewController {
     private enum Section {
         case main
+    }
+}
+
+
+// MARK: Name Space
+extension DiaryViewController {
+    private enum NameSpace {
+        static let diaryTitle = "일기장"
+        static let plusButtonImage = "plus"
     }
 }
