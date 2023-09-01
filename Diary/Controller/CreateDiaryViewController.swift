@@ -16,10 +16,21 @@ final class CreateDiaryViewController: UIViewController {
         return textView
     }()
     
+    weak var delegate: DiaryListDelegate?
+    private let container = CoreDataManager.shared.persistentContainer
+    var diary: Diary?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        createDiary()
         configureUI()
         setupNotification()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        saveDiary()
+        delegate?.readCoreData()
     }
     
     private func configureUI() {
@@ -51,15 +62,37 @@ final class CreateDiaryViewController: UIViewController {
     
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
-                as? CGRect else {
-            return
-        }
+                as? CGRect else { return }
         
         textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.size.height, right: 0)
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
         textView.contentInset = .zero
+        saveDiary()
+    }
+    
+    private func createDiary() {
+        let newDiary = Diary(context: container.viewContext)
+        newDiary.id = UUID()
+        newDiary.createdAt = Date()
+        
+        diary = newDiary
+    }
+    
+    private func saveDiary() {
+        let contents = textView.text.split(separator: "\n")
+        guard !contents.isEmpty,
+              let title = contents.first else { return }
+        
+        let body = contents.dropFirst().joined(separator: "\n")
+        
+        guard let diary else { return }
+        
+        diary.title = "\(title)"
+        diary.body = body
+        
+        CoreDataManager.shared.saveContext()
     }
     
     deinit {

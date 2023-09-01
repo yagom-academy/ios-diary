@@ -6,6 +6,10 @@
 
 import UIKit
 
+protocol DiaryListDelegate: AnyObject {
+    func readCoreData()
+}
+
 final class DiaryListViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -13,15 +17,14 @@ final class DiaryListViewController: UIViewController {
         
         return tableView
     }()
-    private var diaryEntities = [DiaryEntity]()
+    
     private let dateFormatter = DateFormatter()
-    private let container = CoreDataManager.shard.persistentContainer
+    private let container = CoreDataManager.shared.persistentContainer
     private var diaryList = [Diary]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupData()
+
         readCoreData()
         configureUI()
         setupTableView()
@@ -34,6 +37,7 @@ final class DiaryListViewController: UIViewController {
         let addDiary = UIAction(image: UIImage(systemName: "plus")) { [weak self] _ in
             guard let self else { return }
             let createDiaryView = CreateDiaryViewController()
+            createDiaryView.delegate = self
             self.navigationController?.pushViewController(createDiaryView, animated: true)
         }
         
@@ -53,28 +57,6 @@ final class DiaryListViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(DiaryListTableViewCell.self, forCellReuseIdentifier: DiaryListTableViewCell.identifier)
-    }
-    
-    private func setupData() {
-        do {
-            let loadDiaryEntity: [DiaryEntity] = try DecodingManager.decodeJson(from: "sample")
-            diaryEntities = loadDiaryEntity
-        } catch DecodingError.fileNotFound {
-            print(DecodingError.fileNotFound.message)
-        } catch DecodingError.decodingFailure {
-            print(DecodingError.decodingFailure.message)
-        } catch {
-            print(DecodingError.unknown.message)
-        }
-    }
-    
-    private func readCoreData() {
-        do {
-            let diaryList = try container.viewContext.fetch(Diary.fetchRequest())
-            tableView.reloadData()
-        } catch {
-            // TODO : AlertController Error
-        }
     }
 }
 
@@ -101,5 +83,16 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+}
+
+extension DiaryListViewController: DiaryListDelegate {
+    func readCoreData() {
+        do {
+            diaryList = try container.viewContext.fetch(Diary.fetchRequest())
+            tableView.reloadData()
+        } catch {
+            // TODO : AlertController Error
+        }
     }
 }
