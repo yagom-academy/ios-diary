@@ -51,7 +51,7 @@ final class DiaryViewController: UIViewController {
             contentTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             contentTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            contentTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            contentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
     }
 }
