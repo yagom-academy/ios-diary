@@ -2,7 +2,7 @@
 //  DateFomatter+.swift
 //  Diary
 //
-//  Created by kyungmin on 2023/08/29.
+//  Created by Dasan, kyungmin on 2023/08/29.
 //
 
 import Foundation

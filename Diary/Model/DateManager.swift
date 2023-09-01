@@ -11,10 +11,11 @@ struct DateManager {
     func todayString() -> String {
         let dataFormatter = DateFormatter()
         let createdDate = dataFormatter.dateString(
-                from: Date(),
-                at: Locale.current.identifier,
-                with: DateManager.FormatTemplate.attached
-            )
+            from: Date(),
+            at: Locale.current.identifier,
+            with: DateManager.FormatTemplate.attached
+        )
+        
         return createdDate
     }
 }

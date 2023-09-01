@@ -2,7 +2,7 @@
 //  DiaryDetailViewController.swift
 //  Diary
 //
-//  Created by kyungmin on 2023/08/30.
+//  Created by Dasan, kyungmin on 2023/08/30.
 //
 
 import UIKit
@@ -46,43 +46,6 @@ final class DiaryDetailViewController: UIViewController {
             removeKeyboardObserver()
         }
     }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo as NSDictionary?,
-              let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
-
-        diaryTextView.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: keyboardFrame.size.height, right: .zero)
-    }
-
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        diaryTextView.contentInset = UIEdgeInsets.zero
-        diaryTextView.scrollIndicatorInsets = diaryTextView.contentInset
-    }
-}
-
-// MARK: Notification
-extension DiaryDetailViewController {
-    private func addKeyboardObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillShow),
-            name: UIResponder.keyboardWillShowNotification,
-            object: nil
-        )
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(keyboardWillHide),
-            name: UIResponder.keyboardWillHideNotification,
-            object: nil
-        )
-    }
-    
-    private func removeKeyboardObserver() {
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
 }
 
 // MARK: Setup Components
@@ -98,7 +61,7 @@ extension DiaryDetailViewController {
     }
     
     private func setupTextView() {
-        diaryTextView.text = String(format: NameSpace.diaryText, diary.title, diary.body)
+        diaryTextView.text = String(format: NameSpace.diaryText, arguments: [diary.title, diary.body])
         diaryTextView.keyboardDismissMode = .onDrag
     }
     
@@ -140,6 +103,47 @@ extension DiaryDetailViewController {
                 diaryTextView.rightAnchor.constraint(equalTo: view.readableContentGuide.rightAnchor)
             ])
         }
+    }
+}
+
+// MARK: Notification
+extension DiaryDetailViewController {
+    private func addKeyboardObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
+    }
+    
+    private func removeKeyboardObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as NSDictionary?,
+              let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+
+        diaryTextView.contentInset = UIEdgeInsets(
+            top: .zero,
+            left: .zero,
+            bottom: keyboardFrame.size.height,
+            right: .zero
+        )
+    }
+    
+    @objc private func keyboardWillHide() {
+        diaryTextView.contentInset = UIEdgeInsets.zero
     }
 }
 

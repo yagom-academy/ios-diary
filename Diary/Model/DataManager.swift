@@ -10,17 +10,15 @@ import UIKit
 struct DataManager {
     func diary(diaryList: [DiaryData]) -> [Diary] {
         let dataFormatter = DateFormatter()
+        
         return diaryList.map {
             let createdDate = dataFormatter.dateString(
                 from: Date(timeIntervalSince1970: Double($0.createdDate)),
                 at: Locale.current.identifier,
                 with: DateManager.FormatTemplate.attached
             )
-            return Diary(
-                title: $0.title,
-                body: $0.body,
-                createdDate: createdDate
-            )
+            
+            return Diary(title: $0.title, body: $0.body, createdDate: createdDate)
         }
     }
 }

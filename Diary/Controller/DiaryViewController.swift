@@ -33,28 +33,6 @@ final class DiaryViewController: UIViewController {
     }
 }
 
-extension DiaryViewController: DiaryManagerDelegate {
-    func showErrorAlert(error: Error) {}
-}
-
-// MARK: Road Data
-extension DiaryViewController {
-    private func loadData() {
-        diaryManager.fetchDiaryList()
-        applySnapshot()
-    }
-}
-
-// MARK: Button Action
-extension DiaryViewController {
-    @objc private func didTapSelectPlusButton() {
-        let diary = diaryManager.newDiary()
-        
-        let diaryDetailViewController = DiaryDetailViewController(diary: diary)
-        show(diaryDetailViewController, sender: self)
-    }
-}
-
 // MARK: Setup Object
 extension DiaryViewController {
     private func setupObject() {
@@ -75,7 +53,12 @@ extension DiaryViewController {
     }
     
     private func setupNavigationBar() {
-        let selectDateButton = UIBarButtonItem(image: UIImage(systemName: NameSpace.plusButtonImage), style: .plain, target: self, action: #selector(didTapSelectPlusButton))
+        let selectDateButton = UIBarButtonItem(
+            image: UIImage(systemName: NameSpace.plusButtonImage),
+            style: .plain,
+            target: self,
+            action: #selector(didTapSelectPlusButton)
+        )
         navigationItem.title = NameSpace.diaryTitle
         navigationItem.rightBarButtonItem = selectDateButton
     }
@@ -112,6 +95,14 @@ extension DiaryViewController {
     }
 }
 
+// MARK: Road Data
+extension DiaryViewController {
+    private func loadData() {
+        diaryManager.fetchDiaryList()
+        applySnapshot()
+    }
+}
+
 // MARK: CollectionView Delegate
 extension DiaryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -136,9 +127,9 @@ extension DiaryViewController {
     
     private func applySnapshot() {
         var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
+        
         snapshot.appendSections([.main])
         snapshot.appendItems(diaryManager.diaryList)
-        
         diaryDataSource.apply(snapshot, animatingDifferences: true)
     }
 }
@@ -171,6 +162,16 @@ extension DiaryViewController: DiaryManagerDelegate {
         )
         
         present(alert, animated: true)
+    }
+}
+
+// MARK: Button Action
+extension DiaryViewController {
+    @objc private func didTapSelectPlusButton() {
+        let diary = diaryManager.newDiary()
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary)
+        
+        show(diaryDetailViewController, sender: self)
     }
 }
 

@@ -29,8 +29,18 @@ struct DiaryManager {
     
     func newDiary() -> Diary {
         let dateManager = DateManager()
-        let diary = Diary(title: "", body: "", createdDate: dateManager.todayString())
+        let diary = Diary(
+            title: NameSpace.empty,
+            body: NameSpace.empty,
+            createdDate: dateManager.todayString()
+        )
         
         return diary
+    }
+}
+
+extension DiaryManager {
+    private enum NameSpace {
+        static let empty = ""
     }
 }
