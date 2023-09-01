@@ -35,12 +35,8 @@ final class DiaryListViewController: UIViewController {
             }
             
             diaryList = data
-        } catch DataLoadError.assetNotFound {
-            print("asset을 찾을 수 없습니다.")
-        } catch DataLoadError.decodeFailure {
-            print("decode에 실패했습니다.")
         } catch {
-            print("알 수 없는 에러가 발생했습니다.")
+            print(error.localizedDescription)
         }
     }
     
