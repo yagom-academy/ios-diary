@@ -18,13 +18,12 @@ extension DateFormatter {
         return dateFormatter.string(from: date)
     }
     
-    func formatDate(_ data: DiaryEntity, locale: LocaleIdentifier) -> String {
-        let dateFormatter: DateFormatter = DateFormatter()
+    static func formatDate(_ data: DiaryEntity, locale: LocaleIdentifier, formatter: DateFormatter) -> String {
         let date: Date = Date(timeIntervalSince1970: TimeInterval(data.createdAt))
-        dateFormatter.locale = Locale(identifier: locale.description)
-        dateFormatter.timeZone = TimeZone(identifier: TimeZone.current.identifier)
-        dateFormatter.dateStyle = .long
+        formatter.locale = Locale(identifier: locale.description)
+        formatter.timeZone = TimeZone(identifier: TimeZone.current.identifier)
+        formatter.dateStyle = .long
         
-        return dateFormatter.string(from: date)
+        return formatter.string(from: date)
     }
 }

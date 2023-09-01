@@ -7,15 +7,7 @@
 
 import UIKit
 
-protocol IdentifiableCell {
-    static var identifier: String { get }
-}
-
-final class DiaryCollectionViewListCell: UICollectionViewListCell, IdentifiableCell {
-    static var identifier: String {
-        return String(describing: self)
-    }
-    
+final class DiaryCollectionViewListCell: UICollectionViewListCell, CellIdentifiable {
     private let titleLabel: UILabel = {
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -99,7 +91,7 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell, IdentifiableC
     
     func configureLabel(with diary: DiaryEntity) {
         titleLabel.text = diary.title
-        dateLabel.text = DateFormatter().formatDate(diary, locale: .KOR)
+        dateLabel.text = DateFormatter.formatDate(diary, locale: .KOR, formatter: DateFormatter())
         previewLabel.text = diary.body
     }
     

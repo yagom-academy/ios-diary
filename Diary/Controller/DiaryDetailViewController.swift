@@ -11,10 +11,9 @@ final class DiaryDetailViewController: UIViewController {
     private var diaryEntity: DiaryEntity
     private var keyboardManager: KeyboardManager?
     
-    private lazy var textView: UITextView = {
+    private let textView: UITextView = {
         let view: UITextView = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.text = diaryEntity.title + "\n\n" + diaryEntity.body
         
         return view
     }()
@@ -23,6 +22,7 @@ final class DiaryDetailViewController: UIViewController {
         super.viewDidLoad()
         configureNavigation()
         configureUI()
+        configureTextView()
         configureLayout()
         setUpKeyboard()
     }
@@ -37,12 +37,16 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        navigationItem.title = DateFormatter().formatDate(diaryEntity, locale: .KOR)
+        navigationItem.title = DateFormatter.formatDate(diaryEntity, locale: .KOR, formatter: DateFormatter())
     }
     
     private func configureUI() {
         view.addSubview(textView)
         view.backgroundColor = .systemBackground
+    }
+    
+    private func configureTextView() {
+        textView.text = diaryEntity.title + "\n\n" + diaryEntity.body
     }
     
     private func configureLayout() {
