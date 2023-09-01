@@ -9,6 +9,13 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController {
     private let diary: Diary
+    private let diaryTextView: UITextView = {
+        let textView = UITextView()
+        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return textView
+    }()
     
     init(diary: Diary) {
         self.diary = diary
@@ -31,11 +38,16 @@ final class DiaryDetailViewController: UIViewController {
 extension DiaryDetailViewController {
     private func setupComponents() {
         setupView()
+        setupTextView()
         setupNavigationBar()
     }
     
     private func setupView() {
         view.backgroundColor = .white
+    }
+    
+    private func setupTextView() {
+        diaryTextView.text = String(format: NameSpace.diaryText, diary.title, diary.body)
     }
     
     private func setupNavigationBar() {
@@ -45,12 +57,21 @@ extension DiaryDetailViewController {
 
 // MARK: Configure UI
 extension DiaryDetailViewController {
-    private func configureUI() {}
+    private func configureUI() {
+        configureView()
+    }
     
-    private func configureContentView() {}
+    private func configureView() {
+        view.addSubview(diaryTextView)
+    }
 }
 
 // MARK: Setup Constraint
 extension DiaryDetailViewController {
     private func setupConstraint() {}
+// MARK: Name Space
+extension DiaryDetailViewController {
+    private enum NameSpace {
+        static let diaryText = "%@ \n\n %@"
+    }
 }
