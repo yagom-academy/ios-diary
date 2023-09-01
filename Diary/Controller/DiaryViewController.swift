@@ -46,7 +46,7 @@ extension DiaryViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as? DiaryCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.basic) as? DiaryCell else {
             return UITableViewCell()
         }
         
@@ -94,7 +94,7 @@ private extension DiaryViewController {
     }
     
     func registerCell() {
-        tableView.register(DiaryCell.self, forCellReuseIdentifier: "cell")
+        tableView.register(DiaryCell.self, forCellReuseIdentifier: CellIdentifier.basic)
     }
     
     func configureSubviews() {
