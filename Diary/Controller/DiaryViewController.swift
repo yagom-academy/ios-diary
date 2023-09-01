@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private var tableView: UITableView = UITableView()
-    private var diaryModel: [DiaryModel] = []
+    private var diaryList: [DiaryModel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,7 @@ final class DiaryViewController: UIViewController {
         }
         
         do {
-            diaryModel = try JSONDecoder().decode([DiaryModel].self, from: dataAsset.data)
+            diaryList = try JSONDecoder().decode([DiaryModel].self, from: dataAsset.data)
         } catch {
             print(error.localizedDescription)
         }
@@ -42,9 +42,9 @@ extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let index = indexPath.row
         let diaryDetailViewController = DiaryDetailViewController(
-            title: diaryModel[index].title,
-            body: diaryModel[index].body,
-            date: Date(timeIntervalSince1970: diaryModel[index].date)
+            title: diaryList[index].title,
+            body: diaryList[index].body,
+            date: Date(timeIntervalSince1970: diaryList[index].date)
         )
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -54,7 +54,7 @@ extension DiaryViewController: UITableViewDelegate {
 
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryModel.count
+        return diaryList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -63,13 +63,13 @@ extension DiaryViewController: UITableViewDataSource {
         }
         
         let index = indexPath.row
-        let date = Date(timeIntervalSince1970: diaryModel[index].date)
+        let date = Date(timeIntervalSince1970: diaryList[index].date)
         let formattedDate = DateFormatter.diaryFormatter.string(from: date)
         
         cell.configureCell(
-            title: diaryModel[index].title,
+            title: diaryList[index].title,
             date: formattedDate,
-            preview: diaryModel[index].body
+            preview: diaryList[index].body
         )
         
         return cell
