@@ -66,4 +66,3 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
-
