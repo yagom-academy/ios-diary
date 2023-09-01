@@ -7,7 +7,7 @@
 
 import UIKit
 
-class NewDiaryViewController: UIViewController {
+final class NewDiaryViewController: UIViewController {
     @IBOutlet weak var titleTextView: UITextView!
     @IBOutlet weak var bodyTextView: UITextView!
     let placeHolderText = "Input Text"

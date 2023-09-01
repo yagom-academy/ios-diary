@@ -6,7 +6,7 @@
 
 import UIKit
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var sample: [Sample] = []
     
@@ -39,7 +39,7 @@ class MainViewController: UIViewController {
             print(error.localizedDescription)
         }
         
-        self.tableView.reloadData()
+        tableView.reloadData()
     }
 }
 

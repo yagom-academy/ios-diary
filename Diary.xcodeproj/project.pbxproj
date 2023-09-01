@@ -79,10 +79,10 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				D03533462A9D9E6B00D270A7 /* View */,
 				0A86C7812A9DA5D600584161 /* Model */,
 				D03533492A9D9E8400D270A7 /* Resource */,
 				D03533472A9D9E7400D270A7 /* ViewController */,
-				D03533462A9D9E6B00D270A7 /* View */,
 				D03533452A9D9E6200D270A7 /* Application */,
 			);
 			path = Diary;

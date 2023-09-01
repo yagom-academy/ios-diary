@@ -7,11 +7,10 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
-    @IBOutlet weak var titleTextView: UITextView!
-    @IBOutlet weak var bodyTextView: UITextView!
-    private var sample: Sample?
-    private var originalFrame: CGRect?
+final class DetailViewController: UIViewController {
+    @IBOutlet private weak var titleTextView: UITextView!
+    @IBOutlet private weak var bodyTextView: UITextView!
+    private var sample: Sample
     
     init?(sample: Sample, coder: NSCoder) {
         self.sample = sample
@@ -39,24 +38,20 @@ class DetailViewController: UIViewController {
     }
     
     private func configureNavigationTitle() {
-        guard let createdDate = sample?.createdDate else { return }
+        let createdDate = sample.createdDate
         let formattedSampleDate = CustomDateFormatter.formatSampleDate(sampleDate: createdDate)
         
         self.navigationItem.title = formattedSampleDate
     }
     
     private func configureTextView() {
-        titleTextView.text = sample?.title
-        bodyTextView.text = sample?.body
+        titleTextView.text = sample.title
+        bodyTextView.text = sample.body
         titleTextView.layer.borderWidth = 1
         bodyTextView.layer.borderWidth = 1
     }
     
     @objc func keyboardWillShow(_ sender: Notification) {
-        if originalFrame == nil {
-            originalFrame = view.frame
-        }
-        
         if let keyboardFrame = (sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             let keyboardHeight = keyboardFrame.height
             let safeAreaBottom = view.safeAreaInsets.bottom
@@ -67,8 +62,6 @@ class DetailViewController: UIViewController {
     }
     
     @objc func keyboardWillHide(_ sender: Notification) {
-        if originalFrame != nil {
-            bodyTextView.contentInset = UIEdgeInsets.zero
-        }
+        bodyTextView.contentInset = UIEdgeInsets.zero
     }
 }
