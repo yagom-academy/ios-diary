@@ -7,12 +7,22 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
+    let diaryService: DiaryService
     private var diaryList: [Diary] = []
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
+    
+    init(diaryService: DiaryService) {
+        self.diaryService = diaryService
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,17 +34,7 @@ final class DiaryListViewController: UIViewController {
     
     private func loadDiary() {
         do {
-            guard let asset = NSDataAsset(name: "sample") else {
-                throw DataLoadError.assetNotFound
-            }
-            
-            let decoder = JSONDecoder()
-            
-            guard let data = try? decoder.decode([Diary].self, from: asset.data) else {
-                throw DataLoadError.decodeFailure
-            }
-            
-            diaryList = data
+            diaryList = try diaryService.loadDiaryList(name: "sample")
         } catch {
             let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
             let closeAction = UIAlertAction(title: "확인", style: .cancel)
