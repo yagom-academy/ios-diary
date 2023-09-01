@@ -63,7 +63,6 @@ extension DiaryListViewController {
             snapshot.appendItems(diaryEntrys)
             dataSource.apply(snapshot)
         } catch {
-            print(error.localizedDescription)
             presentFailAlert()
         }
     }
@@ -119,7 +118,6 @@ extension DiaryListViewController: UITableViewDelegate {
             
             navigationController?.pushViewController(diaryViewController, animated: true)
         } catch {
-            print(error.localizedDescription)
             presentFailAlert()
         }
     }
