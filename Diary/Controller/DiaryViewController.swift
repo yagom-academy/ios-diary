@@ -159,11 +159,27 @@ extension DiaryViewController {
     }
 }
 
+// MARK: Alert Action
+extension DiaryViewController: DiaryManagerDelegate {
+    func showErrorAlert(error: Error) {
+        let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
+        let alert = UIAlertController.customAlert(
+            alertTile: NameSpace.error,
+            alertMessage: error.localizedDescription,
+            preferredStyle: .alert,
+            alertActions: [alertAction]
+        )
+        
+        present(alert, animated: true)
+    }
+}
 
 // MARK: Name Space
 extension DiaryViewController {
     private enum NameSpace {
         static let diaryTitle = "일기장"
         static let plusButtonImage = "plus"
+        static let check = "확인"
+        static let error = "Error"
     }
 }

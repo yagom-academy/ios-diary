@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AC0DF8142AA1C07400E7B63A /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0DF8132AA1C07400E7B63A /* UIAlertController+.swift */; };
 		AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38912A9DDA520022FB70 /* Diary.swift */; };
 		AC8C38942A9DDAAF0022FB70 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38932A9DDAAF0022FB70 /* DataManager.swift */; };
 		AC8C38972A9E16E50022FB70 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38962A9E16E50022FB70 /* DataError.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AC0DF8132AA1C07400E7B63A /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
 		AC8C38912A9DDA520022FB70 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		AC8C38932A9DDAAF0022FB70 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		AC8C38962A9E16E50022FB70 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
@@ -168,6 +170,7 @@
 			isa = PBXGroup;
 			children = (
 				CDC4247B2A9E28C2007BB488 /* DateFomatter+.swift */,
+				AC0DF8132AA1C07400E7B63A /* UIAlertController+.swift */,
 			);
 			path = Extension;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				CD5788522A9EC9F200309679 /* DiaryDetailViewController.swift in Sources */,
 				AC8C38942A9DDAAF0022FB70 /* DataManager.swift in Sources */,
 				AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */,
+				AC0DF8142AA1C07400E7B63A /* UIAlertController+.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
