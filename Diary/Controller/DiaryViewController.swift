@@ -18,6 +18,7 @@ final class DiaryViewController: UIViewController {
     
     private func parseData() {
         guard let dataAsset = NSDataAsset(name: "sample") else {
+            presentAlert()
             return
         }
         
@@ -26,6 +27,14 @@ final class DiaryViewController: UIViewController {
         } catch {
             print(error.localizedDescription)
         }
+    }
+    
+    private func presentAlert() {
+        let alert = UIAlertController(title: nil, message: "DataAsset를 찾지 못했습니다.", preferredStyle: .alert)
+        let action = UIAlertAction(title: "확인", style: .default)
+        
+        alert.addAction(action)
+        present(alert, animated: true)
     }
 }
 
