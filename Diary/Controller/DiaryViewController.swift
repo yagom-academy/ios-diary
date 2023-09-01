@@ -37,7 +37,7 @@ final class DiaryViewController: UIViewController {
                                                     action: #selector(addDiary))
         
         navigationItem.rightBarButtonItem = addDiaryBarButtonItem
-        navigationItem.title = "일기장"
+        navigationItem.title = String(localized: "title")
     }
     
     @objc private func addDiary() {
