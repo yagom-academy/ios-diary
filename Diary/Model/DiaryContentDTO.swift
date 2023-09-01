@@ -6,9 +6,9 @@
 //
 
 struct DiaryContentDTO: Decodable {
-    var title: String
-    var body: String
-    var timeInterval: Double
+    let title: String
+    let body: String
+    let timeInterval: Double
     
     private enum CodingKeys: String, CodingKey {
         case title, body

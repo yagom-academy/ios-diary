@@ -8,8 +8,8 @@
 import UIKit
 
 final class EditingDiaryViewController: UIViewController {
-    var diaryContent: DiaryContent
-    let isNew: Bool
+    private var diaryContent: DiaryContent
+    private let hasContents: Bool
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -22,7 +22,7 @@ final class EditingDiaryViewController: UIViewController {
     
     init(with diaryContent: DiaryContent) {
         self.diaryContent = diaryContent
-        isNew = diaryContent.title.isEmpty ? true : false
+        hasContents = diaryContent.title.isEmpty ? false : true
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -60,8 +60,8 @@ final class EditingDiaryViewController: UIViewController {
     }
     
     private func fillDiaryTextView() {
-        if !isNew {
-            diaryTextView.text = diaryContent.title + "\n\n" + diaryContent.body
+        if hasContents {
+            diaryTextView.text = String(format: "%@\n\n%@", diaryContent.title, diaryContent.body)
         }
     }
 }

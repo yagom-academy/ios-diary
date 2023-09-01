@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryTableViewCell: UITableViewCell {
-    static let identifier = "cell"
+    static let identifier = String(describing: DiaryTableViewCell.self)
     
     private let titleLabel: UILabel = {
         let label = UILabel()
