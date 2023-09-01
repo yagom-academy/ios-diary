@@ -36,7 +36,6 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifiable {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 13)
-        label.setContentCompressionResistancePriority(.required, for: .horizontal)
         return label
     }()
     
@@ -44,7 +43,6 @@ final class MainTableViewCell: UITableViewCell, ReuseIdentifiable {
         let label = UILabel()
         
         label.font = .systemFont(ofSize: 10)
-        label.setContentHuggingPriority(.init(1), for: .horizontal)
         return label
     }()
     
@@ -89,6 +87,9 @@ extension MainTableViewCell {
             mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
         ])
+        
+        dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        previewLabel.setContentHuggingPriority(.init(1), for: .horizontal)
     }
     
     private func setUpAccessory() {
