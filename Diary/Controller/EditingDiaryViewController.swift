@@ -13,6 +13,8 @@ final class EditingDiaryViewController: UIViewController {
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
+        textView.font = .preferredFont(forTextStyle: .body)
+        textView.keyboardDismissMode = .onDrag
         textView.translatesAutoresizingMaskIntoConstraints = false
         
         return textView
@@ -51,7 +53,7 @@ final class EditingDiaryViewController: UIViewController {
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
             diaryTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            diaryTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            diaryTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
             diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
