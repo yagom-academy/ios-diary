@@ -9,12 +9,14 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private let diary: Diary?
-    var titleLine: Bool = false
     private let contentTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
+    private var hasTitleLine: Bool {
+        return contentTextView.text.contains("\n")
+    }
     
     init(diary: Diary? = nil) {
         self.diary = diary
@@ -69,9 +71,8 @@ final class DiaryViewController: UIViewController {
 // MARK: - UITextViewDelegate
 extension DiaryViewController: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if titleLine == false && text == "\n" {
+        if hasTitleLine == false && text == "\n" {
             contentTextView.text += "\n"
-            titleLine = true
         }
         
         return true
