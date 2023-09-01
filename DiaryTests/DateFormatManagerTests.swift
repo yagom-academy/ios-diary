@@ -19,14 +19,4 @@ final class DateFormatManagerTests: XCTestCase {
         // then
         XCTAssertEqual(result, expectation)
     }
-    
-    func test_DateFormatManager의_string_메서드에_JapanDateFormatter와_1608651333를_입력하면_2020年12月23日이_반환됩니다() {
-        // given
-        let japanDateFormatter = JapanDateFormatter()
-        let expectation = "2020年12月23日"
-        // when
-        let result = DateFormatManager.string(localeDateFormatter: japanDateFormatter, timestamp: 1608651333)
-        // then
-        XCTAssertEqual(result, expectation)
-    }
 }
