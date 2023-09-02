@@ -34,13 +34,13 @@ final class DiaryViewController: UIViewController {
     private func configureNavigationItem() {
         let addDiaryBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
                                                     target: self,
-                                                    action: #selector(addDiary))
+                                                    action: #selector(tappedAddDiaryButton))
         
         navigationItem.rightBarButtonItem = addDiaryBarButtonItem
         navigationItem.title = String(localized: "title")
     }
     
-    @objc private func addDiary() {
+    @objc private func tappedAddDiaryButton() {
         let today = DiaryDateFormatter().format(from: Date())
         let diaryContent = DiaryContent(title: "", body: "", date: today)
         
@@ -71,7 +71,7 @@ final class DiaryViewController: UIViewController {
 
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryManager.diaryContents?.count ?? 0
+        return diaryManager.diaryContents?.count ?? .zero
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

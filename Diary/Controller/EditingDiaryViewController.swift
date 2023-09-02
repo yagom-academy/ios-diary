@@ -9,7 +9,6 @@ import UIKit
 
 final class EditingDiaryViewController: UIViewController {
     private var diaryContent: DiaryContent
-    private let hasContents: Bool
     
     private let diaryTextView: UITextView = {
         let textView = UITextView()
@@ -22,7 +21,6 @@ final class EditingDiaryViewController: UIViewController {
     
     init(with diaryContent: DiaryContent) {
         self.diaryContent = diaryContent
-        hasContents = diaryContent.title.isEmpty ? false : true
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -60,7 +58,7 @@ final class EditingDiaryViewController: UIViewController {
     }
     
     private func fillDiaryTextView() {
-        if hasContents {
+        if diaryContent.title.isEmpty == false {
             diaryTextView.text = String(format: "%@\n\n%@", diaryContent.title, diaryContent.body)
         }
     }
