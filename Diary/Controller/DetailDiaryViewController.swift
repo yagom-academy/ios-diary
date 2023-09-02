@@ -16,12 +16,15 @@ class DetailDiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .systemBackground
         navigationItem.title = DiaryDateFormatter.convertDate(Date(), Locale.current.identifier)
         
         addSubViews()
         diaryTextViewConstraints()
+        
+        diaryTextView.delegate = self
+        diaryTextView.keyboardDismissMode = .onDrag
     }
 }
 
@@ -39,5 +42,11 @@ extension DetailDiaryViewController {
             diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             diaryTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
+    }
+}
+
+extension DetailDiaryViewController: UITextViewDelegate {
+    func textViewDidBeginEditing(_ textView: UITextView) {
+        textView.becomeFirstResponder()
     }
 }
