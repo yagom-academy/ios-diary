@@ -7,7 +7,7 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private let diaryManager = DiaryManager()
+    private var diaryManager: DiaryManager
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -16,12 +16,24 @@ final class DiaryViewController: UIViewController {
         return tableView
     }()
     
+    init(diaryManager: DiaryManager = DiaryManager()) {
+        self.diaryManager = diaryManager
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
         configureView()
         configureTableView()
         setUpConstraints()
+        
+        fetchDiaryContents()
     }
     
     private func configureView() {
@@ -66,6 +78,14 @@ final class DiaryViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
+    }
+    
+    private func fetchDiaryContents() {
+        do {
+            try diaryManager.fetchDiaryContents(name: "sample")
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }
 
