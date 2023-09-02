@@ -1,6 +1,6 @@
 - 프로젝트 기간: [2023년 8월 28일 ~ 9월 15일](https://github.com/WhalesJin/ios-diary/wiki/타임라인)
 - 프로젝트 팀원: [Whales🐬](https://github.com/WhalesJin), [Mary🐿️](https://github.com/MaryJo-github)
-- 프로젝트 리뷰어: [havi](https://github.com/havilog)
+- 프로젝트 리뷰어: [havi🐠](https://github.com/havilog)
 
 ---
 
