@@ -11,7 +11,7 @@ struct DiaryManager {
     var diaryContents: [DiaryContent]?
     
     mutating func fetchDiaryContents(name: String) throws {
-        let data: [DiaryContentDTO] = try DecodingManager.decodeJSON(fileName: name)
+        let data: [DiaryContentDTO] = try DecodingManager.decodeJSON(fileName: name, by: JSONDecoder())
         var contents: [DiaryContent] = []
         
         data.forEach { element in

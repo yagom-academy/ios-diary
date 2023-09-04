@@ -8,9 +8,7 @@
 import UIKit
 
 struct DecodingManager {
-    static func decodeJSON<Value: Decodable>(fileName: String) throws -> Value {
-        let decoder = JSONDecoder()
-        
+    static func decodeJSON<Value: Decodable>(fileName: String, by decoder: JSONDecoder) throws -> Value {
         guard let dataAsset = NSDataAsset(name: fileName) else {
             throw DataError.notFoundAsset
         }
