@@ -53,8 +53,7 @@ final class DiaryViewController: UIViewController {
     }
     
     @objc private func tappedAddDiaryButton() {
-        let today = DiaryDateFormatter().format(from: Date())
-        let diaryContent = DiaryContent(title: "", body: "", date: today)
+        let diaryContent = DiaryContent(title: "", body: "", timeInterval: Date().timeIntervalSince1970)
         
         showEditingDiaryViewController(with: diaryContent)
     }

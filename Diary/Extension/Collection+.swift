@@ -2,7 +2,7 @@
 //  Collection+.swift
 //  Diary
 //
-//  Created by Whales on 9/4/23.
+//  Created by Mary & Whales on 9/4/23.
 //
 
 extension Collection {
