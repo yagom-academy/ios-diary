@@ -115,6 +115,7 @@ extension DiaryViewController: UICollectionViewDelegate {
         let diaryDetailViewController = DiaryDetailViewController(diary: diary)
         
         show(diaryDetailViewController, sender: self)
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
 
