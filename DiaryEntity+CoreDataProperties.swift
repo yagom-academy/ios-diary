@@ -24,3 +24,15 @@ extension DiaryEntity {
 
 extension DiaryEntity: Identifiable {}
 
+extension DiaryEntity {
+    func diaryEntry() throws -> DiaryEntry {
+        let creationDate = DateFormatManager.string(localeDateFormatter: UserDateFormatter(), timestamp: Int(creationDate))
+        
+        guard let title,
+              let body else {
+            throw ConversionError.missingAttribute
+        }
+        
+        return DiaryEntry(title: title, body: body, creationDate: creationDate)
+    }
+}
