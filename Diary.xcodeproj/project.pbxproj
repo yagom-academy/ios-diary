@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C3C08692AA1DD8D00C8D4CF /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3C3C086B2AA1DD8D00C8D4CF /* Localizable.strings */; };
+		3C3C08902AA3AB6C00C8D4CF /* UIViewController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3C088F2AA3AB6C00C8D4CF /* UIViewController+.swift */; };
 		3CCA1E772A9DBF56008683C3 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3CCA1E762A9DBF56008683C3 /* .swiftlint.yml */; };
 		3CCA1E792A9F08C8008683C3 /* DiaryContentDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCA1E782A9F08C8008683C3 /* DiaryContentDTO.swift */; };
 		3CCA1E7D2A9F3143008683C3 /* DiaryContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCA1E7C2A9F3143008683C3 /* DiaryContent.swift */; };
@@ -28,6 +29,7 @@
 /* Begin PBXFileReference section */
 		3C3C086A2AA1DD8D00C8D4CF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		3C3C086C2AA1DDA600C8D4CF /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3C3C088F2AA3AB6C00C8D4CF /* UIViewController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+.swift"; sourceTree = "<group>"; };
 		3CCA1E762A9DBF56008683C3 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3CCA1E782A9F08C8008683C3 /* DiaryContentDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentDTO.swift; sourceTree = "<group>"; };
 		3CCA1E7C2A9F3143008683C3 /* DiaryContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContent.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 			children = (
 				449B4CAA2A9ED58D00C1BF67 /* DiaryDateFormatter.swift */,
 				44A761B92A9F100900C10AE2 /* DecodingManager.swift */,
+				3C3C088F2AA3AB6C00C8D4CF /* UIViewController+.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -259,6 +262,7 @@
 				3CCA1E7D2A9F3143008683C3 /* DiaryContent.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				44A761BD2A9F142B00C10AE2 /* DataError.swift in Sources */,
+				3C3C08902AA3AB6C00C8D4CF /* UIViewController+.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				44A761C12A9F7A6100C10AE2 /* EditingDiaryViewController.swift in Sources */,
 				3CCA1E792A9F08C8008683C3 /* DiaryContentDTO.swift in Sources */,
