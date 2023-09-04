@@ -80,7 +80,7 @@ extension DiaryListViewController {
         let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
         let alert = UIAlertController.customAlert(alertTile: NameSpace.fail, alertMessage: NameSpace.loadDataFail, preferredStyle: .alert, alertActions: [alertAction])
         
-        self.present(alert, animated: true)
+        present(alert, animated: true)
     }
 }
 
