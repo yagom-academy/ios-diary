@@ -68,7 +68,7 @@ final class DiaryViewController: UIViewController {
     private func configureTableView() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
+        tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.reuseIdentifier)
     }
     
     private func setUpConstraints() {
@@ -96,9 +96,10 @@ extension DiaryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath)
-                as? DiaryTableViewCell
-        else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: DiaryTableViewCell.reuseIdentifier,
+            for: indexPath
+        ) as? DiaryTableViewCell else {
             return UITableViewCell()
         }
         
