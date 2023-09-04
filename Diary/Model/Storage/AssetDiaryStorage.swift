@@ -22,7 +22,7 @@ final class AssetDiaryStorage: DiaryStorageProtocol {
         return diaryEntrys
     }
     
-    func storeDiary(_ diary: DiaryEntry) {
+    func storeDiary(_ diary: DiaryEntry) throws {
         
     }
 }
