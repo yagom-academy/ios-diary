@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AC0DF8142AA1C07400E7B63A /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0DF8132AA1C07400E7B63A /* UIAlertController+.swift */; };
 		AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38912A9DDA520022FB70 /* Diary.swift */; };
-		AC8C38942A9DDAAF0022FB70 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38932A9DDAAF0022FB70 /* DataManager.swift */; };
+		AC8C38942A9DDAAF0022FB70 /* DiaryDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38932A9DDAAF0022FB70 /* DiaryDataManager.swift */; };
 		AC8C38972A9E16E50022FB70 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38962A9E16E50022FB70 /* DataError.swift */; };
 		AC8C38992A9E177F0022FB70 /* AssetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38982A9E177F0022FB70 /* AssetDataManager.swift */; };
 		AC938AA42A9CC94D00627F8E /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC938AA32A9CC94D00627F8E /* DiaryData.swift */; };
@@ -30,7 +30,7 @@
 /* Begin PBXFileReference section */
 		AC0DF8132AA1C07400E7B63A /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
 		AC8C38912A9DDA520022FB70 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
-		AC8C38932A9DDAAF0022FB70 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		AC8C38932A9DDAAF0022FB70 /* DiaryDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDataManager.swift; sourceTree = "<group>"; };
 		AC8C38962A9E16E50022FB70 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
 		AC8C38982A9E177F0022FB70 /* AssetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDataManager.swift; sourceTree = "<group>"; };
 		AC938AA32A9CC94D00627F8E /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 				AC8C38902A9DD4680022FB70 /* DTO */,
 				AC8C38912A9DDA520022FB70 /* Diary.swift */,
 				AC8C38982A9E177F0022FB70 /* AssetDataManager.swift */,
-				AC8C38932A9DDAAF0022FB70 /* DataManager.swift */,
+				AC8C38932A9DDAAF0022FB70 /* DiaryDataManager.swift */,
 				ACAD271A2AA0BAE800E04B1C /* DateManager.swift */,
 				AC938AA52A9CCC7200627F8E /* DiaryManager.swift */,
 			);
@@ -281,7 +281,7 @@
 				AC938AA62A9CCC7200627F8E /* DiaryManager.swift in Sources */,
 				CDC4247C2A9E28C2007BB488 /* DateFomatter+.swift in Sources */,
 				CD5788522A9EC9F200309679 /* DiaryDetailViewController.swift in Sources */,
-				AC8C38942A9DDAAF0022FB70 /* DataManager.swift in Sources */,
+				AC8C38942A9DDAAF0022FB70 /* DiaryDataManager.swift in Sources */,
 				AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */,
 				AC0DF8142AA1C07400E7B63A /* UIAlertController+.swift in Sources */,
 			);

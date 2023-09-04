@@ -12,11 +12,18 @@ struct DateManager {
         let dataFormatter = DateFormatter()
         let createdDate = dataFormatter.dateString(
             from: Date(),
-            at: Locale.current.identifier,
+            at: getPreferredLocale(),
             with: DateManager.FormatTemplate.attached
         )
         
         return createdDate
+    }
+    
+    func getPreferredLocale() -> String {
+        guard let preferredIdentifier = Locale.preferredLanguages.first else {
+            return Locale.current.description
+        }
+        return preferredIdentifier
     }
 }
 

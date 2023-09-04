@@ -16,12 +16,12 @@ struct DiaryManager {
     var delegate: DiaryManagerDelegate?
     
     mutating func fetchDiaryList() {
-        let dataManager = DataManager()
+        let diaryDataManager = DiaryDataManager()
         let assetDataManager = AssetDataManager()
         
         do {
             let datas = try assetDataManager.fetchDiaryData()
-            diaryList = dataManager.diary(diaryList: datas)
+            diaryList = diaryDataManager.diary(diaryList: datas)
         } catch {
             delegate?.showErrorAlert(error: error)
         }
