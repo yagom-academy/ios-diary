@@ -28,7 +28,7 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
     func storeDiary(_ diary: DiaryEntry) throws {
         guard let context,
               let entity = NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context),
-              let creationDate = DateFormatManager.timestamp(localeDateFormatter: UserDateFormatter(), string: diary.creationDate) else {
+              let creationDate = DateFormatManager.timestamp(localeDateFormatter: UserDateFormatter.shared, string: diary.creationDate) else {
             throw StorageError.saveDataFailed
         }
         

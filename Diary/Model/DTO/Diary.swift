@@ -19,7 +19,7 @@ struct Diary: Decodable {
 
 extension Diary {
     func diaryEntry() -> DiaryEntry {
-        let creationDate = DateFormatManager.string(localeDateFormatter: UserDateFormatter(), timestamp: creationDate)
+        let creationDate = DateFormatManager.string(localeDateFormatter: UserDateFormatter.shared, timestamp: creationDate)
         
         return DiaryEntry(title: title, body: body, creationDate: creationDate)
     }

@@ -68,7 +68,7 @@ extension DiaryViewController {
         if let diaryEntry = diaryEntry {
             navigationItem.title = diaryEntry.creationDate
         } else {
-            navigationItem.title = DateFormatManager.dateString(localeDateFormatter: UserDateFormatter())
+            navigationItem.title = DateFormatManager.dateString(localeDateFormatter: UserDateFormatter.shared)
         }
     }
 }
