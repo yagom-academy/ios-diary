@@ -9,11 +9,14 @@ import Foundation
 
 enum StorageError: LocalizedError {
     case loadDataFailed
+    case saveDataFailed
     
     public var errorDescription: String? {
         switch self {
         case .loadDataFailed:
-            return "저장소에서 데이터 로드에 실패했습니다."
+            return "데이터 로드를 실패했습니다."
+        case .saveDataFailed:
+            return "데이터 저장을 실패했습니다."
         }
     }
 }
