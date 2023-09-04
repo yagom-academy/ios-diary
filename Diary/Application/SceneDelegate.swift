@@ -9,6 +9,8 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let persistance: Persistance = Persistance()
+    
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
@@ -16,13 +18,13 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let navigationController = UINavigationController(rootViewController: MainViewController())
+        let navigationController = UINavigationController(rootViewController: MainViewController(persistance: persistance))
         window?.backgroundColor = .systemBackground
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        //코어데이터 저장
     }
 }

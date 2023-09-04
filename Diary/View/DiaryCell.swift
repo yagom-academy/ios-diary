@@ -84,7 +84,7 @@ final class DiaryCell: UICollectionViewListCell {
     
     private func configureLabel(from diary: Diary) {
         titleLabel.text = diary.title
-        contentLabel.text = diary.body
+        contentLabel.text = diary.content
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
@@ -93,7 +93,7 @@ final class DiaryCell: UICollectionViewListCell {
         dateFormatter.locale = Locale(identifier: deviceLocale ?? "ko-kr")
         dateFormatter.timeZone = TimeZone.current
         
-        createdDateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: Double(diary.createdDate)))
+        createdDateLabel.text = dateFormatter.string(from: diary.createdDate ?? Date())
     }
     
     private func constraintOuterStackView() {

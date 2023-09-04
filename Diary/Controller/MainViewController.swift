@@ -13,7 +13,18 @@ final class MainViewController: UIViewController {
     private var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
     private var diaryList: [Diary] = []
     
+    private var persistance: Persistance
+    
     // MARK: - Lifecycle
+    
+    init(persistance: Persistance) {
+        self.persistance = persistance
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,16 +47,7 @@ final class MainViewController: UIViewController {
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
-    private func setDiaryList() {
-        guard let asset = NSDataAsset(name: "sample") else { return }
-        
-        let decoder = JSONDecoder()
-        do {
-            diaryList = try decoder.decode([Diary].self, from: asset.data)
-        } catch {
-            return
-        }
-    }
+    private func setDiaryList() { }
     
     // MARK: - Private Method(CollectionView)
     

@@ -8,8 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		1F5CEE8D2A9D97AF00521AB3 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5CEE8C2A9D97AF00521AB3 /* DiaryCell.swift */; };
+		1FDFB3AD2AA60753005128C3 /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFB3AB2AA60753005128C3 /* Diary+CoreDataClass.swift */; };
+		1FDFB3AE2AA60753005128C3 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFB3AC2AA60753005128C3 /* Diary+CoreDataProperties.swift */; };
+		1FDFB3B22AA607FE005128C3 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFB3B12AA607FE005128C3 /* Persistance.swift */; };
 		5D2CF6FF2A9CBB4A009EECB3 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 5D2CF6FE2A9CBB4A009EECB3 /* .swiftlint.yml */; };
-		5D2CF7092A9CC7EF009EECB3 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2CF7082A9CC7EF009EECB3 /* Diary.swift */; };
 		5D2CF70D2A9F0520009EECB3 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2CF70C2A9F0520009EECB3 /* DiaryViewController.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
@@ -21,8 +23,10 @@
 
 /* Begin PBXFileReference section */
 		1F5CEE8C2A9D97AF00521AB3 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
+		1FDFB3AB2AA60753005128C3 /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1FDFB3AC2AA60753005128C3 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1FDFB3B12AA607FE005128C3 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
 		5D2CF6FE2A9CBB4A009EECB3 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		5D2CF7082A9CC7EF009EECB3 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		5D2CF70C2A9F0520009EECB3 /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -82,20 +86,30 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		1FDFB3AF2AA60764005128C3 /* Diary */ = {
+			isa = PBXGroup;
+			children = (
+				1FDFB3AB2AA60753005128C3 /* Diary+CoreDataClass.swift */,
+				1FDFB3AC2AA60753005128C3 /* Diary+CoreDataProperties.swift */,
+			);
+			path = Diary;
+			sourceTree = "<group>";
+		};
+		1FDFB3B02AA607EE005128C3 /* Persistance */ = {
+			isa = PBXGroup;
+			children = (
+				1FDFB3B12AA607FE005128C3 /* Persistance.swift */,
+			);
+			path = Persistance;
+			sourceTree = "<group>";
+		};
 		5D2CF7062A9CC7C8009EECB3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5D2CF7072A9CC7D2009EECB3 /* DTO */,
+				1FDFB3B02AA607EE005128C3 /* Persistance */,
+				1FDFB3AF2AA60764005128C3 /* Diary */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		5D2CF7072A9CC7D2009EECB3 /* DTO */ = {
-			isa = PBXGroup;
-			children = (
-				5D2CF7082A9CC7EF009EECB3 /* Diary.swift */,
-			);
-			path = DTO;
 			sourceTree = "<group>";
 		};
 		C739AE18284DF28600741E8F = {
@@ -221,11 +235,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
-				5D2CF7092A9CC7EF009EECB3 /* Diary.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
+				1FDFB3AD2AA60753005128C3 /* Diary+CoreDataClass.swift in Sources */,
 				5D2CF70D2A9F0520009EECB3 /* DiaryViewController.swift in Sources */,
 				1F5CEE8D2A9D97AF00521AB3 /* DiaryCell.swift in Sources */,
+				1FDFB3AE2AA60753005128C3 /* Diary+CoreDataProperties.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				1FDFB3B22AA607FE005128C3 /* Persistance.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
