@@ -88,12 +88,10 @@ final class DiaryCell: UICollectionViewListCell {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
-//        let localeID = Locale.preferredLanguages.first
-//        let deviceLocale = Locale(identifier: localeID ?? "ko-kr").languageCode
-//        dateFormatter.locale = Locale(identifier: deviceLocale ?? "ko-kr")
-//        dateFormatter.timeZone = TimeZone.current
-        
-        dateFormatter.locale = Locale(identifier: Locale.current.identifier)
+        let localeID = Locale.preferredLanguages.first
+        let deviceLocale = Locale(identifier: localeID ?? "ko-kr").languageCode
+        dateFormatter.locale = Locale(identifier: deviceLocale ?? "ko-kr")
+        dateFormatter.timeZone = TimeZone.current
         
         createdDateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: Double(diary.createdDate)))
     }
