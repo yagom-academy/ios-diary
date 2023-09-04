@@ -99,25 +99,32 @@ extension DiaryViewController: UITableViewDataSource {
         guard let cell = tableView.dequeueReusableCell(
             withIdentifier: DiaryTableViewCell.reuseIdentifier,
             for: indexPath
-        ) as? DiaryTableViewCell else {
+        ) as? DiaryTableViewCell
+        else {
             return UITableViewCell()
         }
         
-        guard let diaryContents = diaryManager.diaryContents else {
+        guard let diaryContents = diaryManager.diaryContents,
+              let diaryContent = diaryContents[safe: indexPath.row]
+        else {
             return UITableViewCell()
         }
         
-        cell.configureCell(data: diaryContents[indexPath.row])
-
+        cell.configureCell(data: diaryContent)
+        
         return cell
     }
 }
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diaryContents = diaryManager.diaryContents else { return }
+        guard let diaryContents = diaryManager.diaryContents,
+              let diaryContent = diaryContents[safe: indexPath.row]
+        else {
+            return
+        }
         
-        showEditingDiaryViewController(with: diaryContents[indexPath.row])
+        showEditingDiaryViewController(with: diaryContent)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
