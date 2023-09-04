@@ -97,7 +97,7 @@ extension DiaryViewController {
     }
 }
 
-// MARK: Road Data
+// MARK: Load Data
 extension DiaryViewController {
     private func loadData() {
         diaryManager?.fetchDiaryList()

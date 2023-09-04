@@ -5,7 +5,7 @@
 //  Created by Dasan, kyungmin on 2023/08/29.
 //
 
-import UIKit
+import UIKit.NSDataAsset
 
 struct AssetDataManager {
     func fetchDiaryData() throws -> [DiaryData] {
