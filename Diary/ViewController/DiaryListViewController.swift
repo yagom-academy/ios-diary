@@ -8,6 +8,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     let diaryService: DiaryService
+    private let container: PersistentContainer
     private var diaryList: [Diary] = []
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -15,8 +16,9 @@ final class DiaryListViewController: UIViewController {
         return tableView
     }()
     
-    init(diaryService: DiaryService) {
+    init(diaryService: DiaryService, container: PersistentContainer) {
         self.diaryService = diaryService
+        self.container = container
         super.init(nibName: nil, bundle: nil)
     }
     
