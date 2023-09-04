@@ -8,9 +8,18 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private var collectionView: UICollectionView!
-    private var diaryDataSource: UICollectionViewDiffableDataSource<Section, Diary>!
-    private var diaryManager: DiaryManager
+    private lazy var collectionView: UICollectionView = {
+        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        let listLayout = UICollectionViewCompositionalLayout.list(using: configuration)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.delegate = self
+        
+        return collectionView
+    }()
+    private var diaryDataSource: UICollectionViewDiffableDataSource<Section, Diary>?
+    private var diaryManager: DiaryManager?
     
     init(diaryManager: DiaryManager) {
         self.diaryManager = diaryManager
@@ -19,7 +28,7 @@ final class DiaryViewController: UIViewController {
     }
     
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: coder)
     }
     
     override func viewDidLoad() {
@@ -37,19 +46,12 @@ final class DiaryViewController: UIViewController {
 extension DiaryViewController {
     private func setupObject() {
         setupView()
-        setupCollectionView()
         setupNavigationBar()
         setupDiaryManager()
     }
     
     private func setupView() {
         view.backgroundColor = .white
-    }
-    
-    private func setupCollectionView() {
-        collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.delegate = self
     }
     
     private func setupNavigationBar() {
@@ -64,7 +66,7 @@ extension DiaryViewController {
     }
     
     private func setupDiaryManager() {
-        diaryManager.delegate = self
+        diaryManager?.delegate = self
     }
 }
 
@@ -98,7 +100,7 @@ extension DiaryViewController {
 // MARK: Road Data
 extension DiaryViewController {
     private func loadData() {
-        diaryManager.fetchDiaryList()
+        diaryManager?.fetchDiaryList()
         applySnapshot()
     }
 }
@@ -106,7 +108,10 @@ extension DiaryViewController {
 // MARK: CollectionView Delegate
 extension DiaryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let diary = diaryManager.diaryList[indexPath.item]
+        guard let diary = diaryManager?.diaryList[indexPath.item] else {
+            return
+        }
+        
         let diaryDetailViewController = DiaryDetailViewController(diary: diary)
         
         show(diaryDetailViewController, sender: self)
@@ -126,10 +131,14 @@ extension DiaryViewController {
     }
     
     private func applySnapshot() {
+        guard let diaryList = diaryManager?.diaryList, let diaryDataSource else {
+            return
+        }
+        
         var snapshot = NSDiffableDataSourceSnapshot<Section, Diary>()
         
         snapshot.appendSections([.main])
-        snapshot.appendItems(diaryManager.diaryList)
+        snapshot.appendItems(diaryList)
         diaryDataSource.apply(snapshot, animatingDifferences: true)
     }
 }
@@ -168,7 +177,10 @@ extension DiaryViewController: DiaryManagerDelegate {
 // MARK: Button Action
 extension DiaryViewController {
     @objc private func didTapSelectPlusButton() {
-        let diary = diaryManager.newDiary()
+        guard let diary = diaryManager?.newDiary() else {
+            return
+        }
+        
         let diaryDetailViewController = DiaryDetailViewController(diary: diary)
         
         show(diaryDetailViewController, sender: self)
