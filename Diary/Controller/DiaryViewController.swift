@@ -171,7 +171,7 @@ extension DiaryViewController: DiaryManagerDelegate {
             alertActions: [alertAction]
         )
         
-        present(alert, animated: true)
+        navigationController?.present(alert, animated: true)
     }
 }
 
