@@ -57,7 +57,6 @@
 		1F5CEE892A9CC45300521AB3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				1F5CEE8C2A9D97AF00521AB3 /* DiaryCell.swift */,
 			);
 			path = View;
@@ -75,6 +74,7 @@
 		1F5CEE8B2A9CC45D00521AB3 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,

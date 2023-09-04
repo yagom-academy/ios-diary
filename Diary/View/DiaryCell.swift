@@ -15,7 +15,7 @@ final class DiaryCell: UICollectionViewListCell {
     
     // MARK: - Private Property
     
-    private let outerStackView: UIStackView = {
+    private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -25,7 +25,7 @@ final class DiaryCell: UICollectionViewListCell {
         return stackView
     }()
     
-    private let innerStackView: UIStackView = {
+    private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .equalSpacing
@@ -73,11 +73,11 @@ final class DiaryCell: UICollectionViewListCell {
     // MARK: - Private Method
     
     private func addSubviews() {
-        contentView.addSubview(outerStackView)
-        outerStackView.addArrangedSubview(titleLabel)
-        outerStackView.addArrangedSubview(innerStackView)
-        innerStackView.addArrangedSubview(createdDateLabel)
-        innerStackView.addArrangedSubview(contentLabel)
+        contentView.addSubview(verticalStackView)
+        verticalStackView.addArrangedSubview(titleLabel)
+        verticalStackView.addArrangedSubview(horizontalStackView)
+        horizontalStackView.addArrangedSubview(createdDateLabel)
+        horizontalStackView.addArrangedSubview(contentLabel)
         
         accessories = [.disclosureIndicator()]
     }
@@ -88,17 +88,22 @@ final class DiaryCell: UICollectionViewListCell {
         
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
-        dateFormatter.locale = .current
+//        let localeID = Locale.preferredLanguages.first
+//        let deviceLocale = Locale(identifier: localeID ?? "ko-kr").languageCode
+//        dateFormatter.locale = Locale(identifier: deviceLocale ?? "ko-kr")
+//        dateFormatter.timeZone = TimeZone.current
+        
+        dateFormatter.locale = Locale(identifier: Locale.current.identifier)
         
         createdDateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: Double(diary.createdDate)))
     }
     
     private func constraintOuterStackView() {
         NSLayoutConstraint.activate([
-            outerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            outerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            outerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            outerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
         ])
     }
 }
