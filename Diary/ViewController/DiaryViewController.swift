@@ -34,9 +34,9 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureBackgroundColor()
+        configureTitle()
         configureTextView()
         configureTextViewConstraint()
-        setTitle()
         fillTextView()
     }
     
@@ -49,6 +49,19 @@ final class DiaryViewController: UIViewController {
     // MARK: - Configure view
     private func configureBackgroundColor() {
         view.backgroundColor = .systemBackground
+    }
+    
+    private func configureTitle() {
+        var date = Date()
+        
+        if let diary {
+            date = diary.date
+        }
+        
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.configureDiaryDateFormat()
+        navigationItem.title = dateFormatter.string(from: date)
     }
     
     private func configureTextView() {
@@ -71,19 +84,6 @@ final class DiaryViewController: UIViewController {
         }
         
         contentTextView.text = diary.title + "\n" + (diary.body ?? "")
-    }
-    
-    private func setTitle() {
-        var date = Date()
-        
-        if let diary {
-            date = diary.date
-        }
-        
-        let dateFormatter = DateFormatter()
-
-        dateFormatter.configureDiaryDateFormat()
-        navigationItem.title = dateFormatter.string(from: date)
     }
     
     // 다이어리 생성
