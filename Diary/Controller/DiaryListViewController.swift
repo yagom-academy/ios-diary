@@ -90,6 +90,31 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
         createVC.diary = diaryToEdit
         navigationController?.pushViewController(createVC, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) ->
+    UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .normal, title: "") { (_, _, success: @escaping (Bool) -> Void) in
+            let selectedDiary = self.diaryList[indexPath.row]
+            
+            CoreDataManager.shared.deleteDiary(selectedDiary)
+            self.readCoreData()
+            success(true)
+        }
+        
+        let share = UIContextualAction(style: .normal, title: "") { (_, _, success: @escaping (Bool) -> Void) in
+            let selectedDiary = self.diaryList[indexPath.row]
+            
+            self.shareDiary(selectedDiary)
+            success(true)
+        }
+        
+        delete.backgroundColor = .systemRed
+        delete.image = UIImage(systemName: "trash.fill")
+        share.backgroundColor = .systemBlue
+        share.image = UIImage(systemName: "square.and.arrow.up")
+        
+        return UISwipeActionsConfiguration(actions: [delete, share])
+    }
 }
 
 extension DiaryListViewController: DiaryListDelegate {
@@ -100,5 +125,21 @@ extension DiaryListViewController: DiaryListDelegate {
         } catch {
             // TODO : AlertController Error
         }
+    }
+    
+    func shareDiary(_ diary: Diary?) {
+        guard let diary,
+              let title = diary.title,
+              let createdAt = diary.createdAt,
+              let body = diary.body else {
+            return
+        }
+        
+        let date = dateFormatter.formatToString(from: createdAt, with: "YYYY년 MM월 dd일")
+        let shareText = "제목: \(title)\n작성일자: \(date)\n내용: \(body)"
+        let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }
