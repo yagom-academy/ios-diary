@@ -61,9 +61,9 @@ final class DiaryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureContents(diary: Diary) {
+    func configureContents(diary: DiaryEntity) {
         self.title.text = diary.title
-        self.date.text = diary.date
+        self.date.text = diary.date?.description
         self.preview.text = diary.body
     }
     

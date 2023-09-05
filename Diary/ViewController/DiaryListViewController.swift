@@ -9,7 +9,7 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     let diaryService: DiaryService
     private let container: PersistentContainer
-    private var diaryList: [Diary] = []
+    private var diaryList: [DiaryEntity] = []
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -34,9 +34,17 @@ final class DiaryListViewController: UIViewController {
         configureTableView()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(true)
+        loadDiary()
+    }
+    
     private func loadDiary() {
         do {
-            diaryList = try diaryService.loadDiaryList(name: "sample")
+            diaryList = try container.viewContext.fetch(DiaryEntity.fetchRequest())
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         } catch {
             let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
             let closeAction = UIAlertAction(title: "확인", style: .cancel)
@@ -57,7 +65,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func addDiary() {
-        let diaryViewController = DiaryViewController()
+        let diaryViewController = DiaryViewController(container: container)
         
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
@@ -109,7 +117,7 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let diary = diaryList[indexPath.row]
-        let diaryViewController = DiaryViewController(diary: diary)
+        let diaryViewController = DiaryViewController(diary: diary, container: container)
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
 }

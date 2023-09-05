@@ -10,7 +10,7 @@ import CoreData
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     lazy var persistentContainer: PersistentContainer = {
-        let container = PersistentContainer()
+        let container = PersistentContainer(name: "Diary")
         container.loadPersistentStores { description, error in
             if let error = error {
                 fatalError("Unable to load persistent stores: \(error)")

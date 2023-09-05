@@ -8,7 +8,9 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private let diary: Diary?
+    // MARK: - Property
+    private let container: PersistentContainer
+    private let diary: DiaryEntity?
     private let contentTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,8 +20,10 @@ final class DiaryViewController: UIViewController {
         return contentTextView.text.contains("\n")
     }
     
-    init(diary: Diary? = nil) {
+    // MARK: - Initializer
+    init(diary: DiaryEntity? = nil, container: PersistentContainer) {
         self.diary = diary
+        self.container = container
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -27,31 +31,25 @@ final class DiaryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life cycle method
     override func viewDidLoad() {
         super.viewDidLoad()
         contentTextView.delegate = self
         configureBackgroundColor()
         configureTextView()
-        fillTextView()
         configureTextViewConstraint()
+        fillTextView()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        createDiary()
+        saveDiary()
+    }
+    
+    // MARK: - Configure view
     private func configureBackgroundColor() {
         view.backgroundColor = .systemBackground
-    }
-    
-    private func fillTextView() {
-        guard let diary else {
-            let dateFormatter = DateFormatter()
-            
-            dateFormatter.configureDiaryDateFormat()
-            navigationItem.title = dateFormatter.string(from: Date())
-            
-            return
-        }
-        
-        contentTextView.text = diary.title + "\n\n" + diary.body
-        navigationItem.title = diary.date
     }
     
     private func configureTextView() {
@@ -65,6 +63,34 @@ final class DiaryViewController: UIViewController {
             contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             contentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
+    }
+    
+    // MARK: - Method
+    private func fillTextView() {
+        guard let diary else {
+            let dateFormatter = DateFormatter()
+            
+            dateFormatter.configureDiaryDateFormat()
+            navigationItem.title = dateFormatter.string(from: Date())
+            
+            return
+        }
+        
+        contentTextView.text = diary.title! + "\n\n" + diary.body!
+        navigationItem.title = diary.date?.description
+    }
+    
+    // 다이어리 생성
+    private func createDiary() {
+        let diary = DiaryEntity(context: container.viewContext)
+        diary.title = "샘플 타이틀"
+        diary.body = "샘플 내용입니다."
+        diary.date = Date()
+    }
+    
+    // 다이어리 저장
+    private func saveDiary() {
+        container.saveContext()
     }
 }
 
