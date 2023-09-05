@@ -31,7 +31,7 @@ final class EditingDiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureView()
         setupConstraints()
         setupDiaryTextView()
@@ -60,6 +60,22 @@ final class EditingDiaryViewController: UIViewController {
     private func setupDiaryTextView() {
         if diaryContent.title.isEmpty == false {
             diaryTextView.text = String(format: "%@\n\n%@", diaryContent.title, diaryContent.body)
+        } else {
+            diaryTextView.becomeFirstResponder()
+        }
+        
+        addGesture()
+    }
+    
+    private func addGesture() {
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapTextView(_:)))
+        diaryTextView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc
+    private func didTapTextView(_ sender: Any) {
+        if diaryTextView.isFirstResponder {
+            diaryTextView.resignFirstResponder()
         } else {
             diaryTextView.becomeFirstResponder()
         }
