@@ -8,6 +8,7 @@ import UIKit
 
 protocol DiaryListDelegate: AnyObject {
     func readCoreData()
+    func shareDiary(_ diary: Diary?)
 }
 
 final class DiaryListViewController: UIViewController {

@@ -23,6 +23,7 @@ final class CreateDiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupNavigationBarButton()
         setupDiaryData()
         setupNotification()
     }
@@ -47,6 +48,11 @@ final class CreateDiaryViewController: UIViewController {
         ])
     }
     
+    private func setupNavigationBarButton() {
+        let moreButton = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(showMoreOptions))
+        navigationItem.rightBarButtonItem = moreButton
+    }
+    
     private func setupDiaryData() {
         if let diaryEdit = diary {
             textView.text = "\(diaryEdit.title ?? "")\n\(diaryEdit.body ?? "")"
@@ -69,16 +75,21 @@ final class CreateDiaryViewController: UIViewController {
         )
     }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
-                as? CGRect else { return }
+    private func showDeleteAlert() {
+        let alertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         
-        textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.size.height, right: 0)
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        textView.contentInset = .zero
-        saveDiary()
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            CoreDataManager.shared.deleteDiary(self.diary)
+            self.delegate?.readCoreData()
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(deleteAction)
+        
+        present(alertController, animated: true)
     }
     
     private func saveDiary() {
@@ -97,5 +108,41 @@ final class CreateDiaryViewController: UIViewController {
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+}
+
+extension CreateDiaryViewController {
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
+                as? CGRect else { return }
+        
+        textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.size.height, right: 0)
+    }
+    
+    @objc private func showMoreOptions() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            guard let self else { return }
+            self.showDeleteAlert()
+        }
+        
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
+            guard let self else { return }
+            self.delegate?.shareDiary(self.diary)
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alertController.addAction(shareAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        textView.contentInset = .zero
+        saveDiary()
     }
 }
