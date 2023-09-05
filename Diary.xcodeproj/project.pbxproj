@@ -88,9 +88,8 @@
 				926C04962AA614E80057EBCF /* DiaryEntity+CoreDataClass.swift */,
 				926C04972AA614E80057EBCF /* DiaryEntity+CoreDataProperties.swift */,
 			);
-			name = Entity;
-			path = "/Users/minsongkim/Desktop/yagom/Career/project/ios-diary/Diary/Entity";
-			sourceTree = "<absolute>";
+			path = Entity;
+			sourceTree = "<group>";
 		};
 		C739AE18284DF28600741E8F = {
 			isa = PBXGroup;
@@ -115,11 +114,11 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				926C04912AA6144A0057EBCF /* Entity */,
 				CB9CBC0D2A9CC37300999DF0 /* App */,
 				CB9CBC0B2A9CC30D00999DF0 /* ViewController */,
 				CB9739C52AA23CF200629F49 /* Service */,
 				926A86432A9CE89F00DCBBD7 /* Model */,
+				926C04912AA6144A0057EBCF /* Entity */,
 				CB9CBC0E2A9CC37D00999DF0 /* View */,
 				CBC4C42D2A9E167D009D495E /* Extension */,
 				CBC4C4302A9E346B009D495E /* Error */,
