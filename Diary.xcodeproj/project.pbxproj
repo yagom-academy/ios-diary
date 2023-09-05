@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		459D493A878338290A3E0AEF /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDF8EB908CAD9D062C72898B /* Pods_Diary.framework */; };
+		636B19AC2AA6C5E900B5242D /* AlertDisplayble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636B19AB2AA6C5E900B5242D /* AlertDisplayble.swift */; };
 		63BB62822A9F109400524DCB /* DecodingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BB62812A9F109400524DCB /* DecodingManager.swift */; };
 		63BB62B22AA181BE00524DCB /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BB62B02AA181BE00524DCB /* Diary+CoreDataClass.swift */; };
 		63BB62B32AA181BE00524DCB /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63BB62B12AA181BE00524DCB /* Diary+CoreDataProperties.swift */; };
@@ -27,6 +28,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		636B19AB2AA6C5E900B5242D /* AlertDisplayble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDisplayble.swift; sourceTree = "<group>"; };
 		63BB62812A9F109400524DCB /* DecodingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingManager.swift; sourceTree = "<group>"; };
 		63BB62B02AA181BE00524DCB /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		63BB62B12AA181BE00524DCB /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
@@ -77,6 +79,14 @@
 				EDF8EB908CAD9D062C72898B /* Pods_Diary.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		636B19AA2AA6C5C200B5242D /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				636B19AB2AA6C5E900B5242D /* AlertDisplayble.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		63BB62B62AA185E700524DCB /* DataManager */ = {
@@ -163,6 +173,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				636B19AA2AA6C5C200B5242D /* Protocol */,
 				63BB62B62AA185E700524DCB /* DataManager */,
 				63E5273E2A9ECD800000FBA6 /* Extension */,
 				63E5273D2A9ECD660000FBA6 /* Model */,
@@ -296,6 +307,7 @@
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				636B19AC2AA6C5E900B5242D /* AlertDisplayble.swift in Sources */,
 				63BB62822A9F109400524DCB /* DecodingManager.swift in Sources */,
 				BA1A55ED2A9D90810012C89D /* DateFormatter+.swift in Sources */,
 				63E527372A9D87660000FBA6 /* DiaryListTableViewCell.swift in Sources */,

@@ -118,13 +118,14 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension DiaryListViewController: DiaryListDelegate {
+extension DiaryListViewController: DiaryListDelegate, AlertDisplayable {
     func readCoreData() {
         do {
             diaryList = try container.viewContext.fetch(Diary.fetchRequest())
             tableView.reloadData()
         } catch {
-            // TODO : AlertController Error
+            let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+            showAlert(title: "로드 실패", message: "데이터를 불러오지 못했습니다.", actions: [cancelAction])
         }
     }
     

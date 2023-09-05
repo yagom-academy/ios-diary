@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CreateDiaryViewController: UIViewController {
+final class CreateDiaryViewController: UIViewController, AlertDisplayable {
     private let textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -76,8 +76,6 @@ final class CreateDiaryViewController: UIViewController {
     }
     
     private func showDeleteAlert() {
-        let alertController = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let self else { return }
@@ -86,10 +84,7 @@ final class CreateDiaryViewController: UIViewController {
             self.navigationController?.popViewController(animated: true)
         }
         
-        alertController.addAction(cancelAction)
-        alertController.addAction(deleteAction)
-        
-        present(alertController, animated: true)
+        showAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: [cancelAction, deleteAction])
     }
     
     private func saveDiary() {
