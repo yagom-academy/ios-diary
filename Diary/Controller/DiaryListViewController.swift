@@ -28,21 +28,19 @@ final class DiaryListViewController: UIViewController {
 
         readCoreData()
         configureUI()
+        setupNavigationBarButton()
         setupTableView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        readCoreData()
     }
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
         self.title = "일기장"
-        
-        let addDiary = UIAction(image: UIImage(systemName: "plus")) { [weak self] _ in
-            guard let self else { return }
-            let createDiaryView = CreateDiaryViewController()
-            createDiaryView.delegate = self
-            self.navigationController?.pushViewController(createDiaryView, animated: true)
-        }
-        
-        navigationItem.rightBarButtonItem = UIBarButtonItem(primaryAction: addDiary)
         
         view.addSubview(tableView)
         
@@ -52,6 +50,17 @@ final class DiaryListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+    
+    private func setupNavigationBarButton() {
+        let addDiary = UIAction(image: UIImage(systemName: "plus")) { [weak self] _ in
+            guard let self else { return }
+            let createDiaryView = CreateDiaryViewController()
+            createDiaryView.delegate = self
+            self.navigationController?.pushViewController(createDiaryView, animated: true)
+        }
+        
+        navigationItem.rightBarButtonItem = UIBarButtonItem(primaryAction: addDiary)
     }
     
     private func setupTableView() {
@@ -85,10 +94,9 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let diaryToEdit = diaryList[indexPath.row]
-        let createVC = CreateDiaryViewController()
+        let createVC = CreateDiaryViewController(diaryToEdit)
         
         createVC.delegate = self
-        createVC.diary = diaryToEdit
         navigationController?.pushViewController(createVC, animated: true)
     }
     

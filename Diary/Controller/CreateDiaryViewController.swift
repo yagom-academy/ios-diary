@@ -20,24 +20,42 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable {
     private let container = CoreDataManager.shared.persistentContainer
     var diary: Diary?
     
+    init(_ diary: Diary? = nil) {
+        if diary == nil {
+            self.diary = CoreDataManager.shared.createDiary()
+        } else {
+            self.diary = diary
+        }
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        configureTextView()
         setupNavigationBarButton()
-        setupDiaryData()
         setupNotification()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        saveDiary()
-        delegate?.readCoreData()
+        if diary != nil {
+            saveDiary()
+        }
     }
     
     private func configureUI() {
         view.backgroundColor = .systemBackground
         self.title = DateFormatter().formatToString(from: Date(), with: "YYYY년 MM월 dd일")
         
+    }
+    
+    private func configureTextView() {
+        textView.text = "\(diary?.title ?? "")\n\(diary?.body ?? "")"
         view.addSubview(textView)
         
         NSLayoutConstraint.activate([
@@ -52,15 +70,7 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable {
         let moreButton = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(showMoreOptions))
         navigationItem.rightBarButtonItem = moreButton
     }
-    
-    private func setupDiaryData() {
-        if let diaryEdit = diary {
-            textView.text = "\(diaryEdit.title ?? "")\n\(diaryEdit.body ?? "")"
-        } else {
-            diary = CoreDataManager.shared.createDiary()
-        }
-    }
-    
+
     private func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -79,8 +89,7 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let self else { return }
-            CoreDataManager.shared.deleteDiary(self.diary)
-            self.delegate?.readCoreData()
+            self.deleteDiary(self.diary)
             self.navigationController?.popViewController(animated: true)
         }
         
@@ -99,6 +108,7 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable {
     
     private func deleteDiary(_ diary: Diary?) {
         CoreDataManager.shared.deleteDiary(diary)
+        self.diary = nil
     }
     
     deinit {
