@@ -75,10 +75,10 @@ final class DiaryTableViewCell: UITableViewCell {
         
         contentView.addSubview(titleStackView)
         accessoryType = .disclosureIndicator
-        setUpConstraints()
+        setupConstraints()
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             titleStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),

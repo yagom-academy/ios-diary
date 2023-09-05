@@ -31,7 +31,7 @@ final class DiaryViewController: UIViewController {
 
         configureView()
         configureTableView()
-        setUpConstraints()
+        setupConstraints()
         
         fetchDiaryContents()
     }
@@ -70,7 +70,7 @@ final class DiaryViewController: UIViewController {
         tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.reuseIdentifier)
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),

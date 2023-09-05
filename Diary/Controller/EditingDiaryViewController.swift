@@ -33,8 +33,8 @@ final class EditingDiaryViewController: UIViewController {
         super.viewDidLoad()
 
         configureView()
-        setUpConstraints()
-        fillDiaryTextView()
+        setupConstraints()
+        setupDiaryTextView()
     }
     
     private func configureView() {
@@ -48,7 +48,7 @@ final class EditingDiaryViewController: UIViewController {
         navigationItem.title = diaryContent.date
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             diaryTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             diaryTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor),
@@ -57,9 +57,11 @@ final class EditingDiaryViewController: UIViewController {
         ])
     }
     
-    private func fillDiaryTextView() {
+    private func setupDiaryTextView() {
         if diaryContent.title.isEmpty == false {
             diaryTextView.text = String(format: "%@\n\n%@", diaryContent.title, diaryContent.body)
+        } else {
+            diaryTextView.becomeFirstResponder()
         }
     }
 }
