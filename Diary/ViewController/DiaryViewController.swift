@@ -11,6 +11,7 @@ final class DiaryViewController: UIViewController {
     // MARK: - Property
     private let container: PersistentContainer
     private let diary: DiaryEntity?
+    private let indexPath: IndexPath?
     private let contentTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,9 +19,10 @@ final class DiaryViewController: UIViewController {
     }()
     
     // MARK: - Initializer
-    init(diary: DiaryEntity? = nil, container: PersistentContainer) {
+    init(diary: DiaryEntity? = nil, container: PersistentContainer, indexPath: IndexPath? = nil) {
         self.diary = diary
         self.container = container
+        self.indexPath = indexPath
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -34,6 +36,7 @@ final class DiaryViewController: UIViewController {
         configureBackgroundColor()
         configureTextView()
         configureTextViewConstraint()
+        setTitle()
         fillTextView()
     }
     
@@ -64,23 +67,34 @@ final class DiaryViewController: UIViewController {
     // MARK: - Method
     private func fillTextView() {
         guard let diary else {
-            let dateFormatter = DateFormatter()
-            
-            dateFormatter.configureDiaryDateFormat()
-            navigationItem.title = dateFormatter.string(from: Date())
-            
             return
         }
         
-        contentTextView.text = diary.title! + "\n\n" + diary.body!
-        navigationItem.title = diary.date?.description
+        contentTextView.text = diary.title + "\n" + (diary.body ?? "")
+    }
+    
+    private func setTitle() {
+        var date = Date()
+        
+        if let diary {
+            date = diary.date
+        }
+        
+        let dateFormatter = DateFormatter()
+
+        dateFormatter.configureDiaryDateFormat()
+        navigationItem.title = dateFormatter.string(from: date)
     }
     
     // 다이어리 생성
     private func createDiary() {
         let diary = DiaryEntity(context: container.viewContext)
-        diary.title = "샘플 타이틀"
-        diary.body = "샘플 내용입니다."
+        let title = contentTextView.text.components(separatedBy: "\n")[0]
+        if let range = contentTextView.text.range(of: "\n") {
+            let body = contentTextView.text[range.upperBound...]
+            diary.body = String(body)
+        }
+        diary.title = title
         diary.date = Date()
     }
     

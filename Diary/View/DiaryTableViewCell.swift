@@ -62,8 +62,11 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureContents(diary: DiaryEntity) {
+        let formatter = DateFormatter()
+        formatter.configureDiaryDateFormat()
+        
         self.title.text = diary.title
-        self.date.text = diary.date?.description
+        self.date.text = formatter.string(from: diary.date)
         self.preview.text = diary.body
     }
     
