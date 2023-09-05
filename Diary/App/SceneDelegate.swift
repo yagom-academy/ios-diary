@@ -25,12 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
-        let diaryService = DiaryService()
-        let diaryListViewController = DiaryListViewController(
-            diaryService: diaryService,
-            container: persistentContainer
-        )
+        let diaryListViewController = DiaryListViewController(container: persistentContainer)
         let navigationController = UINavigationController(rootViewController: diaryListViewController)
         
         window = UIWindow(windowScene: windowScene)

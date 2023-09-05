@@ -16,9 +16,6 @@ final class DiaryViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
-    private var hasTitleLine: Bool {
-        return contentTextView.text.contains("\n")
-    }
     
     // MARK: - Initializer
     init(diary: DiaryEntity? = nil, container: PersistentContainer) {
@@ -34,7 +31,6 @@ final class DiaryViewController: UIViewController {
     // MARK: - Life cycle method
     override func viewDidLoad() {
         super.viewDidLoad()
-        contentTextView.delegate = self
         configureBackgroundColor()
         configureTextView()
         configureTextViewConstraint()
@@ -91,16 +87,5 @@ final class DiaryViewController: UIViewController {
     // 다이어리 저장
     private func saveDiary() {
         container.saveContext()
-    }
-}
-
-// MARK: - UITextViewDelegate
-extension DiaryViewController: UITextViewDelegate {
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        if hasTitleLine == false && text == "\n" {
-            contentTextView.text += "\n"
-        }
-        
-        return true
     }
 }
