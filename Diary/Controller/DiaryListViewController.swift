@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class DiaryListViewController: UIViewController, AlertDisplayable, ShareDiary {
+final class DiaryListViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +20,7 @@ final class DiaryListViewController: UIViewController, AlertDisplayable, ShareDi
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureUI()
         setupNavigationBarButton()
         setupTableView()
@@ -61,7 +61,9 @@ final class DiaryListViewController: UIViewController, AlertDisplayable, ShareDi
         tableView.delegate = self
         tableView.register(DiaryListTableViewCell.self, forCellReuseIdentifier: DiaryListTableViewCell.identifier)
     }
-    
+}
+
+extension DiaryListViewController: AlertDisplayable {
     private func readCoreData() {
         do {
             let fetchedDiaries = try container.viewContext.fetch(Diary.fetchRequest())
@@ -74,7 +76,7 @@ final class DiaryListViewController: UIViewController, AlertDisplayable, ShareDi
     }
 }
 
-extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
+extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         diaryList.count
     }
@@ -94,12 +96,14 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
         
         return cell
     }
-    
+}
+
+extension DiaryListViewController: UITableViewDelegate, ShareDiary {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let diaryToEdit = diaryList[indexPath.row]
         let createVC = CreateDiaryViewController(diaryToEdit)
-
+        
         navigationController?.pushViewController(createVC, animated: true)
     }
     

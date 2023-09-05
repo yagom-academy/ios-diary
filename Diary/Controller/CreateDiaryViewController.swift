@@ -15,10 +15,10 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
         
         return textView
     }()
-
+    
     private let container = CoreDataManager.shared.persistentContainer
-    var diary: Diary
-    var isNew: Bool
+    private var diary: Diary
+    private var isNew: Bool
     
     init() {
         self.diary = CoreDataManager.shared.createDiary()
@@ -43,7 +43,7 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
         setupNavigationBarButton()
         setupNotification()
     }
-
+    
     private func configureUI() {
         view.backgroundColor = .systemBackground
         self.title = DateFormatter().formatToString(from: Date(), with: "YYYY년 MM월 dd일")
@@ -75,7 +75,7 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
         let moreButton = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(showMoreOptions))
         navigationItem.rightBarButtonItem = moreButton
     }
-
+    
     private func setupNotification() {
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
@@ -94,13 +94,13 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let self else { return }
-            CoreDataManager.shared.deleteDiary(diary)
+            CoreDataManager.shared.deleteDiary(self.diary)
             self.navigationController?.popViewController(animated: true)
         }
         
         showAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: [cancelAction, deleteAction])
     }
-
+    
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
