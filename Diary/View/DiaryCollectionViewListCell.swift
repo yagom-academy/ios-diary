@@ -31,7 +31,6 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell, CellIdentifia
         let label: UILabel = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
-        label.textAlignment = .left
         label.font = UIFont.systemFont(ofSize: 12)
         
         return label

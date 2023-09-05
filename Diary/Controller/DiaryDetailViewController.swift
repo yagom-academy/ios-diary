@@ -14,6 +14,8 @@ final class DiaryDetailViewController: UIViewController {
     private let textView: UITextView = {
         let view: UITextView = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.keyboardDismissMode = .interactive
+        view.alwaysBounceVertical = true
         
         return view
     }()

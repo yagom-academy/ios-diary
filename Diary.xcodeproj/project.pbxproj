@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		3B95E4922AA18B8A008BFD76 /* CellIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95E4912AA18B8A008BFD76 /* CellIdentifiable.swift */; };
 		3B95E4942AA18C44008BFD76 /* CellIdentifiable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95E4932AA18C44008BFD76 /* CellIdentifiable+.swift */; };
+		3B95E4DE2AA5D24B008BFD76 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95E4DD2AA5D24B008BFD76 /* CoreDataManager.swift */; };
+		3B95E4E52AA6E156008BFD76 /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95E4E32AA6E155008BFD76 /* Diary+CoreDataClass.swift */; };
+		3B95E4E62AA6E156008BFD76 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95E4E42AA6E155008BFD76 /* Diary+CoreDataProperties.swift */; };
 		3BBC98902A9D73D70047DE81 /* DiaryCollectionViewListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBC988F2A9D73D70047DE81 /* DiaryCollectionViewListCell.swift */; };
 		3BBC98942A9D89D20047DE81 /* DiaryEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBC98932A9D89D20047DE81 /* DiaryEntity.swift */; };
 		3BBC98962A9DC5330047DE81 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BBC98952A9DC5330047DE81 /* DiaryDetailViewController.swift */; };
@@ -30,6 +33,9 @@
 /* Begin PBXFileReference section */
 		3B95E4912AA18B8A008BFD76 /* CellIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifiable.swift; sourceTree = "<group>"; };
 		3B95E4932AA18C44008BFD76 /* CellIdentifiable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CellIdentifiable+.swift"; sourceTree = "<group>"; };
+		3B95E4DD2AA5D24B008BFD76 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
+		3B95E4E32AA6E155008BFD76 /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		3B95E4E42AA6E155008BFD76 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		3BBC988F2A9D73D70047DE81 /* DiaryCollectionViewListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCollectionViewListCell.swift; sourceTree = "<group>"; };
 		3BBC98932A9D89D20047DE81 /* DiaryEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryEntity.swift; sourceTree = "<group>"; };
 		3BBC98952A9DC5330047DE81 /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
@@ -69,11 +75,29 @@
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		3BBC988C2A9D67EC0047DE81 /* Resource */ = {
+		3B95E4C12AA30D09008BFD76 /* Application */ = {
 			isa = PBXGroup;
 			children = (
 				C739AE24284DF28600741E8F /* AppDelegate.swift */,
 				C739AE26284DF28600741E8F /* SceneDelegate.swift */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		3B95E4C22AA30D4C008BFD76 /* Application Support */ = {
+			isa = PBXGroup;
+			children = (
+				3B95E4E32AA6E155008BFD76 /* Diary+CoreDataClass.swift */,
+				3B95E4E42AA6E155008BFD76 /* Diary+CoreDataProperties.swift */,
+				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
+			);
+			path = "Application Support";
+			sourceTree = "<group>";
+		};
+		3BBC988C2A9D67EC0047DE81 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 			);
 			path = Resource;
@@ -144,6 +168,8 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				3B95E4C22AA30D4C008BFD76 /* Application Support */,
+				3B95E4C12AA30D09008BFD76 /* Application */,
 				3B95E4902AA18B74008BFD76 /* Protocol */,
 				DC5B19312AA08AEB0064550A /* Enum */,
 				DC5B192C2AA07FA10064550A /* Manager */,
@@ -153,8 +179,6 @@
 				3BBC988E2A9D683C0047DE81 /* View */,
 				3BBC988D2A9D68290047DE81 /* Controller */,
 				3BBC988C2A9D67EC0047DE81 /* Resource */,
-				C739AE35284DF28600741E8F /* Info.plist */,
-				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -163,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				DC5B192D2AA07FAD0064550A /* KeyboardManager.swift */,
+				3B95E4DD2AA5D24B008BFD76 /* CoreDataManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -283,7 +308,10 @@
 				DC5B191F2A9ED2D90064550A /* NewDiaryViewController.swift in Sources */,
 				3B95E4922AA18B8A008BFD76 /* CellIdentifiable.swift in Sources */,
 				3BBC98942A9D89D20047DE81 /* DiaryEntity.swift in Sources */,
+				3B95E4DE2AA5D24B008BFD76 /* CoreDataManager.swift in Sources */,
+				3B95E4E62AA6E156008BFD76 /* Diary+CoreDataProperties.swift in Sources */,
 				3BBC989B2A9F1C4C0047DE81 /* DecodingError.swift in Sources */,
+				3B95E4E52AA6E156008BFD76 /* Diary+CoreDataClass.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -425,7 +453,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = Diary/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -452,7 +480,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Diary/Info.plist;
+				INFOPLIST_FILE = Diary/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

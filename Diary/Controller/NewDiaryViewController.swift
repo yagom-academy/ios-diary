@@ -8,14 +8,16 @@
 import UIKit
 
 final class NewDiaryViewController: UIViewController {
+    private var keyboardManager: KeyboardManager?
+    
     private let textView: UITextView = {
         let view: UITextView = UITextView()
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.keyboardDismissMode = .interactive
+        view.alwaysBounceVertical = true
         
         return view
     }()
-    
-    private var keyboardManager: KeyboardManager?
     
     override func viewDidLoad() {
         super.viewDidLoad()

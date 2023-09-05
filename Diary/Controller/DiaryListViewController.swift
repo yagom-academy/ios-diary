@@ -42,16 +42,15 @@ final class DiaryListViewController: UIViewController {
     private func updateDiaryEntity() {
         do {
             diaryEntity = try decodeData()
-        } catch DecodingError.decodingFailure {
-            print(DecodingError.decodingFailure.description)
         } catch {
-            print(error)
+            print(error.localizedDescription)
         }
     }
     
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
+        // diffableDatasource
     }
     
     private func configureNavigation() {
@@ -99,7 +98,7 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
             return cell
         }
         
-        cell.configureLabel(with: diaryIndex)
+        cell.configureLabel(with: diaryIndex) // diary
         
         return cell
     }
