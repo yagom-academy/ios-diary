@@ -17,15 +17,18 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
     }()
 
     private let container = CoreDataManager.shared.persistentContainer
-    var diary: Diary?
+    var diary: Diary
+    var isNew: Bool
     
     init() {
         self.diary = CoreDataManager.shared.createDiary()
+        self.isNew = true
         super.init(nibName: nil, bundle: nil)
     }
     
     init(_ diary: Diary) {
         self.diary = diary
+        self.isNew = false
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -40,18 +43,16 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
         setupNavigationBarButton()
         setupNotification()
     }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        if diary != nil {
-            saveDiary()
-        }
-    }
-    
+
     private func configureUI() {
         view.backgroundColor = .systemBackground
         self.title = DateFormatter().formatToString(from: Date(), with: "YYYY년 MM월 dd일")
         view.addSubview(textView)
+        textView.delegate = self
+        
+        if isNew {
+            textView.becomeFirstResponder()
+        }
         
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -62,8 +63,7 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
     }
     
     private func setupBodyText() {
-        guard let diary,
-              let title = diary.title,
+        guard let title = diary.title,
               let body = diary.body else {
             return
         }
@@ -94,28 +94,13 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let self else { return }
-            self.deleteDiary(self.diary)
+            CoreDataManager.shared.deleteDiary(diary)
             self.navigationController?.popViewController(animated: true)
         }
         
         showAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: [cancelAction, deleteAction])
     }
-    
-    private func saveDiary() {
-        let contents = textView.text.split(separator: "\n")
-        guard !contents.isEmpty,
-              let title = contents.first else { return }
-        
-        let body = contents.dropFirst().joined(separator: "\n")
-        
-        CoreDataManager.shared.saveDiary(title: "\(title)", body: body, diary: diary)
-    }
-    
-    private func deleteDiary(_ diary: Diary?) {
-        CoreDataManager.shared.deleteDiary(diary)
-        self.diary = nil
-    }
-    
+
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
@@ -153,6 +138,25 @@ extension CreateDiaryViewController {
     
     @objc private func keyboardWillHide(_ notification: Notification) {
         textView.contentInset = .zero
-        saveDiary()
+    }
+}
+
+extension CreateDiaryViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let contents = textView.text.split(separator: "\n")
+        guard !contents.isEmpty else { return }
+        
+        CoreDataManager.shared.saveContext()
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        let contents = textView.text.split(separator: "\n")
+        guard !contents.isEmpty,
+              let title = contents.first else { return }
+        
+        let body = contents.dropFirst().joined(separator: "\n")
+        
+        diary.title = "\(title)"
+        diary.body = body
     }
 }

@@ -11,20 +11,12 @@ class CoreDataManager {
     static let shared = CoreDataManager()
     private init() {}
     
-    func createDiary() -> Diary? {
+    func createDiary() -> Diary {
         let newDiary = Diary(context: persistentContainer.viewContext)
         newDiary.id = UUID()
         newDiary.createdAt = Date()
         
         return newDiary
-    }
-    
-    func saveDiary(title: String, body: String, diary: Diary?) {
-        guard let diary else { return }
-        diary.title = title
-        diary.body = body
-        
-        saveContext()
     }
     
     func deleteDiary(_ diary: Diary?) {
