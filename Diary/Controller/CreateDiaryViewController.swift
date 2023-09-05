@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CreateDiaryViewController: UIViewController, AlertDisplayable {
+final class CreateDiaryViewController: UIViewController, AlertDisplayable, ShareDiary {
     private let textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -15,17 +15,17 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable {
         
         return textView
     }()
-    
-    weak var delegate: DiaryListDelegate?
+
     private let container = CoreDataManager.shared.persistentContainer
     var diary: Diary?
     
-    init(_ diary: Diary? = nil) {
-        if diary == nil {
-            self.diary = CoreDataManager.shared.createDiary()
-        } else {
-            self.diary = diary
-        }
+    init() {
+        self.diary = CoreDataManager.shared.createDiary()
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    init(_ diary: Diary) {
+        self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,7 +36,7 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        configureTextView()
+        setupBodyText()
         setupNavigationBarButton()
         setupNotification()
     }
@@ -51,11 +51,6 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         self.title = DateFormatter().formatToString(from: Date(), with: "YYYY년 MM월 dd일")
-        
-    }
-    
-    private func configureTextView() {
-        textView.text = "\(diary?.title ?? "")\n\(diary?.body ?? "")"
         view.addSubview(textView)
         
         NSLayoutConstraint.activate([
@@ -64,6 +59,16 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable {
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+    
+    private func setupBodyText() {
+        guard let diary,
+              let title = diary.title,
+              let body = diary.body else {
+            return
+        }
+        
+        textView.text = "\(title)\n\(body)"
     }
     
     private func setupNavigationBarButton() {
@@ -134,7 +139,7 @@ extension CreateDiaryViewController {
         
         let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
             guard let self else { return }
-            self.delegate?.shareDiary(self.diary)
+            self.shareDiary(self.diary)
         }
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)

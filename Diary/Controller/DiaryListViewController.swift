@@ -6,12 +6,7 @@
 
 import UIKit
 
-protocol DiaryListDelegate: AnyObject {
-    func readCoreData()
-    func shareDiary(_ diary: Diary?)
-}
-
-final class DiaryListViewController: UIViewController {
+final class DiaryListViewController: UIViewController, AlertDisplayable, ShareDiary {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -26,7 +21,6 @@ final class DiaryListViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        readCoreData()
         configureUI()
         setupNavigationBarButton()
         setupTableView()
@@ -56,7 +50,6 @@ final class DiaryListViewController: UIViewController {
         let addDiary = UIAction(image: UIImage(systemName: "plus")) { [weak self] _ in
             guard let self else { return }
             let createDiaryView = CreateDiaryViewController()
-            createDiaryView.delegate = self
             self.navigationController?.pushViewController(createDiaryView, animated: true)
         }
         
@@ -67,6 +60,17 @@ final class DiaryListViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(DiaryListTableViewCell.self, forCellReuseIdentifier: DiaryListTableViewCell.identifier)
+    }
+    
+    private func readCoreData() {
+        do {
+            let fetchedDiaries = try container.viewContext.fetch(Diary.fetchRequest())
+            diaryList = fetchedDiaries.filter { $0.title != nil }
+            tableView.reloadData()
+        } catch {
+            let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+            showAlert(title: "로드 실패", message: "데이터를 불러오지 못했습니다.", actions: [cancelAction])
+        }
     }
 }
 
@@ -95,8 +99,7 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
         let diaryToEdit = diaryList[indexPath.row]
         let createVC = CreateDiaryViewController(diaryToEdit)
-        
-        createVC.delegate = self
+
         navigationController?.pushViewController(createVC, animated: true)
     }
     
@@ -123,33 +126,5 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
         share.image = UIImage(systemName: "square.and.arrow.up")
         
         return UISwipeActionsConfiguration(actions: [delete, share])
-    }
-}
-
-extension DiaryListViewController: DiaryListDelegate, AlertDisplayable {
-    func readCoreData() {
-        do {
-            diaryList = try container.viewContext.fetch(Diary.fetchRequest())
-            tableView.reloadData()
-        } catch {
-            let cancelAction = UIAlertAction(title: "확인", style: .cancel)
-            showAlert(title: "로드 실패", message: "데이터를 불러오지 못했습니다.", actions: [cancelAction])
-        }
-    }
-    
-    func shareDiary(_ diary: Diary?) {
-        guard let diary,
-              let title = diary.title,
-              let createdAt = diary.createdAt,
-              let body = diary.body else {
-            return
-        }
-        
-        let date = dateFormatter.formatToString(from: createdAt, with: "YYYY년 MM월 dd일")
-        let shareText = "제목: \(title)\n작성일자: \(date)\n내용: \(body)"
-        let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: nil)
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        
-        self.present(activityViewController, animated: true, completion: nil)
     }
 }
