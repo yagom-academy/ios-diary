@@ -21,7 +21,6 @@
 		CB9739BE2AA1741200629F49 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = CB9739BD2AA1741200629F49 /* .swiftlint.yml */; };
 		CB9739C12AA1880100629F49 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB9739C32AA1880100629F49 /* Localizable.strings */; };
 		CBC4C42F2A9E1693009D495E /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC4C42E2A9E1693009D495E /* DateFormatter+.swift */; };
-		CBC4C4322A9E347B009D495E /* DataLoadError.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC4C4312A9E347B009D495E /* DataLoadError.swift */; };
 		CBC4C4342A9F248F009D495E /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBC4C4332A9F248F009D495E /* DiaryViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +44,6 @@
 		CB9739C22AA1880100629F49 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB9739C42AA1882600629F49 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CBC4C42E2A9E1693009D495E /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
-		CBC4C4312A9E347B009D495E /* DataLoadError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataLoadError.swift; sourceTree = "<group>"; };
 		CBC4C4332A9F248F009D495E /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -107,7 +105,6 @@
 				926C04912AA6144A0057EBCF /* Entity */,
 				CB9CBC0E2A9CC37D00999DF0 /* View */,
 				CBC4C42D2A9E167D009D495E /* Extension */,
-				CBC4C4302A9E346B009D495E /* Error */,
 				CB9CBC0C2A9CC33900999DF0 /* Resource */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				926C048D2AA60E390057EBCF /* PersistentContainer.swift */,
@@ -157,14 +154,6 @@
 				CBC4C42E2A9E1693009D495E /* DateFormatter+.swift */,
 			);
 			path = Extension;
-			sourceTree = "<group>";
-		};
-		CBC4C4302A9E346B009D495E /* Error */ = {
-			isa = PBXGroup;
-			children = (
-				CBC4C4312A9E347B009D495E /* DataLoadError.swift */,
-			);
-			path = Error;
 			sourceTree = "<group>";
 		};
 		F281E8790D5BBB1D3E4E2411 /* Frameworks */ = {
@@ -298,7 +287,6 @@
 				CBC4C4342A9F248F009D495E /* DiaryViewController.swift in Sources */,
 				926C048E2AA60E390057EBCF /* PersistentContainer.swift in Sources */,
 				926C04992AA614E80057EBCF /* DiaryEntity+CoreDataProperties.swift in Sources */,
-				CBC4C4322A9E347B009D495E /* DataLoadError.swift in Sources */,
 				926A86422A9CC69000DCBBD7 /* DiaryTableViewCell.swift in Sources */,
 				CBC4C42F2A9E1693009D495E /* DateFormatter+.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,

@@ -8,13 +8,6 @@
 import Foundation
 
 extension DateFormatter {
-    func transformDiaryDate(using unixTime: Int) -> String {
-        configureDiaryDateFormat()
-        let date = Date(timeIntervalSince1970: TimeInterval(unixTime))
-        
-        return string(from: date)
-    }
-    
     func configureDiaryDateFormat() {
         dateStyle = .long
         timeStyle = .none
