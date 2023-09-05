@@ -8,6 +8,7 @@
 import Foundation
 
 struct DiaryContent: Decodable {
+    let id = UUID()
     var title: String
     var body: String
     let timeInterval: Double
