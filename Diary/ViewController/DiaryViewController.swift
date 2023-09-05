@@ -10,7 +10,7 @@ import UIKit
 final class DiaryViewController: UIViewController {
     // MARK: - Property
     private let container: PersistentContainer
-    private let diary: DiaryEntity?
+    private var diary: DiaryEntity?
     private let indexPath: IndexPath?
     private let contentTextView: UITextView = {
         let textView = UITextView()
@@ -42,7 +42,8 @@ final class DiaryViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        createDiary()
+//        createDiary()
+        wirteDiary()
         saveDiary()
     }
     
@@ -86,16 +87,20 @@ final class DiaryViewController: UIViewController {
         contentTextView.text = diary.title + "\n" + (diary.body ?? "")
     }
     
-    // 다이어리 생성
-    private func createDiary() {
-        let diary = DiaryEntity(context: container.viewContext)
-        let title = contentTextView.text.components(separatedBy: "\n")[0]
+    // 다이어리 작성
+    private func wirteDiary() {
+        if diary == nil {
+            diary = DiaryEntity(context: container.viewContext)
+            diary?.id = UUID()
+            diary?.date = Date()
+        }
+        
+        diary?.title = contentTextView.text.components(separatedBy: "\n")[0]
+        
         if let range = contentTextView.text.range(of: "\n") {
             let body = contentTextView.text[range.upperBound...]
-            diary.body = String(body)
+            diary?.body = String(body)
         }
-        diary.title = title
-        diary.date = Date()
     }
     
     // 다이어리 저장
