@@ -5,9 +5,11 @@
 // 
 
 import UIKit
+import CoreData
 
 final class DiaryListViewController: UIViewController {
     private var diaryEntity: [DiaryEntity]?
+    var context = CoreDataManager.shared.context
     
     private let collectionView: UICollectionView = {
         let configuration: UICollectionLayoutListConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
@@ -21,32 +23,34 @@ final class DiaryListViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        updateDiaryEntity()
         configureCollectionView()
         configureNavigation()
         configureUI()
         configureLayout()
+        print("viewDidLoad")
+
     }
     
-    private func decodeData() throws -> [DiaryEntity]? {
-        guard let asset = NSDataAsset(name: "sample") else {
-            throw DecodingError.decodingFailure
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("viewWillAppear")
+//        let context = (UIApplication.shared.delegate as? AppDelegate)!.persistentContainer.viewContext
         
-        let decodedData = try? JSONDecoder().decode([DiaryEntity].self, from: asset.data)
-        diaryEntity = decodedData
-        
-        return decodedData
-    }
-    
-    private func updateDiaryEntity() {
         do {
-            diaryEntity = try decodeData()
+            let data = try context.fetch(Diary.fetchRequest())
+            if let diaries = data as? [Diary] {
+                for diary in diaries {
+                    print(diary.title)
+                    print(diary.body)
+                    print(diary.createdAt)
+                }
+            }
+
         } catch {
-            print(error.localizedDescription)
+            print(error)
         }
     }
-    
+
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -83,7 +87,7 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let diaryEntity = diaryEntity else {
-            return 0
+            return 5
         }
         
         return diaryEntity.count
@@ -94,11 +98,11 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
             return UICollectionViewCell()
         }
         
-        guard let diaryIndex = diaryEntity?[index: indexPath.item] else {
-            return cell
-        }
-        
-        cell.configureLabel(with: diaryIndex) // diary
+//        guard let diaryIndex = diaryEntity?[index: indexPath.item] else {
+//            return cell
+//        }
+//
+//        cell.configureLabel(with: ) // diary
         
         return cell
     }

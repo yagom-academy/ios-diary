@@ -15,7 +15,7 @@ extension Diary {
         return NSFetchRequest<Diary>(entityName: "Diary")
     }
 
-    @NSManaged public var createdAt: Int64
+    @NSManaged public var createdAt: String?
     @NSManaged public var title: String?
     @NSManaged public var body: String?
 }

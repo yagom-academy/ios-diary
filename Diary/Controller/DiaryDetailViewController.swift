@@ -39,7 +39,8 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        navigationItem.title = DateFormatter.formatDate(diaryEntity, locale: .KOR, formatter: DateFormatter())
+//        navigationItem.title = DateFormatter.formatDate(diaryEntity, locale: .KOR, formatter: DateFormatter())
+        navigationItem.title = "aaa"
     }
     
     private func configureUI() {

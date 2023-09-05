@@ -1,9 +1,10 @@
 disabled_rules:
     - trailing_whitespace
     - line_length
-
+    - force_cast
+    
 excluded:
-    - Diary/Resource/AppDelegate.swift
-    - Diary/Resource/SceneDelegate.swift
+    - Diary/Application/AppDelegate.swift
+    - Diary/Application/SceneDelegate.swift
     
 
