@@ -22,8 +22,8 @@ final class CreateDiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        createDiary()
         configureUI()
+        setupDiaryData()
         setupNotification()
     }
     
@@ -36,6 +36,7 @@ final class CreateDiaryViewController: UIViewController {
     private func configureUI() {
         view.backgroundColor = .systemBackground
         self.title = DateFormatter().formatToString(from: Date(), with: "YYYY년 MM월 dd일")
+        
         view.addSubview(textView)
         
         NSLayoutConstraint.activate([
@@ -44,6 +45,14 @@ final class CreateDiaryViewController: UIViewController {
             textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor)
         ])
+    }
+    
+    private func setupDiaryData() {
+        if let diaryEdit = diary {
+            textView.text = "\(diaryEdit.title ?? "")\n\(diaryEdit.body ?? "")"
+        } else {
+            diary = CoreDataManager.shared.createDiary()
+        }
     }
     
     private func setupNotification() {
@@ -72,14 +81,6 @@ final class CreateDiaryViewController: UIViewController {
         saveDiary()
     }
     
-    private func createDiary() {
-        let newDiary = Diary(context: container.viewContext)
-        newDiary.id = UUID()
-        newDiary.createdAt = Date()
-        
-        diary = newDiary
-    }
-    
     private func saveDiary() {
         let contents = textView.text.split(separator: "\n")
         guard !contents.isEmpty,
@@ -87,12 +88,11 @@ final class CreateDiaryViewController: UIViewController {
         
         let body = contents.dropFirst().joined(separator: "\n")
         
-        guard let diary else { return }
-        
-        diary.title = "\(title)"
-        diary.body = body
-        
-        CoreDataManager.shared.saveContext()
+        CoreDataManager.shared.saveDiary(title: "\(title)", body: body, diary: diary)
+    }
+    
+    private func deleteDiary(_ diary: Diary?) {
+        CoreDataManager.shared.deleteDiary(diary)
     }
     
     deinit {

@@ -83,6 +83,12 @@ extension DiaryListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        let diaryToEdit = diaryList[indexPath.row]
+        let createVC = CreateDiaryViewController()
+        
+        createVC.delegate = self
+        createVC.diary = diaryToEdit
+        navigationController?.pushViewController(createVC, animated: true)
     }
 }
 
