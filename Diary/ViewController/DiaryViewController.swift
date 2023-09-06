@@ -99,7 +99,9 @@ final class DiaryViewController: UIViewController {
     private func showActionSheet() {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...", style: .default)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.deleteDiary()
+        }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         sheet.addAction(shareAction)
         sheet.addAction(deleteAction)
@@ -129,6 +131,13 @@ final class DiaryViewController: UIViewController {
             let body = contentTextView.text[range.upperBound...]
             diary?.body = String(body)
         }
+    }
+    
+    private func deleteDiary() {
+        guard let diary else { return }
+        
+        self.container.viewContext.delete(diary)
+        navigationController?.popViewController(animated: true)
     }
     
     private func saveDiary() {
