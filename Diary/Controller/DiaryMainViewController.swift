@@ -106,12 +106,13 @@ extension DiaryMainViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        guard let diarylist else {
+        guard let diarylist,
+              let diary = diarylist[safe: indexPath.row] else {
             
             return UITableViewCell()
         }
         
-        cell.fetchData(diarylist[indexPath.row])
+        cell.fetchData(diary)
         
         return cell
     }
