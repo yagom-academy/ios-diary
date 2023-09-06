@@ -42,8 +42,7 @@ final class DiaryViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-//        createDiary()
-        wirteDiary()
+        writeDiary()
         saveDiary()
     }
     
@@ -87,8 +86,7 @@ final class DiaryViewController: UIViewController {
         contentTextView.text = diary.title + "\n" + (diary.body ?? "")
     }
     
-    // 다이어리 작성
-    private func wirteDiary() {
+    private func writeDiary() {
         if diary == nil {
             diary = DiaryEntity(context: container.viewContext)
             diary?.id = UUID()
@@ -103,7 +101,6 @@ final class DiaryViewController: UIViewController {
         }
     }
     
-    // 다이어리 저장
     private func saveDiary() {
         container.saveContext()
     }
