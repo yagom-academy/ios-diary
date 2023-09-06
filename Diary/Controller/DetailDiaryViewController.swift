@@ -67,7 +67,9 @@ extension DetailDiaryViewController {
             ])
         }
     }
-    
+}
+
+extension DetailDiaryViewController {
     private func setupKeyboardEvent() {
         if #unavailable(iOS 15.0) {
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -82,11 +84,11 @@ extension DetailDiaryViewController {
             return
         }
         
-        view.frame.origin.y -= keyboardFrame.height
+        diaryTextView.contentInset = UIEdgeInsets(top: .zero, left: .zero, bottom: keyboardFrame.height, right: .zero)
     }
     
     @objc private func keyboardWillHide() {
-        view.frame.origin.y = .zero
+        diaryTextView.contentInset = UIEdgeInsets()
     }
 }
 
