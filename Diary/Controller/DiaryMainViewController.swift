@@ -6,7 +6,7 @@
 
 import UIKit
 
-class DiaryMainViewController: UIViewController {
+final class DiaryMainViewController: UIViewController {
     private let diaryTableView: UITableView = {
         let tableView = UITableView()
         tableView.register(DiaryTableViewCell.self, forCellReuseIdentifier: DiaryTableViewCell.identifier)
@@ -19,21 +19,14 @@ class DiaryMainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureUI()
+        configureDelegates()
+        diaryListFromJSON()
+    }
+    
+    private func configureDelegates() {
         diaryTableView.delegate = self
         diaryTableView.dataSource = self
-        
-        self.view.backgroundColor = .systemBackground
-        self.navigationItem.title = "일기장"
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddDiaryButton))
-        
-        addSubViews()
-        diaryTableViewConstraints()
-        
-        do {
-            try decodeDiary()
-        } catch {
-            print(error.localizedDescription)
-        }
     }
     
     @objc private func didTapAddDiaryButton() {
@@ -54,9 +47,33 @@ class DiaryMainViewController: UIViewController {
         
         diarylist = decodedData
     }
+    
+    private func diaryListFromJSON() {
+        do {
+            try decodeDiary()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }
 
 extension DiaryMainViewController {
+    private func configureUI() {
+        configureView()
+        configureNavigationItem()
+        addSubViews()
+        diaryTableViewConstraints()
+    }
+    
+    private func configureView() {
+        self.view.backgroundColor = .systemBackground
+    }
+    
+    private func configureNavigationItem() {
+        self.navigationItem.title = "일기장"
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didTapAddDiaryButton))
+    }
+    
     private func addSubViews() {
         view.addSubview(diaryTableView)
     }
@@ -76,6 +93,7 @@ extension DiaryMainViewController {
 extension DiaryMainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let diarylist else {
+            
             return .zero
         }
         
@@ -84,10 +102,12 @@ extension DiaryMainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryTableViewCell.identifier, for: indexPath) as? DiaryTableViewCell else {
+            
             return UITableViewCell()
         }
         
         guard let diarylist else {
+            
             return UITableViewCell()
         }
         
