@@ -40,10 +40,20 @@ final class DiaryViewController: UIViewController {
         contentTextView.delegate = self
         configureBackgroundColor()
         configureTitle()
+        configureNavigationItem()
         configureTextView()
         configureTextViewConstraint()
         fillTextView()
         registerKeyboardListener()
+    }
+    
+    private func configureNavigationItem() {
+        let action = UIAction {_ in
+            self.showActionSheet()
+        }
+        let barButtonItem = UIBarButtonItem.init(image: UIImage.init(systemName: "ellipsis.circle"), primaryAction: action)
+        
+        navigationItem.rightBarButtonItem = barButtonItem
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -83,6 +93,18 @@ final class DiaryViewController: UIViewController {
     }
     
     // MARK: - Method
+    private func showActionSheet() {
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        sheet.addAction(shareAction)
+        sheet.addAction(deleteAction)
+        sheet.addAction(cancelAction)
+        
+        present(sheet, animated: true)
+    }
+    
     private func fillTextView() {
         guard let diary else {
             return
