@@ -35,6 +35,13 @@ final class EditingDiaryViewController: UIViewController {
         configureView()
         setupConstraints()
         setupDiaryTextView()
+        setObserver()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        save()
     }
     
     private func configureView() {
@@ -59,12 +66,14 @@ final class EditingDiaryViewController: UIViewController {
     
     private func setupDiaryTextView() {
         if diaryContent.title.isEmpty == false {
-            diaryTextView.text = String(format: "%@\n\n%@", diaryContent.title, diaryContent.body)
+            diaryTextView.text = diaryContent.title + diaryContent.body
         } else {
             diaryTextView.becomeFirstResponder()
+            ContainerManager.shared.insert(diaryContent: diaryContent)
         }
         
         addGesture()
+        diaryTextView.delegate = self
     }
     
     private func addGesture() {
@@ -72,12 +81,43 @@ final class EditingDiaryViewController: UIViewController {
         diaryTextView.addGestureRecognizer(tapGesture)
     }
     
-    @objc
-    private func didTapTextView(_ sender: Any) {
+    @objc private func didTapTextView(_ sender: Any) {
         if diaryTextView.isFirstResponder {
             diaryTextView.resignFirstResponder()
         } else {
             diaryTextView.becomeFirstResponder()
         }
+    }
+    
+    private func setObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(enterBackground),
+            name: UIWindowScene.didEnterBackgroundNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func enterBackground() {
+        save()
+    }
+    
+    private func save() {
+        guard let text = diaryTextView.text else { return }
+        
+        if let index = text.firstIndex(of: "\n") {
+            diaryContent.title = String(text[text.startIndex ..< index])
+            diaryContent.body = String(text[index ..< text.endIndex])
+        } else {
+            diaryContent.title = text
+        }
+
+        ContainerManager.shared.update(diaryContent: diaryContent)
+    }
+}
+
+extension EditingDiaryViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        save()
     }
 }
