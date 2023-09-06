@@ -8,4 +8,5 @@
 struct DiaryEntity {
     let title, body: String
     let createdAt: String
+    let identifier: Int
 }

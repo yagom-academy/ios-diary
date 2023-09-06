@@ -68,9 +68,14 @@ extension NewDiaryViewController: UITextViewDelegate {
         object.setValue("타이틀틀틀", forKey: "title")
         object.setValue(textView.text, forKey: "body")
         object.setValue(today, forKey: "createdAt")
+        object.setValue(UUID().uuidString, forKey: "identifier")
         tt = "타이틀틀틀"
         bd = textView.text
         ca = today
+        saveCoreData()
+    }
+    
+    func saveCoreData() {
         do {
             try CoreDataManager.shared.context.save()
             print("success")

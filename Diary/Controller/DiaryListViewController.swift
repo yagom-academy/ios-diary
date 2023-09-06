@@ -15,6 +15,8 @@ final class DiaryListViewController: UIViewController {
     private let collectionView: UICollectionView = {
         let configuration: UICollectionLayoutListConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
+//        configuration.leadingSwipeActionsConfigurationProvider = { }
+        
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.translatesAutoresizingMaskIntoConstraints = false
         view.register(DiaryCollectionViewListCell.self, forCellWithReuseIdentifier: DiaryCollectionViewListCell.identifier)
@@ -95,16 +97,14 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let diaryEntity = diaryEntity else {
-            return
-        }
 
-        guard let diaryIndex = diaryEntity[index: indexPath.item] else {
+        guard let uuid = diaries[index: indexPath.item]?.identifier else {
             return
         }
+        print(uuid)
         
         collectionView.deselectItem(at: indexPath, animated: true)
-        let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(diaryEntity: diaryIndex)
+        let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(uuid: uuid)
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
 }

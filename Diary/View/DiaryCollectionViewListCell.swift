@@ -32,7 +32,7 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell, CellIdentifia
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 1
         label.font = UIFont.systemFont(ofSize: 12)
-        
+        label.setContentHuggingPriority(.init(300), for: .horizontal)
         return label
     }()
     

@@ -6,10 +6,12 @@
 //
 
 import UIKit
+import CoreData
 
 final class DiaryDetailViewController: UIViewController {
-    private var diaryEntity: DiaryEntity
+    private var uuid: String
     private var keyboardManager: KeyboardManager?
+    var fetchRequest: NSFetchRequest<Diary>
     
     private let textView: UITextView = {
         let view: UITextView = UITextView()
@@ -27,10 +29,13 @@ final class DiaryDetailViewController: UIViewController {
         configureTextView()
         configureLayout()
         setUpKeyboard()
+        textView.delegate = self
+
     }
     
-    init(diaryEntity: DiaryEntity) {
-        self.diaryEntity = diaryEntity
+    init(uuid: String) {
+        self.uuid = uuid
+        self.fetchRequest = CoreDataManager.shared.receivePredicateData(uuid: uuid)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -39,8 +44,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureNavigation() {
-//        navigationItem.title = DateFormatter.formatDate(diaryEntity, locale: .KOR, formatter: DateFormatter())
-        navigationItem.title = "aaa"
+        navigationItem.title = "aa"
     }
     
     private func configureUI() {
@@ -49,7 +53,12 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureTextView() {
-        textView.text = diaryEntity.title + "\n\n" + diaryEntity.body
+        do {
+            let data = try CoreDataManager.shared.context.fetch(fetchRequest)
+            textView.text = data.first?.body
+        } catch {
+            print(error)
+        }
     }
     
     private func configureLayout() {
@@ -66,3 +75,25 @@ final class DiaryDetailViewController: UIViewController {
         keyboardManager = KeyboardManager(textView: textView)
     }
 }
+
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        do {
+            let data = try CoreDataManager.shared.context.fetch(fetchRequest)
+            data.first?.body = textView.text
+            saveCoreData()
+        } catch {
+            print(error)
+        }
+    }
+    
+    func saveCoreData() {
+        do {
+            try CoreDataManager.shared.context.save()
+            print("success")
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+}
+
