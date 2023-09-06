@@ -141,6 +141,7 @@ extension CreateDiaryViewController {
     }
 }
 
+// MARK: - UITextViewDelegate
 extension CreateDiaryViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         let contents = textView.text.split(separator: "\n")

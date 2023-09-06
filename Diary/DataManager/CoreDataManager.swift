@@ -10,6 +10,15 @@ import CoreData
 class CoreDataManager {
     static let shared = CoreDataManager()
     private init() {}
+        
+    func fetchDiary() throws -> [Diary] {
+        let request: NSFetchRequest<Diary> = Diary.fetchRequest()
+        let sortByDate = NSSortDescriptor(key: "createdAt", ascending: false)
+        request.sortDescriptors = [sortByDate]
+        
+        let diaries = try persistentContainer.viewContext.fetch(request)
+        return diaries
+    }
     
     func createDiary() -> Diary {
         let newDiary = Diary(context: persistentContainer.viewContext)

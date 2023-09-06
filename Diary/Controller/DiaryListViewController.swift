@@ -66,7 +66,7 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController: AlertDisplayable {
     private func readCoreData() {
         do {
-            let fetchedDiaries = try container.viewContext.fetch(Diary.fetchRequest())
+            let fetchedDiaries = try CoreDataManager.shared.fetchDiary()
             diaryList = fetchedDiaries.filter { $0.title != nil }
             tableView.reloadData()
         } catch {
