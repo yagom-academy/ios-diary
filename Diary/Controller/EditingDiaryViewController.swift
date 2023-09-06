@@ -52,7 +52,27 @@ final class EditingDiaryViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
+        let othersDiaryBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.bubble"),
+                                                       style: .plain,
+                                                       target: self,
+                                                       action: #selector(tappedOthersButton))
+        
+        navigationItem.rightBarButtonItem = othersDiaryBarButtonItem
         navigationItem.title = diaryContent.date
+    }
+    
+    @objc private func tappedOthersButton() {
+        let deleteHandler: (UIAlertAction) -> Void = { _ in
+            ContainerManager.shared.delete(id: self.diaryContent.id)
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        presentAlertWith(title: nil,
+                         message: nil,
+                         preferredStyle: .actionSheet,
+                         actionConfigs: ("Share...", .default, nil),
+                                        ("Delete", .destructive, deleteHandler),
+                                        ("Cancel", .cancel, nil))
     }
     
     private func setupConstraints() {
@@ -90,12 +110,10 @@ final class EditingDiaryViewController: UIViewController {
     }
     
     private func setObserver() {
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(enterBackground),
-            name: UIWindowScene.didEnterBackgroundNotification,
-            object: nil
-        )
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(enterBackground),
+                                               name: UIWindowScene.didEnterBackgroundNotification,
+                                               object: nil)
     }
     
     @objc private func enterBackground() {

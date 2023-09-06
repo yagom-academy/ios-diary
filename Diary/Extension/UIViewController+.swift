@@ -10,12 +10,14 @@ import UIKit
 extension UIViewController {
     func presentAlertWith(title: String?,
                           message: String?,
+                          preferredStyle: UIAlertController.Style,
                           actionConfigs: (title: String?,
                                           style: UIAlertAction.Style,
                                           handler: ((UIAlertAction) -> Void)?)...) {
         let alertController = UIAlertController(title: title,
                                                 message: message,
-                                                preferredStyle: .alert)
+                                                preferredStyle: preferredStyle)
+        
         for config in actionConfigs {
             let action = UIAlertAction(title: config.title,
                                        style: config.style,

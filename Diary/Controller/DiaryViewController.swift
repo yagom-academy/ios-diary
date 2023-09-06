@@ -39,6 +39,7 @@ final class DiaryViewController: UIViewController {
         super.viewWillAppear(animated)
         
         fetchDiaryContents()
+        tableView.reloadData()
     }
     
     private func configureView() {
@@ -89,7 +90,10 @@ final class DiaryViewController: UIViewController {
             try diaryManager.fetchDiaryContents()
         } catch {
             print(error.localizedDescription)
-            presentAlertWith(title: "데이터 불러오기 실패", message: "앱을 다시 실행해주십시오.", actionConfigs: ("확인", .default, nil))
+            presentAlertWith(title: "데이터 불러오기 실패",
+                             message: "앱을 다시 실행해주십시오.",
+                             preferredStyle: .alert,
+                             actionConfigs: ("확인", .default, nil))
         }
     }
 }

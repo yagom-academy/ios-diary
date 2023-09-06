@@ -29,6 +29,7 @@ final class DiaryTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
         label.adjustsFontForContentSizeCategory = true
+        label.setContentHuggingPriority( .init(100), for: .horizontal)
         
         return label
     }()
@@ -45,6 +46,7 @@ final class DiaryTableViewCell: UITableViewCell {
     private let descriptionStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.alignment = .center
         stackView.spacing = 5
         
         return stackView
@@ -63,7 +65,7 @@ final class DiaryTableViewCell: UITableViewCell {
     func configureCell(data: DiaryContent) {
         titleLabel.text = data.title
         dateLabel.text = data.date
-        previewLabel.text = data.body
+        previewLabel.text = data.body.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private func configureUI() {
