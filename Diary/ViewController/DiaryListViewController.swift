@@ -40,9 +40,7 @@ final class DiaryListViewController: UIViewController {
     private func loadDiary() {
         do {
             diaryList = try container.viewContext.fetch(DiaryEntity.fetchRequest())
-            DispatchQueue.main.async {
-                self.tableView.reloadData()
-            }
+            tableView.reloadData()
         } catch {
             let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
             let closeAction = UIAlertAction(title: "확인", style: .cancel)
