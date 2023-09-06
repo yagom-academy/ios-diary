@@ -20,6 +20,7 @@ final class DetailDiaryViewController: UIViewController {
         
         configureUI()
         configureDelegates()
+        setupKeyboardEvent()
     }
     
     private func configureDelegates() {
@@ -50,12 +51,42 @@ extension DetailDiaryViewController {
     private func diaryTextViewConstraints() {
         diaryTextView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            diaryTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            diaryTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
-        ])
+        if #available(iOS 15.0, *) {
+            NSLayoutConstraint.activate([
+                diaryTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                diaryTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
+            ])
+        } else {
+            NSLayoutConstraint.activate([
+                diaryTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                diaryTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+                diaryTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+                diaryTextView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            ])
+        }
+    }
+    
+    private func setupKeyboardEvent() {
+        if #unavailable(iOS 15.0) {
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        }
+    }
+    
+    @objc private func keyboardWillShow(_ sender: Notification) {
+        guard let userInfo = sender.userInfo,
+              let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect else {
+            
+            return
+        }
+        
+        view.frame.origin.y -= keyboardFrame.height
+    }
+    
+    @objc private func keyboardWillHide() {
+        view.frame.origin.y = .zero
     }
 }
 
