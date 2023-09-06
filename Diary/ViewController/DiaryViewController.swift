@@ -30,6 +30,10 @@ final class DiaryViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     // MARK: - Life cycle method
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,6 +43,7 @@ final class DiaryViewController: UIViewController {
         configureTextView()
         configureTextViewConstraint()
         fillTextView()
+        registerKeyboardListener()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -103,6 +108,15 @@ final class DiaryViewController: UIViewController {
     
     private func saveDiary() {
         container.saveContext()
+    }
+    
+    private func registerKeyboardListener() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        writeDiary()
+        saveDiary()
     }
 }
 
