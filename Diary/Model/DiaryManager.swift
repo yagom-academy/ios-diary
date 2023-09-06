@@ -10,9 +10,18 @@ import OSLog
 struct DiaryManager {
     var diaryContents: [DiaryContent]?
     
-    mutating func fetchDiaryContents(name: String) throws {
-        let data: [DiaryContent] = try DecodingManager.decodeJSON(fileName: name, by: JSONDecoder())
+    mutating func fetchDiaryContents() throws {
+        guard let data: [Diary] = ContainerManager.shared.fetchAll() else { return }
         
-        diaryContents = data
+        var contents: [DiaryContent] = []
+        
+        data.forEach { element in
+            contents.append(DiaryContent(id: element.id,
+                                         title: element.title,
+                                         body: element.body,
+                                         timeInterval: element.timeInterval))
+        }
+        
+        diaryContents = contents
     }
 }

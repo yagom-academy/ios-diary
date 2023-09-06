@@ -33,6 +33,11 @@ final class DiaryViewController: UIViewController {
         configureTableView()
         setupConstraints()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
         fetchDiaryContents()
     }
     
@@ -81,7 +86,7 @@ final class DiaryViewController: UIViewController {
     
     private func fetchDiaryContents() {
         do {
-            try diaryManager.fetchDiaryContents(name: "sample")
+            try diaryManager.fetchDiaryContents()
         } catch {
             print(error.localizedDescription)
             presentAlertWith(title: "데이터 불러오기 실패", message: "앱을 다시 실행해주십시오.", actionConfigs: ("확인", .default, nil))
