@@ -33,6 +33,7 @@ final class DiaryViewController: UIViewController {
     // MARK: - Life cycle method
     override func viewDidLoad() {
         super.viewDidLoad()
+        contentTextView.delegate = self
         configureBackgroundColor()
         configureTitle()
         configureTextView()
@@ -42,7 +43,6 @@ final class DiaryViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        writeDiary()
         saveDiary()
     }
     
@@ -103,5 +103,11 @@ final class DiaryViewController: UIViewController {
     
     private func saveDiary() {
         container.saveContext()
+    }
+}
+
+extension DiaryViewController: UITextViewDelegate {
+    func textViewDidChange(_ textView: UITextView) {
+        writeDiary()
     }
 }
