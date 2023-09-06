@@ -116,4 +116,25 @@ extension DiaryListViewController: UITableViewDelegate {
         let diaryViewController = DiaryViewController(diary: diary, container: container, indexPath: indexPath)
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let diary = diaryList[indexPath.row]
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, complitionHandler in
+            self.diaryList.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.container.viewContext.delete(diary)
+            self.container.saveContext()
+            complitionHandler(true)
+        }
+        
+        deleteAction.image = UIImage(systemName: "trash")
+        deleteAction.backgroundColor = .systemRed
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        
+        return configuration
+    }
 }
