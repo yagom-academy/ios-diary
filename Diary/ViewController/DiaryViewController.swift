@@ -51,7 +51,10 @@ final class DiaryViewController: UIViewController {
         let action = UIAction {_ in
             self.showActionSheet()
         }
-        let barButtonItem = UIBarButtonItem.init(image: UIImage.init(systemName: "ellipsis.circle"), primaryAction: action)
+        let barButtonItem = UIBarButtonItem.init(
+            image: UIImage.init(systemName: "ellipsis.circle"),
+            primaryAction: action
+        )
         
         navigationItem.rightBarButtonItem = barButtonItem
     }
@@ -133,7 +136,12 @@ final class DiaryViewController: UIViewController {
     }
     
     private func registerKeyboardListener() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide(_:)),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     @objc private func keyboardWillHide(_ notification: Notification) {
