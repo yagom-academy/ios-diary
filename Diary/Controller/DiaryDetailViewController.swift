@@ -29,13 +29,11 @@ final class DiaryDetailViewController: UIViewController {
         configureTextView()
         configureLayout()
         setUpKeyboard()
-        textView.delegate = self
-
     }
     
     init(uuid: String) {
         self.uuid = uuid
-        self.fetchRequest = CoreDataManager.shared.receivePredicateData(uuid: uuid)
+        self.fetchRequest = CoreDataManager.shared.receiveFetchRequest(for: uuid)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -44,7 +42,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        navigationItem.title = "aa"
+        navigationItem.title = CoreDataManager.shared.fetchDiary(fetchRequest).first?.createdAt
     }
     
     private func configureUI() {
@@ -53,12 +51,8 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureTextView() {
-        do {
-            let data = try CoreDataManager.shared.context.fetch(fetchRequest)
-            textView.text = data.first?.body
-        } catch {
-            print(error)
-        }
+        textView.delegate = self
+        textView.text = CoreDataManager.shared.fetchDiary(fetchRequest).first?.body
     }
     
     private func configureLayout() {
@@ -78,22 +72,7 @@ final class DiaryDetailViewController: UIViewController {
 
 extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        do {
-            let data = try CoreDataManager.shared.context.fetch(fetchRequest)
-            data.first?.body = textView.text
-            saveCoreData()
-        } catch {
-            print(error)
-        }
-    }
-    
-    func saveCoreData() {
-        do {
-            try CoreDataManager.shared.context.save()
-            print("success")
-        } catch {
-            print(error.localizedDescription)
-        }
+        CoreDataManager.shared.fetchDiary(fetchRequest).first?.body = textView.text
+        CoreDataManager.shared.saveContext()
     }
 }
-

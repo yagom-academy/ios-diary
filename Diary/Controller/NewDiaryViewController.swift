@@ -11,9 +11,6 @@ import CoreData
 final class NewDiaryViewController: UIViewController {
     private var keyboardManager: KeyboardManager?
     private var today: String = ""
-    private var tt: String = ""
-    private var bd: String = ""
-    private var ca: String = ""
     
     private let textView: UITextView = {
         let view: UITextView = UITextView()
@@ -29,8 +26,8 @@ final class NewDiaryViewController: UIViewController {
         configureNavigation()
         configureUI()
         configureLayout()
+        configureTextView()
         setUpKeyboard()
-        textView.delegate = self
     }
     
     private func configureNavigation() {
@@ -53,6 +50,10 @@ final class NewDiaryViewController: UIViewController {
         ])
     }
     
+    private func configureTextView() {
+        textView.delegate = self
+    }
+    
     private func setUpKeyboard() {
         keyboardManager = KeyboardManager(textView: textView)
     }
@@ -60,27 +61,6 @@ final class NewDiaryViewController: UIViewController {
 
 extension NewDiaryViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: CoreDataManager.shared.context) else {
-            return
-        }
-        
-        let object = NSManagedObject(entity: entity, insertInto: CoreDataManager.shared.context)
-        object.setValue("타이틀틀틀", forKey: "title")
-        object.setValue(textView.text, forKey: "body")
-        object.setValue(today, forKey: "createdAt")
-        object.setValue(UUID().uuidString, forKey: "identifier")
-        tt = "타이틀틀틀"
-        bd = textView.text
-        ca = today
-        saveCoreData()
-    }
-    
-    func saveCoreData() {
-        do {
-            try CoreDataManager.shared.context.save()
-            print("success")
-        } catch {
-            print(error.localizedDescription)
-        }
+        CoreDataManager.shared.createDiary(textView)
     }
 }

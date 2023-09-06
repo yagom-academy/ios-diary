@@ -13,20 +13,63 @@ final class CoreDataManager {
     
     private init() {}
     
-    let context = (UIApplication.shared.delegate as? AppDelegate)!.persistentContainer.viewContext
-    let fetchRequest: NSFetchRequest<Diary> = Diary.fetchRequest()
+    var context: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
     
-    func receivePredicateData(uuid: String) -> NSFetchRequest<Diary> {
+    func receiveFetchRequest(for uuid: String) -> NSFetchRequest<Diary> {
+        let fetchRequest: NSFetchRequest<Diary> = Diary.fetchRequest()
+        
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
         
         return fetchRequest
     }
     
-    func receiveFetchData(fetchRequest: NSFetchRequest<Diary>) {
+    // create
+    func createDiary(_ textView: UITextView) {
+        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: CoreDataManager.shared.context) else {
+            return
+        }
+        let object = NSManagedObject(entity: entity, insertInto: CoreDataManager.shared.context)
+        object.setValue("타이틀틀", forKey: "title")
+        object.setValue(textView.text, forKey: "body")
+        object.setValue(DateFormatter.today, forKey: "createdAt")
+        object.setValue(UUID().uuidString, forKey: "identifier")
+        saveContext()
+    }
+    // fetch
+    func fetchDiary(_ request: NSFetchRequest<Diary>) -> [Diary] {
         do {
-            let data = try CoreDataManager.shared.context.fetch(fetchRequest)
+            let data = try context.fetch(request)
+            return data
         } catch {
             print(error.localizedDescription)
+        }
+        return []
+    }
+    
+    // update
+    // delete
+    
+    lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "Diary")
+        container.loadPersistentStores { _, error in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        }
+        return container
+    }()
+    
+    func saveContext() {
+        let context = persistentContainer.viewContext
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
         }
     }
 }

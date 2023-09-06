@@ -8,8 +8,6 @@ import UIKit
 import CoreData
 
 final class DiaryListViewController: UIViewController {
-    private var diaryEntity: [DiaryEntity]?
-    var cellCount: Int = 0
     var diaries: [Diary] = []
     
     private let collectionView: UICollectionView = {
@@ -34,13 +32,7 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        do {
-            let data = try CoreDataManager.shared.context.fetch(Diary.fetchRequest())
-            cellCount = data.count
-            self.diaries = data
-        } catch {
-            print(error.localizedDescription)
-        }
+        self.diaries = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())
         collectionView.reloadData()
     }
     
@@ -79,7 +71,7 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return cellCount
+        return diaries.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
