@@ -61,7 +61,12 @@ final class DiaryViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
-        saveDiary()
+        writeDiary()
+        if contentTextView.text == "" {
+            deleteDiary()
+        } else {
+            saveDiary()
+        }
     }
     
     // MARK: - Configure view
