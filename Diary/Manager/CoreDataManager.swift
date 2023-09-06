@@ -2,16 +2,18 @@
 //  CoreDataManager.swift
 //  Diary
 //
-//  Created by 예찬 on 2023/09/04.
+//  Created by idinaloq, yetti on 2023/09/04.
 //
 
 import UIKit
 import CoreData
 
-class CoreDataManager {
-    static let shared = CoreDataManager()
+final class CoreDataManager {
+    static let shared: CoreDataManager = CoreDataManager()
+    
+    private init() {}
     
     let context = (UIApplication.shared.delegate as? AppDelegate)!.persistentContainer.viewContext
     
-    private init() {}
+    
 }

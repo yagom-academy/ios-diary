@@ -10,8 +10,10 @@ import CoreData
 
 final class NewDiaryViewController: UIViewController {
     private var keyboardManager: KeyboardManager?
-//    let context = (UIApplication.shared.delegate as? AppDelegate)!.persistentContainer.viewContext
-    var context = CoreDataManager.shared.context
+    private var today: String = ""
+    private var tt: String = ""
+    private var bd: String = ""
+    private var ca: String = ""
     
     private let textView: UITextView = {
         let view: UITextView = UITextView()
@@ -27,36 +29,15 @@ final class NewDiaryViewController: UIViewController {
         configureNavigation()
         configureUI()
         configureLayout()
-        setUpKeyboardEvent()
-        
-        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: context) else {
-            return
-        }
-        
-        let object = NSManagedObject(entity: entity, insertInto: context)
-        object.setValue("a", forKey: "title")
-        object.setValue("b", forKey: "body")
-        object.setValue("c", forKey: "createdAt")
-        
-        do {
-            try context.save()
-            print("success")
-        } catch {
-            print(error)
-        }
-        do {
-            let data = try context.fetch(Diary.fetchRequest())
-            print(data)
-        } catch {
-            print(error)
-        }
-        
+        setUpKeyboard()
+        textView.delegate = self
     }
     
     private func configureNavigation() {
-        navigationItem.title = "DateFormatter.today"
+        navigationItem.title = DateFormatter.today
+        today = DateFormatter.today
     }
-    
+
     private func configureUI() {
         view.addSubview(textView)
         view.backgroundColor = .systemBackground
@@ -75,28 +56,26 @@ final class NewDiaryViewController: UIViewController {
     private func setUpKeyboard() {
         keyboardManager = KeyboardManager(textView: textView)
     }
-    
-    private func setUpKeyboardEvent() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo as NSDictionary?,
-              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+}
+
+extension NewDiaryViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: CoreDataManager.shared.context) else {
             return
         }
         
-        keyboardFrame = textView.convert(keyboardFrame, from: nil)
-        var contentInset = textView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        textView.contentInset = contentInset
-        textView.verticalScrollIndicatorInsets = textView.contentInset
-    }
-    
-    @objc private func keyboardWillHide() {
-        textView.contentInset = UIEdgeInsets.zero
-        textView.verticalScrollIndicatorInsets = textView.contentInset
-
+        let object = NSManagedObject(entity: entity, insertInto: CoreDataManager.shared.context)
+        object.setValue("타이틀틀틀", forKey: "title")
+        object.setValue(textView.text, forKey: "body")
+        object.setValue(today, forKey: "createdAt")
+        tt = "타이틀틀틀"
+        bd = textView.text
+        ca = today
+        do {
+            try CoreDataManager.shared.context.save()
+            print("success")
+        } catch {
+            print(error.localizedDescription)
+        }
     }
 }

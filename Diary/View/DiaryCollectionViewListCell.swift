@@ -88,10 +88,10 @@ final class DiaryCollectionViewListCell: UICollectionViewListCell, CellIdentifia
         ])
     }
     
-    func configureLabel(with diary: String) {
-        titleLabel.text = diary
-//        dateLabel.text = DateFormatter.formatDate(diary, locale: .KOR, formatter: DateFormatter())
-//        previewLabel.text = diary.body
+    func configureLabel(with diary: Diary) {
+        titleLabel.text = diary.title
+        dateLabel.text = diary.createdAt
+        previewLabel.text = diary.body
     }
     
     override func prepareForReuse() {
