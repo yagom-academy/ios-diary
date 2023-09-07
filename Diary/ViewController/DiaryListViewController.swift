@@ -7,6 +7,7 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
+    // MARK: - Property
     private let container: PersistentContainer
     private var diaryList: [DiaryEntity] = []
     private let tableView: UITableView = {
@@ -15,6 +16,7 @@ final class DiaryListViewController: UIViewController {
         return tableView
     }()
     
+    // MARK: - Initializer
     init(container: PersistentContainer) {
         self.container = container
         super.init(nibName: nil, bundle: nil)
@@ -24,6 +26,7 @@ final class DiaryListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life cycle method
     override func viewDidLoad() {
         super.viewDidLoad()
         loadDiary()
@@ -37,33 +40,16 @@ final class DiaryListViewController: UIViewController {
         loadDiary()
     }
     
-    private func loadDiary() {
-        do {
-            diaryList = try container.viewContext.fetch(DiaryEntity.fetchRequest())
-            tableView.reloadData()
-        } catch {
-            let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
-            let closeAction = UIAlertAction(title: "확인", style: .cancel)
-            alert.addAction(closeAction)
-            self.present(alert, animated: true)
-        }
-    }
-    
+    // MARK: - Configure view
     private func configureNavigation() {
         navigationItem.title = String(localized: "DiaryListNavigationTitle")
         
         let action = UIAction { _ in
-            self.addDiary()
+            self.pushDiaryViewController()
         }
         let barButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: action)
         
         navigationItem.rightBarButtonItem = barButtonItem
-    }
-    
-    private func addDiary(indexPath: IndexPath? = nil) {
-        let diaryViewController = DiaryViewController(container: container, indexPath: indexPath)
-        
-        navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
     private func configureBackgroundColor() {
@@ -85,6 +71,25 @@ final class DiaryListViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
+    }
+    
+    // MARK: Method
+    private func pushDiaryViewController(indexPath: IndexPath? = nil) {
+        let diaryViewController = DiaryViewController(container: container, indexPath: indexPath)
+        
+        navigationController?.pushViewController(diaryViewController, animated: true)
+    }
+    
+    private func loadDiary() {
+        do {
+            diaryList = try container.viewContext.fetch(DiaryEntity.fetchRequest())
+            tableView.reloadData()
+        } catch {
+            let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+            let closeAction = UIAlertAction(title: "확인", style: .cancel)
+            alert.addAction(closeAction)
+            self.present(alert, animated: true)
+        }
     }
     
     private func showDeleteConfirmAlert(indexPath: IndexPath, diary: DiaryEntity) {

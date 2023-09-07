@@ -47,18 +47,6 @@ final class DiaryViewController: UIViewController {
         registerKeyboardListener()
     }
     
-    private func configureNavigationItem() {
-        let action = UIAction {_ in
-            self.showActionSheet()
-        }
-        let barButtonItem = UIBarButtonItem.init(
-            image: UIImage.init(systemName: "ellipsis.circle"),
-            primaryAction: action
-        )
-        
-        navigationItem.rightBarButtonItem = barButtonItem
-    }
-    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         writeDiary()
@@ -85,6 +73,18 @@ final class DiaryViewController: UIViewController {
         
         dateFormatter.configureDiaryDateFormat()
         navigationItem.title = dateFormatter.string(from: date)
+    }
+    
+    private func configureNavigationItem() {
+        let action = UIAction {_ in
+            self.showActionSheet()
+        }
+        let barButtonItem = UIBarButtonItem.init(
+            image: UIImage.init(systemName: "ellipsis.circle"),
+            primaryAction: action
+        )
+        
+        navigationItem.rightBarButtonItem = barButtonItem
     }
     
     private func configureTextView() {
@@ -177,6 +177,7 @@ final class DiaryViewController: UIViewController {
     }
 }
 
+// MARK: - UITextViewDelegate
 extension DiaryViewController: UITextViewDelegate {
     func textViewDidChange(_ textView: UITextView) {
         writeDiary()
