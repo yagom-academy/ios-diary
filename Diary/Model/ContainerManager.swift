@@ -58,11 +58,11 @@ final class ContainerManager {
         
         do {
             let diaries = try context.fetch(request)
-            guard let diary = diaries.first else { return }
-            let diaryObject = diary as NSManagedObject
             
-            diaryObject.setValue(diaryContent.title, forKey: "title")
-            diaryObject.setValue(diaryContent.body, forKey: "body")
+            diaries.forEach { diary in
+                diary.title = diaryContent.title
+                diary.body = diaryContent.body
+            }
             
             save()
         } catch {

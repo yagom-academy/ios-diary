@@ -62,15 +62,22 @@ final class EditingDiaryViewController: UIViewController {
     }
     
     @objc private func tappedOthersButton() {
+        let shareHandler: (UIAlertAction) -> Void = { _ in
+            let diaryContentItem = self.diaryContent.title + self.diaryContent.body
+            self.presentActivityView(shareItem: diaryContentItem)
+        }
+
         let deleteHandler: (UIAlertAction) -> Void = { _ in
-            ContainerManager.shared.delete(id: self.diaryContent.id)
-            self.navigationController?.popViewController(animated: true)
+            self.presentCheckDeleteAlert {
+                ContainerManager.shared.delete(id: self.diaryContent.id)
+                self.navigationController?.popViewController(animated: true)
+            }
         }
         
         presentAlertWith(title: nil,
                          message: nil,
                          preferredStyle: .actionSheet,
-                         actionConfigs: ("Share...", .default, nil),
+                         actionConfigs: ("Share...", .default, shareHandler),
                                         ("Delete", .destructive, deleteHandler),
                                         ("Cancel", .cancel, nil))
     }
@@ -97,11 +104,11 @@ final class EditingDiaryViewController: UIViewController {
     }
     
     private func addGesture() {
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapTextView(_:)))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedTextView(_:)))
         diaryTextView.addGestureRecognizer(tapGesture)
     }
     
-    @objc private func didTapTextView(_ sender: Any) {
+    @objc private func tappedTextView(_ sender: Any) {
         if diaryTextView.isFirstResponder {
             diaryTextView.resignFirstResponder()
         } else {
