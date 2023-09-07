@@ -10,10 +10,28 @@ import CoreData
 final class DiaryListViewController: UIViewController {
     var diaries: [Diary] = []
     
-    private let collectionView: UICollectionView = {
-        let configuration: UICollectionLayoutListConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
+    private lazy var collectionView: UICollectionView = {
+        var configuration: UICollectionLayoutListConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
+        configuration.trailingSwipeActionsConfigurationProvider = { indexPath in
+            let delete = UIContextualAction(style: .destructive, title: "Delete") {[weak self] _, _, completionHandler in
+                guard let uuid = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())[index: indexPath.item]?.identifier else { return }
+                
+                CoreDataManager.shared.deleteDiary(uuid)
+                self?.diaries = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())
+                self?.collectionView.reloadData()
+                
+                completionHandler(true)
+            }
+            
+            let share = UIContextualAction(style: .normal, title: "Share") {_, _, completionHandler in
+                
+                completionHandler(true)
+            }
+            
+            return UISwipeActionsConfiguration(actions: [delete, share])
+        }
+        
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
-//        configuration.leadingSwipeActionsConfigurationProvider = { }
         
         let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -28,6 +46,7 @@ final class DiaryListViewController: UIViewController {
         configureNavigation()
         configureUI()
         configureLayout()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -62,7 +81,7 @@ final class DiaryListViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor)
         ])
     }
-
+    
     @objc private func createNewDiaryButtonTapped() {
         let newDiaryViewController: NewDiaryViewController = NewDiaryViewController()
         navigationController?.pushViewController(newDiaryViewController, animated: true)
@@ -84,12 +103,12 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
         }
         
         cell.configureLabel(with: diary)
-
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        
         guard let uuid = diaries[index: indexPath.item]?.identifier else {
             return
         }
@@ -99,4 +118,5 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
         let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(uuid: uuid)
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
+    
 }

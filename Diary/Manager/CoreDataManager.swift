@@ -50,6 +50,14 @@ final class CoreDataManager {
     
     // update
     // delete
+    func deleteDiary(_ uuid: String) {
+//        let object = diary.first!
+        let fetchRequest = CoreDataManager.shared.receiveFetchRequest(for: uuid)
+        
+        let diary = CoreDataManager.shared.fetchDiary(fetchRequest)
+        persistentContainer.viewContext.delete(diary.first!)
+        saveContext()
+        }
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
