@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreData
 
 final class DiaryDetailViewController: UIViewController {
     private let diaryTitle: String
@@ -45,6 +46,11 @@ final class DiaryDetailViewController: UIViewController {
         configure()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        saveDiary()
+    }
+    
     init(title: String = "", body: String = "", date: Date = Date()) {
         self.diaryTitle = title
         self.diaryBody = body
@@ -54,6 +60,30 @@ final class DiaryDetailViewController: UIViewController {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+}
+
+private extension DiaryDetailViewController {
+    func saveDiary() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: managedContext) else {
+            return
+        }
+        
+        guard let diary = NSManagedObject(entity: entity, insertInto: managedContext) as? Diary else {
+            return
+        }
+        
+        diary.setValue(titleTextView.text, forKeyPath: "title")
+        diary.setValue(bodyTextView.text, forKeyPath: "body")
+        diary.setValue(diaryDate, forKeyPath: "date")
+                
+        appDelegate.saveContext()
     }
 }
 
