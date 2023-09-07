@@ -105,7 +105,7 @@ final class DiaryViewController: UIViewController {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...", style: .default)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.deleteDiary()
+            self.showDeleteConfirmAlert()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         sheet.addAction(shareAction)
@@ -143,6 +143,19 @@ final class DiaryViewController: UIViewController {
         
         self.container.viewContext.delete(diary)
         navigationController?.popViewController(animated: true)
+    }
+    
+    private func showDeleteConfirmAlert() {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.deleteDiary()
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        
+        present(alert, animated: true)
     }
     
     private func saveDiary() {

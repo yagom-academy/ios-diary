@@ -86,6 +86,22 @@ final class DiaryListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    private func showDeleteConfirmAlert(indexPath: IndexPath, diary: DiaryEntity) {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.diaryList.remove(at: indexPath.row)
+            self.tableView.deleteRows(at: [indexPath], with: .automatic)
+            self.container.viewContext.delete(diary)
+            self.container.saveContext()
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        
+        present(alert, animated: true)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -123,10 +139,7 @@ extension DiaryListViewController: UITableViewDelegate {
     ) -> UISwipeActionsConfiguration? {
         let diary = diaryList[indexPath.row]
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, complitionHandler in
-            self.diaryList.remove(at: indexPath.row)
-            tableView.deleteRows(at: [indexPath], with: .automatic)
-            self.container.viewContext.delete(diary)
-            self.container.saveContext()
+            self.showDeleteConfirmAlert(indexPath: indexPath, diary: diary)
             complitionHandler(true)
         }
         
