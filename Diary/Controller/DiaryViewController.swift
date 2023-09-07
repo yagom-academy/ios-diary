@@ -15,6 +15,10 @@ final class DiaryViewController: UIViewController {
         super.viewDidLoad()
         configure()
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        loadDiary()
+    }
 }
 
 extension DiaryViewController: UITableViewDelegate {
@@ -52,6 +56,28 @@ extension DiaryViewController: UITableViewDataSource {
         )
         
         return cell
+    }
+}
+
+private extension DiaryViewController {
+    func loadDiary() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Diary")
+        
+        do {
+            diaryList = try managedContext.fetch(fetchRequest)
+            tableView.reloadData()
+        } catch {
+            let alert = UIAlertController(title: nil, message: "Diary Data를 불러오지 못했습니다.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "확인", style: .default)
+            
+            alert.addAction(action)
+            present(alert, animated: true)
+        }
     }
 }
 
