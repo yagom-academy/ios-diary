@@ -15,6 +15,8 @@ final class DiaryCell: UICollectionViewListCell {
     
     // MARK: - Private Property
     
+    private var currentFormatter: DateFormattable?
+    
     private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -64,13 +66,18 @@ final class DiaryCell: UICollectionViewListCell {
     
     // MARK: - Internal Method
     
-    func configureCell(diary: Diary) {
+    func configureCell(diary: Diary, formatter: DateFormattable) {
+        initFormatter(formatter: formatter)
         addSubviews()
         configureLabel(from: diary)
         constraintOuterStackView()
     }
     
     // MARK: - Private Method
+    
+    private func initFormatter(formatter: DateFormattable) {
+        self.currentFormatter = formatter
+    }
     
     private func addSubviews() {
         contentView.addSubview(verticalStackView)
@@ -85,13 +92,7 @@ final class DiaryCell: UICollectionViewListCell {
     private func configureLabel(from diary: Diary) {
         titleLabel.text = diary.title
         contentLabel.text = diary.content
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
-        dateFormatter.locale = .current        
-        dateFormatter.timeZone = TimeZone.current
-        
-        createdDateLabel.text = dateFormatter.string(from: diary.createdDate ?? Date())
+        createdDateLabel.text = currentFormatter?.format(date: diary.createdDate ?? Date())
     }
     
     private func constraintOuterStackView() {

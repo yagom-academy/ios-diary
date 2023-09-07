@@ -7,51 +7,33 @@
 
 import UIKit
 
-final class DiaryContentSegregator {
-    func segregate(text: String?) -> (title: String, content: String) {
-        let paragraphs = text?.components(separatedBy: "\n") ?? []
-        
-        // 첫 번째 개행 문자 이전의 텍스트를 제목으로 설정합니다.
-        if let title = paragraphs.first {
-            let content = paragraphs
-                             .dropFirst()
-                             .joined(separator: "\n")
-                             .trimmingCharacters(in: .whitespacesAndNewlines)
-            return (title: title, content: content)
-        } else {
-            return (title: "", content: "")
-        }
-    }
-    
-}
-
-final class DiaryContentCompositor {
-    func composite(title: String?, content: String?) -> String? {
-        let spacer = title == nil ? "" : "\n\n"
-        
-        return (title ?? "") + spacer + (content ?? "")
-    }
-}
-
 final class DiaryViewController: UIViewController {
     
     // MARK: - Private Property
     
     private let dataManager: DataManager
     private let diary: Diary?
+    private let isNew: Bool
     private var textView = UITextView()
-    private let compositor: DiaryContentCompositor
-    private let segregator: DiaryContentSegregator
+    private let compositor: DiaryContentComposable
+    private let segregator: DiaryContentSegregatable
+    private let currentFormatter: DateFormattable
     
     // MARK: - Lifecycle
     
-    init(dataManager: DataManager, diary: Diary? = nil) {
+    init(dataManager: DataManager,
+         formatter: DateFormattable,
+         diary: Diary? = nil
+    ) {
         self.dataManager = dataManager
+        self.currentFormatter = formatter
         
         if diary == nil {
             self.diary = Diary(context: dataManager.container.viewContext)
+            self.isNew = true
         } else {
             self.diary = diary
+            self.isNew = false
         }
         
         self.compositor = DiaryContentCompositor()
@@ -68,11 +50,18 @@ final class DiaryViewController: UIViewController {
         super.viewDidLoad()
         configureNavigation()
         configureTextView()
-        registerNotification()
+        configureKeyboard()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         updateDiary()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if isNew {
+            textView.becomeFirstResponder()
+        }
     }
     
     // MARK: - CRUD
@@ -93,11 +82,7 @@ final class DiaryViewController: UIViewController {
     // MARK: - Private Method(Navigation)
     
     private func configureNavigation() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
-        dateFormatter.locale = .current
-        
-        let date = dateFormatter.string(from: diary?.createdDate ?? Date())
+        let date = currentFormatter.format(date: diary?.createdDate ?? Date())
         
         self.navigationItem.title = date
     }
@@ -113,10 +98,6 @@ final class DiaryViewController: UIViewController {
         view.addSubview(textView)
         textView.text = compositor.composite(title: diary?.title, content: diary?.content)
         textView.font = UIFont.preferredFont(forTextStyle: .body)
-        textView.becomeFirstResponder()
-        
-        let tap = UITapGestureRecognizer(target: self, action: #selector(toggleEditing))
-        self.textView.addGestureRecognizer(tap)
     }
     
     private func constraintTextView() {
@@ -131,12 +112,22 @@ final class DiaryViewController: UIViewController {
     
     // MARK: - Private Method(Keyboard)
     
-    @objc private func toggleEditing() {
-        if textView.isFirstResponder {
-            self.textView.resignFirstResponder()
-        } else {
-            self.textView.becomeFirstResponder()
-        }
+    private func configureKeyboard() {
+        setupKeyboardToolbar()
+        registerNotification()
+    }
+    
+    private func setupKeyboardToolbar() {
+        let toolbar = UIToolbar()
+        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        let keyboardHideButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(endEditing))
+        toolbar.items = [space, keyboardHideButton]
+        toolbar.sizeToFit()
+        textView.inputAccessoryView = toolbar
+    }
+    
+    @objc private func endEditing() {
+        self.textView.endEditing(true)
     }
     
     private func registerNotification() {

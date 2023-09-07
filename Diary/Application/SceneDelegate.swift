@@ -29,6 +29,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        //코어데이터 저장
+        dataManager.saveContext()
     }
 }

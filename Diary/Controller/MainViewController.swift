@@ -11,6 +11,7 @@ final class MainViewController: UIViewController {
     // MARK: - Private Property
     private let dataManager: DataManager
     
+    private let currentFormatter = CurrentDateFormatter()
     private var collectionView = UICollectionView(
         frame: .zero,
         collectionViewLayout: UICollectionViewLayout()
@@ -60,7 +61,10 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func tapAddButton() {
-        let diaryViewController = DiaryViewController(dataManager: dataManager)
+        let diaryViewController = DiaryViewController(
+            dataManager: dataManager,
+            formatter: currentFormatter
+        )
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
@@ -105,12 +109,25 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryCell.id, for: indexPath) as? DiaryCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: DiaryCell.id,
+            for: indexPath
+        ) as? DiaryCell else {
             return UICollectionViewCell()
         }
         
-        cell.configureCell(diary: diaries[indexPath.row])
+        cell.configureCell(diary: diaries[indexPath.row], formatter: currentFormatter)
         
         return cell
-    }    
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let diary = diaries[indexPath.row]
+        let diaryViewController = DiaryViewController(
+            dataManager: dataManager,
+            formatter: currentFormatter,
+            diary: diary
+        )
+        self.navigationController?.pushViewController(diaryViewController, animated: true)
+    }
 }
