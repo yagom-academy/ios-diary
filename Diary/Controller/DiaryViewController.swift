@@ -5,46 +5,25 @@
 // 
 
 import UIKit
+import CoreData
 
 final class DiaryViewController: UIViewController {
     private var tableView: UITableView = UITableView()
-    private var diaryList: [DiaryModel] = []
+    private var diaryList: [NSManagedObject] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        parseData()
-    }
-    
-    private func parseData() {
-        guard let dataAsset = NSDataAsset(name: "sample") else {
-            presentAlert()
-            return
-        }
-        
-        do {
-            diaryList = try JSONDecoder().decode([DiaryModel].self, from: dataAsset.data)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func presentAlert() {
-        let alert = UIAlertController(title: nil, message: "DataAsset를 찾지 못했습니다.", preferredStyle: .alert)
-        let action = UIAlertAction(title: "확인", style: .default)
-        
-        alert.addAction(action)
-        present(alert, animated: true)
     }
 }
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let index = indexPath.row
+        let diary = diaryList[indexPath.row]
         let diaryDetailViewController = DiaryDetailViewController(
-            title: diaryList[index].title,
-            body: diaryList[index].body,
-            date: Date(timeIntervalSince1970: diaryList[index].date)
+            title: diary.value(forKeyPath: "title") as? String ?? "",
+            body: diary.value(forKeyPath: "body") as? String ?? "",
+            date: diary.value(forKeyPath: "date") as? Date ?? Date()
         )
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -62,14 +41,14 @@ extension DiaryViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let index = indexPath.row
-        let date = Date(timeIntervalSince1970: diaryList[index].date)
+        let diary = diaryList[indexPath.row]
+        let date = diary.value(forKeyPath: "date") as? Date ?? Date()
         let formattedDate = DateFormatter.diaryFormatter.string(from: date)
         
         cell.configureCell(
-            title: diaryList[index].title,
+            title: diary.value(forKeyPath: "title") as? String ?? "",
             date: formattedDate,
-            preview: diaryList[index].body
+            preview: diary.value(forKeyPath: "body") as? String ?? ""
         )
         
         return cell
