@@ -9,7 +9,7 @@ import CoreData
 
 final class DiaryViewController: UIViewController {
     private var tableView: UITableView = UITableView()
-    private var diaryList: [NSManagedObject] = []
+    private var diaryList: [Diary] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,6 +32,19 @@ extension DiaryViewController: UITableViewDelegate {
         
         tableView.deselectRow(at: indexPath, animated: true)
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
+            let diary = self.diaryList[indexPath.row]
+            self.diaryList.remove(at: indexPath.row)
+            self.deleteDiary(item: diary)
+            tableView.reloadData()
+        }
+        return UISwipeActionsConfiguration(actions: [delete])
     }
 }
 
@@ -66,7 +79,7 @@ private extension DiaryViewController {
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<NSManagedObject>(entityName: "Diary")
+        let fetchRequest = NSFetchRequest<Diary>(entityName: "Diary")
         
         do {
             diaryList = try managedContext.fetch(fetchRequest)
@@ -77,6 +90,21 @@ private extension DiaryViewController {
             
             alert.addAction(action)
             present(alert, animated: true)
+        }
+    }
+    
+    func deleteDiary(item: Diary) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext.delete(item)
+        
+        do {
+            try managedContext.save()
+        } catch {
+            print("error")
         }
     }
 }
