@@ -143,15 +143,30 @@ extension DiaryListViewController: UITableViewDelegate {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let diary = diaryList[indexPath.row]
-        let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, complitionHandler in
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, completionHandler in
             self.showDeleteConfirmAlert(indexPath: indexPath, diary: diary)
-            complitionHandler(true)
+            completionHandler(true)
+        }
+        
+        let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHandler in
+            let textToShare: [Any] = [MyActivityItemSource(diary: self.diaryList[indexPath.row])]
+            let activityViewController = UIActivityViewController(
+                activityItems: textToShare,
+                applicationActivities: nil
+            )
+            
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            self.present(activityViewController, animated: true, completion: nil)
+            completionHandler(true)
         }
         
         deleteAction.image = UIImage(systemName: "trash")
         deleteAction.backgroundColor = .systemRed
         
-        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        shareAction.backgroundColor = .systemGray
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
         
         return configuration
     }
