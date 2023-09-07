@@ -7,10 +7,10 @@
 
 import OSLog
 
-struct DiaryManager {
+final class DiaryManager {
     var diaryContents: [DiaryContent]?
     
-    mutating func fetchDiaryContents() throws {
+    func fetchDiaryContents() throws {
         guard let data: [Diary] = ContainerManager.shared.fetchAll() else { return }
         
         var contents: [DiaryContent] = []

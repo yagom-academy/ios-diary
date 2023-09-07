@@ -5,9 +5,10 @@
 //  last modified by Mary & Whales
 
 import UIKit
+import OSLog
 
 final class DiaryViewController: UIViewController {
-    private var diaryManager: DiaryManager
+    private let diaryManager: DiaryManager
     
     private var tableView: UITableView = {
         let tableView = UITableView()
@@ -89,7 +90,7 @@ final class DiaryViewController: UIViewController {
         do {
             try diaryManager.fetchDiaryContents()
         } catch {
-            print(error.localizedDescription)
+            os_log("%@", error.localizedDescription)
             presentAlertWith(title: "데이터 불러오기 실패",
                              message: "앱을 다시 실행해주십시오.",
                              preferredStyle: .alert,
