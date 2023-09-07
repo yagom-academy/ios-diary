@@ -25,6 +25,7 @@ extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diary = diaryList[indexPath.row]
         let diaryDetailViewController = DiaryDetailViewController(
+            diary: diary,
             title: diary.value(forKeyPath: "title") as? String ?? "",
             body: diary.value(forKeyPath: "body") as? String ?? "",
             date: diary.value(forKeyPath: "date") as? Date ?? Date()
@@ -125,7 +126,12 @@ private extension DiaryViewController {
     
     func configureNavigation() {
         let action = UIAction { _ in
-            let diaryDetailViewController = DiaryDetailViewController()
+            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                return
+            }
+
+            let managedContext = appDelegate.persistentContainer.viewContext
+            let diaryDetailViewController = DiaryDetailViewController(diary: Diary(context: managedContext))
             self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
         }
         

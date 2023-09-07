@@ -9,6 +9,7 @@ import UIKit
 import CoreData
 
 final class DiaryDetailViewController: UIViewController {
+    private let diary: Diary
     private let diaryTitle: String
     private let diaryBody: String
     private let diaryDate: Date
@@ -48,10 +49,11 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        saveDiary()
+        chooseSaveOrUpdate()
     }
     
-    init(title: String = "", body: String = "", date: Date = Date()) {
+    init(diary: Diary, title: String = "", body: String = "", date: Date = Date()) {
+        self.diary = diary
         self.diaryTitle = title
         self.diaryBody = body
         self.diaryDate = date
@@ -63,21 +65,27 @@ final class DiaryDetailViewController: UIViewController {
     }
 }
 
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        chooseSaveOrUpdate()
+    }
+}
+
 private extension DiaryDetailViewController {
+    func chooseSaveOrUpdate() {
+        if diaryTitle != "" && titleTextView.text != diaryTitle {
+            updateDiary()
+        } else if diaryTitle == "" && titleTextView.text != diaryTitle {
+            saveDiary()
+        }
+    }
+    
     func saveDiary() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
-        
+
         let managedContext = appDelegate.persistentContainer.viewContext
-        
-        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: managedContext) else {
-            return
-        }
-        
-        guard let diary = NSManagedObject(entity: entity, insertInto: managedContext) as? Diary else {
-            return
-        }
         
         diary.setValue(titleTextView.text, forKeyPath: "title")
         diary.setValue(bodyTextView.text, forKeyPath: "body")
@@ -85,11 +93,29 @@ private extension DiaryDetailViewController {
                 
         appDelegate.saveContext()
     }
+    
+    func updateDiary() {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        
+        diary.setValue(titleTextView.text, forKeyPath: "title")
+        diary.setValue(bodyTextView.text, forKeyPath: "body")
+        
+        do {
+            try managedContext.save()
+        } catch {
+            print("error")
+        }
+    }
 }
 
 private extension DiaryDetailViewController {
     func configure() {
         configureRootView()
+        configureTextView()
         configureNavigation()
         configureSubviews()
         configureContents()
@@ -99,6 +125,11 @@ private extension DiaryDetailViewController {
     
     func configureRootView() {
         view.backgroundColor = .systemBackground
+    }
+    
+    func configureTextView() {
+        titleTextView.delegate = self
+        bodyTextView.delegate = self
     }
     
     func configureNavigation() {
