@@ -20,6 +20,7 @@ final class DiaryDetailViewController: UIViewController {
         textView.isScrollEnabled = false
         textView.adjustsFontForContentSizeCategory = true
         textView.font = .preferredFont(forTextStyle: .body)
+        textView.addDoneButtonOnKeyboard()
 
         return textView
     }()
@@ -29,6 +30,7 @@ final class DiaryDetailViewController: UIViewController {
         textView.isEditable = true
         textView.adjustsFontForContentSizeCategory = true
         textView.font = .preferredFont(forTextStyle: .body)
+        textView.addDoneButtonOnKeyboard()
         
         return textView
     }()
@@ -84,8 +86,6 @@ private extension DiaryDetailViewController {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
-
-        let managedContext = appDelegate.persistentContainer.viewContext
         
         diary.setValue(titleTextView.text, forKeyPath: "title")
         diary.setValue(bodyTextView.text, forKeyPath: "body")
@@ -119,6 +119,7 @@ private extension DiaryDetailViewController {
         configureNavigation()
         configureSubviews()
         configureContents()
+        configureKeyboard()
         configureContentStackView()
         configureConstraints()
     }
@@ -143,6 +144,12 @@ private extension DiaryDetailViewController {
     func configureContents() {
         titleTextView.text = diaryTitle
         bodyTextView.text = diaryBody
+    }
+    
+    func configureKeyboard() {
+        if diaryTitle == "" {
+            titleTextView.becomeFirstResponder()
+        }
     }
     
     func configureContentStackView() {
