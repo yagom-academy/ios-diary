@@ -82,10 +82,13 @@ final class DiaryViewController: UIViewController {
     // MARK: - Private Method(Navigation)
     
     private func configureNavigation() {
+        setupNavigationTitle()
+        setupNavigationToolbar()
+    }
+    
+    private func setupNavigationTitle() {
         let date = currentFormatter.format(date: diary?.createdDate ?? Date())
-        
         self.navigationItem.title = date
-        
     }
     
     private func setupNavigationToolbar() {
@@ -101,17 +104,8 @@ final class DiaryViewController: UIViewController {
     
     private func configureActionSheet() -> UIAlertController {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let share = UIAlertAction(title: "Share", style: .default) {_ in
-            
-        }
-        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
-            guard let diary = self?.diary else {
-                return
-            }
-            
-            self?.dismiss(animated: true)
-        }
-        
+        let share = shareAction()
+        let delete = deleteAction()
         let cancel = UIAlertAction(title: "cancel", style: .cancel)
         
         actionSheet.addAction(share)
@@ -121,6 +115,31 @@ final class DiaryViewController: UIViewController {
         return actionSheet
     }
     
+    private func shareAction() -> UIAlertAction {
+        let alertAction = UIAlertAction(
+            title: "Share",
+            style: .default) {  _ in
+                
+            }
+        
+        return alertAction
+    }
+    
+    private func deleteAction() -> UIAlertAction {
+        let alertAction = UIAlertAction(
+            title: "Delete",
+            style: .destructive,
+            handler: { [weak self] _ in
+                if let self = self, let diary = self.diary {
+                    self.dataManager.container.viewContext.delete(diary)
+                    self.dataManager.saveContext()
+                    self.navigationController?.popViewController(animated: true)
+                }
+            }
+        )
+        
+        return alertAction
+    }
     
     // MARK: - Private Method(TextView)
     
