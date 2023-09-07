@@ -1,5 +1,5 @@
 //
-//  Persistance.swift
+//  DataManager.swift
 //  Diary
 //
 //  Created by Minsup, RedMango on 2023/09/04.
@@ -7,7 +7,7 @@
 
 import CoreData
 
-final class Persistance {
+final class DataManager {
     lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores(completionHandler: { ( _, error) in

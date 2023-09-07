@@ -9,7 +9,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    let persistance: Persistance = Persistance()
+    let dataManager: DataManager = DataManager()
     
     func scene(
         _ scene: UIScene,
@@ -17,11 +17,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let navigationController = UINavigationController(
+            rootViewController: MainViewController(dataManager: dataManager)
+        )
+        
         window = UIWindow(windowScene: windowScene)
-        let navigationController = UINavigationController(rootViewController: MainViewController(persistance: persistance))
         window?.backgroundColor = .systemBackground
         window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+        window?.makeKeyAndVisible()         
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

@@ -9,16 +9,18 @@ import UIKit
 final class MainViewController: UIViewController {
     
     // MARK: - Private Property
+    private let dataManager: DataManager
     
-    private var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    private var diaryList: [Diary] = []
-    
-    private var persistance: Persistance
+    private var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: UICollectionViewLayout()
+    )
+    private var diaries: [Diary] = []
     
     // MARK: - Lifecycle
     
-    init(persistance: Persistance) {
-        self.persistance = persistance
+    init(dataManager: DataManager) {
+        self.dataManager = dataManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -29,11 +31,26 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
-        setDiaryList()
         configureCollectionView()
     }
     
-    // MARK: - Private Method
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        readDiaries()
+    }
+    
+    // MARK: - CRUD
+    
+    private func readDiaries() {
+        do {
+            self.diaries = try dataManager.container.viewContext.fetch(Diary.fetchRequest())
+            collectionView.reloadData()
+        } catch {
+            print("다이어리를 가져오는데 실패했습니다.")
+        }
+    }
+    
+    // MARK: - Private Method(Navigation)
     
     private func configureNavigation() {
         self.navigationItem.title = "일기장"
@@ -43,11 +60,9 @@ final class MainViewController: UIViewController {
     }
     
     @objc private func tapAddButton() {
-        let diaryViewController = DiaryViewController()
+        let diaryViewController = DiaryViewController(dataManager: dataManager)
         self.navigationController?.pushViewController(diaryViewController, animated: true)
     }
-    
-    private func setDiaryList() { }
     
     // MARK: - Private Method(CollectionView)
     
@@ -81,12 +96,12 @@ final class MainViewController: UIViewController {
     }
 }
 
-// MARK: - Extension
+// MARK: - CollectionView Delegate, DataSource
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return diaryList.count
+        return diaries.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -94,7 +109,7 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
             return UICollectionViewCell()
         }
         
-        cell.configureCell(diary: diaryList[indexPath.row])
+        cell.configureCell(diary: diaries[indexPath.row])
         
         return cell
     }    

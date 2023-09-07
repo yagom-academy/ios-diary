@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		1F5CEE8D2A9D97AF00521AB3 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5CEE8C2A9D97AF00521AB3 /* DiaryCell.swift */; };
-		1FDFB3AD2AA60753005128C3 /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFB3AB2AA60753005128C3 /* Diary+CoreDataClass.swift */; };
-		1FDFB3AE2AA60753005128C3 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFB3AC2AA60753005128C3 /* Diary+CoreDataProperties.swift */; };
-		1FDFB3B22AA607FE005128C3 /* Persistance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFB3B12AA607FE005128C3 /* Persistance.swift */; };
+		1F5F228A2AA9E56C00CB920D /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F22882AA9E56C00CB920D /* Diary+CoreDataClass.swift */; };
+		1F5F228B2AA9E56C00CB920D /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F22892AA9E56C00CB920D /* Diary+CoreDataProperties.swift */; };
+		1FDFB3B22AA607FE005128C3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFB3B12AA607FE005128C3 /* DataManager.swift */; };
 		5D2CF6FF2A9CBB4A009EECB3 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 5D2CF6FE2A9CBB4A009EECB3 /* .swiftlint.yml */; };
 		5D2CF70D2A9F0520009EECB3 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2CF70C2A9F0520009EECB3 /* DiaryViewController.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
@@ -23,9 +23,10 @@
 
 /* Begin PBXFileReference section */
 		1F5CEE8C2A9D97AF00521AB3 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
-		1FDFB3AB2AA60753005128C3 /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
-		1FDFB3AC2AA60753005128C3 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
-		1FDFB3B12AA607FE005128C3 /* Persistance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistance.swift; sourceTree = "<group>"; };
+		1F5F22882AA9E56C00CB920D /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = "<group>"; };
+		1F5F22892AA9E56C00CB920D /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		1FDFB3B12AA607FE005128C3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		1FDFB3B42AA63E65005128C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		5D2CF6FE2A9CBB4A009EECB3 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		5D2CF70C2A9F0520009EECB3 /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,8 +90,8 @@
 		1FDFB3AF2AA60764005128C3 /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				1FDFB3AB2AA60753005128C3 /* Diary+CoreDataClass.swift */,
-				1FDFB3AC2AA60753005128C3 /* Diary+CoreDataProperties.swift */,
+				1F5F22882AA9E56C00CB920D /* Diary+CoreDataClass.swift */,
+				1F5F22892AA9E56C00CB920D /* Diary+CoreDataProperties.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -98,7 +99,7 @@
 		1FDFB3B02AA607EE005128C3 /* Persistance */ = {
 			isa = PBXGroup;
 			children = (
-				1FDFB3B12AA607FE005128C3 /* Persistance.swift */,
+				1FDFB3B12AA607FE005128C3 /* DataManager.swift */,
 			);
 			path = Persistance;
 			sourceTree = "<group>";
@@ -184,6 +185,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = C739AE18284DF28600741E8F;
 			productRefGroup = C739AE22284DF28600741E8F /* Products */;
@@ -235,13 +237,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
+				1F5F228A2AA9E56C00CB920D /* Diary+CoreDataClass.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
-				1FDFB3AD2AA60753005128C3 /* Diary+CoreDataClass.swift in Sources */,
 				5D2CF70D2A9F0520009EECB3 /* DiaryViewController.swift in Sources */,
 				1F5CEE8D2A9D97AF00521AB3 /* DiaryCell.swift in Sources */,
-				1FDFB3AE2AA60753005128C3 /* Diary+CoreDataProperties.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
-				1FDFB3B22AA607FE005128C3 /* Persistance.swift in Sources */,
+				1F5F228B2AA9E56C00CB920D /* Diary+CoreDataProperties.swift in Sources */,
+				1FDFB3B22AA607FE005128C3 /* DataManager.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -253,6 +255,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				C739AE33284DF28600741E8F /* Base */,
+				1FDFB3B42AA63E65005128C3 /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -264,6 +267,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -325,6 +329,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
