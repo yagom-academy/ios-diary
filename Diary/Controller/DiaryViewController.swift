@@ -85,7 +85,42 @@ final class DiaryViewController: UIViewController {
         let date = currentFormatter.format(date: diary?.createdDate ?? Date())
         
         self.navigationItem.title = date
+        
     }
+    
+    private func setupNavigationToolbar() {
+        let infoButton = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(tapOptionButton))
+        
+        self.navigationItem.rightBarButtonItem = infoButton
+    }
+    
+    @objc private func tapOptionButton() {
+        let actionSheet = configureActionSheet()
+        present(actionSheet, animated: true)
+    }
+    
+    private func configureActionSheet() -> UIAlertController {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let share = UIAlertAction(title: "Share", style: .default) {_ in
+            
+        }
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            guard let diary = self?.diary else {
+                return
+            }
+            
+            self?.dismiss(animated: true)
+        }
+        
+        let cancel = UIAlertAction(title: "cancel", style: .cancel)
+        
+        actionSheet.addAction(share)
+        actionSheet.addAction(delete)
+        actionSheet.addAction(cancel)
+        
+        return actionSheet
+    }
+    
     
     // MARK: - Private Method(TextView)
     
