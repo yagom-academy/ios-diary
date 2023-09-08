@@ -75,7 +75,7 @@ final class DiaryListViewController: UIViewController {
     
     // MARK: Method
     private func pushDiaryViewController(indexPath: IndexPath? = nil) {
-        let diaryViewController = DiaryViewController(container: container, indexPath: indexPath)
+        let diaryViewController = DiaryViewController(container: container)
         
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
@@ -118,7 +118,8 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let diary = diaryList[indexPath.row]
-        let diaryViewController = DiaryViewController(diary: diary, container: container, indexPath: indexPath)
+        let diaryViewController = DiaryViewController(diary: diary, container: container)
+        
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     

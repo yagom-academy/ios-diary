@@ -12,7 +12,6 @@ final class DiaryViewController: UIViewController {
     // MARK: - Property
     private let container: PersistentContainer
     private var diary: DiaryEntity?
-    private let indexPath: IndexPath?
     private let contentTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,10 +19,9 @@ final class DiaryViewController: UIViewController {
     }()
     
     // MARK: - Initializer
-    init(diary: DiaryEntity? = nil, container: PersistentContainer, indexPath: IndexPath? = nil) {
+    init(diary: DiaryEntity? = nil, container: PersistentContainer) {
         self.diary = diary
         self.container = container
-        self.indexPath = indexPath
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -51,11 +49,7 @@ final class DiaryViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(true)
         writeDiary()
-        if contentTextView.text == "" {
-            deleteDiary()
-        } else {
-            saveDiary()
-        }
+        checkTextStateForSave()
     }
     
     // MARK: - Configure view
@@ -65,14 +59,14 @@ final class DiaryViewController: UIViewController {
     
     private func configureTitle() {
         var date = Date()
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.configureDiaryDateFormat()
         
         if let diary {
             date = diary.date
         }
         
-        let dateFormatter = DateFormatter()
-        
-        dateFormatter.configureDiaryDateFormat()
         navigationItem.title = dateFormatter.string(from: date)
     }
     
@@ -117,34 +111,21 @@ final class DiaryViewController: UIViewController {
             diary?.date = Date()
         }
         
-        diary?.title = contentTextView.text.components(separatedBy: "\n")[0]
+        let diaryContent = separateTitleAndBody()
+        
+        diary?.title = diaryContent.title
+        diary?.body = diaryContent.body
+    }
+    
+    private func separateTitleAndBody() -> (title: String, body: String) {
+        let title = contentTextView.text.components(separatedBy: "\n")[0]
+        var body = ""
         
         if let range = contentTextView.text.range(of: "\n") {
-            let body = contentTextView.text[range.upperBound...]
-            diary?.body = String(body)
-        }
-    }
-    
-    private func deleteDiary() {
-        guard let diary else { return }
-        
-        self.container.viewContext.delete(diary)
-        navigationController?.popViewController(animated: true)
-    }
-    
-    private func shareDiary() {
-        guard let diary else {
-            return
+            body = String(contentTextView.text[range.upperBound...])
         }
         
-        let textToShare: [Any] = [MyActivityItemSource(diary: diary)]
-        let activityViewController = UIActivityViewController(
-            activityItems: textToShare,
-            applicationActivities: nil
-        )
-        
-        activityViewController.popoverPresentationController?.sourceView = self.view
-        self.present(activityViewController, animated: true, completion: nil)
+        return (title, body)
     }
     
     private func deleteDiary() {
@@ -172,6 +153,14 @@ final class DiaryViewController: UIViewController {
     @objc private func keyboardWillHide(_ notification: Notification) {
         writeDiary()
         saveDiary()
+    }
+    
+    private func checkTextStateForSave() {
+        if contentTextView.text == "" {
+            deleteDiary()
+        } else {
+            saveDiary()
+        }
     }
 }
 
