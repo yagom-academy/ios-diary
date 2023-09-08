@@ -11,9 +11,13 @@ protocol DiaryAlertPresentable { }
 
 extension DiaryAlertPresentable {
     func showDeleteConfirmAlert(in viewController: UIViewController, by action: @escaping () -> Void) {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        let alert = UIAlertController(
+            title: String(localized: "DeleteConfirmAlertTitle"),
+            message: String(localized: "DeleteConfirmAlertMessage"),
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel)
+        let deleteAction = UIAlertAction(title: String(localized: "delete"), style: .destructive) { _ in
             action()
         }
         
