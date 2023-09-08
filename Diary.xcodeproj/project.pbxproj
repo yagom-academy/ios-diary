@@ -18,7 +18,7 @@
 		45A131F32AA0B5B200433FCC /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEA7642A9D929E00D8F686 /* DiaryTests.swift */; };
 		45A131F62AA0B98F00433FCC /* StorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A131F52AA0B98F00433FCC /* StorageError.swift */; };
 		45A131F82AA0C6C700433FCC /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A131F72AA0C6C600433FCC /* UIAlertController+.swift */; };
-		45AAF1B42AA1698F00F7FC15 /* DiaryStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455170D22A9EDA85002A043C /* DiaryStorageTests.swift */; };
+		45AAF1B42AA1698F00F7FC15 /* AssetDiaryStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455170D22A9EDA85002A043C /* AssetDiaryStorageTests.swift */; };
 		45AAF1B62AA1699400F7FC15 /* DateFormatManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455170DF2A9EDBF4002A043C /* DateFormatManagerTests.swift */; };
 		45C4AF842A9CA0A1003142B6 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C4AF832A9CA0A1003142B6 /* Diary.swift */; };
 		45C4AF882A9CBFE4003142B6 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C4AF872A9CBFE4003142B6 /* DiaryTableViewCell.swift */; };
@@ -51,7 +51,7 @@
 		4541CC472A9DB67D0095C258 /* LocaleDateFormatterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleDateFormatterProtocol.swift; sourceTree = "<group>"; };
 		4541CC492A9DB6AC0095C258 /* UserDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDateFormatter.swift; sourceTree = "<group>"; };
 		4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryStorageProtocol.swift; sourceTree = "<group>"; };
-		455170D22A9EDA85002A043C /* DiaryStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryStorageTests.swift; sourceTree = "<group>"; };
+		455170D22A9EDA85002A043C /* AssetDiaryStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDiaryStorageTests.swift; sourceTree = "<group>"; };
 		455170DF2A9EDBF4002A043C /* DateFormatManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManagerTests.swift; sourceTree = "<group>"; };
 		455170EA2A9EE5C1002A043C /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		455170F02A9F0007002A043C /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
@@ -181,7 +181,7 @@
 			isa = PBXGroup;
 			children = (
 				45DEA7642A9D929E00D8F686 /* DiaryTests.swift */,
-				455170D22A9EDA85002A043C /* DiaryStorageTests.swift */,
+				455170D22A9EDA85002A043C /* AssetDiaryStorageTests.swift */,
 				455170DF2A9EDBF4002A043C /* DateFormatManagerTests.swift */,
 			);
 			path = DiaryTests;
@@ -376,7 +376,7 @@
 			files = (
 				45AAF1B62AA1699400F7FC15 /* DateFormatManagerTests.swift in Sources */,
 				45A131F32AA0B5B200433FCC /* DiaryTests.swift in Sources */,
-				45AAF1B42AA1698F00F7FC15 /* DiaryStorageTests.swift in Sources */,
+				45AAF1B42AA1698F00F7FC15 /* AssetDiaryStorageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
