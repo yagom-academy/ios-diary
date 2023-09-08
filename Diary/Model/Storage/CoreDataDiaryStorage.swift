@@ -9,9 +9,37 @@ import UIKit
 import CoreData
 
 final class CoreDataDiaryStorage: DiaryStorageProtocol {
-    private let appDelegate: AppDelegate? = UIApplication.shared.delegate as? AppDelegate
-    private lazy var context = appDelegate?.persistentContainer.viewContext
     
+    // MARK: - Private Property
+    private lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: NameSpace.diary)
+        container.loadPersistentStores(completionHandler: { (_, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        
+        return container
+    }()
+    
+    private var context: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
+    // MARK: - Core Data Saving support
+    func saveContext () {
+        let context = persistentContainer.viewContext
+        
+        if context.hasChanges {
+            do {
+                try context.save()
+            } catch {
+                let nserror = error as NSError
+                
+                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+            }
+        }
+    }
     func diaryEntrys() throws -> [DiaryEntry] {
         guard let context,
               let diaryEntitys = try context.fetch(DiaryEntity.fetchRequest()) as? [DiaryEntity] else {
