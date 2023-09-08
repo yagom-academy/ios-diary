@@ -25,4 +25,16 @@ final class AssetDiaryStorage: DiaryStorageProtocol {
     func storeDiary(_ diary: DiaryEntry) throws {
         
     }
+    
+    func updateDiary(_ diary: DiaryEntry) throws {
+        
+    }
+    
+    func deleteDiary(_ diary: DiaryEntry) throws {
+        
+    }
+    
+    func deleteAll() throws {
+        
+    }
 }
