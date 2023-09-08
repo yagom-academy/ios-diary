@@ -30,7 +30,9 @@ final class CoreDataManager {
         guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: CoreDataManager.shared.context) else {
             return
         }
+        
         let object = NSManagedObject(entity: entity, insertInto: CoreDataManager.shared.context)
+        
         object.setValue("타이틀틀", forKey: "title")
         object.setValue(textView.text, forKey: "body")
         object.setValue(DateFormatter.today, forKey: "createdAt")
@@ -51,7 +53,6 @@ final class CoreDataManager {
     // update
     // delete
     func deleteDiary(_ uuid: String) {
-//        let object = diary.first!
         let fetchRequest = CoreDataManager.shared.receiveFetchRequest(for: uuid)
         
         let diary = CoreDataManager.shared.fetchDiary(fetchRequest)
@@ -74,6 +75,7 @@ final class CoreDataManager {
         if context.hasChanges {
             do {
                 try context.save()
+                print("세이브 성공")
             } catch {
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")

@@ -21,6 +21,6 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        
+        print("백그라운드 진입")
     }
 }
