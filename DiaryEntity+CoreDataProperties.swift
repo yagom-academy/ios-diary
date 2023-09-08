@@ -29,10 +29,11 @@ extension DiaryEntity {
         let creationDate = DateFormatManager.string(localeDateFormatter: UserDateFormatter.shared, timestamp: Int(creationDate))
         
         guard let title,
-              let body else {
+              let body,
+              let id else {
             throw ConversionError.missingAttribute
         }
         
-        return DiaryEntry(title: title, body: body, creationDate: creationDate)
+        return DiaryEntry(id: id, title: title, body: body, creationDate: creationDate)
     }
 }
