@@ -102,22 +102,6 @@ final class DiaryViewController: UIViewController {
     }
     
     // MARK: - Method
-    private func showActionSheet() {
-        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
-            self.shareDiary()
-        }
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.showDeleteConfirmAlert()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        sheet.addAction(shareAction)
-        sheet.addAction(deleteAction)
-        sheet.addAction(cancelAction)
-        
-        present(sheet, animated: true)
-    }
-    
     private func fillTextView() {
         guard let diary else {
             return
@@ -163,17 +147,13 @@ final class DiaryViewController: UIViewController {
         self.present(activityViewController, animated: true, completion: nil)
     }
     
-    private func showDeleteConfirmAlert() {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.deleteDiary()
+    private func deleteDiary() {
+        guard let diary else {
+            return
         }
         
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-        
-        present(alert, animated: true)
+        self.container.viewContext.delete(diary)
+        navigationController?.popViewController(animated: true)
     }
     
     private func saveDiary() {
@@ -202,34 +182,21 @@ extension DiaryViewController: UITextViewDelegate {
     }
 }
 
-class MyActivityItemSource: NSObject, UIActivityItemSource {
-    let diary: DiaryEntity
-    
-    init(diary: DiaryEntity) {
-        self.diary = diary
-    }
-    
-    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
-        return diary.title
-    }
-    
-    func activityViewController(
-        _ activityViewController: UIActivityViewController,
-        itemForActivityType activityType: UIActivity.ActivityType?
-    ) -> Any? {
-        let dateFormatter = DateFormatter()
-        dateFormatter.configureDiaryDateFormat()
-        let formattedDate = dateFormatter.string(from: diary.date)
+extension DiaryViewController: DiaryShareable, DiaryAlertPresentable {
+    private func showActionSheet() {
+        let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            self.shareDiary(data: self.diary, in: self)
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.showDeleteConfirmAlert(in: self, by: { self.deleteDiary()})
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         
-        let sharedData = "\(formattedDate)\n\n\(diary.title)\n\n\(diary.body ?? "")"
+        sheet.addAction(shareAction)
+        sheet.addAction(deleteAction)
+        sheet.addAction(cancelAction)
         
-        return  sharedData
-    }
-    
-    func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
-        let metadata = LPLinkMetadata()
-        metadata.title = diary.title
-        metadata.originalURL = URL(fileURLWithPath: (diary.body ?? ""))
-        return metadata
+        present(sheet, animated: true)
     }
 }

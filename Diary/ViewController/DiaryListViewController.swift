@@ -91,22 +91,6 @@ final class DiaryListViewController: UIViewController {
             self.present(alert, animated: true)
         }
     }
-    
-    private func showDeleteConfirmAlert(indexPath: IndexPath, diary: DiaryEntity) {
-        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.diaryList.remove(at: indexPath.row)
-            self.tableView.deleteRows(at: [indexPath], with: .automatic)
-            self.container.viewContext.delete(diary)
-            self.container.saveContext()
-        }
-        
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-        
-        present(alert, animated: true)
-    }
 }
 
 // MARK: - UITableViewDataSource
@@ -130,7 +114,7 @@ extension DiaryListViewController: UITableViewDataSource {
 }
 
 // MARK: - UITableViewDelegate
-extension DiaryListViewController: UITableViewDelegate {
+extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAlertPresentable {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let diary = diaryList[indexPath.row]
@@ -143,20 +127,21 @@ extension DiaryListViewController: UITableViewDelegate {
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let diary = diaryList[indexPath.row]
-        let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, completionHandler in
-            self.showDeleteConfirmAlert(indexPath: indexPath, diary: diary)
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completionHandler in
+            guard let self = self else {
+                return
+            }
+            self.showDeleteConfirmAlert(in: self) {
+                self.diaryList.remove(at: indexPath.row)
+                self.tableView.deleteRows(at: [indexPath], with: .automatic)
+                self.container.viewContext.delete(diary)
+                self.container.saveContext()
+            }
+            
             completionHandler(true)
         }
-        
         let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHandler in
-            let textToShare: [Any] = [MyActivityItemSource(diary: self.diaryList[indexPath.row])]
-            let activityViewController = UIActivityViewController(
-                activityItems: textToShare,
-                applicationActivities: nil
-            )
-            
-            activityViewController.popoverPresentationController?.sourceView = self.view
-            self.present(activityViewController, animated: true, completion: nil)
+            self.shareDiary(data: diary, in: self)
             completionHandler(true)
         }
         
