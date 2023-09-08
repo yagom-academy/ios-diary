@@ -42,7 +42,15 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to undo the changes made on entering the background.
     }
 
-    func sceneDidEnterBackground(_ scene: UIScene) { }
-    
+    func sceneDidEnterBackground(_ scene: UIScene) {
+        guard let navigationController = window?.rootViewController as? UINavigationController,
+              let detailDiaryViewController = navigationController.topViewController as? DetailDiaryViewController
+        else {
+            
+            return
+        }
+        
+        detailDiaryViewController.saveDiaryData()
+    }
 }
 
