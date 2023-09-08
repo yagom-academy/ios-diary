@@ -33,7 +33,7 @@ final class DiaryListViewController: UIViewController {
     }()
     
     // MARK: - Life Cycle
-    init(diaryStore: AssetDiaryStorage) {
+    init(diaryStore: DiaryStorageProtocol) {
         self.diaryStore = diaryStore
         
         super.init(nibName: nil, bundle: nil)
