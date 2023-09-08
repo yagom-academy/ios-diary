@@ -71,8 +71,10 @@
 		926C04912AA6144A0057EBCF /* Entity */ = {
 			isa = PBXGroup;
 			children = (
+				926C048D2AA60E390057EBCF /* PersistentContainer.swift */,
 				926C04962AA614E80057EBCF /* DiaryEntity+CoreDataClass.swift */,
 				926C04972AA614E80057EBCF /* DiaryEntity+CoreDataProperties.swift */,
+				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -107,7 +109,6 @@
 				CBC4C42D2A9E167D009D495E /* Extension */,
 				CB9CBC0C2A9CC33900999DF0 /* Resource */,
 				C739AE35284DF28600741E8F /* Info.plist */,
-				926C048D2AA60E390057EBCF /* PersistentContainer.swift */,
 			);
 			path = Diary;
 			sourceTree = "<group>";
@@ -125,7 +126,6 @@
 			isa = PBXGroup;
 			children = (
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
-				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
