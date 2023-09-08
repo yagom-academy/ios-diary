@@ -7,9 +7,7 @@
 
 import UIKit
 
-protocol DiaryAlertPresentable {
-    func showDeleteConfirmAlert(in viewController: UIViewController, by action: @escaping () -> Void)
-}
+protocol DiaryAlertPresentable { }
 
 extension DiaryAlertPresentable {
     func showDeleteConfirmAlert(in viewController: UIViewController, by action: @escaping () -> Void) {

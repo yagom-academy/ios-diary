@@ -15,6 +15,7 @@ final class DiaryViewController: UIViewController {
     private let contentTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
+        
         return textView
     }()
     
@@ -71,7 +72,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        let action = UIAction {_ in
+        let action = UIAction { _ in
             self.showActionSheet()
         }
         let barButtonItem = UIBarButtonItem.init(
@@ -171,6 +172,7 @@ extension DiaryViewController: UITextViewDelegate {
     }
 }
 
+// MARK: - DiaryShareable, DiaryAlertPresentable
 extension DiaryViewController: DiaryShareable, DiaryAlertPresentable {
     private func showActionSheet() {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)

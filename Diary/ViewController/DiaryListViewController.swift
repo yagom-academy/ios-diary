@@ -13,6 +13,7 @@ final class DiaryListViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        
         return tableView
     }()
     
@@ -87,6 +88,7 @@ final class DiaryListViewController: UIViewController {
         } catch {
             let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
             let closeAction = UIAlertAction(title: "확인", style: .cancel)
+            
             alert.addAction(closeAction)
             self.present(alert, animated: true)
         }
@@ -106,9 +108,12 @@ extension DiaryListViewController: UITableViewDataSource {
         ) as? DiaryTableViewCell else {
             return UITableViewCell()
         }
+        
         let diary = diaryList[indexPath.row]
+        
         cell.configureContents(diary: diary)
         cell.accessoryType = .disclosureIndicator
+        
         return cell
     }
 }
@@ -117,6 +122,7 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAlertPresentable {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
         let diary = diaryList[indexPath.row]
         let diaryViewController = DiaryViewController(diary: diary, container: container)
         
@@ -132,6 +138,7 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
             guard let self = self else {
                 return
             }
+            
             self.showDeleteConfirmAlert(in: self) {
                 self.diaryList.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)

@@ -7,15 +7,14 @@
 
 import UIKit
 
-protocol DiaryShareable {
-    func shareDiary(data: DiaryEntity?, in viewController: UIViewController)
-}
+protocol DiaryShareable { }
 
 extension DiaryShareable {
     func shareDiary(data: DiaryEntity?, in viewController: UIViewController) {
         guard let data else {
             return
         }
+        
         let diaryContent: [Any] = [DiaryActivityItemSource(diary: data)]
         let activityViewController = UIActivityViewController(
             activityItems: diaryContent,
