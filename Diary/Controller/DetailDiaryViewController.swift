@@ -86,6 +86,8 @@ extension DetailDiaryViewController {
     
     private func configureNavigationItem(date: Date = Date()) {
         navigationItem.title = DiaryDateFormatter.convertDate(date, Locale.current.identifier)
+        navigationItem.rightBarButtonItem =
+        UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(didTapMoreOptionsButton))
     }
     
     private func addSubViews() {
@@ -144,5 +146,54 @@ extension DetailDiaryViewController {
 extension DetailDiaryViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         textView.becomeFirstResponder()
+    }
+}
+
+extension DetailDiaryViewController {
+    @objc private func didTapMoreOptionsButton() {
+        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareSheetAction = createShareSheetAction()
+        let deleteSheetAction = createDeleteSheetAction()
+        let cancelSheetAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        actionSheet.addAction(shareSheetAction)
+        actionSheet.addAction(deleteSheetAction)
+        actionSheet.addAction(cancelSheetAction)
+        
+        self.present(actionSheet, animated: true)
+    }
+    
+    private func createShareSheetAction() -> UIAlertAction {
+        let shareSheetAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            guard let title = self.diary.title,
+                  let body = self.diary.body,
+                  let createdAt = self.diary.createdAt else {
+                
+                return
+            }
+            
+            let activityView = UIActivityViewController(activityItems: [title, body, createdAt], applicationActivities: nil)
+            self.present(activityView, animated: true)
+        }
+        
+        return shareSheetAction
+    }
+    
+    private func createDeleteSheetAction() -> UIAlertAction {
+        let deleteSheetAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            let deleteAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+            let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+            let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+                self.persistentContainer?.deleteItem(self.diary)
+                self.navigationController?.popViewController(animated: true)
+            }
+            
+            deleteAlert.addAction(cancelAction)
+            deleteAlert.addAction(deleteAction)
+            
+            self.present(deleteAlert, animated: true)
+        }
+        
+        return deleteSheetAction
     }
 }
