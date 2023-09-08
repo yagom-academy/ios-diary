@@ -84,7 +84,11 @@ final class MainViewController: UIViewController {
     }
     
     private func layoutCollectionView() {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+            return self?.configureSwipeAction(for: indexPath)
+        }
+        
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
@@ -97,6 +101,67 @@ final class MainViewController: UIViewController {
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func configureSwipeAction(for indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let diary = diaries[indexPath.row]
+        let delete = deleteAction(diary: diary)
+        let share = shareAction(diary: diary)
+        share.backgroundColor = .systemBlue
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [delete, share])
+        swipeActions.performsFirstActionWithFullSwipe = false
+        
+        return swipeActions
+    }
+    
+    private func deleteAction(diary: Diary) -> UIContextualAction {
+        let deleteAction = UIContextualAction(style: .destructive, title: "delete") { [weak self] _, _, _ in
+            self?.deleteDiaryAlert(diary: diary)
+        }
+        
+        return deleteAction
+    }
+    
+    private func shareAction(diary: Diary) -> UIContextualAction {
+        let shareAction = UIContextualAction(style: .normal, title: "share") { [weak self] _, _, completionHaldler in
+            
+            guard let title = diary.title, let content = diary.content else {
+                return
+            }
+            
+            let diaryContent = title + "\n\n" + content
+            let activityView = UIActivityViewController(activityItems: [diaryContent],
+                                                        applicationActivities: nil)
+            
+            activityView.completionWithItemsHandler = { (_, success, _, _) in
+                if success {
+                    completionHaldler(true)
+                } else {
+                    completionHaldler(false)
+                }
+            }
+            self?.present(activityView, animated: true)
+        }
+        
+        return shareAction
+    }
+    
+    private func deleteDiaryAlert(diary: Diary) {
+        let deleteAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.dataManager.container.viewContext.delete(diary)
+            self?.dataManager.saveContext()
+            self?.readDiaries()
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        deleteAlert.addAction(cancel)
+        deleteAlert.addAction(delete)
+        
+        present(deleteAlert, animated: true)
     }
 }
 

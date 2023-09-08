@@ -12,8 +12,8 @@ final class DiaryViewController: UIViewController {
     // MARK: - Private Property
     
     private let dataManager: DataManager
-    private let diary: Diary?
-    private let isNew: Bool
+    private var diary: Diary?
+    private var isNew: Bool
     private var textView = UITextView()
     private let compositor: DiaryContentComposable
     private let segregator: DiaryContentSegregatable
@@ -29,7 +29,7 @@ final class DiaryViewController: UIViewController {
         self.currentFormatter = formatter
         
         if diary == nil {
-            self.diary = Diary(context: dataManager.container.viewContext)
+//            self.diary = Diary(context: dataManager.container.viewContext)
             self.isNew = true
         } else {
             self.diary = diary
@@ -72,9 +72,14 @@ final class DiaryViewController: UIViewController {
         guard !trimmedText.isEmpty else { return }
         
         let text = segregator.segregate(text: trimmedText)
+        
+        if isNew { // 아무것도 안쓰고 나갔을때 빈 cell 생기는거 방지용
+            self.diary = Diary(context: dataManager.container.viewContext)
+            isNew = false
+        }
         self.diary?.title = text.title
         self.diary?.content = text.content
-        self.diary?.createdDate = Date()
+        self.diary?.createdDate = diary?.createdDate ?? Date()
         
         dataManager.saveContext()
     }
@@ -118,8 +123,17 @@ final class DiaryViewController: UIViewController {
     private func shareAction() -> UIAlertAction {
         let alertAction = UIAlertAction(
             title: "Share",
-            style: .default) {  _ in
-                
+            style: .default) { [weak self]  _ in
+                if let self = self, let diary = self.diary {
+                    guard let title = diary.title, let content = diary.content else {
+                        return
+                    }
+                    
+                    let diaryContent = title + "\n\n" + content
+                    let activityView = UIActivityViewController(activityItems: [diaryContent],
+                                                                applicationActivities: nil)
+                    self.present(activityView, animated: true)
+                } // 신규생성시 아무것도 입력안했을때는 어떻게 해야할지 생각이 안나서 놔둠요
             }
         
         return alertAction
@@ -131,14 +145,31 @@ final class DiaryViewController: UIViewController {
             style: .destructive,
             handler: { [weak self] _ in
                 if let self = self, let diary = self.diary {
-                    self.dataManager.container.viewContext.delete(diary)
-                    self.dataManager.saveContext()
-                    self.navigationController?.popViewController(animated: true)
-                }
+//                    self.dataManager.container.viewContext.delete(diary)
+//                    self.dataManager.saveContext()
+                    deleteDiaryAlert(diary: diary)
+                } // 신규생성시 아무것도 입력안했을때는 어떻게 해야할지 생각이 안나서 놔둠요
             }
         )
         
         return alertAction
+    }
+    
+    private func deleteDiaryAlert(diary: Diary) {
+        let deleteAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.dataManager.container.viewContext.delete(diary)
+            self?.dataManager.saveContext()
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        deleteAlert.addAction(cancel)
+        deleteAlert.addAction(delete)
+        
+        present(deleteAlert, animated: true)
     }
     
     // MARK: - Private Method(TextView)
