@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class EditingDiaryViewController: UIViewController {
+final class EditingDiaryViewController: UIViewController, PresentableActivityView {
     private var diaryContent: DiaryContent
     
     private let diaryTextView: UITextView = {
@@ -68,7 +68,7 @@ final class EditingDiaryViewController: UIViewController {
         }
 
         let deleteHandler: (UIAlertAction) -> Void = { _ in
-            self.presentCheckDeleteAlert {
+            self.presentCheckDeleteAlert { _ in
                 ContainerManager.shared.delete(id: self.diaryContent.id)
                 self.navigationController?.popViewController(animated: true)
             }

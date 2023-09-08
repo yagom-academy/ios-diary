@@ -13,6 +13,7 @@
 		3C3C08F02AA6241D00C8D4CF /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C3C08EF2AA6241D00C8D4CF /* DateFormatter+.swift */; };
 		3CCA1E772A9DBF56008683C3 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 3CCA1E762A9DBF56008683C3 /* .swiftlint.yml */; };
 		3CCA1E792A9F08C8008683C3 /* DiaryContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCA1E782A9F08C8008683C3 /* DiaryContent.swift */; };
+		444E73F82AAAFA940079BEE5 /* PresentableActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 444E73F72AAAFA940079BEE5 /* PresentableActivityView.swift */; };
 		4495F2EF2A9CCF62007D5278 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4495F2EE2A9CCF62007D5278 /* DiaryTableViewCell.swift */; };
 		44A761BA2A9F100900C10AE2 /* DecodingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A761B92A9F100900C10AE2 /* DecodingManager.swift */; };
 		44A761BD2A9F142B00C10AE2 /* DataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44A761BC2A9F142B00C10AE2 /* DataError.swift */; };
@@ -39,6 +40,7 @@
 		3C3C08EF2AA6241D00C8D4CF /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
 		3CCA1E762A9DBF56008683C3 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		3CCA1E782A9F08C8008683C3 /* DiaryContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContent.swift; sourceTree = "<group>"; };
+		444E73F72AAAFA940079BEE5 /* PresentableActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentableActivityView.swift; sourceTree = "<group>"; };
 		4495F2EE2A9CCF62007D5278 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		44A761B92A9F100900C10AE2 /* DecodingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingManager.swift; sourceTree = "<group>"; };
 		44A761BC2A9F142B00C10AE2 /* DataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataError.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 			children = (
 				44A761B92A9F100900C10AE2 /* DecodingManager.swift */,
 				44A762022AA6031800C10AE2 /* ReuseIdentifiable.swift */,
+				444E73F72AAAFA940079BEE5 /* PresentableActivityView.swift */,
 			);
 			path = Utility;
 			sourceTree = "<group>";
@@ -287,6 +290,7 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				44A761BD2A9F142B00C10AE2 /* DataError.swift in Sources */,
 				44A762012AA5F96700C10AE2 /* UITableViewCell+.swift in Sources */,
+				444E73F82AAAFA940079BEE5 /* PresentableActivityView.swift in Sources */,
 				44A762302AA712A200C10AE2 /* ContainerManager.swift in Sources */,
 				3C3C08902AA3AB6C00C8D4CF /* UIViewController+.swift in Sources */,
 				44A7622E2AA710F000C10AE2 /* Diary+CoreDataProperties.swift in Sources */,

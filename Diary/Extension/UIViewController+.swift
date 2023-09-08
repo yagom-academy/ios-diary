@@ -27,24 +27,12 @@ extension UIViewController {
 
         present(alertController, animated: true)
     }
-    
-    func presentCheckDeleteAlert(completion: @escaping () -> Void) {
-        let deleteHandler: (UIAlertAction) -> Void = { _ in
-            completion()
-        }
         
+    func presentCheckDeleteAlert(deleteHandler: @escaping (UIAlertAction) -> Void) {
         presentAlertWith(title: "진짜요?",
                          message: "정말로 삭제하시겠어요?",
                          preferredStyle: .alert,
                          actionConfigs: ("취소", .cancel, nil),
                                         ("삭제", .destructive, deleteHandler))
-    }
-    
-    func presentActivityView(shareItem: String) {
-        let activityViewController = UIActivityViewController(
-            activityItems: [shareItem],
-            applicationActivities: [])
-
-        present(activityViewController, animated: true)
     }
 }
