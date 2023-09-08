@@ -1,8 +1,21 @@
 # 📓 일기장
-## 📝 소개
-> 일기를 생성하고 작성 후에 저장할 수 있는 앱입니다.
+### 일기를 생성하고 작성 후에 저장 및 삭제할 수 있는 앱입니다.
 
-**프로젝트 기간 : 23/08/28~23/09/15**
+> **핵심 개념 및 경험**
+> 
+> - **DateFormatter**
+>   - `locale` 프로퍼티를 이용한 지역화
+> - **CoreData**
+>   - `CoreData`모델을 통한 CRUD 기능
+>   - (Create, Read(Retrieve), Update, Delete)
+> - **UITextView**
+>   - `UITextView`에서 텍스트 편집
+> - **keyboardWillShowNotification / keyboardWillHideNotification**
+>   - 키보드가 나타나거나 사라질 때 `post`된 `Notification`을 `addObserver`를 통해 수신
+> - **subscript**
+>   - 배열의 범위를 벗어난 접근을 할 때 안전하게 접근할 수 있도록 `subscript`를 사용하여 `Array`의 기능 확장
+
+**프로젝트 기간 : 23.08.28 ~ 23.09.15**
 
 </br>
 
@@ -11,10 +24,9 @@
 2. [타임 라인](#2.)
 3. [시각화 구조](#3.)
 4. [실행 화면](#4. )
-5. [핵심 경험](#5.)
-6. [트러블 슈팅](#6.)
-7. [참고 자료](#7.)
-8. [팀 회고](#8.)
+5. [트러블 슈팅](#5.)
+6. [참고 자료](#6.)
+7. [팀 회고](#7.)
 
 <a id="1."></a></br>
 ## 👨‍💻 팀원 소개
@@ -30,20 +42,25 @@
 |2023.08.29.|SwiftLint설정 변경<br>DiaryListViewController구현<br>DiaryCollectionViewListCell구현<br>DiaryEntity구현<br>DiaryDetailViewController생성|
 |2023.08.30.|DateFormatter 기능확장<br>키보드 사용을 위한 setUpKeyboardEvent() 메서드 추가<br>NewDiaryViewController 구현<br>리팩토링<br>|
 |2023.08.31.|KeyboardManager 클래스로 키보드 기능분리<br>LocaleIdentifier타입 생성<br>리팩토링|
-|2023.09.01.|README작성|
+|2023.09.01.|README 작성|
+|2023.09.04.|CoreData생성<br>textView키보드 기능추가<br>테스트용json제거|
+|2023.09.05|CoreData 테스트용 코드 작성|
+|2023.09.06|CoreData의 Create,Retieve,Update기능 구현<br>CoreData관련코드 리팩토링|
+|2023.09.07|CoreData의 Delete기능 추가<br>swipe기능 구현|
+|2023.09.08|README 작성|
 
 <a id="3."></a></br>
 ## 👀 시각화 구조
 ### 1. File Tree
     Diary
-    ├── Model
-    │   └── DiaryEntity.swift
-    ├── View
-    │   ├── LaunchScreen.storyboard
-    │   └── DiaryCollectionViewListCell.swift
+    ├── Application
+    │   ├── AppDelegate.swift
+    │   └── SceneDelegate.swift
+    ├── Application Support
+    │   └── Diary.xcdatamodeld        
     ├── Controller
-    │   ├── DiaryListViewController.swift
     │   ├── DiaryDetailViewController.swift
+    │   ├── DiaryListViewController.swift
     │   └── NewDiaryViewController.swift
     ├── Enum
     │   └── LocaleIdentifier.swift
@@ -51,118 +68,44 @@
     │   └── DecodingError.swift
     ├── Extension
     │   ├── Array+.swift
+    │   ├── CellIdentifiable+.swift
     │   └── DateFormatter+.swift
     ├── Manager
+    │   ├── CoreDataManager.swift
     │   └── KeyboardManager.swift
+    ├── Model
+    │   └── DiaryEntity.swift
+    ├── Protocol
+    │   └── CellIdentifiable.swift
+    ├── View
+    │   ├── Base.lproj
+    │   │   └── LaunchScreen.storyboard
+    │   └── DiaryCollectionViewListCell.swift
     ├── Resource
-    │   ├── AppDelegate.swift
-    │   ├── SceneDelegate.swift
-    │   └── Assets.xcassets
-    ├── Info.plist
-    └── Diary.xcdatamodeld
+    │   ├── Assets.xcassets
+    │   │   ├── AccentColor.colorset
+    │   │   ├── AppIcon.appiconset
+    └── └── Info.plist
+
 
 ### 2. 클래스 다이어그램
-![일기장 UML](https://github.com/iOS-Yetti/ios-diary/assets/100982422/288cd6d5-b1e0-4153-9f04-d34949f0cba5)
+![일기장 다이어그램](https://github.com/iOS-Yetti/ios-diary/assets/100982422/eb223cb6-a8ee-40ad-ba2d-ed0dcde88432)
 
 <a id="4."></a></br>
 ## 💻 실행화면
 
 |실행화면(세로)|
 |:---:|
-|<Img src = "https://github.com/idinaloq/testRep/assets/124647187/98772ca6-e84c-45dd-a96c-28ff4806c90c">|
+|<Img src = "https://github.com/idinaloq/testRep/assets/124647187/e9678848-ac31-4a64-bf5f-6c2b3f127183" width = "300">|
 
 |실행화면(가로)|
 |:---:|
 |<Img src = https://github.com/idinaloq/testRep/assets/124647187/24161461-538a-44de-991b-63375559cc07 >|
 
 <a id="5."></a></br>
-## 🧠 핵심경험
-
-### 1️⃣ NotificationCenter를 활용한 키보드 설정
-- 텍스트를 수정할 때 키보드가 텍스트를 가리지 않도록 NotificationCenter의 [keyboardWillShowNotification](https://developer.apple.com/documentation/uikit/uiresponder/1621576-keyboardwillshownotification), [keyboardWillHideNotification](https://developer.apple.com/documentation/uikit/uiresponder/1621606-keyboardwillhidenotification)를 활용해 키보드가 나타나고, 사라질 때의 동작을 구현했습니다.
-<details>
-    <summary>상세코드</summary>
-
-```swift
-import UIKit
-
-final class KeyboardManager {
-    private let textView: UITextView
-    
-    init(textView: UITextView) {
-        self.textView = textView
-        setUpKeyboardEvent()
-    }
-    
-    private func setUpKeyboardEvent() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo as NSDictionary?,
-              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
-        
-        keyboardFrame = textView.convert(keyboardFrame, from: nil)
-        var contentInset = textView.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        textView.contentInset = contentInset
-        textView.verticalScrollIndicatorInsets = textView.contentInset
-    }
-    
-    @objc private func keyboardWillHide() {
-        textView.contentInset = UIEdgeInsets.zero
-        textView.verticalScrollIndicatorInsets = textView.contentInset
-    }
-}
-
-```
-    
-</details>
-
-### 2️⃣ DateFormatter
-- [DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter)를 활용해 현재 날짜, 변환 하려는 날짜를 Locale과 TimeZone에 맞는 형식으로 출력하도록 했습니다.
-
-<details>
-    <summary>상세코드</summary>
-
-```swift
-import Foundation
-
-extension DateFormatter {
-    static var today: String {
-        let dateFormatter: DateFormatter = DateFormatter()
-        let date: Date = Date(timeIntervalSinceNow: 0)
-        dateFormatter.locale = Locale(identifier: LocaleIdentifier.KOR.description)
-        dateFormatter.timeZone = TimeZone(identifier: TimeZone.current.identifier)
-        dateFormatter.dateStyle = .long
-        
-        return dateFormatter.string(from: date)
-    }
-    
-    func formatDate(_ data: DiaryEntity, locale: LocaleIdentifier) -> String {
-        let dateFormatter: DateFormatter = DateFormatter()
-        let date: Date = Date(timeIntervalSince1970: TimeInterval(data.createdAt))
-        dateFormatter.locale = Locale(identifier: locale.description)
-        dateFormatter.timeZone = TimeZone(identifier: TimeZone.current.identifier)
-        dateFormatter.dateStyle = .long
-        
-        return dateFormatter.string(from: date)
-    }
-}
-```
-    
-</details>
-
-### 3️⃣ subscript
-- 배열에 범위를 벗어난 접근을 할 때 크래시가 발생하지 않도록 [subscript](https://developer.apple.com/documentation/foundation/data/3017410-subscript)를 사용해서 nil로 설정될 수 있도록 extension으로 Array의 기능을 확장했습니다.
-
-<a id="6."></a></br>
 ## 🧨 트러블 슈팅
 
-### 1️⃣ out of bound 
+### 1️⃣ out of range 
 ⚠️ **문제점** <br>
 - collectionView 메서드에서 셀을 생성할 때, diaryEntity 배열에 indexPath.item으로 접근을 해서 데이터를 가져오고 있었습니다. 하지만 이렇게 되면 만약 diaryEntity 배열을 벗어난 indexPath로 접근을 하게되면 앱이 크래시가 날 수 있는 가능성이 있었습니다.
 
@@ -216,18 +159,104 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
 }
 ```
 
-<a id="7."></a></br>
-## 📚 참고자료
 
+### 2️⃣ View의 LifeCycle
+⚠️ **문제점** <br>
+- `NavigationController`를 통해 다음 뷰로 이동하고 다시 이전 뷰 컨트롤러로 돌아올 때 일기장이 생성되거나 수정된 변경사항을 `cell`에 업데이트 하기 위해 `viewWillAppear()`메서드에 `collectionView.reloadData()` 메서드를 통해 셀이 다시 그려지도록 했습니다.
+- 하지만 셀이 업데이트가 되지 않고, 한 번씩 업데이트 주기가 밀리는 현상이 있었습니다.
+(다음 데이터가 들어와야 이전 데이터가 업데이트 되는 현상)
+
+**기존코드**
+```swift
+ override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.diaries = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())
+        collectionView.reloadData()
+    }
+```
+
+✅ **해결방법** <br>
+- `collectionView.reloadData()`메서드는 셀을 다시 그리는 메서드인데, `ViewWillApear`에서 실행하게 되면 뷰가 나타나기 전에 셀을 그려서 적용되지 않는 문제였습니다. 아래 코드와 같이 `ViewDidAppear`에서 뷰가 생성된 후 셀을 그리도록 수정하였습니다.
+
+**현재코드**
+```swift
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.diaries = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())
+        collectionView.reloadData()
+    }
+```
+
+### 3️⃣ CoreData에 배열로 저장된 객체 식별하기
+⚠️ **문제점** <br>
+- CoreData에 `Diary`객체가 `Create`될 때 `[Diary]`와 같이 배열로 만들어지고 있었습니다. `Retrieve`할 때 역시 배열로 반환하고 있는데, 이렇게 된다면 특정 객체의 값을 수정하려고 할때 어느 배열에 어떤 값이 있는지 알 수 없었기 때문에 수정과 삭제가 불가능한 문제가 있었습니다.
+
+**기존코드**
+```swift
+import CoreData
+
+extension Diary {
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Diary> {
+        return NSFetchRequest<Diary>(entityName: "Diary")
+    }
+
+    @NSManaged public var createdAt: String?
+    @NSManaged public var title: String?
+    @NSManaged public var body: String?
+}
+
+extension Diary: Identifiable {
+}
+```
+
+✅ **해결방법** <br>
+- 모델 데이터에 `identifier`라는 변수를 만들고, 데이터가 만들어 질 때 `identifier`에 `UUID`값을 할당하는 방식으로 변경해서 원하는 배열에 접근할 수 있도록 변경하였습니다.
+
+**현재코드**
+```siwft
+import CoreData
+
+extension Diary {
+
+    @nonobjc public class func fetchRequest() -> NSFetchRequest<Diary> {
+        return NSFetchRequest<Diary>(entityName: "Diary")
+    }
+
+    @NSManaged public var createdAt: String?
+    @NSManaged public var title: String?
+    @NSManaged public var body: String?
+    @NSManaged public var identifier: String?
+}
+
+extension Diary: Identifiable {
+}
+
+final class CoreDataManager {
+    ...
+    func createDiary(_ textView: UITextView) {
+        ...
+        object.setValue(UUID().uuidString, forKey: "identifier")
+        saveContext()
+    }
+    ...
+}
+
+```
+<a id="6."></a></br>
+## 📚 참고자료
 - [🍎 Apple Docs: `DateFormatter`](https://developer.apple.com/documentation/foundation/dateformatter)
 - [🍎 Apple Docs: `NotificationCenter`](https://developer.apple.com/documentation/foundation/notificationcenter)
 - [🍎 Apple Docs: `keyboardWillShowNotification`](https://developer.apple.com/documentation/uikit/uiresponder/1621576-keyboardwillshownotification)
 - [🍎 Apple Docs: `keyboardWillHideNotification`](https://developer.apple.com/documentation/uikit/uiresponder/1621606-keyboardwillhidenotification)
 - [🍎 Apple Docs: `UITextView`](https://developer.apple.com/documentation/uikit/uitextview)
+- [🍎 Apple Docs: `CoreData`](https://developer.apple.com/documentation/coredata)
+- [🍎 Apple Docs: `UIViewController LifeCycle`](https://developer.apple.com/documentation/uikit/uiviewcontroller#1652793)
 - [🌐 Blog: `subscript로 안전하게 배열 조회하기`](https://kkimin.tistory.com/86)
 - [🌐 Blog: `키보드가 텍스트를 가리지 않도록 하기`](https://velog.io/@qudgh849/keyboard가-TextView를-가릴-때)
 - [🌐 Blog: `identifier 재사용 프로토콜`](https://prod.velog.io/@yyyng/셀-재사용-프로토콜)
+- [🌐 Blog: `collectionViewCell Swipe`](https://icksw.tistory.com/291)
 
-<a id="8."></a></br>
+<a id="7."></a></br>
 ## 👬 팀 회고
 프로젝트가 끝난 후 작성 예정입니다 (23.09.15)
