@@ -13,15 +13,22 @@ final class DiaryMainViewController: UIViewController {
         
         return tableView
     }()
-
-    private var diarylist: [Diary]?
+    
+    private let persistentContainer = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    private var diarylist: [DiaryEntity]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
         configureDelegates()
-        diaryListFromJSON()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        diarylist = persistentContainer?.getAllItems()
+        diaryTableView.reloadData()
     }
     
     private func configureDelegates() {
@@ -30,30 +37,13 @@ final class DiaryMainViewController: UIViewController {
     }
     
     @objc private func didTapAddDiaryButton() {
-        let detailDiaryViewController = DetailDiaryViewController()
+        guard let context = persistentContainer?.viewContext else { return }
+        let diary = DiaryEntity(context: context)
+        diary.createdAt = Date()
+        
+        let detailDiaryViewController = DetailDiaryViewController(diary: diary)
+        
         self.navigationController?.pushViewController(detailDiaryViewController, animated: true)
-    }
-    
-    private func decodeDiary() throws {
-        let decoder = JSONDecoder()
-        
-        guard let dataAsset = NSDataAsset(name: "sample") else {
-            throw DecodeError.assetNotFound
-        }
-        
-        guard let decodedData = try? decoder.decode([Diary].self, from: dataAsset.data) else {
-            throw DecodeError.failed
-        }
-        
-        diarylist = decodedData
-    }
-    
-    private func diaryListFromJSON() {
-        do {
-            try decodeDiary()
-        } catch {
-            print(error.localizedDescription)
-        }
     }
 }
 
