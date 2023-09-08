@@ -35,6 +35,7 @@ final class DiaryDetailViewController: UIViewController {
         self.uuid = uuid
         self.fetchRequest = CoreDataManager.shared.receiveFetchRequest(for: uuid)
         super.init(nibName: nil, bundle: nil)
+
     }
     
     required init?(coder: NSCoder) {
@@ -113,7 +114,6 @@ final class DiaryDetailViewController: UIViewController {
 
 extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        CoreDataManager.shared.fetchDiary(fetchRequest).first?.body = textView.text
-        CoreDataManager.shared.saveContext()
+
     }
 }

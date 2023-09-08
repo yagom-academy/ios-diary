@@ -52,6 +52,12 @@ final class DiaryListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.diaries = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())
+        diaries.forEach { diary in
+            if diary.body == nil {
+                CoreDataManager.shared.deleteDiary(diary.identifier!)
+            }
+        }
+        self.diaries = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())
         collectionView.reloadData()
     }
     
@@ -83,7 +89,18 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func createNewDiaryButtonTapped() {
-        let newDiaryViewController: NewDiaryViewController = NewDiaryViewController()
+        let uuid: String = UUID().uuidString
+        let newDiaryViewController: NewDiaryViewController = NewDiaryViewController(uuid: uuid)
+        
+        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: CoreDataManager.shared.context) else {
+            return
+        }
+        let object = NSManagedObject(entity: entity, insertInto: CoreDataManager.shared.context)
+        object.setValue("타이틀틀", forKey: "title")
+        object.setValue(DateFormatter.today, forKey: "createdAt")
+        object.setValue(uuid, forKey: "identifier")
+        
+        
         navigationController?.pushViewController(newDiaryViewController, animated: true)
     }
 }
