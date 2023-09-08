@@ -15,7 +15,7 @@
 <a id="소개"></a>
 
 ## 🍀 소개
-일기를 작성하고, 수정할 수 있는 앱
+일기를 작성, 수정, 삭제, 공유 할 수 있는 앱
 > 지원 언어 : 한국어, English
 
 </br>
@@ -32,6 +32,13 @@
 |:--------:|:--------:|
 |<img src="https://github.com/bubblecocoa/storage/assets/67216784/4b12fde6-a814-45a3-a3e1-7905a740fef9" alt="diary_keyboard" width="250">|<img src="https://github.com/bubblecocoa/storage/assets/67216784/9292db31-5391-46a6-85fe-4c72201937ae" alt="diary_push_add_diary_view" width="250">|
 
+| 일기 삭제 | 일기 공유 |
+|:--------:|:--------:|
+|<img src="https://github.com/bubblecocoa/storage/assets/67216784/e4b5a412-357d-4da8-bb21-97aea0c67c5c" alt="diary_delete" width="250">|<img src="https://github.com/bubblecocoa/storage/assets/67216784/4395c0af-56af-43a1-8381-cff8a262beb4" alt="diary_share" width="250">|
+
+| 일기 수정 |
+|:--------:|
+|<img src="https://github.com/bubblecocoa/storage/assets/67216784/f0102b0f-8618-447e-b87c-16c07bb4844c" alt="diary_edit" width="250">|
 
 </br>
 
@@ -170,13 +177,100 @@ private func configureCellConstraint() {
 
 <br>
 
+6️⃣ **UUID** <br>
+-
+🔒 **문제점** <br>
+일기를 수정﹒삭제 하기 위해 `CoreData`로부터 일기를 구분하기 위한 `Identifier`가 필요했습니다.
+일기 `Entity`의 `Attribute`에 있는 값은 `title: String`, `body: Stirng?`, `date: Date` 세가지 였는데, 이 중 무엇하나 식별자로 사용 가능한 값이 없었습니다. 일기 제목, 내용, 작성날짜 모두 같은 일기가 존재 할 수 있었기 때문입니다.
+
+🔑 **해결방법** <br>
+`Entity`의 `Attribute`에 `id: UUID`를 추가했습니다. `UUID`는 범용 고유 식별자로 단순히 이것을 추가하는 것만으로 각각의 일기를 명확하게 구분할 수 있게 됩니다. `UUID`를 가지고 있는 경우 해당 `Entity`의 `title`, `body`의 내용이 바뀌어도 새로운 객체나 다른 객체에 내용이 작성되는 것이 아닌 현재의 객체에 정확하게 내용이 작성﹒업데이트 되는 것을 확인할 수 있었습니다.
+
+<br>
+
+7️⃣ **UIContextualAction 커스텀** <br>
+-
+🔒 **문제점** <br>
+`UIContextualAction`의 `activityItems`에 일기 제목, 일기 내용을 넣을 경우 공유 될 내용이 아래 이미지처럼 미리보기로 출력됩니다.
+![](https://hackmd.io/_uploads/BJidTmuA3.png)
+이 문제를 해결하기 위해 일기 제목과 일기 내용을 하나의 문자열로 합치고, 중간에 줄바꿈 기호 `\n`을 추가하는 방식을 적용 해봤습니다.
+문자열은 원하는 형태로 출력되었으나 폰트 스타일은 여전히 저희가 원하는 형태가 아니었습니다.
+|현재 출력 방식|내용 합치고 줄바꿈 적용 시|원하는 표현 방식|
+|-|-|-|
+|**일반 텍스트**<br>일기 제목 및 일기 내용|일기 제목<br>일기 내용|**일기 제목**<br>일기 내용|
+
+🔑 **해결방법** <br>
+**UIActivityItemSource 및 LinkPresentation 프레임워크를 이용**
+
+기존 방법에서 출력되는 Activity Items는 실제로 공유할 내용에 대한 것들만 미리보기로 출력할 수 있었습니다. 때문에 UIActivityItemSource로는 공유할 내용을 따로 지정하고 LinkPresentation 프레임워크는 원하는 표현 방식으로 미리보기를 구현하는 과정에서 필요를 느껴 import 해주었습니다.
+
+![](https://hackmd.io/_uploads/H1Q3W4uC3.png)
+
+먼저 UIActivityItemSource 프로토콜을 채택하면 공유할 개체가 데이터 공급자가 되어 항목에 대한 액세스 권한을 View Controller에 제공합니다.
+
+- 공유할 데이터에 대해 placeHolder로 사용할 수 있는, 실제 데이터는 아니지만 그에 가깝게 표시하는 값을 return 합니다.
+
+    ```swift
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        return diary.title
+    }
+    ```
+- 공유하고자 하는 데이터를 리턴합니다.
+
+    ```swift
+    func activityViewController(
+        _ activityViewController: UIActivityViewController,
+        itemForActivityType activityType: UIActivity.ActivityType?
+    ) -> Any? {
+        let dateFormatter = DateFormatter()
+        
+        dateFormatter.configureDiaryDateFormat()
+        
+        let formattedDate = dateFormatter.string(from: diary.date)
+        let sharedData = "\(formattedDate)\n\n\(diary.title)\n\n\(diary.body ?? "")"
+        
+        return sharedData
+    }
+    ````
+- LinkPresentation 프레임워크가 기본 컴포넌트로 존재하고 있어서 사용해보았습니다. 해당 프레임워크는 메타 데이터를 활용하여 원하는 데이터를 유저에게 표시하며 쉽게 공유할 수 있게 만들어 줍니다. 이를 UIActivityItemSource에 구현되어 있는 메서드와 함께 사용하면 공유할 때 커스텀한 미리보기를 사용할 수 있습니다.
+
+    ```swift
+    func activityViewControllerLinkMetadata(_ activityViewController: UIActivityViewController) -> LPLinkMetadata? {
+        let metadata = LPLinkMetadata()
+        
+        metadata.title = diary.title
+        metadata.originalURL = URL(fileURLWithPath: (diary.body ?? ""))
+        
+        return metadata
+    }
+    ```
+
+<br>
+
+8️⃣ **Background 전환시 일기 자동 저장** <br>
+-
+🔒 **문제점** <br>
+일기 작성 중 홈으로 나가는 경우 메모리 부족으로 인해 앱이 종료되어 현재 작성중인 텍스트가 모두 사라질 수 있습니다. 이 경우를 대비하기 위해 앱이 백그라운드로 전환되기 전 일기를 저장하는 로직이 필요했습니다. 해당 `ViewController`에서 백그라운드로 전환되는 것을 인식할 수 있나 싶었으나, 일기가 저장되는 것은 `DiaryViewController`만의 문제가 아니기 때문에 다른 방식으로 백그라운드 전환을 인식할 수 있어야 했습니다.
+
+🔑 **해결방법** <br>
+`SceneDelegate`의 `sceneDidEnterBackground(_:)`메서드를 활용했습니다. 저희는 기존 `SceneDelegate`내에 `NSPersistentContainer`를 이미 구현해두었고, 모든 `ViewController`가 해당 `PersistentContainer`를 의존성 주입받아 사용하고 있기 때문에 현재 `PersistentContainer`의 `viewContext.save()`를 해주어 손쉽게 변경 내용을 저장할 수 있었습니다.
+
+<br>
+
 <a id="참고-링크"></a>
 
 ## 📚 참고 링크
 - [🍎Apple Docs: keyboardFrameEndUserInfoKey](https://developer.apple.com/documentation/uikit/uiresponder/1621578-keyboardframeenduserinfokey)
 - [🍎Apple Docs: Adjusting Your Layout with Keyboard Layout Guide](https://developer.apple.com/documentation/uikit/keyboards_and_input/adjusting_your_layout_with_keyboard_layout_guide)
 - [🍎Apple Docs: UIKeyboardLayoutGuide](https://developer.apple.com/documentation/uikit/uikeyboardlayoutguide)
+- [🍎Apple Docs: Metatdata](https://developer.apple.com/documentation/avfoundation/avcapturephotosettings/2875951-metadata)
+- [🍎Apple Docs: UUID](https://developer.apple.com/documentation/foundation/uuid)
+- [🍎Apple Docs: Link Presentation](https://developer.apple.com/documentation/linkpresentation)
+- [🍎Apple Docs: sceneDidEnterBackground(_:)](https://developer.apple.com/documentation/uikit/uiscenedelegate/3197917-scenedidenterbackground)
+- [🍎Apple Docs: UIActivityItemSource](https://developer.apple.com/documentation/uikit/uiactivityitemsource)
+- [🍎Apple Docs: ]()
 - <Img src = "https://github.com/mint3382/ios-calculator-app/assets/124643545/56986ab4-dc23-4e29-bdda-f00ec1db809b" width="20"/> [야곰닷넷: Swift Lint 써보기](https://yagom.net/forums/topic/swift-lint-%EC%8D%A8%EB%B3%B4%EA%B8%B0/)
+- <Img src = "https://github.com/mint3382/ios-calculator-app/assets/124643545/56986ab4-dc23-4e29-bdda-f00ec1db809b" width="20"/> [야곰닷넷: LinkPresentation](https://yagom.net/forums/topic/linkpresentation/)
 - <Img src = "https://hackmd.io/_uploads/ByTEsGUv3.png" width="20"/> [blog: [iOS] Swiftlint 룰 적용하기](https://velog.io/@whitehyun/iOS-Swiftlint-%EB%A3%B0-%EC%A0%81%EC%9A%A9%ED%95%98%EA%B8%B0)
 
 </br>
