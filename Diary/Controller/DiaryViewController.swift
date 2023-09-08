@@ -24,12 +24,7 @@ final class DiaryViewController: UIViewController {
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diary = diaryList[indexPath.row]
-        let diaryDetailViewController = DiaryDetailViewController(
-            diary: diary,
-            title: diary.value(forKeyPath: "title") as? String ?? "",
-            body: diary.value(forKeyPath: "body") as? String ?? "",
-            date: diary.value(forKeyPath: "date") as? Date ?? Date()
-        )
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary)
         
         tableView.deselectRow(at: indexPath, animated: true)
         self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
@@ -131,7 +126,8 @@ private extension DiaryViewController {
             }
 
             let managedContext = appDelegate.persistentContainer.viewContext
-            let diaryDetailViewController = DiaryDetailViewController(diary: Diary(context: managedContext))
+            let diary = Diary(context: managedContext)
+            let diaryDetailViewController = DiaryDetailViewController(diary: diary, isUpdate: false)
             self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
         }
         

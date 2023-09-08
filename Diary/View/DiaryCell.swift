@@ -18,6 +18,7 @@ final class DiaryCell: UITableViewCell {
     private let dateLabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         return label
     }()

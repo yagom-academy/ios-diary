@@ -10,38 +10,17 @@ import CoreData
 
 final class DiaryDetailViewController: UIViewController {
     private let diary: Diary
-    private let diaryTitle: String
-    private let diaryBody: String
-    private let diaryDate: Date
+    private let isUpdate: Bool
     
-    private let titleTextView = {
+    private let contentTextView = {
         let textView = UITextView()
         textView.isEditable = true
-        textView.isScrollEnabled = false
         textView.adjustsFontForContentSizeCategory = true
         textView.font = .preferredFont(forTextStyle: .body)
+        textView.translatesAutoresizingMaskIntoConstraints = false
         textView.addDoneButtonOnKeyboard()
 
         return textView
-    }()
-    
-    private let bodyTextView = {
-        let textView = UITextView()
-        textView.isEditable = true
-        textView.adjustsFontForContentSizeCategory = true
-        textView.font = .preferredFont(forTextStyle: .body)
-        textView.addDoneButtonOnKeyboard()
-        
-        return textView
-    }()
-    
-    private let contentStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return stackView
     }()
     
     override func viewDidLoad() {
@@ -54,11 +33,9 @@ final class DiaryDetailViewController: UIViewController {
         chooseSaveOrUpdate()
     }
     
-    init(diary: Diary, title: String = "", body: String = "", date: Date = Date()) {
+    init(diary: Diary, isUpdate: Bool = true) {
         self.diary = diary
-        self.diaryTitle = title
-        self.diaryBody = body
-        self.diaryDate = date
+        self.isUpdate = isUpdate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -75,34 +52,58 @@ extension DiaryDetailViewController: UITextViewDelegate {
 
 private extension DiaryDetailViewController {
     func chooseSaveOrUpdate() {
-        if diaryTitle != "" && titleTextView.text != diaryTitle {
-            updateDiary()
-        } else if diaryTitle == "" && titleTextView.text != diaryTitle {
-            saveDiary()
+        guard !contentTextView.text.isEmpty else {
+            deleteDiary(item: diary)
+            return
+        }
+        
+        let contents = contentTextView.text.split(separator: "\n")
+        let title = String(contents[0])
+        let body = contents.dropFirst().joined(separator: "\n")
+
+        if contents.isEmpty {
+            saveDiary(title: "", body: "")
+        } else {
+            updateDiary(title: title, body: body)
         }
     }
     
-    func saveDiary() {
+    func saveDiary(title: String, body: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         
-        diary.setValue(titleTextView.text, forKeyPath: "title")
-        diary.setValue(bodyTextView.text, forKeyPath: "body")
-        diary.setValue(diaryDate, forKeyPath: "date")
+        diary.setValue(title, forKeyPath: "title")
+        diary.setValue(body, forKeyPath: "body")
+        diary.setValue(diary.date, forKeyPath: "date")
                 
         appDelegate.saveContext()
     }
     
-    func updateDiary() {
+    func updateDiary(title: String, body: String) {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         
         let managedContext = appDelegate.persistentContainer.viewContext
         
-        diary.setValue(titleTextView.text, forKeyPath: "title")
-        diary.setValue(bodyTextView.text, forKeyPath: "body")
+        diary.setValue(title, forKeyPath: "title")
+        diary.setValue(body, forKeyPath: "body")
+        
+        do {
+            try managedContext.save()
+        } catch {
+            print("error")
+        }
+    }
+    
+    func deleteDiary(item: Diary) {
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let managedContext = appDelegate.persistentContainer.viewContext
+        managedContext.delete(item)
         
         do {
             try managedContext.save()
@@ -120,7 +121,6 @@ private extension DiaryDetailViewController {
         configureSubviews()
         configureContents()
         configureKeyboard()
-        configureContentStackView()
         configureConstraints()
     }
     
@@ -129,40 +129,39 @@ private extension DiaryDetailViewController {
     }
     
     func configureTextView() {
-        titleTextView.delegate = self
-        bodyTextView.delegate = self
+        contentTextView.delegate = self
     }
     
     func configureNavigation() {
-        navigationItem.title = DateFormatter.diaryFormatter.string(from: diaryDate)
+        navigationItem.title = DateFormatter.diaryFormatter.string(from: diary.date ?? Date())
     }
     
     func configureSubviews() {
-        view.addSubview(contentStackView)
+        view.addSubview(contentTextView)
     }
     
     func configureContents() {
-        titleTextView.text = diaryTitle
-        bodyTextView.text = diaryBody
+        guard isUpdate else {
+            return
+        }
+        
+        let title = diary.title ?? ""
+        let body = diary.body ?? ""
+        contentTextView.text = title + "\n" + body
     }
     
     func configureKeyboard() {
-        if diaryTitle == "" {
-            titleTextView.becomeFirstResponder()
+        if !isUpdate {
+            contentTextView.becomeFirstResponder()
         }
-    }
-    
-    func configureContentStackView() {
-        contentStackView.addArrangedSubview(titleTextView)
-        contentStackView.addArrangedSubview(bodyTextView)
     }
     
     func configureConstraints() {
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
+            contentTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            contentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
     }
 }
