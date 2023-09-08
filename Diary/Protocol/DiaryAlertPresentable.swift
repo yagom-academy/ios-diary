@@ -17,7 +17,7 @@ extension DiaryAlertPresentable {
             preferredStyle: .alert
         )
         let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel)
-        let deleteAction = UIAlertAction(title: String(localized: "delete"), style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: String(localized: "Delete"), style: .destructive) { _ in
             action()
         }
         
