@@ -48,6 +48,10 @@ extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         saveDiary()
     }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        saveDiary()
+    }
 }
 
 private extension DiaryDetailViewController {
