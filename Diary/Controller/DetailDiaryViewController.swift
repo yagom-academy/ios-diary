@@ -15,12 +15,56 @@ final class DetailDiaryViewController: UIViewController {
         return textView
     }()
     
+    private let persistentContainer = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer
+    private var diary: DiaryEntity
+    
+    init(diary: DiaryEntity) {
+        self.diary = diary
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
         configureDelegates()
         setupKeyboardEvent()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        saveDiaryData()
+    }
+    
+    func fetchDiaryData(_ data: DiaryEntity) {
+        guard let title = data.title,
+              let body = data.body,
+              let createdAt = data.createdAt  else {
+            
+            return
+        }
+        
+        diary = data
+        diaryTextView.text = "\(title)\n\(body)"
+        
+        configureNavigationItem(date: createdAt)
+    }
+    
+    func saveDiaryData() {
+        let splitedText = diaryTextView.text.split(separator: "\n")
+        let title = String(splitedText[safe: 0] ?? .init())
+        let body = String(diaryTextView.text.dropFirst(title.count))
+        
+        diary.title = title
+        diary.body = body
+        
+        persistentContainer?.saveContext()
     }
     
     private func configureDelegates() {
@@ -40,8 +84,8 @@ extension DetailDiaryViewController {
         view.backgroundColor = .systemBackground
     }
     
-    private func configureNavigationItem() {
-        navigationItem.title = DiaryDateFormatter.convertDate(Date(), Locale.current.identifier)
+    private func configureNavigationItem(date: Date = Date()) {
+        navigationItem.title = DiaryDateFormatter.convertDate(date, Locale.current.identifier)
     }
     
     private func addSubViews() {
@@ -75,6 +119,7 @@ extension DetailDiaryViewController {
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidHide), name: UIResponder.keyboardDidHideNotification, object: nil)
     }
     
     @objc private func keyboardWillShow(_ sender: Notification) {
@@ -89,6 +134,10 @@ extension DetailDiaryViewController {
     
     @objc private func keyboardWillHide() {
         diaryTextView.contentInset = UIEdgeInsets()
+    }
+    
+    @objc private func keyboardDidHide() {
+        saveDiaryData()
     }
 }
 
