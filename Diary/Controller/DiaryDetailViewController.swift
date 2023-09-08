@@ -43,6 +43,29 @@ final class DiaryDetailViewController: UIViewController {
     
     private func configureNavigation() {
         navigationItem.title = CoreDataManager.shared.fetchDiary(fetchRequest).first?.createdAt
+        let seeMoreButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .done, target: self, action: #selector(seeMoreButtonTapped))
+        navigationItem.rightBarButtonItem = seeMoreButton
+        
+    }
+    
+    @objc func seeMoreButtonTapped() {
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share", style: .default, handler: { action in
+            self.showActivityView()
+        })
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: nil)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        
+        alertController.addAction(shareAction)
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    private func showActivityView() {
+        let activityViewController = UIActivityViewController(activityItems: ["테스트1", "테스트2"], applicationActivities: nil)
+        present(activityViewController, animated: true)
     }
     
     private func configureUI() {
