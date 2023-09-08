@@ -30,7 +30,7 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        chooseSaveOrUpdate()
+        saveDiary()
     }
     
     init(diary: Diary, isUpdate: Bool = true) {
@@ -46,14 +46,14 @@ final class DiaryDetailViewController: UIViewController {
 
 extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        chooseSaveOrUpdate()
+        saveDiary()
     }
 }
 
 private extension DiaryDetailViewController {
-    func chooseSaveOrUpdate() {
+    func saveDiary() {
         guard !contentTextView.text.isEmpty else {
-            deleteDiary(item: diary)
+            CoreDataManager.shared.deleteDiary(item: diary)
             return
         }
         
@@ -62,54 +62,16 @@ private extension DiaryDetailViewController {
         let body = contents.dropFirst().joined(separator: "\n")
 
         if contents.isEmpty {
-            saveDiary(title: "", body: "")
+            saveContents(title: "", body: "")
         } else {
-            updateDiary(title: title, body: body)
+            saveContents(title: title, body: body)
         }
     }
     
-    func saveDiary(title: String, body: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
+    func saveContents(title: String, body: String) {
         diary.setValue(title, forKeyPath: "title")
         diary.setValue(body, forKeyPath: "body")
-        diary.setValue(diary.date, forKeyPath: "date")
-                
-        appDelegate.saveContext()
-    }
-    
-    func updateDiary(title: String, body: String) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        
-        diary.setValue(title, forKeyPath: "title")
-        diary.setValue(body, forKeyPath: "body")
-        
-        do {
-            try managedContext.save()
-        } catch {
-            print("error")
-        }
-    }
-    
-    func deleteDiary(item: Diary) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        managedContext.delete(item)
-        
-        do {
-            try managedContext.save()
-        } catch {
-            print("error")
-        }
+        CoreDataManager.shared.updateDiary()
     }
 }
 

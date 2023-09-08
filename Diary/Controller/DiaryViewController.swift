@@ -8,8 +8,8 @@ import UIKit
 import CoreData
 
 final class DiaryViewController: UIViewController {
-    private var tableView: UITableView = UITableView()
-    private var diaryList: [Diary] = []
+    private var tableView = UITableView()
+    private var diaryList = [Diary]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,9 +37,10 @@ extension DiaryViewController: UITableViewDelegate {
         let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
             let diary = self.diaryList[indexPath.row]
             self.diaryList.remove(at: indexPath.row)
-            self.deleteDiary(item: diary)
+            CoreDataManager.shared.deleteDiary(item: diary)
             tableView.reloadData()
         }
+        
         return UISwipeActionsConfiguration(actions: [delete])
     }
 }
@@ -70,15 +71,8 @@ extension DiaryViewController: UITableViewDataSource {
 
 private extension DiaryViewController {
     func loadDiary() {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        let fetchRequest = NSFetchRequest<Diary>(entityName: "Diary")
-        
         do {
-            diaryList = try managedContext.fetch(fetchRequest)
+            diaryList = try CoreDataManager.shared.readDiary()
             tableView.reloadData()
         } catch {
             let alert = UIAlertController(title: nil, message: "Diary Data를 불러오지 못했습니다.", preferredStyle: .alert)
@@ -86,21 +80,6 @@ private extension DiaryViewController {
             
             alert.addAction(action)
             present(alert, animated: true)
-        }
-    }
-    
-    func deleteDiary(item: Diary) {
-        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let managedContext = appDelegate.persistentContainer.viewContext
-        managedContext.delete(item)
-        
-        do {
-            try managedContext.save()
-        } catch {
-            print("error")
         }
     }
 }
@@ -121,12 +100,7 @@ private extension DiaryViewController {
     
     func configureNavigation() {
         let action = UIAction { _ in
-            guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
-
-            let managedContext = appDelegate.persistentContainer.viewContext
-            let diary = Diary(context: managedContext)
+            let diary = CoreDataManager.shared.createDiary()
             let diaryDetailViewController = DiaryDetailViewController(diary: diary, isUpdate: false)
             self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
         }
