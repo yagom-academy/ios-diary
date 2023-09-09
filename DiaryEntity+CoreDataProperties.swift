@@ -24,7 +24,7 @@ extension DiaryEntity {
 extension DiaryEntity: Identifiable {}
 
 extension DiaryEntity {
-    func diaryEntry() throws -> DiaryEntry {
+    func diaryEntry() -> DiaryEntry {
         let timeStamp = DateFormatManager.timestamp(date: creationDate)
         let dateFormatString = DateFormatManager.string(localeDateFormatter: UserDateFormatter.shared, timestamp: timeStamp)
         

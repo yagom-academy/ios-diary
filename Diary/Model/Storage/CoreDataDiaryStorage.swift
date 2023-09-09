@@ -40,8 +40,8 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
     
     func diaryEntrys() throws -> [DiaryEntry] {
         let diaryEntitys = try context.fetch(DiaryEntity.fetchRequest())
-        let diaryEntrys = try diaryEntitys.map {
-            try $0.diaryEntry()
+        let diaryEntrys = diaryEntitys.map {
+            $0.diaryEntry()
         }
         
         return diaryEntrys
