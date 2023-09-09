@@ -19,11 +19,7 @@ enum DateFormatManager {
         return localeDateFormatter.string(from: date)
     }
     
-    static func timestamp(localeDateFormatter: LocaleDateFormatterProtocol, string: String) -> Int? {
-        guard let date = localeDateFormatter.date(from: string) else {
-            return nil
-        }
-        
+    static func timestamp(date: Date) -> Int {
         return Int(date.timeIntervalSince1970)
     }
 }
