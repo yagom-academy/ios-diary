@@ -50,12 +50,18 @@ final class DiaryListViewController: UIViewController {
         configureUI()
         setupConstraints()
         setupContentTableView()
+        addObserveSuccessUpdate(observer: self, selector: #selector(setupContentTableView))
+        addObserveFailedUpdate(observer: self, selector: #selector(presentFailAlert))
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupContentTableView()
     }
 }
 
 // MARK: - Setup Data
 extension DiaryListViewController {
-    private func setupContentTableView() {
+    @objc private func setupContentTableView() {
         do {
             let diaryEntrys = try diaryStore.diaryEntrys()
             var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryEntry>()
@@ -65,22 +71,6 @@ extension DiaryListViewController {
         } catch {
             presentFailAlert()
         }
-    }
-}
-
-// MARK: - Push & Present Controller
-extension DiaryListViewController {
-    @objc private func pushDiaryViewController() {
-        let diaryViewController = DiaryViewController(diaryStore: diaryStore, diaryEntry: nil)
-        
-        navigationController?.pushViewController(diaryViewController, animated: true)
-    }
-    
-    private func presentFailAlert() {
-        let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
-        let alert = UIAlertController.customAlert(alertTile: NameSpace.fail, alertMessage: NameSpace.loadDataFail, preferredStyle: .alert, alertActions: [alertAction])
-        
-        present(alert, animated: true)
     }
 }
 
@@ -109,6 +99,32 @@ extension DiaryListViewController {
     }
 }
 
+// MARK: - Push & Present Controller
+extension DiaryListViewController {
+    @objc private func pushDiaryViewController() {
+        let diaryViewController = DiaryViewController(diaryStore: diaryStore, diaryEntry: nil)
+        
+        navigationController?.pushViewController(diaryViewController, animated: true)
+    }
+    
+    @objc private func presentFailAlert() {
+        let alert = UIAlertController.failedAlert(failMessage: "작업에 실패했습니다.")
+        
+        present(alert, animated: true)
+    }
+    
+    private func presentDeleteAlert(diaryEntry: DiaryEntry) {
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.diaryStore.deleteDiary(diaryEntry)
+            self.navigationController?.popViewController(animated: true)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let alert = UIAlertController.customAlert(alertTile: "진짜요?", alertMessage: "정말로 삭제하시겠어요?", preferredStyle: .alert, alertActions: [cancelAction, deleteAction])
+        
+        present(alert, animated: true)
+    }
+}
+
 // MARK: - TableView Delegate
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -121,7 +137,29 @@ extension DiaryListViewController: UITableViewDelegate {
             presentFailAlert()
         }
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        
+        let sharedAction = UIContextualAction(style: .normal, title: "Share...") { (_, _, _: @escaping (Bool) -> Void) in
+            
+        }
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, success: @escaping (Bool) -> Void) in
+            do {
+                let diaryEntrys = try self.diaryStore.diaryEntrys()
+                self.presentDeleteAlert(diaryEntry: diaryEntrys[indexPath.row])
+                success(true)
+            } catch {
+                self.presentFailAlert()
+                success(false)
+            }
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, sharedAction])
+    }
 }
+
+extension DiaryListViewController: CoreDataUpdatable {}
 
 // MARK: - Configure UI
 extension DiaryListViewController {
