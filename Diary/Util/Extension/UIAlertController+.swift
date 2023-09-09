@@ -17,4 +17,11 @@ extension UIAlertController {
         
         return alert
     }
+    
+    static func failedAlert(failMessage: String?) -> UIAlertController {
+        let alertAction = UIAlertAction(title: "확인", style: .cancel)
+        let alert = UIAlertController.customAlert(alertTile: "실패", alertMessage: failMessage, preferredStyle: .alert, alertActions: [alertAction])
+        
+        return alert
+    }
 }
