@@ -190,10 +190,18 @@
 			path = DiaryTests;
 			sourceTree = "<group>";
 		};
-		45F052252A9DD081004B5225 /* Storage */ = {
+		45DEDCC32AABFA0200F55804 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
 				4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */,
+				4541CC472A9DB67D0095C258 /* LocaleDateFormatterProtocol.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		45F052252A9DD081004B5225 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
 				4541CC412A9D95CE0095C258 /* AssetDiaryStorage.swift */,
 				45D0051C2AA5D02F0060036B /* CoreDataDiaryStorage.swift */,
 			);
@@ -203,7 +211,6 @@
 		45F052262A9DD0A1004B5225 /* LocaleDateFormatter */ = {
 			isa = PBXGroup;
 			children = (
-				4541CC472A9DB67D0095C258 /* LocaleDateFormatterProtocol.swift */,
 				4541CC492A9DB6AC0095C258 /* UserDateFormatter.swift */,
 			);
 			path = LocaleDateFormatter;
@@ -245,6 +252,7 @@
 				45C4AF802A9C9BF2003142B6 /* Model */,
 				45C4AF7E2A9C9B84003142B6 /* Controller */,
 				45C4AF7F2A9C9BE4003142B6 /* View */,
+				45DEDCC32AABFA0200F55804 /* Protocol */,
 				45A131F42AA0B96A00433FCC /* Error */,
 				455170EE2A9EFFEC002A043C /* Util */,
 				45C4AF822A9C9C50003142B6 /* Data */,

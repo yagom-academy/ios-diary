@@ -22,19 +22,15 @@ final class AssetDiaryStorage: DiaryStorageProtocol {
         return diaryEntrys
     }
     
-    func storeDiary(_ diary: DiaryEntry) throws {
+    func storeDiary(title: String, body: String?) {
         
     }
     
-    func updateDiary(_ diary: DiaryEntry) throws {
+    func updateDiary(_ diary: DiaryEntry) {
         
     }
     
-    func deleteDiary(_ diary: DiaryEntry) throws {
-        
-    }
-    
-    func deleteAll() throws {
+    func deleteDiary(_ diary: DiaryEntry) {
         
     }
 }
