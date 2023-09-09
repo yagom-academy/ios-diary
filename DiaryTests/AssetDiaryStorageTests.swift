@@ -9,7 +9,7 @@ import XCTest
 @testable import Diary
 
 final class AssetDiaryStorageTests: XCTestCase {
-    var sut: DiaryStorageProtocol?
+    var sut: AssetDiaryStorage?
     
     override func setUpWithError() throws {
         sut = AssetDiaryStorage()
