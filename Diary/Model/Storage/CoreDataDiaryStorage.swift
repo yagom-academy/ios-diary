@@ -26,17 +26,14 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
         return persistentContainer.viewContext
     }
     
-    // MARK: - Core Data Saving support
-    func saveContext () {
-        let context = persistentContainer.viewContext
-        
+    // MARK: - Core Data CRUD
+    func saveContext() {
         if context.hasChanges {
             do {
                 try context.save()
+                NotificationCenter.default.post(name: .coreDataUpdateSuccessNotification, object: nil)
             } catch {
-                let nserror = error as NSError
-                
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                NotificationCenter.default.post(name: .coreDataUpdateFailedNotification, object: nil)
             }
         }
     }
