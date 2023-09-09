@@ -11,7 +11,7 @@ final class DiaryViewController: UIViewController {
     
     // MARK: - Private Property
     private let diaryStore: DiaryStorageProtocol
-    private let diaryEntry: DiaryEntry?
+    private var diaryEntry: DiaryEntry?
     
     private let textView: UITextView = {
         let textView = UITextView()
@@ -58,6 +58,7 @@ extension DiaryViewController {
     private func setupUIObject() {
         setupView()
         setupNavigationItem()
+        setupTextView()
     }
     
     private func setupView() {
@@ -65,10 +66,80 @@ extension DiaryViewController {
     }
     
     private func setupNavigationItem() {
-        if let diaryEntry = diaryEntry {
-            navigationItem.title = diaryEntry.creationDate
-        } else {
+        if diaryEntry == nil {
+            let completButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: nil)
             navigationItem.title = DateFormatManager.dateString(localeDateFormatter: UserDateFormatter.shared)
+            navigationItem.rightBarButtonItem = completButton
+        } else {
+            let moreButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(presentMoreActionSheet))
+            navigationItem.title = diaryEntry?.creationDate
+            navigationItem.rightBarButtonItem = moreButton
+        }
+    }
+    
+    private func setupTextView() {
+        textView.delegate = self
+        
+        if diaryEntry == nil {
+            textView.becomeFirstResponder()
+        }
+    }
+}
+
+// MARK: - Push & Present Controller
+extension DiaryViewController {
+    @objc private func presentMoreActionSheet() {
+        let shareAction = UIAlertAction(title: "Share...", style: .default)
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.presentDeleteAlert()
+        }
+        let cancelAction = UIAlertAction(title: "cancel", style: .cancel)
+        let actionSheet = UIAlertController.customAlert(alertTile: nil, alertMessage: nil, preferredStyle: .actionSheet, alertActions: [shareAction, deleteAction, cancelAction])
+        
+        present(actionSheet, animated: true)
+    }
+    
+    private func presentDeleteAlert() {
+        guard let diaryEntry = self.diaryEntry else {
+            return
+        }
+        
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.diaryStore.deleteDiary(diaryEntry)
+            self.navigationController?.popViewController(animated: true)
+        }
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let alert = UIAlertController.customAlert(alertTile: "진짜요?", alertMessage: "정말로 삭제하시겠어요?", preferredStyle: .alert, alertActions: [cancelAction, deleteAction])
+        
+        present(alert, animated: true)
+    }
+    
+    private func presentFailedAlert() {
+        let alert = UIAlertController.failedAlert(failMessage: "작업에 실패했습니다.")
+        
+        present(alert, animated: true)
+    }
+}
+
+// MARK: - TextView Delegate
+extension DiaryViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        let diaryContents = textView.text.split(separator: "\n")
+        
+        guard !diaryContents.isEmpty,
+              let titleContent = diaryContents.first else {
+            return
+        }
+        
+        let title = String(titleContent)
+        let body = diaryContents.dropFirst().joined(separator: "\n")
+        
+        if var diaryEntry {
+            diaryEntry.title = title
+            diaryEntry.body = body
+            diaryStore.updateDiary(diaryEntry)
+        } else {
+            diaryStore.storeDiary(title: title, body: body)
         }
     }
 }
@@ -105,6 +176,6 @@ extension DiaryViewController {
 // MARK: - Name Space
 extension DiaryViewController {
     private enum NameSpace {
-        static let diaryFormat = "%@ \n\n %@"
+        static let diaryFormat = "%@\n%@"
     }
 }
