@@ -40,13 +40,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
-        guard let rootViewController = window?.rootViewController as? UINavigationController,
-              let topViewController = rootViewController.topViewController as? DiaryViewController
-        else {
-            return
-        }
         
-        topViewController.endEditingAndPop()
     }
 }
 

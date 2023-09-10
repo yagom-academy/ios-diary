@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiaryViewController: UIViewController {
+final class DiaryViewController: UIViewController, AppResignObservable {
     
     // MARK: - Private Property
     private let diaryStore: DiaryStorageProtocol
@@ -40,6 +40,7 @@ final class DiaryViewController: UIViewController {
         setupUIObject()
         configureUI()
         setupConstraints()
+        addObserveWillResignActive(observer: self, selector: #selector(endEditingAndPop))
     }
 }
 
@@ -97,7 +98,12 @@ extension DiaryViewController {
             ActivityViewManager.presentActivityView(to: self, with: diaryEntry)
         }
         let deleteAction = UIAlertAction(title: NameSpace.delete, style: .destructive) { _ in
-            self.presentDeleteAlert()
+            guard let diaryEntry = self.diaryEntry else {
+                self.presentFailAlert()
+                return
+            }
+            
+            self.presentDeleteAlert(diaryEntry: diaryEntry)
         }
         let cancelAction = UIAlertAction(title: NameSpace.cancel, style: .cancel)
         let actionSheet = UIAlertController.customAlert(alertTile: nil, alertMessage: nil, preferredStyle: .actionSheet, alertActions: [shareAction, deleteAction, cancelAction])
@@ -105,12 +111,7 @@ extension DiaryViewController {
         present(actionSheet, animated: true)
     }
     
-    private func presentDeleteAlert() {
-        guard let diaryEntry = self.diaryEntry else {
-            presentFailAlert()
-            return
-        }
-        
+    private func presentDeleteAlert(diaryEntry: DiaryEntry) {
         AlertManager.presentDeleteAlert(to: self) { _ in
             self.diaryStore.deleteDiary(diaryEntry)
             self.navigationController?.popViewController(animated: true)
@@ -124,7 +125,7 @@ extension DiaryViewController {
 
 // MARK: - TextView Delegate
 extension DiaryViewController: UITextViewDelegate {
-    @objc func endEditingAndPop() {
+    @objc private func endEditingAndPop() {
         textView.resignFirstResponder()
         navigationController?.popViewController(animated: true)
     }
