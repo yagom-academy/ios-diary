@@ -133,6 +133,18 @@ extension DiaryMainViewController: UITableViewDelegate, UITableViewDataSource {
             self.diaryTableView.reloadData()
         }
         
-        return UISwipeActionsConfiguration(actions: [deleteAction])
+        let shareAction = UIContextualAction(style: .normal, title: "Share") { _, _, _ in
+            guard let title = diary.title,
+                  let body = diary.body,
+                  let createdAt = diary.createdAt else {
+                
+                return
+            }
+            
+            let activityView = UIActivityViewController(activityItems: [title, body, createdAt], applicationActivities: nil)
+            self.present(activityView, animated: true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
