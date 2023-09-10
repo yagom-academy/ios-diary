@@ -137,10 +137,16 @@ extension DiaryListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        
-        let sharedAction = UIContextualAction(style: .normal, title: "Share...") { (_, _, _: @escaping (Bool) -> Void) in
-            
         let shareAction = UIContextualAction(style: .normal, title: NameSpace.share) { (_, _, success: @escaping (Bool) -> Void) in
+            do {
+                let diaryEntrys = try self.diaryStore.diaryEntrys()
+                let diaryEntry = diaryEntrys[indexPath.row]
+                ActivityViewManager.presentActivityView(to: self, with: diaryEntry)
+                success(true)
+            } catch {
+                self.presentFailAlert()
+                success(false)
+            }
         }
         
         let deleteAction = UIContextualAction(style: .destructive, title: NameSpace.delete) { (_, _, success: @escaping (Bool) -> Void) in
@@ -154,7 +160,7 @@ extension DiaryListViewController: UITableViewDelegate {
             }
         }
         
-        return UISwipeActionsConfiguration(actions: [deleteAction, sharedAction])
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
 
