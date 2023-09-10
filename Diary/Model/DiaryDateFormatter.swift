@@ -21,13 +21,6 @@ final class DiaryDateFormatter {
         
         return formatter.string(from: date)
     }
-    
-    static func fetchDate(_ createdAt: Int, _ locale: String) -> String {
-        let timeInterval = TimeInterval(createdAt)
-        let date = Date(timeIntervalSince1970: timeInterval)
-        
-        return self.convertDate(date, locale)
-    }
 }
 
 extension DiaryDateFormatter {
