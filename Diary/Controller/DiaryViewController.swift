@@ -90,6 +90,13 @@ extension DiaryViewController {
 extension DiaryViewController {
     @objc private func presentMoreActionSheet() {
         let shareAction = UIAlertAction(title: NameSpace.share, style: .default) { _ in
+            guard let diaryEntry = self.diaryEntry else {
+                self.presentFailAlert()
+                return
+            }
+            
+            ActivityViewManager.presentActivityView(to: self, with: diaryEntry)
+        }
         let deleteAction = UIAlertAction(title: NameSpace.delete, style: .destructive) { _ in
             self.presentDeleteAlert()
         }
