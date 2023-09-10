@@ -89,7 +89,9 @@ extension DiaryListViewController: UITableViewDataSource {
         let diaryEntity = diaryList[indexPath.row]
         guard let title = diaryEntity.title,
               let createdAt = diaryEntity.createdAt,
-              let body = diaryEntity.body else { return UITableViewCell() }
+              let body = diaryEntity.body?.split(separator: "\n").joined(separator: "\n") else {
+            return UITableViewCell()
+        }
         let date = dateFormatter.formatToString(from: createdAt, with: "YYYY년 MM월 dd일")
         
         cell.setModel(title: title, date: date, body: body)

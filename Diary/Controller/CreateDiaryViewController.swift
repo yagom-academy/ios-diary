@@ -151,7 +151,7 @@ extension CreateDiaryViewController: UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        let contents = textView.text.split(separator: "\n")
+        let contents = textView.text.components(separatedBy: "\n")
         guard !contents.isEmpty,
               let title = contents.first else { return }
         
