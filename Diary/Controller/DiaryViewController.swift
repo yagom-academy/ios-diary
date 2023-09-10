@@ -67,11 +67,11 @@ extension DiaryViewController {
     
     private func setupNavigationItem() {
         if diaryEntry == nil {
-            let completButton = UIBarButtonItem(title: "완료", style: .plain, target: self, action: nil)
+            let completButton = UIBarButtonItem(title: NameSpace.done, style: .plain, target: self, action: #selector(endEditingAndPop))
             navigationItem.title = DateFormatManager.dateString(localeDateFormatter: UserDateFormatter.shared)
             navigationItem.rightBarButtonItem = completButton
         } else {
-            let moreButton = UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(presentMoreActionSheet))
+            let moreButton = UIBarButtonItem(image: UIImage(systemName: NameSpace.ellipsis), style: .plain, target: self, action: #selector(presentMoreActionSheet))
             navigationItem.title = diaryEntry?.creationDate
             navigationItem.rightBarButtonItem = moreButton
         }
@@ -89,11 +89,11 @@ extension DiaryViewController {
 // MARK: - Push & Present Controller
 extension DiaryViewController {
     @objc private func presentMoreActionSheet() {
-        let shareAction = UIAlertAction(title: "Share...", style: .default)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+        let shareAction = UIAlertAction(title: NameSpace.share, style: .default) { _ in
+        let deleteAction = UIAlertAction(title: NameSpace.delete, style: .destructive) { _ in
             self.presentDeleteAlert()
         }
-        let cancelAction = UIAlertAction(title: "cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: NameSpace.cancel, style: .cancel)
         let actionSheet = UIAlertController.customAlert(alertTile: nil, alertMessage: nil, preferredStyle: .actionSheet, alertActions: [shareAction, deleteAction, cancelAction])
         
         present(actionSheet, animated: true)
@@ -101,23 +101,18 @@ extension DiaryViewController {
     
     private func presentDeleteAlert() {
         guard let diaryEntry = self.diaryEntry else {
+            presentFailAlert()
             return
         }
         
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        AlertManager.presentDeleteAlert(to: self) { _ in
             self.diaryStore.deleteDiary(diaryEntry)
             self.navigationController?.popViewController(animated: true)
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let alert = UIAlertController.customAlert(alertTile: "진짜요?", alertMessage: "정말로 삭제하시겠어요?", preferredStyle: .alert, alertActions: [cancelAction, deleteAction])
-        
-        present(alert, animated: true)
     }
     
-    private func presentFailedAlert() {
-        let alert = UIAlertController.failedAlert(failMessage: "작업에 실패했습니다.")
-        
-        present(alert, animated: true)
+    private func presentFailAlert() {
+        AlertManager.presentFailAlert(to: self, with: NameSpace.failMessage)
     }
 }
 
@@ -176,6 +171,13 @@ extension DiaryViewController {
 // MARK: - Name Space
 extension DiaryViewController {
     private enum NameSpace {
+        static let share = "share..."
+        static let delete = "Delete"
+        static let cancel = "Cancel"
+        static let done = "완료"
+        static let ellipsis = "ellipsis"
+        static let enter = "\n"
         static let diaryFormat = "%@\n%@"
+        static let failMessage = "작업에 실패했습니다."
     }
 }
