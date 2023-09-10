@@ -118,16 +118,20 @@ extension DiaryViewController {
 
 // MARK: - TextView Delegate
 extension DiaryViewController: UITextViewDelegate {
+    @objc func endEditingAndPop() {
+        textView.resignFirstResponder()
+        navigationController?.popViewController(animated: true)
+    }
+    
     func textViewDidEndEditing(_ textView: UITextView) {
-        let diaryContents = textView.text.split(separator: "\n")
+        let diaryContents = textView.text.components(separatedBy: NameSpace.enter).filter { !$0.isEmpty }
         
         guard !diaryContents.isEmpty,
-              let titleContent = diaryContents.first else {
+              let title = diaryContents.first else {
             return
         }
         
-        let title = String(titleContent)
-        let body = diaryContents.dropFirst().joined(separator: "\n")
+        let body = diaryContents.dropFirst().joined(separator: NameSpace.enter)
         
         if var diaryEntry {
             diaryEntry.title = title
