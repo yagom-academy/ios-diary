@@ -106,4 +106,17 @@ extension DiaryMainViewController: UITableViewDelegate, UITableViewDataSource {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        guard let diarylist,
+              let diary = diarylist[safe: indexPath.row] else {
+            
+            return
+        }
+        
+        let detailDiaryViewController = DetailDiaryViewController(diary: diary)
+        navigationController?.pushViewController(detailDiaryViewController, animated: true)
+    }
 }
