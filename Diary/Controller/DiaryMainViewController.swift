@@ -119,4 +119,20 @@ extension DiaryMainViewController: UITableViewDelegate, UITableViewDataSource {
         let detailDiaryViewController = DetailDiaryViewController(diary: diary)
         navigationController?.pushViewController(detailDiaryViewController, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let diarylist,
+              let diary = diarylist[safe: indexPath.row] else {
+            
+            return UISwipeActionsConfiguration()
+        }
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
+            self.persistentContainer?.deleteItem(diary)
+            self.diarylist = self.persistentContainer?.getAllItems()
+            self.diaryTableView.reloadData()
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
 }
