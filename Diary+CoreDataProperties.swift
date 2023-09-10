@@ -16,7 +16,8 @@ extension Diary {
     @NSManaged public var title: String?
     @NSManaged public var body: String?
     @NSManaged public var createdAt: Date?
-    @NSManaged public var id: UUID?
 }
 
-extension Diary: Identifiable {}
+extension Diary: Identifiable {
+    @NSManaged public var id: UUID?
+}
