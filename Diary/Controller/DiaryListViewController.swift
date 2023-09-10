@@ -51,7 +51,7 @@ final class DiaryListViewController: UIViewController {
         setupConstraints()
         setupContentTableView()
         addObserveSuccessUpdate(observer: self, selector: #selector(setupContentTableView))
-        addObserveFailedUpdate(observer: self, selector: #selector(presentFailAlert))
+        addObserveFailUpdate(observer: self, selector: #selector(presentFailAlert))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -69,7 +69,7 @@ extension DiaryListViewController {
             snapshot.appendItems(diaryEntrys)
             dataSource.apply(snapshot)
         } catch {
-            presentFailAlert()
+            presentFailDataLoadAlert()
         }
     }
 }
@@ -108,20 +108,18 @@ extension DiaryListViewController {
     }
     
     @objc private func presentFailAlert() {
-        let alert = UIAlertController.failedAlert(failMessage: "작업에 실패했습니다.")
-        
-        present(alert, animated: true)
+        AlertManager.presentFailAlert(to: self, with: NameSpace.failMessage)
+    }
+    
+    private func presentFailDataLoadAlert() {
+        AlertManager.presentFailAlert(to: self, with: NameSpace.failLoadDataMessage)
     }
     
     private func presentDeleteAlert(diaryEntry: DiaryEntry) {
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+        AlertManager.presentDeleteAlert(to: self) { _ in
             self.diaryStore.deleteDiary(diaryEntry)
             self.navigationController?.popViewController(animated: true)
         }
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let alert = UIAlertController.customAlert(alertTile: "진짜요?", alertMessage: "정말로 삭제하시겠어요?", preferredStyle: .alert, alertActions: [cancelAction, deleteAction])
-        
-        present(alert, animated: true)
     }
 }
 
@@ -134,7 +132,7 @@ extension DiaryListViewController: UITableViewDelegate {
             
             navigationController?.pushViewController(diaryViewController, animated: true)
         } catch {
-            presentFailAlert()
+            presentFailDataLoadAlert()
         }
     }
     
@@ -142,9 +140,10 @@ extension DiaryListViewController: UITableViewDelegate {
         
         let sharedAction = UIContextualAction(style: .normal, title: "Share...") { (_, _, _: @escaping (Bool) -> Void) in
             
+        let shareAction = UIContextualAction(style: .normal, title: NameSpace.share) { (_, _, success: @escaping (Bool) -> Void) in
         }
         
-        let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { (_, _, success: @escaping (Bool) -> Void) in
+        let deleteAction = UIContextualAction(style: .destructive, title: NameSpace.delete) { (_, _, success: @escaping (Bool) -> Void) in
             do {
                 let diaryEntrys = try self.diaryStore.diaryEntrys()
                 self.presentDeleteAlert(diaryEntry: diaryEntrys[indexPath.row])
@@ -202,8 +201,9 @@ extension DiaryListViewController {
     private enum NameSpace {
         static let diary = "일기장"
         static let plus = "plus"
-        static let fail = "실패"
-        static let loadDataFail = "데이터 로드에 실패했습니다."
-        static let check = "확인"
+        static let share = "share..."
+        static let delete = "Delete"
+        static let failLoadDataMessage = "데이터 로드에 실패했습니다."
+        static let failMessage = "작업에 실패했습니다."
     }
 }
