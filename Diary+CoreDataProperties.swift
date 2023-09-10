@@ -6,11 +6,9 @@
 //
 //
 
-import Foundation
 import CoreData
 
 extension Diary {
-
     @nonobjc public class func fetchRequest() -> NSFetchRequest<Diary> {
         return NSFetchRequest<Diary>(entityName: "Diary")
     }
@@ -19,7 +17,6 @@ extension Diary {
     @NSManaged public var body: String?
     @NSManaged public var createdAt: Date?
     @NSManaged public var id: UUID?
-
 }
 
 extension Diary: Identifiable {}

@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol ShareDiary {
+protocol ShareDisplayable {
     func shareDiary(_ diary: Diary?)
 }
 
-extension ShareDiary where Self: UIViewController {
+extension ShareDisplayable where Self: UIViewController {
     func shareDiary(_ diary: Diary?) {
         guard let diary,
               let title = diary.title,

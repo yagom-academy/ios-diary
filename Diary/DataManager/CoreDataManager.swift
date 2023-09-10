@@ -16,8 +16,12 @@ class CoreDataManager {
         let sortByDate = NSSortDescriptor(key: "createdAt", ascending: false)
         request.sortDescriptors = [sortByDate]
         
-        let diaries = try persistentContainer.viewContext.fetch(request)
-        return diaries
+        do {
+            let diaries = try persistentContainer.viewContext.fetch(request)
+            return diaries
+        } catch {
+            throw CoreDataError.dataNotFound
+        }
     }
     
     func createDiary() -> Diary {
@@ -28,14 +32,14 @@ class CoreDataManager {
         return newDiary
     }
     
-    func deleteDiary(_ diary: Diary?) {
-        if let diary = diary {
-            persistentContainer.viewContext.delete(diary)
-            saveContext()
+    func deleteDiary(_ diary: Diary?) throws {
+        guard let diary = diary else {
+            throw CoreDataError.deleteFailure
         }
+        persistentContainer.viewContext.delete(diary)
+        try saveContext()
     }
     
-    // MARK: - Core Data stack
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores(completionHandler: { (_, error) in
@@ -46,15 +50,13 @@ class CoreDataManager {
         return container
     }()
 
-    // MARK: - Core Data Saving support
-    func saveContext () {
+    func saveContext () throws {
         let context = persistentContainer.viewContext
         if context.hasChanges {
             do {
                 try context.save()
             } catch {
-                let nserror = error as NSError
-                fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                throw CoreDataError.saveFailure
             }
         }
     }

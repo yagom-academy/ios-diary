@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CreateDiaryViewController: UIViewController, AlertDisplayable, ShareDiary {
+final class CreateDiaryViewController: UIViewController, AlertDisplayable, ShareDisplayable {
     private let textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -94,8 +94,20 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
             guard let self else { return }
-            CoreDataManager.shared.deleteDiary(self.diary)
-            self.navigationController?.popViewController(animated: true)
+            do {
+                try CoreDataManager.shared.deleteDiary(self.diary)
+                self.navigationController?.popViewController(animated: true)
+            } catch CoreDataError.deleteFailure {
+                let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+                self.showAlert(title: CoreDataError.deleteFailure.alertTitle,
+                               message: CoreDataError.deleteFailure.message,
+                               actions: [cancelAction])
+            } catch {
+                let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+                self.showAlert(title: CoreDataError.deleteFailure.alertTitle,
+                               message: CoreDataError.unknown.message,
+                               actions: [cancelAction])
+            }
         }
         
         showAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: [cancelAction, deleteAction])
@@ -141,13 +153,24 @@ extension CreateDiaryViewController {
     }
 }
 
-// MARK: - UITextViewDelegate
 extension CreateDiaryViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         let contents = textView.text.split(separator: "\n")
         guard !contents.isEmpty else { return }
         
-        CoreDataManager.shared.saveContext()
+        do {
+            try CoreDataManager.shared.saveContext()
+        } catch CoreDataError.saveFailure {
+            let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+            self.showAlert(title: CoreDataError.saveFailure.alertTitle,
+                           message: CoreDataError.saveFailure.message,
+                           actions: [cancelAction])
+        } catch {
+            let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+            self.showAlert(title: CoreDataError.saveFailure.alertTitle,
+                           message: CoreDataError.unknown.message,
+                           actions: [cancelAction])
+        }
     }
     
     func textViewDidChange(_ textView: UITextView) {

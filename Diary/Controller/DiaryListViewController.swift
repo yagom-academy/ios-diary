@@ -69,9 +69,16 @@ extension DiaryListViewController: AlertDisplayable {
             let fetchedDiaries = try CoreDataManager.shared.fetchDiary()
             diaryList = fetchedDiaries.filter { $0.title != nil }
             tableView.reloadData()
+        } catch CoreDataError.dataNotFound {
+            let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+            showAlert(title: CoreDataError.dataNotFound.alertTitle,
+                      message: CoreDataError.dataNotFound.message,
+                      actions: [cancelAction])
         } catch {
             let cancelAction = UIAlertAction(title: "확인", style: .cancel)
-            showAlert(title: "로드 실패", message: "데이터를 불러오지 못했습니다.", actions: [cancelAction])
+            showAlert(title: CoreDataError.dataNotFound.alertTitle,
+                      message: CoreDataError.unknown.message,
+                      actions: [cancelAction])
         }
     }
 }
@@ -100,7 +107,7 @@ extension DiaryListViewController: UITableViewDataSource {
     }
 }
 
-extension DiaryListViewController: UITableViewDelegate, ShareDiary {
+extension DiaryListViewController: UITableViewDelegate, ShareDisplayable {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let diaryToEdit = diaryList[indexPath.row]
@@ -113,10 +120,21 @@ extension DiaryListViewController: UITableViewDelegate, ShareDiary {
     UISwipeActionsConfiguration? {
         let delete = UIContextualAction(style: .normal, title: "") { (_, _, success: @escaping (Bool) -> Void) in
             let selectedDiary = self.diaryList[indexPath.row]
-            
-            CoreDataManager.shared.deleteDiary(selectedDiary)
-            self.readCoreData()
-            success(true)
+            do {
+                try CoreDataManager.shared.deleteDiary(selectedDiary)
+                self.readCoreData()
+                success(true)
+            } catch CoreDataError.deleteFailure {
+                let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+                self.showAlert(title: CoreDataError.deleteFailure.alertTitle,
+                               message: CoreDataError.deleteFailure.message,
+                               actions: [cancelAction])
+            } catch {
+                let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+                self.showAlert(title: CoreDataError.deleteFailure.alertTitle,
+                               message: CoreDataError.unknown.message,
+                               actions: [cancelAction])
+            }
         }
         
         let share = UIContextualAction(style: .normal, title: "") { (_, _, success: @escaping (Bool) -> Void) in
