@@ -22,27 +22,24 @@ final class DetailDiaryViewController: UIViewController {
         self.diary = diary
         
         super.init(nibName: nil, bundle: nil)
+        
+        self.configureUI()
+        self.configureDelegates()
+        self.setupKeyboardEvent()
+        self.fetchDiaryData(diary)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        configureUI()
-        configureDelegates()
-        setupKeyboardEvent()
-    }
-    
+
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         saveDiaryData()
     }
     
-    func fetchDiaryData(_ data: DiaryEntity) {
+    private func fetchDiaryData(_ data: DiaryEntity) {
         guard let title = data.title,
               let body = data.body,
               let createdAt = data.createdAt  else {
