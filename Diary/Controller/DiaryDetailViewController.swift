@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-final class DiaryDetailViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController, Shareable {
     private let diary: Diary
     private let isUpdate: Bool
     
@@ -99,7 +99,52 @@ private extension DiaryDetailViewController {
     }
     
     func configureNavigation() {
+        let buttonImage = UIImage(systemName: "ellipsis.circle")
+        let alert = configureAlert()
+        let action = UIAction { _ in
+            self.present(alert, animated: true)
+        }
+        
         navigationItem.title = DateFormatter.diaryFormatter.string(from: diary.date ?? Date())
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: buttonImage, primaryAction: action)
+    }
+    
+    func configureAlert() -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            guard let shareData = self.contentTextView.text else {
+                return
+            }
+            
+            self.showActivityView(data: shareData, viewController: self)
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.showDeleteAlert()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        return alert
+    }
+    
+    func showDeleteAlert() {
+        let alert = UIAlertController(
+            title: "진짜요?",
+            message: "정말로 삭제하시겠어요?",
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "취소", style: .default)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.contentTextView.text = ""
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
     }
     
     func configureSubviews() {
