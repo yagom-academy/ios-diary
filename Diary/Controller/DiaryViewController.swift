@@ -7,7 +7,7 @@
 import UIKit
 import CoreData
 
-final class DiaryViewController: UIViewController {
+final class DiaryViewController: UIViewController, Shareable {
     private var tableView = UITableView()
     private var diaryList = [Diary]()
     
@@ -34,14 +34,23 @@ extension DiaryViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let delete = UIContextualAction(style: .destructive, title: "삭제") { _, _, _ in
-            let diary = self.diaryList[indexPath.row]
-            self.diaryList.remove(at: indexPath.row)
+        let diary = diaryList[indexPath.row]
+        let contents = "\(diary.title ?? "")\n\(diary.body ?? "")"
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, _ in
+            self?.diaryList.remove(at: indexPath.row)
             CoreDataManager.shared.deleteDiary(item: diary)
             tableView.reloadData()
         }
+        let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
+            tableView.setEditing(false, animated: true)
+            self.showActivityView(data: contents, viewController: self)
+        }
         
-        return UISwipeActionsConfiguration(actions: [delete])
+        deleteAction.image = UIImage(systemName: "trash")
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        shareAction.backgroundColor = .systemBlue
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
 
