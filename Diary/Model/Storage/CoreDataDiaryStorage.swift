@@ -26,8 +26,8 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
         return persistentContainer.viewContext
     }
     
-    // MARK: - Core Data CRUD
-    func saveContext() {
+    // MARK: - Save Context
+    private func saveContext() {
         if context.hasChanges {
             do {
                 try context.save()
@@ -38,6 +38,7 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
         }
     }
     
+    // MARK: - Core Data CRUD
     func diaryEntrys() throws -> [DiaryEntry] {
         let diaryEntitys = try context.fetch(DiaryEntity.fetchRequest())
         let diaryEntrys = diaryEntitys.map {
