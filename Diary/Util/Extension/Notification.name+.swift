@@ -9,5 +9,5 @@ import Foundation
 
 extension Notification.Name {
     static let coreDataUpdateSuccessNotification = Notification.Name("coreDataUpdateSuccessNotification")
-    static let coreDataUpdateFailedNotification = Notification.Name("coreDataUpdateFailedNotification")
+    static let coreDataUpdateFailNotification = Notification.Name("coreDataUpdateFailedNotification")
 }

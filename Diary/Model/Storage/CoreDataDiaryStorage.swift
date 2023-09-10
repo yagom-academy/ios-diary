@@ -33,7 +33,7 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
                 try context.save()
                 NotificationCenter.default.post(name: .coreDataUpdateSuccessNotification, object: nil)
             } catch {
-                NotificationCenter.default.post(name: .coreDataUpdateFailedNotification, object: nil)
+                NotificationCenter.default.post(name: .coreDataUpdateFailNotification, object: nil)
             }
         }
     }

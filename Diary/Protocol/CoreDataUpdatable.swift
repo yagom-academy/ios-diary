@@ -9,7 +9,7 @@ import Foundation
 
 protocol CoreDataUpdatable {
     func addObserveSuccessUpdate(observer: Any, selector: Selector)
-    func addObserveFailedUpdate(observer: Any, selector: Selector)
+    func addObserveFailUpdate(observer: Any, selector: Selector)
 }
 
 extension CoreDataUpdatable {
@@ -17,7 +17,7 @@ extension CoreDataUpdatable {
         NotificationCenter.default.addObserver(observer, selector: selector, name: .coreDataUpdateSuccessNotification, object: nil)
     }
     
-    func addObserveFailedUpdate(observer: Any, selector: Selector) {
-        NotificationCenter.default.addObserver(observer, selector: selector, name: .coreDataUpdateFailedNotification, object: nil)
+    func addObserveFailUpdate(observer: Any, selector: Selector) {
+        NotificationCenter.default.addObserver(observer, selector: selector, name: .coreDataUpdateFailNotification, object: nil)
     }
 }
