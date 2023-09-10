@@ -1,5 +1,5 @@
 //
-//  CreateDiaryViewController.swift
+//  DiaryDetailViewContoller.swift
 //  Diary
 //
 //  Created by Maxhyunm, Hamg on 2023/08/29.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CreateDiaryViewController: UIViewController, AlertDisplayable, ShareDisplayable {
+final class DiaryDetailViewContoller: UIViewController, AlertDisplayable, ShareDisplayable {
     private let textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +72,10 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
     }
     
     private func setupNavigationBarButton() {
-        let moreButton = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(showMoreOptions))
+        let moreButton = UIBarButtonItem(title: ButtonNamespace.more,
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(showMoreOptions))
         navigationItem.rightBarButtonItem = moreButton
     }
     
@@ -91,26 +94,31 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
     }
     
     private func showDeleteAlert() {
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
-        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+        let cancelAction = UIAlertAction(title: ButtonNamespace.cancel, style: .cancel)
+        let deleteAction = UIAlertAction(title: ButtonNamespace.delete, style: .destructive) { [weak self] _ in
             guard let self else { return }
             do {
                 try CoreDataManager.shared.deleteDiary(self.diary)
                 self.navigationController?.popViewController(animated: true)
             } catch CoreDataError.deleteFailure {
-                let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+                let cancelAction = UIAlertAction(title: ButtonNamespace.confirm, style: .cancel)
                 self.showAlert(title: CoreDataError.deleteFailure.alertTitle,
                                message: CoreDataError.deleteFailure.message,
-                               actions: [cancelAction])
+                               actions: [cancelAction],
+                               preferredStyle: .alert)
             } catch {
-                let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+                let cancelAction = UIAlertAction(title: ButtonNamespace.confirm, style: .cancel)
                 self.showAlert(title: CoreDataError.deleteFailure.alertTitle,
                                message: CoreDataError.unknown.message,
-                               actions: [cancelAction])
+                               actions: [cancelAction],
+                               preferredStyle: .alert)
             }
         }
         
-        showAlert(title: "진짜요?", message: "정말로 삭제하시겠어요?", actions: [cancelAction, deleteAction])
+        showAlert(title: AlertNamespace.deleteTitle,
+                  message: AlertNamespace.deleteMessage,
+                  actions: [cancelAction, deleteAction],
+                  preferredStyle: .alert)
     }
     
     deinit {
@@ -118,7 +126,7 @@ final class CreateDiaryViewController: UIViewController, AlertDisplayable, Share
     }
 }
 
-extension CreateDiaryViewController {
+extension DiaryDetailViewContoller {
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
                 as? CGRect else { return }
@@ -129,17 +137,17 @@ extension CreateDiaryViewController {
     @objc private func showMoreOptions() {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+        let deleteAction = UIAlertAction(title: ButtonNamespace.deleteEnglish, style: .destructive) { [weak self] _ in
             guard let self else { return }
             self.showDeleteAlert()
         }
         
-        let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
+        let shareAction = UIAlertAction(title: ButtonNamespace.shareEnglish, style: .default) { [weak self] _ in
             guard let self else { return }
             self.shareDiary(self.diary)
         }
         
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let cancelAction = UIAlertAction(title: ButtonNamespace.cancelEnglish, style: .cancel)
         
         alertController.addAction(shareAction)
         alertController.addAction(deleteAction)
@@ -153,7 +161,7 @@ extension CreateDiaryViewController {
     }
 }
 
-extension CreateDiaryViewController: UITextViewDelegate {
+extension DiaryDetailViewContoller: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         let contents = textView.text.split(separator: "\n")
         guard !contents.isEmpty else { return }
@@ -161,15 +169,17 @@ extension CreateDiaryViewController: UITextViewDelegate {
         do {
             try CoreDataManager.shared.saveContext()
         } catch CoreDataError.saveFailure {
-            let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+            let cancelAction = UIAlertAction(title: ButtonNamespace.confirm, style: .cancel)
             self.showAlert(title: CoreDataError.saveFailure.alertTitle,
                            message: CoreDataError.saveFailure.message,
-                           actions: [cancelAction])
+                           actions: [cancelAction],
+                           preferredStyle: .alert)
         } catch {
-            let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+            let cancelAction = UIAlertAction(title: ButtonNamespace.confirm, style: .cancel)
             self.showAlert(title: CoreDataError.saveFailure.alertTitle,
                            message: CoreDataError.unknown.message,
-                           actions: [cancelAction])
+                           actions: [cancelAction],
+                           preferredStyle: .alert)
         }
     }
     

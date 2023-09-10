@@ -49,7 +49,7 @@ final class DiaryListViewController: UIViewController {
     private func setupNavigationBarButton() {
         let addDiary = UIAction(image: UIImage(systemName: "plus")) { [weak self] _ in
             guard let self else { return }
-            let createDiaryView = CreateDiaryViewController()
+            let createDiaryView = DiaryDetailViewContoller()
             self.navigationController?.pushViewController(createDiaryView, animated: true)
         }
         
@@ -70,15 +70,17 @@ extension DiaryListViewController: AlertDisplayable {
             diaryList = fetchedDiaries.filter { $0.title != nil }
             tableView.reloadData()
         } catch CoreDataError.dataNotFound {
-            let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+            let cancelAction = UIAlertAction(title: ButtonNamespace.confirm, style: .cancel)
             showAlert(title: CoreDataError.dataNotFound.alertTitle,
                       message: CoreDataError.dataNotFound.message,
-                      actions: [cancelAction])
+                      actions: [cancelAction],
+                      preferredStyle: .alert)
         } catch {
-            let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+            let cancelAction = UIAlertAction(title: ButtonNamespace.confirm, style: .cancel)
             showAlert(title: CoreDataError.dataNotFound.alertTitle,
                       message: CoreDataError.unknown.message,
-                      actions: [cancelAction])
+                      actions: [cancelAction],
+                      preferredStyle: .alert)
         }
     }
 }
@@ -111,7 +113,7 @@ extension DiaryListViewController: UITableViewDelegate, ShareDisplayable {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let diaryToEdit = diaryList[indexPath.row]
-        let createVC = CreateDiaryViewController(diaryToEdit)
+        let createVC = DiaryDetailViewContoller(diaryToEdit)
         
         navigationController?.pushViewController(createVC, animated: true)
     }
@@ -125,15 +127,17 @@ extension DiaryListViewController: UITableViewDelegate, ShareDisplayable {
                 self.readCoreData()
                 success(true)
             } catch CoreDataError.deleteFailure {
-                let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+                let cancelAction = UIAlertAction(title: ButtonNamespace.confirm, style: .cancel)
                 self.showAlert(title: CoreDataError.deleteFailure.alertTitle,
                                message: CoreDataError.deleteFailure.message,
-                               actions: [cancelAction])
+                               actions: [cancelAction],
+                               preferredStyle: .alert)
             } catch {
-                let cancelAction = UIAlertAction(title: "확인", style: .cancel)
+                let cancelAction = UIAlertAction(title: ButtonNamespace.confirm, style: .cancel)
                 self.showAlert(title: CoreDataError.deleteFailure.alertTitle,
                                message: CoreDataError.unknown.message,
-                               actions: [cancelAction])
+                               actions: [cancelAction],
+                               preferredStyle: .alert)
             }
         }
         
