@@ -10,10 +10,10 @@ import UIKit
 enum ActivityViewManager {
     
     static func presentActivityView(to controller: UIViewController, with diary: DiaryEntry) {
-        let textData = String(format: "%@\n%@", diary.title, diary.body)
-        let activityVC = UIActivityViewController(activityItems: [textData], applicationActivities: nil)
-        activityVC.popoverPresentationController?.sourceView = controller.view
+        let diaryText = String(format: "%@\n%@", diary.title, diary.body)
+        let activity = UIActivityViewController(activityItems: [diaryText], applicationActivities: nil)
+        activity.popoverPresentationController?.sourceView = controller.view
         
-        controller.present(activityVC, animated: true)
+        controller.present(activity, animated: true)
     }
 }
