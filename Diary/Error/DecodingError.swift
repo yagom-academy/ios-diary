@@ -2,7 +2,7 @@
 //  Error.swift
 //  Diary
 //
-//  Created by Min Hyun on 2023/08/30.
+//  Created by Max, Hemg on 2023/08/30.
 //
 
 enum DecodingError: Error {
