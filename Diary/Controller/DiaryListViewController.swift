@@ -6,11 +6,10 @@
 
 import UIKit
 
-final class DiaryListViewController: UIViewController {
+final class DiaryListViewController: UIViewController, CoreDataUpdatable {
     
     // MARK: - Private Property
     private let diaryStore: DiaryStorageProtocol
-    
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -163,8 +162,6 @@ extension DiaryListViewController: UITableViewDelegate {
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
-
-extension DiaryListViewController: CoreDataUpdatable {}
 
 // MARK: - Configure UI
 extension DiaryListViewController {

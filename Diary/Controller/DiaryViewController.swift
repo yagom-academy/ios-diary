@@ -12,7 +12,6 @@ final class DiaryViewController: UIViewController {
     // MARK: - Private Property
     private let diaryStore: DiaryStorageProtocol
     private var diaryEntry: DiaryEntry?
-    
     private let textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
