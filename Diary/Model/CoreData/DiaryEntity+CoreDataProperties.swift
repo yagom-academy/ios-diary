@@ -17,11 +17,11 @@ extension DiaryEntity {
     }
 
     @NSManaged public var date: Double
-    @NSManaged public var body: String?
-    @NSManaged public var title: String?
+    @NSManaged public var body: String
+    @NSManaged public var title: String
 
 }
 
-extension DiaryEntity : Identifiable {
+extension DiaryEntity: Identifiable {
 
 }
