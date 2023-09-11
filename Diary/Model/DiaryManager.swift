@@ -11,9 +11,11 @@ protocol DiaryManagerDelegate {
 
 struct DiaryManager {
     private(set) var diaryList: [Diary] = []
+    private(set) var currentDiary: Diary?
     var delegate: DiaryManagerDelegate?
     var diaryPersistentManager: DiaryPersistentManager
     
+    // MARK: DiaryEntity
     mutating func fetchDiaryList() {
         do {
             let diaryEntities = try diaryPersistentManager.fetch()
@@ -50,6 +52,11 @@ struct DiaryManager {
         }
     }
     
+    // MARK: Diary
+    mutating func fetchCurrentDiary(_ diary: Diary) {
+        currentDiary = diary
+    }
+
     func newDiary() -> Diary {
         let dateManager = DateManager()
         let diary = Diary(
