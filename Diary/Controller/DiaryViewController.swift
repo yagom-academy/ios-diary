@@ -39,6 +39,7 @@ final class DiaryViewController: UIViewController {
         setupConstraint()
         configureDataSource()
         loadData()
+        applySnapshot()
     }
 }
 
@@ -100,7 +101,7 @@ extension DiaryViewController {
 // MARK: Load Data
 extension DiaryViewController {
     private func loadData() {
-        applySnapshot()
+        diaryManager?.fetchDiaryList()
     }
 }
 
@@ -111,7 +112,9 @@ extension DiaryViewController: UICollectionViewDelegate {
             return
         }
         
-        let diaryDetailViewController = DiaryDetailViewController(diary: diary)
+        diaryManager?.fetchCurrentDiary(diary)
+        
+        let diaryDetailViewController = DiaryDetailViewController(diaryManger: diaryManager)
         
         show(diaryDetailViewController, sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -181,7 +184,9 @@ extension DiaryViewController {
             return
         }
         
-        let diaryDetailViewController = DiaryDetailViewController(diary: diary)
+        diaryManager?.fetchCurrentDiary(diary)
+        
+        let diaryDetailViewController = DiaryDetailViewController(diaryManger: diaryManager)
         
         show(diaryDetailViewController, sender: self)
     }
