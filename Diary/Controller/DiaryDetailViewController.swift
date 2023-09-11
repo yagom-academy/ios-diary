@@ -1,5 +1,5 @@
 //
-//  AddDiaryViewController.swift
+//  DiaryDetailViewController.swift
 //  Diary
 //
 //  Created by Zion, Serena on 2023/08/30.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AddDiaryViewController: UIViewController {
+final class DiaryDetailViewController: UIViewController, AlertControllerShowable, ActivityViewControllerShowable {
     private lazy var textView: UITextView = {
         let textView = UITextView()
         
@@ -56,5 +56,33 @@ final class AddDiaryViewController: UIViewController {
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
         navigationItem.title = todayDate
+        navigationItem.rightBarButtonItem = .init(title: "더보기", style: .plain, target: self, action: #selector(didTappedMoreButton))
+    }
+}
+
+// MARK: - Button Action
+extension DiaryDetailViewController {
+    @objc
+    func didTappedMoreButton() {
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
+            self.showActivityViewController(items: [""])
+        }
+        
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
+            self.didTappedDeleteAction()
+        }
+        
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        showAlertController(actions: [shareAction, deleteAction, cancelAction])
+    }
+    
+    private func didTappedDeleteAction() {
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            
+        }
+        
+        showAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert, actions: [cancelAction, deleteAction])
     }
 }

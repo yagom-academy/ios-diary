@@ -10,7 +10,7 @@ protocol MainViewControllerDelegate: AnyObject {
     func didTappedRightAddButton()
 }
 
-final class MainViewController: UIViewController {
+final class MainViewController: UIViewController, AlertControllerShowable {
     enum Section {
         case main
     }
@@ -20,9 +20,10 @@ final class MainViewController: UIViewController {
     private let dateFormatter: DateFormatter
     private var diffableDatasource: UITableViewDiffableDataSource<Section, DiaryContent>?
     
-    private let tableView: UITableView = {
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         
+        tableView.delegate = self
         tableView.allowsSelection = false
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.indentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -70,6 +71,24 @@ final class MainViewController: UIViewController {
     }
 }
 
+// MARK: - TableView Delegate
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shareAction: UIContextualAction = .init(style: .normal, title: "Share") { _, _, _ in
+            
+        }
+        
+        let deleteAction: UIContextualAction = .init(style: .destructive, title: "Delete") { _, _, _ in
+            self.didTappedDeleteAction()
+        }
+        
+        let swipeActionConfiguration: UISwipeActionsConfiguration = .init(actions: [deleteAction, shareAction])
+        
+        swipeActionConfiguration.performsFirstActionWithFullSwipe = true
+        return swipeActionConfiguration
+    }
+}
+
 // MARK: - TableViewDiffableDataSource
 extension MainViewController {
     private func setUpTableViewDiffableDataSource() {
@@ -98,5 +117,17 @@ extension MainViewController {
     @objc
     private func didTappedRightAddButton() {
         delegate?.didTappedRightAddButton()
+    }
+    
+    private func didTappedDeleteAction() {
+        let cancelAction = UIAlertAction(title: "취소", style: .cancel)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            
+        }
+        
+        showAlertController(title: "진짜요?",
+                            message: "정말로 삭제하시겠어요?",
+                            style: .alert,
+                            actions: [cancelAction, deleteAction])
     }
 }

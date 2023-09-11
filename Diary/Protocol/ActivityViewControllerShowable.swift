@@ -2,7 +2,7 @@
 //  ActivityViewControllerShowable.swift
 //  Diary
 //
-//  Created by Hyungmin Lee on 2023/09/11.
+//  Created by Zion, Serena on 2023/09/11.
 //
 
 import UIKit

@@ -46,7 +46,7 @@ extension AppManager: MainViewControllerDelegate {
     func didTappedRightAddButton() {
         let diarySample = DiarySample()
         let todayDate = dateFormatter.string(from: Date())
-        let addDiaryViewController = AddDiaryViewController(todayDate: todayDate,
+        let addDiaryViewController = DiaryDetailViewController(todayDate: todayDate,
                                                             diaryTitle: diarySample.title,
                                                             diaryDescription: diarySample.description)
         
