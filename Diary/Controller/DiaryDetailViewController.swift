@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-    private var diary: Diary?
+    private var diaryManager: DiaryManager?
     private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -17,8 +17,8 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    init(diary: Diary) {
-        self.diary = diary
+    init(diaryManger: DiaryManager?) {
+        self.diaryManager = diaryManger
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -61,7 +61,7 @@ extension DiaryDetailViewController {
     }
     
     private func setupTextView() {
-        guard let diary else {
+        guard let diary = diaryManager?.currentDiary else {
             return
         }
         
@@ -70,7 +70,7 @@ extension DiaryDetailViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.title = diary?.createdDate
+        navigationItem.title = diaryManager?.currentDiary?.createdDate
     }
 }
 
@@ -112,6 +112,15 @@ extension DiaryDetailViewController {
 
 // MARK: Notification
 extension DiaryDetailViewController {
+    private func addBackgroundObserver() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(upsertData),
+            name: UIApplication.didEnterBackgroundNotification,
+            object: nil
+        )
+    }
+    
     private func addKeyboardObserver() {
         NotificationCenter.default.addObserver(
             self,
@@ -132,28 +141,40 @@ extension DiaryDetailViewController {
         NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    private func removeBackgroundObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
+    
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo as NSDictionary?,
               let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
 
-        diaryTextView.contentInset = UIEdgeInsets(
-            top: .zero,
-            left: .zero,
-            bottom: keyboardFrame.size.height,
-            right: .zero
-        )
+        diaryTextView.contentInset.bottom = keyboardFrame.size.height
     }
     
     @objc private func keyboardWillHide() {
         diaryTextView.contentInset = UIEdgeInsets.zero
+        
+        upsertData()
+    }
+}
+
+// MARK: Upsert Data
+extension DiaryDetailViewController {
+    @objc private func upsertData() {
+        guard let diary = diaryManager?.currentDiary else {
+            return
+        }
+
+        diaryManager?.upsert(diary)
     }
 }
 
 // MARK: Name Space
 extension DiaryDetailViewController {
     private enum NameSpace {
-        static let diaryText = "%@ \n\n %@"
+        static let diaryText = "%@\n%@"
     }
 }
