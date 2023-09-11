@@ -12,6 +12,43 @@ protocol DiaryManagerDelegate {
 struct DiaryManager {
     private(set) var diaryList: [Diary] = []
     var delegate: DiaryManagerDelegate?
+    var diaryPersistentManager: DiaryPersistentManager
+    
+    mutating func fetchDiaryList() {
+        do {
+            let diaryEntities = try diaryPersistentManager.fetch()
+            diaryList = diaryEntities.map { diaryEntity in
+                guard let title = diaryEntity.title,
+                      let body = diaryEntity.body,
+                      let createdDate = diaryEntity.createdDate else {
+                    return Diary(title: NameSpace.empty, body: NameSpace.empty, createdDate: NameSpace.empty)
+                }
+                return Diary(title: title, body: body, createdDate: createdDate)
+            }
+        } catch {
+            delegate?.showErrorAlert(error: error)
+        }
+    }
+    
+    func upsert(_ diary: Diary) {
+        do {
+            if try diaryPersistentManager.isExist(diary) {
+                try diaryPersistentManager.update(diary)
+            } else {
+                try diaryPersistentManager.insert(diary)
+            }
+        } catch {
+            delegate?.showErrorAlert(error: error)
+        }
+    }
+    
+    func delete(_ diary: Diary) {
+        do {
+            try diaryPersistentManager.delete(diary.identifier)
+        } catch {
+            delegate?.showErrorAlert(error: error)
+        }
+    }
     
     func newDiary() -> Diary {
         let dateManager = DateManager()
