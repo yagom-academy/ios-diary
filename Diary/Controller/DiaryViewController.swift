@@ -48,6 +48,7 @@ final class DiaryViewController: UIViewController {
         configureNavigation()
         configureTextView()
         configureKeyboard()
+        configureSceneLifecycle()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -260,6 +261,21 @@ final class DiaryViewController: UIViewController {
     
     @objc private func keybordWillHide() {
         self.textView.contentInset = .zero
+        updateDiary()
+    }
+    
+    // MARK: - Private Method(scene lifecycle)
+    
+    private func configureSceneLifecycle() {
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(enterBackground),
+            name: UIScene.didEnterBackgroundNotification,
+            object: nil
+        )
+    }
+    
+    @objc private func enterBackground() {
         updateDiary()
     }
 }

@@ -27,8 +27,4 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()         
     }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        dataManager.saveContext()
-    }
 }
