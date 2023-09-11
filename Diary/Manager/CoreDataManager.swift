@@ -28,12 +28,12 @@ final class CoreDataManager {
     
     private init() {}
     
-    func create(diary: Diary) {
+    func create(diary uuid: UUID) {
         let object = Diary(context: context)
-        object.setValue(diary.title, forKey: "title")
-        object.setValue(diary.body, forKey: "body")
-        object.setValue(diary.createdAt, forKey: "createdAt")
-        object.setValue(diary.identifier, forKey: "identifier")
+//        object.setValue(diary.title, forKey: "title")
+//        object.setValue(diary.body, forKey: "body")
+        object.setValue(DateFormatter.today, forKey: "createdAt")
+        object.setValue(uuid, forKey: "identifier")
         saveContext()
     }
     

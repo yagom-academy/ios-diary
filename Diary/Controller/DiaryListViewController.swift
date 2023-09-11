@@ -13,18 +13,21 @@ final class DiaryListViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
         var configuration: UICollectionLayoutListConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         configuration.trailingSwipeActionsConfigurationProvider = { indexPath in
-            let delete = UIContextualAction(style: .destructive, title: "Delete") {[weak self] _, _, completionHandler in
-                guard let uuid = CoreDataManager.shared.fetch(Diary.fetchRequest())[index: indexPath.item]?.identifier else { return }
-                
-                CoreDataManager.shared.deleteDiary(uuid)
-                self?.diaries = CoreDataManager.shared.fetch(Diary.fetchRequest())
+            guard let uuid = CoreDataManager.shared.fetchAllDiaries()[indexPath.item].identifier else {
+                return UISwipeActionsConfiguration()
+            }
+            
+            let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completionHandler in
+                CoreDataManager.shared.delete(diary: uuid)
+                self?.diaries = CoreDataManager.shared.fetchAllDiaries()
                 self?.collectionView.reloadData()
                 
                 completionHandler(true)
             }
             
             let share = UIContextualAction(style: .normal, title: "Share") {_, _, completionHandler in
-                
+                let alertManager: AlertManager = AlertManager(uuid: uuid)
+                alertManager.showActivityView()
                 completionHandler(true)
             }
             
@@ -51,13 +54,13 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.diaries = CoreDataManager.shared.fetch(Diary.fetchRequest())
+        self.diaries = CoreDataManager.shared.fetchAllDiaries()
         diaries.forEach { diary in
             if diary.body == nil {
-                CoreDataManager.shared.deleteDiary(diary.identifier!)
+                CoreDataManager.shared.delete(diary: diary.identifier!)
             }
         }
-        self.diaries = CoreDataManager.shared.fetch(Diary.fetchRequest())
+        self.diaries = CoreDataManager.shared.fetchAllDiaries()
         collectionView.reloadData()
     }
     
@@ -89,16 +92,18 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func createNewDiaryButtonTapped() {
-        let uuid: String = UUID().uuidString
-        let newDiaryViewController: NewDiaryViewController = NewDiaryViewController(uuid: uuid)
+        let uuid: UUID = UUID()
+        CoreDataManager.shared.create(diary: uuid)
+        let diary: Diary = CoreDataManager.shared.fetchSingleDiary(by: uuid)[safe: 0]!
+        let newDiaryViewController: DiaryDetailViewController = DiaryDetailViewController(diary: diary)
         
-        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: CoreDataManager.shared.context) else {
-            return
-        }
-        let object = NSManagedObject(entity: entity, insertInto: CoreDataManager.shared.context)
-        object.setValue("타이틀틀", forKey: "title")
-        object.setValue(DateFormatter.today, forKey: "createdAt")
-        object.setValue(uuid, forKey: "identifier")
+//        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: CoreDataManager.shared.context) else {
+//            return
+//        }
+//        let object = NSManagedObject(entity: entity, insertInto: CoreDataManager.shared.context)
+//        object.setValue("타이틀틀", forKey: "title")
+//        object.setValue(DateFormatter.today, forKey: "createdAt")
+//        object.setValue(uuid, forKey: "identifier")
         
         
         navigationController?.pushViewController(newDiaryViewController, animated: true)
@@ -126,13 +131,12 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let uuid = diaries[safe: indexPath.item]?.identifier else {
+        guard let diary = diaries[safe: indexPath.item] else {
             return
         }
-        print(uuid)
         
         collectionView.deselectItem(at: indexPath, animated: true)
-        let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(uuid: uuid)
+        let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(diary: diary)
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
