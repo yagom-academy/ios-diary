@@ -12,9 +12,8 @@ final class DiaryViewController: UIViewController {
     // MARK: - Private Property
     
     private let dataManager: DataManager
-    private var diary: Diary
-    private var isNew: Bool
-    private var textView = UITextView()
+    private let diary: Diary
+    private let textView = UITextView()
     private let compositor: DiaryContentComposable
     private let segregator: DiaryContentSegregatable
     private let currentFormatter: DateFormattable
@@ -30,10 +29,8 @@ final class DiaryViewController: UIViewController {
         
         if let diary = diary {
             self.diary = diary
-            self.isNew = false
         } else {
             self.diary = Diary(context: dataManager.container.viewContext)
-            self.isNew = true
         }
         
         self.compositor = DiaryContentCompositor()
@@ -59,7 +56,7 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if isNew {
+        if self.textView.text.isEmpty {
             textView.becomeFirstResponder()
         }
     }
@@ -67,14 +64,14 @@ final class DiaryViewController: UIViewController {
     // MARK: - CRUD
     
     private func updateDiary() {
-        let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+        let trimmedText = self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if trimmedText.isEmpty {
-            dataManager.container.viewContext.delete(diary)
+            self.dataManager.container.viewContext.delete(self.diary)
             return
         }
         
-        let text = segregator.segregate(text: trimmedText)
+        let text = self.segregator.segregate(text: trimmedText)
         
         self.diary.title = text.title
         self.diary.content = text.content
@@ -91,12 +88,17 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setupNavigationTitle() {
-        let date = currentFormatter.format(date: diary.createdDate ?? Date())
+        let date = currentFormatter.format(date: self.diary.createdDate ?? Date())
         self.navigationItem.title = date
     }
     
     private func setupNavigationToolbar() {
-        let infoButton = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(tapOptionButton))
+        let infoButton = UIBarButtonItem(
+            title: "더보기",
+            style: .plain,
+            target: self,
+            action: #selector(tapOptionButton)
+        )
         
         self.navigationItem.rightBarButtonItem = infoButton
     }
@@ -105,6 +107,8 @@ final class DiaryViewController: UIViewController {
         let alertController = configureAlertController()
         present(alertController, animated: true)
     }
+    
+    // MARK: - Private Method(Alert)
     
     private func configureAlertController() -> UIAlertController {
         let alertController = UIAlertController(
