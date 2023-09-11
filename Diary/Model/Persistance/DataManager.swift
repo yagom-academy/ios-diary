@@ -29,4 +29,14 @@ final class DataManager {
             }
         }
     }
+    
+    func fetch() -> [Diary] {
+        let context = container.viewContext
+        do {
+            return try context.fetch(Diary.fetchRequest())
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
 }
