@@ -3,7 +3,7 @@
     <entity name="Diary" representedClassName="Diary" syncable="YES">
         <attribute name="body" optional="YES" attributeType="String" customClassName="[String]"/>
         <attribute name="createdAt" optional="YES" attributeType="String"/>
-        <attribute name="identifier" optional="YES" attributeType="String"/>
+        <attribute name="identifier" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
     </entity>
 </model>

@@ -90,7 +90,8 @@ final class NewDiaryViewController: UIViewController {
 
 extension NewDiaryViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-        CoreDataManager.shared.fetchDiary(fetchRequest).first?.body = textView.text
+        CoreDataManager.shared.fetch(fetchRequest).first?.body = textView.text
+        
         CoreDataManager.shared.saveContext()
     }
 }

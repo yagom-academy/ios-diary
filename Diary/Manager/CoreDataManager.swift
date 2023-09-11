@@ -10,54 +10,7 @@ import CoreData
 
 final class CoreDataManager {
     static let shared: CoreDataManager = CoreDataManager()
-    private init() {}
-    
-    var context: NSManagedObjectContext {
-        return persistentContainer.viewContext
-    }
-    
-    func receiveFetchRequest(for uuid: String) -> NSFetchRequest<Diary> {
-        let fetchRequest: NSFetchRequest<Diary> = Diary.fetchRequest()
-        
-        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid)
-        
-        return fetchRequest
-    }
-    
-    // create
-    func createDiary(_ textView: UITextView) {
-        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: CoreDataManager.shared.context) else {
-            return
-        }
-        
-        let object = NSManagedObject(entity: entity, insertInto: CoreDataManager.shared.context)
-        
-        object.setValue("타이틀틀", forKey: "title")
-        object.setValue(textView.text, forKey: "body")
-        object.setValue(DateFormatter.today, forKey: "createdAt")
-        object.setValue(UUID().uuidString, forKey: "identifier")
-        saveContext()
-    }
-    // fetch
-    func fetchDiary(_ request: NSFetchRequest<Diary>) -> [Diary] {
-        do {
-            let data = try context.fetch(request)
-            return data
-        } catch {
-            print(error.localizedDescription)
-        }
-        return []
-    }
-    
-    // update
-    // delete
-    func deleteDiary(_ uuid: String) {
-        let fetchRequest = CoreDataManager.shared.receiveFetchRequest(for: uuid)
-        
-        let diary = CoreDataManager.shared.fetchDiary(fetchRequest)
-        persistentContainer.viewContext.delete(diary.first!)
-        saveContext()
-        }
+    let fetchRequest: NSFetchRequest<Diary> = Diary.fetchRequest()
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
@@ -68,6 +21,63 @@ final class CoreDataManager {
         }
         return container
     }()
+    
+    var context: NSManagedObjectContext {
+        return persistentContainer.viewContext
+    }
+    
+    private init() {}
+    
+    func create(diary: Diary) {
+        let object = Diary(context: context)
+        object.setValue(diary.title, forKey: "title")
+        object.setValue(diary.body, forKey: "body")
+        object.setValue(diary.createdAt, forKey: "createdAt")
+        object.setValue(diary.identifier, forKey: "identifier")
+        saveContext()
+    }
+    
+    func fetchAllDiaries() -> [Diary] {
+        var data: [Diary] = []
+        data = fetch(fetchRequest)
+        
+        return data
+    }
+    
+    func fetchSingleDiary(by uuid: UUID) -> [Diary] {
+        var data: [Diary] = []
+        fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid.uuidString)
+        data = fetch(fetchRequest)
+        
+        return data
+    }
+    
+    private func fetch(_ request: NSFetchRequest<Diary>) -> [Diary] {
+        do {
+            let data = try context.fetch(request)
+            return data
+        } catch {
+            print(error.localizedDescription)
+        }
+        return []
+    }
+    
+    func update(newDiary: Diary) {
+        var diary = fetchSingleDiary(by: newDiary.identifier!)
+        diary[safe: 0]!.title = newDiary.title
+        diary[safe: 0]!.body = newDiary.body
+        diary[safe: 0]!.createdAt = newDiary.createdAt
+        saveContext()
+    }
+    
+    func delete(diary uuid: UUID) {
+        guard let diary = fetchSingleDiary(by: uuid)[safe: 0] else {
+            return
+        }
+        
+        persistentContainer.viewContext.delete(diary)
+        saveContext()
+    }
     
     func saveContext() {
         let context = persistentContainer.viewContext

@@ -43,7 +43,7 @@ final class DiaryDetailViewController: UIViewController {
     }
     
     private func configureNavigation() {
-        navigationItem.title = CoreDataManager.shared.fetchDiary(fetchRequest).first?.createdAt
+        navigationItem.title = CoreDataManager.shared.fetch(fetchRequest).first?.createdAt
         let seeMoreButton: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "ellipsis.circle"), style: .done, target: self, action: #selector(seeMoreButtonTapped))
         navigationItem.rightBarButtonItem = seeMoreButton
         
@@ -72,7 +72,7 @@ final class DiaryDetailViewController: UIViewController {
         let deleteAlertController = UIAlertController(title: "Really??", message: "Think one more", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            CoreDataManager.shared.deleteDiary(self.uuid)
+            CoreDataManager.shared.delete(self.uuid)
             self.navigationController?.popViewController(animated: true)
         }
         
@@ -94,7 +94,7 @@ final class DiaryDetailViewController: UIViewController {
     
     private func configureTextView() {
         textView.delegate = self
-        textView.text = CoreDataManager.shared.fetchDiary(fetchRequest).first?.body
+        textView.text = CoreDataManager.shared.fetch(fetchRequest).first?.body
     }
     
     private func configureLayout() {
@@ -110,10 +110,14 @@ final class DiaryDetailViewController: UIViewController {
     private func setUpKeyboard() {
         keyboardManager = KeyboardManager(textView: textView)
     }
+    
+    
 }
 
 extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
-
+        CoreDataManager.shared.fetch(fetchRequest).first?.body = textView.text
+        
+        CoreDataManager.shared.saveContext()
     }
 }

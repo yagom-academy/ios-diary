@@ -14,10 +14,10 @@ final class DiaryListViewController: UIViewController {
         var configuration: UICollectionLayoutListConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
         configuration.trailingSwipeActionsConfigurationProvider = { indexPath in
             let delete = UIContextualAction(style: .destructive, title: "Delete") {[weak self] _, _, completionHandler in
-                guard let uuid = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())[index: indexPath.item]?.identifier else { return }
+                guard let uuid = CoreDataManager.shared.fetch(Diary.fetchRequest())[index: indexPath.item]?.identifier else { return }
                 
                 CoreDataManager.shared.deleteDiary(uuid)
-                self?.diaries = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())
+                self?.diaries = CoreDataManager.shared.fetch(Diary.fetchRequest())
                 self?.collectionView.reloadData()
                 
                 completionHandler(true)
@@ -51,13 +51,13 @@ final class DiaryListViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        self.diaries = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())
+        self.diaries = CoreDataManager.shared.fetch(Diary.fetchRequest())
         diaries.forEach { diary in
             if diary.body == nil {
                 CoreDataManager.shared.deleteDiary(diary.identifier!)
             }
         }
-        self.diaries = CoreDataManager.shared.fetchDiary(Diary.fetchRequest())
+        self.diaries = CoreDataManager.shared.fetch(Diary.fetchRequest())
         collectionView.reloadData()
     }
     
@@ -115,7 +115,7 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
             return UICollectionViewCell()
         }
         
-        guard let diary = diaries[index: indexPath.item] else {
+        guard let diary = diaries[safe: indexPath.item] else {
             return cell
         }
         
@@ -126,7 +126,7 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let uuid = diaries[index: indexPath.item]?.identifier else {
+        guard let uuid = diaries[safe: indexPath.item]?.identifier else {
             return
         }
         print(uuid)
