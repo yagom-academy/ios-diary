@@ -20,8 +20,11 @@ final class AppManager {
         return dateFormatter
     }()
     
-    init(navigationController: UINavigationController) {
+    private let diaryDataManager: DiaryCoreDataManager
+    
+    init(navigationController: UINavigationController, diaryDataManager: DiaryCoreDataManager) {
         self.navigationController = navigationController
+        self.diaryDataManager = diaryDataManager
     }
     
     func start() {
