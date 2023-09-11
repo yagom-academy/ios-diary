@@ -100,7 +100,6 @@ extension DiaryViewController {
 // MARK: Load Data
 extension DiaryViewController {
     private func loadData() {
-        diaryManager?.fetchDiaryList()
         applySnapshot()
     }
 }

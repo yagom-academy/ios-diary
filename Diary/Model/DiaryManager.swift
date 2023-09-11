@@ -13,18 +13,6 @@ struct DiaryManager {
     private(set) var diaryList: [Diary] = []
     var delegate: DiaryManagerDelegate?
     
-    mutating func fetchDiaryList() {
-        let diaryDataManager = DiaryDataManager()
-        let assetDataManager = AssetDataManager()
-        
-        do {
-            let datas = try assetDataManager.fetchDiaryData()
-            diaryList = diaryDataManager.diary(diaryList: datas)
-        } catch {
-            delegate?.showErrorAlert(error: error)
-        }
-    }
-    
     func newDiary() -> Diary {
         let dateManager = DateManager()
         let diary = Diary(
