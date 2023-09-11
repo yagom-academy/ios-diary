@@ -10,6 +10,7 @@
 		AC0DF8142AA1C07400E7B63A /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC0DF8132AA1C07400E7B63A /* UIAlertController+.swift */; };
 		AC6923462AAF2554008ACE38 /* DiaryPersistentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6923452AAF2554008ACE38 /* DiaryPersistentManager.swift */; };
 		AC6923492AAF2827008ACE38 /* DiaryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC6923472AAF2827008ACE38 /* DiaryEntity+CoreDataClass.swift */; };
+		AC69234C2AAF368D008ACE38 /* CoreDataError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC69234B2AAF368D008ACE38 /* CoreDataError.swift */; };
 		AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC8C38912A9DDA520022FB70 /* Diary.swift */; };
 		AC938AA62A9CCC7200627F8E /* DiaryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC938AA52A9CCC7200627F8E /* DiaryManager.swift */; };
 		AC938AA82A9CCFA100627F8E /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC938AA72A9CCFA100627F8E /* DiaryViewController.swift */; };
@@ -29,6 +30,7 @@
 		AC0DF8132AA1C07400E7B63A /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
 		AC6923452AAF2554008ACE38 /* DiaryPersistentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryPersistentManager.swift; sourceTree = "<group>"; };
 		AC6923472AAF2827008ACE38 /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
+		AC69234B2AAF368D008ACE38 /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
 		AC8C38912A9DDA520022FB70 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		AC938AA52A9CCC7200627F8E /* DiaryManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManager.swift; sourceTree = "<group>"; };
 		AC938AA72A9CCFA100627F8E /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +62,7 @@
 		AC8C38952A9E16D40022FB70 /* Error */ = {
 			isa = PBXGroup;
 			children = (
+				AC69234B2AAF368D008ACE38 /* CoreDataError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -268,6 +271,7 @@
 				CD5788522A9EC9F200309679 /* DiaryDetailViewController.swift in Sources */,
 				AC8C38922A9DDA520022FB70 /* Diary.swift in Sources */,
 				AC0DF8142AA1C07400E7B63A /* UIAlertController+.swift in Sources */,
+				AC69234C2AAF368D008ACE38 /* CoreDataError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

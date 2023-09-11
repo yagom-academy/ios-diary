@@ -48,7 +48,7 @@ final class DiaryPersistentManager {
         let fetchResults = try context.fetch(request)
         
         guard let result = fetchResults.filter({ $0.identifier == diary.identifier }).first else {
-            return
+            throw CoreDataError.notFoundData
         }
        
         result.title = diary.title
