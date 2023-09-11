@@ -33,7 +33,7 @@ final class DiaryPersistentManager {
         return fetchResult
     }
     
-    func insert(diary: Diary) throws {
+    func insert(_ diary: Diary) throws {
         let entity = DiaryEntity(context: context)
         entity.identifier = diary.identifier
         entity.body = diary.body
@@ -43,7 +43,7 @@ final class DiaryPersistentManager {
         try saveContext()
     }
     
-    func update(diary: Diary) throws {
+    func update(_ diary: Diary) throws {
         let request = DiaryEntity.fetchRequest()
         let fetchResults = try context.fetch(request)
         
@@ -57,9 +57,14 @@ final class DiaryPersistentManager {
         try saveContext()
     }
     
-    func delete(object: NSManagedObject) throws {
-        context.delete(object)
+    func delete(_ identifier: UUID) throws {
+        let fetchResults = try fetch()
         
+        guard let result = fetchResults.filter({ $0.identifier == identifier }).first else {
+            throw CoreDataError.notFoundData
+        }
+        
+        context.delete(result)
         try context.save()
     }
     
@@ -75,9 +80,11 @@ final class DiaryPersistentManager {
     
     func isExist(_ diary: Diary) throws -> Bool {
         let fetchResults = try fetch()
-        guard let result = fetchResults.filter({ $0.identifier == diary.identifier }).first else {
+        
+        if fetchResults.filter({ $0.identifier == diary.identifier }).first == nil {
             return false
+        } else {
+            return true
         }
-        return true
     }
 }
