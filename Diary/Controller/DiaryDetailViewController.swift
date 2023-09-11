@@ -8,22 +8,17 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController, AlertControllerShowable, ActivityViewControllerShowable {
-    private lazy var textView: UITextView = {
+    private let textView: UITextView = {
         let textView = UITextView()
         
-        textView.text = diaryTitle + "\n\n" + diaryDescription
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
     
-    private let todayDate: String
-    private let diaryTitle: String
-    private let diaryDescription: String
+    private var diaryEntity: DiaryEntity?
     
-    init(todayDate: String, diaryTitle: String, diaryDescription: String) {
-        self.todayDate = todayDate
-        self.diaryTitle = diaryTitle
-        self.diaryDescription = diaryDescription
+    init(diaryEntity: DiaryEntity? = nil) {
+        self.diaryEntity = diaryEntity
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -38,6 +33,10 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         configureUI()
         setUpConstraints()
         setUpViewController()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
     }
     
     private func configureUI() {
@@ -55,7 +54,6 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
-        navigationItem.title = todayDate
         navigationItem.rightBarButtonItem = .init(title: "더보기", style: .plain, target: self, action: #selector(didTappedMoreButton))
     }
 }

@@ -16,9 +16,9 @@ final class MainViewController: UIViewController, AlertControllerShowable {
     }
     
     weak var delegate: MainViewControllerDelegate?
-    private let diaryContents: [DiaryContent]
+    private let diaryEntity: [DiaryEntity]
     private let dateFormatter: DateFormatter
-    private var diffableDatasource: UITableViewDiffableDataSource<Section, DiaryContent>?
+    private var diffableDatasource: UITableViewDiffableDataSource<Section, DiaryEntity>?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -30,8 +30,8 @@ final class MainViewController: UIViewController, AlertControllerShowable {
         return tableView
     }()
     
-    init(diaryContents: [DiaryContent], dateFormatter: DateFormatter) {
-        self.diaryContents = diaryContents
+    init(diaryEntity: [DiaryEntity], dateFormatter: DateFormatter) {
+        self.diaryEntity = diaryEntity
         self.dateFormatter = dateFormatter
         
         super.init(nibName: nil, bundle: nil)
@@ -92,22 +92,23 @@ extension MainViewController: UITableViewDelegate {
 // MARK: - TableViewDiffableDataSource
 extension MainViewController {
     private func setUpTableViewDiffableDataSource() {
-        diffableDatasource = UITableViewDiffableDataSource(tableView: tableView, cellProvider: { [weak self] tableView, indexPath, diarySample in
+        diffableDatasource = UITableViewDiffableDataSource(tableView: tableView, cellProvider: { [weak self] tableView, indexPath, diaryEntity in
             guard let self = self,
                   let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.indentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
             
-            let date = Date(timeIntervalSince1970: diarySample.date)
+            let date = Date(timeIntervalSince1970: diaryEntity.date)
             let formattedDate = self.dateFormatter.string(from: date)
-            cell.setUpContents(title: diarySample.title, date: formattedDate, body: diarySample.body)
+            
+            cell.setUpContents(title: diaryEntity.title, date: formattedDate, body: diaryEntity.body)
             return cell
         })
     }
     
     private func setUpTableViewDiffableDataSourceSnapShot() {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryContent>()
+        var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryEntity>()
         
         snapShot.appendSections([.main])
-        snapShot.appendItems(diaryContents)
+        snapShot.appendItems(diaryEntity)
         diffableDatasource?.apply(snapShot)
     }
 }
@@ -117,6 +118,7 @@ extension MainViewController {
     @objc
     private func didTappedRightAddButton() {
         delegate?.didTappedRightAddButton()
+        
     }
     
     private func didTappedDeleteAction() {

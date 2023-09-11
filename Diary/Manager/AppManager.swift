@@ -28,19 +28,11 @@ final class AppManager {
     }
     
     func start() {
-        guard let dairyContents = decodeDairySample(fileName: "sample") else { return }
-        let mainViewController = MainViewController(diaryContents: dairyContents, dateFormatter: dateFormatter)
+        guard let diaryData = try? diaryDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return }
+        let mainViewController = MainViewController(diaryEntity: diaryData, dateFormatter: dateFormatter)
         
         mainViewController.delegate = self
         navigationController.viewControllers = [mainViewController]
-    }
-    
-    private func decodeDairySample(fileName: String) -> [DiaryContent]? {
-        let jsonDecoder = JSONDecoder()
-        guard let asset = NSDataAsset(name: fileName) else { return nil }
-        guard let data = try? jsonDecoder.decode([DiaryContent].self, from: asset.data) else { return nil }
-        
-        return data
     }
 }
 
