@@ -10,6 +10,8 @@
 		5BBC44392A9F036000C528DD /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC44382A9F036000C528DD /* MainTableViewCell.swift */; };
 		5BBC443B2A9F276100C528DD /* DiarySample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC443A2A9F276100C528DD /* DiarySample.swift */; };
 		5BBC443D2A9F30ED00C528DD /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC443C2A9F30ED00C528DD /* .swiftlint.yml */; };
+		5BF1B2D22AAF422300FDC1A5 /* AlertControllerShowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF1B2D12AAF422300FDC1A5 /* AlertControllerShowable.swift */; };
+		5BF1B2D42AAF42FB00FDC1A5 /* ActivityViewControllerShowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF1B2D32AAF42FB00FDC1A5 /* ActivityViewControllerShowable.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* MainViewController.swift */; };
@@ -30,6 +32,8 @@
 		5BBC44382A9F036000C528DD /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
 		5BBC443A2A9F276100C528DD /* DiarySample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySample.swift; sourceTree = "<group>"; };
 		5BBC443C2A9F30ED00C528DD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		5BF1B2D12AAF422300FDC1A5 /* AlertControllerShowable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerShowable.swift; sourceTree = "<group>"; };
+		5BF1B2D32AAF42FB00FDC1A5 /* ActivityViewControllerShowable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewControllerShowable.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -160,6 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				D2DB46862AA1A83B009D1926 /* ReuseIdentifiable.swift */,
+				5BF1B2D12AAF422300FDC1A5 /* AlertControllerShowable.swift */,
+				5BF1B2D32AAF42FB00FDC1A5 /* ActivityViewControllerShowable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -257,6 +263,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5BF1B2D42AAF42FB00FDC1A5 /* ActivityViewControllerShowable.swift in Sources */,
+				5BF1B2D22AAF422300FDC1A5 /* AlertControllerShowable.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
