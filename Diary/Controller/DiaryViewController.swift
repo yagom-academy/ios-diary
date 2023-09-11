@@ -12,8 +12,8 @@ final class DiaryViewController: UIViewController {
     // MARK: - Private Property
     
     private let dataManager: DataManager
-    private let diary: Diary?
-    private let isNew: Bool
+    private var diary: Diary
+    private var isNew: Bool
     private var textView = UITextView()
     private let compositor: DiaryContentComposable
     private let segregator: DiaryContentSegregatable
@@ -28,12 +28,12 @@ final class DiaryViewController: UIViewController {
         self.dataManager = dataManager
         self.currentFormatter = formatter
         
-        if diary == nil {
-            self.diary = Diary(context: dataManager.container.viewContext)
-            self.isNew = true
-        } else {
+        if let diary = diary {
             self.diary = diary
             self.isNew = false
+        } else {
+            self.diary = Diary(context: dataManager.container.viewContext)
+            self.isNew = true
         }
         
         self.compositor = DiaryContentCompositor()
@@ -69,12 +69,16 @@ final class DiaryViewController: UIViewController {
     private func updateDiary() {
         let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
-        guard !trimmedText.isEmpty else { return }
+        if trimmedText.isEmpty {
+            dataManager.container.viewContext.delete(diary)
+            return
+        }
         
         let text = segregator.segregate(text: trimmedText)
-        self.diary?.title = text.title
-        self.diary?.content = text.content
-        self.diary?.createdDate = Date()
+        
+        self.diary.title = text.title
+        self.diary.content = text.content
+        self.diary.createdDate = diary.createdDate ?? Date()
         
         dataManager.saveContext()
     }
@@ -87,7 +91,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setupNavigationTitle() {
-        let date = currentFormatter.format(date: diary?.createdDate ?? Date())
+        let date = currentFormatter.format(date: diary.createdDate ?? Date())
         self.navigationItem.title = date
     }
     
@@ -98,47 +102,78 @@ final class DiaryViewController: UIViewController {
     }
     
     @objc private func tapOptionButton() {
-        let actionSheet = configureActionSheet()
-        present(actionSheet, animated: true)
+        let alertController = configureAlertController()
+        present(alertController, animated: true)
     }
     
-    private func configureActionSheet() -> UIAlertController {
-        let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+    private func configureAlertController() -> UIAlertController {
+        let alertController = UIAlertController(
+            title: nil,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
         let share = shareAction()
         let delete = deleteAction()
         let cancel = UIAlertAction(title: "cancel", style: .cancel)
         
-        actionSheet.addAction(share)
-        actionSheet.addAction(delete)
-        actionSheet.addAction(cancel)
+        alertController.addAction(share)
+        alertController.addAction(delete)
+        alertController.addAction(cancel)
         
-        return actionSheet
+        return alertController
     }
     
     private func shareAction() -> UIAlertAction {
-        let alertAction = UIAlertAction(
+        return UIAlertAction(
             title: "Share",
-            style: .default) {  _ in
+            style: .default,
+            handler: { [weak self]  _ in
+                guard let diaryContent = self?.compositor.composite(
+                    title: self?.diary.title,
+                    content: self?.diary.content
+                ) else { return }
                 
+                let activityView = UIActivityViewController(
+                    activityItems: [diaryContent],
+                    applicationActivities: nil
+                )
+                
+                self?.present(activityView, animated: true)
             }
-        
-        return alertAction
+        )
     }
     
     private func deleteAction() -> UIAlertAction {
-        let alertAction = UIAlertAction(
+        return UIAlertAction(
             title: "Delete",
             style: .destructive,
             handler: { [weak self] _ in
-                if let self = self, let diary = self.diary {
-                    self.dataManager.container.viewContext.delete(diary)
-                    self.dataManager.saveContext()
-                    self.navigationController?.popViewController(animated: true)
+                if let self = self {
+                    self.deleteDiaryAlert(diary: self.diary)
                 }
             }
         )
+    }
+    
+    private func deleteDiaryAlert(diary: Diary) {
+        let deleteAlert = UIAlertController(
+            title: "진짜요?",
+            message: "정말로 삭제하시겠어요?",
+            preferredStyle: .alert
+        )
         
-        return alertAction
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.dataManager.container.viewContext.delete(diary)
+            self?.dataManager.saveContext()
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        deleteAlert.addAction(cancel)
+        deleteAlert.addAction(delete)
+        
+        present(deleteAlert, animated: true)
     }
     
     // MARK: - Private Method(TextView)
@@ -150,17 +185,21 @@ final class DiaryViewController: UIViewController {
     
     private func setupTextView() {
         view.addSubview(textView)
-        textView.text = compositor.composite(title: diary?.title, content: diary?.content)
-        textView.font = UIFont.preferredFont(forTextStyle: .body)
+        self.textView.text = compositor.composite(
+            title: diary.title,
+            content: diary.content
+        )
+        self.textView.font = UIFont.preferredFont(forTextStyle: .body)
+        self.textView.autocorrectionType = .no
     }
     
     private func constraintTextView() {
-        textView.translatesAutoresizingMaskIntoConstraints = false
+        self.textView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            textView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            textView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            self.textView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            self.textView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            self.textView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            self.textView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
     }
     
@@ -173,11 +212,20 @@ final class DiaryViewController: UIViewController {
     
     private func setupKeyboardToolbar() {
         let toolbar = UIToolbar()
-        let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let keyboardHideButton = UIBarButtonItem(image: UIImage(systemName: "keyboard.chevron.compact.down"), style: .plain, target: self, action: #selector(endEditing))
+        let space = UIBarButtonItem(
+            barButtonSystemItem: .flexibleSpace,
+            target: nil,
+            action: nil
+        )
+        let keyboardHideButton = UIBarButtonItem(
+            image: UIImage(systemName: "keyboard.chevron.compact.down"),
+            style: .plain,
+            target: self,
+            action: #selector(endEditing)
+        )
         toolbar.items = [space, keyboardHideButton]
         toolbar.sizeToFit()
-        textView.inputAccessoryView = toolbar
+        self.textView.inputAccessoryView = toolbar
     }
     
     @objc private func endEditing() {
@@ -185,19 +233,29 @@ final class DiaryViewController: UIViewController {
     }
     
     private func registerNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keybordWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keybordWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keybordWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keybordWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
     
     @objc private func keybordWillShow(_ notification: Notification) {
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect {
             let keyboardHeight = keyboardFrame.size.height
-            textView.contentInset.bottom = keyboardHeight
+            self.textView.contentInset.bottom = keyboardHeight
         }
     }
     
     @objc private func keybordWillHide() {
-        textView.contentInset = .zero
+        self.textView.contentInset = .zero
         updateDiary()
     }
 }

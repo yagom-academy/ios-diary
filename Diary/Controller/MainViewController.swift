@@ -11,6 +11,7 @@ final class MainViewController: UIViewController {
     // MARK: - Private Property
     private let dataManager: DataManager
     
+    private let compositor: DiaryContentCompositor
     private let currentFormatter = CurrentDateFormatter()
     private var collectionView = UICollectionView(
         frame: .zero,
@@ -22,6 +23,7 @@ final class MainViewController: UIViewController {
     
     init(dataManager: DataManager) {
         self.dataManager = dataManager
+        self.compositor = DiaryContentCompositor()
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -43,12 +45,8 @@ final class MainViewController: UIViewController {
     // MARK: - CRUD
     
     private func readDiaries() {
-        do {
-            self.diaries = try dataManager.container.viewContext.fetch(Diary.fetchRequest())
-            collectionView.reloadData()
-        } catch {
-            print("다이어리를 가져오는데 실패했습니다.")
-        }
+        self.diaries = dataManager.fetch()
+        collectionView.reloadData()
     }
     
     // MARK: - Private Method(Navigation)
@@ -56,7 +54,11 @@ final class MainViewController: UIViewController {
     private func configureNavigation() {
         self.navigationItem.title = "일기장"
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tapAddButton))
+        let addButton = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(tapAddButton)
+        )
         self.navigationItem.rightBarButtonItem = addButton
     }
     
@@ -84,7 +86,11 @@ final class MainViewController: UIViewController {
     }
     
     private func layoutCollectionView() {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+            return self?.configureSwipeAction(for: indexPath)
+        }
+        
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
@@ -97,6 +103,74 @@ final class MainViewController: UIViewController {
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    // MARK: - private Method(SwipeAction)
+    
+    private func configureSwipeAction(for indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let diary = diaries[indexPath.row]
+        let delete = deleteAction(diary: diary)
+        let share = shareAction(diary: diary)
+        share.backgroundColor = .systemBlue
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [delete, share])
+        swipeActions.performsFirstActionWithFullSwipe = false
+        
+        return swipeActions
+    }
+    
+    private func deleteAction(diary: Diary) -> UIContextualAction {
+        return UIContextualAction(
+            style: .destructive,
+            title: "delete",
+            handler: { [weak self] _, _, _ in
+                self?.deleteDiaryAlert(diary: diary)
+            }
+        )
+    }
+    
+    private func shareAction(diary: Diary) -> UIContextualAction {
+        return UIContextualAction(
+            style: .normal,
+            title: "share",
+            handler: { [weak self] _, _, completionHaldler in
+                guard let diaryContent = self?.compositor.composite(
+                    title: diary.title,
+                    content: diary.content
+                ) else { return }
+                
+                let activityView = UIActivityViewController(
+                    activityItems: [diaryContent],
+                    applicationActivities: nil
+                )
+                
+                activityView.completionWithItemsHandler = { (_, success, _, _) in
+                    if success {
+                        completionHaldler(true)
+                    } else {
+                        completionHaldler(false)
+                    }
+                }
+                self?.present(activityView, animated: true)
+            }
+        )
+    }
+    
+    private func deleteDiaryAlert(diary: Diary) {
+        let deleteAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.dataManager.container.viewContext.delete(diary)
+            self?.dataManager.saveContext()
+            self?.readDiaries()
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        deleteAlert.addAction(cancel)
+        deleteAlert.addAction(delete)
+        
+        present(deleteAlert, animated: true)
     }
 }
 
