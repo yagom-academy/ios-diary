@@ -125,7 +125,7 @@ extension DiaryViewController: UITableViewDataSource {
     }
 }
 
-extension DiaryViewController: UITableViewDelegate {
+extension DiaryViewController: UITableViewDelegate, PresentableActivityView {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let diaryContents = diaryManager.diaryContents,
               let diaryContent = diaryContents[safe: indexPath.row]
@@ -135,5 +135,35 @@ extension DiaryViewController: UITableViewDelegate {
         
         showEditingDiaryViewController(with: diaryContent)
         tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        guard let diaryContents = diaryManager.diaryContents,
+              let diaryContent = diaryContents[safe: indexPath.row]
+        else {
+            return nil
+        }
+        
+        let share = UIContextualAction(style: .normal,
+                                       title: "Share...") { (_, _, success: @escaping (Bool) -> Void) in
+            let diaryContentItem = diaryContent.title + diaryContent.body
+            
+            self.presentActivityView(shareItem: diaryContentItem)
+            success(true)
+        }
+        
+        let delete = UIContextualAction(style: .destructive,
+                                        title: "Delete") { (_, _, success: @escaping (Bool) -> Void) in
+            self.presentCheckDeleteAlert { _ in
+                ContainerManager.shared.delete(id: diaryContent.id)
+                self.diaryManager.diaryContents?.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            }
+            
+            success(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [delete, share])
     }
 }
