@@ -41,6 +41,11 @@ final class DiaryViewController: UIViewController {
         loadData()
         applySnapshot()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        applySnapshot()
+    }
 }
 
 // MARK: Setup Object
@@ -105,9 +110,11 @@ extension DiaryViewController {
     }
 }
 
+// MARK: DiaryDetailViewController Delegate
 extension DiaryViewController: DiaryDetailViewControllerDelegate {
     func diaryDetailViewController(_ diaryDetailViewController: DiaryDetailViewController, upsert diary: Diary) {
         useCase?.upsert(diary)
+        loadData()
     }
 }
 
