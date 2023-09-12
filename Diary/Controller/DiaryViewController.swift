@@ -30,7 +30,7 @@ extension DiaryViewController: UITableViewDelegate {
         let diaryDetailViewController = DiaryDetailViewController(diary: diary)
         
         tableView.deselectRow(at: indexPath, animated: true)
-        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
     func tableView(
@@ -47,9 +47,9 @@ extension DiaryViewController: UITableViewDelegate {
             CoreDataManager.shared.delete(item: diary)
             tableView.reloadData()
         }
-        let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
+        let shareAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, _ in
             tableView.setEditing(false, animated: true)
-            self.showActivityView(data: contents, viewController: self)
+            self?.showActivityView(data: contents, viewController: self)
         }
         
         deleteAction.image = UIImage(systemName: "trash")
@@ -114,10 +114,10 @@ private extension DiaryViewController {
     }
     
     func configureNavigation() {
-        let action = UIAction { _ in
+        let action = UIAction { [weak self] _ in
             let diary = CoreDataManager.shared.create()
             let diaryDetailViewController = DiaryDetailViewController(diary: diary, isUpdated: false)
-            self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+            self?.navigationController?.pushViewController(diaryDetailViewController, animated: true)
         }
         
         navigationItem.title = "일기장"

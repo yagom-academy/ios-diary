@@ -11,8 +11,8 @@ extension UITextView {
     func addDoneButtonOnKeyboard() {
         let doneToolbar = UIToolbar(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 50))
         let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        let done = UIBarButtonItem(title: "Done", primaryAction: UIAction(handler: { _ in
-            self.endEditing(true)
+        let done = UIBarButtonItem(title: "Done", primaryAction: UIAction(handler: { [weak self] _ in
+            self?.endEditing(true)
         }))
         let items = [flexSpace, done]
         

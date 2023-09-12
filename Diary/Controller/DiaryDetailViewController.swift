@@ -100,8 +100,8 @@ private extension DiaryDetailViewController {
     func configureNavigation() {
         let buttonImage = UIImage(systemName: "ellipsis.circle")
         let alert = configureAlert()
-        let action = UIAction { _ in
-            self.present(alert, animated: true)
+        let action = UIAction { [weak self] _ in
+            self?.present(alert, animated: true)
         }
         
         navigationItem.title = DateFormatter.diaryFormatter.string(from: diary.date ?? Date())
@@ -110,15 +110,15 @@ private extension DiaryDetailViewController {
     
     func configureAlert() -> UIAlertController {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
-            guard let shareData = self.contentTextView.text else {
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
+            guard let shareData = self?.contentTextView.text else {
                 return
             }
             
-            self.showActivityView(data: shareData, viewController: self)
+            self?.showActivityView(data: shareData, viewController: self)
         }
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.showDeleteAlert()
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.showDeleteAlert()
         }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         

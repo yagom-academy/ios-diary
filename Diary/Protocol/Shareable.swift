@@ -8,18 +8,18 @@
 import UIKit
 
 protocol Shareable {
-    func showActivityView(data: Any, viewController: UIViewController)
+    func showActivityView(data: Any, viewController: UIViewController?)
 }
 
 extension Shareable {
-    func showActivityView(data: Any, viewController: UIViewController) {
+    func showActivityView(data: Any, viewController: UIViewController?) {
         var shareObject = [Any]()
         
         shareObject.append(data)
         
         let activityViewController = UIActivityViewController(activityItems: shareObject, applicationActivities: nil)
         
-        activityViewController.popoverPresentationController?.sourceView = viewController.view
-        viewController.present(activityViewController, animated: true)
+        activityViewController.popoverPresentationController?.sourceView = viewController?.view
+        viewController?.present(activityViewController, animated: true)
     }
 }
