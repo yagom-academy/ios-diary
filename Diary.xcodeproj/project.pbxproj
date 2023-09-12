@@ -14,6 +14,7 @@
 		92FB9B8365F3B707B891705F /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEBF20D2433AEB2D78258668 /* Pods_Diary.framework */; };
 		9C1529112AAE140900F3203E /* Shareable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1529102AAE140800F3203E /* Shareable.swift */; };
 		9C184BBF2AA21892003863E7 /* CellIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C184BBE2AA21892003863E7 /* CellIdentifier.swift */; };
+		9C4621EC2AB06890004ED11A /* PersistentContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C4621EB2AB06890004ED11A /* PersistentContainer.swift */; };
 		9C5A1DD62AAA3F5B00162C98 /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5A1DD52AAA3F5B00162C98 /* UITextView+.swift */; };
 		9C5A1DD92AAB707A00162C98 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C5A1DD82AAB707A00162C98 /* CoreDataManager.swift */; };
 		9C75C4CA2A9F448400C5D1CB /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C75C4C92A9F448400C5D1CB /* DiaryDetailViewController.swift */; };
@@ -33,6 +34,7 @@
 		78274DA32A9F3F0A00AD4F50 /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
 		9C1529102AAE140800F3203E /* Shareable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shareable.swift; sourceTree = "<group>"; };
 		9C184BBE2AA21892003863E7 /* CellIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifier.swift; sourceTree = "<group>"; };
+		9C4621EB2AB06890004ED11A /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
 		9C5A1DD52AAA3F5B00162C98 /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		9C5A1DD82AAB707A00162C98 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		9C75C4C92A9F448400C5D1CB /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				9C5A1DD82AAB707A00162C98 /* CoreDataManager.swift */,
+				9C4621EB2AB06890004ED11A /* PersistentContainer.swift */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
 			);
 			path = CoreData;
@@ -309,6 +312,7 @@
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				78274DA42A9F3F0A00AD4F50 /* DateFormatter+.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				9C4621EC2AB06890004ED11A /* PersistentContainer.swift in Sources */,
 				9C5A1DD62AAA3F5B00162C98 /* UITextView+.swift in Sources */,
 				9C75C4CA2A9F448400C5D1CB /* DiaryDetailViewController.swift in Sources */,
 				9C184BBF2AA21892003863E7 /* CellIdentifier.swift in Sources */,

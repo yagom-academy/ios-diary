@@ -5,7 +5,6 @@
 // 
 
 import UIKit
-import CoreData
 
 final class DiaryViewController: UIViewController, Shareable {
     private var tableView = UITableView()
@@ -38,7 +37,7 @@ extension DiaryViewController: UITableViewDelegate {
         let contents = "\(diary.title ?? "")\n\(diary.body ?? "")"
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, _ in
             self?.diaryList.remove(at: indexPath.row)
-            CoreDataManager.shared.deleteDiary(item: diary)
+            CoreDataManager.shared.delete(item: diary)
             tableView.reloadData()
         }
         let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
@@ -81,7 +80,7 @@ extension DiaryViewController: UITableViewDataSource {
 private extension DiaryViewController {
     func loadDiary() {
         do {
-            diaryList = try CoreDataManager.shared.readDiary()
+            diaryList = try CoreDataManager.shared.read()
             tableView.reloadData()
         } catch {
             let alert = UIAlertController(title: nil, message: "Diary Data를 불러오지 못했습니다.", preferredStyle: .alert)
@@ -109,7 +108,7 @@ private extension DiaryViewController {
     
     func configureNavigation() {
         let action = UIAction { _ in
-            let diary = CoreDataManager.shared.createDiary()
+            let diary = CoreDataManager.shared.create()
             let diaryDetailViewController = DiaryDetailViewController(diary: diary, isUpdate: false)
             self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
         }

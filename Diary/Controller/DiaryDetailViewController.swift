@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreData
 
 final class DiaryDetailViewController: UIViewController, Shareable {
     private let diary: Diary
@@ -57,7 +56,7 @@ extension DiaryDetailViewController: UITextViewDelegate {
 private extension DiaryDetailViewController {
     func saveDiary() {
         guard !contentTextView.text.isEmpty else {
-            CoreDataManager.shared.deleteDiary(item: diary)
+            CoreDataManager.shared.delete(item: diary)
             return
         }
         
@@ -75,7 +74,7 @@ private extension DiaryDetailViewController {
     func saveContents(title: String, body: String) {
         diary.setValue(title, forKeyPath: "title")
         diary.setValue(body, forKeyPath: "body")
-        CoreDataManager.shared.updateDiary()
+        CoreDataManager.shared.update()
     }
 }
 

@@ -7,12 +7,23 @@
 
 import CoreData
 
-final class CoreDataManager {
+final class CoreDataManager: DataManager<Diary> {
     static let shared = CoreDataManager()
-    private init() {}
+    
+    private init() {
+        super.init(entity: "Diary")
+    }
+}
+
+class DataManager<T: NSManagedObject> {
+    private let entity: String
+    
+    init(entity: String) {
+        self.entity = entity
+    }
     
     lazy var persistentContainer: PersistentContainer = {
-        let container = PersistentContainer(name: "Diary")
+        let container = PersistentContainer(name: entity)
         container.loadPersistentStores(completionHandler: { (_, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
@@ -22,42 +33,25 @@ final class CoreDataManager {
         return container
     }()
     
-    func createDiary() -> Diary {
-        let diary = Diary(context: persistentContainer.viewContext)
-        diary.date = Date()
+    func create() -> T {
+        let data = T(context: persistentContainer.viewContext)
         
-        return diary
+        return data
     }
     
-    func readDiary() throws -> [Diary] {
-        let request = Diary.fetchRequest()
-        let diaryList = try persistentContainer.viewContext.fetch(request)
-        
-        return diaryList
+    func read() throws -> [T] {
+        let request = NSFetchRequest<T>(entityName: entity)
+        let dataList = try persistentContainer.viewContext.fetch(request)
+
+        return dataList
     }
     
-    func updateDiary() {
+    func update() {
         persistentContainer.saveContext()
     }
     
-    func deleteDiary(item: Diary) {
+    func delete(item: T) {
         persistentContainer.viewContext.delete(item)
         persistentContainer.saveContext()
-    }
-}
-
-class PersistentContainer: NSPersistentContainer {
-    func saveContext(backgroundContext: NSManagedObjectContext? = nil) {
-        let context = backgroundContext ?? viewContext
-        
-        guard context.hasChanges else {
-            return
-        }
-        
-        do {
-            try context.save()
-        } catch let error as NSError {
-            print("Error: \(error), \(error.userInfo)")
-        }
     }
 }
