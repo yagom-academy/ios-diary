@@ -47,10 +47,17 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         setUpText()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        addObserver()
+    }
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         saveDiaryContents()
+        removeObserver()
     }
     
     private func configureUI() {
@@ -79,6 +86,15 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         }
     }
     
+    private func addObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDiaryContents), name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
+    
+    private func removeObserver() {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
+    
+    @objc
     private func saveDiaryContents() {
         let text = textView.text ?? ""
         
