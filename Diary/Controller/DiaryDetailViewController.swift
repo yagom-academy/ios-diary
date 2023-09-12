@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DiaryDetailViewControllerDelegate: AnyObject {
-    func createDiaryData(text: String)
+    func createDiaryData(text: String) -> DiaryEntity?
     func updateDiaryData(diaryEntity: DiaryEntity, text: String)
     func deleteDiaryData(diaryEntity: DiaryEntity)
     func popDiaryDetailViewController()
@@ -24,7 +24,10 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         return textView
     }()
     
-    private lazy var isUpdate = diaryEntity != nil
+    private var isUpdate: Bool {
+        diaryEntity != nil
+    }
+    
     private var diaryEntity: DiaryEntity?
     weak var delegate: DiaryDetailViewControllerDelegate?
     
@@ -103,7 +106,7 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
             
             delegate?.updateDiaryData(diaryEntity: diaryEntity, text: text)
         } else {
-            delegate?.createDiaryData(text: text)
+            diaryEntity = delegate?.createDiaryData(text: text)
         }
     }
 }

@@ -6,11 +6,12 @@
 //
 
 final class DiaryCoreDataManager: CoreDataManager {
-    func createDiaryData(title: String, body: String, date: Double) {
+    func createDiaryData(title: String, body: String, date: Double) -> DiaryEntity {
         let entity = DiaryEntity(context: context)
         
         entity.title = title
         entity.body = body
         entity.date = date
+        return entity
     }
 }

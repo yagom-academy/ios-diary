@@ -66,12 +66,13 @@ extension AppManager: MainViewControllerDelegate {
 
 // MARK: - DiaryDetailViewControllerDelegate
 extension AppManager: DiaryDetailViewControllerDelegate {
-    func createDiaryData(text: String) {
-        guard let (title, body) = convertDiaryData(text: text) else { return }
+    func createDiaryData(text: String) -> DiaryEntity? {
+        guard let (title, body) = convertDiaryData(text: text) else { return nil }
         let date = Date().timeIntervalSince1970
+        let diaryEntity = diaryDataManager.createDiaryData(title: title, body: body, date: date)
         
-        diaryDataManager.createDiaryData(title: title, body: body, date: date)
         diaryDataManager.saveContext()
+        return diaryEntity
     }
     
     func updateDiaryData(diaryEntity: DiaryEntity, text: String) {
