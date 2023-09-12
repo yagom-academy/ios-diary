@@ -40,7 +40,7 @@ final class DiaryDetailViewController: UIViewController {
         
         configureUI()
         setupConstraint()
-        setupComponents()
+        setupObject()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -56,9 +56,9 @@ final class DiaryDetailViewController: UIViewController {
     }
 }
 
-// MARK: Setup Components
+// MARK: Setup Object
 extension DiaryDetailViewController {
-    private func setupComponents() {
+    private func setupObject() {
         setupView()
         setupTextView()
         setupNavigationBar()
@@ -279,3 +279,17 @@ extension DiaryDetailViewController {
     }
 }
 
+// MARK: Name Space
+extension DiaryDetailViewController {
+    private enum NameSpace {
+        static let check = "확인"
+        static let error = "Error"
+        static let deleteTitle = "진짜요?"
+        static let deleteSubtitle = "정말로 삭제하시겠습니까?"
+        static let cancelKorean = "취소"
+        static let deleteKorean = "삭제"
+        static let cancelEnglish = "Cancel"
+        static let deleteEnglish = "Delete"
+        static let shareEnglish = "Share..."
+    }
+}
