@@ -129,6 +129,7 @@ extension DiaryMainViewController: UITableViewDelegate, UITableViewDataSource {
         
         let deleteAction = UIContextualAction(style: .destructive, title: "Delete") { _, _, _ in
             self.persistentContainer?.deleteItem(diary)
+            self.persistentContainer?.saveContext()
             self.diarylist = self.persistentContainer?.getAllItems()
             self.diaryTableView.reloadData()
         }

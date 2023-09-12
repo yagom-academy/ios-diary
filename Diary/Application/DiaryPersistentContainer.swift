@@ -23,8 +23,10 @@ final class DiaryPersistentContainer: NSPersistentContainer {
     
     func getAllItems() -> [DiaryEntity] {
         do {
+            let fetchRequest = DiaryEntity.fetchRequest()
+            fetchRequest.sortDescriptors = [.init(key: "createdAt", ascending: false)]
             
-            return try viewContext.fetch(DiaryEntity.fetchRequest())
+            return try viewContext.fetch(fetchRequest)
         } catch let error as NSError {
             print("Error: \(error), \(error.userInfo)")
             
@@ -34,6 +36,5 @@ final class DiaryPersistentContainer: NSPersistentContainer {
     
     func deleteItem(_ item: DiaryEntity) {
         viewContext.delete(item)
-        saveContext()
     }
 }

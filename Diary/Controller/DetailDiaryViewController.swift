@@ -77,7 +77,7 @@ extension DetailDiaryViewController {
     
     private func configureNavigationItem(date: Date = Date()) {
         navigationItem.title = DiaryDateFormatter.convertDate(date, Locale.current.identifier)
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "일기장", style: .plain, target: self, action: #selector(didTapBackToMainButton))
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "일기장", style: .plain, target: self, action: #selector(didTapBackToMainButton))
         navigationItem.rightBarButtonItem =
         UIBarButtonItem(image: UIImage(systemName: "ellipsis"), style: .plain, target: self, action: #selector(didTapMoreOptionsButton))
     }
