@@ -84,10 +84,13 @@ extension MainTableViewCell {
         NSLayoutConstraint.activate([
             mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             mainStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
-            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
-            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5)
         ])
         
+        let mainStackViewBottomConstraint = mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5)
+        
+        mainStackViewBottomConstraint.priority = .init(999)
+        mainStackViewBottomConstraint.isActive = true
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         previewLabel.setContentHuggingPriority(.init(1), for: .horizontal)
     }
