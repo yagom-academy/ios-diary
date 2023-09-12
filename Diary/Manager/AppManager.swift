@@ -28,8 +28,8 @@ final class AppManager {
     }
     
     func start() {
-        guard let diaryData = try? diaryDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return }
-        let mainViewController = MainViewController(diaryEntity: diaryData, dateFormatter: dateFormatter)
+        guard let diaryContents = try? diaryDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return }
+        let mainViewController = MainViewController(diaryContents: diaryContents, dateFormatter: dateFormatter)
         
         mainViewController.delegate = self
         navigationController.viewControllers = [mainViewController]
@@ -43,6 +43,12 @@ extension AppManager: MainViewControllerDelegate {
         
         addDiaryViewController.delegate = self
         navigationController.pushViewController(addDiaryViewController, animated: true)
+    }
+    
+    func fetchDiaryContents(mainViewController: MainViewController) {
+        guard let diaryContents = try? diaryDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return }
+        
+        mainViewController.setUpDiaryEntity(diaryContents: diaryContents)
     }
 }
 

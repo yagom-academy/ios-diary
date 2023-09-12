@@ -8,6 +8,7 @@ import UIKit
 
 protocol MainViewControllerDelegate: AnyObject {
     func didTappedRightAddButton()
+    func fetchDiaryContents(mainViewController: MainViewController)
 }
 
 final class MainViewController: UIViewController, AlertControllerShowable {
@@ -16,7 +17,7 @@ final class MainViewController: UIViewController, AlertControllerShowable {
     }
     
     weak var delegate: MainViewControllerDelegate?
-    private let diaryEntity: [DiaryEntity]
+    private var diaryContents: [DiaryEntity]
     private let dateFormatter: DateFormatter
     private var diffableDatasource: UITableViewDiffableDataSource<Section, DiaryEntity>?
     
@@ -30,8 +31,8 @@ final class MainViewController: UIViewController, AlertControllerShowable {
         return tableView
     }()
     
-    init(diaryEntity: [DiaryEntity], dateFormatter: DateFormatter) {
-        self.diaryEntity = diaryEntity
+    init(diaryContents: [DiaryEntity], dateFormatter: DateFormatter) {
+        self.diaryContents = diaryContents
         self.dateFormatter = dateFormatter
         
         super.init(nibName: nil, bundle: nil)
@@ -48,9 +49,19 @@ final class MainViewController: UIViewController, AlertControllerShowable {
         setUpConstraints()
         setUpViewController()
         setUpTableViewDiffableDataSource()
-        setUpTableViewDiffableDataSourceSnapShot()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        delegate?.fetchDiaryContents(mainViewController: self)
+        setUpTableViewDiffableDataSourceSnapShot(animated: false)
+    }
+    
+    func setUpDiaryEntity(diaryContents: [DiaryEntity]) {
+        self.diaryContents = diaryContents
+    }
+    
     private func configureUI() {
         view.addSubview(tableView)
     }
@@ -104,12 +115,12 @@ extension MainViewController {
         })
     }
     
-    private func setUpTableViewDiffableDataSourceSnapShot() {
+    private func setUpTableViewDiffableDataSourceSnapShot(animated: Bool = true) {
         var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryEntity>()
         
         snapShot.appendSections([.main])
-        snapShot.appendItems(diaryEntity)
-        diffableDatasource?.apply(snapShot)
+        snapShot.appendItems(diaryContents)
+        diffableDatasource?.apply(snapShot, animatingDifferences: animated)
     }
 }
 
