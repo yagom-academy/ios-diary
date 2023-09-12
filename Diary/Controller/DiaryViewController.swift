@@ -155,9 +155,10 @@ extension DiaryViewController: UITextViewDelegate {
             if var diaryEntry {
                 diaryEntry.title = title
                 diaryEntry.body = body
-                try diaryManager.updateDiary(diaryEntry)
+                try diaryManager.storeDiary(diaryEntry)
             } else {
-                try diaryManager.storeDiary(title: title, body: body)
+                let diaryEntry = DiaryEntry(title: title, body: body)
+                try diaryManager.storeDiary(diaryEntry)
             }
         } catch {
             self.presentFailAlert()

@@ -49,29 +49,7 @@ extension CoreDataDiaryManager: DiaryReadable {
 
 // MARK: - Manage Diary
 extension CoreDataDiaryManager: DiaryManageable {
-    
-    func storeDiary(title: String, body: String?) throws {
-        let diaryEntity = DiaryEntity(context: context)
-        diaryEntity.id = UUID()
-        diaryEntity.title = title
-        diaryEntity.body = body
-        diaryEntity.creationDate = Date()
-        
-        try saveContext()
-    }
-    
-    func updateDiary(_ diary: DiaryEntry) throws {
-        let fetchRequest = DiaryEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: NameSpace.idEqualFormat, diary.id.uuidString)
-        
-        if let diaryEntity = try context.fetch(fetchRequest).first {
-            diaryEntity.title = diary.title
-            diaryEntity.body = diary.body
-            
-            try saveContext()
-        }
-    }
-    
+
     func storeDiary(_ diary: DiaryEntry) throws {
         let fetchRequest = DiaryEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: NameSpace.idEqualFormat, diary.id.uuidString)
