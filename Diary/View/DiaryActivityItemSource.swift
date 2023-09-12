@@ -7,8 +7,8 @@
 
 import LinkPresentation
 
-class DiaryActivityItemSource: NSObject, UIActivityItemSource {
-    let diary: DiaryEntity
+final class DiaryActivityItemSource: NSObject, UIActivityItemSource {
+    private let diary: DiaryEntity
     
     init(diary: DiaryEntity) {
         self.diary = diary
