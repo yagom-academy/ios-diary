@@ -128,7 +128,7 @@ extension DiaryViewController: DiaryDetailViewControllerDelegate {
 // MARK: CollectionView Delegate
 extension DiaryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let diary = useCase?.diaryList[indexPath.item] else {
+        guard let diary = useCase?.diaryList[safe: indexPath.item] else {
             return
         }
         
