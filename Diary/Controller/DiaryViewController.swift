@@ -116,6 +116,15 @@ extension DiaryViewController: DiaryDetailViewControllerDelegate {
         useCase?.upsert(diary)
         loadData()
     }
+    
+    func diaryDetailViewController(_ diaryDetailViewController: DiaryDetailViewController, delete diary: Diary) {
+        useCase?.delete(diary)
+        loadData()
+    }
+    
+    func diaryDetailViewController(dismiss diaryDetailViewController: DiaryDetailViewController) {
+        diaryDetailViewController.dismiss(animated: true)
+    }
 }
 
 // MARK: CollectionView Delegate
@@ -210,5 +219,9 @@ extension DiaryViewController {
         static let plusButtonImage = "plus"
         static let check = "확인"
         static let error = "Error"
+        static let deleteTitle = "진짜요?"
+        static let deleteSubtitle = "정말로 삭제하시겠습니까?"
+        static let cancel = "취소"
+        static let delete = "삭제"
     }
 }
