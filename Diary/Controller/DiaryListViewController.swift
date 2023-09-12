@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class DiaryListViewController: UIViewController, CoreDataUpdatable {
+final class DiaryListViewController: UIViewController {
     
     // MARK: - Private Property
     private let diaryStore: DiaryStorageProtocol
@@ -49,8 +49,6 @@ final class DiaryListViewController: UIViewController, CoreDataUpdatable {
         configureUI()
         setupConstraints()
         setupContentTableView()
-        addObserveSuccessUpdate(observer: self, selector: #selector(setupContentTableView))
-        addObserveFailUpdate(observer: self, selector: #selector(presentFailAlert))
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -116,8 +114,12 @@ extension DiaryListViewController {
     
     private func presentDeleteAlert(diaryEntry: DiaryEntry) {
         AlertManager.presentDeleteAlert(to: self) { _ in
-            self.diaryStore.deleteDiary(diaryEntry)
-            self.navigationController?.popViewController(animated: true)
+            do {
+                try self.diaryStore.deleteDiary(diaryEntry)
+                self.navigationController?.popViewController(animated: true)
+            } catch {
+                self.presentFailAlert()
+            }
         }
     }
 }

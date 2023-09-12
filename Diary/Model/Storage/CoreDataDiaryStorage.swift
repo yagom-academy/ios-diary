@@ -27,14 +27,9 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
     }
     
     // MARK: - Save Context
-    private func saveContext() {
+    private func saveContext() throws {
         if context.hasChanges {
-            do {
-                try context.save()
-                NotificationCenter.default.post(name: .coreDataUpdateSuccessNotification, object: nil)
-            } catch {
-                NotificationCenter.default.post(name: .coreDataUpdateFailNotification, object: nil)
-            }
+            try context.save()
         }
     }
     
@@ -48,35 +43,35 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
         return diaryEntrys
     }
     
-    func storeDiary(title: String, body: String?) {
+    func storeDiary(title: String, body: String?) throws {
         let diaryEntity = DiaryEntity(context: context)
         diaryEntity.id = UUID()
         diaryEntity.title = title
         diaryEntity.body = body
         diaryEntity.creationDate = Date()
         
-        saveContext()
+        try saveContext()
     }
     
-    func updateDiary(_ diary: DiaryEntry) {
+    func updateDiary(_ diary: DiaryEntry) throws {
         let fetchRequest = DiaryEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: NameSpace.idEqualFormat, diary.id.uuidString)
         
-        if let diaryEntity = try? context.fetch(fetchRequest).first {
+        if let diaryEntity = try context.fetch(fetchRequest).first {
             diaryEntity.title = diary.title
             diaryEntity.body = diary.body
             
-            saveContext()
+            try saveContext()
         }
     }
     
-    func deleteDiary(_ diary: DiaryEntry) {
+    func deleteDiary(_ diary: DiaryEntry) throws {
         let fetchRequest = DiaryEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: NameSpace.idEqualFormat, diary.id.uuidString)
         
-        if let diaryEntity = try? context.fetch(fetchRequest).first {
+        if let diaryEntity = try context.fetch(fetchRequest).first {
             context.delete(diaryEntity)
-            saveContext()
+            try saveContext()
         }
     }
     

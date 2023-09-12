@@ -28,7 +28,6 @@
 		45D0051F2AA5D8340060036B /* ConversionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D0051E2AA5D8340060036B /* ConversionError.swift */; };
 		45DEDCBB2AAACDAB00F55804 /* CoreDataDiaryStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCBA2AAACDAB00F55804 /* CoreDataDiaryStorageTests.swift */; };
 		45DEDCC22AABF63B00F55804 /* Notification.name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCC12AABF63B00F55804 /* Notification.name+.swift */; };
-		45DEDCC52AABFA2D00F55804 /* CoreDataUpdatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCC42AABFA2D00F55804 /* CoreDataUpdatable.swift */; };
 		45DEDCC72AAC057200F55804 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCC62AAC057100F55804 /* AlertManager.swift */; };
 		45DEDCC92AAD651100F55804 /* ActivityViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCC82AAD651100F55804 /* ActivityViewManager.swift */; };
 		45DEDCCB2AAD932100F55804 /* AppResignObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCCA2AAD932100F55804 /* AppResignObservable.swift */; };
@@ -74,7 +73,6 @@
 		45DEA7642A9D929E00D8F686 /* DiaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTests.swift; sourceTree = "<group>"; };
 		45DEDCBA2AAACDAB00F55804 /* CoreDataDiaryStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataDiaryStorageTests.swift; sourceTree = "<group>"; };
 		45DEDCC12AABF63B00F55804 /* Notification.name+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification.name+.swift"; sourceTree = "<group>"; };
-		45DEDCC42AABFA2D00F55804 /* CoreDataUpdatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataUpdatable.swift; sourceTree = "<group>"; };
 		45DEDCC62AAC057100F55804 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		45DEDCC82AAD651100F55804 /* ActivityViewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewManager.swift; sourceTree = "<group>"; };
 		45DEDCCA2AAD932100F55804 /* AppResignObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppResignObservable.swift; sourceTree = "<group>"; };
@@ -208,7 +206,6 @@
 			children = (
 				4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */,
 				4541CC472A9DB67D0095C258 /* LocaleDateFormatterProtocol.swift */,
-				45DEDCC42AABFA2D00F55804 /* CoreDataUpdatable.swift */,
 				45DEDCCA2AAD932100F55804 /* AppResignObservable.swift */,
 			);
 			path = Protocol;
@@ -422,7 +419,6 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				45D0051F2AA5D8340060036B /* ConversionError.swift in Sources */,
 				45DEDCCB2AAD932100F55804 /* AppResignObservable.swift in Sources */,
-				45DEDCC52AABFA2D00F55804 /* CoreDataUpdatable.swift in Sources */,
 				45A131F82AA0C6C700433FCC /* UIAlertController+.swift in Sources */,
 				4541CC4A2A9DB6AC0095C258 /* UserDateFormatter.swift in Sources */,
 				45D0051B2AA5CEEE0060036B /* DiaryEntity+CoreDataProperties.swift in Sources */,

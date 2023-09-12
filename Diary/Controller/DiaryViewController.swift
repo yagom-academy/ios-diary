@@ -113,8 +113,12 @@ extension DiaryViewController {
     
     private func presentDeleteAlert(diaryEntry: DiaryEntry) {
         AlertManager.presentDeleteAlert(to: self) { _ in
-            self.diaryStore.deleteDiary(diaryEntry)
-            self.navigationController?.popViewController(animated: true)
+            do {
+                try self.diaryStore.deleteDiary(diaryEntry)
+                self.navigationController?.popViewController(animated: true)
+            } catch {
+                self.presentFailAlert()
+            }
         }
     }
     
@@ -140,12 +144,16 @@ extension DiaryViewController: UITextViewDelegate {
         
         let body = diaryContents.dropFirst().joined(separator: NameSpace.enter)
         
-        if var diaryEntry {
-            diaryEntry.title = title
-            diaryEntry.body = body
-            diaryStore.updateDiary(diaryEntry)
-        } else {
-            diaryStore.storeDiary(title: title, body: body)
+        do {
+            if var diaryEntry {
+                diaryEntry.title = title
+                diaryEntry.body = body
+                try diaryStore.updateDiary(diaryEntry)
+            } else {
+                try diaryStore.storeDiary(title: title, body: body)
+            }
+        } catch {
+            self.presentFailAlert()
         }
     }
 }
