@@ -20,7 +20,8 @@ struct DiaryViewControllerUseCase {
         do {
             let diaryEntities = try diaryPersistentManager.fetch()
             diaryList = diaryEntities.map { diaryEntity in
-                guard let title = diaryEntity.title,
+                guard let identifier = diaryEntity.identifier,
+                      let title = diaryEntity.title,
                       let body = diaryEntity.body,
                       let createdDate = diaryEntity.createdDate else {
                     return Diary(
@@ -31,7 +32,7 @@ struct DiaryViewControllerUseCase {
                     )
                 }
                 return Diary(
-                    identifier: UUID(),
+                    identifier: identifier,
                     title: title,
                     body: body,
                     createdDate: createdDate
