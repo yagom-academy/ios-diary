@@ -21,10 +21,13 @@ final class CoreDataDiaryManagerTests: XCTestCase {
 
     func test_CoreDataDiaryManager의_DiaryEntrys를_사용하면_DiaryEntry배열을_반환합니다() {
         do {
+            // given
+            let expectation = DiaryEntry(title: "test", body: "Read Test")
+            try sut.storeDiary(expectation)
             // when
-            let result = try sut.diaryEntrys() is [DiaryEntry]
+            let result = try sut.diaryEntrys().first
             // then
-            XCTAssertTrue(result)
+            XCTAssertEqual(result, expectation)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -33,10 +36,10 @@ final class CoreDataDiaryManagerTests: XCTestCase {
     func test_storeDiary로_일기를_저장할_수_있습니다() {
         do {
             // given
-            try sut.storeDiary(title: "test", body: "store test")
-            let expectation = "store test"
+            let expectation = DiaryEntry(title: "test", body: "store Test")
+            try sut.storeDiary(expectation)
             // when
-            let result = try sut.diaryEntrys().first?.body
+            let result = try sut.diaryEntrys().first
             // then
             XCTAssertEqual(result, expectation)
         } catch {
@@ -47,14 +50,15 @@ final class CoreDataDiaryManagerTests: XCTestCase {
     func test_updateDiary로_저장된_일기를_수정할_수_있습니다() {
         do {
             // given
-            try sut.storeDiary(title: "test", body: "update test")
-            var diaryEntry = try sut.diaryEntrys().first
-            diaryEntry?.body = "update test update test"
+            var expectation = DiaryEntry(title: "test", body: "update test")
+            try sut.storeDiary(expectation)
+            
             // when
-            try sut.updateDiary(diaryEntry!)
+            expectation.body = "update test update test"
+            try sut.storeDiary(expectation)
             let result = try sut.diaryEntrys().first
             // then
-            XCTAssertEqual(result, diaryEntry)
+            XCTAssertEqual(result, expectation)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -63,10 +67,10 @@ final class CoreDataDiaryManagerTests: XCTestCase {
     func test_deleteDiary로_원하는_일기를_삭제할_수_있습니다() {
         do {
             // given
-            try sut.storeDiary(title: "test", body: "delete test")
-            let diaryEntry = try sut.diaryEntrys().first
+            let diaryEntry = DiaryEntry(title: "test", body: "delete test")
+            try sut.storeDiary(diaryEntry)
             // when
-            try sut.deleteDiary(diaryEntry!)
+            try sut.deleteDiary(diaryEntry)
             let result = try sut.diaryEntrys().isEmpty
             // then
             XCTAssertTrue(result)
