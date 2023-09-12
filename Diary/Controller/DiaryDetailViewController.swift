@@ -24,8 +24,6 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     private var diaryEntity: DiaryEntity?
     weak var delegate: DiaryDetailViewControllerDelegate?
     
-    
-    
     init(diaryEntity: DiaryEntity? = nil) {
         self.diaryEntity = diaryEntity
         
