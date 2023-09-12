@@ -5,27 +5,21 @@
 // 
 
 import UIKit
-import CoreData
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    lazy var persistentContainer: PersistentContainer = {
-        let container = PersistentContainer(name: "Diary")
-        container.loadPersistentStores { _, error in
-            if let error = error {
-                fatalError("Unable to load persistent stores: \(error)")
-            }
-        }
-        return container
-    }()
+    let coreDataManager = CoreDataManager(name: "Diary")
 
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        let diaryListViewController = DiaryListViewController(container: persistentContainer)
+        guard let windowScene = (scene as? UIWindowScene) else {
+            return
+        }
+        
+        let diaryListViewController = DiaryListViewController(coreDataManager: coreDataManager)
         let navigationController = UINavigationController(rootViewController: diaryListViewController)
         
         window = UIWindow(windowScene: windowScene)
@@ -34,6 +28,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        persistentContainer.saveContext()
+        coreDataManager.saveContext()
     }
 }

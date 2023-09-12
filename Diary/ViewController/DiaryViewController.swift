@@ -10,7 +10,7 @@ import LinkPresentation
 
 final class DiaryViewController: UIViewController {
     // MARK: - Property
-    private let container: PersistentContainer
+    private let coreDataManager: CoreDataManager
     private var diary: DiaryEntity?
     private let contentTextView: UITextView = {
         let textView = UITextView()
@@ -20,9 +20,9 @@ final class DiaryViewController: UIViewController {
     }()
     
     // MARK: - Initializer
-    init(diary: DiaryEntity? = nil, container: PersistentContainer) {
+    init (coreDataManager: CoreDataManager, diary: DiaryEntity? = nil) {
+        self.coreDataManager = coreDataManager
         self.diary = diary
-        self.container = container
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -107,7 +107,7 @@ final class DiaryViewController: UIViewController {
     
     private func writeDiary() {
         if diary == nil {
-            diary = DiaryEntity(context: container.viewContext)
+            diary = DiaryEntity(context: coreDataManager.container.viewContext)
             diary?.id = UUID()
             diary?.date = Date()
         }
@@ -134,12 +134,12 @@ final class DiaryViewController: UIViewController {
             return
         }
         
-        self.container.viewContext.delete(diary)
+        coreDataManager.deleteContext(of: diary)
         navigationController?.popViewController(animated: true)
     }
     
     private func saveDiary() {
-        container.saveContext()
+        coreDataManager.saveContext()
     }
     
     private func registerKeyboardListener() {

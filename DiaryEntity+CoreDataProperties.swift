@@ -10,10 +10,6 @@ import Foundation
 import CoreData
 
 extension DiaryEntity {
-    static func fetchRequest() -> NSFetchRequest<DiaryEntity> {
-        return NSFetchRequest<DiaryEntity>(entityName: "DiaryEntity")
-    }
-
     @NSManaged var id: UUID
     @NSManaged var body: String?
     @NSManaged var date: Date
@@ -22,4 +18,10 @@ extension DiaryEntity {
 
 extension DiaryEntity: Identifiable {
 
+}
+
+extension DiaryEntity: EntityProtocol {
+    var entityName: String {
+        return "DiaryEntity"
+    }
 }

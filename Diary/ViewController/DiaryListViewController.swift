@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     // MARK: - Property
-    private let container: PersistentContainer
+    private let coreDataManager: CoreDataManager
     private var diaryList: [DiaryEntity] = []
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -18,8 +18,8 @@ final class DiaryListViewController: UIViewController {
     }()
     
     // MARK: - Initializer
-    init(container: PersistentContainer) {
-        self.container = container
+    init(coreDataManager: CoreDataManager) {
+        self.coreDataManager = coreDataManager
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -76,14 +76,15 @@ final class DiaryListViewController: UIViewController {
     
     // MARK: Method
     private func pushDiaryViewController(indexPath: IndexPath? = nil) {
-        let diaryViewController = DiaryViewController(container: container)
+        let diaryViewController = DiaryViewController(coreDataManager: coreDataManager)
         
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
     private func loadDiary() {
         do {
-            diaryList = try container.viewContext.fetch(DiaryEntity.fetchRequest())
+//            diaryList = try container.viewContext.fetch(DiaryEntity.fetchRequest())
+            diaryList = try coreDataManager.fetch(of: DiaryEntity())
             tableView.reloadData()
         } catch {
             let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
@@ -124,7 +125,7 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
         tableView.deselectRow(at: indexPath, animated: true)
         
         let diary = diaryList[indexPath.row]
-        let diaryViewController = DiaryViewController(diary: diary, container: container)
+        let diaryViewController = DiaryViewController(coreDataManager: coreDataManager, diary: diary)
         
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
@@ -142,8 +143,8 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
             self.showDeleteConfirmAlert {
                 self.diaryList.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                self.container.viewContext.delete(diary)
-                self.container.saveContext()
+                self.coreDataManager.deleteContext(of: diary)
+                self.coreDataManager.saveContext()
             }
             
             completionHandler(true)
