@@ -69,6 +69,7 @@ extension DiaryDetailViewController {
     private func setupTextView() {
         diaryTextView.text = useCase?.readDiary()
         diaryTextView.keyboardDismissMode = .onDrag
+        diaryTextView.delegate = self
     }
     
     private func setupNavigationBar() {
@@ -158,8 +159,6 @@ extension DiaryDetailViewController {
     
     @objc private func keyboardWillHide() {
         diaryTextView.contentInset = UIEdgeInsets.zero
-        
-        upsertData()
     }
 }
 
@@ -174,9 +173,14 @@ extension DiaryDetailViewController {
     }
 }
 
-// MARK: Name Space
-extension DiaryDetailViewController {
-    private enum NameSpace {
-        static let diaryText = "%@\n%@"
+// MARK: TextView Delegate {
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        guard let diaryText = textView.text else {
+            return
+        }
+        
+        useCase?.updateDiary(diaryText)
+        upsertData()
     }
 }
