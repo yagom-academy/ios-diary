@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		5BBC44392A9F036000C528DD /* MainTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC44382A9F036000C528DD /* MainTableViewCell.swift */; };
-		5BBC443B2A9F276100C528DD /* DiarySample.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BBC443A2A9F276100C528DD /* DiarySample.swift */; };
 		5BBC443D2A9F30ED00C528DD /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 5BBC443C2A9F30ED00C528DD /* .swiftlint.yml */; };
 		5BF1B2D22AAF422300FDC1A5 /* AlertControllerShowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF1B2D12AAF422300FDC1A5 /* AlertControllerShowable.swift */; };
 		5BF1B2D42AAF42FB00FDC1A5 /* ActivityViewControllerShowable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5BF1B2D32AAF42FB00FDC1A5 /* ActivityViewControllerShowable.swift */; };
@@ -22,7 +21,6 @@
 		D2BCA2B12AAF3A7900D55F4C /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCA2AF2AAF3A7900D55F4C /* DiaryEntity+CoreDataProperties.swift */; };
 		D2BCA2B52AAF3B1500D55F4C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCA2B42AAF3B1500D55F4C /* CoreDataManager.swift */; };
 		D2BCA2B72AAF3B2300D55F4C /* DiaryCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCA2B62AAF3B2300D55F4C /* DiaryCoreDataManager.swift */; };
-		D2C1FBEF2A9F058000526DA5 /* DiaryContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBEE2A9F058000526DA5 /* DiaryContent.swift */; };
 		D2C1FBF32A9F0A0900526DA5 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBF22A9F0A0900526DA5 /* DiaryDetailViewController.swift */; };
 		D2C1FBF62A9F1EC100526DA5 /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */; };
 		D2DB46872AA1A83B009D1926 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DB46862AA1A83B009D1926 /* ReuseIdentifiable.swift */; };
@@ -30,7 +28,6 @@
 
 /* Begin PBXFileReference section */
 		5BBC44382A9F036000C528DD /* MainTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTableViewCell.swift; sourceTree = "<group>"; };
-		5BBC443A2A9F276100C528DD /* DiarySample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiarySample.swift; sourceTree = "<group>"; };
 		5BBC443C2A9F30ED00C528DD /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		5BF1B2D12AAF422300FDC1A5 /* AlertControllerShowable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertControllerShowable.swift; sourceTree = "<group>"; };
 		5BF1B2D32AAF42FB00FDC1A5 /* ActivityViewControllerShowable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewControllerShowable.swift; sourceTree = "<group>"; };
@@ -46,7 +43,6 @@
 		D2BCA2AF2AAF3A7900D55F4C /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D2BCA2B42AAF3B1500D55F4C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		D2BCA2B62AAF3B2300D55F4C /* DiaryCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCoreDataManager.swift; sourceTree = "<group>"; };
-		D2C1FBEE2A9F058000526DA5 /* DiaryContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContent.swift; sourceTree = "<group>"; };
 		D2C1FBF22A9F0A0900526DA5 /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
 		D2DB46862AA1A83B009D1926 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
@@ -94,8 +90,6 @@
 			isa = PBXGroup;
 			children = (
 				D2BCA2B22AAF3A8700D55F4C /* CoreData */,
-				D2C1FBEE2A9F058000526DA5 /* DiaryContent.swift */,
-				5BBC443A2A9F276100C528DD /* DiarySample.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -270,14 +264,12 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				D2C1FBF32A9F0A0900526DA5 /* DiaryDetailViewController.swift in Sources */,
 				D2BCA2B12AAF3A7900D55F4C /* DiaryEntity+CoreDataProperties.swift in Sources */,
-				D2C1FBEF2A9F058000526DA5 /* DiaryContent.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				D2BCA2B52AAF3B1500D55F4C /* CoreDataManager.swift in Sources */,
 				5BBC44392A9F036000C528DD /* MainTableViewCell.swift in Sources */,
 				D2C1FBF62A9F1EC100526DA5 /* AppManager.swift in Sources */,
 				D2BCA2B72AAF3B2300D55F4C /* DiaryCoreDataManager.swift in Sources */,
 				D2BCA2B02AAF3A7900D55F4C /* DiaryEntity+CoreDataClass.swift in Sources */,
-				5BBC443B2A9F276100C528DD /* DiarySample.swift in Sources */,
 				D2DB46872AA1A83B009D1926 /* ReuseIdentifiable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
