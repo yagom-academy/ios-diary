@@ -7,10 +7,10 @@
 
 import UIKit
 
-protocol DiaryShareable { }
+protocol DiaryShareable where Self: UIViewController { }
 
 extension DiaryShareable {
-    func shareDiary(data: DiaryEntity?, in viewController: UIViewController) {
+    func shareDiary(data: DiaryEntity?) {
         guard let data else {
             return
         }
@@ -21,7 +21,7 @@ extension DiaryShareable {
             applicationActivities: nil
         )
         
-        activityViewController.popoverPresentationController?.sourceView = viewController.view
-        viewController.present(activityViewController, animated: true, completion: nil)
+        activityViewController.popoverPresentationController?.sourceView = self.view
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }

@@ -7,10 +7,10 @@
 
 import UIKit
 
-protocol DiaryAlertPresentable { }
+protocol DiaryAlertPresentable where Self: UIViewController { }
 
 extension DiaryAlertPresentable {
-    func showDeleteConfirmAlert(in viewController: UIViewController, by action: @escaping () -> Void) {
+    func showDeleteConfirmAlert(by action: @escaping () -> Void) {
         let alert = UIAlertController(
             title: String(localized: "DeleteConfirmAlertTitle"),
             message: String(localized: "DeleteConfirmAlertMessage"),
@@ -24,6 +24,6 @@ extension DiaryAlertPresentable {
         alert.addAction(cancelAction)
         alert.addAction(deleteAction)
         
-        viewController.present(alert, animated: true)
+        self.present(alert, animated: true)
     }
 }

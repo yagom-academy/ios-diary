@@ -139,7 +139,7 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
                 return
             }
             
-            self.showDeleteConfirmAlert(in: self) {
+            self.showDeleteConfirmAlert {
                 self.diaryList.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.container.viewContext.delete(diary)
@@ -149,7 +149,7 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
             completionHandler(true)
         }
         let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHandler in
-            self.shareDiary(data: diary, in: self)
+            self.shareDiary(data: diary)
             completionHandler(true)
         }
         
