@@ -113,12 +113,16 @@ extension DiaryListViewController {
     }
     
     private func presentDeleteAlert(diaryEntry: DiaryEntry) {
-        AlertManager.presentDeleteAlert(to: self) { _ in
+        AlertManager.presentDeleteAlert(to: self) { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
             do {
-                try self.diaryStore.deleteDiary(diaryEntry)
-                self.navigationController?.popViewController(animated: true)
+                try diaryStore.deleteDiary(diaryEntry)
+                navigationController?.popViewController(animated: true)
             } catch {
-                self.presentFailAlert()
+                presentFailAlert()
             }
         }
     }
@@ -138,25 +142,33 @@ extension DiaryListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let shareAction = UIContextualAction(style: .normal, title: NameSpace.share) { (_, _, success: @escaping (Bool) -> Void) in
+        let shareAction = UIContextualAction(style: .normal, title: NameSpace.share) { [weak self] (_, _, success: @escaping (Bool) -> Void) in
+            guard let self else {
+                return
+            }
+            
             do {
-                let diaryEntrys = try self.diaryStore.diaryEntrys()
+                let diaryEntrys = try diaryStore.diaryEntrys()
                 let diaryEntry = diaryEntrys[indexPath.row]
                 ActivityViewManager.presentActivityView(to: self, with: diaryEntry)
                 success(true)
             } catch {
-                self.presentFailAlert()
+                presentFailAlert()
                 success(false)
             }
         }
         
-        let deleteAction = UIContextualAction(style: .destructive, title: NameSpace.delete) { (_, _, success: @escaping (Bool) -> Void) in
+        let deleteAction = UIContextualAction(style: .destructive, title: NameSpace.delete) { [weak self] (_, _, success: @escaping (Bool) -> Void) in
+            guard let self else {
+                return
+            }
+            
             do {
-                let diaryEntrys = try self.diaryStore.diaryEntrys()
-                self.presentDeleteAlert(diaryEntry: diaryEntrys[indexPath.row])
+                let diaryEntrys = try diaryStore.diaryEntrys()
+                presentDeleteAlert(diaryEntry: diaryEntrys[indexPath.row])
                 success(true)
             } catch {
-                self.presentFailAlert()
+                presentFailAlert()
                 success(false)
             }
         }

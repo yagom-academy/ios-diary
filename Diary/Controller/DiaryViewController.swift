@@ -112,12 +112,16 @@ extension DiaryViewController {
     }
     
     private func presentDeleteAlert(diaryEntry: DiaryEntry) {
-        AlertManager.presentDeleteAlert(to: self) { _ in
+        AlertManager.presentDeleteAlert(to: self) { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
             do {
-                try self.diaryStore.deleteDiary(diaryEntry)
-                self.navigationController?.popViewController(animated: true)
+                try diaryStore.deleteDiary(diaryEntry)
+                navigationController?.popViewController(animated: true)
             } catch {
-                self.presentFailAlert()
+                presentFailAlert()
             }
         }
     }
