@@ -9,7 +9,8 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     
     // MARK: - Private Property
-    private let diaryStore: DiaryStorageProtocol
+    private let diaryReader: DiaryReadable
+    private let diaryManager: DiaryManageable
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -32,8 +33,9 @@ final class DiaryListViewController: UIViewController {
     }()
     
     // MARK: - Life Cycle
-    init(diaryStore: DiaryStorageProtocol) {
-        self.diaryStore = diaryStore
+    init(diaryReader: DiaryReadable, diaryManager: DiaryManageable) {
+        self.diaryReader = diaryReader
+        self.diaryManager = diaryManager
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -60,7 +62,7 @@ final class DiaryListViewController: UIViewController {
 extension DiaryListViewController {
     @objc private func setupContentTableView() {
         do {
-            let diaryEntrys = try diaryStore.diaryEntrys()
+            let diaryEntrys = try diaryReader.diaryEntrys()
             var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryEntry>()
             snapshot.appendSections([.main])
             snapshot.appendItems(diaryEntrys)
@@ -99,7 +101,7 @@ extension DiaryListViewController {
 // MARK: - Push & Present Controller
 extension DiaryListViewController {
     @objc private func pushDiaryViewController() {
-        let diaryViewController = DiaryViewController(diaryStore: diaryStore, diaryEntry: nil)
+        let diaryViewController = DiaryViewController(diaryManager: diaryManager, diaryEntry: nil)
         
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
@@ -119,7 +121,7 @@ extension DiaryListViewController {
             }
             
             do {
-                try diaryStore.deleteDiary(diaryEntry)
+                try diaryManager.deleteDiary(diaryEntry)
                 navigationController?.popViewController(animated: true)
             } catch {
                 presentFailAlert()
@@ -132,8 +134,8 @@ extension DiaryListViewController {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         do {
-            let diaryEntry = try diaryStore.diaryEntrys()[indexPath.row]
-            let diaryViewController = DiaryViewController(diaryStore: diaryStore, diaryEntry: diaryEntry)
+            let diaryEntry = try diaryReader.diaryEntrys()[indexPath.row]
+            let diaryViewController = DiaryViewController(diaryManager: diaryManager, diaryEntry: diaryEntry)
             
             navigationController?.pushViewController(diaryViewController, animated: true)
         } catch {
@@ -148,7 +150,7 @@ extension DiaryListViewController: UITableViewDelegate {
             }
             
             do {
-                let diaryEntrys = try diaryStore.diaryEntrys()
+                let diaryEntrys = try diaryReader.diaryEntrys()
                 let diaryEntry = diaryEntrys[indexPath.row]
                 ActivityViewManager.presentActivityView(to: self, with: diaryEntry)
                 success(true)
@@ -164,7 +166,7 @@ extension DiaryListViewController: UITableViewDelegate {
             }
             
             do {
-                let diaryEntrys = try diaryStore.diaryEntrys()
+                let diaryEntrys = try diaryReader.diaryEntrys()
                 presentDeleteAlert(diaryEntry: diaryEntrys[indexPath.row])
                 success(true)
             } catch {

@@ -10,7 +10,7 @@ import UIKit
 final class DiaryViewController: UIViewController, AppResignObservable {
     
     // MARK: - Private Property
-    private let diaryStore: DiaryStorageProtocol
+    private let diaryManager: DiaryManageable
     private var diaryEntry: DiaryEntry?
     private let textView: UITextView = {
         let textView = UITextView()
@@ -22,8 +22,8 @@ final class DiaryViewController: UIViewController, AppResignObservable {
     }()
     
     // MARK: - Life Cycle
-    init(diaryStore: DiaryStorageProtocol, diaryEntry: DiaryEntry?) {
-        self.diaryStore = diaryStore
+    init(diaryManager: DiaryManageable, diaryEntry: DiaryEntry?) {
+        self.diaryManager = diaryManager
         self.diaryEntry = diaryEntry
         
         super.init(nibName: nil, bundle: nil)
@@ -118,7 +118,7 @@ extension DiaryViewController {
             }
             
             do {
-                try diaryStore.deleteDiary(diaryEntry)
+                try diaryManager.deleteDiary(diaryEntry)
                 navigationController?.popViewController(animated: true)
             } catch {
                 presentFailAlert()
@@ -155,9 +155,9 @@ extension DiaryViewController: UITextViewDelegate {
             if var diaryEntry {
                 diaryEntry.title = title
                 diaryEntry.body = body
-                try diaryStore.updateDiary(diaryEntry)
+                try diaryManager.updateDiary(diaryEntry)
             } else {
-                try diaryStore.storeDiary(title: title, body: body)
+                try diaryManager.storeDiary(title: title, body: body)
             }
         } catch {
             self.presentFailAlert()

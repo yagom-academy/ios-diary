@@ -7,26 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4541CC422A9D95CE0095C258 /* AssetDiaryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541CC412A9D95CE0095C258 /* AssetDiaryStorage.swift */; };
+		4541CC422A9D95CE0095C258 /* AssetDiaryReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541CC412A9D95CE0095C258 /* AssetDiaryReader.swift */; };
 		4541CC442A9D9B4A0095C258 /* DateFormatManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541CC432A9D9B4A0095C258 /* DateFormatManager.swift */; };
 		4541CC482A9DB67D0095C258 /* LocaleDateFormatterProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541CC472A9DB67D0095C258 /* LocaleDateFormatterProtocol.swift */; };
 		4541CC4A2A9DB6AC0095C258 /* UserDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541CC492A9DB6AC0095C258 /* UserDateFormatter.swift */; };
-		4541CC4E2A9DB7140095C258 /* DiaryStorageProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */; };
+		4541CC4E2A9DB7140095C258 /* DiaryManageable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4541CC4D2A9DB7140095C258 /* DiaryManageable.swift */; };
 		455170EB2A9EE5C1002A043C /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455170EA2A9EE5C1002A043C /* DiaryViewController.swift */; };
 		455170F12A9F0007002A043C /* UITextView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455170F02A9F0007002A043C /* UITextView+.swift */; };
 		455171082AA07797002A043C /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 455171072AA07797002A043C /* .swiftlint.yml */; };
 		45A131F32AA0B5B200433FCC /* DiaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEA7642A9D929E00D8F686 /* DiaryTests.swift */; };
 		45A131F62AA0B98F00433FCC /* StorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A131F52AA0B98F00433FCC /* StorageError.swift */; };
 		45A131F82AA0C6C700433FCC /* UIAlertController+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45A131F72AA0C6C600433FCC /* UIAlertController+.swift */; };
-		45AAF1B42AA1698F00F7FC15 /* AssetDiaryStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455170D22A9EDA85002A043C /* AssetDiaryStorageTests.swift */; };
+		45AAF1B42AA1698F00F7FC15 /* AssetDiaryReaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455170D22A9EDA85002A043C /* AssetDiaryReaderTests.swift */; };
 		45AAF1B62AA1699400F7FC15 /* DateFormatManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 455170DF2A9EDBF4002A043C /* DateFormatManagerTests.swift */; };
+		45AD43EF2AB01A4B00A1D8A7 /* DiaryReadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45AD43EE2AB01A4B00A1D8A7 /* DiaryReadable.swift */; };
 		45C4AF842A9CA0A1003142B6 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C4AF832A9CA0A1003142B6 /* Diary.swift */; };
 		45C4AF882A9CBFE4003142B6 /* DiaryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45C4AF872A9CBFE4003142B6 /* DiaryTableViewCell.swift */; };
 		45D0051A2AA5CEEE0060036B /* DiaryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D005182AA5CEEE0060036B /* DiaryEntity+CoreDataClass.swift */; };
 		45D0051B2AA5CEEE0060036B /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D005192AA5CEEE0060036B /* DiaryEntity+CoreDataProperties.swift */; };
-		45D0051D2AA5D02F0060036B /* CoreDataDiaryStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D0051C2AA5D02F0060036B /* CoreDataDiaryStorage.swift */; };
+		45D0051D2AA5D02F0060036B /* CoreDataDiaryManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D0051C2AA5D02F0060036B /* CoreDataDiaryManager.swift */; };
 		45D0051F2AA5D8340060036B /* ConversionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45D0051E2AA5D8340060036B /* ConversionError.swift */; };
-		45DEDCBB2AAACDAB00F55804 /* CoreDataDiaryStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCBA2AAACDAB00F55804 /* CoreDataDiaryStorageTests.swift */; };
+		45DEDCBB2AAACDAB00F55804 /* CoreDataDiaryManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCBA2AAACDAB00F55804 /* CoreDataDiaryManagerTests.swift */; };
 		45DEDCC22AABF63B00F55804 /* Notification.name+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCC12AABF63B00F55804 /* Notification.name+.swift */; };
 		45DEDCC72AAC057200F55804 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCC62AAC057100F55804 /* AlertManager.swift */; };
 		45DEDCC92AAD651100F55804 /* ActivityViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45DEDCC82AAD651100F55804 /* ActivityViewManager.swift */; };
@@ -51,18 +52,19 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4541CC412A9D95CE0095C258 /* AssetDiaryStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDiaryStorage.swift; sourceTree = "<group>"; };
+		4541CC412A9D95CE0095C258 /* AssetDiaryReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDiaryReader.swift; sourceTree = "<group>"; };
 		4541CC432A9D9B4A0095C258 /* DateFormatManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManager.swift; sourceTree = "<group>"; };
 		4541CC472A9DB67D0095C258 /* LocaleDateFormatterProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocaleDateFormatterProtocol.swift; sourceTree = "<group>"; };
 		4541CC492A9DB6AC0095C258 /* UserDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDateFormatter.swift; sourceTree = "<group>"; };
-		4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryStorageProtocol.swift; sourceTree = "<group>"; };
 		455170D22A9EDA85002A043C /* AssetDiaryStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDiaryStorageTests.swift; sourceTree = "<group>"; };
+		4541CC4D2A9DB7140095C258 /* DiaryManageable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryManageable.swift; sourceTree = "<group>"; };
 		455170DF2A9EDBF4002A043C /* DateFormatManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatManagerTests.swift; sourceTree = "<group>"; };
 		455170EA2A9EE5C1002A043C /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		455170F02A9F0007002A043C /* UITextView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+.swift"; sourceTree = "<group>"; };
 		455171072AA07797002A043C /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		45A131F52AA0B98F00433FCC /* StorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageError.swift; sourceTree = "<group>"; };
 		45A131F72AA0C6C600433FCC /* UIAlertController+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+.swift"; sourceTree = "<group>"; };
+		45AD43EE2AB01A4B00A1D8A7 /* DiaryReadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryReadable.swift; sourceTree = "<group>"; };
 		45C4AF832A9CA0A1003142B6 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		45C4AF872A9CBFE4003142B6 /* DiaryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryTableViewCell.swift; sourceTree = "<group>"; };
 		45D005182AA5CEEE0060036B /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -163,7 +165,7 @@
 			children = (
 				45F052272A9DD0D8004B5225 /* DTO */,
 				45F052282A9DE723004B5225 /* DiaryEntry.swift */,
-				45F052252A9DD081004B5225 /* Storage */,
+				45F052252A9DD081004B5225 /* Reader */,
 				45F052262A9DD0A1004B5225 /* LocaleDateFormatter */,
 				4541CC432A9D9B4A0095C258 /* DateFormatManager.swift */,
 				45DEDCC62AAC057100F55804 /* AlertManager.swift */,
@@ -204,20 +206,21 @@
 		45DEDCC32AABFA0200F55804 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				4541CC4D2A9DB7140095C258 /* DiaryStorageProtocol.swift */,
+				45AD43EE2AB01A4B00A1D8A7 /* DiaryReadable.swift */,
+				4541CC4D2A9DB7140095C258 /* DiaryManageable.swift */,
 				4541CC472A9DB67D0095C258 /* LocaleDateFormatterProtocol.swift */,
 				45DEDCCA2AAD932100F55804 /* AppResignObservable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
 		};
-		45F052252A9DD081004B5225 /* Storage */ = {
+		45F052252A9DD081004B5225 /* Reader */ = {
 			isa = PBXGroup;
 			children = (
-				4541CC412A9D95CE0095C258 /* AssetDiaryStorage.swift */,
-				45D0051C2AA5D02F0060036B /* CoreDataDiaryStorage.swift */,
+				4541CC412A9D95CE0095C258 /* AssetDiaryReader.swift */,
+				45D0051C2AA5D02F0060036B /* CoreDataDiaryManager.swift */,
 			);
-			path = Storage;
+			path = Reader;
 			sourceTree = "<group>";
 		};
 		45F052262A9DD0A1004B5225 /* LocaleDateFormatter */ = {
@@ -409,9 +412,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
-				4541CC4E2A9DB7140095C258 /* DiaryStorageProtocol.swift in Sources */,
+				4541CC4E2A9DB7140095C258 /* DiaryManageable.swift in Sources */,
 				45C4AF842A9CA0A1003142B6 /* Diary.swift in Sources */,
-				4541CC422A9D95CE0095C258 /* AssetDiaryStorage.swift in Sources */,
+				4541CC422A9D95CE0095C258 /* AssetDiaryReader.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				45A131F62AA0B98F00433FCC /* StorageError.swift in Sources */,
 				45DEDCC72AAC057200F55804 /* AlertManager.swift in Sources */,
@@ -422,10 +425,11 @@
 				45A131F82AA0C6C700433FCC /* UIAlertController+.swift in Sources */,
 				4541CC4A2A9DB6AC0095C258 /* UserDateFormatter.swift in Sources */,
 				45D0051B2AA5CEEE0060036B /* DiaryEntity+CoreDataProperties.swift in Sources */,
+				45AD43EF2AB01A4B00A1D8A7 /* DiaryReadable.swift in Sources */,
 				C739AE2F284DF28600741E8F /* DiaryData.xcdatamodeld in Sources */,
 				45DEDCC92AAD651100F55804 /* ActivityViewManager.swift in Sources */,
 				455170F12A9F0007002A043C /* UITextView+.swift in Sources */,
-				45D0051D2AA5D02F0060036B /* CoreDataDiaryStorage.swift in Sources */,
+				45D0051D2AA5D02F0060036B /* CoreDataDiaryManager.swift in Sources */,
 				455170EB2A9EE5C1002A043C /* DiaryViewController.swift in Sources */,
 				45C4AF882A9CBFE4003142B6 /* DiaryTableViewCell.swift in Sources */,
 				45DEDCC22AABF63B00F55804 /* Notification.name+.swift in Sources */,

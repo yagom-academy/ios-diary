@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class AssetDiaryStorage: DiaryStorageProtocol {
+final class AssetDiaryReader: DiaryReadable {
     
     func diaryEntrys() throws -> [DiaryEntry] {
         guard let asset = NSDataAsset(name: "sample"),
@@ -20,17 +20,5 @@ final class AssetDiaryStorage: DiaryStorageProtocol {
         }
         
         return diaryEntrys
-    }
-    
-    func storeDiary(title: String, body: String?) {
-        
-    }
-    
-    func updateDiary(_ diary: DiaryEntry) {
-        
-    }
-    
-    func deleteDiary(_ diary: DiaryEntry) {
-        
     }
 }

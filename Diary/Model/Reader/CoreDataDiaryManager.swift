@@ -8,7 +8,7 @@
 import UIKit
 import CoreData
 
-final class CoreDataDiaryStorage: DiaryStorageProtocol {
+final class CoreDataDiaryManager {
     
     // MARK: - Private Property
     private lazy var persistentContainer: NSPersistentContainer = {
@@ -32,8 +32,11 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
             try context.save()
         }
     }
+}
+
+// MARK: - Read Diary
+extension CoreDataDiaryManager: DiaryReadable {
     
-    // MARK: - Core Data CRUD
     func diaryEntrys() throws -> [DiaryEntry] {
         let diaryEntitys = try context.fetch(DiaryEntity.fetchRequest())
         let diaryEntrys = diaryEntitys.map {
@@ -42,6 +45,10 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
         
         return diaryEntrys
     }
+}
+
+// MARK: - Manage Diary
+extension CoreDataDiaryManager: DiaryManageable {
     
     func storeDiary(title: String, body: String?) throws {
         let diaryEntity = DiaryEntity(context: context)
@@ -65,6 +72,24 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
         }
     }
     
+    func storeDiary(_ diary: DiaryEntry) throws {
+        let fetchRequest = DiaryEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: NameSpace.idEqualFormat, diary.id.uuidString)
+        
+        if let diaryEntity = try context.fetch(fetchRequest).first {
+            diaryEntity.title = diary.title
+            diaryEntity.body = diary.body
+        } else {
+            let diaryEntity = DiaryEntity(context: context)
+            diaryEntity.id = diary.id
+            diaryEntity.title = diary.title
+            diaryEntity.body = diary.body
+            diaryEntity.creationDate = Date()
+        }
+        
+        try saveContext()
+    }
+    
     func deleteDiary(_ diary: DiaryEntry) throws {
         let fetchRequest = DiaryEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: NameSpace.idEqualFormat, diary.id.uuidString)
@@ -83,7 +108,7 @@ final class CoreDataDiaryStorage: DiaryStorageProtocol {
     }
 }
 
-extension CoreDataDiaryStorage {
+extension CoreDataDiaryManager {
     private enum NameSpace {
         static let diary = "DiaryData"
         static let diaryEntity = "DiaryEntity"
