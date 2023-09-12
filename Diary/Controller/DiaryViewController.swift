@@ -139,10 +139,13 @@ extension DiaryViewController: UITextViewDelegate {
     }
     
     func textViewDidEndEditing(_ textView: UITextView) {
-        let diaryContents = textView.text.components(separatedBy: NameSpace.enter).filter { !$0.isEmpty }
+        let diaryContents = textView.text.components(separatedBy: NameSpace.enter).filter { $0.isEmpty == false }
         
-        guard !diaryContents.isEmpty,
-              let title = diaryContents.first else {
+        if diaryContents.isEmpty {
+            return
+        }
+        
+        guard let title = diaryContents.first else {
             return
         }
         
