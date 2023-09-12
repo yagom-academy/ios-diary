@@ -9,9 +9,7 @@ import UIKit
 
 final class DiaryViewController: UIViewController {
     private lazy var collectionView: UICollectionView = {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
-        let listLayout = UICollectionViewCompositionalLayout.list(using: configuration)
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout)
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: listLayout())
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.delegate = self
@@ -170,9 +168,48 @@ extension DiaryViewController {
 // MARK: CollectionView Layout
 extension DiaryViewController {
     private func listLayout() -> UICollectionViewLayout {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        configuration.trailingSwipeActionsConfigurationProvider = makeSwipeActions
         
         return UICollectionViewCompositionalLayout.list(using: configuration)
+    }
+    
+    private func makeSwipeActions(for indexPath: IndexPath?) -> UISwipeActionsConfiguration? {
+        guard let indexPath = indexPath,
+              let diary = diaryDataSource?.itemIdentifier(for: indexPath) else {
+            return nil
+        }
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, _ in
+            self.showDeleteAlert(diary)
+        }
+        
+        let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
+            self.setupActivityView(for: indexPath)
+        }
+        
+        deleteAction.image = UIImage(systemName: "trash.fill")
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+    
+    func setupActivityView(for indexPath: IndexPath?) {
+        guard let indexPath = indexPath,
+              let diary = diaryDataSource?.itemIdentifier(for: indexPath),
+              let text = useCase?.readDiary(diary) else {
+            return
+        }
+        
+        let activityViewController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        
+        activityViewController.completionWithItemsHandler = { _, _, _, error in
+            if let error {
+                self.showErrorAlert(error: error)
+            }
+        }
+        
+        self.present(activityViewController, animated: true, completion: nil)
     }
 }
 
@@ -192,6 +229,24 @@ extension DiaryViewController: DiaryViewControllerUseCaseDelegate {
             alertMessage: error.localizedDescription,
             preferredStyle: .alert,
             alertActions: [alertAction]
+        )
+        
+        navigationController?.present(alert, animated: true)
+    }
+    
+    func showDeleteAlert(_ diary: Diary) {
+        let cancelAction = UIAlertAction(title: NameSpace.cancel, style: .default)
+        let deleteAction = UIAlertAction(title: NameSpace.delete, style: .destructive) { _ in
+            self.useCase?.delete(diary)
+            self.loadData()
+            self.applySnapshot()
+        }
+        
+        let alert = UIAlertController.customAlert(
+            alertTile: NameSpace.deleteTitle,
+            alertMessage: NameSpace.deleteSubtitle,
+            preferredStyle: .alert,
+            alertActions: [cancelAction, deleteAction]
         )
         
         navigationController?.present(alert, animated: true)
