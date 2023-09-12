@@ -46,27 +46,31 @@ final class DiaryTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func fetchData(_ data: Diary) {
+    func fetchData(_ data: DiaryEntity) {
         diaryTitle.text = data.title
         dateAndPreview.attributedText = attributedDateAndPreview(data: data)
     }
     
-    private func attributedDateAndPreview(data: Diary) -> NSMutableAttributedString {
-        let text = "\(formatCreatedAt(data.createdAt)) \(data.body)"
+    private func attributedDateAndPreview(data: DiaryEntity) -> NSMutableAttributedString {
+        guard let createdAt = data.createdAt,
+              let body = data.body else {
+            return NSMutableAttributedString()
+        }
+        let text = "\(formatCreatedAt(createdAt)) \(body)"
         let attributedString = NSMutableAttributedString(string: text)
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.preferredFont(forTextStyle: .caption1),
             .baselineOffset: 2
         ]
         
-        attributedString.addAttributes(attributes, range: (text as NSString).range(of: data.body))
+        attributedString.addAttributes(attributes, range: (text as NSString).range(of: body))
         
         return attributedString
     }
     
-    private func formatCreatedAt(_ date: Int) -> String {
+    private func formatCreatedAt(_ date: Date) -> String {
         
-        return DiaryDateFormatter.fetchDate(date, Locale.current.identifier)
+        return DiaryDateFormatter.convertDate(date, Locale.current.identifier)
     }
 }
 
