@@ -23,7 +23,10 @@ final class DiaryViewController: UIViewController, Shareable {
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diary = diaryList[indexPath.row]
+        guard let diary = diaryList[safe: indexPath.row] else {
+            return
+        }
+        
         let diaryDetailViewController = DiaryDetailViewController(diary: diary)
         
         tableView.deselectRow(at: indexPath, animated: true)
@@ -34,7 +37,10 @@ extension DiaryViewController: UITableViewDelegate {
         _ tableView: UITableView,
         trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
-        let diary = diaryList[indexPath.row]
+        guard let diary = diaryList[safe: indexPath.row] else {
+            return nil
+        }
+        
         let contents = "\(diary.title ?? "")\n\(diary.body ?? "")"
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, _ in
             self?.diaryList.remove(at: indexPath.row)
@@ -60,11 +66,11 @@ extension DiaryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.basic) as? DiaryCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.basic) as? DiaryCell,
+              let diary = diaryList[safe: indexPath.row] else {
             return UITableViewCell()
         }
         
-        let diary = diaryList[indexPath.row]
         let date = diary.value(forKeyPath: "date") as? Date ?? Date()
         let formattedDate = DateFormatter.diaryFormatter.string(from: date)
         
