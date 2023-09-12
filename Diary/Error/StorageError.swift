@@ -10,7 +10,7 @@ import Foundation
 enum StorageError: LocalizedError {
     case loadDataFailed
     
-    public var errorDescription: String? {
+    var errorDescription: String? {
         switch self {
         case .loadDataFailed:
             return "데이터 로드를 실패했습니다."

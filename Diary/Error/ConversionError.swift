@@ -10,7 +10,7 @@ import Foundation
 enum ConversionError: LocalizedError {
     case missingAttribute
     
-    public var errorDescription: String? {
+    var errorDescription: String? {
         switch self {
         case .missingAttribute:
             return "속성이 누락되어 변환할 수 없습니다."
