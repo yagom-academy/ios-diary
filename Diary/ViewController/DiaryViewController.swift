@@ -139,7 +139,11 @@ final class DiaryViewController: UIViewController {
     }
     
     private func saveDiary() {
-        coreDataManager.saveContext()
+        do {
+            try self.coreDataManager.saveContext()
+        } catch {
+            self.showDiarySaveFailureAlert()
+        }
     }
     
     private func registerKeyboardListener() {

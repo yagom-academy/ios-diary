@@ -12,3 +12,5 @@
 "Cancel" = "취소";
 "Delete" = "삭제";
 "Share" = "공유하기";
+"Close" = "닫기";
+"DiarySaveFailMessage" = "일기 저장에 실패했습니다.";

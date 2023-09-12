@@ -26,4 +26,20 @@ extension DiaryAlertPresentable {
         
         self.present(alert, animated: true)
     }
+    
+    func showDiarySaveFailureAlert() {
+        let alert = UIAlertController(
+            title: nil,
+            message: String(localized: "DiarySaveFailMessage"),
+            preferredStyle: .alert
+        )
+        let action = UIAlertAction(
+            title: String(localized: "Close"),
+            style: .cancel
+        )
+        
+        alert.addAction(action)
+        
+        self.present(alert, animated: true)
+    }
 }

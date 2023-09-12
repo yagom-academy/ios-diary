@@ -31,15 +31,11 @@ struct CoreDataManager {
         container.viewContext.delete(object)
     }
     
-    func saveContext() {
+    func saveContext() throws {
         guard container.viewContext.hasChanges else {
             return
         }
         
-        do {
-            try container.viewContext.save()
-        } catch {
-            // TODO: 사용자가 알 수 있는 에러 처리
-        }
+        try container.viewContext.save()
     }
 }

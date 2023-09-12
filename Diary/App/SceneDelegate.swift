@@ -28,6 +28,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func sceneDidEnterBackground(_ scene: UIScene) {
-        coreDataManager.saveContext()
+        do {
+            try coreDataManager.saveContext()
+        } catch let error as NSError {
+            print("Error: \(error), \(error.userInfo)")
+        }
     }
 }

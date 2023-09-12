@@ -144,7 +144,11 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
                 self.diaryList.remove(at: indexPath.row)
                 self.tableView.deleteRows(at: [indexPath], with: .automatic)
                 self.coreDataManager.deleteContext(of: diary)
-                self.coreDataManager.saveContext()
+                do {
+                    try self.coreDataManager.saveContext()
+                } catch {
+                    self.showDiarySaveFailureAlert()
+                }
             }
             
             completionHandler(true)
