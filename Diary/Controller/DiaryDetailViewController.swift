@@ -67,11 +67,7 @@ extension DiaryDetailViewController {
     }
     
     private func setupTextView() {
-        guard let diary = useCase?.diary else {
-            return
-        }
-        
-        diaryTextView.text = String(format: NameSpace.diaryText, arguments: [diary.title, diary.body])
+        diaryTextView.text = useCase?.readDiary()
         diaryTextView.keyboardDismissMode = .onDrag
     }
     
@@ -173,8 +169,8 @@ extension DiaryDetailViewController {
         guard let diary = useCase?.diary else {
             return
         }
-
         
+        delegate?.diaryDetailViewController(self, upsert: diary)
     }
 }
 
