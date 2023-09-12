@@ -9,8 +9,11 @@ struct DiaryDetailViewControllerUseCase {
     private(set) var diary: Diary
     var diaryContentManager = DiaryContentManager()
     
-    mutating func convert(_ text: String) {
-        diary.title = diaryContentManager.convert(with: text).0
-        diary.body = diaryContentManager.convert(with: text).1
+    mutating func updateDiary(_ text: String) {
+        diary = diaryContentManager.convert(with: text, diary)
+    }
+    
+    func readDiary() -> String {
+        return diaryContentManager.convert(with: diary)
     }
 }
