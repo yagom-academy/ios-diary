@@ -11,6 +11,7 @@ protocol DiaryDetailViewControllerDelegate: AnyObject {
     func createDiaryData(text: String)
     func updateDiaryData(diaryEntity: DiaryEntity, text: String)
     func deleteDiaryData(diaryEntity: DiaryEntity)
+    func popDiaryDetailViewController()
 }
 
 final class DiaryDetailViewController: UIViewController, AlertControllerShowable, ActivityViewControllerShowable {
@@ -112,6 +113,9 @@ extension DiaryDetailViewController {
             if let diaryEntity = self.diaryEntity {
                 self.delegate?.deleteDiaryData(diaryEntity: diaryEntity)
             }
+            
+            self.textView.text = ""
+            self.delegate?.popDiaryDetailViewController()
         }
         
         showAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert, actions: [cancelAction, deleteAction])

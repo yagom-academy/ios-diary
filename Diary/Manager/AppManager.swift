@@ -86,6 +86,9 @@ extension AppManager: DiaryDetailViewControllerDelegate {
     
     func deleteDiaryData(diaryEntity: DiaryEntity) {
         diaryDataManager.deleteData(entity: diaryEntity)
+    }
+    
+    func popDiaryDetailViewController() {
         navigationController.popViewController(animated: true)
     }
     
