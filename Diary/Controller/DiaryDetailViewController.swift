@@ -75,7 +75,15 @@ extension DiaryDetailViewController {
     }
     
     private func setupNavigationBar() {
+        let selectDateButton = UIBarButtonItem(
+            image: UIImage(systemName: "ellipsis"),
+            style: .plain,
+            target: self,
+            action: #selector(didTapOptionButton)
+        )
+        
         navigationItem.title = useCase?.diary.createdDate
+        navigationItem.rightBarButtonItem = selectDateButton
     }
 }
 
@@ -186,3 +194,88 @@ extension DiaryDetailViewController: UITextViewDelegate {
         upsertData()
     }
 }
+
+// MARK: Button Action
+extension DiaryDetailViewController {
+    @objc private func didTapOptionButton() {
+        showOptionAlert()
+    }
+}
+
+// MARK: Alert Action
+extension DiaryDetailViewController {
+    func showOptionAlert() {
+        let shareAction = UIAlertAction(title: NameSpace.shareEnglish, style: .default) { _ in
+            self.setupActivityView()
+        }
+        
+        let deleteAction = UIAlertAction(title: NameSpace.deleteEnglish, style: .destructive) { _ in
+            self.showDeleteAlert()
+        }
+        
+        let cancelAction = UIAlertAction(title: NameSpace.cancelEnglish, style: .cancel)
+        
+        let alert = UIAlertController.customAlert(
+            alertTile: nil,
+            alertMessage: nil,
+            preferredStyle: .actionSheet,
+            alertActions: [shareAction, deleteAction, cancelAction]
+        )
+        
+        navigationController?.present(alert, animated: true)
+    }
+    
+    func showDeleteAlert() {
+        let cancelAction = UIAlertAction(title: NameSpace.cancelKorean, style: .default)
+        let deleteAction = UIAlertAction(title: NameSpace.deleteKorean, style: .destructive) { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
+            guard let diary = self.useCase?.diary else {
+                return
+            }
+            
+            self.delegate?.diaryDetailViewController(self, delete: diary)
+            self.navigationController?.popViewController(animated: true)
+        }
+        
+        let alert = UIAlertController.customAlert(
+            alertTile: NameSpace.deleteTitle,
+            alertMessage: NameSpace.deleteSubtitle,
+            preferredStyle: .alert,
+            alertActions: [cancelAction, deleteAction]
+        )
+        
+        navigationController?.present(alert, animated: true)
+    }
+    
+    func showErrorAlert(error: Error) {
+        let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
+        let alert = UIAlertController.customAlert(
+            alertTile: NameSpace.error,
+            alertMessage: error.localizedDescription,
+            preferredStyle: .alert,
+            alertActions: [alertAction]
+        )
+        
+        navigationController?.present(alert, animated: true)
+    }
+    
+    func setupActivityView() {
+        guard let text = useCase?.readDiary() else {
+            return
+        }
+        
+        let activityViewController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
+        
+        activityViewController.completionWithItemsHandler = { _, _, _, error in
+            if let error {
+                self.showErrorAlert(error: error)
+            }
+        }
+        
+        self.present(activityViewController, animated: true, completion: nil)
+    }
+}
+
