@@ -5,6 +5,8 @@
 //  Created by Dasan, kyungmin on 2023/08/28.
 //
 
+import Foundation
+
 protocol DiaryViewControllerUseCaseDelegate: AnyObject {
     func showErrorAlert(error: Error)
 }
@@ -21,9 +23,9 @@ struct DiaryViewControllerUseCase {
                 guard let title = diaryEntity.title,
                       let body = diaryEntity.body,
                       let createdDate = diaryEntity.createdDate else {
-                    return Diary(title: NameSpace.empty, body: NameSpace.empty, createdDate: NameSpace.empty)
+                    return Diary(identifier: UUID(), title: NameSpace.empty, body: NameSpace.empty, createdDate: NameSpace.empty)
                 }
-                return Diary(title: title, body: body, createdDate: createdDate)
+                return Diary(identifier: UUID(), title: title, body: body, createdDate: createdDate)
             }
         } catch {
             delegate?.showErrorAlert(error: error)
@@ -53,6 +55,7 @@ struct DiaryViewControllerUseCase {
     func newDiary() -> Diary {
         let dateManager = DateManager()
         let diary = Diary(
+            identifier: UUID(),
             title: NameSpace.empty,
             body: NameSpace.empty,
             createdDate: dateManager.todayString()

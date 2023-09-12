@@ -16,18 +16,7 @@ struct DiaryContentManager {
             return partialResult + "\n" + element
         }
 
-        return diary
-    }
-    
-    func convert(with text: String) -> (String, String) {
-        var textComponents = text.components(separatedBy: NameSpace.splitFormat)
-
-        let title = textComponents.removeFirst()
-        let body = textComponents.reduce("") { partialResult, element in
-            return partialResult + "\n" + element
-        }
-
-        return (title, body)
+        return Diary(identifier: diary.identifier, title: title, body: body, createdDate: diary.createdDate)
     }
 
     func convert(with diary: Diary) -> String {
