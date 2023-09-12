@@ -7,6 +7,11 @@
 
 import UIKit
 
+protocol DiaryDetailViewControllerDelegate: AnyObject {
+    func createDiaryData(text: String)
+    func updateDiaryData()
+}
+
 final class DiaryDetailViewController: UIViewController, AlertControllerShowable, ActivityViewControllerShowable {
     private let textView: UITextView = {
         let textView = UITextView()
@@ -16,6 +21,7 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     }()
     
     private var diaryEntity: DiaryEntity?
+    weak var delegate: DiaryDetailViewControllerDelegate?
     
     init(diaryEntity: DiaryEntity? = nil) {
         self.diaryEntity = diaryEntity
@@ -37,6 +43,8 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
+        saveDiaryContents()
     }
     
     private func configureUI() {
@@ -55,6 +63,16 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
         navigationItem.rightBarButtonItem = .init(title: "더보기", style: .plain, target: self, action: #selector(didTappedMoreButton))
+    }
+    
+    private func saveDiaryContents() {
+        if diaryEntity == nil {
+            let text = textView.text ?? ""
+            
+            delegate?.createDiaryData(text: text)
+        } else {
+            delegate?.updateDiaryData()
+        }
     }
 }
 

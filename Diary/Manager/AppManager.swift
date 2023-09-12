@@ -39,10 +39,26 @@ final class AppManager {
 // MARK: - MainViewControllerDelegate
 extension AppManager: MainViewControllerDelegate {
     func didTappedRightAddButton() {
-        let diarySample = DiarySample()
-        let todayDate = dateFormatter.string(from: Date())
         let addDiaryViewController = DiaryDetailViewController()
         
+        addDiaryViewController.delegate = self
         navigationController.pushViewController(addDiaryViewController, animated: true)
+    }
+}
+
+// MARK: - DiaryDetailViewControllerDelegate
+extension AppManager: DiaryDetailViewControllerDelegate {
+    func createDiaryData(text: String) {
+        let separatedText = text.split(separator: "\n", maxSplits: 1)
+        let titleText = separatedText.first?.description ?? ""
+        let bodyText = separatedText.last?.description ?? ""
+        let date = Date().timeIntervalSince1970
+        
+        diaryDataManager.createDiaryData(title: titleText, body: bodyText, date: date)
+        diaryDataManager.saveContext()
+    }
+    
+    func updateDiaryData() {
+        
     }
 }
