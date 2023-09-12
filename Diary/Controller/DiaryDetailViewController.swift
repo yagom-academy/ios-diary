@@ -10,6 +10,7 @@ import UIKit
 protocol DiaryDetailViewControllerDelegate: AnyObject {
     func createDiaryData(text: String)
     func updateDiaryData(diaryEntity: DiaryEntity, text: String)
+    func deleteDiaryData(diaryEntity: DiaryEntity)
 }
 
 final class DiaryDetailViewController: UIViewController, AlertControllerShowable, ActivityViewControllerShowable {
@@ -108,7 +109,9 @@ extension DiaryDetailViewController {
     private func didTappedDeleteAction() {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            
+            if let diaryEntity = self.diaryEntity {
+                self.delegate?.deleteDiaryData(diaryEntity: diaryEntity)
+            }
         }
         
         showAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert, actions: [cancelAction, deleteAction])

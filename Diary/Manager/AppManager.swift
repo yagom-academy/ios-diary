@@ -84,6 +84,11 @@ extension AppManager: DiaryDetailViewControllerDelegate {
         diaryDataManager.saveContext()
     }
     
+    func deleteDiaryData(diaryEntity: DiaryEntity) {
+        diaryDataManager.deleteData(entity: diaryEntity)
+        navigationController.popViewController(animated: true)
+    }
+    
     private func convertDiaryData(text: String) -> (String, String)? {
         let separatedText = text.split(separator: "\n", maxSplits: 1)
         guard let titleText = separatedText.first?.description else { return nil }
