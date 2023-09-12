@@ -20,6 +20,7 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         
         textView.delegate = self
         textView.keyboardDismissMode = .onDrag
+        textView.becomeFirstResponder()
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -29,9 +30,11 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     }
     
     private var diaryEntity: DiaryEntity?
+    private let date: String
     weak var delegate: DiaryDetailViewControllerDelegate?
     
-    init(diaryEntity: DiaryEntity? = nil) {
+    init(date: String, diaryEntity: DiaryEntity? = nil) {
+        self.date = date
         self.diaryEntity = diaryEntity
         
         super.init(nibName: nil, bundle: nil)
@@ -78,6 +81,7 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
+        navigationItem.title = date
         navigationItem.rightBarButtonItem = .init(title: "더보기", style: .plain, target: self, action: #selector(didTappedMoreButton))
     }
     

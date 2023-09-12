@@ -16,7 +16,7 @@ final class AppManager {
         
         dateFormatter.locale = Locale(identifier: deviceLocale)
         dateFormatter.timeZone = TimeZone.current
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        dateFormatter.dateStyle = .long
         return dateFormatter
     }()
     
@@ -39,14 +39,17 @@ final class AppManager {
 // MARK: - MainViewControllerDelegate
 extension AppManager: MainViewControllerDelegate {
     func didSelectRowAt(diaryContent: DiaryEntity) {
-        let diaryDetailViewController = DiaryDetailViewController(diaryEntity: diaryContent)
+        let date = Date(timeIntervalSince1970: diaryContent.date)
+        let formattedDate = dateFormatter.string(from: date)
+        let diaryDetailViewController = DiaryDetailViewController(date: formattedDate, diaryEntity: diaryContent)
         
         diaryDetailViewController.delegate = self
         navigationController.pushViewController(diaryDetailViewController, animated: true)
     }
     
     func didTappedRightAddButton() {
-        let diaryDetailViewController = DiaryDetailViewController()
+        let todayDate = dateFormatter.string(from: Date())
+        let diaryDetailViewController = DiaryDetailViewController(date: todayDate)
         
         diaryDetailViewController.delegate = self
         navigationController.pushViewController(diaryDetailViewController, animated: true)
