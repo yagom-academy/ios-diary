@@ -14,7 +14,7 @@ protocol DiaryViewControllerUseCaseDelegate: AnyObject {
 struct DiaryViewControllerUseCase {
     private(set) var diaryList: [Diary] = []
     weak var delegate: DiaryViewControllerUseCaseDelegate?
-    var diaryPersistentManager: DiaryPersistentManager
+    let diaryPersistentManager: DiaryPersistentManager
     
     mutating func fetchDiaryList() {
         do {
@@ -23,9 +23,19 @@ struct DiaryViewControllerUseCase {
                 guard let title = diaryEntity.title,
                       let body = diaryEntity.body,
                       let createdDate = diaryEntity.createdDate else {
-                    return Diary(identifier: UUID(), title: NameSpace.empty, body: NameSpace.empty, createdDate: NameSpace.empty)
+                    return Diary(
+                        identifier: UUID(),
+                        title: NameSpace.empty,
+                        body: NameSpace.empty,
+                        createdDate: NameSpace.empty
+                    )
                 }
-                return Diary(identifier: UUID(), title: title, body: body, createdDate: createdDate)
+                return Diary(
+                    identifier: UUID(),
+                    title: title,
+                    body: body,
+                    createdDate: createdDate
+                )
             }
         } catch {
             delegate?.showErrorAlert(error: error)

@@ -7,7 +7,7 @@
 
 struct DiaryDetailViewControllerUseCase {
     private(set) var diary: Diary
-    var diaryContentManager = DiaryContentManager()
+    let diaryContentManager = DiaryContentManager()
     
     mutating func updateDiary(_ text: String) {
         diary = diaryContentManager.convert(with: text, diary)

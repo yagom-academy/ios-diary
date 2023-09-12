@@ -16,7 +16,12 @@ struct DiaryContentManager {
             return partialResult + "\n" + element
         }
 
-        return Diary(identifier: diary.identifier, title: title, body: body, createdDate: diary.createdDate)
+        return Diary(
+            identifier: diary.identifier,
+            title: title,
+            body: body,
+            createdDate: diary.createdDate
+        )
     }
 
     func convert(with diary: Diary) -> String {
