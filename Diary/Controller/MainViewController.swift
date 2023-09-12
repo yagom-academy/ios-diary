@@ -13,7 +13,7 @@ protocol MainViewControllerDelegate: AnyObject {
     func deleteDiaryContent(diaryContent: DiaryEntity)
 }
 
-final class MainViewController: UIViewController, AlertControllerShowable {
+final class MainViewController: UIViewController, AlertControllerShowable, ActivityViewControllerShowable {
     enum Section {
         case main
     }
@@ -92,7 +92,7 @@ extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let shareAction: UIContextualAction = .init(style: .normal, title: "Share") { _, _, _ in
-            
+            self.didTappedShareAction(index: indexPath.row)
         }
         
         let deleteAction: UIContextualAction = .init(style: .destructive, title: "Delete") { _, _, _ in
@@ -149,5 +149,12 @@ extension MainViewController {
                             message: "정말로 삭제하시겠어요?",
                             style: .alert,
                             actions: [cancelAction, deleteAction])
+    }
+    
+    private func didTappedShareAction(index: Int) {
+        let entity = self.diaryContents[index]
+        let sharedItem = entity.title + "\n" + entity.body
+        
+        self.showActivityViewController(items: [sharedItem as Any])
     }
 }

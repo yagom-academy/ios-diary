@@ -116,7 +116,7 @@ extension DiaryDetailViewController {
     @objc
     func didTappedMoreButton() {
         let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
-            self.showActivityViewController(items: [""])
+            self.didTappedShareAction()
         }
         
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
@@ -140,6 +140,12 @@ extension DiaryDetailViewController {
         }
         
         showAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert, actions: [cancelAction, deleteAction])
+    }
+    
+    private func didTappedShareAction() {
+        let sharedItem = self.textView.text
+        
+        self.showActivityViewController(items: [sharedItem as Any])
     }
 }
 
