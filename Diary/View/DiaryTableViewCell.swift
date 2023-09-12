@@ -63,10 +63,15 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureCell(data: DiaryContent) {
-        titleLabel.text = data.title
-        dateLabel.text = data.date
-        previewLabel.text = data.body.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
+      if data.title.isEmpty {
+          titleLabel.text = String(localized: "noTitle")
+      } else {
+          titleLabel.text = data.title
+      }
+      
+      dateLabel.text = data.date
+      previewLabel.text = data.body.trimmingCharacters(in: .whitespacesAndNewlines)
+  }
     
     private func configureUI() {
         descriptionStackView.addArrangedSubview(dateLabel)

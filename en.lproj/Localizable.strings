@@ -7,3 +7,17 @@
 */
 
 "title" = "Diary";
+"NoTitle" = "No Title";
+
+"failedFatchDataAlertTitle" = "Failed Fatch Data";
+"failedFatchDataAlertMessage" = "Try again";
+"failedFatchDataAlertAction" = "Yes";
+
+"checkDeleteAlertTitle" = "Really?";
+"checkDeleteAlertMessage" = "Are you sure?";
+"checkDeleteAlertCancelAction" = "No";
+"checkDeleteAlertAction" = "Yes";
+
+"share" = "Share...";
+"delete" = "Delete";
+"cancel" = "Cancel";

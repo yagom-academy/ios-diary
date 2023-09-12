@@ -91,10 +91,10 @@ final class DiaryViewController: UIViewController {
             try diaryManager.fetchDiaryContents()
         } catch {
             os_log("%@", error.localizedDescription)
-            presentAlertWith(title: "데이터 불러오기 실패",
-                             message: "앱을 다시 실행해주십시오.",
+            presentAlertWith(title: String(localized: "failedFatchDataAlertTitle"),
+                             message: String(localized: "failedFatchDataAlertMessage."),
                              preferredStyle: .alert,
-                             actionConfigs: ("확인", .default, nil))
+                             actionConfigs: (String(localized: "failedFatchDataAlertAction"), .default, nil))
         }
     }
 }
@@ -145,16 +145,22 @@ extension DiaryViewController: UITableViewDelegate, PresentableActivityView {
             return nil
         }
         
-        let share = UIContextualAction(style: .normal,
-                                       title: "Share...") { (_, _, success: @escaping (Bool) -> Void) in
+        let share = UIContextualAction(
+            style: .normal,
+            title: String(localized: "share")
+        ) { (_, _, success: @escaping (Bool) -> Void) in
+            
             let diaryContentItem = diaryContent.title + diaryContent.body
             
             self.presentActivityView(shareItem: diaryContentItem)
             success(true)
         }
         
-        let delete = UIContextualAction(style: .destructive,
-                                        title: "Delete") { (_, _, success: @escaping (Bool) -> Void) in
+        let delete = UIContextualAction(
+            style: .destructive,
+            title: String(localized: "delete")
+        ) { (_, _, success: @escaping (Bool) -> Void) in
+            
             self.presentCheckDeleteAlert { _ in
                 ContainerManager.shared.delete(id: diaryContent.id)
                 self.diaryManager.diaryContents?.remove(at: indexPath.row)

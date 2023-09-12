@@ -29,10 +29,10 @@ extension UIViewController {
     }
         
     func presentCheckDeleteAlert(deleteHandler: @escaping (UIAlertAction) -> Void) {
-        presentAlertWith(title: "진짜요?",
-                         message: "정말로 삭제하시겠어요?",
+        presentAlertWith(title: String(localized: "checkDeleteAlertTitle"),
+                         message: String(localized: "checkDeleteAlertMessage"),
                          preferredStyle: .alert,
-                         actionConfigs: ("취소", .cancel, nil),
-                                        ("삭제", .destructive, deleteHandler))
+                         actionConfigs: (String(localized: "checkDeleteAlertCancelAction"), .cancel, nil),
+                                        (String(localized: "checkDeleteAlertAction"), .destructive, deleteHandler))
     }
 }

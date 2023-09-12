@@ -62,24 +62,24 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
     }
     
     @objc private func tappedOthersButton() {
-        let shareHandler: (UIAlertAction) -> Void = { _ in
-            let diaryContentItem = self.diaryContent.title + self.diaryContent.body
-            self.presentActivityView(shareItem: diaryContentItem)
-        }
+      let shareHandler: (UIAlertAction) -> Void = { _ in
+          let diaryContentItem = self.diaryContent.title + self.diaryContent.body
+          self.presentActivityView(shareItem: diaryContentItem)
+      }
 
-        let deleteHandler: (UIAlertAction) -> Void = { _ in
-            self.presentCheckDeleteAlert { _ in
-                ContainerManager.shared.delete(id: self.diaryContent.id)
-                self.navigationController?.popViewController(animated: true)
-            }
-        }
-        
-        presentAlertWith(title: nil,
-                         message: nil,
-                         preferredStyle: .actionSheet,
-                         actionConfigs: ("Share...", .default, shareHandler),
-                                        ("Delete", .destructive, deleteHandler),
-                                        ("Cancel", .cancel, nil))
+      let deleteHandler: (UIAlertAction) -> Void = { _ in
+          self.presentCheckDeleteAlert { _ in
+              ContainerManager.shared.delete(id: self.diaryContent.id)
+              self.navigationController?.popViewController(animated: true)
+          }
+      }
+      
+      presentAlertWith(title: nil,
+                       message: nil,
+                       preferredStyle: .actionSheet,
+                       actionConfigs: (String(localized: "share"), .default, shareHandler),
+                                      (String(localized: "delete"), .destructive, deleteHandler),
+                                      (String(localized: "cancel"), .cancel, nil))
     }
     
     private func setupConstraints() {
