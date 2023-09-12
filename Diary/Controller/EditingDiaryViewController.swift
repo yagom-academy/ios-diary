@@ -92,7 +92,7 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
     }
     
     private func setupDiaryTextView() {
-        if diaryContent.title.isEmpty == false {
+        if diaryContent.title.isEmpty == false || diaryContent.body.isEmpty == false {
             diaryTextView.text = diaryContent.title + diaryContent.body
         } else {
             diaryTextView.becomeFirstResponder()
@@ -129,6 +129,11 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
     
     private func save() {
         guard let text = diaryTextView.text else { return }
+        
+        if text.isEmpty {
+            ContainerManager.shared.delete(id: diaryContent.id)
+            return
+        }
         
         if let index = text.firstIndex(of: "\n") {
             diaryContent.title = String(text[text.startIndex ..< index])
