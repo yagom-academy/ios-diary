@@ -9,7 +9,7 @@ import UIKit
 
 protocol DiaryDetailViewControllerDelegate: AnyObject {
     func createDiaryData(text: String)
-    func updateDiaryData()
+    func updateDiaryData(diaryEntity: DiaryEntity, text: String)
 }
 
 final class DiaryDetailViewController: UIViewController, AlertControllerShowable, ActivityViewControllerShowable {
@@ -20,8 +20,11 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         return textView
     }()
     
+    private lazy var isUpdate = diaryEntity != nil
     private var diaryEntity: DiaryEntity?
     weak var delegate: DiaryDetailViewControllerDelegate?
+    
+    
     
     init(diaryEntity: DiaryEntity? = nil) {
         self.diaryEntity = diaryEntity
@@ -39,6 +42,7 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         configureUI()
         setUpConstraints()
         setUpViewController()
+        setUpText()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -65,13 +69,23 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         navigationItem.rightBarButtonItem = .init(title: "더보기", style: .plain, target: self, action: #selector(didTappedMoreButton))
     }
     
+    private func setUpText() {
+        guard let diaryEntity else { return }
+        
+        if isUpdate {
+            textView.text = diaryEntity.title + "\n" + diaryEntity.body
+        }
+    }
+    
     private func saveDiaryContents() {
-        if diaryEntity == nil {
-            let text = textView.text ?? ""
+        let text = textView.text ?? ""
+        
+        if isUpdate {
+            guard let diaryEntity else { return }
             
-            delegate?.createDiaryData(text: text)
+            delegate?.updateDiaryData(diaryEntity: diaryEntity, text: text)
         } else {
-            delegate?.updateDiaryData()
+            delegate?.createDiaryData(text: text)
         }
     }
 }

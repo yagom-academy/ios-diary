@@ -38,11 +38,18 @@ final class AppManager {
 
 // MARK: - MainViewControllerDelegate
 extension AppManager: MainViewControllerDelegate {
-    func didTappedRightAddButton() {
-        let addDiaryViewController = DiaryDetailViewController()
+    func didSelectRowAt(diaryContent: DiaryEntity) {
+        let diaryDetailViewController = DiaryDetailViewController(diaryEntity: diaryContent)
         
-        addDiaryViewController.delegate = self
-        navigationController.pushViewController(addDiaryViewController, animated: true)
+        diaryDetailViewController.delegate = self
+        navigationController.pushViewController(diaryDetailViewController, animated: true)
+    }
+    
+    func didTappedRightAddButton() {
+        let diaryDetailViewController = DiaryDetailViewController()
+        
+        diaryDetailViewController.delegate = self
+        navigationController.pushViewController(diaryDetailViewController, animated: true)
     }
     
     func fetchDiaryContents(mainViewController: MainViewController) {
@@ -55,16 +62,29 @@ extension AppManager: MainViewControllerDelegate {
 // MARK: - DiaryDetailViewControllerDelegate
 extension AppManager: DiaryDetailViewControllerDelegate {
     func createDiaryData(text: String) {
-        let separatedText = text.split(separator: "\n", maxSplits: 1)
-        let titleText = separatedText.first?.description ?? ""
-        let bodyText = separatedText.last?.description ?? ""
+        guard let (title, body) = convertDiaryData(text: text) else { return }
         let date = Date().timeIntervalSince1970
         
-        diaryDataManager.createDiaryData(title: titleText, body: bodyText, date: date)
+        diaryDataManager.createDiaryData(title: title, body: body, date: date)
         diaryDataManager.saveContext()
     }
     
-    func updateDiaryData() {
+    func updateDiaryData(diaryEntity: DiaryEntity, text: String) {
+        guard let (title, body) = convertDiaryData(text: text) else { return }
+        let date = Date().timeIntervalSince1970
         
+        diaryEntity.title = title
+        diaryEntity.body = body
+        diaryEntity.date = date
+        diaryDataManager.saveContext()
+    }
+    
+    private func convertDiaryData(text: String) -> (String, String)? {
+        let separatedText = text.split(separator: "\n", maxSplits: 1)
+        guard let titleText = separatedText.first?.description else { return nil }
+        
+        let bodyText = separatedText.last?.description ?? ""
+        
+        return (titleText, bodyText)
     }
 }

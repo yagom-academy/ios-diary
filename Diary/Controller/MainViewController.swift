@@ -9,6 +9,7 @@ import UIKit
 protocol MainViewControllerDelegate: AnyObject {
     func didTappedRightAddButton()
     func fetchDiaryContents(mainViewController: MainViewController)
+    func didSelectRowAt(diaryContent: DiaryEntity)
 }
 
 final class MainViewController: UIViewController, AlertControllerShowable {
@@ -25,7 +26,6 @@ final class MainViewController: UIViewController, AlertControllerShowable {
         let tableView = UITableView()
         
         tableView.delegate = self
-        tableView.allowsSelection = false
         tableView.register(MainTableViewCell.self, forCellReuseIdentifier: MainTableViewCell.indentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
@@ -84,6 +84,11 @@ final class MainViewController: UIViewController, AlertControllerShowable {
 
 // MARK: - TableView Delegate
 extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        delegate?.didSelectRowAt(diaryContent: diaryContents[indexPath.row])
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let shareAction: UIContextualAction = .init(style: .normal, title: "Share") { _, _, _ in
             
