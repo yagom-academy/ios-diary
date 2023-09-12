@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol DiaryViewControllerDelegate: AnyObject {
+    func diaryViewController(_ diaryViewController: DiaryViewController, updateDiary isSuccess: Bool)
+}
+
 final class DiaryViewController: UIViewController, AppResignObservable {
     
     // MARK: - Private Property
@@ -20,6 +24,9 @@ final class DiaryViewController: UIViewController, AppResignObservable {
         
         return textView
     }()
+    
+    // MARK: - Property
+    weak var delegate: DiaryViewControllerDelegate?
     
     // MARK: - Life Cycle
     init(diaryManager: DiaryManageable, diaryEntry: DiaryEntry?) {
@@ -119,6 +126,7 @@ extension DiaryViewController {
             
             do {
                 try diaryManager.deleteDiary(diaryEntry)
+                delegate?.diaryViewController(self, updateDiary: true)
                 navigationController?.popViewController(animated: true)
             } catch {
                 presentFailAlert()
@@ -156,9 +164,11 @@ extension DiaryViewController: UITextViewDelegate {
                 diaryEntry.title = title
                 diaryEntry.body = body
                 try diaryManager.storeDiary(diaryEntry)
+                delegate?.diaryViewController(self, updateDiary: true)
             } else {
                 let diaryEntry = DiaryEntry(title: title, body: body)
                 try diaryManager.storeDiary(diaryEntry)
+                delegate?.diaryViewController(self, updateDiary: true)
             }
         } catch {
             self.presentFailAlert()

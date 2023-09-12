@@ -52,10 +52,6 @@ final class DiaryListViewController: UIViewController {
         setupConstraints()
         setupContentTableView()
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        setupContentTableView()
-    }
 }
 
 // MARK: - Setup Data
@@ -102,6 +98,7 @@ extension DiaryListViewController {
 extension DiaryListViewController {
     @objc private func pushDiaryViewController() {
         let diaryViewController = DiaryViewController(diaryManager: diaryManager, diaryEntry: nil)
+        diaryViewController.delegate = self
         
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
@@ -122,7 +119,7 @@ extension DiaryListViewController {
             
             do {
                 try diaryManager.deleteDiary(diaryEntry)
-                navigationController?.popViewController(animated: true)
+                setupContentTableView()
             } catch {
                 presentFailAlert()
             }
@@ -136,6 +133,7 @@ extension DiaryListViewController: UITableViewDelegate {
         do {
             let diaryEntry = try diaryReader.diaryEntrys()[indexPath.row]
             let diaryViewController = DiaryViewController(diaryManager: diaryManager, diaryEntry: diaryEntry)
+            diaryViewController.delegate = self
             
             navigationController?.pushViewController(diaryViewController, animated: true)
         } catch {
@@ -176,6 +174,15 @@ extension DiaryListViewController: UITableViewDelegate {
         }
         
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+}
+
+// MARK: - DiaryViewControllerDelegate
+extension DiaryListViewController: DiaryViewControllerDelegate {
+    func diaryViewController(_ diaryViewController: DiaryViewController, updateDiary isSuccess: Bool) {
+        if isSuccess {
+            setupContentTableView()
+        }
     }
 }
 
