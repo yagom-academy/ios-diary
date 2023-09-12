@@ -47,7 +47,7 @@ final class CoreDataDiaryManagerTests: XCTestCase {
         }
     }
     
-    func test_updateDiary로_저장된_일기를_수정할_수_있습니다() {
+    func test_storeDiary로_저장된_일기를_수정할_수_있습니다() {
         do {
             // given
             var expectation = DiaryEntry(title: "test", body: "update test")
