@@ -7,12 +7,11 @@
 
 import CoreData
 
-class PersistentContainer: NSPersistentContainer {
-    func saveContext(backgroundContext: NSManagedObjectContext? = nil) {
-        let context = backgroundContext ?? viewContext
-        guard context.hasChanges else { return }
+final class PersistentContainer: NSPersistentContainer {
+    func saveContext() {
+        guard viewContext.hasChanges else { return }
         do {
-            try context.save()
+            try viewContext.save()
         } catch let error as NSError {
             print("Error: \(error), \(error.userInfo)")
         }
