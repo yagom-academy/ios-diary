@@ -8,7 +8,7 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController {
-    private var diaryManager: DiaryManager?
+    private var diaryManager: DiaryViewControllerUsecase?
     private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -17,7 +17,7 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    init(diaryManger: DiaryManager?) {
+    init(diaryManger: DiaryViewControllerUsecase?) {
         self.diaryManager = diaryManger
         
         super.init(nibName: nil, bundle: nil)

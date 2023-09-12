@@ -19,10 +19,10 @@ final class DiaryViewController: UIViewController {
         return collectionView
     }()
     private var diaryDataSource: UICollectionViewDiffableDataSource<Section, Diary>?
-    private var diaryManager: DiaryManager?
+    private var usecase: DiaryViewControllerUsecase?
     
-    init(diaryManager: DiaryManager) {
-        self.diaryManager = diaryManager
+    init(usecase: DiaryViewControllerUsecase) {
+        self.usecase = usecase
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -48,7 +48,7 @@ extension DiaryViewController {
     private func setupObject() {
         setupView()
         setupNavigationBar()
-        setupDiaryManager()
+        setupUsecase()
     }
     
     private func setupView() {
@@ -66,8 +66,8 @@ extension DiaryViewController {
         navigationItem.rightBarButtonItem = selectDateButton
     }
     
-    private func setupDiaryManager() {
-        diaryManager?.delegate = self
+    private func setupUsecase() {
+        usecase?.delegate = self
     }
 }
 
@@ -101,22 +101,21 @@ extension DiaryViewController {
 // MARK: Load Data
 extension DiaryViewController {
     private func loadData() {
-        diaryManager?.fetchDiaryList()
+        usecase?.fetchDiaryList()
     }
 }
 
 // MARK: CollectionView Delegate
 extension DiaryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let diary = diaryManager?.diaryList[indexPath.item] else {
+        guard let diary = usecase?.diaryList[indexPath.item] else {
             return
         }
         
-        diaryManager?.fetchCurrentDiary(diary)
+//        let diaryDetailViewControllerUsecase = DiaryDetailViewControllerUsecase(diary: diary)
+//        let diaryDetailViewController = DiaryDetailViewController(diaryManger: diaryDetailViewControllerUsecase)
         
-        let diaryDetailViewController = DiaryDetailViewController(diaryManger: diaryManager)
-        
-        show(diaryDetailViewController, sender: self)
+//        show(diaryDetailViewController, sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
     }
 }
@@ -134,7 +133,7 @@ extension DiaryViewController {
     }
     
     private func applySnapshot() {
-        guard let diaryList = diaryManager?.diaryList, let diaryDataSource else {
+        guard let diaryList = usecase?.diaryList, let diaryDataSource else {
             return
         }
         
@@ -163,7 +162,7 @@ extension DiaryViewController {
 }
 
 // MARK: Alert Action
-extension DiaryViewController: DiaryManagerDelegate {
+extension DiaryViewController: DiaryViewControllerUsecaseDelegate {
     func showErrorAlert(error: Error) {
         let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
         let alert = UIAlertController.customAlert(
@@ -180,13 +179,13 @@ extension DiaryViewController: DiaryManagerDelegate {
 // MARK: Button Action
 extension DiaryViewController {
     @objc private func didTapSelectPlusButton() {
-        guard let diary = diaryManager?.newDiary() else {
+        guard let diary = usecase?.newDiary() else {
             return
         }
         
         diaryManager?.fetchCurrentDiary(diary)
         
-        let diaryDetailViewController = DiaryDetailViewController(diaryManger: diaryManager)
+        let diaryDetailViewController = DiaryDetailViewController(diaryManger: usecase)
         
         show(diaryDetailViewController, sender: self)
     }

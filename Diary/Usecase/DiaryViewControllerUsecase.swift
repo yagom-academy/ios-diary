@@ -1,21 +1,19 @@
 //
-//  DiaryManager.swift
+//  DiaryViewControllerUsecase.swift
 //  Diary
 //
 //  Created by Dasan, kyungmin on 2023/08/28.
 //
 
-protocol DiaryManagerDelegate {
+protocol DiaryViewControllerUsecaseDelegate {
     func showErrorAlert(error: Error)
 }
 
-struct DiaryManager {
+struct DiaryViewControllerUsecase {
     private(set) var diaryList: [Diary] = []
-    private(set) var currentDiary: Diary?
-    var delegate: DiaryManagerDelegate?
+    var delegate: DiaryViewControllerUsecaseDelegate?
     var diaryPersistentManager: DiaryPersistentManager
     
-    // MARK: DiaryEntity
     mutating func fetchDiaryList() {
         do {
             let diaryEntities = try diaryPersistentManager.fetch()
@@ -51,11 +49,6 @@ struct DiaryManager {
             delegate?.showErrorAlert(error: error)
         }
     }
-    
-    // MARK: Diary
-    mutating func fetchCurrentDiary(_ diary: Diary) {
-        currentDiary = diary
-    }
 
     func newDiary() -> Diary {
         let dateManager = DateManager()
@@ -69,7 +62,7 @@ struct DiaryManager {
     }
 }
 
-extension DiaryManager {
+extension DiaryViewControllerUsecase {
     private enum NameSpace {
         static let empty = ""
     }
