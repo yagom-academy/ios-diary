@@ -15,9 +15,11 @@ protocol DiaryDetailViewControllerDelegate: AnyObject {
 }
 
 final class DiaryDetailViewController: UIViewController, AlertControllerShowable, ActivityViewControllerShowable {
-    private let textView: UITextView = {
+    private lazy var textView: UITextView = {
         let textView = UITextView()
         
+        textView.delegate = self
+        textView.keyboardDismissMode = .onDrag
         textView.translatesAutoresizingMaskIntoConstraints = false
         return textView
     }()
@@ -119,5 +121,12 @@ extension DiaryDetailViewController {
         }
         
         showAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert, actions: [cancelAction, deleteAction])
+    }
+}
+
+// MARK: - TextView Delegate
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        saveDiaryContents()
     }
 }
