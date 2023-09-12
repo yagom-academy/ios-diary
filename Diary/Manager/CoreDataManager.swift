@@ -10,7 +10,7 @@ import CoreData
 
 final class CoreDataManager {
     static let shared: CoreDataManager = CoreDataManager()
-    let fetchRequest: NSFetchRequest<Diary> = Diary.fetchRequest()
+//    let fetchRequest: NSFetchRequest<Diary> = Diary.fetchRequest()
     
     lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
@@ -30,21 +30,23 @@ final class CoreDataManager {
     
     func create(diary uuid: UUID) {
         let object = Diary(context: context)
-//        object.setValue(diary.title, forKey: "title")
-//        object.setValue(diary.body, forKey: "body")
+        //        object.setValue(diary.title, forKey: "title")
+        //        object.setValue(diary.body, forKey: "body")
         object.setValue(DateFormatter.today, forKey: "createdAt")
         object.setValue(uuid, forKey: "identifier")
         saveContext()
     }
     
     func fetchAllDiaries() -> [Diary] {
+        let fetchRequest: NSFetchRequest<Diary> = Diary.fetchRequest()
         var data: [Diary] = []
         data = fetch(fetchRequest)
-        
+
         return data
     }
     
     func fetchSingleDiary(by uuid: UUID) -> [Diary] {
+        let fetchRequest: NSFetchRequest<Diary> = Diary.fetchRequest()
         var data: [Diary] = []
         fetchRequest.predicate = NSPredicate(format: "identifier == %@", uuid.uuidString)
         data = fetch(fetchRequest)
@@ -55,6 +57,7 @@ final class CoreDataManager {
     private func fetch(_ request: NSFetchRequest<Diary>) -> [Diary] {
         do {
             let data = try context.fetch(request)
+            
             return data
         } catch {
             print(error.localizedDescription)
@@ -63,10 +66,13 @@ final class CoreDataManager {
     }
     
     func update(newDiary: Diary) {
-        var diary = fetchSingleDiary(by: newDiary.identifier!)
-        diary[safe: 0]!.title = newDiary.title
-        diary[safe: 0]!.body = newDiary.body
-        diary[safe: 0]!.createdAt = newDiary.createdAt
+        guard let uuid = newDiary.identifier,
+              let diary = fetchSingleDiary(by: uuid)[safe: 0] else { return }
+
+        diary.title = newDiary.title
+        diary.body = newDiary.body
+        diary.createdAt = newDiary.createdAt
+
         saveContext()
     }
     

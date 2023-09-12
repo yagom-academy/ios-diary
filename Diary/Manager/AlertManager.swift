@@ -19,40 +19,6 @@ final class AlertManager: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func seeMoreButtonTapped() {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        
-        let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            self.showActivityView()
-        }
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            self.deleteButtonTapped()
-        }
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
-        alertController.addAction(shareAction)
-        alertController.addAction(deleteAction)
-        alertController.addAction(cancelAction)
-        
-        present(alertController, animated: true)
-    }
     
-    func deleteButtonTapped() {
-        let deleteAlertController = UIAlertController(title: "Really??", message: "Think one more", preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .default)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            CoreDataManager.shared.delete(diary: self.uuid)
-            self.navigationController?.popViewController(animated: true)
-        }
-        
-        deleteAlertController.addAction(cancelAction)
-        deleteAlertController.addAction(deleteAction)
-        
-        present(deleteAlertController, animated: true)
-    }
-    
-    func showActivityView() {
-        let activityViewController = UIActivityViewController(activityItems: ["타이틀 넣어야함"], applicationActivities: nil)
-        present(activityViewController, animated: true)
-    }
+ 
 }

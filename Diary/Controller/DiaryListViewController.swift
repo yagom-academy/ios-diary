@@ -27,7 +27,7 @@ final class DiaryListViewController: UIViewController {
             
             let share = UIContextualAction(style: .normal, title: "Share") {_, _, completionHandler in
                 let alertManager: AlertManager = AlertManager(uuid: uuid)
-                alertManager.showActivityView()
+                self.showActivityView()
                 completionHandler(true)
             }
             
@@ -49,7 +49,6 @@ final class DiaryListViewController: UIViewController {
         configureNavigation()
         configureUI()
         configureLayout()
-        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -95,18 +94,13 @@ final class DiaryListViewController: UIViewController {
         let uuid: UUID = UUID()
         CoreDataManager.shared.create(diary: uuid)
         let diary: Diary = CoreDataManager.shared.fetchSingleDiary(by: uuid)[safe: 0]!
-        let newDiaryViewController: DiaryDetailViewController = DiaryDetailViewController(diary: diary)
-        
-//        guard let entity = NSEntityDescription.entity(forEntityName: "Diary", in: CoreDataManager.shared.context) else {
-//            return
-//        }
-//        let object = NSManagedObject(entity: entity, insertInto: CoreDataManager.shared.context)
-//        object.setValue("타이틀틀", forKey: "title")
-//        object.setValue(DateFormatter.today, forKey: "createdAt")
-//        object.setValue(uuid, forKey: "identifier")
-        
-        
-        navigationController?.pushViewController(newDiaryViewController, animated: true)
+        let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(diary: diary)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+    
+    func showActivityView() {
+        let activityViewController = UIActivityViewController(activityItems: ["타이틀 넣어야함"], applicationActivities: nil)
+        present(activityViewController, animated: true)
     }
 }
 
