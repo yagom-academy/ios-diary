@@ -74,6 +74,12 @@ struct DiaryViewControllerUseCase {
         
         return diary
     }
+    
+    func readDiary(_ diary: Diary) -> String {
+        let diaryContentManager = DiaryContentManager()
+        
+        return diaryContentManager.convert(with: diary)
+    }
 }
 
 extension DiaryViewControllerUseCase {
