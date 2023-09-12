@@ -41,6 +41,11 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        if diaryTextView.text.isEmpty {
+            ContainerManager.shared.delete(id: diaryContent.id)
+            return
+        }
+        
         save()
     }
     
@@ -129,11 +134,6 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
     
     private func save() {
         guard let text = diaryTextView.text else { return }
-        
-        if text.isEmpty {
-            ContainerManager.shared.delete(id: diaryContent.id)
-            return
-        }
         
         if let index = text.firstIndex(of: "\n") {
             diaryContent.title = String(text[text.startIndex ..< index])
