@@ -7,8 +7,13 @@
 
 import UIKit
 
+protocol DiaryDetailViewControllerDelegate: AnyObject {
+    func diaryDetailViewController(_ diaryDetailViewController: DiaryDetailViewController, upsert diary: Diary)
+}
+
 final class DiaryDetailViewController: UIViewController {
-    private var diaryManager: DiaryViewControllerUsecase?
+    private var useCase: DiaryDetailViewControllerUseCase?
+    private weak var delegate: DiaryDetailViewControllerDelegate?
     private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -17,8 +22,9 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    init(diaryManger: DiaryViewControllerUsecase?) {
-        self.diaryManager = diaryManger
+    init(useCase: DiaryDetailViewControllerUseCase, delegate: DiaryDetailViewControllerDelegate) {
+        self.useCase = useCase
+        self.delegate = delegate
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -61,7 +67,7 @@ extension DiaryDetailViewController {
     }
     
     private func setupTextView() {
-        guard let diary = diaryManager?.currentDiary else {
+        guard let diary = useCase?.diary else {
             return
         }
         
@@ -70,7 +76,7 @@ extension DiaryDetailViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.title = diaryManager?.currentDiary?.createdDate
+        navigationItem.title = useCase?.diary.createdDate
     }
 }
 
@@ -164,11 +170,11 @@ extension DiaryDetailViewController {
 // MARK: Upsert Data
 extension DiaryDetailViewController {
     @objc private func upsertData() {
-        guard let diary = diaryManager?.currentDiary else {
+        guard let diary = useCase?.diary else {
             return
         }
 
-        diaryManager?.upsert(diary)
+        
     }
 }
 

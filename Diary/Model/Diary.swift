@@ -9,7 +9,7 @@ import Foundation
 
 struct Diary: Hashable {
     let identifier = UUID()
-    let title: String
-    let body: String
+    var title: String
+    var body: String
     let createdDate: String
 }

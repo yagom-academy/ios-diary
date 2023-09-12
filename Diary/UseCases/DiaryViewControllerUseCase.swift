@@ -1,17 +1,17 @@
 //
-//  DiaryViewControllerUsecase.swift
+//  DiaryViewControllerUseCase.swift
 //  Diary
 //
 //  Created by Dasan, kyungmin on 2023/08/28.
 //
 
-protocol DiaryViewControllerUsecaseDelegate {
+protocol DiaryViewControllerUseCaseDelegate: AnyObject {
     func showErrorAlert(error: Error)
 }
 
-struct DiaryViewControllerUsecase {
+struct DiaryViewControllerUseCase {
     private(set) var diaryList: [Diary] = []
-    var delegate: DiaryViewControllerUsecaseDelegate?
+    weak var delegate: DiaryViewControllerUseCaseDelegate?
     var diaryPersistentManager: DiaryPersistentManager
     
     mutating func fetchDiaryList() {
@@ -62,7 +62,7 @@ struct DiaryViewControllerUsecase {
     }
 }
 
-extension DiaryViewControllerUsecase {
+extension DiaryViewControllerUseCase {
     private enum NameSpace {
         static let empty = ""
     }
