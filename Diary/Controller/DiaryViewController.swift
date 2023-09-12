@@ -16,6 +16,7 @@ final class DiaryViewController: UIViewController, Shareable {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadDiary()
     }
 }
@@ -109,7 +110,7 @@ private extension DiaryViewController {
     func configureNavigation() {
         let action = UIAction { _ in
             let diary = CoreDataManager.shared.create()
-            let diaryDetailViewController = DiaryDetailViewController(diary: diary, isUpdate: false)
+            let diaryDetailViewController = DiaryDetailViewController(diary: diary, isUpdated: false)
             self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
         }
         

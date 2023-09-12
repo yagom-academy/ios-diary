@@ -9,7 +9,7 @@ import UIKit
 
 final class DiaryDetailViewController: UIViewController, Shareable {
     private let diary: Diary
-    private let isUpdate: Bool
+    private let isUpdated: Bool
     
     private let contentTextView = {
         let textView = UITextView()
@@ -32,9 +32,9 @@ final class DiaryDetailViewController: UIViewController, Shareable {
         saveDiary()
     }
     
-    init(diary: Diary, isUpdate: Bool = true) {
+    init(diary: Diary, isUpdated: Bool = true) {
         self.diary = diary
-        self.isUpdate = isUpdate
+        self.isUpdated = isUpdated
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -151,7 +151,7 @@ private extension DiaryDetailViewController {
     }
     
     func configureContents() {
-        guard isUpdate else {
+        guard isUpdated else {
             return
         }
         
@@ -161,7 +161,7 @@ private extension DiaryDetailViewController {
     }
     
     func configureKeyboard() {
-        if !isUpdate {
+        if !isUpdated {
             contentTextView.becomeFirstResponder()
         }
     }
