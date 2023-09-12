@@ -57,6 +57,11 @@ extension AppManager: MainViewControllerDelegate {
         
         mainViewController.setUpDiaryEntity(diaryContents: diaryContents)
     }
+    
+    func deleteDiaryContent(diaryContent: DiaryEntity) {
+        diaryDataManager.deleteData(entity: diaryContent)
+        diaryDataManager.saveContext()
+    }
 }
 
 // MARK: - DiaryDetailViewControllerDelegate

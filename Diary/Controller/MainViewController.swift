@@ -10,6 +10,7 @@ protocol MainViewControllerDelegate: AnyObject {
     func didTappedRightAddButton()
     func fetchDiaryContents(mainViewController: MainViewController)
     func didSelectRowAt(diaryContent: DiaryEntity)
+    func deleteDiaryContent(diaryContent: DiaryEntity)
 }
 
 final class MainViewController: UIViewController, AlertControllerShowable {
@@ -95,7 +96,7 @@ extension MainViewController: UITableViewDelegate {
         }
         
         let deleteAction: UIContextualAction = .init(style: .destructive, title: "Delete") { _, _, _ in
-            self.didTappedDeleteAction()
+            self.didTappedDeleteAction(index: indexPath.row)
         }
         
         let swipeActionConfiguration: UISwipeActionsConfiguration = .init(actions: [deleteAction, shareAction])
@@ -134,13 +135,14 @@ extension MainViewController {
     @objc
     private func didTappedRightAddButton() {
         delegate?.didTappedRightAddButton()
-        
     }
     
-    private func didTappedDeleteAction() {
+    private func didTappedDeleteAction(index: Int) {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            
+            self.delegate?.deleteDiaryContent(diaryContent: self.diaryContents[index])
+            self.diaryContents.remove(at: index)
+            self.setUpTableViewDiffableDataSourceSnapShot()
         }
         
         showAlertController(title: "진짜요?",
