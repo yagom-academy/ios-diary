@@ -6,49 +6,59 @@
 
 import UIKit
 
-final class DiaryViewController: UIViewController {
-    private var tableView: UITableView = UITableView()
-    private var diaryList: [DiaryModel] = []
+final class DiaryViewController: UIViewController, Shareable {
+    typealias Contents = String
+
+    private var tableView = UITableView()
+    private var diaryList = [Diary]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        parseData()
     }
     
-    private func parseData() {
-        guard let dataAsset = NSDataAsset(name: "sample") else {
-            presentAlert()
-            return
-        }
-        
-        do {
-            diaryList = try JSONDecoder().decode([DiaryModel].self, from: dataAsset.data)
-        } catch {
-            print(error.localizedDescription)
-        }
-    }
-    
-    private func presentAlert() {
-        let alert = UIAlertController(title: nil, message: "DataAsset를 찾지 못했습니다.", preferredStyle: .alert)
-        let action = UIAlertAction(title: "확인", style: .default)
-        
-        alert.addAction(action)
-        present(alert, animated: true)
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        loadDiary()
     }
 }
 
 extension DiaryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let index = indexPath.row
-        let diaryDetailViewController = DiaryDetailViewController(
-            title: diaryList[index].title,
-            body: diaryList[index].body,
-            date: Date(timeIntervalSince1970: diaryList[index].date)
-        )
+        guard let diary = diaryList[safe: indexPath.row] else {
+            return
+        }
+        
+        let diaryDetailViewController = DiaryDetailViewController(diary: diary)
         
         tableView.deselectRow(at: indexPath, animated: true)
-        self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        navigationController?.pushViewController(diaryDetailViewController, animated: true)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        guard let diary = diaryList[safe: indexPath.row] else {
+            return nil
+        }
+        
+        let contents = "\(diary.title ?? "")\n\(diary.body ?? "")"
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, _ in
+            self?.diaryList.remove(at: indexPath.row)
+            CoreDataManager.shared.delete(item: diary)
+            tableView.reloadData()
+        }
+        let shareAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, _ in
+            tableView.setEditing(false, animated: true)
+            self?.showActivityView(data: contents, viewController: self)
+        }
+        
+        deleteAction.image = UIImage(systemName: "trash")
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        shareAction.backgroundColor = .systemBlue
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
 }
 
@@ -58,21 +68,36 @@ extension DiaryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.basic) as? DiaryCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CellIdentifier.basic) as? DiaryCell,
+              let diary = diaryList[safe: indexPath.row] else {
             return UITableViewCell()
         }
         
-        let index = indexPath.row
-        let date = Date(timeIntervalSince1970: diaryList[index].date)
+        let date = diary.date ?? Date()
         let formattedDate = DateFormatter.diaryFormatter.string(from: date)
         
         cell.configureCell(
-            title: diaryList[index].title,
+            title: diary.title,
             date: formattedDate,
-            preview: diaryList[index].body
+            preview: diary.body
         )
         
         return cell
+    }
+}
+
+private extension DiaryViewController {
+    func loadDiary() {
+        do {
+            diaryList = try CoreDataManager.shared.read()
+            tableView.reloadData()
+        } catch {
+            let alert = UIAlertController(title: nil, message: "Diary Data를 불러오지 못했습니다.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "확인", style: .default)
+            
+            alert.addAction(action)
+            present(alert, animated: true)
+        }
     }
 }
 
@@ -91,9 +116,10 @@ private extension DiaryViewController {
     }
     
     func configureNavigation() {
-        let action = UIAction { _ in
-            let diaryDetailViewController = DiaryDetailViewController()
-            self.navigationController?.pushViewController(diaryDetailViewController, animated: true)
+        let action = UIAction { [weak self] _ in
+            let diary = CoreDataManager.shared.create()
+            let diaryDetailViewController = DiaryDetailViewController(diary: diary, isUpdated: false)
+            self?.navigationController?.pushViewController(diaryDetailViewController, animated: true)
         }
         
         navigationItem.title = "일기장"

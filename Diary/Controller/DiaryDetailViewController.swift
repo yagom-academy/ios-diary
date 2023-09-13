@@ -7,37 +7,21 @@
 
 import UIKit
 
-final class DiaryDetailViewController: UIViewController {
-    private let diaryTitle: String
-    private let diaryBody: String
-    private let diaryDate: Date
+final class DiaryDetailViewController: UIViewController, Shareable {
+    typealias Contents = String
     
-    private let titleTextView = {
+    private let diary: Diary
+    private let isUpdated: Bool
+    
+    private let contentTextView = {
         let textView = UITextView()
         textView.isEditable = true
-        textView.isScrollEnabled = false
         textView.adjustsFontForContentSizeCategory = true
         textView.font = .preferredFont(forTextStyle: .body)
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.addDoneButtonOnKeyboard()
 
         return textView
-    }()
-    
-    private let bodyTextView = {
-        let textView = UITextView()
-        textView.isEditable = true
-        textView.adjustsFontForContentSizeCategory = true
-        textView.font = .preferredFont(forTextStyle: .body)
-        
-        return textView
-    }()
-    
-    private let contentStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.spacing = 8
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        
-        return stackView
     }()
     
     override func viewDidLoad() {
@@ -45,10 +29,14 @@ final class DiaryDetailViewController: UIViewController {
         configure()
     }
     
-    init(title: String = "", body: String = "", date: Date = Date()) {
-        self.diaryTitle = title
-        self.diaryBody = body
-        self.diaryDate = date
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        saveDiary()
+    }
+    
+    init(diary: Diary, isUpdated: Bool = true) {
+        self.diary = diary
+        self.isUpdated = isUpdated
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -57,13 +45,49 @@ final class DiaryDetailViewController: UIViewController {
     }
 }
 
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        saveDiary()
+    }
+    
+    func textViewDidChange(_ textView: UITextView) {
+        saveDiary()
+    }
+}
+
+private extension DiaryDetailViewController {
+    func saveDiary() {
+        guard !contentTextView.text.isEmpty else {
+            CoreDataManager.shared.delete(item: diary)
+            return
+        }
+        
+        let contents = contentTextView.text.split(separator: "\n")
+        let title = String(contents[0])
+        let body = contents.dropFirst().joined(separator: "\n")
+
+        if contents.isEmpty {
+            saveContents(title: "", body: "")
+        } else {
+            saveContents(title: title, body: body)
+        }
+    }
+    
+    func saveContents(title: String, body: String) {
+        diary.setValue(title, forKeyPath: "title")
+        diary.setValue(body, forKeyPath: "body")
+        CoreDataManager.shared.update()
+    }
+}
+
 private extension DiaryDetailViewController {
     func configure() {
         configureRootView()
+        configureTextView()
         configureNavigation()
         configureSubviews()
         configureContents()
-        configureContentStackView()
+        configureKeyboard()
         configureConstraints()
     }
     
@@ -71,30 +95,85 @@ private extension DiaryDetailViewController {
         view.backgroundColor = .systemBackground
     }
     
+    func configureTextView() {
+        contentTextView.delegate = self
+    }
+    
     func configureNavigation() {
-        navigationItem.title = DateFormatter.diaryFormatter.string(from: diaryDate)
+        let buttonImage = UIImage(systemName: "ellipsis.circle")
+        let alert = configureAlert()
+        let action = UIAction { [weak self] _ in
+            self?.present(alert, animated: true)
+        }
+        
+        navigationItem.title = DateFormatter.diaryFormatter.string(from: diary.date ?? Date())
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: buttonImage, primaryAction: action)
+    }
+    
+    func configureAlert() -> UIAlertController {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) { [weak self] _ in
+            guard let shareData = self?.contentTextView.text else {
+                return
+            }
+            
+            self?.showActivityView(data: shareData, viewController: self)
+        }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.showDeleteAlert()
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        alert.addAction(shareAction)
+        alert.addAction(deleteAction)
+        alert.addAction(cancelAction)
+        
+        return alert
+    }
+    
+    func showDeleteAlert() {
+        let alert = UIAlertController(
+            title: "진짜요?",
+            message: "정말로 삭제하시겠어요?",
+            preferredStyle: .alert
+        )
+        let cancelAction = UIAlertAction(title: "취소", style: .default)
+        let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.contentTextView.text = ""
+            self?.navigationController?.popViewController(animated: true)
+        }
+        
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+        present(alert, animated: true)
     }
     
     func configureSubviews() {
-        view.addSubview(contentStackView)
+        view.addSubview(contentTextView)
     }
     
     func configureContents() {
-        titleTextView.text = diaryTitle
-        bodyTextView.text = diaryBody
+        guard isUpdated else {
+            return
+        }
+        
+        let title = diary.title ?? ""
+        let body = diary.body ?? ""
+        contentTextView.text = title + "\n" + body
     }
     
-    func configureContentStackView() {
-        contentStackView.addArrangedSubview(titleTextView)
-        contentStackView.addArrangedSubview(bodyTextView)
+    func configureKeyboard() {
+        if !isUpdated {
+            contentTextView.becomeFirstResponder()
+        }
     }
     
     func configureConstraints() {
         NSLayoutConstraint.activate([
-            contentStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            contentStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            contentStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
+            contentTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            contentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
     }
 }
