@@ -142,7 +142,6 @@ extension DiaryViewController {
         let registration = UICollectionView.CellRegistration<DiaryCollectionViewListCell, Diary> { cell, _, diary in
             cell.setupLabels(diary)
         }
-
         diaryDataSource = UICollectionViewDiffableDataSource<Section, Diary>(collectionView: collectionView) { collectionView, indexPath, diary in
             return collectionView.dequeueConfiguredReusableCell(using: registration, for: indexPath, item: diary)
         }
@@ -179,18 +178,16 @@ extension DiaryViewController {
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { _, _, _ in
             self.showDeleteAlert(diary)
         }
-        
         let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, _ in
-            self.setupActivityView(for: indexPath)
+            self.showActivityView(for: indexPath)
         }
-        
-        deleteAction.image = UIImage(systemName: "trash.fill")
-        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        deleteAction.image = UIImage(systemName: NameSpace.deleteImageName)
+        shareAction.image = UIImage(systemName: NameSpace.shareImageName)
         
         return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
     }
     
-    func setupActivityView(for indexPath: IndexPath?) {
+    private func showActivityView(for indexPath: IndexPath?) {
         guard let indexPath = indexPath,
               let diary = diaryDataSource?.itemIdentifier(for: indexPath),
               let text = useCase?.readDiary(diary) else {
@@ -198,7 +195,6 @@ extension DiaryViewController {
         }
         
         let activityViewController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
-        
         activityViewController.completionWithItemsHandler = { _, _, _, error in
             if let error {
                 self.showErrorAlert(error: error)
@@ -230,14 +226,13 @@ extension DiaryViewController: DiaryViewControllerUseCaseDelegate {
         navigationController?.present(alert, animated: true)
     }
     
-    func showDeleteAlert(_ diary: Diary) {
+    private func showDeleteAlert(_ diary: Diary) {
         let cancelAction = UIAlertAction(title: NameSpace.cancel, style: .default)
         let deleteAction = UIAlertAction(title: NameSpace.delete, style: .destructive) { _ in
             self.useCase?.delete(diary)
             self.loadData()
             self.applySnapshot()
         }
-        
         let alert = UIAlertController.customAlert(
             alertTile: NameSpace.deleteTitle,
             alertMessage: NameSpace.deleteSubtitle,
@@ -274,5 +269,7 @@ extension DiaryViewController {
         static let deleteSubtitle = "정말로 삭제하시겠습니까?"
         static let cancel = "취소"
         static let delete = "삭제"
+        static let deleteImageName = "trash.fill"
+        static let shareImageName = "square.and.arrow.up"
     }
 }

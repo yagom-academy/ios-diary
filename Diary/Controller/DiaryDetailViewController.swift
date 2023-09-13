@@ -81,10 +81,10 @@ extension DiaryDetailViewController {
             target: self,
             action: #selector(didTapOptionButton)
         )
-        
         navigationItem.title = useCase?.diary.createdDate
         navigationItem.rightBarButtonItem = selectDateButton
     }
+    
     private func setupUseCase() {
         useCase?.delegate = self
     }
@@ -192,23 +192,11 @@ extension DiaryDetailViewController {
 // MARK: Upsert Data
 extension DiaryDetailViewController {
     @objc private func upsertData() {
-        guard let diary = useCase?.diary else {
-            return
-        }
-        
-        delegate?.diaryDetailViewController(self, upsert: diary)
-    }
-}
-
-// MARK: TextView Delegate {
-extension DiaryDetailViewController: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
-        guard let diaryText = textView.text else {
+        guard let diaryText = diaryTextView.text else {
             return
         }
         
         useCase?.updateDiary(diaryText)
-        upsertData()
     }
 }
 
@@ -221,17 +209,14 @@ extension DiaryDetailViewController {
 
 // MARK: Alert Action
 extension DiaryDetailViewController {
-    func showOptionAlert() {
+    private func showOptionAlert() {
         let shareAction = UIAlertAction(title: NameSpace.shareEnglish, style: .default) { _ in
-            self.setupActivityView()
+            self.showActivityView()
         }
-        
         let deleteAction = UIAlertAction(title: NameSpace.deleteEnglish, style: .destructive) { _ in
             self.showDeleteAlert()
         }
-        
         let cancelAction = UIAlertAction(title: NameSpace.cancelEnglish, style: .cancel)
-        
         let alert = UIAlertController.customAlert(
             alertTile: nil,
             alertMessage: nil,
@@ -242,7 +227,7 @@ extension DiaryDetailViewController {
         navigationController?.present(alert, animated: true)
     }
     
-    func showDeleteAlert() {
+    private func showDeleteAlert() {
         let cancelAction = UIAlertAction(title: NameSpace.cancelKorean, style: .default)
         let deleteAction = UIAlertAction(title: NameSpace.deleteKorean, style: .destructive) { [weak self] _ in
             guard let self else {
@@ -256,7 +241,6 @@ extension DiaryDetailViewController {
             self.delegate?.diaryDetailViewController(self, delete: diary)
             self.navigationController?.popViewController(animated: true)
         }
-        
         let alert = UIAlertController.customAlert(
             alertTile: NameSpace.deleteTitle,
             alertMessage: NameSpace.deleteSubtitle,
@@ -267,7 +251,7 @@ extension DiaryDetailViewController {
         navigationController?.present(alert, animated: true)
     }
     
-    func showErrorAlert(error: Error) {
+    private func showErrorAlert(error: Error) {
         let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
         let alert = UIAlertController.customAlert(
             alertTile: NameSpace.error,
@@ -279,13 +263,12 @@ extension DiaryDetailViewController {
         navigationController?.present(alert, animated: true)
     }
     
-    func setupActivityView() {
+    private func showActivityView() {
         guard let text = useCase?.readDiary() else {
             return
         }
         
         let activityViewController = UIActivityViewController(activityItems: [text], applicationActivities: nil)
-        
         activityViewController.completionWithItemsHandler = { _, _, _, error in
             if let error {
                 self.showErrorAlert(error: error)

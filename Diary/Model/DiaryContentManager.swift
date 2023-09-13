@@ -32,7 +32,8 @@ struct DiaryContentManager {
 
 extension DiaryContentManager {
     private enum NameSpace {
-        static let combineFormat = "%@%@"
+        static let combineFormat = "%@\n%@"
         static let splitFormat = "\n"
+        static let noTitle = "제목 없음"
     }
 }
