@@ -27,7 +27,7 @@ struct DiaryContentManager {
 
     func convert(with diary: Diary) -> String {
         if diary.title.isEmpty && diary.body.isEmpty {
-            return ""
+            return NameSpace.empty
         }
         
         return String(format: NameSpace.combineFormat, diary.title, diary.body)
@@ -39,5 +39,6 @@ extension DiaryContentManager {
         static let combineFormat = "%@\n%@"
         static let splitFormat = "\n"
         static let noTitle = "제목 없음"
+        static let empty = ""
     }
 }
