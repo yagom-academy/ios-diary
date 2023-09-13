@@ -72,7 +72,11 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configureNavigationItem() {
-        let action = UIAction { _ in
+        let action = UIAction { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
             self.showActionSheet()
         }
         let barButtonItem = UIBarButtonItem.init(

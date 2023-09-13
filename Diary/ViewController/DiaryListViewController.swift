@@ -45,7 +45,11 @@ final class DiaryListViewController: UIViewController {
     private func configureNavigation() {
         navigationItem.title = String(localized: "DiaryListNavigationTitle")
         
-        let action = UIAction { _ in
+        let action = UIAction { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
             self.pushDiaryViewController()
         }
         let barButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: action)
@@ -136,7 +140,7 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
     ) -> UISwipeActionsConfiguration? {
         let diary = diaryList[indexPath.row]
         let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completionHandler in
-            guard let self = self else {
+            guard let self else {
                 return
             }
             
