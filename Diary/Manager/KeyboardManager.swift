@@ -2,7 +2,7 @@
 //  KeyboardManager.swift
 //  Diary
 //
-//  Created by idinaloq, yetti  on 2023/08/31.
+//  Created by idinaloq, yetti on 2023/08/31.
 //
 
 import UIKit

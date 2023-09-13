@@ -5,7 +5,6 @@
 // 
 
 import UIKit
-import CoreData
 
 final class DiaryListViewController: UIViewController {
     var diaries: [Diary] = []
@@ -24,10 +23,9 @@ final class DiaryListViewController: UIViewController {
                 
                 completionHandler(true)
             }
-            
+            let title = self.diaries[indexPath.item].title
             let share = UIContextualAction(style: .normal, title: "Share") {_, _, completionHandler in
-                let alertManager: AlertManager = AlertManager(uuid: uuid)
-                self.showActivityView()
+                self.showActivityView(title)
                 completionHandler(true)
             }
             
@@ -54,9 +52,14 @@ final class DiaryListViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         self.diaries = CoreDataManager.shared.fetchAllDiaries()
+        
         diaries.forEach { diary in
-            if diary.body == nil {
-                CoreDataManager.shared.delete(diary: diary.identifier!)
+            if diary.title == nil && diary.body == nil {
+                guard let identifier = diary.identifier else {
+                    return
+                }
+                
+                CoreDataManager.shared.delete(diary: identifier)
             }
         }
         self.diaries = CoreDataManager.shared.fetchAllDiaries()
@@ -66,7 +69,6 @@ final class DiaryListViewController: UIViewController {
     private func configureCollectionView() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        // diffableDatasource
     }
     
     private func configureNavigation() {
@@ -93,13 +95,17 @@ final class DiaryListViewController: UIViewController {
     @objc private func createNewDiaryButtonTapped() {
         let uuid: UUID = UUID()
         CoreDataManager.shared.create(diary: uuid)
-        let diary: Diary = CoreDataManager.shared.fetchSingleDiary(by: uuid)[safe: 0]!
+        
+        guard let diary: Diary = CoreDataManager.shared.fetchSingleDiary(by: uuid)[safe: 0] else {
+            return
+        }
+        
         let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(diary: diary)
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
     
-    func showActivityView() {
-        let activityViewController = UIActivityViewController(activityItems: ["타이틀 넣어야함"], applicationActivities: nil)
+    func showActivityView(_ diary: String?) {
+        let activityViewController = UIActivityViewController(activityItems: [diary as Any], applicationActivities: nil)
         present(activityViewController, animated: true)
     }
 }
@@ -124,7 +130,6 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
         guard let diary = diaries[safe: indexPath.item] else {
             return
         }
@@ -133,5 +138,4 @@ extension DiaryListViewController: UICollectionViewDataSource, UICollectionViewD
         let diaryDetailViewController: DiaryDetailViewController = DiaryDetailViewController(diary: diary)
         navigationController?.pushViewController(diaryDetailViewController, animated: true)
     }
-    
 }

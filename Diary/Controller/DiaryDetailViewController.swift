@@ -6,7 +6,6 @@
 //
 
 import UIKit
-import CoreData
 
 final class DiaryDetailViewController: UIViewController {
     private let diary: Diary
@@ -47,10 +46,11 @@ final class DiaryDetailViewController: UIViewController {
     }
 
     @objc func seeMoreButtonTapped() {
+        let title = diary.title
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         
         let shareAction = UIAlertAction(title: "Share", style: .default) { _ in
-            self.showActivityView()
+            self.showActivityView(title)
         }
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
             self.deleteButtonTapped()
@@ -67,7 +67,11 @@ final class DiaryDetailViewController: UIViewController {
         let deleteAlertController = UIAlertController(title: "Really??", message: "Think one more", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            CoreDataManager.shared.delete(diary: self.diary.identifier!)
+            guard let identifier = self.diary.identifier else {
+                return
+            }
+            
+            CoreDataManager.shared.delete(diary: identifier)
             self.navigationController?.popViewController(animated: true)
         }
         
@@ -76,8 +80,8 @@ final class DiaryDetailViewController: UIViewController {
         present(deleteAlertController, animated: true)
     }
     
-    func showActivityView() {
-        let activityViewController = UIActivityViewController(activityItems: ["타이틀 넣어야함"], applicationActivities: nil)
+    func showActivityView(_ diary: String?) {
+        let activityViewController = UIActivityViewController(activityItems: [diary as Any], applicationActivities: nil)
         present(activityViewController, animated: true)
     }
 
@@ -93,7 +97,7 @@ final class DiaryDetailViewController: UIViewController {
             return
         }
         
-        textView.text = title + body
+        textView.text = title + "\n" + body
     }
     
     private func configureLayout() {
@@ -112,52 +116,24 @@ final class DiaryDetailViewController: UIViewController {
 }
 
 extension DiaryDetailViewController: UITextViewDelegate {
-    func updateTitle(by textView: UITextView) -> String {
-        let textViewWidth = Int(textView.frame.width)
-        let textViewFontSize = 17
-        let titleLength: Int = textViewWidth / textViewFontSize
-//        print(textViewWidth)
-//        print(textViewFontSize)
-//        print(titleLength)
-        let title = String(textView.text.prefix(Int(titleLength)))
-        
-        return title
-    }
-    
-    func updateBody(by textView: UITextView) -> String {
-        let textViewWidth = Int(textView.frame.width)
-        let textViewFontSize = 17
-        let startBodyLength: Int = textViewWidth / textViewFontSize
-        let endIndex = textView.text.index(textView.text.endIndex, offsetBy: -startBodyLength)
-        let body = String(textView.text.suffix(from: endIndex))
-
-        return body
-    }
-    
-    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
-        <#code#>
-    }
-    
     func textViewDidEndEditing(_ textView: UITextView) {
-//        diary.title = updateTitle(by: textView)
-//
-//        diary.body = updateBody(by: textView)
-        guard let text = textView.text else { return }
-        let lines = text.components(separatedBy: "\n")
-        if lines.count > 0 {
-            let title = lines[0]
-            diary.title = title
-            var content = ""
-            if lines.count > 1 {
-                for iii in 1..<lines.count {
-                    content += lines[iii]
-                }
-            }
-            diary.body = content
+        var body = ""
+        
+        guard let text = textView.text,
+              !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+            return
         }
         
-        print("title = \(String(describing: diary.title))")
-        print("body = \(String(describing: diary.body))")
-        CoreDataManager.shared.update(newDiary: diary)
+        let lines = text.components(separatedBy: "\n")
+        diary.title = lines[0]
+        
+        if lines.count > 1 {
+            for line in 1..<lines.count {
+                body = body + lines[line] + "\n"
+            }
+        }
+        
+        diary.body = body
+        CoreDataManager.shared.saveContext()
     }
 }
