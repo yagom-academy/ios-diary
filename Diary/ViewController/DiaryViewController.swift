@@ -10,8 +10,8 @@ import LinkPresentation
 
 final class DiaryViewController: UIViewController {
     // MARK: - Property
-    private let coreDataManager: CoreDataManager
-    private var diary: DiaryEntity?
+    private let diaryService: DiaryService
+    private var diary: DiaryEntity
     private let contentTextView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -20,8 +20,8 @@ final class DiaryViewController: UIViewController {
     }()
     
     // MARK: - Initializer
-    init (coreDataManager: CoreDataManager, diary: DiaryEntity? = nil) {
-        self.coreDataManager = coreDataManager
+    init (diaryService: DiaryService, diary: DiaryEntity) {
+        self.diaryService = diaryService
         self.diary = diary
         super.init(nibName: nil, bundle: nil)
     }
@@ -59,16 +59,11 @@ final class DiaryViewController: UIViewController {
     }
     
     private func configureTitle() {
-        var date = Date()
         let dateFormatter = DateFormatter()
         
         dateFormatter.configureDiaryDateFormat()
         
-        if let diary {
-            date = diary.date
-        }
-        
-        navigationItem.title = dateFormatter.string(from: date)
+        navigationItem.title = dateFormatter.string(from: diary.date)
     }
     
     private func configureNavigationItem() {
@@ -102,49 +97,25 @@ final class DiaryViewController: UIViewController {
     
     // MARK: - Method
     private func fillTextView() {
-        guard let diary else {
-            return
-        }
+        contentTextView.text = diary.title
         
-        contentTextView.text = diary.title + "\n" + (diary.body ?? "")
+        if let body = diary.body {
+            contentTextView.text.append("\n\(body)")
+        }
     }
     
-    private func writeDiary() {
-        if diary == nil {
-            diary = DiaryEntity(context: coreDataManager.container.viewContext)
-            diary?.id = UUID()
-            diary?.date = Date()
-        }
-        
-        let diaryContent = separateTitleAndBody()
-        
-        diary?.title = diaryContent.title
-        diary?.body = diaryContent.body
-    }
-    
-    private func separateTitleAndBody() -> (title: String, body: String) {
-        let title = contentTextView.text.components(separatedBy: "\n")[0]
-        var body = ""
-        
-        if let range = contentTextView.text.range(of: "\n") {
-            body = String(contentTextView.text[range.upperBound...])
-        }
-        
-        return (title, body)
+    private func writeDiary() {        
+        diaryService.write(content: contentTextView.text, to: diary)
     }
     
     private func deleteDiary() {
-        guard let diary else {
-            return
-        }
-        
-        coreDataManager.deleteContext(of: diary)
+        diaryService.delete(diary)
         navigationController?.popViewController(animated: true)
     }
     
     private func saveDiary() {
         do {
-            try self.coreDataManager.saveContext()
+            try diaryService.saveDiary()
         } catch {
             self.presentDiarySaveFailureAlert()
         }

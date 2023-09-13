@@ -8,7 +8,7 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     // MARK: - Property
-    private let coreDataManager: CoreDataManager
+    private let diaryService: DiaryService
     private var diaryList: [DiaryEntity] = []
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -18,8 +18,8 @@ final class DiaryListViewController: UIViewController {
     }()
     
     // MARK: - Initializer
-    init(coreDataManager: CoreDataManager) {
-        self.coreDataManager = coreDataManager
+    init(diaryService: DiaryService) {
+        self.diaryService = diaryService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -30,7 +30,7 @@ final class DiaryListViewController: UIViewController {
     // MARK: - Life cycle method
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadDiary()
+        loadDiaryList()
         configureNavigation()
         configureBackgroundColor()
         configureTableView()
@@ -38,7 +38,7 @@ final class DiaryListViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        loadDiary()
+        loadDiaryList()
     }
     
     // MARK: - Configure view
@@ -79,15 +79,16 @@ final class DiaryListViewController: UIViewController {
     }
     
     // MARK: Method
-    private func pushDiaryViewController(indexPath: IndexPath? = nil) {
-        let diaryViewController = DiaryViewController(coreDataManager: coreDataManager)
+    private func pushDiaryViewController() {
+        let diary = diaryService.createDiary()
+        let diaryViewController = DiaryViewController(diaryService: diaryService, diary: diary)
         
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
-    private func loadDiary() {
+    private func loadDiaryList() {
         do {
-            diaryList = try coreDataManager.fetch(of: DiaryEntity())
+            diaryList = try diaryService.loadDiaryList()
             tableView.reloadData()
         } catch {
             presentErrorCheckAlert(error: error)
@@ -129,7 +130,7 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
         tableView.deselectRow(at: indexPath, animated: true)
         
         let diary = diaryList[indexPath.row]
-        let diaryViewController = DiaryViewController(coreDataManager: coreDataManager, diary: diary)
+        let diaryViewController = DiaryViewController(diaryService: diaryService, diary: diary)
         
         navigationController?.pushViewController(diaryViewController, animated: true)
     }
@@ -146,8 +147,8 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
             
             self.presentDeleteConfirmAlert {
                 do {
-                    self.coreDataManager.deleteContext(of: diary)
-                    try self.coreDataManager.saveContext()
+                    self.diaryService.delete(diary)
+                    try self.diaryService.saveDiary()
                     self.deleteDiaryRow(at: indexPath)
                 } catch {
                     self.presentDiarySaveFailureAlert()

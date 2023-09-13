@@ -8,7 +8,7 @@ import UIKit
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
-    let coreDataManager = CoreDataManager(name: "Diary")
+    let diaryService = DiaryService(name: "Diary")
 
     func scene(
         _ scene: UIScene,
@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        let diaryListViewController = DiaryListViewController(coreDataManager: coreDataManager)
+        let diaryListViewController = DiaryListViewController(diaryService: diaryService)
         let navigationController = UINavigationController(rootViewController: diaryListViewController)
         
         window = UIWindow(windowScene: windowScene)
@@ -29,7 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     func sceneDidEnterBackground(_ scene: UIScene) {
         do {
-            try coreDataManager.saveContext()
+            try diaryService.saveDiary()
         } catch let error as NSError {
             print("Error: \(error), \(error.userInfo)")
         }
