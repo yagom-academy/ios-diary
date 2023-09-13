@@ -73,13 +73,13 @@ extension DiaryViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let date = diary.value(forKeyPath: "date") as? Date ?? Date()
+        let date = diary.date ?? Date()
         let formattedDate = DateFormatter.diaryFormatter.string(from: date)
         
         cell.configureCell(
-            title: diary.value(forKeyPath: "title") as? String ?? "",
+            title: diary.title,
             date: formattedDate,
-            preview: diary.value(forKeyPath: "body") as? String ?? ""
+            preview: diary.body
         )
         
         return cell

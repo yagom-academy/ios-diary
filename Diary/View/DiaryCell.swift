@@ -57,7 +57,7 @@ final class DiaryCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(title: String, date: String, preview: String) {
+    func configureCell(title: String?, date: String, preview: String?) {
         titleLabel.text = title
         dateLabel.text = date
         previewLabel.text = preview
