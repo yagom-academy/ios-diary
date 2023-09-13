@@ -6,16 +6,29 @@
 //
 
 import Foundation
+import CoreData
 
-struct DiaryService {
-    private let coreDataManager = CoreDataManager(name: "Diary")
+struct DiaryService: CoreDataManageable {
+    var container: NSPersistentContainer
+    
+    init(name: String) {
+        self.container = {
+            let container = NSPersistentContainer(name: name)
+            container.loadPersistentStores { _, error in
+                if let error = error {
+                    fatalError("Unable to load persistent stores: \(error)")
+                }
+            }
+            return container
+        }()
+    }
     
     func loadDiaryList() throws -> [DiaryEntity] {
-        try coreDataManager.fetch(of: DiaryEntity())
+        try self.fetch(of: DiaryEntity())
     }
     
     func createDiary() -> DiaryEntity {
-        let diary = DiaryEntity(context: coreDataManager.container.viewContext)
+        let diary = DiaryEntity(context: container.viewContext)
         
         diary.id = UUID()
         diary.date = Date()
@@ -31,11 +44,11 @@ struct DiaryService {
     }
     
     func delete(_ diary: DiaryEntity) {        
-        coreDataManager.deleteContext(of: diary)
+        self.deleteContext(of: diary)
     }
     
     func saveDiary() throws {
-        try coreDataManager.saveContext()
+        try self.saveContext()
     }
     
     private func separateTitleAndBody(of content: String) -> (title: String, body: String) {

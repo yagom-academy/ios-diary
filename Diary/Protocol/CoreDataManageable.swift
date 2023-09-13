@@ -1,5 +1,5 @@
 //
-//  CoreDataManager.swift
+//  CoreDataManageable.swift
 //  Diary
 //
 //  Created by MINT, BMO on 2023/09/12.
@@ -7,21 +7,11 @@
 
 import CoreData
 
-struct CoreDataManager {
-    let container: NSPersistentContainer
-    
-    init(name: String) {
-        self.container = {
-            let container = NSPersistentContainer(name: name)
-            container.loadPersistentStores { _, error in
-                if let error = error {
-                    fatalError("Unable to load persistent stores: \(error)")
-                }
-            }
-            return container
-        }()
-    }
-    
+protocol CoreDataManageable {
+    var container: NSPersistentContainer { get }
+}
+
+extension CoreDataManageable {
     func fetch<T: EntityProtocol>(of object: T) throws -> [T] {
         let fetchRequest = object.fetchRequest()
         return try container.viewContext.fetch(fetchRequest)
