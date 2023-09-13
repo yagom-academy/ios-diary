@@ -10,7 +10,13 @@ import UIKit
 protocol DiaryAlertPresentable where Self: UIViewController { }
 
 extension DiaryAlertPresentable {
-    func showDeleteConfirmAlert(by action: @escaping () -> Void) {
+    var closeAction: UIAlertAction {
+        let action = UIAlertAction(title: String(localized: "Close"), style: .cancel)
+        
+        return action
+    }
+    
+    func presentDeleteConfirmAlert(by action: @escaping () -> Void) {
         let alert = UIAlertController(
             title: String(localized: "DeleteConfirmAlertTitle"),
             message: String(localized: "DeleteConfirmAlertMessage"),
@@ -27,18 +33,22 @@ extension DiaryAlertPresentable {
         self.present(alert, animated: true)
     }
     
-    func showDiarySaveFailureAlert() {
+    func presentDiarySaveFailureAlert() {
         let alert = UIAlertController(
             title: nil,
             message: String(localized: "DiarySaveFailMessage"),
             preferredStyle: .alert
         )
-        let action = UIAlertAction(
-            title: String(localized: "Close"),
-            style: .cancel
-        )
         
-        alert.addAction(action)
+        alert.addAction(closeAction)
+        
+        self.present(alert, animated: true)
+    }
+    
+    func presentErrorCheckAlert(error: Error) {
+        let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
+        
+        alert.addAction(closeAction)
         
         self.present(alert, animated: true)
     }

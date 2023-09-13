@@ -142,7 +142,7 @@ final class DiaryViewController: UIViewController {
         do {
             try self.coreDataManager.saveContext()
         } catch {
-            self.showDiarySaveFailureAlert()
+            self.presentDiarySaveFailureAlert()
         }
     }
     
@@ -184,7 +184,7 @@ extension DiaryViewController: DiaryShareable, DiaryAlertPresentable {
             self.shareDiary(data: self.diary)
         }
         let deleteAction = UIAlertAction(title: String(localized: "Delete"), style: .destructive) { _ in
-            self.showDeleteConfirmAlert(by: { self.deleteDiary()})
+            self.presentDeleteConfirmAlert(by: { self.deleteDiary()})
         }
         let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel)
         
