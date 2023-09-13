@@ -21,4 +21,14 @@ final class DecodingManager {
         
         return decodedData
     }
+    
+    static func decodeData<T: Decodable>(from data: Data) throws -> T {
+        let decoder = JSONDecoder()
+       
+        guard let decodedData = try? decoder.decode(T.self, from: data) else {
+            throw DecodingError.decodingFailure
+        }
+        
+        return decodedData
+    }
 }
