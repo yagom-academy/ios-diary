@@ -19,11 +19,17 @@ final class DiaryDetailViewContoller: UIViewController, AlertDisplayable, ShareD
     private let container = CoreDataManager.shared.persistentContainer
     private var diary: Diary
     private var isNew: Bool
+    private var latitude: Double?
+    private var longitude: Double?
     
-    init() {
+    init(latitude: Double?, longitude: Double?) {
         self.diary = CoreDataManager.shared.createDiary()
         self.isNew = true
+        self.latitude = latitude
+        self.longitude = longitude
+        
         super.init(nibName: nil, bundle: nil)
+        fetchWeather()
     }
     
     init(_ diary: Diary) {
@@ -192,5 +198,41 @@ extension DiaryDetailViewContoller: UITextViewDelegate {
         
         diary.title = "\(title)"
         diary.body = body
+    }
+}
+
+extension DiaryDetailViewContoller {
+    func fetchWeather() {
+        guard let latitude, let longitude else { return }
+        
+        NetworkManager.shared.fetchData(
+            NetworkConfiguration.weatherAPI(latitude: latitude, longitude: longitude)
+        ) { [weak self] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let data):
+                do {
+                    let decodingData: WeatherResult = try DecodingManager.decodeData(from: data)
+                    print(decodingData.weather.first!.main)     // TODO: 마이그레이션 후 삭제
+                } catch {
+                    DispatchQueue.main.async {
+                        let confirmAction = UIAlertAction(title: ButtonNamespace.confirm, style: .default)
+                        self.showAlert(title: AlertNamespace.networkErrorTitle,
+                                  message: nil,
+                                  actions: [confirmAction],
+                                  preferredStyle: .alert)
+                    }
+                }
+            case .failure:
+                DispatchQueue.main.async {
+                    let confirmAction = UIAlertAction(title: ButtonNamespace.confirm, style: .default)
+                    self.showAlert(title: AlertNamespace.networkErrorTitle,
+                              message: nil,
+                              actions: [confirmAction],
+                              preferredStyle: .alert)
+                }
+            }
+        }
     }
 }
