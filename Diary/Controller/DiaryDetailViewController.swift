@@ -229,11 +229,7 @@ extension DiaryDetailViewController {
     
     private func showDeleteAlert() {
         let cancelAction = UIAlertAction(title: NameSpace.cancelKorean, style: .default)
-        let deleteAction = UIAlertAction(title: NameSpace.deleteKorean, style: .destructive) { [weak self] _ in
-            guard let self else {
-                return
-            }
-            
+        let deleteAction = UIAlertAction(title: NameSpace.deleteKorean, style: .destructive) { _ in
             guard let diary = self.useCase?.diary else {
                 return
             }
