@@ -22,6 +22,7 @@ final class DiaryListTableViewCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .preferredFont(forTextStyle: .callout)
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.required, for: .horizontal)
         
         return label
     }()
@@ -39,6 +40,7 @@ final class DiaryListTableViewCell: UITableViewCell {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
+        imageView.setContentHuggingPriority(.required, for: .horizontal)
         
         return imageView
     }()
@@ -73,22 +75,26 @@ final class DiaryListTableViewCell: UITableViewCell {
             dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),
             
             weatherIconImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            weatherIconImageView.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 4),
+            weatherIconImageView.leadingAnchor.constraint(equalTo: dateLabel.trailingAnchor, constant: 15),
             weatherIconImageView.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor),
             weatherIconImageView.widthAnchor.constraint(equalTo: contentView.widthAnchor, multiplier: 0.05),
             weatherIconImageView.heightAnchor.constraint(equalTo: weatherIconImageView.widthAnchor),
             
             bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 8),
-            bodyLabel.leadingAnchor.constraint(equalTo: weatherIconImageView.trailingAnchor, constant: 4),
+            bodyLabel.leadingAnchor.constraint(equalTo: weatherIconImageView.trailingAnchor, constant: 15),
             bodyLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -40),
             bodyLabel.centerYAnchor.constraint(equalTo: dateLabel.centerYAnchor)
         ])
     }
     
-    func setModel(title: String, date: String, body: String) {
+    func setModel(title: String, date: String, body: String, icon: String?) {
         titleLabel.text = title
         dateLabel.text = date
         bodyLabel.text = body
+        
+        if let icon {
+            setImageView(icon: icon)
+        }
     }
     
     func setImageView(icon: String) {

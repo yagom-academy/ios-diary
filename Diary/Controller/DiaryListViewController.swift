@@ -109,7 +109,7 @@ extension DiaryListViewController: UITableViewDataSource {
         }
         let date = dateFormatter.formatToString(from: createdAt, with: "YYYY년 MM월 dd일")
         
-        cell.setModel(title: title, date: date, body: body)
+        cell.setModel(title: title, date: date, body: body, icon: diaryEntity.weatherIcon)
         
         return cell
     }

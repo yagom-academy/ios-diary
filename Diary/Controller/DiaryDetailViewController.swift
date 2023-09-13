@@ -214,7 +214,12 @@ extension DiaryDetailViewController {
             case .success(let data):
                 do {
                     let decodingData: WeatherResult = try DecodingManager.decodeData(from: data)
-                    print(decodingData.weather.first!.main)     // TODO: 마이그레이션 후 삭제
+                    guard let weatherMain = decodingData.weather.first?.main,
+                          let weatherIcon = decodingData.weather.first?.icon else {
+                        return
+                    }
+                    self.diary.weatherMain = weatherMain
+                    self.diary.weatherIcon = weatherIcon
                 } catch {
                     DispatchQueue.main.async {
                         let confirmAction = UIAlertAction(title: ButtonNamespace.confirm, style: .default)
