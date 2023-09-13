@@ -15,10 +15,20 @@ struct DiaryDetailViewControllerUseCase {
     let diaryContentManager = DiaryContentManager()
     
     mutating func updateDiary(_ text: String) {
+        guard text.isEmpty == false else {
+            return
+        }
+        
         diary = diaryContentManager.convert(with: text, diary)
+        
+        delegate?.upsert(diary)
     }
     
     func readDiary() -> String {
+        if diary.title.isEmpty && diary.body.isEmpty {
+            return ""
+        }
+        
         return diaryContentManager.convert(with: diary)
     }
 }
