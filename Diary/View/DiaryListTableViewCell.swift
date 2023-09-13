@@ -93,7 +93,11 @@ final class DiaryListTableViewCell: UITableViewCell {
         bodyLabel.text = body
         
         if let icon {
-            setImageView(icon: icon)
+            guard let cachedImage = ImageCachingManager.shared.object(forKey: NSString(string: icon)) else {
+                setImageView(icon: icon)
+                return
+            }
+            weatherIconImageView.image = cachedImage
         }
     }
     
@@ -103,6 +107,7 @@ final class DiaryListTableViewCell: UITableViewCell {
             case .success(let data):
                 guard let image = UIImage(data: data) else { return }
                 DispatchQueue.main.async {
+                    ImageCachingManager.shared.setObject(image, forKey: NSString(string: icon))
                     self?.weatherIconImageView.image = image
                 }
             case .failure(let error):
