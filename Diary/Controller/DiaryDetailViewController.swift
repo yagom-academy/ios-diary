@@ -62,6 +62,7 @@ extension DiaryDetailViewController {
         setupView()
         setupTextView()
         setupNavigationBar()
+        setupUseCase()
     }
     
     private func setupView() {
@@ -84,6 +85,9 @@ extension DiaryDetailViewController {
         
         navigationItem.title = useCase?.diary.createdDate
         navigationItem.rightBarButtonItem = selectDateButton
+    }
+    private func setupUseCase() {
+        useCase?.delegate = self
     }
 }
 
@@ -120,6 +124,20 @@ extension DiaryDetailViewController {
                 diaryTextView.rightAnchor.constraint(equalTo: view.readableContentGuide.rightAnchor)
             ])
         }
+    }
+}
+
+// MARK: DiaryDetailViewController Delegate
+extension DiaryDetailViewController: DiaryDetailViewControllerUseCaseDelegate {
+    func upsert(_ diary: Diary) {
+        delegate?.diaryDetailViewController(self, upsert: diary)
+    }
+}
+
+// MARK: TextView Delegate {
+extension DiaryDetailViewController: UITextViewDelegate {
+    func textViewDidEndEditing(_ textView: UITextView) {
+        upsertData()
     }
 }
 
