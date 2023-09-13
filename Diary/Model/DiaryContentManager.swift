@@ -26,6 +26,10 @@ struct DiaryContentManager {
     }
 
     func convert(with diary: Diary) -> String {
+        if diary.title.isEmpty && diary.body.isEmpty {
+            return ""
+        }
+        
         return String(format: NameSpace.combineFormat, diary.title, diary.body)
     }
 }

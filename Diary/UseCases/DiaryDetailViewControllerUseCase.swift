@@ -25,10 +25,6 @@ struct DiaryDetailViewControllerUseCase {
     }
     
     func readDiary() -> String {
-        if diary.title.isEmpty && diary.body.isEmpty {
-            return ""
-        }
-        
         return diaryContentManager.convert(with: diary)
     }
 }
