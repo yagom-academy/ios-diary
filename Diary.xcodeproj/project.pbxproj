@@ -57,7 +57,7 @@
 		BABBDAE42A9F13A200D8D50B /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
 		BABBDB332AA6D05A00D8D50B /* ShareDisplayable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareDisplayable.swift; sourceTree = "<group>"; };
 		BABBDB352AAD904100D8D50B /* CoreDataError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataError.swift; sourceTree = "<group>"; };
-		BAECB2CE2AB15742006B4A46 /* Key.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Key.plist; path = ../Key.plist; sourceTree = "<group>"; };
+		BAECB2CE2AB15742006B4A46 /* Key.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Key.plist; sourceTree = "<group>"; };
 		BAECB2D02AB157CB006B4A46 /* NetworkConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConfiguration.swift; sourceTree = "<group>"; };
 		BAECB2D82AB18611006B4A46 /* DiaryV2.xcmappingmodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcmappingmodel; path = DiaryV2.xcmappingmodel; sourceTree = "<group>"; };
 		BAECB2DC2AB187D6006B4A46 /* ImageCachingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCachingManager.swift; sourceTree = "<group>"; };

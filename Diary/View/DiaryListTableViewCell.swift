@@ -55,6 +55,10 @@ final class DiaryListTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {
+        weatherIconImageView.image = nil
+    }
+    
     private func setupLabel() {
         contentView.addSubview(titleLabel)
         contentView.addSubview(dateLabel)
