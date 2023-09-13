@@ -10,7 +10,6 @@ import UIKit
 protocol DiaryDetailViewControllerDelegate: AnyObject {
     func diaryDetailViewController(_ diaryDetailViewController: DiaryDetailViewController, upsert diary: Diary)
     func diaryDetailViewController(_ diaryDetailViewController: DiaryDetailViewController, delete diary: Diary)
-    func diaryDetailViewController(dismiss diaryDetailViewController: DiaryDetailViewController)
 }
 
 final class DiaryDetailViewController: UIViewController {

@@ -68,16 +68,6 @@ final class DiaryPersistentManager {
         try context.save()
     }
     
-    func deleteAll() throws {
-        let fetchResults = try fetch()
-        
-        for result in fetchResults {
-            context.delete(result)
-        }
-        
-        try saveContext()
-    }
-    
     func isExist(_ diary: Diary) throws -> Bool {
         let fetchResults = try fetch()
         

@@ -119,10 +119,6 @@ extension DiaryViewController: DiaryDetailViewControllerDelegate {
         useCase?.delete(diary)
         loadData()
     }
-    
-    func diaryDetailViewController(dismiss diaryDetailViewController: DiaryDetailViewController) {
-        diaryDetailViewController.dismiss(animated: true)
-    }
 }
 
 // MARK: CollectionView Delegate
