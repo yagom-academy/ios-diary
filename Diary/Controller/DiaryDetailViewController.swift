@@ -8,6 +8,8 @@
 import UIKit
 
 final class DiaryDetailViewController: UIViewController, Shareable {
+    typealias Contents = String
+    
     private let diary: Diary
     private let isUpdated: Bool
     

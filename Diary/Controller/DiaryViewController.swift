@@ -7,6 +7,8 @@
 import UIKit
 
 final class DiaryViewController: UIViewController, Shareable {
+    typealias Contents = String
+
     private var tableView = UITableView()
     private var diaryList = [Diary]()
     

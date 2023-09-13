@@ -8,12 +8,13 @@
 import UIKit
 
 protocol Shareable {
-    func showActivityView(data: Any, viewController: UIViewController?)
+    associatedtype Contents
+    func showActivityView(data: Contents, viewController: UIViewController?)
 }
 
 extension Shareable {
-    func showActivityView(data: Any, viewController: UIViewController?) {
-        var shareObject = [Any]()
+    func showActivityView(data: Contents, viewController: UIViewController?) {
+        var shareObject = [Contents]()
         
         shareObject.append(data)
         
