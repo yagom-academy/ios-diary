@@ -27,15 +27,15 @@ struct CoreDataManager {
         return try container.viewContext.fetch(fetchRequest)
     }
     
-    func deleteContext(of object: NSManagedObject) {
-        container.viewContext.delete(object)
-    }
-    
     func saveContext() throws {
         guard container.viewContext.hasChanges else {
             return
         }
         
         try container.viewContext.save()
+    }
+    
+    func deleteContext(of object: NSManagedObject) {
+        container.viewContext.delete(object)
     }
 }

@@ -89,6 +89,11 @@ final class DiaryListViewController: UIViewController {
             presentErrorCheckAlert(error: error)
         }
     }
+    
+    private func deleteDiaryRow(at indexPath: IndexPath) {
+        self.diaryList.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -136,11 +141,10 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
             }
             
             self.presentDeleteConfirmAlert {
-                self.diaryList.remove(at: indexPath.row)
-                self.tableView.deleteRows(at: [indexPath], with: .automatic)
-                self.coreDataManager.deleteContext(of: diary)
                 do {
+                    self.coreDataManager.deleteContext(of: diary)
                     try self.coreDataManager.saveContext()
+                    self.deleteDiaryRow(at: indexPath)
                 } catch {
                     self.presentDiarySaveFailureAlert()
                 }
