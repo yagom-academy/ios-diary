@@ -11,7 +11,7 @@ struct DiaryContentManager {
     func convert(with text: String, _ diary: Diary) -> Diary {
         var textComponents = text.components(separatedBy: NameSpace.splitFormat)
         var title = textComponents.removeFirst()
-        var body = textComponents.joined(separator: NameSpace.splitFormat)
+        let body = textComponents.joined(separator: NameSpace.splitFormat)
 
         if title.isEmpty {
             title = NameSpace.noTitle
