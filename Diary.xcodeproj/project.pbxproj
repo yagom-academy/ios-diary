@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		459D493A878338290A3E0AEF /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EDF8EB908CAD9D062C72898B /* Pods_Diary.framework */; };
+		632F74F02AB14D2C003E1B97 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632F74EF2AB14D2C003E1B97 /* NetworkManager.swift */; };
+		632F74F22AB14D8D003E1B97 /* WeatherResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632F74F12AB14D8D003E1B97 /* WeatherResult.swift */; };
+		632F74F42AB14DBC003E1B97 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632F74F32AB14DBC003E1B97 /* APIError.swift */; };
 		636B19AC2AA6C5E900B5242D /* AlertDisplayble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 636B19AB2AA6C5E900B5242D /* AlertDisplayble.swift */; };
 		63B12BAE2AAD9C9000D614A6 /* AlertNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B12BAD2AAD9C9000D614A6 /* AlertNamespace.swift */; };
 		63B12BB02AAD9D3400D614A6 /* ButtonNamespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B12BAF2AAD9D3400D614A6 /* ButtonNamespace.swift */; };
@@ -32,6 +35,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		632F74EF2AB14D2C003E1B97 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		632F74F12AB14D8D003E1B97 /* WeatherResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherResult.swift; sourceTree = "<group>"; };
+		632F74F32AB14DBC003E1B97 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
 		636B19AB2AA6C5E900B5242D /* AlertDisplayble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertDisplayble.swift; sourceTree = "<group>"; };
 		63B12BAD2AAD9C9000D614A6 /* AlertNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertNamespace.swift; sourceTree = "<group>"; };
 		63B12BAF2AAD9D3400D614A6 /* ButtonNamespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonNamespace.swift; sourceTree = "<group>"; };
@@ -89,6 +95,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		632F74EE2AB14CF3003E1B97 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				632F74EF2AB14D2C003E1B97 /* NetworkManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
 		636B19AA2AA6C5C200B5242D /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +138,7 @@
 				63BB62812A9F109400524DCB /* DecodingManager.swift */,
 				63B12BAD2AAD9C9000D614A6 /* AlertNamespace.swift */,
 				63B12BAF2AAD9D3400D614A6 /* ButtonNamespace.swift */,
+				632F74F12AB14D8D003E1B97 /* WeatherResult.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -159,6 +174,7 @@
 			children = (
 				BABBDAE42A9F13A200D8D50B /* DecodingError.swift */,
 				BABBDB352AAD904100D8D50B /* CoreDataError.swift */,
+				632F74F32AB14DBC003E1B97 /* APIError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -185,6 +201,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				632F74EE2AB14CF3003E1B97 /* Network */,
 				636B19AA2AA6C5C200B5242D /* Protocol */,
 				63BB62B62AA185E700524DCB /* DataManager */,
 				63E5273E2A9ECD800000FBA6 /* Extension */,
@@ -321,10 +338,12 @@
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				636B19AC2AA6C5E900B5242D /* AlertDisplayble.swift in Sources */,
 				63BB62822A9F109400524DCB /* DecodingManager.swift in Sources */,
+				632F74F22AB14D8D003E1B97 /* WeatherResult.swift in Sources */,
 				BA1A55ED2A9D90810012C89D /* DateFormatter+.swift in Sources */,
 				63E527372A9D87660000FBA6 /* DiaryListTableViewCell.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 				63BB62B52AA182AA00524DCB /* CoreDataManager.swift in Sources */,
+				632F74F02AB14D2C003E1B97 /* NetworkManager.swift in Sources */,
 				63E527392A9D97160000FBA6 /* DiaryDetailViewContoller.swift in Sources */,
 				BABBDAE52A9F13A200D8D50B /* DecodingError.swift in Sources */,
 				BABBDB362AAD904100D8D50B /* CoreDataError.swift in Sources */,
@@ -334,6 +353,7 @@
 				BA1A55EB2A9D84AF0012C89D /* DiaryEntity.swift in Sources */,
 				63B12BAE2AAD9C9000D614A6 /* AlertNamespace.swift in Sources */,
 				63BB62B22AA181BE00524DCB /* Diary+CoreDataClass.swift in Sources */,
+				632F74F42AB14DBC003E1B97 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
