@@ -1,5 +1,5 @@
 //
-//  DiaryDetailViewContoller.swift
+//  DiaryDetailViewController.swift
 //  Diary
 //
 //  Created by Maxhyunm, Hamg on 2023/08/29.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiaryDetailViewContoller: UIViewController, AlertDisplayable, ShareDisplayable {
+final class DiaryDetailViewController: UIViewController, AlertDisplayable, ShareDisplayable {
     private let textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -132,7 +132,7 @@ final class DiaryDetailViewContoller: UIViewController, AlertDisplayable, ShareD
     }
 }
 
-extension DiaryDetailViewContoller {
+extension DiaryDetailViewController {
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
                 as? CGRect else { return }
@@ -167,7 +167,7 @@ extension DiaryDetailViewContoller {
     }
 }
 
-extension DiaryDetailViewContoller: UITextViewDelegate {
+extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         let contents = textView.text.split(separator: "\n")
         guard !contents.isEmpty else { return }
@@ -201,7 +201,7 @@ extension DiaryDetailViewContoller: UITextViewDelegate {
     }
 }
 
-extension DiaryDetailViewContoller {
+extension DiaryDetailViewController {
     func fetchWeather() {
         guard let latitude, let longitude else { return }
         

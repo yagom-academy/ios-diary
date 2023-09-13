@@ -55,7 +55,7 @@ final class DiaryListViewController: UIViewController {
     private func setupNavigationBarButton() {
         let addDiary = UIAction(image: UIImage(systemName: "plus")) { [weak self] _ in
             guard let self else { return }
-            let createDiaryView = DiaryDetailViewContoller(latitude: latitude, longitude: longitude)
+            let createDiaryView = DiaryDetailViewController(latitude: self.latitude, longitude: self.longitude)
             self.navigationController?.pushViewController(createDiaryView, animated: true)
         }
         
@@ -119,7 +119,7 @@ extension DiaryListViewController: UITableViewDelegate, ShareDisplayable {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let diaryToEdit = diaryList[indexPath.row]
-        let createVC = DiaryDetailViewContoller(diaryToEdit)
+        let createVC = DiaryDetailViewController(diaryToEdit)
         
         navigationController?.pushViewController(createVC, animated: true)
     }
