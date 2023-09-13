@@ -156,7 +156,11 @@ extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAle
             
             completionHandler(true)
         }
-        let shareAction = UIContextualAction(style: .normal, title: nil) { _, _, completionHandler in
+        let shareAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completionHandler in
+            guard let self else {
+                return
+            }
+            
             self.shareDiary(data: diary)
             completionHandler(true)
         }

@@ -184,10 +184,18 @@ extension DiaryViewController: UITextViewDelegate {
 extension DiaryViewController: DiaryShareable, DiaryAlertPresentable {
     private func showActionSheet() {
         let sheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: String(localized: "Share"), style: .default) { _ in
+        let shareAction = UIAlertAction(title: String(localized: "Share"), style: .default) { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
             self.shareDiary(data: self.diary)
         }
-        let deleteAction = UIAlertAction(title: String(localized: "Delete"), style: .destructive) { _ in
+        let deleteAction = UIAlertAction(title: String(localized: "Delete"), style: .destructive) { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
             self.presentDeleteConfirmAlert(by: { self.deleteDiary()})
         }
         let cancelAction = UIAlertAction(title: String(localized: "Cancel"), style: .cancel)
