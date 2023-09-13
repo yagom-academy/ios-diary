@@ -7,3 +7,10 @@
 */
 
 "DiaryListNavigationTitle" = "일기장";
+"DeleteConfirmAlertTitle" = "진짜요?";
+"DeleteConfirmAlertMessage" = "정말로 삭제하시겠어요??";
+"Cancel" = "취소";
+"Delete" = "삭제";
+"Share" = "공유하기";
+"Close" = "닫기";
+"DiarySaveFailMessage" = "일기 저장에 실패했습니다.";

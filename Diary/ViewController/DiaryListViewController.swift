@@ -7,14 +7,17 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    let diaryService: DiaryService
-    private var diaryList: [Diary] = []
+    // MARK: - Property
+    private let diaryService: DiaryService
+    private var diaryList: [DiaryEntity] = []
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        
         return tableView
     }()
     
+    // MARK: - Initializer
     init(diaryService: DiaryService) {
         self.diaryService = diaryService
         super.init(nibName: nil, bundle: nil)
@@ -24,40 +27,34 @@ final class DiaryListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Life cycle method
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadDiary()
+        loadDiaryList()
         configureNavigation()
         configureBackgroundColor()
         configureTableView()
     }
     
-    private func loadDiary() {
-        do {
-            diaryList = try diaryService.loadDiaryList(name: "sample")
-        } catch {
-            let alert = UIAlertController(title: nil, message: error.localizedDescription, preferredStyle: .alert)
-            let closeAction = UIAlertAction(title: "확인", style: .cancel)
-            alert.addAction(closeAction)
-            self.present(alert, animated: true)
-        }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        loadDiaryList()
     }
     
+    // MARK: - Configure view
     private func configureNavigation() {
         navigationItem.title = String(localized: "DiaryListNavigationTitle")
         
-        let action = UIAction { _ in
-            self.addDiary()
+        let action = UIAction { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
+            self.pushDiaryViewController()
         }
         let barButtonItem = UIBarButtonItem(systemItem: .add, primaryAction: action)
         
         navigationItem.rightBarButtonItem = barButtonItem
-    }
-    
-    private func addDiary() {
-        let diaryViewController = DiaryViewController()
-        
-        navigationController?.pushViewController(diaryViewController, animated: true)
     }
     
     private func configureBackgroundColor() {
@@ -80,6 +77,28 @@ final class DiaryListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
+    
+    // MARK: Method
+    private func pushDiaryViewController() {
+        let diary = diaryService.createDiary()
+        let diaryViewController = DiaryViewController(diaryService: diaryService, diary: diary)
+        
+        navigationController?.pushViewController(diaryViewController, animated: true)
+    }
+    
+    private func loadDiaryList() {
+        do {
+            diaryList = try diaryService.loadDiaryList()
+            tableView.reloadData()
+        } catch {
+            presentErrorCheckAlert(error: error)
+        }
+    }
+    
+    private func deleteDiaryRow(at indexPath: IndexPath) {
+        self.diaryList.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+    }
 }
 
 // MARK: - UITableViewDataSource
@@ -95,19 +114,66 @@ extension DiaryListViewController: UITableViewDataSource {
         ) as? DiaryTableViewCell else {
             return UITableViewCell()
         }
+        
         let diary = diaryList[indexPath.row]
+        
         cell.configureContents(diary: diary)
         cell.accessoryType = .disclosureIndicator
+        
         return cell
     }
 }
 
 // MARK: - UITableViewDelegate
-extension DiaryListViewController: UITableViewDelegate {
+extension DiaryListViewController: UITableViewDelegate, DiaryShareable, DiaryAlertPresentable {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        
         let diary = diaryList[indexPath.row]
-        let diaryViewController = DiaryViewController(diary: diary)
+        let diaryViewController = DiaryViewController(diaryService: diaryService, diary: diary)
+        
         navigationController?.pushViewController(diaryViewController, animated: true)
+    }
+    
+    func tableView(
+        _ tableView: UITableView,
+        trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
+    ) -> UISwipeActionsConfiguration? {
+        let diary = diaryList[indexPath.row]
+        let deleteAction = UIContextualAction(style: .destructive, title: nil) { [weak self] _, _, completionHandler in
+            guard let self else {
+                return
+            }
+            
+            self.presentDeleteConfirmAlert {
+                do {
+                    self.diaryService.delete(diary)
+                    try self.diaryService.saveDiary()
+                    self.deleteDiaryRow(at: indexPath)
+                } catch {
+                    self.presentDiarySaveFailureAlert()
+                }
+            }
+            
+            completionHandler(true)
+        }
+        let shareAction = UIContextualAction(style: .normal, title: nil) { [weak self] _, _, completionHandler in
+            guard let self else {
+                return
+            }
+            
+            self.shareDiary(data: diary)
+            completionHandler(true)
+        }
+        
+        deleteAction.image = UIImage(systemName: "trash")
+        deleteAction.backgroundColor = .systemRed
+        
+        shareAction.image = UIImage(systemName: "square.and.arrow.up")
+        shareAction.backgroundColor = .systemGray
+        
+        let configuration = UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+        
+        return configuration
     }
 }

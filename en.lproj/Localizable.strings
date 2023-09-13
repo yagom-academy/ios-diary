@@ -7,3 +7,10 @@
 */
 
 "DiaryListNavigationTitle" = "Diary";
+"DeleteConfirmAlertTitle" = "Seriously?";
+"DeleteConfirmAlertMessage" = "Are you sure you want to delete it?";
+"Cancel" = "Cancel";
+"Delete" = "Delete";
+"Share" = "Share";
+"Close" = "Close";
+"DiarySaveFailMessage" = "Failed to save diary.";
