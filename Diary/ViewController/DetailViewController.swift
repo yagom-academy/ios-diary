@@ -11,7 +11,8 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     let coreDataManager = CoreDataManager.shared
     private let entity: Entity?
-    let placeHolderText = "Input Text"
+    private var initEntity: Entity?
+    private let placeHolderText = "Input Text"
     
     init?(entity: Entity? = nil, coder: NSCoder) {
         self.entity = entity
@@ -30,12 +31,49 @@ final class DetailViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let text = textView.text, !text.isEmpty else {
+            return
+        }
+        
+        let (title, body) = self.splitText(text: text)
+        
+        if initEntity == nil {
+            coreDataManager.createEntity(title: title, body: body)
+        } else {
+            guard let entity = self.entity else {
+                return
+            }
+            coreDataManager.updateEntity(entity: entity, newTitle: title, newBody: body)
+        }
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?){
         self.view.endEditing(true)
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    private func splitText(text: String) -> (title: String, body: String) {
+        let lines = text.components(separatedBy: "\n")
+        var title = ""
+        var body = ""
+        
+        if let firstLine = lines.first {
+            print("title: (firstLine)")
+            title = firstLine
+        }
+        
+        if lines.count > 1 {
+            body = lines[1...]
+                .joined(separator: "\n")
+            print("body: (body)")
+        }
+        
+        return (title, body)
     }
     
     private func configureNavigationTitle() {
@@ -76,6 +114,17 @@ final class DetailViewController: UIViewController {
     
     @objc func keyboardWillHide(_ sender: Notification) {
         textView.contentInset = UIEdgeInsets.zero
+        
+        guard let text = textView.text, !text.isEmpty else {
+            return
+        }
+        
+        let (title, body) = self.splitText(text: text)
+        
+        guard let entity = self.entity else {
+            return
+        }
+        coreDataManager.updateEntity(entity: entity, newTitle: title, newBody: body)
     }
 }
 
