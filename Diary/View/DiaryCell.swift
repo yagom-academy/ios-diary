@@ -92,7 +92,7 @@ final class DiaryCell: UICollectionViewListCell {
     private func configureLabel(from diary: Diary) {
         titleLabel.text = diary.title
         contentLabel.text = diary.content
-        createdDateLabel.text = currentFormatter?.format(date: diary.createdDate ?? Date())
+        createdDateLabel.text = currentFormatter?.format(date: diary.createdDate ?? Date(), style: .long)
     }
     
     private func constraintOuterStackView() {

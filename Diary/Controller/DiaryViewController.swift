@@ -89,7 +89,7 @@ final class DiaryViewController: UIViewController {
     }
     
     private func setupNavigationTitle() {
-        let date = currentFormatter.format(date: self.diary.createdDate ?? Date())
+        let date = currentFormatter.format(date: self.diary.createdDate ?? Date(), style: .long)
         self.navigationItem.title = date
     }
     

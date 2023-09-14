@@ -9,14 +9,14 @@ import Foundation
 
 final class CurrentDateFormatter: DateFormattable {
     private let dateFormatter: DateFormatter = {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
+        let dateFormatter = DateFormatter()        
         dateFormatter.locale = .current
         
         return dateFormatter
     }()
     
-    func format(date: Date) -> String {
+    func format(date: Date, style: DateFormatter.Style ) -> String {
+        dateFormatter.dateStyle = style
         dateFormatter.string(from: date)
     }
 }

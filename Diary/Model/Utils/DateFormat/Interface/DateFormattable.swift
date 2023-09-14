@@ -8,5 +8,5 @@
 import Foundation
 
 protocol DateFormattable {
-    func format(date: Date) -> String
+    func format(date: Date, style: DateFormatter.Style) -> String
 }
