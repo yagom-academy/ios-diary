@@ -36,5 +36,18 @@ final class CoreDataManager {
             print(error.localizedDescription)
         }
     }
+    
+    func updateEntity(entity: Entity, newTitle: String, newBody: String) {
+        entity.title = newTitle
+        entity.body = newBody
+        
+        saveToContext()
+    }
+    
+    func deleteEntity(entity: Entity) {
+        context.delete(entity)
+        
+        saveToContext()
+    }
 }
 
