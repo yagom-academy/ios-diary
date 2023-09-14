@@ -11,6 +11,9 @@
 		78274D9A2A9E26DF00AD4F50 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78274D992A9E26DF00AD4F50 /* DiaryCell.swift */; };
 		78274DA12A9E3E8E00AD4F50 /* DiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78274DA02A9E3E8E00AD4F50 /* DiaryModel.swift */; };
 		78274DA42A9F3F0A00AD4F50 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78274DA32A9F3F0A00AD4F50 /* DateFormatter+.swift */; };
+		784F30C92AB2F88F009A895B /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784F30C82AB2F88F009A895B /* Location.swift */; };
+		784F30CB2AB2FE87009A895B /* DecodingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784F30CA2AB2FE87009A895B /* DecodingManager.swift */; };
+		784F30CE2AB30072009A895B /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784F30CD2AB30072009A895B /* DecodingError.swift */; };
 		92FB9B8365F3B707B891705F /* Pods_Diary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EEBF20D2433AEB2D78258668 /* Pods_Diary.framework */; };
 		9C1529112AAE140900F3203E /* Shareable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C1529102AAE140800F3203E /* Shareable.swift */; };
 		9C184BBF2AA21892003863E7 /* CellIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C184BBE2AA21892003863E7 /* CellIdentifier.swift */; };
@@ -33,6 +36,9 @@
 		78274D992A9E26DF00AD4F50 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		78274DA02A9E3E8E00AD4F50 /* DiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModel.swift; sourceTree = "<group>"; };
 		78274DA32A9F3F0A00AD4F50 /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
+		784F30C82AB2F88F009A895B /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		784F30CA2AB2FE87009A895B /* DecodingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingManager.swift; sourceTree = "<group>"; };
+		784F30CD2AB30072009A895B /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
 		9C1529102AAE140800F3203E /* Shareable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shareable.swift; sourceTree = "<group>"; };
 		9C184BBE2AA21892003863E7 /* CellIdentifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifier.swift; sourceTree = "<group>"; };
 		9C4621EB2AB06890004ED11A /* PersistentContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentContainer.swift; sourceTree = "<group>"; };
@@ -122,6 +128,32 @@
 			path = Extension;
 			sourceTree = "<group>";
 		};
+		784F30C62AB2F7B9009A895B /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				784F30C72AB2F7F2009A895B /* Model */,
+				784F30CC2AB3004E009A895B /* Error */,
+				784F30CA2AB2FE87009A895B /* DecodingManager.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		784F30C72AB2F7F2009A895B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				784F30C82AB2F88F009A895B /* Location.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		784F30CC2AB3004E009A895B /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				784F30CD2AB30072009A895B /* DecodingError.swift */,
+			);
+			path = Error;
+			sourceTree = "<group>";
+		};
 		9C15290F2AAE13ED00F3203E /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
@@ -162,6 +194,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				784F30C62AB2F7B9009A895B /* Network */,
 				9C5A1DD72AAB704700162C98 /* CoreData */,
 				78274D9B2A9E319500AD4F50 /* Model */,
 				78274D9C2A9E31A200AD4F50 /* View */,
@@ -316,7 +349,10 @@
 				78274DA42A9F3F0A00AD4F50 /* DateFormatter+.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				9C4621EC2AB06890004ED11A /* PersistentContainer.swift in Sources */,
+				784F30C92AB2F88F009A895B /* Location.swift in Sources */,
+				784F30CB2AB2FE87009A895B /* DecodingManager.swift in Sources */,
 				9C5A1DD62AAA3F5B00162C98 /* UITextView+.swift in Sources */,
+				784F30CE2AB30072009A895B /* DecodingError.swift in Sources */,
 				9C75C4CA2A9F448400C5D1CB /* DiaryDetailViewController.swift in Sources */,
 				9C184BBF2AA21892003863E7 /* CellIdentifier.swift in Sources */,
 				78274D9A2A9E26DF00AD4F50 /* DiaryCell.swift in Sources */,
