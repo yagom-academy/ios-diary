@@ -100,7 +100,8 @@ extension AppManager: DiaryDetailViewControllerDelegate {
         let separatedText = text.split(separator: "\n", maxSplits: 1)
         guard let titleText = separatedText.first?.description else { return nil }
         
-        let bodyText = separatedText.last?.description ?? ""
+        let removedTitleText = separatedText.dropFirst()
+        let bodyText = removedTitleText.count != 0 ? removedTitleText.description : ""
         
         return (titleText, bodyText)
     }
