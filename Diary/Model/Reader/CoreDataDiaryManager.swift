@@ -11,19 +11,15 @@ import CoreData
 final class CoreDataDiaryManager {
     
     // MARK: - Private Property
-    private lazy var persistentContainer: NSPersistentContainer = {
-        let container = NSPersistentContainer(name: NameSpace.diary)
-        container.loadPersistentStores(completionHandler: { (_, error) in
-            if let error = error as NSError? {
-                fatalError("Unresolved error \(error), \(error.userInfo)")
-            }
-        })
-        
-        return container
-    }()
+    private let persistentContainer: NSPersistentContainer
     
     private var context: NSManagedObjectContext {
         return persistentContainer.viewContext
+    }
+    
+    // MARK: - Life Cycle
+    init(persistentContainer: NSPersistentContainer) {
+        self.persistentContainer = persistentContainer
     }
     
     // MARK: - Save Context
@@ -54,7 +50,7 @@ extension CoreDataDiaryManager: DiaryManageable {
 
     func storeDiary(_ diary: DiaryEntry) throws {
         let fetchRequest = DiaryEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: NameSpace.idEqualFormat, diary.id.uuidString)
+        fetchRequest.predicate = NSPredicate(format: NameSpace.idEqualFormat, diary.id as CVarArg)
         
         if let diaryEntity = try context.fetch(fetchRequest).first {
             diaryEntity.title = diary.title
@@ -72,7 +68,7 @@ extension CoreDataDiaryManager: DiaryManageable {
     
     func deleteDiary(_ diary: DiaryEntry) throws {
         let fetchRequest = DiaryEntity.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: NameSpace.idEqualFormat, diary.id.uuidString)
+        fetchRequest.predicate = NSPredicate(format: NameSpace.idEqualFormat, diary.id as CVarArg)
         
         if let diaryEntity = try context.fetch(fetchRequest).first {
             context.delete(diaryEntity)
