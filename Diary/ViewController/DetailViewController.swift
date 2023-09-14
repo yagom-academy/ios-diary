@@ -23,20 +23,23 @@ final class DetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTextView()
         configureNavigationTitle()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+        setUpObserver()
+        initEntity = self.entity
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        guard let text = textView.text, !text.isEmpty else {
+        guard let text = textView.text, !text.isEmpty, text != placeHolderText else {
             return
         }
-        
         let (title, body) = self.splitText(text: text)
         
         if initEntity == nil {
@@ -53,8 +56,41 @@ final class DetailViewController: UIViewController {
         self.view.endEditing(true)
     }
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+    @IBAction func didTapMenu(_ sender: Any) {
+        let actionSheet = UIAlertController(title: "Menu",
+                                            message: nil,
+                                            preferredStyle: .actionSheet)
+        
+        let share = UIAlertAction(title: "Share", style: .default) { action in
+            let textToShare = "share the app"
+            let activityVC = UIActivityViewController(activityItems: [textToShare], applicationActivities: nil)
+            
+            self.present(activityVC, animated: true, completion: nil)
+        }
+        
+        let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
+            let doublecheck = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+            let cancel = UIAlertAction(title: "Cancel", style: .default)
+            let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
+
+            }
+            
+            doublecheck.addAction(cancel)
+            doublecheck.addAction(delete)
+            self.present(doublecheck, animated: true, completion: nil)
+        }
+        
+        let cancel = UIAlertAction(title: "Cancel", style: .cancel)
+        
+        actionSheet.addAction(share)
+        actionSheet.addAction(delete)
+        actionSheet.addAction(cancel)
+        present(actionSheet, animated: true, completion: nil)
+    }
+    
+    private func setUpObserver() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     private func splitText(text: String) -> (title: String, body: String) {
@@ -90,7 +126,7 @@ final class DetailViewController: UIViewController {
     private func configureTextView() {
         textView.layer.borderWidth = 1
         
-        guard let entity else {
+        guard let entity, let title = entity.title, let body = entity.body else {
             textView.text = placeHolderText
             textView.textColor = .lightGray
             textView.delegate = self
@@ -98,8 +134,7 @@ final class DetailViewController: UIViewController {
             return
         }
         
-        textView.text = entity.title
-        textView.text = entity.body
+        textView.text = title + "\n" + body
     }
     
     @objc func keyboardWillShow(_ sender: Notification) {

@@ -63,7 +63,7 @@
             </objects>
             <point key="canvasLocation" x="1057.2519083969464" y="-27.464788732394368"/>
         </scene>
-        <!--Detail View Controller-->
+        <!--Title-->
         <scene sceneID="y1i-RE-Htl">
             <objects>
                 <viewController storyboardIdentifier="DetailViewController" id="iwB-9Y-hr3" customClass="DetailViewController" customModule="Diary" customModuleProvider="target" sceneMemberID="viewController">
@@ -84,6 +84,15 @@
                         <viewLayoutGuide key="safeArea" id="rUT-HQ-54y"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Title" id="Z71-61-glx">
+                        <barButtonItem key="rightBarButtonItem" title="Item" image="ellipsis.circle" catalog="system" id="6IO-8K-lJ1">
+                            <connections>
+                                <action selector="didTapMenu:" destination="iwB-9Y-hr3" id="J0M-5h-Tkk"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="textView" destination="4C5-4p-VUm" id="Ihp-ib-iYv"/>
                     </connections>
@@ -112,6 +121,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="ellipsis.circle" catalog="system" width="128" height="123"/>
         <image name="plus" catalog="system" width="128" height="113"/>
         <systemColor name="labelColor">
             <color red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
