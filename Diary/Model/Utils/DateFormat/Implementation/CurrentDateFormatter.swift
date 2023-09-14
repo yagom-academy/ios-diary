@@ -17,6 +17,6 @@ final class CurrentDateFormatter: DateFormattable {
     
     func format(date: Date, style: DateFormatter.Style ) -> String {
         dateFormatter.dateStyle = style
-        dateFormatter.string(from: date)
+        return dateFormatter.string(from: date)
     }
 }
