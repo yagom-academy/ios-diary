@@ -12,6 +12,8 @@ final class DiaryDetailViewController: UIViewController, Shareable {
     
     private let diary: Diary
     private let isUpdated: Bool
+    private var weatherMain: String = ""
+    private var weatherIcon: String = ""
     private var latitude: Double?
     private var longitude: Double?
     
@@ -29,6 +31,7 @@ final class DiaryDetailViewController: UIViewController, Shareable {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        fetchWeather()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -179,5 +182,29 @@ private extension DiaryDetailViewController {
             contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             contentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
+    }
+}
+
+private extension DiaryDetailViewController {
+    func fetchWeather() {
+        NetworkManager.shared.fetchData { [weak self] result in
+            switch result {
+            case .success(let data):
+                do {
+                    let decodedData: Location = try DecodingManager.decodeData(from: data)
+                   
+                    guard let currentWeather = decodedData.weather.first else {
+                        return
+                    }
+                    
+                    self?.weatherMain = currentWeather.main
+                    self?.weatherIcon = currentWeather.icon
+                } catch {
+                    print("error")
+                }
+            case .failure(let error):
+                print(error.description)
+            }
+        }
     }
 }
