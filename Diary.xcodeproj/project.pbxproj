@@ -8,8 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		1F5CEE8D2A9D97AF00521AB3 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5CEE8C2A9D97AF00521AB3 /* DiaryCell.swift */; };
+		1F5F22922AAA043400CB920D /* DiaryContentComposable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F22912AAA043400CB920D /* DiaryContentComposable.swift */; };
+		1F5F22942AAA049500CB920D /* DiaryContentCompositor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F22932AAA049500CB920D /* DiaryContentCompositor.swift */; };
+		1F5F22972AAA04E500CB920D /* DiaryContentSegregatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F22962AAA04E500CB920D /* DiaryContentSegregatable.swift */; };
+		1F5F229A2AAA051200CB920D /* DiaryContentSegregator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F22992AAA051200CB920D /* DiaryContentSegregator.swift */; };
+		1F5F229F2AAA07C400CB920D /* DateFormattable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F229E2AAA07C400CB920D /* DateFormattable.swift */; };
+		1F5F22A22AAA087A00CB920D /* CurrentDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F5F22A12AAA087A00CB920D /* CurrentDateFormatter.swift */; };
+		1FDFB3B22AA607FE005128C3 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FDFB3B12AA607FE005128C3 /* DataManager.swift */; };
 		5D2CF6FF2A9CBB4A009EECB3 /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 5D2CF6FE2A9CBB4A009EECB3 /* .swiftlint.yml */; };
-		5D2CF7092A9CC7EF009EECB3 /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2CF7082A9CC7EF009EECB3 /* Diary.swift */; };
 		5D2CF70D2A9F0520009EECB3 /* DiaryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D2CF70C2A9F0520009EECB3 /* DiaryViewController.swift */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
@@ -21,8 +27,15 @@
 
 /* Begin PBXFileReference section */
 		1F5CEE8C2A9D97AF00521AB3 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
+		1F5F22912AAA043400CB920D /* DiaryContentComposable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentComposable.swift; sourceTree = "<group>"; };
+		1F5F22932AAA049500CB920D /* DiaryContentCompositor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentCompositor.swift; sourceTree = "<group>"; };
+		1F5F22962AAA04E500CB920D /* DiaryContentSegregatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentSegregatable.swift; sourceTree = "<group>"; };
+		1F5F22992AAA051200CB920D /* DiaryContentSegregator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryContentSegregator.swift; sourceTree = "<group>"; };
+		1F5F229E2AAA07C400CB920D /* DateFormattable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormattable.swift; sourceTree = "<group>"; };
+		1F5F22A12AAA087A00CB920D /* CurrentDateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentDateFormatter.swift; sourceTree = "<group>"; };
+		1FDFB3B12AA607FE005128C3 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		1FDFB3B42AA63E65005128C3 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		5D2CF6FE2A9CBB4A009EECB3 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
-		5D2CF7082A9CC7EF009EECB3 /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		5D2CF70C2A9F0520009EECB3 /* DiaryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryViewController.swift; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -57,7 +70,6 @@
 		1F5CEE892A9CC45300521AB3 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				1F5CEE8C2A9D97AF00521AB3 /* DiaryCell.swift */,
 			);
 			path = View;
@@ -75,6 +87,7 @@
 		1F5CEE8B2A9CC45D00521AB3 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE35284DF28600741E8F /* Info.plist */,
 				C739AE2D284DF28600741E8F /* Diary.xcdatamodeld */,
@@ -82,20 +95,122 @@
 			path = Resource;
 			sourceTree = "<group>";
 		};
+		1F5F228C2AAA03D000CB920D /* ContentHelper */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F228E2AAA03FD00CB920D /* Composite */,
+				1F5F228D2AAA03DE00CB920D /* Segregate */,
+			);
+			path = ContentHelper;
+			sourceTree = "<group>";
+		};
+		1F5F228D2AAA03DE00CB920D /* Segregate */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F22982AAA050000CB920D /* Implementation */,
+				1F5F22952AAA04CC00CB920D /* Interface */,
+			);
+			path = Segregate;
+			sourceTree = "<group>";
+		};
+		1F5F228E2AAA03FD00CB920D /* Composite */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F22902AAA040F00CB920D /* Implementation */,
+				1F5F228F2AAA040600CB920D /* Interface */,
+			);
+			path = Composite;
+			sourceTree = "<group>";
+		};
+		1F5F228F2AAA040600CB920D /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F22912AAA043400CB920D /* DiaryContentComposable.swift */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		1F5F22902AAA040F00CB920D /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F22932AAA049500CB920D /* DiaryContentCompositor.swift */,
+			);
+			path = Implementation;
+			sourceTree = "<group>";
+		};
+		1F5F22952AAA04CC00CB920D /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F22962AAA04E500CB920D /* DiaryContentSegregatable.swift */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		1F5F22982AAA050000CB920D /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F22992AAA051200CB920D /* DiaryContentSegregator.swift */,
+			);
+			path = Implementation;
+			sourceTree = "<group>";
+		};
+		1F5F229B2AAA076D00CB920D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F229C2AAA078400CB920D /* DateFormat */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		1F5F229C2AAA078400CB920D /* DateFormat */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F22A02AAA086400CB920D /* Implementation */,
+				1F5F229D2AAA07A400CB920D /* Interface */,
+			);
+			path = DateFormat;
+			sourceTree = "<group>";
+		};
+		1F5F229D2AAA07A400CB920D /* Interface */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F229E2AAA07C400CB920D /* DateFormattable.swift */,
+			);
+			path = Interface;
+			sourceTree = "<group>";
+		};
+		1F5F22A02AAA086400CB920D /* Implementation */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F22A12AAA087A00CB920D /* CurrentDateFormatter.swift */,
+			);
+			path = Implementation;
+			sourceTree = "<group>";
+		};
+		1FDFB3AF2AA60764005128C3 /* Diary */ = {
+			isa = PBXGroup;
+			children = (
+				1F5F228C2AAA03D000CB920D /* ContentHelper */,
+			);
+			path = Diary;
+			sourceTree = "<group>";
+		};
+		1FDFB3B02AA607EE005128C3 /* Persistance */ = {
+			isa = PBXGroup;
+			children = (
+				1FDFB3B12AA607FE005128C3 /* DataManager.swift */,
+			);
+			path = Persistance;
+			sourceTree = "<group>";
+		};
 		5D2CF7062A9CC7C8009EECB3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				5D2CF7072A9CC7D2009EECB3 /* DTO */,
+				1F5F229B2AAA076D00CB920D /* Utils */,
+				1FDFB3B02AA607EE005128C3 /* Persistance */,
+				1FDFB3AF2AA60764005128C3 /* Diary */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		5D2CF7072A9CC7D2009EECB3 /* DTO */ = {
-			isa = PBXGroup;
-			children = (
-				5D2CF7082A9CC7EF009EECB3 /* Diary.swift */,
-			);
-			path = DTO;
 			sourceTree = "<group>";
 		};
 		C739AE18284DF28600741E8F = {
@@ -170,6 +285,7 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = C739AE18284DF28600741E8F;
 			productRefGroup = C739AE22284DF28600741E8F /* Products */;
@@ -220,12 +336,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F5F22942AAA049500CB920D /* DiaryContentCompositor.swift in Sources */,
+				1F5F229F2AAA07C400CB920D /* DateFormattable.swift in Sources */,
+				1F5F229A2AAA051200CB920D /* DiaryContentSegregator.swift in Sources */,
 				C739AE29284DF28600741E8F /* MainViewController.swift in Sources */,
-				5D2CF7092A9CC7EF009EECB3 /* Diary.swift in Sources */,
+				1F5F22972AAA04E500CB920D /* DiaryContentSegregatable.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				5D2CF70D2A9F0520009EECB3 /* DiaryViewController.swift in Sources */,
 				1F5CEE8D2A9D97AF00521AB3 /* DiaryCell.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				1F5F22922AAA043400CB920D /* DiaryContentComposable.swift in Sources */,
+				1F5F22A22AAA087A00CB920D /* CurrentDateFormatter.swift in Sources */,
+				1FDFB3B22AA607FE005128C3 /* DataManager.swift in Sources */,
 				C739AE2F284DF28600741E8F /* Diary.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -237,6 +359,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				C739AE33284DF28600741E8F /* Base */,
+				1FDFB3B42AA63E65005128C3 /* ko */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -248,6 +371,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -309,6 +433,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
@@ -367,6 +492,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Diary/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -394,6 +520,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Diary/Resource/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

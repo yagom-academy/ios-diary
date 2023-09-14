@@ -15,22 +15,23 @@ final class DiaryCell: UICollectionViewListCell {
     
     // MARK: - Private Property
     
-    private let outerStackView: UIStackView = {
+    private var currentFormatter: DateFormattable?
+    
+    private let verticalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
+        stackView.spacing = 8
         stackView.distribution = .fill
         stackView.alignment = .fill
         
         return stackView
     }()
     
-    private let innerStackView: UIStackView = {
+    private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .equalSpacing
-        stackView.spacing = 8
-        
+        stackView.spacing = 24
         return stackView
     }()
     
@@ -48,6 +49,7 @@ final class DiaryCell: UICollectionViewListCell {
         label.numberOfLines = 1
         label.font = UIFont.preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         return label
     }()
@@ -64,7 +66,8 @@ final class DiaryCell: UICollectionViewListCell {
     
     // MARK: - Internal Method
     
-    func configureCell(diary: Diary) {
+    func configureCell(diary: Diary, formatter: DateFormattable) {
+        initFormatter(formatter: formatter)
         addSubviews()
         configureLabel(from: diary)
         constraintOuterStackView()
@@ -72,33 +75,32 @@ final class DiaryCell: UICollectionViewListCell {
     
     // MARK: - Private Method
     
+    private func initFormatter(formatter: DateFormattable) {
+        self.currentFormatter = formatter
+    }
+    
     private func addSubviews() {
-        contentView.addSubview(outerStackView)
-        outerStackView.addArrangedSubview(titleLabel)
-        outerStackView.addArrangedSubview(innerStackView)
-        innerStackView.addArrangedSubview(createdDateLabel)
-        innerStackView.addArrangedSubview(contentLabel)
+        contentView.addSubview(verticalStackView)
+        verticalStackView.addArrangedSubview(titleLabel)
+        verticalStackView.addArrangedSubview(horizontalStackView)
+        horizontalStackView.addArrangedSubview(createdDateLabel)
+        horizontalStackView.addArrangedSubview(contentLabel)
         
         accessories = [.disclosureIndicator()]
     }
     
     private func configureLabel(from diary: Diary) {
         titleLabel.text = diary.title
-        contentLabel.text = diary.body
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .long
-        dateFormatter.locale = .current
-        
-        createdDateLabel.text = dateFormatter.string(from: Date(timeIntervalSince1970: Double(diary.createdDate)))
+        contentLabel.text = diary.content
+        createdDateLabel.text = currentFormatter?.format(date: diary.createdDate ?? Date(), style: .long)
     }
     
     private func constraintOuterStackView() {
         NSLayoutConstraint.activate([
-            outerStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
-            outerStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            outerStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
-            outerStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8)
+            verticalStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
+            verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
+            verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24)
         ])
     }
 }

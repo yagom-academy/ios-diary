@@ -9,20 +9,22 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let dataManager: DataManager = DataManager()
+    
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        let navigationController = UINavigationController(
+            rootViewController: MainViewController(dataManager: dataManager)
+        )
+        
         window = UIWindow(windowScene: windowScene)
-        let navigationController = UINavigationController(rootViewController: MainViewController())
         window?.backgroundColor = .systemBackground
         window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
-    }
-
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
+        window?.makeKeyAndVisible()         
     }
 }

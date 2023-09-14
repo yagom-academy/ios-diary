@@ -9,42 +9,65 @@ import UIKit
 final class MainViewController: UIViewController {
     
     // MARK: - Private Property
+    private let dataManager: DataManager
     
-    private var collectionView: UICollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
-    private var diaryList: [Diary] = []
+    private let compositor: DiaryContentCompositor
+    private let currentFormatter = CurrentDateFormatter()
+    private var collectionView = UICollectionView(
+        frame: .zero,
+        collectionViewLayout: UICollectionViewLayout()
+    )
+    private var diaries: [Diary] = []
     
     // MARK: - Lifecycle
+    
+    init(dataManager: DataManager) {
+        self.dataManager = dataManager
+        self.compositor = DiaryContentCompositor()
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureNavigation()
-        setDiaryList()
         configureCollectionView()
     }
     
-    // MARK: - Private Method
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        readDiaries()
+    }
+    
+    // MARK: - CRUD
+    
+    private func readDiaries() {
+        self.diaries = dataManager.fetch()
+        collectionView.reloadData()
+    }
+    
+    // MARK: - Private Method(Navigation)
     
     private func configureNavigation() {
         self.navigationItem.title = "일기장"
         
-        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(tapAddButton))
+        let addButton = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(tapAddButton)
+        )
         self.navigationItem.rightBarButtonItem = addButton
     }
     
     @objc private func tapAddButton() {
-        let diaryViewController = DiaryViewController()
+        let diaryViewController = DiaryViewController(
+            dataManager: dataManager,
+            formatter: currentFormatter
+        )
         self.navigationController?.pushViewController(diaryViewController, animated: true)
-    }
-    
-    private func setDiaryList() {
-        guard let asset = NSDataAsset(name: "sample") else { return }
-        
-        let decoder = JSONDecoder()
-        do {
-            diaryList = try decoder.decode([Diary].self, from: asset.data)
-        } catch {
-            return
-        }
     }
     
     // MARK: - Private Method(CollectionView)
@@ -63,7 +86,11 @@ final class MainViewController: UIViewController {
     }
     
     private func layoutCollectionView() {
-        let configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
+        configuration.trailingSwipeActionsConfigurationProvider = { [weak self] indexPath in
+            return self?.configureSwipeAction(for: indexPath)
+        }
+        
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView.setCollectionViewLayout(layout, animated: false)
     }
@@ -77,23 +104,104 @@ final class MainViewController: UIViewController {
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
+    
+    // MARK: - private Method(SwipeAction)
+    
+    private func configureSwipeAction(for indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let diary = diaries[indexPath.row]
+        let delete = deleteAction(diary: diary)
+        let share = shareAction(diary: diary)
+        share.backgroundColor = .systemBlue
+        
+        let swipeActions = UISwipeActionsConfiguration(actions: [delete, share])
+        swipeActions.performsFirstActionWithFullSwipe = false
+        
+        return swipeActions
+    }
+    
+    private func deleteAction(diary: Diary) -> UIContextualAction {
+        return UIContextualAction(
+            style: .destructive,
+            title: "delete",
+            handler: { [weak self] _, _, _ in
+                self?.deleteDiaryAlert(diary: diary)
+            }
+        )
+    }
+    
+    private func shareAction(diary: Diary) -> UIContextualAction {
+        return UIContextualAction(
+            style: .normal,
+            title: "share",
+            handler: { [weak self] _, _, completionHaldler in
+                guard let diaryContent = self?.compositor.composite(
+                    title: diary.title,
+                    content: diary.content
+                ) else { return }
+                
+                let activityView = UIActivityViewController(
+                    activityItems: [diaryContent],
+                    applicationActivities: nil
+                )
+                
+                activityView.completionWithItemsHandler = { (_, success, _, _) in
+                    if success {
+                        completionHaldler(true)
+                    } else {
+                        completionHaldler(false)
+                    }
+                }
+                self?.present(activityView, animated: true)
+            }
+        )
+    }
+    
+    private func deleteDiaryAlert(diary: Diary) {
+        let deleteAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
+            self?.dataManager.container.viewContext.delete(diary)
+            self?.dataManager.saveContext()
+            self?.readDiaries()
+        }
+        
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        
+        deleteAlert.addAction(cancel)
+        deleteAlert.addAction(delete)
+        
+        present(deleteAlert, animated: true)
+    }
 }
 
-// MARK: - Extension
+// MARK: - CollectionView Delegate, DataSource
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return diaryList.count
+        return diaries.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DiaryCell.id, for: indexPath) as? DiaryCell else {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: DiaryCell.id,
+            for: indexPath
+        ) as? DiaryCell else {
             return UICollectionViewCell()
         }
         
-        cell.configureCell(diary: diaryList[indexPath.row])
+        cell.configureCell(diary: diaries[indexPath.row], formatter: currentFormatter)
         
         return cell
-    }    
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let diary = diaries[indexPath.row]
+        let diaryViewController = DiaryViewController(
+            dataManager: dataManager,
+            formatter: currentFormatter,
+            diary: diary
+        )
+        self.navigationController?.pushViewController(diaryViewController, animated: true)
+    }
 }
