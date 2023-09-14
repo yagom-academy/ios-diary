@@ -18,7 +18,7 @@ final class DiaryCell: UITableViewCell {
     private let dateLabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
-        label.setContentHuggingPriority(.defaultHigh, for: .vertical)
+        label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         return label
@@ -26,9 +26,7 @@ final class DiaryCell: UITableViewCell {
     
     private let weatherIconImageView = {
         let imageView = UIImageView()
-        imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        imageView.setContentCompressionResistancePriority(.defaultLow, for: .vertical)
-        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
@@ -66,6 +64,10 @@ final class DiaryCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        weatherIconImageView.image = nil
     }
     
     func configureCell(title: String?, date: String, preview: String?, icon: String?) {
@@ -141,10 +143,7 @@ final class DiaryCell: UITableViewCell {
             contentStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
             weatherIconImageView.heightAnchor.constraint(equalTo: dateLabel.heightAnchor),
             weatherIconImageView.widthAnchor.constraint(equalTo: weatherIconImageView.heightAnchor)
         ])
