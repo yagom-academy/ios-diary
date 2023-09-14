@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DiaryDetailViewControllerDelegate: AnyObject {
-    func createDiaryData(text: String) -> DiaryEntity?
+    func createDiaryData(text: String)
     func updateDiaryData(diaryEntity: DiaryEntity, text: String)
     func deleteDiaryData(diaryEntity: DiaryEntity)
     func popDiaryDetailViewController()
@@ -25,16 +25,14 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         return textView
     }()
     
-    private var isUpdate: Bool {
-        diaryEntity != nil
-    }
-    
+    private var isUpdate: Bool
     private var diaryEntity: DiaryEntity?
     private let date: String
     weak var delegate: DiaryDetailViewControllerDelegate?
     
-    init(date: String, diaryEntity: DiaryEntity? = nil) {
+    init(date: String, isUpdate: Bool = true, diaryEntity: DiaryEntity? = nil) {
         self.date = date
+        self.isUpdate = isUpdate
         self.diaryEntity = diaryEntity
         
         super.init(nibName: nil, bundle: nil)
@@ -88,9 +86,7 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     private func setUpText() {
         guard let diaryEntity else { return }
         
-        if isUpdate {
-            textView.text = diaryEntity.title + "\n" + diaryEntity.body
-        }
+        textView.text = diaryEntity.title + "\n" + diaryEntity.body
     }
     
     private func addObserver() {
@@ -110,7 +106,8 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
             
             delegate?.updateDiaryData(diaryEntity: diaryEntity, text: text)
         } else {
-            diaryEntity = delegate?.createDiaryData(text: text)
+            isUpdate = true
+            delegate?.createDiaryData(text: text)
         }
     }
 }

@@ -28,6 +28,26 @@ class CoreDataManager {
         return data
     }
     
+    func createDiaryData2(title: String, body: String, date: Double) {
+        let dictionary = ["1":"a", "2":"b", "3":"c", "4":"d"]
+        let entity = NSEntityDescription.entity(forEntityName: "DiaryEntity", in: context)
+        let managedObject = NSManagedObject(entity: entity!, insertInto: nil)
+        
+        for element in dictionary {
+            managedObject.setValue(element.value, forKey: element.key)
+        }
+    }
+    
+    func insertData(entityName: String, entityProperties: [String: Any]) {
+        if let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) {
+            let managedObject = NSManagedObject(entity: entity, insertInto: nil)
+            
+            for entityProperty in entityProperties {
+                managedObject.setValue(entityProperty.value, forKey: entityProperty.key)
+            }
+        }
+    }
+    
     func deleteData(entity: NSManagedObject) {
         context.delete(entity)
     }

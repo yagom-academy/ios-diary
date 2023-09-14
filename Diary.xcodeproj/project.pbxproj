@@ -20,7 +20,6 @@
 		D2BCA2B02AAF3A7900D55F4C /* DiaryEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCA2AE2AAF3A7900D55F4C /* DiaryEntity+CoreDataClass.swift */; };
 		D2BCA2B12AAF3A7900D55F4C /* DiaryEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCA2AF2AAF3A7900D55F4C /* DiaryEntity+CoreDataProperties.swift */; };
 		D2BCA2B52AAF3B1500D55F4C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCA2B42AAF3B1500D55F4C /* CoreDataManager.swift */; };
-		D2BCA2B72AAF3B2300D55F4C /* DiaryCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2BCA2B62AAF3B2300D55F4C /* DiaryCoreDataManager.swift */; };
 		D2C1FBF32A9F0A0900526DA5 /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBF22A9F0A0900526DA5 /* DiaryDetailViewController.swift */; };
 		D2C1FBF62A9F1EC100526DA5 /* AppManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */; };
 		D2DB46872AA1A83B009D1926 /* ReuseIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2DB46862AA1A83B009D1926 /* ReuseIdentifiable.swift */; };
@@ -42,7 +41,6 @@
 		D2BCA2AE2AAF3A7900D55F4C /* DiaryEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D2BCA2AF2AAF3A7900D55F4C /* DiaryEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DiaryEntity+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D2BCA2B42AAF3B1500D55F4C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
-		D2BCA2B62AAF3B2300D55F4C /* DiaryCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCoreDataManager.swift; sourceTree = "<group>"; };
 		D2C1FBF22A9F0A0900526DA5 /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManager.swift; sourceTree = "<group>"; };
 		D2DB46862AA1A83B009D1926 /* ReuseIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifiable.swift; sourceTree = "<group>"; };
@@ -149,7 +147,6 @@
 			children = (
 				D2C1FBF52A9F1EC100526DA5 /* AppManager.swift */,
 				D2BCA2B42AAF3B1500D55F4C /* CoreDataManager.swift */,
-				D2BCA2B62AAF3B2300D55F4C /* DiaryCoreDataManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -268,7 +265,6 @@
 				D2BCA2B52AAF3B1500D55F4C /* CoreDataManager.swift in Sources */,
 				5BBC44392A9F036000C528DD /* MainTableViewCell.swift in Sources */,
 				D2C1FBF62A9F1EC100526DA5 /* AppManager.swift in Sources */,
-				D2BCA2B72AAF3B2300D55F4C /* DiaryCoreDataManager.swift in Sources */,
 				D2BCA2B02AAF3A7900D55F4C /* DiaryEntity+CoreDataClass.swift in Sources */,
 				D2DB46872AA1A83B009D1926 /* ReuseIdentifiable.swift in Sources */,
 			);

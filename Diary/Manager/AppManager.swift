@@ -20,15 +20,15 @@ final class AppManager {
         return dateFormatter
     }()
     
-    private let diaryDataManager: DiaryCoreDataManager
+    private let coreDataManager: CoreDataManager
     
-    init(navigationController: UINavigationController, diaryDataManager: DiaryCoreDataManager) {
+    init(navigationController: UINavigationController, coreDataManager: CoreDataManager) {
         self.navigationController = navigationController
-        self.diaryDataManager = diaryDataManager
+        self.coreDataManager = coreDataManager
     }
     
     func start() {
-        guard let diaryContents = try? diaryDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return }
+        guard let diaryContents = try? coreDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return }
         let mainViewController = MainViewController(diaryContents: diaryContents, dateFormatter: dateFormatter)
         
         mainViewController.delegate = self
@@ -49,33 +49,33 @@ extension AppManager: MainViewControllerDelegate {
     
     func didTappedRightAddButton() {
         let todayDate = dateFormatter.string(from: Date())
-        let diaryDetailViewController = DiaryDetailViewController(date: todayDate)
+        let diaryDetailViewController = DiaryDetailViewController(date: todayDate, isUpdate: false)
         
         diaryDetailViewController.delegate = self
         navigationController.pushViewController(diaryDetailViewController, animated: true)
     }
     
     func fetchDiaryContents(mainViewController: MainViewController) {
-        guard let diaryContents = try? diaryDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return }
+        guard let diaryContents = try? coreDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return }
         
         mainViewController.setUpDiaryEntity(diaryContents: diaryContents)
     }
     
     func deleteDiaryContent(diaryContent: DiaryEntity) {
-        diaryDataManager.deleteData(entity: diaryContent)
-        diaryDataManager.saveContext()
+        coreDataManager.deleteData(entity: diaryContent)
+        coreDataManager.saveContext()
     }
 }
 
 // MARK: - DiaryDetailViewControllerDelegate
 extension AppManager: DiaryDetailViewControllerDelegate {
-    func createDiaryData(text: String) -> DiaryEntity? {
-        guard let (title, body) = convertDiaryData(text: text) else { return nil }
+    func createDiaryData(text: String) {
+        guard let (title, body) = convertDiaryData(text: text) else { return }
         let date = Date().timeIntervalSince1970
-        let diaryEntity = diaryDataManager.createDiaryData(title: title, body: body, date: date)
+        let diaryEntityProperties: [String: Any] = ["title": title, "body": body, "date": date]
         
-        diaryDataManager.saveContext()
-        return diaryEntity
+        coreDataManager.insertData(entityName: "DiaryEntity", entityProperties: diaryEntityProperties)
+        coreDataManager.saveContext()
     }
     
     func updateDiaryData(diaryEntity: DiaryEntity, text: String) {
@@ -85,11 +85,11 @@ extension AppManager: DiaryDetailViewControllerDelegate {
         diaryEntity.title = title
         diaryEntity.body = body
         diaryEntity.date = date
-        diaryDataManager.saveContext()
+        coreDataManager.saveContext()
     }
     
     func deleteDiaryData(diaryEntity: DiaryEntity) {
-        diaryDataManager.deleteData(entity: diaryEntity)
+        coreDataManager.deleteData(entity: diaryEntity)
     }
     
     func popDiaryDetailViewController() {

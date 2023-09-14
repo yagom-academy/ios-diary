@@ -14,9 +14,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         let navigationController = UINavigationController()
-        let diaryDataManager = DiaryCoreDataManager(name: "Diary")
+        let coreDataManager = CoreDataManager(name: "Diary")
         
-        appManager = AppManager(navigationController: navigationController, diaryDataManager: diaryDataManager)
+        appManager = AppManager(navigationController: navigationController, coreDataManager: coreDataManager)
         appManager?.start()
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navigationController
