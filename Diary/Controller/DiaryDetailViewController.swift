@@ -118,7 +118,7 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
 // MARK: - Button Action
 extension DiaryDetailViewController {
     @objc
-    func didTappedMoreButton() {
+    private func didTappedMoreButton() {
         let shareAction = UIAlertAction(title: "Share...", style: .default) { _ in
             self.didTappedShareAction()
         }
