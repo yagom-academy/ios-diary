@@ -14,9 +14,9 @@ protocol MainViewControllerUseCaseType {
 }
 
 final class MainViewControllerUseCase: MainViewControllerUseCaseType {
-    private let coreDataManager: CoreDataManager
+    private let coreDataManager: any CoreDataManagerType
     
-    init(coreDataManager: CoreDataManager) {
+    init(coreDataManager: any CoreDataManagerType) {
         self.coreDataManager = coreDataManager
     }
     

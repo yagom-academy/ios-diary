@@ -14,10 +14,10 @@ protocol DiaryDetailViewControllerUseCaseType {
 }
 
 final class DiaryDetailViewControllerUseCase: DiaryDetailViewControllerUseCaseType {
-    private let coreDataManager: CoreDataManager
+    private let coreDataManager: any CoreDataManagerType
     private let diaryContent: DiaryContentDTO
     
-    init(coreDataManager: CoreDataManager, diaryContent: DiaryContentDTO) {
+    init(coreDataManager: any CoreDataManagerType, diaryContent: DiaryContentDTO) {
         self.coreDataManager = coreDataManager
         self.diaryContent = diaryContent
     }

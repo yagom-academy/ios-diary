@@ -18,9 +18,9 @@ final class AppManager {
         return dateFormatter
     }()
     
-    private let coreDataManager: CoreDataManager
+    private let coreDataManager: any CoreDataManagerType
     
-    init(navigationController: UINavigationController, coreDataManager: CoreDataManager) {
+    init(navigationController: UINavigationController, coreDataManager: any CoreDataManagerType) {
         self.navigationController = navigationController
         self.coreDataManager = coreDataManager
     }

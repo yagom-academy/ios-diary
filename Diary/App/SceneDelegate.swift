@@ -12,11 +12,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
-        
         let navigationController = UINavigationController()
-        let coreDataManager = CoreDataManager(name: "Diary")
+        let diaryCoreDataManager: any CoreDataManagerType = CoreDataManager<DiaryEntity>(name: "Diary")
         
-        appManager = AppManager(navigationController: navigationController, coreDataManager: coreDataManager)
+        appManager = AppManager(navigationController: navigationController, coreDataManager: diaryCoreDataManager)
         appManager?.start()
         window = UIWindow(windowScene: windowScene)
         window?.rootViewController = navigationController
