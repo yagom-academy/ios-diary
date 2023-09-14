@@ -11,7 +11,6 @@ final class DetailViewController: UIViewController {
     @IBOutlet weak var textView: UITextView!
     let coreDataManager = CoreDataManager.shared
     private let entity: Entity?
-    private var initEntity: Entity?
     private let placeHolderText = "Input Text"
     
     init?(entity: Entity? = nil, coder: NSCoder) {
@@ -32,7 +31,6 @@ final class DetailViewController: UIViewController {
         configureTextView()
         configureNavigationTitle()
         setUpObserver()
-        initEntity = self.entity
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -42,13 +40,10 @@ final class DetailViewController: UIViewController {
         }
         let (title, body) = self.splitText(text: text)
         
-        if initEntity == nil {
-            coreDataManager.createEntity(title: title, body: body)
-        } else {
-            guard let entity = self.entity else {
-                return
-            }
+        if let entity = self.entity ?? nil {
             coreDataManager.updateEntity(entity: entity, newTitle: title, newBody: body)
+        } else {
+            coreDataManager.createEntity(title: title, body: body)
         }
     }
     
@@ -72,7 +67,11 @@ final class DetailViewController: UIViewController {
             let doublecheck = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
             let cancel = UIAlertAction(title: "Cancel", style: .default)
             let delete = UIAlertAction(title: "Delete", style: .destructive) { action in
-
+                guard let entity = self.entity else {
+                     return
+                }
+                self.coreDataManager.deleteEntity(entity: entity)
+                self.navigationController?.popViewController(animated: true)
             }
             
             doublecheck.addAction(cancel)
@@ -103,7 +102,7 @@ final class DetailViewController: UIViewController {
         }
         
         if lines.count > 1 {
-            body = lines[1...]
+            body = lines[2...]
                 .joined(separator: "\n")
         }
         
@@ -132,7 +131,7 @@ final class DetailViewController: UIViewController {
             return
         }
         
-        textView.text = title + "\n" + body
+        textView.text = title + "\n\n" + body
     }
     
     @objc func keyboardWillShow(_ sender: Notification) {
@@ -148,15 +147,11 @@ final class DetailViewController: UIViewController {
     @objc func keyboardWillHide(_ sender: Notification) {
         textView.contentInset = UIEdgeInsets.zero
         
-        guard let text = textView.text, !text.isEmpty else {
+        guard let text = textView.text, !text.isEmpty, let entity = self.entity else {
             return
         }
         
         let (title, body) = self.splitText(text: text)
-        
-        guard let entity = self.entity else {
-            return
-        }
         coreDataManager.updateEntity(entity: entity, newTitle: title, newBody: body)
     }
 }
