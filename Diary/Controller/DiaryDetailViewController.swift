@@ -12,8 +12,6 @@ final class DiaryDetailViewController: UIViewController, Shareable {
     
     private let diary: Diary
     private let isUpdated: Bool
-    private var weatherMain: String = ""
-    private var weatherIcon: String = ""
     private var latitude: Double?
     private var longitude: Double?
     
@@ -187,7 +185,11 @@ private extension DiaryDetailViewController {
 
 private extension DiaryDetailViewController {
     func fetchWeather() {
-        let weather = WeatherAPI.weatherData(latitude: latitude!, longitude: longitude!)
+        guard let latitude, let longitude else {
+            return
+        }
+        
+        let weather = WeatherAPI.weatherData(latitude: latitude, longitude: longitude)
         
         NetworkManager.shared.fetchData(API: weather) { [weak self] result in
             switch result {
@@ -199,8 +201,8 @@ private extension DiaryDetailViewController {
                         return
                     }
                     
-                    self?.weatherMain = currentWeather.main
-                    self?.weatherIcon = currentWeather.icon
+                    self?.diary.main = currentWeather.main
+                    self?.diary.icon = currentWeather.icon
                 } catch {
                     print(error)
                 }

@@ -84,7 +84,8 @@ extension DiaryViewController: UITableViewDataSource {
         cell.configureCell(
             title: diary.title,
             date: formattedDate,
-            preview: diary.body
+            preview: diary.body,
+            icon: diary.icon
         )
         
         return cell
