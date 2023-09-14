@@ -24,15 +24,15 @@ extension UIViewController {
                                        handler: config.handler)
             alertController.addAction(action)
         }
-
+        
         present(alertController, animated: true)
     }
-        
+    
     func presentCheckDeleteAlert(deleteHandler: @escaping (UIAlertAction) -> Void) {
-        presentAlertWith(title: String(localized: "checkDeleteAlertTitle"),
-                         message: String(localized: "checkDeleteAlertMessage"),
+        presentAlertWith(title: "checkDeleteAlertTitle".localized,
+                         message: "checkDeleteAlertMessage".localized,
                          preferredStyle: .alert,
-                         actionConfigs: (String(localized: "checkDeleteAlertCancelAction"), .cancel, nil),
-                                        (String(localized: "checkDeleteAlertAction"), .destructive, deleteHandler))
+                         actionConfigs: ("checkDeleteAlertCancelAction".localized, .cancel, nil),
+                         ("checkDeleteAlertAction".localized, .destructive, deleteHandler))
     }
 }

@@ -55,7 +55,7 @@ final class DiaryViewController: UIViewController {
                                                     action: #selector(tappedAddDiaryButton))
         
         navigationItem.rightBarButtonItem = addDiaryBarButtonItem
-        navigationItem.title = String(localized: "title")
+        navigationItem.title = "title".localized
     }
     
     @objc private func tappedAddDiaryButton() {
@@ -90,10 +90,10 @@ final class DiaryViewController: UIViewController {
             try diaryManager.fetchDiaryContents()
         } catch {
             os_log("%@", error.localizedDescription)
-            presentAlertWith(title: String(localized: "failedFatchDataAlertTitle"),
-                             message: String(localized: "failedFatchDataAlertMessage."),
+            presentAlertWith(title: "failedFetchDataAlertTitle".localized,
+                             message: "failedFetchDataAlertMessage".localized,
                              preferredStyle: .alert,
-                             actionConfigs: (String(localized: "failedFatchDataAlertAction"), .default, nil))
+                             actionConfigs: ("failedFetchDataAlertAction".localized, .default, nil))
         }
     }
 }
@@ -146,7 +146,7 @@ extension DiaryViewController: UITableViewDelegate, PresentableActivityView {
         
         let share = UIContextualAction(
             style: .normal,
-            title: String(localized: "share")
+            title: "share".localized
         ) { (_, _, success: @escaping (Bool) -> Void) in
             
             let diaryContentItem = diaryContent.title + diaryContent.body
@@ -157,7 +157,7 @@ extension DiaryViewController: UITableViewDelegate, PresentableActivityView {
         
         let delete = UIContextualAction(
             style: .destructive,
-            title: String(localized: "delete")
+            title: "delete".localized
         ) { (_, _, success: @escaping (Bool) -> Void) in
             
             self.presentCheckDeleteAlert { _ in

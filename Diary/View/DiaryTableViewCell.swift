@@ -64,7 +64,7 @@ final class DiaryTableViewCell: UITableViewCell {
     
     func configureCell(data: DiaryContent) {
       if data.title.isEmpty {
-          titleLabel.text = String(localized: "noTitle")
+          titleLabel.text = "noTitle".localized
       } else {
           titleLabel.text = data.title
       }

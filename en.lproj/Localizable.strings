@@ -9,9 +9,9 @@
 "title" = "Diary";
 "NoTitle" = "No Title";
 
-"failedFatchDataAlertTitle" = "Failed Fatch Data";
-"failedFatchDataAlertMessage" = "Try again";
-"failedFatchDataAlertAction" = "Yes";
+"failedFetchDataAlertTitle" = "Failed Fetch Data";
+"failedFetchDataAlertMessage" = "Try again";
+"failedFetchDataAlertAction" = "Yes";
 
 "checkDeleteAlertTitle" = "Really?";
 "checkDeleteAlertMessage" = "Are you sure?";

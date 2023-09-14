@@ -9,9 +9,9 @@
 "title" = "일기장";
 "noTitle" = "제목없음";
 
-"failedFatchDataAlertTitle" = "데이터 불러오기 실패";
-"failedFatchDataAlertMessage" = "앱을 다시 실행해주십시오.";
-"failedFatchDataAlertAction" = "확인";
+"failedFetchDataAlertTitle" = "데이터 불러오기 실패";
+"failedFetchDataAlertMessage" = "앱을 다시 실행해주십시오.";
+"failedFetchDataAlertAction" = "확인";
 
 "checkDeleteAlertTitle" = "진짜요?";
 "checkDeleteAlertMessage" = "정말로 삭제하시겠어요?";

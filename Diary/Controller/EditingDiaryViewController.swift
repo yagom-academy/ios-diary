@@ -36,7 +36,7 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
         setupDiaryTextView()
         setObserver()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
@@ -67,24 +67,24 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
     }
     
     @objc private func tappedOthersButton() {
-      let shareHandler: (UIAlertAction) -> Void = { _ in
-          let diaryContentItem = self.diaryContent.title + self.diaryContent.body
-          self.presentActivityView(shareItem: diaryContentItem)
-      }
-
-      let deleteHandler: (UIAlertAction) -> Void = { _ in
-          self.presentCheckDeleteAlert { _ in
-              ContainerManager.shared.delete(id: self.diaryContent.id)
-              self.navigationController?.popViewController(animated: true)
-          }
-      }
-      
-      presentAlertWith(title: nil,
-                       message: nil,
-                       preferredStyle: .actionSheet,
-                       actionConfigs: (String(localized: "share"), .default, shareHandler),
-                                      (String(localized: "delete"), .destructive, deleteHandler),
-                                      (String(localized: "cancel"), .cancel, nil))
+        let shareHandler: (UIAlertAction) -> Void = { _ in
+            let diaryContentItem = self.diaryContent.title + self.diaryContent.body
+            self.presentActivityView(shareItem: diaryContentItem)
+        }
+        
+        let deleteHandler: (UIAlertAction) -> Void = { _ in
+            self.presentCheckDeleteAlert { _ in
+                ContainerManager.shared.delete(id: self.diaryContent.id)
+                self.navigationController?.popViewController(animated: true)
+            }
+        }
+        
+        presentAlertWith(title: nil,
+                         message: nil,
+                         preferredStyle: .actionSheet,
+                         actionConfigs: ("share".localized, .default, shareHandler),
+                         ("delete".localized, .destructive, deleteHandler),
+                         ("cancel".localized, .cancel, nil))
     }
     
     private func setupConstraints() {
@@ -141,7 +141,7 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
         } else {
             diaryContent.title = text
         }
-
+        
         ContainerManager.shared.update(diaryContent: diaryContent)
     }
 }
