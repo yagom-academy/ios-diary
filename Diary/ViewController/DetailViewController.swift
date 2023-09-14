@@ -10,11 +10,11 @@ import UIKit
 final class DetailViewController: UIViewController {
     @IBOutlet private weak var titleTextView: UITextView!
     @IBOutlet private weak var bodyTextView: UITextView!
-    private let sample: Sample?
+    private let entity: Entity?
     let placeHolderText = "Input Text"
     
-    init?(sample: Sample? = nil, coder: NSCoder) {
-        self.sample = sample
+    init?(entity: Entity? = nil, coder: NSCoder) {
+        self.entity = entity
         super.init(coder: coder)
     }
     
@@ -39,12 +39,12 @@ final class DetailViewController: UIViewController {
     }
     
     private func configureNavigationTitle() {
-        guard let createdDate = sample?.createdDate else {
+        guard let createdDate = entity?.createdDate else {
             let formattedTodayDate = CustomDateFormatter.formatTodayDate()
             self.navigationItem.title = formattedTodayDate
             return
         }
-        let formattedSampleDate = CustomDateFormatter.formatSampleDate(sampleDate: createdDate)
+        let formattedSampleDate = CustomDateFormatter.formatSampleDate(sampleDate: Int(createdDate))
         
         self.navigationItem.title = formattedSampleDate
     }
@@ -53,7 +53,7 @@ final class DetailViewController: UIViewController {
         titleTextView.layer.borderWidth = 1
         bodyTextView.layer.borderWidth = 1
         
-        guard let sample else {
+        guard let entity else {
             titleTextView.text = placeHolderText
             titleTextView.textColor = .lightGray
             titleTextView.delegate = self
@@ -64,8 +64,8 @@ final class DetailViewController: UIViewController {
             return
         }
         
-        titleTextView.text = sample.title
-        bodyTextView.text = sample.body
+        titleTextView.text = entity.title
+        bodyTextView.text = entity.body
     }
     
     @objc func keyboardWillShow(_ sender: Notification) {

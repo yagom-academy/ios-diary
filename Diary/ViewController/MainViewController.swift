@@ -9,6 +9,7 @@ import UIKit
 final class MainViewController: UIViewController {
     @IBOutlet weak var tableView: UITableView!
     var sample: [Sample] = []
+    let coreDataManager = CoreDataManager.shared
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +21,7 @@ final class MainViewController: UIViewController {
     }
     
     @IBAction func tapAddButton(_ sender: Any) {
-        guard let NewDetailViewController = self.storyboard?.instantiateViewController(identifier: "DetailViewController", creator: {coder in DetailViewController(sample: nil, coder: coder)}) else { return }
+        guard let NewDetailViewController = self.storyboard?.instantiateViewController(identifier: "DetailViewController", creator: {coder in DetailViewController(entity: nil, coder: coder)}) else { return }
         
         self.navigationController?.pushViewController(NewDetailViewController, animated: true)
     }
@@ -45,7 +46,7 @@ final class MainViewController: UIViewController {
 
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.sample.count
+        return self.coreDataManager.entities.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -53,15 +54,15 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let sample: Sample = self.sample[indexPath.row]
-        cell.configureLabel(sample: sample)
+        let entity: Entity = self.coreDataManager.entities[indexPath.row]
+        cell.configureLabel(entity: entity)
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let sample: Sample = self.sample[indexPath.row]
-        guard let detailViewController = self.storyboard?.instantiateViewController(identifier: "DetailViewController", creator: {coder in DetailViewController(sample: sample, coder: coder)}) else { return }
+        let entity: Entity = self.coreDataManager.entities[indexPath.row]
+        guard let detailViewController = self.storyboard?.instantiateViewController(identifier: "DetailViewController", creator: {coder in DetailViewController(entity: entity, coder: coder)}) else { return }
         
         self.navigationController?.pushViewController(detailViewController, animated: true)
     }
