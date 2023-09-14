@@ -10,7 +10,7 @@ import OSLog
 final class DiaryViewController: UIViewController {
     private let diaryManager: DiaryManager
     
-    private var tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -30,10 +30,8 @@ final class DiaryViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        configureView()
+        configureUI()
         configureTableView()
-        setupConstraints()
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -43,11 +41,12 @@ final class DiaryViewController: UIViewController {
         tableView.reloadData()
     }
     
-    private func configureView() {
+    private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         
         configureNavigationItem()
+        setupConstraints()
     }
     
     private func configureNavigationItem() {

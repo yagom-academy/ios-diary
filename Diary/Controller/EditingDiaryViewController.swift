@@ -32,8 +32,7 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureView()
-        setupConstraints()
+        configureUI()
         setupDiaryTextView()
         setObserver()
     }
@@ -49,11 +48,12 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
         save()
     }
     
-    private func configureView() {
+    private func configureUI() {
         view.backgroundColor = .systemBackground
         view.addSubview(diaryTextView)
         
         configureNavigationItem()
+        setupConstraints()
     }
     
     private func configureNavigationItem() {
