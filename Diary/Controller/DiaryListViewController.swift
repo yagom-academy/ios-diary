@@ -1,12 +1,14 @@
 //
-//  Diary - ViewController.swift
+//  Diary - DiaryListViewController.swift
 //  Created by yagom.
 //  Copyright © yagom. All rights reserved.
 //  Last modified by Maxhyunm, Hamg.
 
 import UIKit
+import CoreLocation
 
 final class DiaryListViewController: UIViewController {
+    private var locationManager = CLLocationManager()
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -18,9 +20,13 @@ final class DiaryListViewController: UIViewController {
     private let container = CoreDataManager.shared.persistentContainer
     private var diaryList = [Diary]()
     
+    private var latitude: Double?
+    private var longitude: Double?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        setupLocationManager()
+        updateLocation()
         configureUI()
         setupNavigationBarButton()
         setupTableView()
@@ -49,7 +55,7 @@ final class DiaryListViewController: UIViewController {
     private func setupNavigationBarButton() {
         let addDiary = UIAction(image: UIImage(systemName: "plus")) { [weak self] _ in
             guard let self else { return }
-            let createDiaryView = DiaryDetailViewContoller()
+            let createDiaryView = DiaryDetailViewController(latitude: self.latitude, longitude: self.longitude)
             self.navigationController?.pushViewController(createDiaryView, animated: true)
         }
         
@@ -103,7 +109,7 @@ extension DiaryListViewController: UITableViewDataSource {
         }
         let date = dateFormatter.formatToString(from: createdAt, with: "YYYY년 MM월 dd일")
         
-        cell.setModel(title: title, date: date, body: body)
+        cell.setModel(title: title, date: date, body: body, icon: diaryEntity.weatherIcon)
         
         return cell
     }
@@ -113,7 +119,7 @@ extension DiaryListViewController: UITableViewDelegate, ShareDisplayable {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let diaryToEdit = diaryList[indexPath.row]
-        let createVC = DiaryDetailViewContoller(diaryToEdit)
+        let createVC = DiaryDetailViewController(diaryToEdit)
         
         navigationController?.pushViewController(createVC, animated: true)
     }
@@ -154,5 +160,26 @@ extension DiaryListViewController: UITableViewDelegate, ShareDisplayable {
         share.image = UIImage(systemName: "square.and.arrow.up")
         
         return UISwipeActionsConfiguration(actions: [delete, share])
+    }
+}
+
+extension DiaryListViewController: CLLocationManagerDelegate {
+    private func setupLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+    
+    private func updateLocation() {
+        let locationStatus: [CLAuthorizationStatus] = [.authorizedAlways, .authorizedWhenInUse]
+        
+        guard locationStatus.contains(locationManager.authorizationStatus) else { return }
+        
+        locationManager.startUpdatingLocation()
+        
+        guard let location: CLLocationCoordinate2D = locationManager.location?.coordinate else { return }
+        
+        latitude = location.latitude
+        longitude = location.longitude
     }
 }

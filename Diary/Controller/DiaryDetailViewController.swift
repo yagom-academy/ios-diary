@@ -1,5 +1,5 @@
 //
-//  DiaryDetailViewContoller.swift
+//  DiaryDetailViewController.swift
 //  Diary
 //
 //  Created by Maxhyunm, Hamg on 2023/08/29.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class DiaryDetailViewContoller: UIViewController, AlertDisplayable, ShareDisplayable {
+final class DiaryDetailViewController: UIViewController, AlertDisplayable, ShareDisplayable {
     private let textView: UITextView = {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
@@ -19,11 +19,17 @@ final class DiaryDetailViewContoller: UIViewController, AlertDisplayable, ShareD
     private let container = CoreDataManager.shared.persistentContainer
     private var diary: Diary
     private var isNew: Bool
+    private var latitude: Double?
+    private var longitude: Double?
     
-    init() {
+    init(latitude: Double?, longitude: Double?) {
         self.diary = CoreDataManager.shared.createDiary()
         self.isNew = true
+        self.latitude = latitude
+        self.longitude = longitude
+        
         super.init(nibName: nil, bundle: nil)
+        fetchWeather()
     }
     
     init(_ diary: Diary) {
@@ -126,7 +132,7 @@ final class DiaryDetailViewContoller: UIViewController, AlertDisplayable, ShareD
     }
 }
 
-extension DiaryDetailViewContoller {
+extension DiaryDetailViewController {
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey]
                 as? CGRect else { return }
@@ -161,7 +167,7 @@ extension DiaryDetailViewContoller {
     }
 }
 
-extension DiaryDetailViewContoller: UITextViewDelegate {
+extension DiaryDetailViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         let contents = textView.text.split(separator: "\n")
         guard !contents.isEmpty else { return }
@@ -192,5 +198,46 @@ extension DiaryDetailViewContoller: UITextViewDelegate {
         
         diary.title = "\(title)"
         diary.body = body
+    }
+}
+
+extension DiaryDetailViewController {
+    func fetchWeather() {
+        guard let latitude, let longitude else { return }
+        
+        NetworkManager.shared.fetchData(
+            NetworkConfiguration.weatherAPI(latitude: latitude, longitude: longitude)
+        ) { [weak self] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let data):
+                do {
+                    let decodingData: WeatherResult = try DecodingManager.decodeData(from: data)
+                    guard let weatherMain = decodingData.weather.first?.main,
+                          let weatherIcon = decodingData.weather.first?.icon else {
+                        return
+                    }
+                    self.diary.weatherMain = weatherMain
+                    self.diary.weatherIcon = weatherIcon
+                } catch {
+                    DispatchQueue.main.async {
+                        let confirmAction = UIAlertAction(title: ButtonNamespace.confirm, style: .default)
+                        self.showAlert(title: AlertNamespace.networkErrorTitle,
+                                  message: nil,
+                                  actions: [confirmAction],
+                                  preferredStyle: .alert)
+                    }
+                }
+            case .failure:
+                DispatchQueue.main.async {
+                    let confirmAction = UIAlertAction(title: ButtonNamespace.confirm, style: .default)
+                    self.showAlert(title: AlertNamespace.networkErrorTitle,
+                              message: nil,
+                              actions: [confirmAction],
+                              preferredStyle: .alert)
+                }
+            }
+        }
     }
 }
