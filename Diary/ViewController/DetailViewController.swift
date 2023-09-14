@@ -99,14 +99,12 @@ final class DetailViewController: UIViewController {
         var body = ""
         
         if let firstLine = lines.first {
-            print("title: (firstLine)")
             title = firstLine
         }
         
         if lines.count > 1 {
             body = lines[1...]
                 .joined(separator: "\n")
-            print("body: (body)")
         }
         
         return (title, body)
@@ -167,7 +165,7 @@ extension DetailViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.text == placeHolderText {
             textView.text = nil
-            textView.textColor = .black
+            textView.textColor = .white
         }
     }
     
