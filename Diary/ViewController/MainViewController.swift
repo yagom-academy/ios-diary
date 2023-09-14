@@ -20,6 +20,18 @@ final class MainViewController: UIViewController {
         decodeJSON()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.callGetAllEntity()
+    }
+    
+    private func callGetAllEntity() {
+        coreDataManager.getAllEntity()
+        DispatchQueue.main.async {
+            self.tableView.reloadData()
+        }
+    }
+    
     @IBAction func tapAddButton(_ sender: Any) {
         guard let NewDetailViewController = self.storyboard?.instantiateViewController(identifier: "DetailViewController", creator: {coder in DetailViewController(entity: nil, coder: coder)}) else { return }
         
