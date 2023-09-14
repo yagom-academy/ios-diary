@@ -7,9 +7,9 @@
 
 import CoreData
 
-class CoreDataManager {
+final class CoreDataManager {
     private let name: String
-    lazy var context = persistentContainer.viewContext
+    private lazy var context = persistentContainer.viewContext
     
     private lazy var persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: name)

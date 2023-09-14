@@ -21,7 +21,10 @@ final class MainViewControllerUseCase: MainViewControllerUseCaseType {
     }
     
     func fetchDiaryContentDTO() -> [DiaryContentDTO]? {
-        guard let diaryEntity = try? coreDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return nil }
+        let fetchRequest = DiaryEntity.fetchRequest()
+        
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
+        guard let diaryEntity = try? coreDataManager.fetchData(request: fetchRequest) else { return nil }
         
         return diaryEntity.map {
             DiaryContentDTO(body: $0.body,
