@@ -55,7 +55,6 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        saveDiaryContents()
         removeObserver()
     }
     
@@ -126,7 +125,7 @@ extension DiaryDetailViewController {
     private func didTappedShareAction() {
         let sharedItem = self.textView.text
         
-        self.showActivityViewController(items: [sharedItem as Any])
+        showActivityViewController(items: [sharedItem as Any])
     }
 }
 
