@@ -12,6 +12,7 @@ struct Location: Decodable {
     let main: Main
     let visibility: Int
     let wind: Wind
+    let rain: Rain?
     let clouds: Clouds
     let date: Int
     let sys: Sys
@@ -21,7 +22,7 @@ struct Location: Decodable {
     
     private enum CodingKeys: String, CodingKey {
         case coordinate = "coord"
-        case weather, base, main, visibility, wind, clouds
+        case weather, base, main, visibility, wind, rain, clouds
         case date = "dt"
         case sys, timezone, id, name, cod
     }
@@ -48,7 +49,7 @@ struct Clouds: Decodable {
 
 struct Main: Decodable {
     let temp, feelsLike, tempMin, tempMax: Double
-    let pressure, humidity, seaLevel, grndLevel: Int
+    let pressure, humidity, seaLevel, grndLevel: Int?
 
     enum CodingKeys: String, CodingKey {
         case temp

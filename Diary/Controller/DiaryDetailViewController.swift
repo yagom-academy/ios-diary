@@ -187,7 +187,9 @@ private extension DiaryDetailViewController {
 
 private extension DiaryDetailViewController {
     func fetchWeather() {
-        NetworkManager.shared.fetchData { [weak self] result in
+        let weather = WeatherAPI.weatherData(latitude: latitude!, longitude: longitude!)
+        
+        NetworkManager.shared.fetchData(API: weather) { [weak self] result in
             switch result {
             case .success(let data):
                 do {
@@ -200,7 +202,7 @@ private extension DiaryDetailViewController {
                     self?.weatherMain = currentWeather.main
                     self?.weatherIcon = currentWeather.icon
                 } catch {
-                    print("error")
+                    print(error)
                 }
             case .failure(let error):
                 print(error.description)

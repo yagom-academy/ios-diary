@@ -12,8 +12,9 @@ final class NetworkManager {
     
     private init() {}
     
-    func fetchData(completion: @escaping (Result<Data, NetworkError>) -> Void) {
-        guard let url = URL(string: "") else {
+    func fetchData<T: URLalbe>(API: T, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        guard let APIUrl = API.url,
+              let url = URL(string: APIUrl) else {
             completion(.failure(.invalidURL))
             return
         }
