@@ -24,6 +24,7 @@ final class CoreDataManager {
         let newEntity = Entity(context: context)
         newEntity.title = title
         newEntity.body = body
+        newEntity.createdDate = Int64(Date().timeIntervalSince1970)
         
         saveToContext()
         getAllEntity()
@@ -40,6 +41,7 @@ final class CoreDataManager {
     func updateEntity(entity: Entity, newTitle: String, newBody: String) {
         entity.title = newTitle
         entity.body = newBody
+        entity.createdDate = Int64(Date().timeIntervalSince1970)
         
         saveToContext()
     }
