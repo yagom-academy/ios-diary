@@ -19,5 +19,7 @@
 			</array>
 		</dict>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>&quot;현재 위치 정보 제공을 허용하시겠습니까?&quot;</string>
 </dict>
 </plist>

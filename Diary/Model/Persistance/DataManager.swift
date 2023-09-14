@@ -10,6 +10,7 @@ import CoreData
 final class DataManager {
     lazy var container: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
+        
         container.loadPersistentStores(completionHandler: { ( _, error) in
             if let error = error as NSError? {
                 fatalError("Unresolved error \(error), \(error.userInfo)")

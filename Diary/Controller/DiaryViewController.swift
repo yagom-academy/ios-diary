@@ -17,6 +17,7 @@ final class DiaryViewController: UIViewController {
     private let compositor: DiaryContentComposable
     private let segregator: DiaryContentSegregatable
     private let currentFormatter: DateFormattable
+    private let locationManager: LocationManager
     
     // MARK: - Lifecycle
     
@@ -35,6 +36,7 @@ final class DiaryViewController: UIViewController {
         
         self.compositor = DiaryContentCompositor()
         self.segregator = DiaryContentSegregator()
+        self.locationManager = LocationManager()
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -78,6 +80,12 @@ final class DiaryViewController: UIViewController {
         self.diary.title = text.title
         self.diary.content = text.content
         self.diary.createdDate = diary.createdDate ?? Date()
+        
+        locationManager.fetchSingleLocation { location in
+            Task {
+                self.diary.weather = await NetworkManager.fetchCurrentWeather(coordinate: location.coordinate)?.icon
+            }
+        }
         
         dataManager.saveContext()
     }
