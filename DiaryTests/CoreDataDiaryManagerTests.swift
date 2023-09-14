@@ -6,17 +6,34 @@
 //
 
 import XCTest
+import CoreData
 @testable import Diary
 
 final class CoreDataDiaryManagerTests: XCTestCase {
+    private lazy var persistentContainer: NSPersistentContainer = {
+        let container = NSPersistentContainer(name: "DiaryData")
+        
+        let storeDescription = NSPersistentStoreDescription()
+        storeDescription.type = NSInMemoryStoreType
+        container.persistentStoreDescriptions = [storeDescription]
+        
+        container.loadPersistentStores(completionHandler: { (_, error) in
+            if let error = error as NSError? {
+                fatalError("Unresolved error \(error), \(error.userInfo)")
+            }
+        })
+        
+        return container
+    }()
+    
     var sut: CoreDataDiaryManager!
     
     override func setUpWithError() throws {
-        sut = CoreDataDiaryManager()
+        sut = CoreDataDiaryManager(persistentContainer: persistentContainer)
     }
 
     override func tearDownWithError() throws {
-        try sut.deleteAll()
+        sut = nil
     }
 
     func test_CoreDataDiaryManager의_DiaryEntrys를_사용하면_DiaryEntry배열을_반환합니다() {
