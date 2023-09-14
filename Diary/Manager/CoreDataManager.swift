@@ -30,7 +30,7 @@ class CoreDataManager {
     
     func insertData(entityName: String, entityProperties: [String: Any]) {
         if let entity = NSEntityDescription.entity(forEntityName: entityName, in: context) {
-            let managedObject = NSManagedObject(entity: entity, insertInto: nil)
+            let managedObject = NSManagedObject(entity: entity, insertInto: context)
             
             for entityProperty in entityProperties {
                 managedObject.setValue(entityProperty.value, forKey: entityProperty.key)
@@ -43,8 +43,6 @@ class CoreDataManager {
     }
     
     func saveContext () {
-        let context = persistentContainer.viewContext
-        
         if context.hasChanges {
             do {
                 try context.save()
