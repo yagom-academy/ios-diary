@@ -12,6 +12,8 @@ final class DiaryDetailViewController: UIViewController, Shareable {
     
     private let diary: Diary
     private let isUpdated: Bool
+    private var latitude: Double?
+    private var longitude: Double?
     
     private let contentTextView = {
         let textView = UITextView()
@@ -34,9 +36,11 @@ final class DiaryDetailViewController: UIViewController, Shareable {
         saveDiary()
     }
     
-    init(diary: Diary, isUpdated: Bool = true) {
+    init(diary: Diary, isUpdated: Bool = true, latitude: Double? = nil, longitude: Double? = nil) {
         self.diary = diary
         self.isUpdated = isUpdated
+        self.latitude = latitude
+        self.longitude = longitude
         super.init(nibName: nil, bundle: nil)
     }
     
