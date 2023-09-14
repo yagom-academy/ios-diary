@@ -38,8 +38,20 @@ class CoreDataManager {
         }
     }
     
-    func deleteData(entity: NSManagedObject) {
-        context.delete(entity)
+    func updateData<T: Identifiable>(request: NSFetchRequest<T>, entityProperties: [String: Any]) where T.ID == UUID {
+        guard let dataList = try? context.fetch(request), let id = entityProperties["id"] as? UUID else { return }
+        guard let updateObject = dataList.filter({ $0.id == id}).first as? NSManagedObject else { return }
+        
+        for entityProperty in entityProperties {
+            updateObject.setValue(entityProperty.value, forKey: entityProperty.key)
+        }
+    }
+    
+    func deleteData<T: Identifiable>(request: NSFetchRequest<T>, identifier: UUID) where T.ID == UUID {
+        guard let dataList = try? context.fetch(request) else { return }
+        guard let deleteObject = dataList.filter({ $0.id == identifier}).first as? NSManagedObject else { return }
+        
+        context.delete(deleteObject)
     }
     
     func saveContext () {
@@ -51,5 +63,12 @@ class CoreDataManager {
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
         }
+    }
+    
+    func isExistData<T: Identifiable>(request: NSFetchRequest<T>, identifier: UUID) -> Bool where T.ID == UUID {
+        guard let dataList = try? context.fetch(request) else { return false }
+        guard let data = dataList.filter({ $0.id == identifier}).first as? NSManagedObject else { return false }
+        
+        return true
     }
 }

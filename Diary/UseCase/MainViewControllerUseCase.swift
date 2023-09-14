@@ -8,8 +8,9 @@
 import Foundation
 
 protocol MainViewControllerUseCaseType {
-    func fetchDiaryContentsDTO() -> [DiaryContentsDTO]?
-    func createNewDiary() -> DiaryContentsDTO
+    func fetchDiaryContentDTO() -> [DiaryContentDTO]?
+    func createNewDiary() -> DiaryContentDTO
+    func deleteDiary(deleteDiaryId: UUID)
 }
 
 final class MainViewControllerUseCase: MainViewControllerUseCaseType {
@@ -19,21 +20,25 @@ final class MainViewControllerUseCase: MainViewControllerUseCaseType {
         self.coreDataManager = coreDataManager
     }
     
-    func fetchDiaryContentsDTO() -> [DiaryContentsDTO]? {
+    func fetchDiaryContentDTO() -> [DiaryContentDTO]? {
         guard let diaryEntity = try? coreDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return nil }
         
         return diaryEntity.map {
-            DiaryContentsDTO(body: $0.body,
+            DiaryContentDTO(body: $0.body,
                              date: $0.date,
                              title: $0.title,
-                             identifier: $0.identifier)
+                             identifier: $0.id)
         }
     }
     
-    func createNewDiary() -> DiaryContentsDTO {
-        return DiaryContentsDTO(body: "",
+    func createNewDiary() -> DiaryContentDTO {
+        return DiaryContentDTO(body: "",
                                 date: Double.zero,
                                 title: "",
                                 identifier: UUID())
+    }
+    
+    func deleteDiary(deleteDiaryId: UUID) {
+        coreDataManager.deleteData(request: DiaryEntity.fetchRequest(), identifier: deleteDiaryId)
     }
 }

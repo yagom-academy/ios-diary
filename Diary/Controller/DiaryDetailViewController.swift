@@ -8,9 +8,6 @@
 import UIKit
 
 protocol DiaryDetailViewControllerDelegate: AnyObject {
-    func createDiaryData(text: String)
-    func updateDiaryData(diaryEntity: DiaryEntity, text: String)
-    func deleteDiaryData(diaryEntity: DiaryEntity)
     func popDiaryDetailViewController()
 }
 
@@ -25,13 +22,13 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         return textView
     }()
     
-    private var diaryContent: DiaryContentsDTO
     private let date: String
+    private let useCase: DiaryDetailViewControllerUseCaseType
     weak var delegate: DiaryDetailViewControllerDelegate?
     
-    init(date: String, diaryContent: DiaryContentsDTO) {
+    init(date: String, useCase: DiaryDetailViewControllerUseCaseType) {
         self.date = date
-        self.diaryContent = diaryContent
+        self.useCase = useCase
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -75,16 +72,14 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         ])
     }
     
+    private func setUpText() {
+        textView.text = useCase.setUpTextFromDiaryContentDTO()
+    }
+    
     private func setUpViewController() {
         view.backgroundColor = .systemBackground
         navigationItem.title = date
         navigationItem.rightBarButtonItem = .init(title: "더보기", style: .plain, target: self, action: #selector(didTappedMoreButton))
-    }
-    
-    private func setUpText() {
-//        guard let diaryEntity else { return }
-//
-//        textView.text = diaryEntity.title + "\n" + diaryEntity.body
     }
     
     private func addObserver() {
@@ -97,16 +92,7 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     
     @objc
     private func saveDiaryContents() {
-        let text = textView.text ?? ""
-        
-//        if isUpdate {
-//            guard let diaryEntity else { return }
-//
-//            delegate?.updateDiaryData(diaryEntity: diaryEntity, text: text)
-//        } else {
-//            isUpdate = true
-//            delegate?.createDiaryData(text: text)
-//        }
+        useCase.upsert(diaryDetailContent: textView.text)
     }
 }
 
@@ -130,12 +116,8 @@ extension DiaryDetailViewController {
     private func didTappedDeleteAction() {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-//            if let diaryEntity = self.diaryEntity {
-//                self.delegate?.deleteDiaryData(diaryEntity: diaryEntity)
-//            }
-//            
-//            self.textView.text = ""
-//            self.delegate?.popDiaryDetailViewController()
+            self.useCase.deleteDiary()
+            self.delegate?.popDiaryDetailViewController()
         }
         
         showAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert, actions: [cancelAction, deleteAction])

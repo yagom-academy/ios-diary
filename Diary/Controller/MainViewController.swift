@@ -7,8 +7,8 @@
 import UIKit
 
 protocol MainViewControllerDelegate: AnyObject {
-    func didTappedRightAddButton(newDiaryContent: DiaryContentsDTO)
-    func didSelectRowAt(diaryContent: DiaryContentsDTO)
+    func didTappedRightAddButton(newDiaryContent: DiaryContentDTO)
+    func didSelectRowAt(diaryContent: DiaryContentDTO)
 }
 
 final class MainViewController: UIViewController, AlertControllerShowable, ActivityViewControllerShowable {
@@ -17,10 +17,10 @@ final class MainViewController: UIViewController, AlertControllerShowable, Activ
     }
     
     weak var delegate: MainViewControllerDelegate?
-    private var diaryContents: [DiaryContentsDTO]?
+    private var diaryContents: [DiaryContentDTO]?
     private let dateFormatter: DateFormatter
     private let useCase: MainViewControllerUseCaseType
-    private var diffableDatasource: UITableViewDiffableDataSource<Section, DiaryContentsDTO>?
+    private var diffableDatasource: UITableViewDiffableDataSource<Section, DiaryContentDTO>?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -59,7 +59,7 @@ final class MainViewController: UIViewController, AlertControllerShowable, Activ
     }
     
     private func setUpDiaryContents() {
-        diaryContents = useCase.fetchDiaryContentsDTO()
+        diaryContents = useCase.fetchDiaryContentDTO()
     }
     
     private func configureUI() {
@@ -124,7 +124,7 @@ extension MainViewController {
     
     private func setUpTableViewDiffableDataSourceSnapShot(animated: Bool = true) {
         guard let diaryContents else { return }
-        var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryContentsDTO>()
+        var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryContentDTO>()
         
         snapShot.appendSections([.main])
         snapShot.appendItems(diaryContents)
@@ -144,8 +144,11 @@ extension MainViewController {
     private func didTappedDeleteAction(index: Int) {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-//            self.diaryContents.remove(at: index)
-//            self.setUpTableViewDiffableDataSourceSnapShot()
+            guard let deleteDiary = self.diaryContents?[index] else { return }
+            
+            self.useCase.deleteDiary(deleteDiaryId: deleteDiary.identifier)
+            self.diaryContents?.remove(at: index)
+            self.setUpTableViewDiffableDataSourceSnapShot()
         }
         
         showAlertController(title: "진짜요?",

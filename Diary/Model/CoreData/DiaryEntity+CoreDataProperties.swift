@@ -19,8 +19,7 @@ extension DiaryEntity {
     @NSManaged public var body: String
     @NSManaged public var date: Double
     @NSManaged public var title: String
-    @NSManaged public var identifier: UUID
-
+    @NSManaged public var id: UUID
 }
 
 extension DiaryEntity: Identifiable {
