@@ -30,6 +30,8 @@ final class CoreDataDiaryManager {
     private func saveContext() throws {
         if context.hasChanges {
             try context.save()
+        } else {
+            throw StorageError.saveDataFailed
         }
     }
 }
@@ -74,8 +76,9 @@ extension CoreDataDiaryManager: DiaryManageable {
         
         if let diaryEntity = try context.fetch(fetchRequest).first {
             context.delete(diaryEntity)
-            try saveContext()
         }
+        
+        try saveContext()
     }
     
     func deleteAll() throws {
