@@ -28,8 +28,8 @@ final class AppManager {
     }
     
     func start() {
-        guard let diaryContents = try? coreDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return }
-        let mainViewController = MainViewController(diaryContents: diaryContents, dateFormatter: dateFormatter)
+        let useCase: MainViewControllerUseCaseType = MainViewControllerUseCase(coreDataManager: coreDataManager)
+        let mainViewController = MainViewController(dateFormatter: dateFormatter, useCase: useCase)
         
         mainViewController.delegate = self
         navigationController.viewControllers = [mainViewController]
@@ -38,32 +38,21 @@ final class AppManager {
 
 // MARK: - MainViewControllerDelegate
 extension AppManager: MainViewControllerDelegate {
-    func didSelectRowAt(diaryContent: DiaryEntity) {
+    func didSelectRowAt(diaryContent: DiaryContentsDTO) {
         let date = Date(timeIntervalSince1970: diaryContent.date)
         let formattedDate = dateFormatter.string(from: date)
-        let diaryDetailViewController = DiaryDetailViewController(date: formattedDate, diaryEntity: diaryContent)
+        let diaryDetailViewController = DiaryDetailViewController(date: formattedDate, diaryContent: diaryContent)
         
         diaryDetailViewController.delegate = self
         navigationController.pushViewController(diaryDetailViewController, animated: true)
     }
     
-    func didTappedRightAddButton() {
+    func didTappedRightAddButton(newDiaryContent: DiaryContentsDTO) {
         let todayDate = dateFormatter.string(from: Date())
-        let diaryDetailViewController = DiaryDetailViewController(date: todayDate, isUpdate: false)
+        let diaryDetailViewController = DiaryDetailViewController(date: todayDate, diaryContent: newDiaryContent)
         
         diaryDetailViewController.delegate = self
         navigationController.pushViewController(diaryDetailViewController, animated: true)
-    }
-    
-    func fetchDiaryContents(mainViewController: MainViewController) {
-        guard let diaryContents = try? coreDataManager.fetchData(request: DiaryEntity.fetchRequest()) else { return }
-        
-        mainViewController.setUpDiaryEntity(diaryContents: diaryContents)
-    }
-    
-    func deleteDiaryContent(diaryContent: DiaryEntity) {
-        coreDataManager.deleteData(entity: diaryContent)
-        coreDataManager.saveContext()
     }
 }
 

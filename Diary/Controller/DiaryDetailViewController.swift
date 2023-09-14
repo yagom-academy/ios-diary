@@ -25,15 +25,13 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
         return textView
     }()
     
-    private var isUpdate: Bool
-    private var diaryEntity: DiaryEntity?
+    private var diaryContent: DiaryContentsDTO
     private let date: String
     weak var delegate: DiaryDetailViewControllerDelegate?
     
-    init(date: String, isUpdate: Bool = true, diaryEntity: DiaryEntity? = nil) {
+    init(date: String, diaryContent: DiaryContentsDTO) {
         self.date = date
-        self.isUpdate = isUpdate
-        self.diaryEntity = diaryEntity
+        self.diaryContent = diaryContent
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -84,9 +82,9 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     }
     
     private func setUpText() {
-        guard let diaryEntity else { return }
-        
-        textView.text = diaryEntity.title + "\n" + diaryEntity.body
+//        guard let diaryEntity else { return }
+//
+//        textView.text = diaryEntity.title + "\n" + diaryEntity.body
     }
     
     private func addObserver() {
@@ -101,14 +99,14 @@ final class DiaryDetailViewController: UIViewController, AlertControllerShowable
     private func saveDiaryContents() {
         let text = textView.text ?? ""
         
-        if isUpdate {
-            guard let diaryEntity else { return }
-            
-            delegate?.updateDiaryData(diaryEntity: diaryEntity, text: text)
-        } else {
-            isUpdate = true
-            delegate?.createDiaryData(text: text)
-        }
+//        if isUpdate {
+//            guard let diaryEntity else { return }
+//
+//            delegate?.updateDiaryData(diaryEntity: diaryEntity, text: text)
+//        } else {
+//            isUpdate = true
+//            delegate?.createDiaryData(text: text)
+//        }
     }
 }
 
@@ -132,12 +130,12 @@ extension DiaryDetailViewController {
     private func didTappedDeleteAction() {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            if let diaryEntity = self.diaryEntity {
-                self.delegate?.deleteDiaryData(diaryEntity: diaryEntity)
-            }
-            
-            self.textView.text = ""
-            self.delegate?.popDiaryDetailViewController()
+//            if let diaryEntity = self.diaryEntity {
+//                self.delegate?.deleteDiaryData(diaryEntity: diaryEntity)
+//            }
+//            
+//            self.textView.text = ""
+//            self.delegate?.popDiaryDetailViewController()
         }
         
         showAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", style: .alert, actions: [cancelAction, deleteAction])

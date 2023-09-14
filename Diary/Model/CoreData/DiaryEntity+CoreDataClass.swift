@@ -2,7 +2,7 @@
 //  DiaryEntity+CoreDataClass.swift
 //  Diary
 //
-//  Created by Hyun A Song on 2023/09/11.
+//  Created by Hyungmin Lee on 2023/09/14.
 //
 //
 

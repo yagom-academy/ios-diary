@@ -7,10 +7,8 @@
 import UIKit
 
 protocol MainViewControllerDelegate: AnyObject {
-    func didTappedRightAddButton()
-    func fetchDiaryContents(mainViewController: MainViewController)
-    func didSelectRowAt(diaryContent: DiaryEntity)
-    func deleteDiaryContent(diaryContent: DiaryEntity)
+    func didTappedRightAddButton(newDiaryContent: DiaryContentsDTO)
+    func didSelectRowAt(diaryContent: DiaryContentsDTO)
 }
 
 final class MainViewController: UIViewController, AlertControllerShowable, ActivityViewControllerShowable {
@@ -19,9 +17,10 @@ final class MainViewController: UIViewController, AlertControllerShowable, Activ
     }
     
     weak var delegate: MainViewControllerDelegate?
-    private var diaryContents: [DiaryEntity]
+    private var diaryContents: [DiaryContentsDTO]?
     private let dateFormatter: DateFormatter
-    private var diffableDatasource: UITableViewDiffableDataSource<Section, DiaryEntity>?
+    private let useCase: MainViewControllerUseCaseType
+    private var diffableDatasource: UITableViewDiffableDataSource<Section, DiaryContentsDTO>?
     
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
@@ -32,9 +31,9 @@ final class MainViewController: UIViewController, AlertControllerShowable, Activ
         return tableView
     }()
     
-    init(diaryContents: [DiaryEntity], dateFormatter: DateFormatter) {
-        self.diaryContents = diaryContents
+    init(dateFormatter: DateFormatter, useCase: MainViewControllerUseCaseType) {
         self.dateFormatter = dateFormatter
+        self.useCase = useCase
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,12 +54,12 @@ final class MainViewController: UIViewController, AlertControllerShowable, Activ
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        delegate?.fetchDiaryContents(mainViewController: self)
+        setUpDiaryContents()
         setUpTableViewDiffableDataSourceSnapShot(animated: false)
     }
     
-    func setUpDiaryEntity(diaryContents: [DiaryEntity]) {
-        self.diaryContents = diaryContents
+    private func setUpDiaryContents() {
+        diaryContents = useCase.fetchDiaryContentsDTO()
     }
     
     private func configureUI() {
@@ -86,6 +85,8 @@ final class MainViewController: UIViewController, AlertControllerShowable, Activ
 // MARK: - TableView Delegate
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let diaryContents else { return }
+        
         delegate?.didSelectRowAt(diaryContent: diaryContents[indexPath.row])
         tableView.deselectRow(at: indexPath, animated: true)
     }
@@ -109,20 +110,21 @@ extension MainViewController: UITableViewDelegate {
 // MARK: - TableViewDiffableDataSource
 extension MainViewController {
     private func setUpTableViewDiffableDataSource() {
-        diffableDatasource = UITableViewDiffableDataSource(tableView: tableView, cellProvider: { [weak self] tableView, indexPath, diaryEntity in
+        diffableDatasource = UITableViewDiffableDataSource(tableView: tableView, cellProvider: { [weak self] tableView, indexPath, diaryContent in
             guard let self = self,
                   let cell = tableView.dequeueReusableCell(withIdentifier: MainTableViewCell.indentifier, for: indexPath) as? MainTableViewCell else { return UITableViewCell() }
             
-            let date = Date(timeIntervalSince1970: diaryEntity.date)
+            let date = Date(timeIntervalSince1970: diaryContent.date)
             let formattedDate = self.dateFormatter.string(from: date)
             
-            cell.setUpContents(title: diaryEntity.title, date: formattedDate, body: diaryEntity.body)
+            cell.setUpContents(title: diaryContent.title, date: formattedDate, body: diaryContent.body)
             return cell
         })
     }
     
     private func setUpTableViewDiffableDataSourceSnapShot(animated: Bool = true) {
-        var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryEntity>()
+        guard let diaryContents else { return }
+        var snapShot = NSDiffableDataSourceSnapshot<Section, DiaryContentsDTO>()
         
         snapShot.appendSections([.main])
         snapShot.appendItems(diaryContents)
@@ -134,15 +136,16 @@ extension MainViewController {
 extension MainViewController {
     @objc
     private func didTappedRightAddButton() {
-        delegate?.didTappedRightAddButton()
+        let newDiaryContent = useCase.createNewDiary()
+        
+        delegate?.didTappedRightAddButton(newDiaryContent: newDiaryContent)
     }
     
     private func didTappedDeleteAction(index: Int) {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
-            self.delegate?.deleteDiaryContent(diaryContent: self.diaryContents[index])
-            self.diaryContents.remove(at: index)
-            self.setUpTableViewDiffableDataSourceSnapShot()
+//            self.diaryContents.remove(at: index)
+//            self.setUpTableViewDiffableDataSourceSnapShot()
         }
         
         showAlertController(title: "진짜요?",
@@ -152,7 +155,9 @@ extension MainViewController {
     }
     
     private func didTappedShareAction(index: Int) {
-        let entity = self.diaryContents[index]
+        guard let diaryContents else { return }
+        
+        let entity = diaryContents[index]
         let sharedItem = entity.title + "\n" + entity.body
         
         self.showActivityViewController(items: [sharedItem as Any])
