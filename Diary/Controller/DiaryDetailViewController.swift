@@ -115,6 +115,7 @@ extension DiaryDetailViewController {
     private func didTappedDeleteAction() {
         let cancelAction = UIAlertAction(title: "취소", style: .cancel)
         let deleteAction = UIAlertAction(title: "삭제", style: .destructive) { _ in
+            self.textView.text = ""
             self.useCase.deleteDiary()
             self.delegate?.popDiaryDetailViewController()
         }
