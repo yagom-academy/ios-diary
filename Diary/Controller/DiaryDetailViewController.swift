@@ -29,6 +29,7 @@ final class DiaryDetailViewController: UIViewController, Shareable {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        configureToast()
         fetchWeather()
     }
     
@@ -180,6 +181,38 @@ private extension DiaryDetailViewController {
             contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             contentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
+    }
+}
+
+extension DiaryDetailViewController: Toastable {
+    func configureToast() {
+        APIKey.delegate = self
+    }
+    
+    func showToast(message: String) {
+        let toastLabel = UILabel(frame: CGRect(
+            x: self.view.frame.size.width / 2 - 100,
+            y: self.view.frame.size.height / 2 - 35,
+            width: 200,
+            height: 70
+        ))
+        
+        toastLabel.backgroundColor = UIColor.systemGray
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        toastLabel.textAlignment = .center
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10
+        toastLabel.clipsToBounds = true
+        toastLabel.numberOfLines = 0
+        
+        view.addSubview(toastLabel)
+        UIView.animate(withDuration: 5.0, delay: 0.1, options: .curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        }, completion: { _ in
+            toastLabel.removeFromSuperview()
+        })
     }
 }
 

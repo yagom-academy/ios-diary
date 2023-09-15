@@ -47,11 +47,13 @@ enum Query {
 }
 
 enum APIKey {
+    static var delegate: Toastable?
     static var weather: String {
         guard let file = Bundle.main.path(forResource: "WeatherInfo", ofType: "plist"),
               let resource = NSDictionary(contentsOfFile: file),
               let key = resource["API_KEY"] as? String else {
-            fatalError("⛔️ API KEY를 가져오는데 실패하였습니다.")
+            delegate?.showToast(message: "⛔️ API KEY를 가져오는데 실패하였습니다.")
+            return "⛔️ API KEY를 가져오는데 실패하였습니다."
         }
         
         return key

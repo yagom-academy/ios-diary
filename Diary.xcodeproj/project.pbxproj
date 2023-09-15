@@ -11,6 +11,7 @@
 		78274D9A2A9E26DF00AD4F50 /* DiaryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78274D992A9E26DF00AD4F50 /* DiaryCell.swift */; };
 		78274DA12A9E3E8E00AD4F50 /* DiaryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78274DA02A9E3E8E00AD4F50 /* DiaryModel.swift */; };
 		78274DA42A9F3F0A00AD4F50 /* DateFormatter+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78274DA32A9F3F0A00AD4F50 /* DateFormatter+.swift */; };
+		782FB0992AB4B6C500BC8C12 /* Toastable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 782FB0982AB4B6C500BC8C12 /* Toastable.swift */; };
 		784F30C92AB2F88F009A895B /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784F30C82AB2F88F009A895B /* Location.swift */; };
 		784F30CB2AB2FE87009A895B /* DecodingManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784F30CA2AB2FE87009A895B /* DecodingManager.swift */; };
 		784F30CE2AB30072009A895B /* DecodingError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 784F30CD2AB30072009A895B /* DecodingError.swift */; };
@@ -44,6 +45,7 @@
 		78274D992A9E26DF00AD4F50 /* DiaryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryCell.swift; sourceTree = "<group>"; };
 		78274DA02A9E3E8E00AD4F50 /* DiaryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryModel.swift; sourceTree = "<group>"; };
 		78274DA32A9F3F0A00AD4F50 /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
+		782FB0982AB4B6C500BC8C12 /* Toastable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toastable.swift; sourceTree = "<group>"; };
 		784F30C82AB2F88F009A895B /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		784F30CA2AB2FE87009A895B /* DecodingManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingManager.swift; sourceTree = "<group>"; };
 		784F30CD2AB30072009A895B /* DecodingError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodingError.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 			isa = PBXGroup;
 			children = (
 				9C1529102AAE140800F3203E /* Shareable.swift */,
+				782FB0982AB4B6C500BC8C12 /* Toastable.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -376,6 +379,7 @@
 				78274DA42A9F3F0A00AD4F50 /* DateFormatter+.swift in Sources */,
 				9C5C42F42AB36F6B004FF07A /* CacheStore.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
+				782FB0992AB4B6C500BC8C12 /* Toastable.swift in Sources */,
 				9C4621EC2AB06890004ED11A /* PersistentContainer.swift in Sources */,
 				784F30C92AB2F88F009A895B /* Location.swift in Sources */,
 				784F30CB2AB2FE87009A895B /* DecodingManager.swift in Sources */,
