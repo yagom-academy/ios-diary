@@ -40,12 +40,12 @@ final class EditingDiaryViewController: UIViewController, ActivityViewPresentabl
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if diaryTextView.text.isEmpty {
-            ContainerManager.shared.delete(id: diaryContent.id)
+        guard diaryTextView.text.isEmpty else {
+            save()
             return
         }
         
-        save()
+        ContainerManager.shared.delete(id: diaryContent.id)
     }
     
     private func configureUI() {
