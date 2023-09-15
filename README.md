@@ -41,11 +41,21 @@
 - TextView 생성 및 placeholder 구현
 - DetailViewController 네비게이션 타이틀 오늘 날짜 추가
 - DetailVC 생성 및 테이블 뷰 커스텀 이니셜라이져로 데이터를 전달하여 didSelectRowAt() 구현
-- DetailViewController 편집 시 키보드가 글자 가리는 이슈 해결
+- DetailViewController 편집 시 키보드가 글자 가리는 이슈 
 ### 2023.09.01 (금)
 - final 키워드 명시, 은닉화 처리, 불필요한 프로퍼티 삭제
 - NewDiaryViewController 삭제 및 DetailViewController 수정
 - 불필요한 주석 제거
+- README 업데이트
+### 2023.09.14 (목)
+- CoreDataManager 생성 및 저장, 수정 메서드 구현
+- textView를 하나로 통합
+- 새로운 Diary 저장기능 구현
+- 추상화 및 조건문 수정, 공유와 삭제가 가능한 didTapMenu() 구현
+- 화면 다크모드 적용 및 textColor 변경
+- AlertAtion에서 delete 작업 구현
+- CoreData에 날짜 저장 기능 추가
+
 </div>
 </details>
 <a id="3."></a>
@@ -53,7 +63,8 @@
 ## 3. 시각화 구조
 
 ### 📐 Diagram
-![](https://hackmd.io/_uploads/H1zXBb1R2.png)
+
+![](https://hackmd.io/_uploads/BJTyDdZka.png)
 
 ### 🌲 File Tree
 <details>
@@ -63,6 +74,8 @@
 ```
 .
 ├── Diary
+│   ├── Entity+CoreDataClass.swift
+│   ├── Entity+CoreDataProperties.swift
 │   ├── Application
 │   │   ├── AppDelegate.swift
 │   │   └── SceneDelegate.swift
@@ -72,7 +85,8 @@
 │   │   └── DiaryTableViewCell.swift
 │   ├── Model
 │   │   ├── Sample.swift
-│   │   └── CustomDateFormatter.swift
+│   │   ├── CustomDateFormatter.swift
+│   │   └── CoreDataManager.swift
 │   ├── Resources
 │   │   ├── Assets
 │   │   ├── Diary
@@ -94,7 +108,15 @@
 <a id="4."></a>
 
 ## 4. 실행 화면
+| Create | SwipeDelete | AlertDelete |
+| :--------: | :--------: | :--------: |
+|<Img src = "https://hackmd.io/_uploads/BkmegKW16.gif" width="400" height="500">|<Img src = "https://hackmd.io/_uploads/HJs43ub1a.gif" width="400" height="500">|<Img src = "https://hackmd.io/_uploads/BJVskY-Jp.gif" width="400" height="500">|
 
+| Update | Share | Date |
+| :--------: | :--------: | :--------: |
+|<Img src = "https://hackmd.io/_uploads/Hy-I-KZya.gif" width="400" height="500">|<Img src = "https://hackmd.io/_uploads/rJRKkFZJp.gif" width="400" height="500">|<Img src = "https://hackmd.io/_uploads/S1MZVF-1p.gif" width="400" height="500">|
+
+- - -
 </br>
 <a id="5."></a>
 
@@ -218,20 +240,151 @@ struct CustomDateFormatter {
 }
 ```
 - - -
+### 5. <CoreDataManager 데이터 공유>
+
+🤯 **문제상황**
+`CoreDataManager`파일로 CRUD를 구현하였는데 각 ViewController에서 어떤 패턴으로 데이터를 가져와 사용할지 고민하게 되었습니다.
+
+🔥 **해결방법**
+단일 인스턴스로 여러 곳에서 해당 인스턴스를 공유할 수 있는 싱글톤 패턴을 사용하였습니다.
+```Swift
+final class CoreDataManager {
+    static var shared: CoreDataManager = CoreDataManager()
+    ...
+```
+- - -
+### 6. <tableView 업데이트>
+
+🤯 **문제상황**
+텍스트 뷰의 생성하여 저장하거나 수정하여도 변경된 `Entity`데이터가 테이블 뷰에 바로 업데이트 되지 않았고 다시 빌드를 해야만 적용되는 문제가 있었습니다. 
+
+🔥 **해결방법**
+`MainVC`가 화면에 뜨기 직전에 호출되는 `viewWillAppear()`가 호출될 때, `getAllEntity()`를 통하여 변경된 Entity의 데이터를 가져오고, 메인 스레드에서 비동기 작업을 통해 테이블 뷰에 다시 데이터를 로드하고 업데이트하는 방식으로 해결했습니다.
+```Swift
+override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    self.callGetAllEntity()
+}
+
+private func callGetAllEntity() {
+    coreDataManager.getAllEntity()
+    DispatchQueue.main.async {
+        self.tableView.reloadData()
+    }
+}
+
+```
+
+- - -
+### 7. <새로운 일기 생성와 기존 일기 수정 처리>
+
+🤯 **문제상황**
+
+이전 화면(리스트 화면)으로 이동하는 경우 저장 되는 기능을 구현하기 위해서 `viewWillDisappear` 메서드 안에 저장하는 기능을 구현했습니다. 하지만 새로 생성하는 일기와 전에 있던 일기를 수정하는 경우를 각각 다르게 처리해야 한다는 문제상황이 발생했습니다.
+
+🔥 **해결방법**
+
+초기에 `tableView`에서 전달받는 `entity`가 있는지 없는지 저장하는 `initEntity` 변수를 만들어주었습니다. 전달 받은 `entity`가 없다면 새로운 일기이므로 `CoreData`에 `createEntity`를 하고 아니라면 기존에 있는 일기이므로 `updateEntity`를 합니다
+
+```Swift=
+private var initEntity: Entity?
+...
+
+override func viewDidLoad() {
+...
+        initEntity = self.entity
+    }
+
+override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        guard let text = textView.text, !text.isEmpty, text != placeHolderText else {
+            return
+        }
+        let (title, body) = self.splitText(text: text)
+        
+        if initEntity == nil {
+            coreDataManager.createEntity(title: title, body: body)
+        } else {
+            guard let entity = self.entity else {
+                return
+            }
+            coreDataManager.updateEntity(entity: entity, newTitle: title, newBody: body)
+        }
+    }
+```
+
+- - -
+### 8. <다크모드>
+
+🤯 **문제상황**
+ViewController에서 직접 다크모드로 값을 주어 선언했을 때, 변경된 배경으로 인해 상단 바와 Title이 보이지 않는 문제가 발생하였습니다.
+<Img src = "https://hackmd.io/_uploads/HJX0x9ey6.png" width="300" height="600">
+
+🔥 **해결방법**
+SceneDelegate의 scene() 메서드에서 직접 window.overrideUserInterfaceStyle을 dark로 선언해주어 해결하였습니다. 참고로 다크모드는 iOS 13에 도입된 UI 옵션입니다. 또한 SceneDelegate는 멀티 윈도우의 관리를 지원하므로써 Scene 설정을 통해서 다크모드로 지정할 수 있습니다.
+```Swift
+class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+
+    var window: UIWindow?
+
+
+    func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
+        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
+        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        guard let _ = (scene as? UIWindowScene) else { return }
+        
+        if #available(iOS 13.0, *) {
+            window?.overrideUserInterfaceStyle = .dark
+        }
+    }
+    ...
+```
+<Img src = "https://hackmd.io/_uploads/rkA1ZqekT.png" width="300" height="600">
+
+- - -
+### 9. <title과 body 분리>
+
+🤯 **문제상황**
+텍스트 뷰에 입력한 문자열을 구분하여 title과 body로 어떻게 저장할지 고민하게 되었습니다.
+
+🔥 **해결방법**
+텍스트 뷰의 전체 문자열을 들여쓰기를 기준으로 하여 배열로 담아 분류하여 첫 번째 요소를 title로 주고 이후 나머지 값을 모두 body로 처리하여 구분하였습니다.
+```Swift
+private func splitText(text: String) -> (title: String, body: String) {
+    let lines = text.components(separatedBy: "\n")
+    var title = ""
+    var body = ""
+    
+    if let firstLine = lines.first {
+        title = firstLine
+    }
+    
+    if lines.count > 1 {
+        body = lines[2...]
+            .joined(separator: "\n")
+    }
+    
+    return (title, body)
+}
+```
+- - -
 <a id="6."></a>
 
 ## 6. 팀 회고
 
 ### 우리팀이 잘한점👍
-
+- 이해를 하는 데에 중심을 두고 프로젝트를 진행해서 공부를 많이 하게 되었습니다.
     
 ### 서로에게 피드백😀
     
 - <To. yyss99>
-
+    - 적극적으로 질문을 해주셔서 저 또한 다시 이해해보고 공부하게 되는 시간이 될 수 있었습니다.
+    - 제 의견과 설명을 해드리면 바로 포인트를 캐치해서 빠르게 이해해주셔서 좋았습니다.
 
 - <To. Jusbug🕷️>
-
+    - 의견을 제시했을 때 잘 반영해주셔서 좋았습니다.👍
+    - 프로젝트 진행보다 이해와 학습 우선시 하는 분위기를 만들어 주셔서 좋았습니다.📖
     
 </br>
 
@@ -247,3 +400,9 @@ struct CustomDateFormatter {
 - [🎦 Video - Making apps adaptive 2](https://www.youtube.com/watch?v=s3utpBiRbB0)
 - [🍎 Apple - dateformatter](https://developer.apple.com/documentation/foundation/dateformatter)
 - [🍎 Apple - UITextView](https://developer.apple.com/documentation/uikit/uitextview)
+- [🍎 Apple - coredata](https://developer.apple.com/documentation/coredata)
+- [🍎 Apple - UItextviewdelegate](https://developer.apple.com/documentation/uikit/uitextviewdelegate)
+- [🍎 Apple - UIswipeactionsconfiguration](https://developer.apple.com/documentation/uikit/uiswipeactionsconfiguration)
+- [🍎 Apple - UIsearchcontroller](https://developer.apple.com/documentation/uikit/uisearchcontroller)
+- [🍎 Apple - dark-mode](https://developer.apple.com/design/human-interface-guidelines/ios/visual-design/dark-mode)
+- [🎦 Video - Typography and Fonts (WWDC 2016)](https://www.youtube.com/watch?v=7AeEkoKb52Y)
