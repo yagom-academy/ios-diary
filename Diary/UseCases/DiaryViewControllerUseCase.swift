@@ -43,18 +43,6 @@ struct DiaryViewControllerUseCase {
         }
     }
     
-    func upsert(_ diary: Diary) {
-        do {
-            if try diaryPersistentManager.isExist(diary) {
-                try diaryPersistentManager.update(diary)
-            } else {
-                try diaryPersistentManager.insert(diary)
-            }
-        } catch {
-            delegate?.showErrorAlert(error: error)
-        }
-    }
-    
     func delete(_ diary: Diary) {
         do {
             try diaryPersistentManager.delete(diary.identifier)

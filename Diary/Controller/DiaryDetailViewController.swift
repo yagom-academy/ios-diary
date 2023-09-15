@@ -7,14 +7,8 @@
 
 import UIKit
 
-protocol DiaryDetailViewControllerDelegate: AnyObject {
-    func diaryDetailViewController(_ diaryDetailViewController: DiaryDetailViewController, upsert diary: Diary)
-    func diaryDetailViewController(_ diaryDetailViewController: DiaryDetailViewController, delete diary: Diary)
-}
-
 final class DiaryDetailViewController: UIViewController {
     private var useCase: DiaryDetailViewControllerUseCase?
-    private weak var delegate: DiaryDetailViewControllerDelegate?
     private let diaryTextView: UITextView = {
         let textView = UITextView()
         textView.font = UIFont.preferredFont(forTextStyle: .body)
@@ -23,9 +17,8 @@ final class DiaryDetailViewController: UIViewController {
         return textView
     }()
     
-    init(useCase: DiaryDetailViewControllerUseCase, delegate: DiaryDetailViewControllerDelegate) {
+    init(useCase: DiaryDetailViewControllerUseCase) {
         self.useCase = useCase
-        self.delegate = delegate
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -128,8 +121,16 @@ extension DiaryDetailViewController {
 
 // MARK: DiaryDetailViewController Delegate
 extension DiaryDetailViewController: DiaryDetailViewControllerUseCaseDelegate {
-    func upsert(_ diary: Diary) {
-        delegate?.diaryDetailViewController(self, upsert: diary)
+    func showErrorAlert(error: Error) {
+        let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
+        let alert = UIAlertController.customAlert(
+            alertTile: NameSpace.error,
+            alertMessage: error.localizedDescription,
+            preferredStyle: .alert,
+            alertActions: [alertAction]
+        )
+        
+        navigationController?.present(alert, animated: true)
     }
 }
 
@@ -234,7 +235,7 @@ extension DiaryDetailViewController {
                 return
             }
             
-            self.delegate?.diaryDetailViewController(self, delete: diary)
+            self.useCase?.delete(diary)
             self.navigationController?.popViewController(animated: true)
         }
         let alert = UIAlertController.customAlert(
@@ -242,18 +243,6 @@ extension DiaryDetailViewController {
             alertMessage: NameSpace.deleteSubtitle,
             preferredStyle: .alert,
             alertActions: [cancelAction, deleteAction]
-        )
-        
-        navigationController?.present(alert, animated: true)
-    }
-    
-    private func showErrorAlert(error: Error) {
-        let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
-        let alert = UIAlertController.customAlert(
-            alertTile: NameSpace.error,
-            alertMessage: error.localizedDescription,
-            preferredStyle: .alert,
-            alertActions: [alertAction]
         )
         
         navigationController?.present(alert, animated: true)

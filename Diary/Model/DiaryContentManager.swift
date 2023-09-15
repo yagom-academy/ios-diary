@@ -32,6 +32,10 @@ struct DiaryContentManager {
         
         return String(format: NameSpace.combineFormat, diary.title, diary.body)
     }
+    
+    func isDiaryTextEmpty(_ text: String) -> Bool {
+        return text.isEmpty
+    }
 }
 
 extension DiaryContentManager {

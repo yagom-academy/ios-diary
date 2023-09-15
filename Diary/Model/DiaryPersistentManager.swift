@@ -33,7 +33,15 @@ final class DiaryPersistentManager {
         return fetchResult
     }
     
-    func insert(_ diary: Diary) throws {
+    func upsert(_ diary: Diary) throws {
+        if try isExist(diary) {
+            try update(diary)
+        } else {
+            try insert(diary)
+        }
+    }
+    
+    private func insert(_ diary: Diary) throws {
         let entity = DiaryEntity(context: context)
         entity.identifier = diary.identifier
         entity.body = diary.body
@@ -43,7 +51,7 @@ final class DiaryPersistentManager {
         try saveContext()
     }
     
-    func update(_ diary: Diary) throws {
+    private func update(_ diary: Diary) throws {
         let request = DiaryEntity.fetchRequest()
         let fetchResults = try context.fetch(request)
         
@@ -68,7 +76,7 @@ final class DiaryPersistentManager {
         try context.save()
     }
     
-    func isExist(_ diary: Diary) throws -> Bool {
+    private func isExist(_ diary: Diary) throws -> Bool {
         let fetchResults = try fetch()
         
         if fetchResults.filter({ $0.identifier == diary.identifier }).first == nil {

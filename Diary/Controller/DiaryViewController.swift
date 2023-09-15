@@ -42,6 +42,7 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        loadData()
         applySnapshot()
     }
 }
@@ -108,28 +109,16 @@ extension DiaryViewController {
     }
 }
 
-// MARK: DiaryDetailViewController Delegate
-extension DiaryViewController: DiaryDetailViewControllerDelegate {
-    func diaryDetailViewController(_ diaryDetailViewController: DiaryDetailViewController, upsert diary: Diary) {
-        useCase?.upsert(diary)
-        loadData()
-    }
-    
-    func diaryDetailViewController(_ diaryDetailViewController: DiaryDetailViewController, delete diary: Diary) {
-        useCase?.delete(diary)
-        loadData()
-    }
-}
-
 // MARK: CollectionView Delegate
 extension DiaryViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let diary = useCase?.diaryList[safe: indexPath.item] else {
+        guard let diary = useCase?.diaryList[safe: indexPath.item],
+              let diaryPersistentManager =  useCase?.diaryPersistentManager else {
             return
         }
         
-        let diaryDetailViewControllerUseCase = DiaryDetailViewControllerUseCase(diary: diary)
-        let diaryDetailViewController = DiaryDetailViewController(useCase: diaryDetailViewControllerUseCase, delegate: self)
+        let diaryDetailViewControllerUseCase = DiaryDetailViewControllerUseCase(diary: diary, diaryPersistentManager: diaryPersistentManager)
+        let diaryDetailViewController = DiaryDetailViewController(useCase: diaryDetailViewControllerUseCase)
         
         show(diaryDetailViewController, sender: self)
         collectionView.deselectItem(at: indexPath, animated: true)
@@ -247,12 +236,13 @@ extension DiaryViewController: DiaryViewControllerUseCaseDelegate {
 // MARK: Button Action
 extension DiaryViewController {
     @objc private func didTapSelectPlusButton() {
-        guard let diary = useCase?.newDiary() else {
+        guard let diary = useCase?.newDiary(),
+              let diaryPersistentManager =  useCase?.diaryPersistentManager else {
             return
         }
         
-        let diaryDetailViewControllerUseCase = DiaryDetailViewControllerUseCase(diary: diary)
-        let diaryDetailViewController = DiaryDetailViewController(useCase: diaryDetailViewControllerUseCase, delegate: self)
+        let diaryDetailViewControllerUseCase = DiaryDetailViewControllerUseCase(diary: diary, diaryPersistentManager: diaryPersistentManager)
+        let diaryDetailViewController = DiaryDetailViewController(useCase: diaryDetailViewControllerUseCase)
         
         show(diaryDetailViewController, sender: self)
     }
