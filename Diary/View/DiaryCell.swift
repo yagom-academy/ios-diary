@@ -67,6 +67,7 @@ final class DiaryCell: UITableViewCell {
     }
     
     override func prepareForReuse() {
+        super.prepareForReuse()
         weatherIconImageView.image = nil
     }
     
