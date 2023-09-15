@@ -88,15 +88,16 @@ final class DiaryCell: UITableViewCell {
     }
     
     private func fetchIconImage(id: String) {
-        let icon = WeatherAPI.weatherIcon(id: id)
-        
-        NetworkManager.shared.fetchData(API: icon) { [weak self] result in
+        WeatherAPI.Users(
+            host: HostName.weatherIcon.address,
+            path: Path.weatherIcon(id: id).description
+        ).request { [weak self] result in
             switch result {
             case .success(let data):
                 guard let image = UIImage(data: data) else {
                     return
                 }
-                
+
                 DispatchQueue.main.async {
                     CacheManager.shared.setObject(image, forKey: NSString(string: id))
                     self?.weatherIconImageView.image = image

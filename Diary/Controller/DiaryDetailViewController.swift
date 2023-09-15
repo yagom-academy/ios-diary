@@ -29,8 +29,7 @@ final class DiaryDetailViewController: UIViewController, Shareable {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-//        fetchWeather()
-        fetchWeather2()
+        fetchWeather()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -190,41 +189,25 @@ private extension DiaryDetailViewController {
             return
         }
         
-        let weather = WeatherAPI.weatherData(latitude: latitude, longitude: longitude)
-        
-        NetworkManager.shared.fetchData(API: weather) { [weak self] result in
+        WeatherAPI.Users(
+            host: HostName.localWeather.address,
+            path: Path.localWeather.description,
+            query: Query.localWeather(latitude: latitude, longitude: longitude).parameters
+        ).request { [weak self] result in
             switch result {
             case .success(let data):
-                do {
-                    let decodedData: Location = try DecodingManager.decodeData(from: data)
-                   
-                    guard let currentWeather = decodedData.weather.first else {
-                        return
-                    }
-                    
-                    self?.diary.main = currentWeather.main
-                    self?.diary.icon = currentWeather.icon
-                } catch {
-                    print(error)
+                guard let decodedData: Location = try? DecodingManager.decodeData(from: data) else {
+                    return
                 }
-            case .failure(let error):
-                print(error.description)
-            }
-        }
-    }
-    
-    func fetchWeather2() {
-        WeatherAPI2.Users().request { [weak self] result in
-            switch result {
-            case .success(let data):
-                guard let currentWeather = data.weather.first else {
+                
+                guard let currentWeather = decodedData.weather.first else {
                     return
                 }
                 
                 self?.diary.main = currentWeather.main
                 self?.diary.icon = currentWeather.icon
             case .failure(let error):
-                print(error)
+                print(error.description)
             }
         }
     }
