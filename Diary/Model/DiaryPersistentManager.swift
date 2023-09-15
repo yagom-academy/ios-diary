@@ -8,7 +8,7 @@
 import CoreData
 
 final class DiaryPersistentManager {
-    lazy var diaryPersistentContainer: NSPersistentContainer = {
+    private lazy var diaryPersistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         
         container.loadPersistentStores { _, error in
@@ -19,12 +19,7 @@ final class DiaryPersistentManager {
         
         return container
     }()
-    
-    lazy var context = diaryPersistentContainer.viewContext
-    
-    func saveContext() throws {
-        try context.save()
-    }
+    private lazy var context = diaryPersistentContainer.viewContext
     
     func fetch() throws -> [DiaryEntity] {
         let request = DiaryEntity.fetchRequest()
@@ -39,6 +34,25 @@ final class DiaryPersistentManager {
         } else {
             try insert(diary)
         }
+    }
+    
+    func delete(_ identifier: UUID) throws {
+        let fetchResults = try fetch()
+        
+        guard let result = fetchResults.filter({ $0.identifier == identifier }).first else {
+            throw CoreDataError.notFoundData
+        }
+        
+        context.delete(result)
+        try saveContext()
+    }
+    
+    private func saveContext() throws {
+        guard context.hasChanges else {
+            return
+        }
+        
+        try context.save()
     }
     
     private func insert(_ diary: Diary) throws {
@@ -63,17 +77,6 @@ final class DiaryPersistentManager {
         result.body = diary.body
         
         try saveContext()
-    }
-    
-    func delete(_ identifier: UUID) throws {
-        let fetchResults = try fetch()
-        
-        guard let result = fetchResults.filter({ $0.identifier == identifier }).first else {
-            throw CoreDataError.notFoundData
-        }
-        
-        context.delete(result)
-        try context.save()
     }
     
     private func isExist(_ diary: Diary) throws -> Bool {
