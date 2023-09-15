@@ -32,7 +32,7 @@ final class DiaryCell: UICollectionViewListCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
-        stackView.spacing = 24
+        stackView.spacing = 12
         return stackView
     }()
     
@@ -65,12 +65,11 @@ final class DiaryCell: UICollectionViewListCell {
         return label
     }()
     
-    private lazy var weatherIcon: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFit
-        return image
+    private lazy var weatherImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
     }()
-    
     
     // MARK: - Internal Method
     
@@ -78,6 +77,7 @@ final class DiaryCell: UICollectionViewListCell {
         initFormatter(formatter: formatter)
         addSubviews()
         configureLabel(from: diary)
+        configureWeatherImage(from: diary)
         constraintOuterStackView()
         constraintWeatherIcon()
     }
@@ -93,20 +93,21 @@ final class DiaryCell: UICollectionViewListCell {
         verticalStackView.addArrangedSubview(titleLabel)
         verticalStackView.addArrangedSubview(horizontalStackView)
         horizontalStackView.addArrangedSubview(createdDateLabel)
-        horizontalStackView.addArrangedSubview(weatherIcon)
+        horizontalStackView.addArrangedSubview(weatherImage)
         horizontalStackView.addArrangedSubview(contentLabel)
-        
         accessories = [.disclosureIndicator()]
+    }
+    
+    private func configureWeatherImage(from diary: Diary) {
+        if let pngData = diary.weatherImage {
+            weatherImage.image = UIImage(data: pngData)
+        }
     }
     
     private func configureLabel(from diary: Diary) {
         titleLabel.text = diary.title
         contentLabel.text = diary.content
         createdDateLabel.text = currentFormatter?.format(date: diary.createdDate ?? Date(), style: .long)
-        Task {
-            weatherIcon.image = await NetworkManager.fetchWeatherIcon(icon: diary.weather ?? "10d")
-        }
-        
     }
     
     private func constraintOuterStackView() {
@@ -120,8 +121,8 @@ final class DiaryCell: UICollectionViewListCell {
     
     private func constraintWeatherIcon() {
         NSLayoutConstraint.activate([
-            weatherIcon.heightAnchor.constraint(equalToConstant: 24.0),
-            weatherIcon.widthAnchor.constraint(equalToConstant: 24.0)
+            weatherImage.heightAnchor.constraint(equalToConstant: 24.0),
+            weatherImage.widthAnchor.constraint(equalToConstant: 24.0)
         ])
     }
 }

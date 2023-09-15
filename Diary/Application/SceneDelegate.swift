@@ -10,8 +10,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
     let dataManager: DataManager = DataManager()
-    
-    
+
     func scene(
         _ scene: UIScene,
         willConnectTo session: UISceneSession,

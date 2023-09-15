@@ -19,6 +19,11 @@ final class DataManager {
         return container
     }()
     
+    func delete(_ diary: Diary) {
+        container.viewContext.delete(diary)
+        saveContext()
+    }
+    
     func saveContext () {
         let context = container.viewContext
         if context.hasChanges {
@@ -33,8 +38,11 @@ final class DataManager {
     
     func fetch() -> [Diary] {
         let context = container.viewContext
+        let request = Diary.fetchRequest()
+        let createdDateSort = NSSortDescriptor(keyPath: \Diary.createdDate, ascending: false)
+        request.sortDescriptors = [createdDateSort]
         do {
-            return try context.fetch(Diary.fetchRequest())
+            return try context.fetch(request)
         } catch {
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")

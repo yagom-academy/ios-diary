@@ -25,16 +25,15 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         locationManager.startUpdatingLocation()
     }
 
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(
+        _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
         guard let location = locations.last else {
             return
         }
-        locationCompletion?(location) // 마지막으로 받은 위치 데이터 전달
-        locationManager.stopUpdatingLocation() // 위치 업데이트 중지
-        locationCompletion = nil // 완료 핸들러 제거
-    }
-
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        
+        locationCompletion?(location)
+        locationManager.stopUpdatingLocation()
+        locationCompletion = nil
     }
 }

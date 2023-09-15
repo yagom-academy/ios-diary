@@ -17,7 +17,7 @@ final class DiaryViewController: UIViewController {
     private let compositor: DiaryContentComposable
     private let segregator: DiaryContentSegregatable
     private let currentFormatter: DateFormattable
-    private let locationManager: LocationManager
+    private let weatherFetcher: WeatherFetcher
     
     // MARK: - Lifecycle
     
@@ -27,17 +27,15 @@ final class DiaryViewController: UIViewController {
     ) {
         self.dataManager = dataManager
         self.currentFormatter = formatter
+        self.compositor = DiaryContentCompositor()
+        self.segregator = DiaryContentSegregator()
+        self.weatherFetcher = WeatherFetcher()
         
         if let diary = diary {
             self.diary = diary
         } else {
             self.diary = Diary(context: dataManager.container.viewContext)
         }
-        
-        self.compositor = DiaryContentCompositor()
-        self.segregator = DiaryContentSegregator()
-        self.locationManager = LocationManager()
-        
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -62,6 +60,9 @@ final class DiaryViewController: UIViewController {
         super.viewDidAppear(animated)
         if self.textView.text.isEmpty {
             textView.becomeFirstResponder()
+            self.weatherFetcher.fetch { pngData in
+                self.diary.weatherImage = pngData
+            }
         }
     }
     
@@ -71,7 +72,7 @@ final class DiaryViewController: UIViewController {
         let trimmedText = self.textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
         
         if trimmedText.isEmpty {
-            self.dataManager.container.viewContext.delete(self.diary)
+            self.dataManager.delete(self.diary)
             return
         }
         
@@ -80,12 +81,6 @@ final class DiaryViewController: UIViewController {
         self.diary.title = text.title
         self.diary.content = text.content
         self.diary.createdDate = diary.createdDate ?? Date()
-        
-        locationManager.fetchSingleLocation { location in
-            Task {
-                self.diary.weather = await NetworkManager.fetchCurrentWeather(coordinate: location.coordinate)?.icon
-            }
-        }
         
         dataManager.saveContext()
     }
@@ -177,8 +172,7 @@ final class DiaryViewController: UIViewController {
         )
         
         let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
-            self?.dataManager.container.viewContext.delete(diary)
-            self?.dataManager.saveContext()
+            self?.dataManager.delete(diary)
             self?.navigationController?.popViewController(animated: true)
         }
         

@@ -160,8 +160,7 @@ final class MainViewController: UIViewController {
         let deleteAlert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
         
         let delete = UIAlertAction(title: "삭제", style: .destructive) { [weak self] _ in
-            self?.dataManager.container.viewContext.delete(diary)
-            self?.dataManager.saveContext()
+            self?.dataManager.delete(diary)
             self?.readDiaries()
         }
         

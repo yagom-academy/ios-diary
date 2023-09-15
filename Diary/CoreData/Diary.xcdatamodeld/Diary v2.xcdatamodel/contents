@@ -4,6 +4,6 @@
         <attribute name="content" optional="YES" attributeType="String"/>
         <attribute name="createdDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="title" optional="YES" attributeType="String"/>
-        <attribute name="weather" optional="YES" attributeType="String"/>
+        <attribute name="weatherImage" optional="YES" attributeType="Binary"/>
     </entity>
 </model>

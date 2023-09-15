@@ -8,16 +8,14 @@
 import Foundation
 
 struct WeatherDecoder {
-    static func decode(jsonData: Data) -> Weather? {
+    static func decode(jsonData: Data) throws -> Weather? {
         do {
             let decoder = JSONDecoder()
             let weatherData = try decoder.decode(WeatherData.self, from: jsonData)
             
             return weatherData.weather.first
-            
         } catch {
-            print("JSON 디코딩 에러: \(error)")
-            return nil
+            throw WeatherDecodingError.decodeFail
         }
     }
 }
