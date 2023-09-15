@@ -94,14 +94,14 @@
 
 
 ### 2. 클래스 다이어그램
-![일기장 UML](https://hackmd.io/_uploads/rk74B9Wyp.png)
+![일기장 UML](https://github.com/idinaloq/testRep/assets/124647187/1daf56e3-d2b5-4ca6-b7d8-8646f29e3cab)
 
 <a id="4."></a></br>
 ## 💻 실행화면
 
 |일기 생성화면|스와이프 액션기능|더보기 버튼|
 |:-----:|:-----------:|:--------:|
-|<Img src = "https://hackmd.io/_uploads/BkTbwig1T.gif" width = "300">|<Img src = "https://hackmd.io/_uploads/B1NZOjlJa.gif" width = "300">|<Img src = "https://hackmd.io/_uploads/rkqeKjlk6.gif" width = "300">|
+|<Img src = "https://github.com/idinaloq/testRep/assets/124647187/6c41e908-59db-4f55-8022-a65c531c7fea" width = "300">|<Img src = "https://github.com/idinaloq/testRep/assets/124647187/aa26c885-3f30-4b7c-b8a7-1ad9136cc05f" width = "300">|<Img src = "https://github.com/idinaloq/testRep/assets/124647187/d7fdcf48-641c-4132-a4ff-672624656a9b" width = "300">|
 
 
 |실행화면(가로)|
