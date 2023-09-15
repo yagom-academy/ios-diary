@@ -94,7 +94,7 @@
 
 
 ### 2. 클래스 다이어그램
-![일기장 UML](https://hackmd.io/_uploads/rk74B9Wyp.png)
+![일기장 UML](https://hackmd.io/_uploads/rk74B9Wyp.png)
 
 <a id="4."></a></br>
 ## 💻 실행화면
