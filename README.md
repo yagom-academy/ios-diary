@@ -1,19 +1,23 @@
 # 📓 일기장
-### 일기를 생성하고 작성 후에 저장 및 삭제할 수 있는 앱입니다.
+## 일기를 생성하고 작성 후에 저장 및 삭제할 수 있는 앱입니다.
 
-> **핵심 개념 및 경험**
-> 
-> - **DateFormatter**
->   - `locale` 프로퍼티를 이용한 지역화
-> - **CoreData**
->   - `CoreData`모델을 통한 CRUD 기능
->   - (Create, Read(Retrieve), Update, Delete)
-> - **UITextView**
->   - `UITextView`에서 텍스트 편집
-> - **keyboardWillShowNotification / keyboardWillHideNotification**
->   - 키보드가 나타나거나 사라질 때 `post`된 `Notification`을 `addObserver`를 통해 수신
-> - **subscript**
->   - 배열의 범위를 벗어난 접근을 할 때 안전하게 접근할 수 있도록 `subscript`를 사용하여 `Array`의 기능 확장
+**핵심 개념 및 경험**
+ 
+- **DateFormatter**
+  - `locale` 프로퍼티를 이용한 지역화
+- **CoreData**
+  - `CoreData`모델을 통한 CRUD 기능
+  - (Create, Read(Retrieve), Update, Delete)
+- **UITextView**
+  - `UITextView`에서 텍스트 편집
+- **keyboardWillShowNotification / keyboardWillHideNotification**
+  - 키보드가 나타나거나 사라질 때 `post`된 `Notification`을 `addObserver`를 통해 수신
+- **subscript**
+  - 배열의 범위를 벗어난 접근을 할 때 안전하게 접근할 수 있도록 `subscript`를 사용하여 `Array`의 기능 확장
+- **textViewDidEndEditing()**
+  - `UITextView`의 입력이 끝났을 때 `UITextViewDelegate`를 통해 실행되는 메서드
+- **UIAlertAction**
+  - 얼럿 버튼을 눌렀을 때 실행되는 액션
 
 **프로젝트 기간 : 23.08.28 ~ 23.09.15**
 
@@ -48,6 +52,10 @@
 |2023.09.06|CoreData의 Create,Retieve,Update기능 구현<br>CoreData관련코드 리팩토링|
 |2023.09.07|CoreData의 Delete기능 추가<br>swipe기능 구현|
 |2023.09.08|README 작성|
+|2023.09.11|CoreDataManager 리팩토링|
+|2023.09.12|textView 데이터 CRUD 기능 리팩토링|
+|2023.09.13|Step2 PR 작성|
+|2023.09.15|Stpe2 리뷰에 따른 수정<br>README 작성|
 
 <a id="3."></a></br>
 ## 👀 시각화 구조
@@ -60,8 +68,7 @@
     │   └── Diary.xcdatamodeld        
     ├── Controller
     │   ├── DiaryDetailViewController.swift
-    │   ├── DiaryListViewController.swift
-    │   └── NewDiaryViewController.swift
+    │   └── DiaryListViewController.swift
     ├── Enum
     │   └── LocaleIdentifier.swift
     ├── Error
@@ -73,8 +80,6 @@
     ├── Manager
     │   ├── CoreDataManager.swift
     │   └── KeyboardManager.swift
-    ├── Model
-    │   └── DiaryEntity.swift
     ├── Protocol
     │   └── CellIdentifiable.swift
     ├── View
@@ -89,14 +94,15 @@
 
 
 ### 2. 클래스 다이어그램
-![일기장 다이어그램](https://github.com/iOS-Yetti/ios-diary/assets/100982422/eb223cb6-a8ee-40ad-ba2d-ed0dcde88432)
+![일기장 UML](https://hackmd.io/_uploads/rk74B9Wyp.png)
 
 <a id="4."></a></br>
 ## 💻 실행화면
 
-|실행화면(세로)|
-|:---:|
-|<Img src = "https://github.com/idinaloq/testRep/assets/124647187/e9678848-ac31-4a64-bf5f-6c2b3f127183" width = "300">|
+|일기 생성화면|스와이프 액션기능|더보기 버튼|
+|:-----:|:-----------:|:--------:|
+|<Img src = "https://hackmd.io/_uploads/BkTbwig1T.gif" width = "300">|<Img src = "https://hackmd.io/_uploads/B1NZOjlJa.gif" width = "300">|<Img src = "https://hackmd.io/_uploads/rkqeKjlk6.gif" width = "300">|
+
 
 |실행화면(가로)|
 |:---:|
@@ -243,6 +249,39 @@ final class CoreDataManager {
 }
 
 ```
+
+### 4️⃣ 두 개의 ViewController를 하나로 합치기
+⚠️ **문제점** <br>
+- 이전에 뷰컨트롤러는 목록을 보여주는 `DiaryListViewController`, 작성된 일기 내용을 보여주는 `DiaryDetailViewController`, 일기장을 새로 만드는 `NewDiaryViewController` 총 세 개가 있었습니다.
+- 일기를 새로 생성하거나, 수정하는 화면을 볼 때 구성 자체는 완전히 동일했고, 기존의 저장된 데이터를 보여주거나 데이터가 없다면 새로 생성해야되는 부분 이외에 차이는 없었습니다.
+
+
+✅ **해결방법** <br>
+- `NewDiaryViewController`를 `DiaryDetailViewController`에 통합시키고, 기존에 `DiaryDetailViewController`의 수정, 저장 기능만 사용하는 로직을 그대로 사용하였습니다.
+- 새로운 일기를 미리 생성해서 작성화면으로 넘겨주고, 저장을 하게 되는데, 만약 아무런 내용도 입력하지 않았다면 다시 `DiaryListViewController`로 넘어올 때 생성되었던 일기가 삭제되도록 다음과 같이 작성하였습니다. 
+```swift
+final class DiaryListViewController: UIViewController {
+    ...
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        self.diaries = CoreDataManager.shared.fetchAllDiaries()
+        
+        diaries.forEach { diary in
+            if diary.title == nil && diary.body == nil {
+                guard let identifier = diary.identifier else {
+                    return
+                }
+                
+                CoreDataManager.shared.delete(diary: identifier)
+            }
+        }
+        self.diaries = CoreDataManager.shared.fetchAllDiaries()
+        collectionView.reloadData()
+    }
+    ...
+}
+```
+
 <a id="6."></a></br>
 ## 📚 참고자료
 - [🍎 Apple Docs: `DateFormatter`](https://developer.apple.com/documentation/foundation/dateformatter)
@@ -252,6 +291,7 @@ final class CoreDataManager {
 - [🍎 Apple Docs: `UITextView`](https://developer.apple.com/documentation/uikit/uitextview)
 - [🍎 Apple Docs: `CoreData`](https://developer.apple.com/documentation/coredata)
 - [🍎 Apple Docs: `UIViewController LifeCycle`](https://developer.apple.com/documentation/uikit/uiviewcontroller#1652793)
+- [🍎 Apple Docs: `UUID`](https://developer.apple.com/documentation/foundation/uuid)
 - [🌐 Blog: `subscript로 안전하게 배열 조회하기`](https://kkimin.tistory.com/86)
 - [🌐 Blog: `키보드가 텍스트를 가리지 않도록 하기`](https://velog.io/@qudgh849/keyboard가-TextView를-가릴-때)
 - [🌐 Blog: `identifier 재사용 프로토콜`](https://prod.velog.io/@yyyng/셀-재사용-프로토콜)
@@ -259,4 +299,11 @@ final class CoreDataManager {
 
 <a id="7."></a></br>
 ## 👬 팀 회고
-프로젝트가 끝난 후 작성 예정입니다 (23.09.15)
+### To. Idinaloq
+- 시간을 잘 맞춰주셔서 좋았습니다
+- 서로 솔직한 의견을 잘 나눌 수 있었던 것 같아 좋았습니다
+- 프로젝트를 마무리 짓지 못한 부분은 아쉽습니다 ㅠㅠ
+
+### To. Yetti
+- 짧은 시간동안 집중해서 팀 프로젝트를 진행하니 효율이 좋다는걸 처음으로 느꼈네요.😄
+- 서로 일정이 있을때 편의를 봐주셔서 너무 좋았습니다!!! 👍

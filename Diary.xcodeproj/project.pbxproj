@@ -115,13 +115,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		3BBC98922A9D897B0047DE81 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
 		3BBC98972A9E44820047DE81 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,7 +151,6 @@
 				DC5B19312AA08AEB0064550A /* Enum */,
 				DC5B192C2AA07FA10064550A /* Manager */,
 				3BBC98972A9E44820047DE81 /* Extension */,
-				3BBC98922A9D897B0047DE81 /* Model */,
 				3BBC988E2A9D683C0047DE81 /* View */,
 				3BBC988D2A9D68290047DE81 /* Controller */,
 				3BBC988C2A9D67EC0047DE81 /* Resource */,
