@@ -79,13 +79,12 @@ final class DiaryCell: UITableViewCell {
         guard let icon else {
             return
         }
-        
-        guard let cache = CacheStore.shared.object(forKey: NSString(string: icon)) else {
+
+        if let cache = CacheStore.shared.object(forKey: NSString(string: icon)) {
+            weatherIconImageView.image = cache
+        } else {
             fetchIconImage(id: icon)
-            return
         }
-        
-        weatherIconImageView.image = cache
     }
     
     private func fetchIconImage(id: String) {
