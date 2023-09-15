@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class EditingDiaryViewController: UIViewController, PresentableActivityView {
+final class EditingDiaryViewController: UIViewController, ActivityViewPresentable {
     private var diaryContent: DiaryContent
     
     private let diaryTextView: UITextView = {
@@ -79,12 +79,12 @@ final class EditingDiaryViewController: UIViewController, PresentableActivityVie
             }
         }
         
-        presentAlertWith(title: nil,
-                         message: nil,
-                         preferredStyle: .actionSheet,
-                         actionConfigs: ("share".localized, .default, shareHandler),
-                         ("delete".localized, .destructive, deleteHandler),
-                         ("cancel".localized, .cancel, nil))
+        presentAlert(title: nil,
+                     message: nil,
+                     preferredStyle: .actionSheet,
+                     actionConfigs: ("share".localized, .default, shareHandler),
+                     ("delete".localized, .destructive, deleteHandler),
+                     ("cancel".localized, .cancel, nil))
     }
     
     private func setupConstraints() {

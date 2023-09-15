@@ -8,12 +8,12 @@
 import UIKit
 
 extension UIViewController {
-    func presentAlertWith(title: String?,
-                          message: String?,
-                          preferredStyle: UIAlertController.Style,
-                          actionConfigs: (title: String?,
-                                          style: UIAlertAction.Style,
-                                          handler: ((UIAlertAction) -> Void)?)...) {
+    func presentAlert(title: String?,
+                      message: String?,
+                      preferredStyle: UIAlertController.Style,
+                      actionConfigs: (title: String?,
+                                      style: UIAlertAction.Style,
+                                      handler: ((UIAlertAction) -> Void)?)...) {
         let alertController = UIAlertController(title: title,
                                                 message: message,
                                                 preferredStyle: preferredStyle)
@@ -29,10 +29,10 @@ extension UIViewController {
     }
     
     func presentCheckDeleteAlert(deleteHandler: @escaping (UIAlertAction) -> Void) {
-        presentAlertWith(title: "checkDeleteAlertTitle".localized,
-                         message: "checkDeleteAlertMessage".localized,
-                         preferredStyle: .alert,
-                         actionConfigs: ("checkDeleteAlertCancelAction".localized, .cancel, nil),
-                         ("checkDeleteAlertAction".localized, .destructive, deleteHandler))
+        presentAlert(title: "checkDeleteAlertTitle".localized,
+                     message: "checkDeleteAlertMessage".localized,
+                     preferredStyle: .alert,
+                     actionConfigs: ("checkDeleteAlertCancelAction".localized, .cancel, nil),
+                     ("checkDeleteAlertAction".localized, .destructive, deleteHandler))
     }
 }

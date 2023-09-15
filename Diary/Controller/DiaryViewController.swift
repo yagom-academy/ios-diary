@@ -90,10 +90,10 @@ final class DiaryViewController: UIViewController {
             try diaryManager.fetchDiaryContents()
         } catch {
             os_log("%@", error.localizedDescription)
-            presentAlertWith(title: "failedFetchDataAlertTitle".localized,
-                             message: "failedFetchDataAlertMessage".localized,
-                             preferredStyle: .alert,
-                             actionConfigs: ("failedFetchDataAlertAction".localized, .default, nil))
+            presentAlert(title: "failedFetchDataAlertTitle".localized,
+                         message: "failedFetchDataAlertMessage".localized,
+                         preferredStyle: .alert,
+                         actionConfigs: ("failedFetchDataAlertAction".localized, .default, nil))
         }
     }
 }
@@ -124,7 +124,7 @@ extension DiaryViewController: UITableViewDataSource {
     }
 }
 
-extension DiaryViewController: UITableViewDelegate, PresentableActivityView {
+extension DiaryViewController: UITableViewDelegate, ActivityViewPresentable {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let diaryContents = diaryManager.diaryContents,
               let diaryContent = diaryContents[safe: indexPath.row]
