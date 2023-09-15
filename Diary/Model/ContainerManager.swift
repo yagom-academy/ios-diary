@@ -6,13 +6,12 @@
 //
 
 import CoreData
-import OSLog
 
 final class ContainerManager {
     static let shared = ContainerManager()
     
     private init() { }
-
+    
     private let persistentContainer: NSPersistentContainer = {
         let container = NSPersistentContainer(name: "Diary")
         container.loadPersistentStores { _, error in
@@ -38,7 +37,7 @@ final class ContainerManager {
             managedObject.setValue(diaryContent.body, forKey: "body")
             managedObject.setValue(diaryContent.timeInterval, forKey: "timeInterval")
             managedObject.setValue(diaryContent.id, forKey: "id")
-
+            
             save()
         }
     }
@@ -47,7 +46,7 @@ final class ContainerManager {
         do {
             try context.save()
         } catch {
-            os_log("%@", error.localizedDescription)
+            Logger.osLog(error.localizedDescription)
         }
     }
     
@@ -66,7 +65,7 @@ final class ContainerManager {
             
             save()
         } catch {
-            os_log("%@", error.localizedDescription)
+            Logger.osLog(error.localizedDescription)
         }
     }
     
@@ -75,7 +74,7 @@ final class ContainerManager {
             let diaries = try context.fetch(Diary.fetchRequest())
             return diaries
         } catch {
-            os_log("%@", error.localizedDescription)
+            Logger.osLog(error.localizedDescription)
         }
         
         return nil
@@ -92,7 +91,7 @@ final class ContainerManager {
             context.delete(diary)
             try context.save()
         } catch {
-            os_log("%@", error.localizedDescription)
+            Logger.osLog(error.localizedDescription)
         }
     }
 }

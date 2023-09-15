@@ -5,10 +5,10 @@
 //  last modified by Mary & Whales
 
 import UIKit
-import OSLog
 
 final class DiaryViewController: UIViewController {
     private let diaryManager: DiaryManager
+    private let logger: Logger
     
     private let tableView: UITableView = {
         let tableView = UITableView()
@@ -17,8 +17,9 @@ final class DiaryViewController: UIViewController {
         return tableView
     }()
     
-    init(diaryManager: DiaryManager = DiaryManager()) {
+    init(diaryManager: DiaryManager = DiaryManager(), logger: Logger = Logger()) {
         self.diaryManager = diaryManager
+        self.logger = logger
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -29,7 +30,7 @@ final class DiaryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureUI()
         configureTableView()
     }
@@ -89,7 +90,7 @@ final class DiaryViewController: UIViewController {
         do {
             try diaryManager.fetchDiaryContents()
         } catch {
-            os_log("%@", error.localizedDescription)
+            Logger.osLog(error.localizedDescription)
             presentAlert(title: "failedFetchDataAlertTitle".localized,
                          message: "failedFetchDataAlertMessage".localized,
                          preferredStyle: .alert,
