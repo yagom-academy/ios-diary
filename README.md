@@ -110,11 +110,11 @@
 ## 4. 실행 화면
 | Create | SwipeDelete | AlertDelete |
 | :--------: | :--------: | :--------: |
-|<Img src = "https://hackmd.io/_uploads/BkmegKW16.gif" width="400" height="500">|<Img src = "https://hackmd.io/_uploads/HJs43ub1a.gif" width="400" height="500">|<Img src = "https://hackmd.io/_uploads/BJVskY-Jp.gif" width="400" height="500">|
+|<Img src = "https://hackmd.io/_uploads/BkmegKW16.gif" width="200" height="400">|<Img src = "https://hackmd.io/_uploads/HJs43ub1a.gif" width="200" height="400">|<Img src = "https://hackmd.io/_uploads/BJVskY-Jp.gif" width="200" height="400">|
 
 | Update | Share | Date |
 | :--------: | :--------: | :--------: |
-|<Img src = "https://hackmd.io/_uploads/Hy-I-KZya.gif" width="400" height="500">|<Img src = "https://hackmd.io/_uploads/rJRKkFZJp.gif" width="400" height="500">|<Img src = "https://hackmd.io/_uploads/S1MZVF-1p.gif" width="400" height="500">|
+|<Img src = "https://hackmd.io/_uploads/Hy-I-KZya.gif" width="200" height="400">|<Img src = "https://hackmd.io/_uploads/rJRKkFZJp.gif" width="200" height="400">|<Img src = "https://hackmd.io/_uploads/S1MZVF-1p.gif" width="200" height="400">|
 
 - - -
 </br>
@@ -318,6 +318,7 @@ override func viewWillDisappear(_ animated: Bool) {
 
 🤯 **문제상황**
 ViewController에서 직접 다크모드로 값을 주어 선언했을 때, 변경된 배경으로 인해 상단 바와 Title이 보이지 않는 문제가 발생하였습니다.
+
 <Img src = "https://hackmd.io/_uploads/HJX0x9ey6.png" width="300" height="600">
 
 🔥 **해결방법**
