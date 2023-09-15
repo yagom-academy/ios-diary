@@ -31,7 +31,8 @@ final class DiaryCell: UICollectionViewListCell {
     private let horizontalStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.spacing = 24
+        stackView.distribution = .fill
+        stackView.spacing = 12
         return stackView
     }()
     
@@ -64,13 +65,21 @@ final class DiaryCell: UICollectionViewListCell {
         return label
     }()
     
+    private lazy var weatherImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        return imageView
+    }()
+    
     // MARK: - Internal Method
     
     func configureCell(diary: Diary, formatter: DateFormattable) {
         initFormatter(formatter: formatter)
         addSubviews()
         configureLabel(from: diary)
+        configureWeatherImage(from: diary)
         constraintOuterStackView()
+        constraintWeatherIcon()
     }
     
     // MARK: - Private Method
@@ -84,9 +93,15 @@ final class DiaryCell: UICollectionViewListCell {
         verticalStackView.addArrangedSubview(titleLabel)
         verticalStackView.addArrangedSubview(horizontalStackView)
         horizontalStackView.addArrangedSubview(createdDateLabel)
+        horizontalStackView.addArrangedSubview(weatherImage)
         horizontalStackView.addArrangedSubview(contentLabel)
-        
         accessories = [.disclosureIndicator()]
+    }
+    
+    private func configureWeatherImage(from diary: Diary) {
+        if let pngData = diary.weatherImage {
+            weatherImage.image = UIImage(data: pngData)
+        }
     }
     
     private func configureLabel(from diary: Diary) {
@@ -101,6 +116,13 @@ final class DiaryCell: UICollectionViewListCell {
             verticalStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 24),
             verticalStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8),
             verticalStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24)
+        ])
+    }
+    
+    private func constraintWeatherIcon() {
+        NSLayoutConstraint.activate([
+            weatherImage.heightAnchor.constraint(equalToConstant: 24.0),
+            weatherImage.widthAnchor.constraint(equalToConstant: 24.0)
         ])
     }
 }
