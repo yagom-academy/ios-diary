@@ -29,7 +29,8 @@ final class DiaryDetailViewController: UIViewController, Shareable {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
-        fetchWeather()
+//        fetchWeather()
+        fetchWeather2()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -208,6 +209,22 @@ private extension DiaryDetailViewController {
                 }
             case .failure(let error):
                 print(error.description)
+            }
+        }
+    }
+    
+    func fetchWeather2() {
+        WeatherAPI2.Users().request { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let currentWeather = data.weather.first else {
+                    return
+                }
+                
+                self?.diary.main = currentWeather.main
+                self?.diary.icon = currentWeather.icon
+            case .failure(let error):
+                print(error)
             }
         }
     }
