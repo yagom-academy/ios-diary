@@ -1,5 +1,5 @@
 //
-//  CacheManager.swift
+//  CacheStore.swift
 //  Diary
 //
 //  Created by hoon, karen on 2023/09/15.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CacheManager {
+final class CacheStore {
     static let shared = NSCache<NSString, UIImage>()
     
     private init() {}

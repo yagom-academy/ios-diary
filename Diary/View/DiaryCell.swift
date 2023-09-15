@@ -79,7 +79,7 @@ final class DiaryCell: UITableViewCell {
             return
         }
         
-        guard let cache = CacheManager.shared.object(forKey: NSString(string: icon)) else {
+        guard let cache = CacheStore.shared.object(forKey: NSString(string: icon)) else {
             fetchIconImage(id: icon)
             return
         }
@@ -99,7 +99,7 @@ final class DiaryCell: UITableViewCell {
                 }
 
                 DispatchQueue.main.async {
-                    CacheManager.shared.setObject(image, forKey: NSString(string: id))
+                    CacheStore.shared.setObject(image, forKey: NSString(string: id))
                     self?.weatherIconImageView.image = image
                 }
             case .failure(let error):
