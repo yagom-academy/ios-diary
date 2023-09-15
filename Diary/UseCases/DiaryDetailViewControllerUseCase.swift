@@ -16,7 +16,7 @@ struct DiaryDetailViewControllerUseCase {
     let diaryPersistentManager: DiaryPersistentManager
     
     mutating func updateDiary(_ text: String) {
-        guard diaryContentManager.isDiaryTextEmpty(text) else {
+        guard diaryContentManager.isDiaryTextEmpty(text) == false else {
             return
         }
         
