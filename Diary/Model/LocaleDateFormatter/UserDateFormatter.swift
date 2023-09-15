@@ -8,6 +8,10 @@
 import Foundation
 
 final class UserDateFormatter: LocaleDateFormatterProtocol {
+    static let shared = UserDateFormatter()
+    
+    private init() {}
+    
     var dateFormatter: DateFormatter = {
         let userLocale = Locale.current
         let userTimeZone = TimeZone.current

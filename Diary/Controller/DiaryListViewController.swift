@@ -9,8 +9,8 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     
     // MARK: - Private Property
-    private let diaryStore: DiaryStorageProtocol
-    
+    private let diaryReader: DiaryReadable
+    private let diaryManager: DiaryManageable
     private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,8 +33,9 @@ final class DiaryListViewController: UIViewController {
     }()
     
     // MARK: - Life Cycle
-    init(diaryStore: AssetDiaryStorage) {
-        self.diaryStore = diaryStore
+    init(diaryReader: DiaryReadable, diaryManager: DiaryManageable) {
+        self.diaryReader = diaryReader
+        self.diaryManager = diaryManager
         
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,32 +56,16 @@ final class DiaryListViewController: UIViewController {
 
 // MARK: - Setup Data
 extension DiaryListViewController {
-    private func setupContentTableView() {
+    @objc private func setupContentTableView() {
         do {
-            let diaryEntrys = try diaryStore.diaryEntrys()
+            let diaryEntrys = try diaryReader.diaryEntrys()
             var snapshot = NSDiffableDataSourceSnapshot<Section, DiaryEntry>()
             snapshot.appendSections([.main])
             snapshot.appendItems(diaryEntrys)
             dataSource.apply(snapshot)
         } catch {
-            presentFailAlert()
+            presentFailDataLoadAlert()
         }
-    }
-}
-
-// MARK: - Push & Present Controller
-extension DiaryListViewController {
-    @objc private func pushDiaryViewController() {
-        let diaryViewController = DiaryViewController(diaryStore: diaryStore, diaryEntry: nil)
-        
-        navigationController?.pushViewController(diaryViewController, animated: true)
-    }
-    
-    private func presentFailAlert() {
-        let alertAction = UIAlertAction(title: NameSpace.check, style: .default)
-        let alert = UIAlertController.customAlert(alertTile: NameSpace.fail, alertMessage: NameSpace.loadDataFail, preferredStyle: .alert, alertActions: [alertAction])
-        
-        self.present(alert, animated: true)
     }
 }
 
@@ -109,16 +94,94 @@ extension DiaryListViewController {
     }
 }
 
+// MARK: - Push & Present Controller
+extension DiaryListViewController {
+    @objc private func pushDiaryViewController() {
+        let diaryViewController = DiaryViewController(diaryManager: diaryManager, diaryEntry: nil)
+        diaryViewController.delegate = self
+        
+        navigationController?.pushViewController(diaryViewController, animated: true)
+    }
+    
+    @objc private func presentFailAlert() {
+        AlertManager.presentFailAlert(to: self, with: NameSpace.failMessage)
+    }
+    
+    private func presentFailDataLoadAlert() {
+        AlertManager.presentFailAlert(to: self, with: NameSpace.failLoadDataMessage)
+    }
+    
+    private func presentDeleteAlert(diaryEntry: DiaryEntry) {
+        AlertManager.presentDeleteAlert(to: self) { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
+            do {
+                try diaryManager.deleteDiary(diaryEntry)
+                setupContentTableView()
+            } catch {
+                presentFailAlert()
+            }
+        }
+    }
+}
+
 // MARK: - TableView Delegate
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         do {
-            let diaryEntry = try diaryStore.diaryEntrys()[indexPath.row]
-            let diaryViewController = DiaryViewController(diaryStore: diaryStore, diaryEntry: diaryEntry)
+            let diaryEntry = try diaryReader.diaryEntrys()[indexPath.row]
+            let diaryViewController = DiaryViewController(diaryManager: diaryManager, diaryEntry: diaryEntry)
+            diaryViewController.delegate = self
             
             navigationController?.pushViewController(diaryViewController, animated: true)
         } catch {
-            presentFailAlert()
+            presentFailDataLoadAlert()
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let shareAction = UIContextualAction(style: .normal, title: NameSpace.share) { [weak self] (_, _, success: @escaping (Bool) -> Void) in
+            guard let self else {
+                return
+            }
+            
+            do {
+                let diaryEntrys = try diaryReader.diaryEntrys()
+                let diaryEntry = diaryEntrys[indexPath.row]
+                ActivityViewManager.presentActivityView(to: self, with: diaryEntry)
+                success(true)
+            } catch {
+                presentFailAlert()
+                success(false)
+            }
+        }
+        
+        let deleteAction = UIContextualAction(style: .destructive, title: NameSpace.delete) { [weak self] (_, _, success: @escaping (Bool) -> Void) in
+            guard let self else {
+                return
+            }
+            
+            do {
+                let diaryEntrys = try diaryReader.diaryEntrys()
+                presentDeleteAlert(diaryEntry: diaryEntrys[indexPath.row])
+                success(true)
+            } catch {
+                presentFailAlert()
+                success(false)
+            }
+        }
+        
+        return UISwipeActionsConfiguration(actions: [deleteAction, shareAction])
+    }
+}
+
+// MARK: - DiaryViewControllerDelegate
+extension DiaryListViewController: DiaryViewControllerDelegate {
+    func diaryViewController(_ diaryViewController: DiaryViewController, updateDiary isSuccess: Bool) {
+        if isSuccess {
+            setupContentTableView()
         }
     }
 }
@@ -164,8 +227,9 @@ extension DiaryListViewController {
     private enum NameSpace {
         static let diary = "일기장"
         static let plus = "plus"
-        static let fail = "실패"
-        static let loadDataFail = "데이터 로드에 실패했습니다."
-        static let check = "확인"
+        static let share = "share..."
+        static let delete = "Delete"
+        static let failLoadDataMessage = "데이터 로드에 실패했습니다."
+        static let failMessage = "작업에 실패했습니다."
     }
 }

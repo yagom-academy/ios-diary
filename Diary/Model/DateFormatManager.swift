@@ -18,4 +18,8 @@ enum DateFormatManager {
         
         return localeDateFormatter.string(from: date)
     }
+    
+    static func timestamp(date: Date) -> Int {
+        return Int(date.timeIntervalSince1970)
+    }
 }

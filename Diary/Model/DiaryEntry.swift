@@ -9,14 +9,21 @@ import Foundation
 
 struct DiaryEntry: Hashable {
     let id: UUID
-    let title: String
-    let body: String
+    var title: String
+    var body: String
     let creationDate: String
     
-    init(title: String, body: String, creationDate: String) {
-        self.id = UUID()
+    init(id: UUID, title: String, body: String, creationDate: String) {
+        self.id = id
         self.title = title
         self.body = body
         self.creationDate = creationDate
+    }
+    
+    init(title: String, body: String) {
+        self.id = UUID()
+        self.title = title
+        self.body = body
+        self.creationDate = DateFormatManager.dateString(localeDateFormatter: UserDateFormatter.shared)
     }
 }

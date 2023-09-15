@@ -5,6 +5,8 @@
 //  Created by Erick on 2023/08/28.
 //
 
+import Foundation
+
 struct Diary: Decodable {
     let title: String
     let body: String
@@ -19,8 +21,8 @@ struct Diary: Decodable {
 
 extension Diary {
     func diaryEntry() -> DiaryEntry {
-        let creationDate = DateFormatManager.string(localeDateFormatter: UserDateFormatter(), timestamp: creationDate)
+        let creationDate = DateFormatManager.string(localeDateFormatter: UserDateFormatter.shared, timestamp: creationDate)
         
-        return DiaryEntry(title: title, body: body, creationDate: creationDate)
+        return DiaryEntry(id: UUID(), title: title, body: body, creationDate: creationDate)
     }
 }
