@@ -15,9 +15,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         window = UIWindow(windowScene: windowScene)
-        let diaryViewController = DiaryViewController(diaryManager: DiaryManager())
-        
+        let diaryPersistentManager = DiaryPersistentManager()
+        let diaryViewControllerUseCase = DiaryViewControllerUseCase(diaryPersistentManager: diaryPersistentManager)
+        let diaryViewController = DiaryViewController(useCase: diaryViewControllerUseCase)
         window?.rootViewController = UINavigationController(rootViewController: diaryViewController)
+        
         window?.makeKeyAndVisible()
     }
 
@@ -29,8 +31,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func sceneWillEnterForeground(_ scene: UIScene) {}
 
-    func sceneDidEnterBackground(_ scene: UIScene) {
-        (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
-    }
+    func sceneDidEnterBackground(_ scene: UIScene) {}
 }
 
