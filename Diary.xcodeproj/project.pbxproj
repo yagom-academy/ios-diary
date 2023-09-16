@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3B95E4922AA18B8A008BFD76 /* CellIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95E4912AA18B8A008BFD76 /* CellIdentifiable.swift */; };
-		3B95E4942AA18C44008BFD76 /* CellIdentifiable+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95E4932AA18C44008BFD76 /* CellIdentifiable+.swift */; };
 		3B95E4DE2AA5D24B008BFD76 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95E4DD2AA5D24B008BFD76 /* CoreDataManager.swift */; };
 		3B95E4E52AA6E156008BFD76 /* Diary+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95E4E32AA6E155008BFD76 /* Diary+CoreDataClass.swift */; };
 		3B95E4E62AA6E156008BFD76 /* Diary+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B95E4E42AA6E155008BFD76 /* Diary+CoreDataProperties.swift */; };
@@ -29,7 +28,6 @@
 
 /* Begin PBXFileReference section */
 		3B95E4912AA18B8A008BFD76 /* CellIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellIdentifiable.swift; sourceTree = "<group>"; };
-		3B95E4932AA18C44008BFD76 /* CellIdentifiable+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CellIdentifiable+.swift"; sourceTree = "<group>"; };
 		3B95E4DD2AA5D24B008BFD76 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		3B95E4E32AA6E155008BFD76 /* Diary+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		3B95E4E42AA6E155008BFD76 /* Diary+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Diary+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
@@ -118,7 +116,6 @@
 		3BBC98972A9E44820047DE81 /* Extension */ = {
 			isa = PBXGroup;
 			children = (
-				3B95E4932AA18C44008BFD76 /* CellIdentifiable+.swift */,
 				3BBC98982A9E449E0047DE81 /* DateFormatter+.swift */,
 				3BBC989C2A9F2BFA0047DE81 /* Array+.swift */,
 			);
@@ -271,7 +268,6 @@
 			files = (
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				3BBC989D2A9F2BFA0047DE81 /* Array+.swift in Sources */,
-				3B95E4942AA18C44008BFD76 /* CellIdentifiable+.swift in Sources */,
 				C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */,
 				C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */,
 				3BBC98962A9DC5330047DE81 /* DiaryDetailViewController.swift in Sources */,

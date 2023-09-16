@@ -11,26 +11,7 @@ final class DiaryListViewController: UIViewController {
     
     private lazy var collectionView: UICollectionView = {
         var configuration: UICollectionLayoutListConfiguration = UICollectionLayoutListConfiguration(appearance: .plain)
-        configuration.trailingSwipeActionsConfigurationProvider = { indexPath in
-            guard let uuid = CoreDataManager.shared.fetchAllDiaries()[indexPath.item].identifier else {
-                return UISwipeActionsConfiguration()
-            }
-            
-            let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completionHandler in
-                CoreDataManager.shared.delete(diary: uuid)
-                self?.diaries = CoreDataManager.shared.fetchAllDiaries()
-                self?.collectionView.reloadData()
-                
-                completionHandler(true)
-            }
-            let title = self.diaries[indexPath.item].title
-            let share = UIContextualAction(style: .normal, title: "Share") {_, _, completionHandler in
-                self.showActivityView(title)
-                completionHandler(true)
-            }
-            
-            return UISwipeActionsConfiguration(actions: [delete, share])
-        }
+        swipeAction(&configuration)
         
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         
@@ -40,6 +21,29 @@ final class DiaryListViewController: UIViewController {
         
         return view
     }()
+    
+    func swipeAction(_ configuration: inout UICollectionLayoutListConfiguration) {
+            configuration.trailingSwipeActionsConfigurationProvider = { indexPath in
+                let uuid = CoreDataManager.shared.fetchAllDiaries()[indexPath.item].identifier
+                
+                let delete = UIContextualAction(style: .destructive, title: "Delete") { [weak self] _, _, completionHandler in
+                    self?.collectionView.performBatchUpdates {
+                        CoreDataManager.shared.delete(diary: uuid)
+                        self?.collectionView.deleteItems(at: [indexPath])
+                        self?.diaries = CoreDataManager.shared.fetchAllDiaries()
+                    }
+                    
+                    completionHandler(true)
+                }
+                let title = self.diaries[indexPath.item].title
+                let share = UIContextualAction(style: .normal, title: "Share") { [weak self] _, _, completionHandler in
+                    self?.showActivityView(title)
+                    completionHandler(true)
+                }
+                
+                return UISwipeActionsConfiguration(actions: [delete, share])
+            }
+        }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,11 +59,7 @@ final class DiaryListViewController: UIViewController {
         
         diaries.forEach { diary in
             if diary.title == nil && diary.body == nil {
-                guard let identifier = diary.identifier else {
-                    return
-                }
-                
-                CoreDataManager.shared.delete(diary: identifier)
+                CoreDataManager.shared.delete(diary: diary.identifier)
             }
         }
         self.diaries = CoreDataManager.shared.fetchAllDiaries()

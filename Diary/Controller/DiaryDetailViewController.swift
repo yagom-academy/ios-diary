@@ -67,11 +67,7 @@ final class DiaryDetailViewController: UIViewController {
         let deleteAlertController = UIAlertController(title: "Really??", message: "Think one more", preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .default)
         let deleteAction = UIAlertAction(title: "Delete", style: .destructive) { _ in
-            guard let identifier = self.diary.identifier else {
-                return
-            }
-            
-            CoreDataManager.shared.delete(diary: identifier)
+            CoreDataManager.shared.delete(diary: self.diary.identifier)
             self.navigationController?.popViewController(animated: true)
         }
         
@@ -116,24 +112,27 @@ final class DiaryDetailViewController: UIViewController {
 }
 
 extension DiaryDetailViewController: UITextViewDelegate {
-    func textViewDidEndEditing(_ textView: UITextView) {
-        var body = ""
-        
-        guard let text = textView.text,
-              !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-            return
+    private func splitText() -> (title: String, body: String)? {
+        guard let text = textView.text?.trimmingCharacters(in: .whitespacesAndNewlines),
+              !text.isEmpty else {
+            return nil
         }
         
         let lines = text.components(separatedBy: "\n")
-        diary.title = lines[0]
-        
-        if lines.count > 1 {
-            for line in 1..<lines.count {
-                body = body + lines[line] + "\n"
-            }
-        }
-        
-        diary.body = body
+        let title = lines.first ?? "일기 제목"
+        let body = lines.dropFirst().joined(separator: "\n") + "\n"
+    
+        return (title: title, body: body)
+    }
+    
+    private func getDiaryContents() {
+        let text = splitText()
+        diary.title = text?.title
+        diary.body = text?.body
+    }
+    
+    func textViewDidEndEditing(_ textView: UITextView) {
+        getDiaryContents()
         CoreDataManager.shared.saveContext()
     }
 }
