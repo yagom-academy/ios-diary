@@ -18,14 +18,23 @@ final class DiaryCell: UITableViewCell {
     private let dateLabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .body)
+        label.setContentHuggingPriority(.required, for: .vertical)
         label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         return label
     }()
     
+    private let weatherIconImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFit
+        
+        return imageView
+    }()
+    
     private let previewLabel = {
         let label = UILabel()
         label.font = .preferredFont(forTextStyle: .caption1)
+        label.setContentHuggingPriority(.defaultLow, for: .horizontal)
         label.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
         
         return label
@@ -57,10 +66,46 @@ final class DiaryCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureCell(title: String?, date: String, preview: String?) {
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        weatherIconImageView.image = nil
+    }
+    
+    func configureCell(title: String?, date: String, preview: String?, icon: String?) {
         titleLabel.text = title
         dateLabel.text = date
         previewLabel.text = preview
+        
+        guard let icon else {
+            return
+        }
+
+        if let cache = CacheStore.shared.object(forKey: NSString(string: icon)) {
+            weatherIconImageView.image = cache
+        } else {
+            fetchIconImage(id: icon)
+        }
+    }
+    
+    private func fetchIconImage(id: String) {
+        WeatherAPI.Users(
+            host: HostName.weatherIcon.address,
+            path: Path.weatherIcon(id: id).description
+        ).request { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let image = UIImage(data: data) else {
+                    return
+                }
+
+                DispatchQueue.main.async {
+                    CacheStore.shared.setObject(image, forKey: NSString(string: id))
+                    self?.weatherIconImageView.image = image
+                }
+            case .failure(let error):
+                print(error.description)
+            }
+        }
     }
     
     private func configure() {
@@ -85,6 +130,7 @@ final class DiaryCell: UITableViewCell {
     
     private func configureDescriptionStackView() {
         descriptionStackView.addArrangedSubview(dateLabel)
+        descriptionStackView.addArrangedSubview(weatherIconImageView)
         descriptionStackView.addArrangedSubview(previewLabel)
     }
     
@@ -98,7 +144,9 @@ final class DiaryCell: UITableViewCell {
             contentStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
             contentStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor),
             contentStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
-            contentStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor)
+            contentStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            weatherIconImageView.heightAnchor.constraint(equalTo: dateLabel.heightAnchor),
+            weatherIconImageView.widthAnchor.constraint(equalTo: weatherIconImageView.heightAnchor)
         ])
     }
 }

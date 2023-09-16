@@ -12,6 +12,8 @@ final class DiaryDetailViewController: UIViewController, Shareable {
     
     private let diary: Diary
     private let isUpdated: Bool
+    private var latitude: Double?
+    private var longitude: Double?
     
     private let contentTextView = {
         let textView = UITextView()
@@ -27,6 +29,8 @@ final class DiaryDetailViewController: UIViewController, Shareable {
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
+        configureToast()
+        fetchWeather()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -34,9 +38,11 @@ final class DiaryDetailViewController: UIViewController, Shareable {
         saveDiary()
     }
     
-    init(diary: Diary, isUpdated: Bool = true) {
+    init(diary: Diary, isUpdated: Bool = true, latitude: Double? = nil, longitude: Double? = nil) {
         self.diary = diary
         self.isUpdated = isUpdated
+        self.latitude = latitude
+        self.longitude = longitude
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -175,5 +181,67 @@ private extension DiaryDetailViewController {
             contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             contentTextView.bottomAnchor.constraint(equalTo: view.keyboardLayoutGuide.topAnchor)
         ])
+    }
+}
+
+extension DiaryDetailViewController: Toastable {
+    func configureToast() {
+        APIKey.delegate = self
+    }
+    
+    func showToast(message: String) {
+        let toastLabel = UILabel(frame: CGRect(
+            x: self.view.frame.size.width / 2 - 100,
+            y: self.view.frame.size.height / 2 - 35,
+            width: 200,
+            height: 70
+        ))
+        
+        toastLabel.backgroundColor = UIColor.systemGray
+        toastLabel.textColor = UIColor.white
+        toastLabel.font = UIFont.preferredFont(forTextStyle: .body)
+        toastLabel.textAlignment = .center
+        toastLabel.text = message
+        toastLabel.alpha = 1.0
+        toastLabel.layer.cornerRadius = 10
+        toastLabel.clipsToBounds = true
+        toastLabel.numberOfLines = 0
+        
+        view.addSubview(toastLabel)
+        UIView.animate(withDuration: 5.0, delay: 0.1, options: .curveEaseOut, animations: {
+            toastLabel.alpha = 0.0
+        }, completion: { _ in
+            toastLabel.removeFromSuperview()
+        })
+    }
+}
+
+private extension DiaryDetailViewController {
+    func fetchWeather() {
+        guard let latitude, let longitude else {
+            return
+        }
+        
+        WeatherAPI.Users(
+            host: HostName.localWeather.address,
+            path: Path.localWeather.description,
+            query: Query.localWeather(latitude: latitude, longitude: longitude).parameters
+        ).request { [weak self] result in
+            switch result {
+            case .success(let data):
+                guard let decodedData: Location = try? DecodingManager.decodeData(from: data) else {
+                    return
+                }
+                
+                guard let currentWeather = decodedData.weather.first else {
+                    return
+                }
+                
+                self?.diary.main = currentWeather.main
+                self?.diary.icon = currentWeather.icon
+            case .failure(let error):
+                print(error.description)
+            }
+        }
     }
 }

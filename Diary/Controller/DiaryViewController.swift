@@ -5,15 +5,20 @@
 // 
 
 import UIKit
+import CoreLocation
 
 final class DiaryViewController: UIViewController, Shareable {
     typealias Contents = String
 
     private var tableView = UITableView()
     private var diaryList = [Diary]()
+    private var locationManager = CLLocationManager()
+    private var latitude: Double?
+    private var longitude: Double?
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureLocationManager()
         configure()
     }
     
@@ -79,7 +84,8 @@ extension DiaryViewController: UITableViewDataSource {
         cell.configureCell(
             title: diary.title,
             date: formattedDate,
-            preview: diary.body
+            preview: diary.body,
+            icon: diary.icon
         )
         
         return cell
@@ -101,6 +107,24 @@ private extension DiaryViewController {
     }
 }
 
+extension DiaryViewController: CLLocationManagerDelegate {
+    private func configureLocationManager() {
+        locationManager.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = kCLLocationAccuracyBest
+        locationManager.startUpdatingLocation()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let coordinate = locations.last?.coordinate else {
+            return
+        }
+        
+        latitude = coordinate.latitude
+        longitude = coordinate.longitude
+    }
+}
+
 private extension DiaryViewController {
     func configure() {
         configureRootView()
@@ -118,7 +142,12 @@ private extension DiaryViewController {
     func configureNavigation() {
         let action = UIAction { [weak self] _ in
             let diary = CoreDataManager.shared.create()
-            let diaryDetailViewController = DiaryDetailViewController(diary: diary, isUpdated: false)
+            let diaryDetailViewController = DiaryDetailViewController(
+                diary: diary,
+                isUpdated: false,
+                latitude: self?.latitude,
+                longitude: self?.longitude
+            )
             self?.navigationController?.pushViewController(diaryDetailViewController, animated: true)
         }
         
