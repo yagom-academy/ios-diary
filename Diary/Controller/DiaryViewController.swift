@@ -17,7 +17,7 @@ final class DiaryViewController: UIViewController {
         return tableView
     }()
     
-    init(diaryManager: DiaryManager = DiaryManager(), logger: Logger = Logger()) {
+    init(diaryManager: DiaryManager, logger: Logger = Logger()) {
         self.diaryManager = diaryManager
         self.logger = logger
         
@@ -38,7 +38,7 @@ final class DiaryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        fetchDiaryContents()
+        refreshDiaries()
         tableView.reloadData()
     }
     
@@ -66,7 +66,9 @@ final class DiaryViewController: UIViewController {
     }
     
     private func showEditingDiaryViewController(with diaryContent: DiaryContent) {
-        let editingDiaryViewController = EditingDiaryViewController(with: diaryContent)
+        let editingDiaryViewController = EditingDiaryViewController(diaryManager: diaryManager,
+                                                                    logger: logger,
+                                                                    with: diaryContent)
         
         show(editingDiaryViewController, sender: self)
     }
@@ -86,22 +88,31 @@ final class DiaryViewController: UIViewController {
         ])
     }
     
-    private func fetchDiaryContents() {
+    private func refreshDiaries() {
         do {
-            try diaryManager.fetchDiaryContents()
+            try diaryManager.refresh()
         } catch {
-            Logger.osLog(error.localizedDescription)
+            logger.osLog(error.localizedDescription)
             presentAlert(title: "failedFetchDataAlertTitle".localized,
                          message: "failedFetchDataAlertMessage".localized,
                          preferredStyle: .alert,
                          actionConfigs: ("failedFetchDataAlertAction".localized, .default, nil))
         }
     }
+    
+    private func deleteDiary(id: UUID) {
+        do {
+            try diaryManager.delete(id: id)
+        } catch {
+            logger.osLog(error.localizedDescription)
+            // Alert 추가
+        }
+    }
 }
 
 extension DiaryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return diaryManager.diaryContents?.count ?? .zero
+        return diaryManager.diaryContents.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -113,8 +124,7 @@ extension DiaryViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        guard let diaryContents = diaryManager.diaryContents,
-              let diaryContent = diaryContents[safe: indexPath.row]
+        guard let diaryContent = diaryManager.diaryContents[safe: indexPath.row]
         else {
             return UITableViewCell()
         }
@@ -127,8 +137,7 @@ extension DiaryViewController: UITableViewDataSource {
 
 extension DiaryViewController: UITableViewDelegate, ActivityViewPresentable {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let diaryContents = diaryManager.diaryContents,
-              let diaryContent = diaryContents[safe: indexPath.row]
+        guard let diaryContent = diaryManager.diaryContents[safe: indexPath.row]
         else {
             return
         }
@@ -139,8 +148,7 @@ extension DiaryViewController: UITableViewDelegate, ActivityViewPresentable {
     
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        guard let diaryContents = diaryManager.diaryContents,
-              let diaryContent = diaryContents[safe: indexPath.row]
+        guard let diaryContent = diaryManager.diaryContents[safe: indexPath.row]
         else {
             return nil
         }
@@ -161,9 +169,8 @@ extension DiaryViewController: UITableViewDelegate, ActivityViewPresentable {
             title: "delete".localized
         ) { (_, _, success: @escaping (Bool) -> Void) in
             
-            self.presentCheckDeleteAlert { _ in
-                ContainerManager.shared.delete(id: diaryContent.id)
-                self.diaryManager.diaryContents?.remove(at: indexPath.row)
+            self.presentCheckDeleteAlert { [self] _ in
+                deleteDiary(id: diaryContent.id)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
             

@@ -8,6 +8,8 @@
 import UIKit
 
 final class EditingDiaryViewController: UIViewController, ActivityViewPresentable {
+    private let diaryManager: DiaryManager
+    private let logger: Logger
     private var diaryContent: DiaryContent
     
     private let diaryTextView: UITextView = {
@@ -19,7 +21,9 @@ final class EditingDiaryViewController: UIViewController, ActivityViewPresentabl
         return textView
     }()
     
-    init(with diaryContent: DiaryContent) {
+    init(diaryManager: DiaryManager, logger: Logger, with diaryContent: DiaryContent) {
+        self.diaryManager = diaryManager
+        self.logger = logger
         self.diaryContent = diaryContent
         
         super.init(nibName: nil, bundle: nil)
@@ -45,7 +49,7 @@ final class EditingDiaryViewController: UIViewController, ActivityViewPresentabl
             return
         }
         
-        ContainerManager.shared.delete(id: diaryContent.id)
+        deleteDiary(id: diaryContent.id)
     }
     
     private func configureUI() {
@@ -73,8 +77,8 @@ final class EditingDiaryViewController: UIViewController, ActivityViewPresentabl
         }
         
         let deleteHandler: (UIAlertAction) -> Void = { _ in
-            self.presentCheckDeleteAlert { _ in
-                ContainerManager.shared.delete(id: self.diaryContent.id)
+            self.presentCheckDeleteAlert { [self] _ in
+                deleteDiary(id: diaryContent.id)
                 self.navigationController?.popViewController(animated: true)
             }
         }
@@ -101,7 +105,7 @@ final class EditingDiaryViewController: UIViewController, ActivityViewPresentabl
             diaryTextView.text = diaryContent.title + diaryContent.body
         } else {
             diaryTextView.becomeFirstResponder()
-            ContainerManager.shared.insert(diaryContent: diaryContent)
+            insertDiary(diaryContent: diaryContent)
         }
         
         addGesture()
@@ -142,12 +146,41 @@ final class EditingDiaryViewController: UIViewController, ActivityViewPresentabl
             diaryContent.title = text
         }
         
-        ContainerManager.shared.update(diaryContent: diaryContent)
+        updateDiary(diaryContent: diaryContent)
     }
 }
 
 extension EditingDiaryViewController: UITextViewDelegate {
     func textViewDidEndEditing(_ textView: UITextView) {
         save()
+    }
+}
+
+extension EditingDiaryViewController {
+    private func deleteDiary(id: UUID) {
+        do {
+            try diaryManager.delete(id: id)
+        } catch {
+            logger.osLog(error.localizedDescription)
+            // Alert 추가
+        }
+    }
+    
+    private func insertDiary(diaryContent: DiaryContent) {
+        do {
+            try diaryManager.insert(diaryContent: diaryContent)
+        } catch {
+            logger.osLog(error.localizedDescription)
+            // Alert 추가
+        }
+    }
+    
+    private func updateDiary(diaryContent: DiaryContent) {
+        do {
+            try diaryManager.update(diaryContent: diaryContent)
+        } catch {
+            logger.osLog(error.localizedDescription)
+            // Alert 추가
+        }
     }
 }

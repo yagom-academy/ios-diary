@@ -8,7 +8,7 @@
 import OSLog
 
 struct Logger {
-    static func osLog(_ message: String) {
+    func osLog(_ message: String) {
         os_log("%@", message)
     }
 }
