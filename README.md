@@ -98,7 +98,7 @@
 ### 🎨 Class Diagram
 </br>
 
-![image](https://github.com/karenyang835/ios-diary/assets/124643896/c2c14350-a719-49da-a2ad-5bdd811a896f)
+![image](https://github.com/karenyang835/ios-diary/assets/124643896/2d213526-ff5e-457e-a0d1-d1ab540e648d)
 
 
 ---
@@ -299,10 +299,10 @@
 - 🍏 [Apple Developer - DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter)
 - 🍏 [Apple Developer - Adding support for languages and regions](https://developer.apple.com/documentation/xcode/adding-support-for-languages-and-regions)
 - 🍏 [Apple Developer - Locale](https://developer.apple.com/documentation/foundation/locale)
-- <img src="https://hackmd.io/_uploads/Sy8AUS4Lh.png" width = 20 /> [BLOG : 김종권의 iOS 앱 개발 알아가기 - SwiftLint 적용 방법](https://ios-development.tistory.com/1199)
-- <img src="https://hackmd.io/_uploads/Sy8AUS4Lh.png" width = 20 /> [BLOG : Dr.kim의 나를 위한 블로그 - 화면에 딱 맞는 UITextView 만들기](https://hereismyblog.tistory.com/34)
-- <img src="https://hackmd.io/_uploads/Sy8AUS4Lh.png" width = 20 /> [BLOG : Hacking with Swift - Fixing the keyboard: NotificationCenter
-](https://www.hackingwithswift.com/read/19/7/fixing-the-keyboard-notificationcenter)
+- <img src="https://github.com/karenyang835/ios-diary/assets/124643896/3d0baf39-1779-4ada-bdd5-040bb82748b8" width = 18 /> [BLOG : 김종권의 iOS 앱 개발 알아가기 - SwiftLint 적용 방법](https://ios-development.tistory.com/1199)
+- <img src="https://github.com/karenyang835/ios-diary/assets/124643896/3d0baf39-1779-4ada-bdd5-040bb82748b8" width = 18 /> [BLOG : Dr.kim의 나를 위한 블로그 - 화면에 딱 맞는 UITextView 만들기](https://hereismyblog.tistory.com/34)
+- <img src="https://github.com/karenyang835/ios-diary/assets/124643896/3d0baf39-1779-4ada-bdd5-040bb82748b8" width = 18 /> [BLOG : Hacking with Swift - Fixing the keyboard: NotificationCenter
+]()
 
 ---
 
@@ -339,6 +339,7 @@
 | 2023.09.15.    |💥 `prepareForReuse` 메서드 수정<br> 💥 `CacheStore`로 네이밍 변경<br> 💥 `NetworkAPI` 수정 <br> ✴️ `NetworkAPI` 생성 <br>  💥 `Cell` 재사용을 위한 초기화 및 날씨 icon autolayout 수정 <br> ✴️  `CoreData` 마이그레이션 및 `fetchIconImage` 메서드 추가<br> |
 | 2023.09.16.    |✴️ `showToast` 메서드 생성 <br> 💥 `if let`으로 수정하여 가독성 향상 <br> 🖨️ 스토리보드 삭제 <br> |
 </details>
+
 
 
 ---
