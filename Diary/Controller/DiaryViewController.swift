@@ -7,7 +7,7 @@
 import UIKit
 
 final class DiaryViewController: UIViewController {
-    private let diaryManager: DiaryManager
+    private let diaryManager: DiaryEditable
     private let logger: Logger
     
     private let tableView: UITableView = {
@@ -17,7 +17,7 @@ final class DiaryViewController: UIViewController {
         return tableView
     }()
     
-    init(diaryManager: DiaryManager, logger: Logger = Logger()) {
+    init(diaryManager: DiaryEditable, logger: Logger = Logger()) {
         self.diaryManager = diaryManager
         self.logger = logger
         

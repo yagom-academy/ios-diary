@@ -8,7 +8,7 @@
 import UIKit
 
 final class EditingDiaryViewController: UIViewController, ActivityViewPresentable {
-    private let diaryManager: DiaryManager
+    private let diaryManager: DiaryEditable
     private let logger: Logger
     private var diaryContent: DiaryContent
     
@@ -21,7 +21,7 @@ final class EditingDiaryViewController: UIViewController, ActivityViewPresentabl
         return textView
     }()
     
-    init(diaryManager: DiaryManager, logger: Logger, with diaryContent: DiaryContent) {
+    init(diaryManager: DiaryEditable, logger: Logger, with diaryContent: DiaryContent) {
         self.diaryManager = diaryManager
         self.logger = logger
         self.diaryContent = diaryContent

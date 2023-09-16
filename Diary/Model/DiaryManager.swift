@@ -7,7 +7,7 @@
 
 import CoreData
 
-final class DiaryManager {
+final class DiaryManager: DiaryEditable {
     private(set) var diaryContents: [DiaryContent] = []
     
     private let persistentContainer: NSPersistentContainer = {
