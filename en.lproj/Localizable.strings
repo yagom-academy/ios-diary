@@ -13,6 +13,14 @@
 "failedFetchDataAlertMessage" = "Try again";
 "failedFetchDataAlertAction" = "Yes";
 
+"failedDeleteDataAlertTitle" = "Failed Delete Data";
+"failedDeleteDataAlertMessage" = "Try again";
+"failedDeleteDataAlertAction" = "Yes";
+
+"failedSaveDataAlertTitle" = "Failed Save Data";
+"failedSaveDataAlertMessage" = "Try again";
+"failedSaveDataAlertAction" = "Yes";
+
 "checkDeleteAlertTitle" = "Really?";
 "checkDeleteAlertMessage" = "Are you sure?";
 "checkDeleteAlertCancelAction" = "No";

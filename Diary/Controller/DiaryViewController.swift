@@ -87,27 +87,6 @@ final class DiaryViewController: UIViewController {
             tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
         ])
     }
-    
-    private func refreshDiaries() {
-        do {
-            try diaryManager.refresh()
-        } catch {
-            logger.osLog(error.localizedDescription)
-            presentAlert(title: "failedFetchDataAlertTitle".localized,
-                         message: "failedFetchDataAlertMessage".localized,
-                         preferredStyle: .alert,
-                         actionConfigs: ("failedFetchDataAlertAction".localized, .default, nil))
-        }
-    }
-    
-    private func deleteDiary(id: UUID) {
-        do {
-            try diaryManager.delete(id: id)
-        } catch {
-            logger.osLog(error.localizedDescription)
-            // Alert 추가
-        }
-    }
 }
 
 extension DiaryViewController: UITableViewDataSource {
@@ -178,5 +157,31 @@ extension DiaryViewController: UITableViewDelegate, ActivityViewPresentable {
         }
         
         return UISwipeActionsConfiguration(actions: [delete, share])
+    }
+}
+
+extension DiaryViewController {
+    private func refreshDiaries() {
+        do {
+            try diaryManager.refresh()
+        } catch {
+            logger.osLog(error.localizedDescription)
+            presentAlert(title: "failedFetchDataAlertTitle".localized,
+                         message: "failedFetchDataAlertMessage".localized,
+                         preferredStyle: .alert,
+                         actionConfigs: ("failedFetchDataAlertAction".localized, .default, nil))
+        }
+    }
+    
+    private func deleteDiary(id: UUID) {
+        do {
+            try diaryManager.delete(id: id)
+        } catch {
+            logger.osLog(error.localizedDescription)
+            presentAlert(title: "failedDeleteDataAlertTitle".localized,
+                         message: "failedDeleteDataAlertMessage".localized,
+                         preferredStyle: .alert,
+                         actionConfigs: ("failedDeleteDataAlertAction".localized, .default, nil))
+        }
     }
 }

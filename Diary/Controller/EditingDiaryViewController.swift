@@ -162,7 +162,10 @@ extension EditingDiaryViewController {
             try diaryManager.delete(id: id)
         } catch {
             logger.osLog(error.localizedDescription)
-            // Alert 추가
+            presentAlert(title: "failedDeleteDataAlertTitle".localized,
+                         message: "failedDeleteDataAlertMessage".localized,
+                         preferredStyle: .alert,
+                         actionConfigs: ("failedDeleteDataAlertAction".localized, .default, nil))
         }
     }
     
@@ -171,7 +174,10 @@ extension EditingDiaryViewController {
             try diaryManager.insert(diaryContent: diaryContent)
         } catch {
             logger.osLog(error.localizedDescription)
-            // Alert 추가
+            presentAlert(title: "failedSaveDataAlertTitle".localized,
+                         message: "failedSaveDataAlertMessage".localized,
+                         preferredStyle: .alert,
+                         actionConfigs: ("failedSaveDataAlertAction".localized, .default, nil))
         }
     }
     
@@ -180,7 +186,10 @@ extension EditingDiaryViewController {
             try diaryManager.update(diaryContent: diaryContent)
         } catch {
             logger.osLog(error.localizedDescription)
-            // Alert 추가
+            presentAlert(title: "failedSaveDataAlertTitle".localized,
+                         message: "failedSaveDataAlertMessage".localized,
+                         preferredStyle: .alert,
+                         actionConfigs: ("failedSaveDataAlertAction".localized, .default, nil))
         }
     }
 }
