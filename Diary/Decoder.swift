@@ -2,17 +2,17 @@
 //  JSONDecoder.swift
 //  Diary
 //
-//  Created by hyunMac on 1/2/24.
+//  Created by Toy, Morgan on 1/2/24.
 //
 
-import Foundation
+import UIKit
 
 struct Decoder {
-    static func decodeJSON<T:Codable>(data: Data, type: T.Type) -> T? {
+    static func decodeJSON<T:Decodable>(asset: NSDataAsset, type: T.Type) -> T? {
         let decoder = JSONDecoder()
         
         do {
-            let decodeData = try decoder.decode(type, from: data)
+            let decodeData = try decoder.decode(type, from: asset.data)
             return decodeData
         } catch {
             print("\(error) 발생")
