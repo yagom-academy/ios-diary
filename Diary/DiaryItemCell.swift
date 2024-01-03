@@ -12,7 +12,7 @@ class DiaryItemCell: UITableViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.font = UIFont.boldSystemFont(ofSize: 18)
         
         return label
     }()
@@ -54,6 +54,7 @@ class DiaryItemCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.addSubview(mainStackView)
         autoLayout()
     }
     
@@ -63,7 +64,7 @@ class DiaryItemCell: UITableViewCell {
     
     func configureLabelName(diaryData: Diary) {
         let dateFormatter = DateFormatter()
-        let date = Date(timeIntervalSinceReferenceDate: TimeInterval(diaryData.createdAt))
+        let date = Date(timeIntervalSince1970: TimeInterval(diaryData.createdAt))
         dateFormatter.dateFormat = "yyyy년 MM월 dd일"
         
         self.titleLabel.text = diaryData.title
@@ -74,11 +75,15 @@ class DiaryItemCell: UITableViewCell {
 
 extension DiaryItemCell {
     private func autoLayout() {
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
+        
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor)
         ])
     }
 }
