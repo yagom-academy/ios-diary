@@ -8,10 +8,13 @@
 import UIKit
 
 final class DiaryContentsViewController: UIViewController {
-
+    
+    var dateTitleLabel: String?
+    var diaryTitle: String?
+    var body: String?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .white
     }
     

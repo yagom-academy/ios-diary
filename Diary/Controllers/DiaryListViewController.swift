@@ -80,5 +80,12 @@ extension DiaryListViewController: UITableViewDataSource {
 }
 
 extension DiaryListViewController: UITableViewDelegate {
-
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let diaryContentsViewController = DiaryContentsViewController()
+        diaryContentsViewController.dateTitleLabel = "2024년 1월 3일"
+        diaryContentsViewController.body = diaryData[indexPath.row].body
+        diaryContentsViewController.diaryTitle = diaryData[indexPath.row].title
+        
+        navigationController?.pushViewController(diaryContentsViewController, animated: true)
+    }
 }
