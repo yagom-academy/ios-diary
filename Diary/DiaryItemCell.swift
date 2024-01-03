@@ -57,6 +57,7 @@ class DiaryItemCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         contentView.addSubview(mainStackView)
+        self.accessoryType = .disclosureIndicator
         autoLayout()
     }
     
