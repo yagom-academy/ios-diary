@@ -82,5 +82,12 @@ extension HomeViewController: UITableViewDelegate {
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let DiaryDetailViewController = DiaryDetailViewController()
+        
+        //일단 이거 던져주기diaryData[indexPath.row]
+        self.navigationController?.pushViewController(DiaryDetailViewController, animated: false)
+    }
 }
 
