@@ -83,10 +83,10 @@ extension DiaryItemCell {
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
-            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
-            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor)
+            mainStackView.topAnchor.constraint(equalTo: contentView.layoutMarginsGuide.topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.layoutMarginsGuide.bottomAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.trailingAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.layoutMarginsGuide.leadingAnchor)
         ])
     }
 }
