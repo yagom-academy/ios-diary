@@ -17,10 +17,13 @@ final class DiaryListViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         setupNavigationBar()
         setupTableView()
         setupTableViewConstraints()
         setupDatas()
+        
+        print(diaryData)
     }
     
     //MARK: - Helper
@@ -66,16 +69,16 @@ final class DiaryListViewController: UIViewController {
 
 extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return diaryData.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier, for: indexPath) as? DiaryListCell else { return UITableViewCell() }
         
         cell.accessoryType = .disclosureIndicator
-        cell.titleLabel.text = "title"
-        cell.dateLabel.text = "date"
-        cell.previewLabel.text = "preview"
+        cell.titleLabel.text = diaryData[indexPath.row].title
+        cell.dateLabel.text = String(diaryData[indexPath.row].createdAt)
+        cell.previewLabel.text = diaryData[indexPath.row].body
         
         return cell
     }
