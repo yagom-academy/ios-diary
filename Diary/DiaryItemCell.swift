@@ -78,10 +78,10 @@ class DiaryItemCell: UITableViewCell {
 
 extension DiaryItemCell {
     private func autoLayout() {
+        mainStackView.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             mainStackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
             mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
