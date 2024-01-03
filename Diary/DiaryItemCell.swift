@@ -12,14 +12,14 @@ class DiaryItemCell: UITableViewCell {
     
     private var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.font = UIFont.boldSystemFont(ofSize: 17)
         
         return label
     }()
     
     private var dateLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.boldSystemFont(ofSize: 15)
+        label.font = UIFont.boldSystemFont(ofSize: 14)
         
         return label
     }()
@@ -35,6 +35,7 @@ class DiaryItemCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
+        stackView.spacing = 7
         stackView.addArrangedSubview(titleLabel)
         stackView.addArrangedSubview(subStackView)
         
@@ -45,6 +46,7 @@ class DiaryItemCell: UITableViewCell {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
+        stackView.spacing = 7
         stackView.addArrangedSubview(dateLabel)
         stackView.addArrangedSubview(descriptionLabel)
         
@@ -80,8 +82,8 @@ extension DiaryItemCell {
         
         mainStackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            mainStackView.topAnchor.constraint(equalTo: topAnchor),
-            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            mainStackView.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
             mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
             mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor)
         ])
