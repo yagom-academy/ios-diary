@@ -8,21 +8,21 @@
 import UIKit
 
 class DiaryItemCell {
-    private var title: UILabel = {
+    private var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 20)
         
         return label
     }()
     
-    private var date: UILabel = {
+    private var dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 15)
         
         return label
     }()
     
-    private var description: UILabel = {
+    private var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         
