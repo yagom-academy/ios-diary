@@ -6,12 +6,24 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .red
-        print("완료")
+        view.backgroundColor = .white
+        setupNavigationBar()
     }
+    
+    private func setupNavigationBar() {
+        let apearance = UINavigationBarAppearance()
+        apearance.configureWithOpaqueBackground()
+        apearance.backgroundColor = .white
+        
+        navigationItem.title = "일기장"
+        navigationController?.navigationBar.standardAppearance = apearance
+        navigationController?.navigationBar.compactAppearance = apearance
+        navigationController?.navigationBar.scrollEdgeAppearance = apearance
+    }
+    
+    
 }
-
