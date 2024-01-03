@@ -9,21 +9,16 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     //MARK: - property
     private let tableView = UITableView()
-    
     private var diaryData: [DiaryData] = []
-    
     private let dataManager = SampleDataManager()
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupNavigationBar()
         setupTableView()
         setupTableViewConstraints()
         setupDatas()
-        
-        print(diaryData)
     }
     
     //MARK: - Helper
@@ -39,7 +34,7 @@ final class DiaryListViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance = apearance
     }
     
-    @objc func addDiary() {
+    @objc private func addDiary() {
         navigationController?.pushViewController(DiaryContentsViewController(), animated: true)
     }
     
@@ -77,7 +72,7 @@ extension DiaryListViewController: UITableViewDataSource {
         
         cell.accessoryType = .disclosureIndicator
         cell.titleLabel.text = diaryData[indexPath.row].title
-        cell.dateLabel.text = String(diaryData[indexPath.row].createdAt)
+        cell.dateLabel.text = "2024년 1월 3일"
         cell.previewLabel.text = diaryData[indexPath.row].body
         
         return cell
