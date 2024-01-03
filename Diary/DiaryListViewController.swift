@@ -6,7 +6,7 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class DiaryListViewController: UIViewController {
     //MARK: - property
     private let tableView = UITableView()
     
@@ -25,9 +25,14 @@ final class ViewController: UIViewController {
         apearance.backgroundColor = .white
         
         navigationItem.title = "일기장"
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addDiary))
         navigationController?.navigationBar.standardAppearance = apearance
         navigationController?.navigationBar.compactAppearance = apearance
         navigationController?.navigationBar.scrollEdgeAppearance = apearance
+    }
+    
+    @objc func addDiary() {
+        navigationController?.pushViewController(DiaryContentsViewController(), animated: true)
     }
     
     private func setupTableView() {
@@ -49,7 +54,7 @@ final class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDataSource {
+extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 5
     }
@@ -57,6 +62,7 @@ extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier, for: indexPath) as? DiaryListCell else { return UITableViewCell() }
         
+        cell.accessoryType = .disclosureIndicator
         cell.titleLabel.text = "title"
         cell.dateLabel.text = "date"
         cell.previewLabel.text = "preview"
@@ -65,6 +71,6 @@ extension ViewController: UITableViewDataSource {
     }
 }
 
-extension ViewController: UITableViewDelegate {
+extension DiaryListViewController: UITableViewDelegate {
 
 }
