@@ -61,10 +61,14 @@ class DiaryItemCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureLabelName(title: String, date: String, description: String) {
-        self.titleLabel.text = title
-        self.dateLabel.text = date
-        self.descriptionLabel.text = description
+    func configureLabelName(diaryData: Diary) {
+        let dateFormatter = DateFormatter()
+        let date = Date(timeIntervalSinceReferenceDate: TimeInterval(diaryData.createdAt))
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
+        
+        self.titleLabel.text = diaryData.title
+        self.dateLabel.text = dateFormatter.string(from: date)
+        self.descriptionLabel.text = diaryData.body
     }
 }
 
