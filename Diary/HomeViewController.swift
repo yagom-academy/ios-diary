@@ -35,6 +35,7 @@ extension HomeViewController {
     private func tableInit() {
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.register(DiaryItemCell.self, forCellReuseIdentifier: DiaryItemCell.reuseIdentifier)
         
         self.view.addSubview(tableView)
     }
