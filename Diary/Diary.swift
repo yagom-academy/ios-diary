@@ -10,7 +10,7 @@ import Foundation
 struct Diary: Codable {
     let title: String
     let body: String
-    let createdAt: String
+    let createdAt: Int
     
     private enum CodingKeys: String, CodingKey {
         case title

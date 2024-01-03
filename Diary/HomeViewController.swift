@@ -8,14 +8,30 @@ import UIKit
 
 class HomeViewController: UIViewController, UITableViewDataSource {
     private let tableView = UITableView()
+    private var diaryData: [Diary] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        decodeSampleData()
         // Do any additional setup after loading the view.
     }
-    
 
+    private func decodeSampleData() {
+        guard let dataAsset = NSDataAsset(name: "sample") else {
+            return
+        }
+        
+        let decoder = JSONDecoder()
+        
+        do {
+            diaryData = try decoder.decode([Diary].self, from: dataAsset.data)
+            print(diaryData)
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
 }
 
 extension HomeViewController {
