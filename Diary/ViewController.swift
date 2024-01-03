@@ -10,7 +10,6 @@ final class ViewController: UIViewController {
     //MARK: - property
     private let tableView = UITableView()
     
-    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,6 +56,10 @@ extension ViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier, for: indexPath) as? DiaryListCell else { return UITableViewCell() }
+        
+        cell.titleLabel.text = "title"
+        cell.dateLabel.text = "date"
+        cell.previewLabel.text = "preview"
         
         return cell
     }

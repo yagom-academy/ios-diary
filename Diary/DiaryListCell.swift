@@ -2,7 +2,7 @@
 //  DiaryListCell.swift
 //  Diary
 //
-//  Created by 김우현 on 1/3/24.
+//  Created by Toy, Morgan on 1/3/24.
 //
 
 import UIKit
@@ -11,35 +11,47 @@ class DiaryListCell: UITableViewCell {
 
     static let identifier = "DiaryListCell"
     
-    private let stackView: UIStackView = {
+    let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let previewLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let subStackView: UIStackView = {
         let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
         view.axis = .horizontal
-        view.spacing = 2
+        view.spacing = 8
         return view
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let dateLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let previewLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private let mainStackView: UIStackView = {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .vertical
+        view.spacing = 8
+        return view
     }()
     
     //MARK: - LifeCycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        setupMainStackView()
+        setupSubStackView()
+        setMainStackViewConstraints()
+        setSubStackViewConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -47,33 +59,32 @@ class DiaryListCell: UITableViewCell {
     }
     
     //MARK: - Helper
-    private func setupLabel() {
-//        contentView.addSubview(titleLabel)
-        contentView.addSubview(stackView)
-        
+    
+    private func setupMainStackView() {
+        mainStackView.addArrangedSubview(titleLabel)
+        mainStackView.addArrangedSubview(subStackView)
+        contentView.addSubview(mainStackView)
+    }
+    
+    private func setMainStackViewConstraints() {
         NSLayoutConstraint.activate([
-            
+            mainStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            mainStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            mainStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
         ])
     }
     
-    private func setupStackView() {
-        stackView.addSubview(dateLabel)
-        stackView.addSubview(previewLabel)
-        
-        NSLayoutConstraint.activate([
-            
-        ])
+    private func setupSubStackView() {
+        subStackView.addArrangedSubview(dateLabel)
+        subStackView.addArrangedSubview(previewLabel)
     }
     
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    private func setSubStackViewConstraints() {
+        NSLayoutConstraint.activate([
+            subStackView.leadingAnchor.constraint(equalTo: mainStackView.leadingAnchor),
+            subStackView.trailingAnchor.constraint(equalTo: mainStackView.trailingAnchor),
+            subStackView.bottomAnchor.constraint(equalTo: mainStackView.bottomAnchor)
+        ])
     }
 
 }
