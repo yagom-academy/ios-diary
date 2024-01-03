@@ -12,9 +12,10 @@ class HomeViewController: UIViewController, UITableViewDataSource {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
         decodeSampleData()
-        // Do any additional setup after loading the view.
+        autoLayoutInit()
     }
 
     private func decodeSampleData() {
@@ -58,6 +59,13 @@ extension HomeViewController {
     
     private func autoLayoutInit() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+        ])
     }
 }
 
