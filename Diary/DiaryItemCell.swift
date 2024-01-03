@@ -68,5 +68,3 @@ class DiaryItemCell: UITableViewCell {
     }
 }
 
-//DiaryItemCell()
-//DiaryItemCell.anyMethod(title: UILabel)
