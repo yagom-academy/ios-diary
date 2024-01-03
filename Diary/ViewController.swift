@@ -14,16 +14,16 @@ final class ViewController: UIViewController {
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setupNavigationBar()
         setupTableView()
+        setupTableViewConstraints()
     }
     
     //MARK: - Helper
     private func setupNavigationBar() {
         let apearance = UINavigationBarAppearance()
         apearance.configureWithOpaqueBackground()
-        apearance.backgroundColor = .red
+        apearance.backgroundColor = .white
         
         navigationItem.title = "일기장"
         navigationController?.navigationBar.standardAppearance = apearance
@@ -33,13 +33,35 @@ final class ViewController: UIViewController {
     
     private func setupTableView() {
         view.addSubview(tableView)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(DiaryListCell.self, forCellReuseIdentifier: DiaryListCell.identifier)
+    }
+    
+    private func setupTableViewConstraints() {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
-            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            tableView.leftAnchor.constraint(equalTo: view.leftAnchor)
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
     }
+}
+
+extension ViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 5
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier, for: indexPath) as? DiaryListCell else { return UITableViewCell() }
+        
+        return cell
+    }
+}
+
+extension ViewController: UITableViewDelegate {
+
 }
