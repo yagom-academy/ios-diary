@@ -31,6 +31,25 @@ class DiaryItemCell: UITableViewCell {
         return label
     }()
     
+    private lazy var mainStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .fill
+        stackView.addArrangedSubview(titleLabel)
+        stackView.addArrangedSubview(subStackView)
+        
+        return stackView
+    }()
+    
+    private lazy var subStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .horizontal
+        stackView.alignment = .fill
+        stackView.addArrangedSubview(dateLabel)
+        stackView.addArrangedSubview(descriptionLabel)
+        
+        return stackView
+    }()
     func configureLabelName(title: String, date: String, description: String) {
         self.title.text = title
         self.date.text = date
