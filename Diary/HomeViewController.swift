@@ -35,6 +35,8 @@ extension HomeViewController {
     private func tableInit() {
         tableView.dataSource = self
         tableView.delegate = self
+        
+        self.view.addSubview(tableView)
     }
     
     private func autoLayoutInit() {
@@ -48,6 +50,7 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         return UITableViewCell()
     }
 }
