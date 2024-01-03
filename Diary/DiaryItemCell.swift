@@ -51,9 +51,9 @@ class DiaryItemCell: UITableViewCell {
         return stackView
     }()
     func configureLabelName(title: String, date: String, description: String) {
-        self.title.text = title
-        self.date.text = date
-        self.description.text = description
+        self.titleLabel.text = title
+        self.dateLabel.text = date
+        self.descriptionLabel.text = description
     }
 }
 
