@@ -68,3 +68,13 @@ class DiaryItemCell: UITableViewCell {
     }
 }
 
+extension DiaryItemCell {
+    private func autoLayout() {
+        NSLayoutConstraint.activate([
+            mainStackView.topAnchor.constraint(equalTo: topAnchor),
+            mainStackView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            mainStackView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            mainStackView.leadingAnchor.constraint(equalTo: leadingAnchor),
+        ])
+    }
+}
