@@ -27,7 +27,6 @@ class HomeViewController: UIViewController, UITableViewDataSource {
         
         do {
             diaryData = try decoder.decode([Diary].self, from: dataAsset.data)
-            print(diaryData)
         } catch {
             print(error.localizedDescription)
         }
@@ -63,21 +62,22 @@ extension HomeViewController {
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: self.view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
-            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
+            tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 15),
+            tableView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -15)
         ])
     }
 }
 
 extension HomeViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 20
+        return diaryData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryItemCell.reuseIdentifier) as? DiaryItemCell else {
             return UITableViewCell()
         }
+        
         cell.configureLabelName(diaryData: diaryData[indexPath.row])
         
         return cell
