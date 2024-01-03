@@ -10,12 +10,17 @@ final class DiaryListViewController: UIViewController {
     //MARK: - property
     private let tableView = UITableView()
     
+    private var diaryData: [DiaryData] = []
+    
+    private let dataManager = SampleDataManager()
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setupTableView()
         setupTableViewConstraints()
+        setupDatas()
     }
     
     //MARK: - Helper
@@ -51,6 +56,11 @@ final class DiaryListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
+    }
+    
+    private func setupDatas() {
+        guard let data = dataManager.getDiaryData() else { return }
+        diaryData = data
     }
 }
 

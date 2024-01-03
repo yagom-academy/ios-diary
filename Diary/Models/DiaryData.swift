@@ -1,5 +1,5 @@
 //
-//  SampleData.swift
+//  DiaryData.swift
 //  Diary
 //
 //  Created by Toy, Morgan on 1/2/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SampleData: Decodable {
+struct DiaryData: Decodable {
     let title: String
     let body: String
     let createdAt: Int
