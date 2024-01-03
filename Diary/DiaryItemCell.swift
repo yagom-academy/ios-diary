@@ -50,6 +50,17 @@ class DiaryItemCell: UITableViewCell {
         
         return stackView
     }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        
+        autoLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func configureLabelName(title: String, date: String, description: String) {
         self.titleLabel.text = title
         self.dateLabel.text = date
