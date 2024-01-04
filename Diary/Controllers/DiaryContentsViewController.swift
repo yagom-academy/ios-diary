@@ -8,6 +8,9 @@
 import UIKit
 
 final class DiaryContentsViewController: UIViewController {
+    var dateTitle: String?
+    var diaryTitle: String?
+    var body: String?
     
     private let textTitle = {
         let textView = UITextView()
@@ -33,20 +36,15 @@ final class DiaryContentsViewController: UIViewController {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.distribution = .fill
-        stackView.spacing = 0
         return stackView
     }()
     
-    var dateTitle: String?
-    var diaryTitle: String?
-    var body: String?
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .white
         setupData()
         setupStackView()
         setStackViewConstraints()
-        view.backgroundColor = .white
         setupKeyboardNotification()
     }
     
