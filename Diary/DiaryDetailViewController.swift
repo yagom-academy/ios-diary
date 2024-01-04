@@ -41,11 +41,15 @@ extension DiaryDetailViewController {
     }
     
     private func navigationItemInit() {
+        guard let date = diaryDetail?.createdAt else {
+            return
+        }
         
+        let dateFormatter = DateFormatter()
+        let title = Date(timeIntervalSince1970: TimeInterval(date))
+        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
         
-        self.navigationItem.title = "YY년 MM월 DD일"
-    }
-    
+        self.navigationItem.title = dateFormatter.string(from: title)
     }
     
     private func autoLayoutInit() {
