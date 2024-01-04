@@ -9,6 +9,7 @@ import UIKit
 class HomeViewController: UIViewController, UITableViewDataSource {
     private let tableView = UITableView()
     private var diaryData: [Diary] = []
+    private let diaryDetailViewController = DiaryDetailViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
