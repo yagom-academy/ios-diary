@@ -98,6 +98,7 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        diaryDetailViewController.forwardingDiaryData(diary: diaryData[indexPath.row])
         pushToDiaryDetailViewController()
     }
 }
