@@ -31,6 +31,11 @@ extension DiaryDetailViewController {
     private func configureUI() {
         self.view.addSubview(textView)
         
+        guard let diary = diaryDetail else {
+            return
+        }
+        
+        textView.text = (diary.title) + "\n\n" + (diary.body)
         navigationItemInit()
         autoLayoutInit()
     }
