@@ -47,26 +47,7 @@ final class DiaryContentsViewController: UIViewController {
         setupStackView()
         setStackViewConstraints()
         view.backgroundColor = .white
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo as NSDictionary?,
-              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
-        keyboardFrame = view.convert(keyboardFrame, from: nil)
-        var contentInset = textBody.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        textBody.contentInset = contentInset
-        textBody.scrollIndicatorInsets = textBody.contentInset
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        textBody.contentInset = UIEdgeInsets.zero
-        textBody.scrollIndicatorInsets = textBody.contentInset
+        setupKeyboardNotification()
     }
     
     private func setupData() {
@@ -88,5 +69,28 @@ final class DiaryContentsViewController: UIViewController {
             textStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             textStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func setupKeyboardNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(_ notification: Notification) {
+        guard let userInfo = notification.userInfo as NSDictionary?,
+              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+            return
+        }
+        
+        keyboardFrame = view.convert(keyboardFrame, from: nil)
+        var contentInset = textBody.contentInset
+        contentInset.bottom = keyboardFrame.size.height
+        textBody.contentInset = contentInset
+        textBody.scrollIndicatorInsets = textBody.contentInset
+    }
+    
+    @objc private func keyboardWillHide(_ notification: Notification) {
+        textBody.contentInset = UIEdgeInsets.zero
+        textBody.scrollIndicatorInsets = textBody.contentInset
     }
 }
