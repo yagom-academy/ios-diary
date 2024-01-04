@@ -36,6 +36,11 @@ class HomeViewController: UIViewController, UITableViewDataSource {
     private func pushToDiaryDetailViewController() {
         self.navigationController?.pushViewController(diaryDetailViewController, animated: false)
     }
+    
+    @objc private func touchUpPlusButton() {
+        pushToDiaryDetailViewController()
+    }
+    
 }
 
 extension HomeViewController {
@@ -46,7 +51,12 @@ extension HomeViewController {
     }
     
     private func navigationItemInit() {
-        let rightItemButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: nil, action: nil)
+        let rightItemButton = UIBarButtonItem(
+            image: UIImage(systemName: "plus"),
+            style: .plain,
+            target: self,
+            action: #selector(touchUpPlusButton)
+        )
         
         self.navigationItem.title = "일기장"
         self.navigationItem.rightBarButtonItem = rightItemButton
