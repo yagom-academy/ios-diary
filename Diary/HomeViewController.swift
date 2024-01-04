@@ -27,14 +27,20 @@ class HomeViewController: UIViewController, UITableViewDataSource {
         let decoder = JSONDecoder()
         
         do {
-            diaryData = try decoder.decode([Diary].self, from: dataAsset.data)
+            diaryData = try decoder.decode(
+                [Diary].self,
+                from: dataAsset.data
+            )
         } catch {
             print(error.localizedDescription)
         }
     }
     
     private func pushToDiaryDetailViewController() {
-        self.navigationController?.pushViewController(diaryDetailViewController, animated: false)
+        self.navigationController?.pushViewController(
+            diaryDetailViewController,
+            animated: false
+        )
     }
     
     @objc private func touchUpPlusButton() {
@@ -65,7 +71,10 @@ extension HomeViewController {
     private func tableInit() {
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(DiaryItemCell.self, forCellReuseIdentifier: DiaryItemCell.reuseIdentifier)
+        tableView.register(
+            DiaryItemCell.self,
+            forCellReuseIdentifier: DiaryItemCell.reuseIdentifier
+        )
         
         self.view.addSubview(tableView)
     }
