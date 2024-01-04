@@ -13,12 +13,11 @@ class DiaryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        textView.keyboardDismissMode = .interactive
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         configureUI()
     }
     
@@ -57,9 +56,9 @@ extension DiaryDetailViewController {
         
         NSLayoutConstraint.activate([
             textView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
-            textView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
             textView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor),
-            textView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor)
+            textView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor),
+            self.view.keyboardLayoutGuide.topAnchor.constraint(equalTo: textView.bottomAnchor)
         ])
     }
 }
