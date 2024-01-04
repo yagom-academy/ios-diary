@@ -13,9 +13,17 @@ class DiaryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
-        configureUI()
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
+        configureUI()
+    }
+    
+    func forwardingDiaryData(diary: Diary) {
+        diaryDetail = diary
     }
 }
 
