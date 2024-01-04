@@ -9,6 +9,7 @@ import UIKit
 
 class DiaryDetailViewController: UIViewController {
     private var textView = UITextView()
+    private var diaryDetail: Diary?
     
     override func viewDidLoad() {
         super.viewDidLoad()
