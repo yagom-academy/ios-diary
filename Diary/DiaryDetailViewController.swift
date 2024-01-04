@@ -32,20 +32,15 @@ extension DiaryDetailViewController {
         self.view.addSubview(textView)
         
         navigationItemInit()
-        textViewInit()
         autoLayoutInit()
     }
     
     private func navigationItemInit() {
-        //let leftItemButton = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: nil, action: nil)
         
         
         self.navigationItem.title = "YY년 MM월 DD일"
-        //self.navigationItem.leftBarButtonItem = leftItemButton
     }
     
-    private func textViewInit() {
-        //textView.delegate = self
     }
     
     private func autoLayoutInit() {
