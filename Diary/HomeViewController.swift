@@ -44,7 +44,7 @@ final class HomeViewController: UIViewController, UITableViewDataSource {
         
         self.navigationController?.pushViewController(
             diaryDetailViewController,
-            animated: false
+            animated: true
         )
     }
     
