@@ -20,7 +20,7 @@ final class DiaryListViewController: UIViewController {
         setupTableView()
         setupTableViewConstraints()
         setupDatas()
-        getTodayDate()
+        generateTodayDate()
     }
     
     //MARK: - Helper
@@ -30,21 +30,21 @@ final class DiaryListViewController: UIViewController {
         apearance.backgroundColor = .white
         
         navigationItem.title = "일기장"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addDiary))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addNewDiary))
         navigationController?.navigationBar.standardAppearance = apearance
         navigationController?.navigationBar.compactAppearance = apearance
         navigationController?.navigationBar.scrollEdgeAppearance = apearance
     }
     
-    @objc private func addDiary() {
-        getTodayDate()
+    @objc private func addNewDiary() {
+        generateTodayDate()
         let diaryContentsViewController = DiaryContentsViewController()
         diaryContentsViewController.dateTitle = todayDate
         
         navigationController?.pushViewController(diaryContentsViewController, animated: true)
     }
     
-    private func getTodayDate() {
+    private func generateTodayDate() {
         let dateFormatter = DateFormatter()
         let date = Date()
         
