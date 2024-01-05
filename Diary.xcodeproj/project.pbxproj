@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C18EF6A2B47D0630029AA23 /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C18EF692B47D0630029AA23 /* Date+.swift */; };
 		3C7016DD2B43DE2300AFD98E /* DiaryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7016DC2B43DE2300AFD98E /* DiaryData.swift */; };
 		3C7B0D1C2B45444F001D010B /* DiaryListCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B0D1B2B45444F001D010B /* DiaryListCell.swift */; };
 		3C7B0D212B45759F001D010B /* SampleDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7B0D202B45759F001D010B /* SampleDataManager.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C18EF692B47D0630029AA23 /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 		3C7016DC2B43DE2300AFD98E /* DiaryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryData.swift; sourceTree = "<group>"; };
 		3C7B0D1B2B45444F001D010B /* DiaryListCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryListCell.swift; sourceTree = "<group>"; };
 		3C7B0D202B45759F001D010B /* SampleDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleDataManager.swift; sourceTree = "<group>"; };
@@ -45,6 +47,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C18EF682B47D0050029AA23 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				3C18EF692B47D0630029AA23 /* Date+.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		3C7B0D1D2B4574A4001D010B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +102,7 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
+				3C18EF682B47D0050029AA23 /* Extensions */,
 				3C7B0D1E2B4574AF001D010B /* Models */,
 				3C7B0D1F2B4574BE001D010B /* Views */,
 				3C7B0D1D2B4574A4001D010B /* Controllers */,
@@ -173,6 +184,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C18EF6A2B47D0630029AA23 /* Date+.swift in Sources */,
 				3C7B0D212B45759F001D010B /* SampleDataManager.swift in Sources */,
 				C739AE29284DF28600741E8F /* DiaryListViewController.swift in Sources */,
 				3C7016DD2B43DE2300AFD98E /* DiaryData.swift in Sources */,

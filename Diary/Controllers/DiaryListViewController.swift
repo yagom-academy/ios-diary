@@ -11,7 +11,7 @@ final class DiaryListViewController: UIViewController {
     private let tableView = UITableView()
     private var diaryData: [DiaryData] = []
     private let dataManager = SampleDataManager()
-    private var todayDate: String?
+    private var todayDate = Date.generateTodayDate()
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -20,7 +20,6 @@ final class DiaryListViewController: UIViewController {
         setupTableView()
         setupTableViewConstraints()
         setupDatas()
-        generateTodayDate()
     }
     
     //MARK: - Helper
@@ -37,19 +36,10 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func addNewDiary() {
-        generateTodayDate()
         let diaryContentsViewController = DiaryContentsViewController()
         diaryContentsViewController.dateTitle = todayDate
         
         navigationController?.pushViewController(diaryContentsViewController, animated: true)
-    }
-    
-    private func generateTodayDate() {
-        let dateFormatter = DateFormatter()
-        let date = Date()
-        
-        dateFormatter.dateFormat = "yyyy년 MM월 dd일"
-        todayDate = dateFormatter.string(from: date)
     }
     
     private func setupTableView() {
