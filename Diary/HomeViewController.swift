@@ -6,7 +6,7 @@
 
 import UIKit
 
-class HomeViewController: UIViewController, UITableViewDataSource {
+final class HomeViewController: UIViewController, UITableViewDataSource {
     private let tableView = UITableView()
     private var diaryData: [Diary] = []
     private let diaryDetailViewController = DiaryDetailViewController()

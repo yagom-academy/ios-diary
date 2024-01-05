@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Diary: Codable {
+final class Diary: Decodable {
     let title: String
     let body: String
     let createdAt: Int

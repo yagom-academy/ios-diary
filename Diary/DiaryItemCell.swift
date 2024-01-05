@@ -7,7 +7,7 @@
 
 import UIKit
 
-class DiaryItemCell: UITableViewCell {
+final class DiaryItemCell: UITableViewCell {
     static let reuseIdentifier: String = "DiaryItemCell"
     
     private var titleLabel: UILabel = {
