@@ -8,13 +8,13 @@
 import UIKit
 
 struct SampleDataManager {
-    func getDiaryData() -> [DiaryData]? {
-        guard let asset = NSDataAsset(name: "sample") else { return nil }
+    func generateDiaryData<T: Decodable>(asset: String, type: [T].Type) -> [T]? {
+        guard let asset = NSDataAsset(name: asset) else { return nil }
         
         let jsonDecoder = JSONDecoder()
         
         do {
-            let data = try jsonDecoder.decode([DiaryData].self, from: asset.data)
+            let data = try jsonDecoder.decode(type.self, from: asset.data)
             return data
         } catch {
             print(error)

@@ -8,15 +8,15 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     //MARK: - Property
+    private let dataManager = SampleDataManager()
+    private var todayDate = Date.generateTodayDate()
+    private var diaryData: [DiaryData] = []
+    
     private let tableView = {
         let tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
-    
-    private var diaryData: [DiaryData] = []
-    private let dataManager = SampleDataManager()
-    private var todayDate = Date.generateTodayDate()
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -64,7 +64,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupDatas() {
-        guard let data = dataManager.getDiaryData() else { return }
+        guard let data = dataManager.generateDiaryData(asset: "sample", type: [DiaryData].self) else { return }
         diaryData = data
     }
 }
