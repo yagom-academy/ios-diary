@@ -9,7 +9,6 @@ import UIKit
 final class HomeViewController: UIViewController, UITableViewDataSource {
     private let tableView = UITableView()
     private var diaryData: [Diary] = []
-    private let diaryDetailViewController = DiaryDetailViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,7 +35,13 @@ final class HomeViewController: UIViewController, UITableViewDataSource {
         }
     }
     
-    private func pushToDiaryDetailViewController() {
+    private func pushToDiaryDetailViewController(indexPath: Int?) {
+        let diaryDetailViewController = DiaryDetailViewController()
+        
+        if let indexPath {
+            diaryDetailViewController.forwardingDiaryData(diary: diaryData[indexPath])
+        }
+        
         self.navigationController?.pushViewController(
             diaryDetailViewController,
             animated: false
@@ -44,7 +49,7 @@ final class HomeViewController: UIViewController, UITableViewDataSource {
     }
     
     @objc private func touchUpPlusButton() {
-        pushToDiaryDetailViewController()
+        pushToDiaryDetailViewController(indexPath: nil)
     }
     
 }
@@ -108,8 +113,7 @@ extension HomeViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        diaryDetailViewController.forwardingDiaryData(diary: diaryData[indexPath.row])
-        pushToDiaryDetailViewController()
+        pushToDiaryDetailViewController(indexPath: indexPath.row)
     }
 }
 

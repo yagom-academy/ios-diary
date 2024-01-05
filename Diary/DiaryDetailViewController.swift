@@ -13,12 +13,9 @@ final class DiaryDetailViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        textView.keyboardDismissMode = .interactive
-    }
-
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        
         configureUI()
+        textView.keyboardDismissMode = .interactive
     }
     
     func forwardingDiaryData(diary: Diary) {
@@ -30,11 +27,10 @@ extension DiaryDetailViewController {
     private func configureUI() {
         self.view.addSubview(textView)
         
-        guard let diary = diaryDetail else {
-            return
+        if let diary = diaryDetail {
+            textView.text = (diary.title) + "\n\n" + (diary.body)
         }
-        
-        textView.text = (diary.title) + "\n\n" + (diary.body)
+
         navigationItemInit()
         autoLayoutInit()
     }
