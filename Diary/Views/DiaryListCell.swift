@@ -9,7 +9,7 @@ import UIKit
 
 class DiaryListCell: UITableViewCell {
 
-    static let identifier = "DiaryListCell"
+    static let identifier = String(describing: DiaryListCell.self)
     
     let titleLabel: UILabel = {
         let label = UILabel()
