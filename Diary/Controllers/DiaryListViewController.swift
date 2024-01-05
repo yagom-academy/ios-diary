@@ -7,7 +7,7 @@
 import UIKit
 
 final class DiaryListViewController: UIViewController {
-    //MARK: - property
+    //MARK: - Property
     private let tableView = UITableView()
     private var diaryData: [DiaryData] = []
     private let dataManager = SampleDataManager()
