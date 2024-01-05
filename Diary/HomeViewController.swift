@@ -103,11 +103,14 @@ extension HomeViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryItemCell.reuseIdentifier) as? DiaryItemCell else {
-            
             return UITableViewCell()
         }
         
-        cell.configureLabelName(diaryData: diaryData[indexPath.row])
+        guard let diaryData = diaryData[safe: indexPath.row] else {
+            return UITableViewCell()
+        }
+        
+        cell.configure(with: diaryData)
         
         return cell
     }
