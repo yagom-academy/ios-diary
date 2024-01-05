@@ -86,10 +86,7 @@ final class DiaryContentsViewController: UIViewController {
             return
         }
         
-        keyboardFrame = view.convert(keyboardFrame, from: nil)
-        var contentInset = textBody.contentInset
-        contentInset.bottom = keyboardFrame.size.height
-        textBody.contentInset = contentInset
+        textBody.contentInset.bottom = keyboardFrame.size.height
         textBody.scrollIndicatorInsets = textBody.contentInset
     }
     
