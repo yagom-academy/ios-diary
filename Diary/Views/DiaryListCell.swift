@@ -62,6 +62,15 @@ class DiaryListCell: UITableViewCell {
     }
     
     //MARK: - Helper
+    func injectData(title: String, date: String, preview: String) {
+        self.titleLabel.text = title
+        self.dateLabel.text = date
+        self.previewLabel.text = preview
+    }
+    
+    func injectAccessoryType(to: UITableViewCell.AccessoryType) {
+        self.accessoryType = accessoryType
+    }
     
     private func setupMainStackView() {
         mainStackView.addArrangedSubview(titleLabel)

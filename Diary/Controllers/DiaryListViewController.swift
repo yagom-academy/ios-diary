@@ -77,10 +77,8 @@ extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier, for: indexPath) as? DiaryListCell else { return UITableViewCell() }
         
-        cell.accessoryType = .disclosureIndicator
-        cell.titleLabel.text = diaryData[indexPath.row].title
-        cell.dateLabel.text = todayDate
-        cell.previewLabel.text = diaryData[indexPath.row].body
+        cell.injectData(title: diaryData[indexPath.row].title, date: todayDate, preview: diaryData[indexPath.row].body)
+        cell.injectAccessoryType(to: .disclosureIndicator)
         
         return cell
     }
