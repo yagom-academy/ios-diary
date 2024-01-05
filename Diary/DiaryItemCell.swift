@@ -63,7 +63,7 @@ final class DiaryItemCell: UITableViewCell, ReuseIdentifying {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configureLabelName(diaryData: Diary) {
+    func configure(with diaryData: Diary) {
         let dateFormatter = DateFormatter()
         let date = Date(timeIntervalSince1970: TimeInterval(diaryData.createdAt))
         dateFormatter.dateFormat = "yyyy년 MM월 dd일"
