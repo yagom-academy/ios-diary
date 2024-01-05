@@ -7,9 +7,7 @@
 
 import UIKit
 
-final class DiaryItemCell: UITableViewCell {
-    static let reuseIdentifier: String = "DiaryItemCell"
-    
+final class DiaryItemCell: UITableViewCell, ReuseIdentifying {
     private var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
