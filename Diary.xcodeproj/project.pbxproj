@@ -11,6 +11,7 @@
 		B9D839382B4535400009639F /* Diary.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D839372B4535400009639F /* Diary.swift */; };
 		B9D8393A2B45551E0009639F /* DiaryDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D839392B45551E0009639F /* DiaryDetailViewController.swift */; };
 		B9D839412B47D71B0009639F /* ReuseIdentifying.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9D839402B47D71B0009639F /* ReuseIdentifying.swift */; };
+		B9D839432B47D7C30009639F /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B9D839422B47D7C30009639F /* Launch Screen.storyboard */; };
 		C739AE25284DF28600741E8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE24284DF28600741E8F /* AppDelegate.swift */; };
 		C739AE27284DF28600741E8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE26284DF28600741E8F /* SceneDelegate.swift */; };
 		C739AE29284DF28600741E8F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C739AE28284DF28600741E8F /* HomeViewController.swift */; };
@@ -23,6 +24,7 @@
 		B9D839372B4535400009639F /* Diary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diary.swift; sourceTree = "<group>"; };
 		B9D839392B45551E0009639F /* DiaryDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiaryDetailViewController.swift; sourceTree = "<group>"; };
 		B9D839402B47D71B0009639F /* ReuseIdentifying.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReuseIdentifying.swift; sourceTree = "<group>"; };
+		B9D839422B47D7C30009639F /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		C739AE21284DF28600741E8F /* Diary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Diary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C739AE24284DF28600741E8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C739AE26284DF28600741E8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 				B9D839352B452B750009639F /* DiaryItemCell.swift */,
 				B9D839372B4535400009639F /* Diary.swift */,
 				B9D839402B47D71B0009639F /* ReuseIdentifying.swift */,
+				B9D839422B47D7C30009639F /* Launch Screen.storyboard */,
 				B9D839392B45551E0009639F /* DiaryDetailViewController.swift */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE35284DF28600741E8F /* Info.plist */,
@@ -134,6 +137,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9D839432B47D7C30009639F /* Launch Screen.storyboard in Resources */,
 				C739AE31284DF28600741E8F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
