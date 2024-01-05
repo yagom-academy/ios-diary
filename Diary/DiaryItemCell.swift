@@ -49,6 +49,14 @@ final class DiaryItemCell: UITableViewCell, ReuseIdentifying {
         return stackView
     }()
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.titleLabel.text = ""
+        self.dateLabel.text = ""
+        self.descriptionLabel.text = ""
+    }
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(
             style: style,
