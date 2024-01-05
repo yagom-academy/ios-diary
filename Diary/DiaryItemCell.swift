@@ -18,6 +18,7 @@ final class DiaryItemCell: UITableViewCell, ReuseIdentifying {
     private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
+        label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
     }()
@@ -34,8 +35,7 @@ final class DiaryItemCell: UITableViewCell, ReuseIdentifying {
         stackView.axis = .vertical
         stackView.alignment = .fill
         stackView.spacing = 7
-        stackView.addArrangedSubview(titleLabel)
-        stackView.addArrangedSubview(subStackView)
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
     }()
@@ -45,8 +45,6 @@ final class DiaryItemCell: UITableViewCell, ReuseIdentifying {
         stackView.axis = .horizontal
         stackView.alignment = .fill
         stackView.spacing = 7
-        stackView.addArrangedSubview(dateLabel)
-        stackView.addArrangedSubview(descriptionLabel)
         
         return stackView
     }()
@@ -57,8 +55,7 @@ final class DiaryItemCell: UITableViewCell, ReuseIdentifying {
             reuseIdentifier: reuseIdentifier
         )
         
-        contentView.addSubview(mainStackView)
-        self.accessoryType = .disclosureIndicator
+        configureUI()
         autoLayout()
     }
     
@@ -78,9 +75,18 @@ final class DiaryItemCell: UITableViewCell, ReuseIdentifying {
 }
 
 extension DiaryItemCell {
+    private func configureUI() {
+        subStackView.addArrangedSubview(dateLabel)
+        subStackView.addArrangedSubview(descriptionLabel)
+        
+        mainStackView.addArrangedSubview(titleLabel)
+        mainStackView.addArrangedSubview(subStackView)
+        
+        contentView.addSubview(mainStackView)
+        self.accessoryType = .disclosureIndicator
+    }
+    
     private func autoLayout() {
-        mainStackView.translatesAutoresizingMaskIntoConstraints = false
-        dateLabel.translatesAutoresizingMaskIntoConstraints = false
         dateLabel.setContentCompressionResistancePriority(.required, for: .horizontal)
         
         NSLayoutConstraint.activate([
