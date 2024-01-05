@@ -8,28 +8,28 @@
 import UIKit
 
 final class DiaryItemCell: UITableViewCell, ReuseIdentifying {
-    private var titleLabel: UILabel = {
+    private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 17)
         
         return label
     }()
     
-    private var dateLabel: UILabel = {
+    private let dateLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.boldSystemFont(ofSize: 14)
         
         return label
     }()
     
-    private var descriptionLabel: UILabel = {
+    private let descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 13)
         
         return label
     }()
     
-    private lazy var mainStackView: UIStackView = {
+    private let mainStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .fill
@@ -40,7 +40,7 @@ final class DiaryItemCell: UITableViewCell, ReuseIdentifying {
         return stackView
     }()
     
-    private lazy var subStackView: UIStackView = {
+    private let subStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.alignment = .fill
