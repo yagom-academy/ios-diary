@@ -8,7 +8,12 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     //MARK: - Property
-    private let tableView = UITableView()
+    private let tableView = {
+        let tableView = UITableView()
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        return tableView
+    }()
+    
     private var diaryData: [DiaryData] = []
     private let dataManager = SampleDataManager()
     private var todayDate = Date.generateTodayDate()
@@ -50,8 +55,6 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupTableViewConstraints() {
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
