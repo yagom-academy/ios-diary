@@ -89,6 +89,7 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryContentsViewController = DiaryContentsViewController()
+        // 다음 스텝에서 날짜를 생성해서 넣어줄 수 있도록 수정하겠습니다.
         diaryContentsViewController.dateTitle = "2024년 1월 3일"
         diaryContentsViewController.body = diaryData[indexPath.row].body
         diaryContentsViewController.diaryTitle = diaryData[indexPath.row].title
