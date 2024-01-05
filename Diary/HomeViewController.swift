@@ -8,31 +8,15 @@ import UIKit
 
 final class HomeViewController: UIViewController, UITableViewDataSource {
     private let tableView = UITableView()
+    private let jsonDecoder = JsonDecoder()
     private var diaryData: [Diary] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
-        decodeSampleData()
+        diaryData = jsonDecoder.decodeSampleData()
         autoLayoutInit()
-    }
-
-    private func decodeSampleData() {
-        guard let dataAsset = NSDataAsset(name: "sample") else {
-            return
-        }
-        
-        let decoder = JSONDecoder()
-        
-        do {
-            diaryData = try decoder.decode(
-                [Diary].self,
-                from: dataAsset.data
-            )
-        } catch {
-            print(error.localizedDescription)
-        }
     }
     
     private func pushToDiaryDetailViewController(indexPath: Int?) {
@@ -51,7 +35,6 @@ final class HomeViewController: UIViewController, UITableViewDataSource {
     @objc private func touchUpPlusButton() {
         pushToDiaryDetailViewController(indexPath: nil)
     }
-    
 }
 
 extension HomeViewController {
