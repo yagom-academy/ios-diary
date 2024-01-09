@@ -10,7 +10,7 @@ final class DiaryListViewController: UIViewController {
     //MARK: - Property
     private let dataManager = SampleDataManager()
     private var todayDate = Date.generateTodayDate()
-    private var diaryData: [DiaryData] = []
+    private var diaryData: [DiarySampleData] = []
     
     private let tableView = {
         let tableView = UITableView()
@@ -64,7 +64,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupDatas() {
-        guard let data = dataManager.generateDiaryData(asset: "sample", type: [DiaryData].self) else { return }
+        guard let data = dataManager.generateDiaryData(asset: "sample", type: [DiarySampleData].self) else { return }
         diaryData = data
     }
 }
