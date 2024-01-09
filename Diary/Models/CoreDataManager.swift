@@ -2,7 +2,7 @@
 //  CoreDataManager.swift
 //  Diary
 //
-//  Created by hyunMac on 1/9/24.
+//  Created by Toy, Morgan on 1/9/24.
 //
 
 import UIKit
@@ -15,7 +15,7 @@ class CoreDataManager {
     
     let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
     
-    func createDiary(title: String, date: String, body: String) {
+    func createDiaryData(title: String, date: String, body: String) {
         let diary = DiaryData(context: context!)
         diary.title = title
         diary.date = date
@@ -26,5 +26,19 @@ class CoreDataManager {
         } catch {
             print("error")
         }
+    }
+    
+    func readDiaryData() -> [DiaryData] {
+        var diaryData: [DiaryData] = []
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "DiaryData")
+        
+        do {
+            if let data = try context?.fetch(request) as? [DiaryData] {
+                diaryData = data
+            }
+        } catch {
+            print("error")
+        }
+        return diaryData
     }
 }
