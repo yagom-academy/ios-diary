@@ -13,32 +13,42 @@ class CoreDataManager {
     
     private init() {}
     
-    let context = (UIApplication.shared.delegate as? AppDelegate)?.persistentContainer.viewContext
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     func createDiaryData(title: String, date: String, body: String) {
-        let diary = DiaryData(context: context!)
+        let diary = DiaryData(context: context)
         diary.title = title
         diary.date = date
         diary.body = body
         
         do {
-            try context?.save()
+            try context.save()
         } catch {
-            print("error")
+            print(error)
         }
     }
     
     func readDiaryData() -> [DiaryData] {
         var diaryData: [DiaryData] = []
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "DiaryData")
+        let request = DiaryData.fetchRequest()
         
         do {
-            if let data = try context?.fetch(request) as? [DiaryData] {
-                diaryData = data
-            }
+            diaryData = try context.fetch(request)
         } catch {
-            print("error")
+            print(error)
         }
         return diaryData
     }
+    
+    func updateDiaryData(diary: DiaryData, title: String, body: String) {
+        diary.title = title
+        diary.body = body
+        
+        do {
+           try context.save()
+        } catch {
+            print(error)
+        }
+    }
+    
 }
