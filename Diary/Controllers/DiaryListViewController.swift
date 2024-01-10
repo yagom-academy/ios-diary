@@ -10,7 +10,8 @@ final class DiaryListViewController: UIViewController {
     //MARK: - Property
     private let dataManager = SampleDataManager()
     private var todayDate = Date.generateTodayDate()
-    private var diaryData: [DiarySampleData] = []
+    private var diaryData: [DiaryData] = []
+    private let coreDataManager = CoreDataManager.shared
     
     private let tableView = {
         let tableView = UITableView()
@@ -24,10 +25,16 @@ final class DiaryListViewController: UIViewController {
         setupNavigationBar()
         setupTableView()
         setupTableViewConstraints()
-        setupDatas()
+        readDiaryData()
+//        setupDatas()
     }
     
     //MARK: - Helper
+    private func readDiaryData() {
+        diaryData = coreDataManager.readDiaryData()
+        tableView.reloadData()
+    }
+    
     private func setupNavigationBar() {
         let apearance = UINavigationBarAppearance()
         apearance.configureWithOpaqueBackground()
@@ -64,8 +71,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     private func setupDatas() {
-        guard let data = dataManager.generateDiaryData(asset: "sample", type: [DiarySampleData].self) else { return }
-        diaryData = data
+//        guard let data = dataManager.generateDiaryData(asset: "sample", type: [DiarySampleData].self) else { return }
+//        diaryData = data
     }
 }
 
