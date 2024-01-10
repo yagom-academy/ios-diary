@@ -8,9 +8,11 @@
 import UIKit
 
 final class DiaryContentsViewController: UIViewController {
+    private let coreDataManager = CoreDataManager.shared
     var titleDate: String?
     var diaryTitle: String?
     var diaryBody: String?
+    var diaryData: DiaryData?
     
     private let textTitle = {
         let textView = UITextView()
@@ -48,7 +50,7 @@ final class DiaryContentsViewController: UIViewController {
         setupKeyboardNotification()
     }
     
-    func injectData(title: String, body: String, date: String) {
+    func injectData(title: String?, body: String?, date: String?) {
         diaryTitle = title
         diaryBody = body
         titleDate = date

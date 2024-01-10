@@ -49,8 +49,9 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func addNewDiary() {
         let diaryContentsViewController = DiaryContentsViewController()
-        diaryContentsViewController.titleDate = todayDate
+        coreDataManager.createDiaryData(date: todayDate)
         
+        diaryContentsViewController.diaryData = coreDataManager.readDiaryData().last
         navigationController?.pushViewController(diaryContentsViewController, animated: true)
     }
     
@@ -95,7 +96,8 @@ extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryContentsViewController = DiaryContentsViewController()
         // 다음 스텝에서 날짜를 생성해서 넣어줄 수 있도록 수정하겠습니다.
-        diaryContentsViewController.injectData(title: diaryData[indexPath.row].title, body: diaryData[indexPath.row].body, date: "2024년 1월 3일")
+        diaryContentsViewController.diaryData = self.diaryData[indexPath.row]
+//        diaryContentsViewController.injectData(title: diaryData[indexPath.row].title, body: diaryData[indexPath.row].body, date: diaryData[indexPath.row].date)
         
         navigationController?.pushViewController(diaryContentsViewController, animated: true)
     }
