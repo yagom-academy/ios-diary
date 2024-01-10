@@ -9,7 +9,6 @@ import UIKit
 final class DiaryListViewController: UIViewController {
     //MARK: - Property
     private let dataManager = SampleDataManager()
-    private var todayDate = Date.generateTodayDate()
     private var diaryData: [DiaryData] = []
     private let coreDataManager = CoreDataManager.shared
     
@@ -49,7 +48,7 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func addNewDiary() {
         let diaryContentsViewController = DiaryContentsViewController()
-        coreDataManager.createDiaryData(date: todayDate)
+        coreDataManager.createDiaryData()
         
         diaryContentsViewController.diaryData = coreDataManager.readDiaryData().last
         navigationController?.pushViewController(diaryContentsViewController, animated: true)
@@ -85,7 +84,7 @@ extension DiaryListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: DiaryListCell.identifier, for: indexPath) as? DiaryListCell else { return UITableViewCell() }
         
-        cell.injectData(title: diaryData[indexPath.row].title, date: todayDate, preview: diaryData[indexPath.row].body)
+        cell.injectData(title: diaryData[indexPath.row].title, date: diaryData[indexPath.row].date, preview: diaryData[indexPath.row].body)
         cell.injectAccessoryType(to: .disclosureIndicator)
         
         return cell

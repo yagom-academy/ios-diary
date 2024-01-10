@@ -50,16 +50,10 @@ final class DiaryContentsViewController: UIViewController {
         setupKeyboardNotification()
     }
     
-    func injectData(title: String?, body: String?, date: String?) {
-        diaryTitle = title
-        diaryBody = body
-        titleDate = date
-    }
-    
     private func setupData() {
-        textTitle.text = diaryTitle
-        textBody.text = diaryBody
-        navigationItem.title = titleDate
+        textTitle.text = diaryData?.title
+        textBody.text = diaryData?.body
+        navigationItem.title = diaryData?.date
     }
     
     private func setupStackView() {
@@ -84,7 +78,7 @@ final class DiaryContentsViewController: UIViewController {
     
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo as NSDictionary?,
-              var keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
+              let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
             return
         }
         

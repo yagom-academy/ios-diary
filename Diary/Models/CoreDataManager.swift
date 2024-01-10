@@ -23,10 +23,10 @@ final class CoreDataManager {
         }
     }
     
-    func createDiaryData(date: String, title: String? = nil, body: String? = nil) {
+    func createDiaryData(title: String = "", body: String = "") {
         let diary = DiaryData(context: context)
         diary.title = title
-        diary.date = date
+        diary.date = Date.generateTodayDate()
         diary.body = body
         
         saveContextData()
