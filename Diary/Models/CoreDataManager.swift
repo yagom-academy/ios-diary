@@ -8,12 +8,20 @@
 import UIKit
 import CoreData
 
-class CoreDataManager {
+final class CoreDataManager {
     static let shared = CoreDataManager()
     
     private init() {}
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    private func saveContextData() {
+        do {
+            try context.save()
+        } catch {
+            print(error)
+        }
+    }
     
     func createDiaryData(title: String, date: String, body: String) {
         let diary = DiaryData(context: context)
@@ -21,11 +29,7 @@ class CoreDataManager {
         diary.date = date
         diary.body = body
         
-        do {
-            try context.save()
-        } catch {
-            print(error)
-        }
+        saveContextData()
     }
     
     func readDiaryData() -> [DiaryData] {
@@ -44,11 +48,12 @@ class CoreDataManager {
         diary.title = title
         diary.body = body
         
-        do {
-           try context.save()
-        } catch {
-            print(error)
-        }
+        saveContextData()
     }
     
+    func deleteDiaryData(diary: DiaryData) {
+        context.delete(diary)
+        
+        saveContextData()
+    }
 }
