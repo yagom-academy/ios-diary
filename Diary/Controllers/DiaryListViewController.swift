@@ -8,9 +8,8 @@ import UIKit
 
 final class DiaryListViewController: UIViewController {
     //MARK: - Property
-    private let dataManager = SampleDataManager()
-    private var diaryData: [DiaryData] = []
     private let coreDataManager = CoreDataManager.shared
+    private var diaryData: [DiaryData] = []
     
     private let tableView = {
         let tableView = UITableView()
@@ -25,7 +24,6 @@ final class DiaryListViewController: UIViewController {
         setupTableView()
         setupTableViewConstraints()
         readDiaryData()
-//        setupDatas()
     }
     
     //MARK: - Helper
@@ -69,11 +67,6 @@ final class DiaryListViewController: UIViewController {
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
     }
-    
-    private func setupDatas() {
-//        guard let data = dataManager.generateDiaryData(asset: "sample", type: [DiarySampleData].self) else { return }
-//        diaryData = data
-    }
 }
 
 extension DiaryListViewController: UITableViewDataSource {
@@ -94,9 +87,7 @@ extension DiaryListViewController: UITableViewDataSource {
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let diaryContentsViewController = DiaryContentsViewController()
-        // 다음 스텝에서 날짜를 생성해서 넣어줄 수 있도록 수정하겠습니다.
         diaryContentsViewController.diaryData = self.diaryData[indexPath.row]
-//        diaryContentsViewController.injectData(title: diaryData[indexPath.row].title, body: diaryData[indexPath.row].body, date: diaryData[indexPath.row].date)
         
         navigationController?.pushViewController(diaryContentsViewController, animated: true)
     }

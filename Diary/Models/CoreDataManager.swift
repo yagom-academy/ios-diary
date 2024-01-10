@@ -23,7 +23,7 @@ final class CoreDataManager {
         }
     }
     
-    func createDiaryData(title: String = "", body: String = "") {
+    func createDiaryData(title: String? = nil, body: String? = nil) {
         let diary = DiaryData(context: context)
         diary.title = title
         diary.date = Date.generateTodayDate()
@@ -42,9 +42,6 @@ final class CoreDataManager {
             print(error)
         }
         return diaryData
-        // 이배열에서 마지막 객체에 접근하면 새로만든 객체가 된다
-        // add 마지막에 생성된 객체를 프로퍼티에 끼워줌
-        // cell indexPath에 맞는 객체를 끼워줌
     }
     
     func updateDiaryData(diary: DiaryData?, title: String, body: String) {

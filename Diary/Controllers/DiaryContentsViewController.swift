@@ -9,9 +9,6 @@ import UIKit
 
 final class DiaryContentsViewController: UIViewController {
     private let coreDataManager = CoreDataManager.shared
-    var titleDate: String?
-    var diaryTitle: String?
-    var diaryBody: String?
     var diaryData: DiaryData?
     
     private let textTitle = {
@@ -20,6 +17,7 @@ final class DiaryContentsViewController: UIViewController {
         textView.textContainerInset = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         textView.isScrollEnabled = false
         textView.font = .boldSystemFont(ofSize: 15)
+        textView.becomeFirstResponder()
         return textView
     }()
     
@@ -98,7 +96,7 @@ final class DiaryContentsViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(saveDataInBankground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
-    @objc private func saveDataInBankground(_ notification: Notification) {
+    @objc private func saveDataInBankground() {
         coreDataManager.updateDiaryData(diary: diaryData, title: textTitle.text, body: textBody.text)
     }
 }
