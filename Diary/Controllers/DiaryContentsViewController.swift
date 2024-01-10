@@ -48,6 +48,7 @@ final class DiaryContentsViewController: UIViewController {
         setupStackView()
         setStackViewConstraints()
         setupKeyboardNotification()
+        setupBackGroundNotification()
     }
     
     private func setupData() {
@@ -89,5 +90,15 @@ final class DiaryContentsViewController: UIViewController {
     @objc private func keyboardWillHide(_ notification: Notification) {
         textBody.contentInset = UIEdgeInsets.zero
         textBody.scrollIndicatorInsets = textBody.contentInset
+        
+        coreDataManager.updateDiaryData(diary: diaryData, title: textTitle.text, body: textBody.text)
+    }
+    
+    private func setupBackGroundNotification() {
+        NotificationCenter.default.addObserver(self, selector: #selector(saveDataInBankground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
+    
+    @objc private func saveDataInBankground(_ notification: Notification) {
+        coreDataManager.updateDiaryData(diary: diaryData, title: textTitle.text, body: textBody.text)
     }
 }

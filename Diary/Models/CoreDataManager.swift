@@ -47,9 +47,9 @@ final class CoreDataManager {
         // cell indexPath에 맞는 객체를 끼워줌
     }
     
-    func updateDiaryData(diary: DiaryData, title: String, body: String) {
-        diary.title = title
-        diary.body = body
+    func updateDiaryData(diary: DiaryData?, title: String, body: String) {
+        diary?.title = title
+        diary?.body = body
         
         saveContextData()
     }
