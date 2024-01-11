@@ -82,9 +82,7 @@ final class DiaryContentsViewController: UIViewController {
     
     @objc private func keyboardWillShow(_ notification: Notification) {
         guard let userInfo = notification.userInfo as NSDictionary?,
-              let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {
-            return
-        }
+              let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         
         textBody.contentInset.bottom = keyboardFrame.size.height
         textBody.scrollIndicatorInsets = textBody.contentInset
@@ -122,15 +120,6 @@ final class DiaryContentsViewController: UIViewController {
         guard let title = self.textTitle.text else { return }
 
         let activityViewController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
-
-        // 컨트롤러를 닫은 후 실행할 완료 핸들러 지정
-        activityViewController.completionWithItemsHandler = { (activity, success, items, error) in
-            if success {
-            // 성공했을 때 작업
-           }  else  {
-            // 실패했을 때 작업
-           }
-        }
       
         self.present(activityViewController, animated: true)
     }

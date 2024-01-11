@@ -19,7 +19,7 @@ final class CoreDataManager {
         do {
             try context.save()
         } catch {
-            print(error)
+            print(CoreDataError.saveDataError.errorDescription)
         }
     }
     
@@ -39,7 +39,7 @@ final class CoreDataManager {
         do {
             diaryData = try context.fetch(request)
         } catch {
-            print(error)
+            print(CoreDataError.readDataError.errorDescription)
         }
         return diaryData
     }

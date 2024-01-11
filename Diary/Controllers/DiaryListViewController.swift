@@ -99,12 +99,10 @@ extension DiaryListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let share = UIContextualAction(style: .normal, title: "Share") { [self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
-            
-            guard let titleText = diaryData[indexPath.row].title else {
-                return
-            }
+            guard let titleText = diaryData[indexPath.row].title else { return }
 
             let activityViewController = UIActivityViewController(activityItems: [titleText], applicationActivities: nil)
+            
             self.present(activityViewController, animated: true)
             
             success(true)
@@ -114,6 +112,7 @@ extension DiaryListViewController: UITableViewDelegate {
         let delete = UIContextualAction(style: .destructive, title: "delete") { [self] (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
             coreDataManager.deleteDiaryData(diary: diaryData[indexPath.row])
             readDiaryData()
+            
             success(true)
         }
         
