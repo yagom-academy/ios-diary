@@ -27,6 +27,7 @@ final class DiaryListViewController: UIViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        readDiaryData()
         tableView.reloadData()
     }
     
@@ -94,5 +95,18 @@ extension DiaryListViewController: UITableViewDelegate {
         diaryContentsViewController.diaryData = self.diaryData[indexPath.row]
         
         navigationController?.pushViewController(diaryContentsViewController, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let share = UIContextualAction(style: .normal, title: "Share") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            success(true)
+        }
+        share.backgroundColor = .systemBlue
+        
+        let delete = UIContextualAction(style: .destructive, title: "delete") { (UIContextualAction, UIView, success: @escaping (Bool) -> Void) in
+            success(true)
+        }
+        
+        return UISwipeActionsConfiguration(actions: [delete, share])
     }
 }
