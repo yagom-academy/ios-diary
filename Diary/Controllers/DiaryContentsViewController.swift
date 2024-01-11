@@ -107,8 +107,8 @@ final class DiaryContentsViewController: UIViewController {
     
     @objc private func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default) {_ in self.test_1() }
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {_ in }
+        let shareAction = UIAlertAction(title: "Share...", style: .default) {_ in self.showActivityView() }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {_ in self.showDeleteAlert()}
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
     
         actionSheet.addAction(shareAction)
@@ -118,12 +118,10 @@ final class DiaryContentsViewController: UIViewController {
         present(actionSheet, animated: true)
     }
     
-    private func test_1() {
+    private func showActivityView() {
         guard let title = self.textTitle.text else { return }
-        let content = "Text"
-        let items = [title, content]
 
-        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        let activityViewController = UIActivityViewController(activityItems: [title], applicationActivities: nil)
 
         // 컨트롤러를 닫은 후 실행할 완료 핸들러 지정
         activityViewController.completionWithItemsHandler = { (activity, success, items, error) in
@@ -135,5 +133,21 @@ final class DiaryContentsViewController: UIViewController {
         }
       
         self.present(activityViewController, animated: true)
+    }
+    
+    private func showDeleteAlert() {
+        let alert = UIAlertController(title: "진짜요?", message: "정말로 삭제하시겠어요?", preferredStyle: .alert)
+        let cancel = UIAlertAction(title: "취소", style: .cancel)
+        let delete = UIAlertAction(title: "삭제", style: .destructive) { [self] _ in
+            guard let diaryData = self.diaryData else { return }
+            coreDataManager.deleteDiaryData(diary: diaryData)
+            
+            navigationController?.popViewController(animated: true)
+        }
+        
+        alert.addAction(cancel)
+        alert.addAction(delete)
+        
+        present(alert, animated: true)
     }
 }

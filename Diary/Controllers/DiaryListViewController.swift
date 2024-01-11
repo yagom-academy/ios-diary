@@ -26,6 +26,10 @@ final class DiaryListViewController: UIViewController {
         readDiaryData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        tableView.reloadData()
+    }
+    
     //MARK: - Helper
     private func readDiaryData() {
         diaryData = coreDataManager.readDiaryData()
