@@ -47,6 +47,7 @@ final class DiaryContentsViewController: UIViewController {
         setStackViewConstraints()
         setupKeyboardNotification()
         setupBackGroundNotification()
+        setupNavigationBarButtonItem()
     }
     
     private func setupData() {
@@ -68,6 +69,10 @@ final class DiaryContentsViewController: UIViewController {
             textStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             textStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func setupNavigationBarButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(showActionSheet))
     }
     
     private func setupKeyboardNotification() {
@@ -100,16 +105,35 @@ final class DiaryContentsViewController: UIViewController {
         coreDataManager.updateDiaryData(diary: diaryData, title: textTitle.text, body: textBody.text)
     }
     
-    private func showActionSheet() {
+    @objc private func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let shareAction = UIAlertAction(title: "Share...", style: .default)
-        let deleteAction = UIAlertAction(title: "Delete", style: .destructive)
+        let shareAction = UIAlertAction(title: "Share...", style: .default) {_ in self.test_1() }
+        let deleteAction = UIAlertAction(title: "Delete", style: .destructive) {_ in }
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        
+    
         actionSheet.addAction(shareAction)
         actionSheet.addAction(deleteAction)
         actionSheet.addAction(cancelAction)
         
         present(actionSheet, animated: true)
+    }
+    
+    private func test_1() {
+        guard let title = self.textTitle.text else { return }
+        let content = "Text"
+        let items = [title, content]
+
+        let activityViewController = UIActivityViewController(activityItems: items, applicationActivities: nil)
+
+        // 컨트롤러를 닫은 후 실행할 완료 핸들러 지정
+        activityViewController.completionWithItemsHandler = { (activity, success, items, error) in
+            if success {
+            // 성공했을 때 작업
+           }  else  {
+            // 실패했을 때 작업
+           }
+        }
+      
+        self.present(activityViewController, animated: true)
     }
 }
