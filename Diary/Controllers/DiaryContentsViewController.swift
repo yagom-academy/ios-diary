@@ -8,6 +8,7 @@
 import UIKit
 
 final class DiaryContentsViewController: UIViewController {
+    //MARK: - Property
     private let coreDataManager = CoreDataManager.shared
     var diaryData: DiaryData?
     
@@ -39,17 +40,20 @@ final class DiaryContentsViewController: UIViewController {
         return stackView
     }()
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
         setupData()
         setupStackView()
         setStackViewConstraints()
         setupKeyboardNotification()
         setupBackGroundNotification()
         setupNavigationBarButtonItem()
+        
+        
     }
     
+    //MARK: - Helper
     private func setupData() {
         textTitle.text = diaryData?.title
         textBody.text = diaryData?.body
@@ -69,10 +73,6 @@ final class DiaryContentsViewController: UIViewController {
             textStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             textStackView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    }
-    
-    private func setupNavigationBarButtonItem() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(showActionSheet))
     }
     
     private func setupKeyboardNotification() {
@@ -101,6 +101,10 @@ final class DiaryContentsViewController: UIViewController {
     
     @objc private func saveDataInBankground() {
         coreDataManager.updateDiaryData(diary: diaryData, title: textTitle.text, body: textBody.text)
+    }
+    
+    private func setupNavigationBarButtonItem() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(showActionSheet))
     }
     
     @objc private func showActionSheet() {
