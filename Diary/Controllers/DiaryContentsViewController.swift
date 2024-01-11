@@ -49,8 +49,6 @@ final class DiaryContentsViewController: UIViewController {
         setupKeyboardNotification()
         setupBackGroundNotification()
         setupNavigationBarButtonItem()
-        
-        
     }
     
     //MARK: - Helper

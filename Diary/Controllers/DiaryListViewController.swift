@@ -32,10 +32,6 @@ final class DiaryListViewController: UIViewController {
     }
     
     //MARK: - Helper
-    private func readDiaryData() {
-        diaryData = coreDataManager.readDiaryData()
-        tableView.reloadData()
-    }
     
     private func setupNavigationBar() {
         let apearance = UINavigationBarAppearance()
@@ -71,6 +67,11 @@ final class DiaryListViewController: UIViewController {
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
         ])
+    }
+    
+    private func readDiaryData() {
+        diaryData = coreDataManager.readDiaryData()
+        tableView.reloadData()
     }
 }
 
