@@ -17,6 +17,7 @@ final class DiaryContentsViewController: UIViewController {
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textContainerInset = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
         textView.font = .boldSystemFont(ofSize: 15)
+        textView.isScrollEnabled = true
         textView.becomeFirstResponder()
         return textView
     }()
@@ -36,7 +37,7 @@ final class DiaryContentsViewController: UIViewController {
         setupData()
         setupContentView()
         setContentViewConstraints()
-        setupKeyboardNotification()
+//        setupKeyboardNotification()
         setupBackGroundNotification()
         setupNavigationBarButtonItem()
         
@@ -59,7 +60,8 @@ final class DiaryContentsViewController: UIViewController {
             contentTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            contentTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//            contentTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            self.view.keyboardLayoutGuide.topAnchor.constraint(equalTo: contentTextView.bottomAnchor)
         ])
     }
     
@@ -75,23 +77,24 @@ final class DiaryContentsViewController: UIViewController {
         return (titleText, bodyText)
     }
     
-    private func setupKeyboardNotification() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
+//    private func setupKeyboardNotification() {
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+//    }
+//    
+//    @objc private func keyboardWillShow(_ notification: Notification) {
+//        guard let userInfo = notification.userInfo as NSDictionary?,
+//              let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+//        
+//        contentTextView.contentInset.bottom = keyboardFrame.size.height
+//        contentTextView.scrollIndicatorInsets = contentTextView.contentInset
+//    }
     
-    @objc private func keyboardWillShow(_ notification: Notification) {
-        guard let userInfo = notification.userInfo as NSDictionary?,
-              let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        
-        contentTextView.contentInset.bottom = keyboardFrame.size.height
-        contentTextView.scrollIndicatorInsets = contentTextView.contentInset
-    }
-    
-    @objc private func keyboardWillHide(_ notification: Notification) {
-        contentTextView.contentInset = UIEdgeInsets.zero
-        contentTextView.scrollIndicatorInsets = contentTextView.contentInset
-    }
+//    @objc private func keyboardWillHide(_ notification: Notification) {
+//        contentTextView.contentInset = UIEdgeInsets.zero
+//        contentTextView.scrollIndicatorInsets = contentTextView.contentInset
+//        print("1")
+//    }
     
     private func setupBackGroundNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(saveDataInBankground), name: UIApplication.didEnterBackgroundNotification, object: nil)
