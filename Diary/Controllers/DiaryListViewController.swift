@@ -47,9 +47,8 @@ final class DiaryListViewController: UIViewController {
     }
     
     @objc private func addNewDiary() {
-        let diaryContentsViewController = DiaryContentsViewController()
+        let diaryContentsViewController = DiaryContentsViewController(diaryData: coreDataManager.createDiaryData())
         
-        diaryContentsViewController.diaryData = coreDataManager.createDiaryData()
         navigationController?.pushViewController(diaryContentsViewController, animated: true)
     }
     
@@ -92,8 +91,7 @@ extension DiaryListViewController: UITableViewDataSource {
 
 extension DiaryListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let diaryContentsViewController = DiaryContentsViewController()
-        diaryContentsViewController.diaryData = self.diaryData[indexPath.row]
+        let diaryContentsViewController = DiaryContentsViewController(diaryData: self.diaryData[indexPath.row])
         
         navigationController?.pushViewController(diaryContentsViewController, animated: true)
     }

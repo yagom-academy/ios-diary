@@ -10,7 +10,7 @@ import UIKit
 final class DiaryContentsViewController: UIViewController {
     //MARK: - Property
     private let coreDataManager = CoreDataManager.shared
-    var diaryData: DiaryData?
+    private var diaryData: DiaryData?
     
     private let contentTextView = {
         let textView = UITextView()
@@ -20,6 +20,15 @@ final class DiaryContentsViewController: UIViewController {
         textView.becomeFirstResponder()
         return textView
     }()
+    
+    init(diaryData: DiaryData? = nil) {
+        super.init(nibName: nil, bundle: nil)
+        self.diaryData = diaryData
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
