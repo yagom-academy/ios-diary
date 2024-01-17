@@ -30,6 +30,8 @@ final class DiaryContentsViewController: UIViewController {
         setupKeyboardNotification()
         setupBackGroundNotification()
         setupNavigationBarButtonItem()
+        
+        self.navigationController?.delegate = self
     }
     
     //MARK: - Helper
@@ -93,9 +95,6 @@ final class DiaryContentsViewController: UIViewController {
     
     private func setupNavigationBarButtonItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(showActionSheet))
-        
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: self, action:
-            #selector(backButtonPressed))
     }
 
     @objc private func showActionSheet() {
@@ -109,13 +108,6 @@ final class DiaryContentsViewController: UIViewController {
         actionSheet.addAction(cancelAction)
         
         present(actionSheet, animated: true)
-    }
-    
-    @objc private func backButtonPressed() {
-        guard let text = self.separateText() else { return }
-        coreDataManager.updateDiaryData(diary: diaryData, title: text.title, body: text.body)
-        
-        self.navigationController?.popViewController(animated: true)
     }
     
     private func showActivityView() {
@@ -142,5 +134,12 @@ final class DiaryContentsViewController: UIViewController {
         present(alert, animated: true)
     }
     
+}
+
+extension DiaryContentsViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        guard let text = self.separateText() else { return }
+        coreDataManager.updateDiaryData(diary: diaryData, title: text.title, body: text.body)
+    }
     
 }
