@@ -24,12 +24,10 @@ final class DiaryListViewController: UIViewController {
         setupNavigationBar()
         setupTableView()
         setupTableViewConstraints()
-        readDiaryData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         readDiaryData()
-        tableView.reloadData()
     }
     
     //MARK: - Helper
