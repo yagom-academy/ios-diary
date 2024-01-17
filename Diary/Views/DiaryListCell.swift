@@ -51,10 +51,12 @@ class DiaryListCell: UITableViewCell {
     //MARK: - LifeCycle
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        injectAccessoryType()
         setupMainStackView()
         setupSubStackView()
         setMainStackViewConstraints()
         setSubStackViewConstraints()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -62,14 +64,14 @@ class DiaryListCell: UITableViewCell {
     }
     
     //MARK: - Helper
-    func injectData(title: String?, date: String?, preview: String?) {
-        self.titleLabel.text = title
-        self.dateLabel.text = date
-        self.previewLabel.text = preview
+    func injectData(diary: DiaryData) {
+        self.titleLabel.text = diary.title
+        self.dateLabel.text = diary.date
+        self.previewLabel.text = diary.body
     }
     
-    func injectAccessoryType(to: UITableViewCell.AccessoryType) {
-        self.accessoryType = accessoryType
+    func injectAccessoryType() {
+        self.accessoryType = .disclosureIndicator
     }
     
     private func setupMainStackView() {
