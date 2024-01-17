@@ -37,10 +37,10 @@ final class DiaryContentsViewController: UIViewController {
         setupData()
         setupContentView()
         setContentViewConstraints()
-//        setupKeyboardNotification()
         setupBackGroundNotification()
         setupNavigationBarButtonItem()
         
+        self.view.backgroundColor = .white
         self.navigationController?.delegate = self
     }
     
@@ -60,8 +60,7 @@ final class DiaryContentsViewController: UIViewController {
             contentTextView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentTextView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
             contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-//            contentTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            self.view.keyboardLayoutGuide.topAnchor.constraint(equalTo: contentTextView.bottomAnchor)
+            self.view.keyboardLayoutGuide.topAnchor.constraint(equalTo: contentTextView.bottomAnchor, constant: 30)
         ])
     }
     
@@ -76,25 +75,6 @@ final class DiaryContentsViewController: UIViewController {
         
         return (titleText, bodyText)
     }
-    
-//    private func setupKeyboardNotification() {
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-//    }
-//    
-//    @objc private func keyboardWillShow(_ notification: Notification) {
-//        guard let userInfo = notification.userInfo as NSDictionary?,
-//              let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-//        
-//        contentTextView.contentInset.bottom = keyboardFrame.size.height
-//        contentTextView.scrollIndicatorInsets = contentTextView.contentInset
-//    }
-    
-//    @objc private func keyboardWillHide(_ notification: Notification) {
-//        contentTextView.contentInset = UIEdgeInsets.zero
-//        contentTextView.scrollIndicatorInsets = contentTextView.contentInset
-//        print("1")
-//    }
     
     private func setupBackGroundNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(saveDataInBankground), name: UIApplication.didEnterBackgroundNotification, object: nil)
