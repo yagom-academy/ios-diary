@@ -17,6 +17,7 @@ final class DiaryListViewController: UIViewController {
         return tableView
     }()
     
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
