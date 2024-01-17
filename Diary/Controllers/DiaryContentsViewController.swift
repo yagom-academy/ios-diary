@@ -139,7 +139,9 @@ final class DiaryContentsViewController: UIViewController {
 extension DiaryContentsViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         guard let text = self.separateText() else { return }
-        coreDataManager.updateDiaryData(diary: diaryData, title: text.title, body: text.body)
+        DispatchQueue.global().async { [self] in
+            coreDataManager.updateDiaryData(diary: diaryData, title: text.title, body: text.body)
+        }
     }
     
 }
