@@ -61,7 +61,7 @@ final class DiaryContentsViewController: UIViewController {
         
         guard let titleText = lines.first else { return nil }
         
-        let bodyText = lines.dropFirst().joined()
+        let bodyText = lines.dropFirst().joined(separator: "\n")
         
         return (titleText, bodyText)
     }

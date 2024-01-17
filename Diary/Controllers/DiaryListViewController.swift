@@ -48,9 +48,8 @@ final class DiaryListViewController: UIViewController {
     
     @objc private func addNewDiary() {
         let diaryContentsViewController = DiaryContentsViewController()
-        coreDataManager.createDiaryData()
         
-        diaryContentsViewController.diaryData = coreDataManager.readDiaryData().last
+        diaryContentsViewController.diaryData = coreDataManager.createDiaryData()
         navigationController?.pushViewController(diaryContentsViewController, animated: true)
     }
     

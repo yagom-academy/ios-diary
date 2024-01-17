@@ -23,13 +23,15 @@ final class CoreDataManager {
         }
     }
     
-    func createDiaryData(title: String? = nil, body: String? = nil) {
+    func createDiaryData(title: String? = nil, body: String? = nil) -> DiaryData {
         let diary = DiaryData(context: context)
         diary.title = title
         diary.date = Date.generateTodayDate()
         diary.body = body
         
         saveContextData()
+        
+        return diary
     }
     
     func readDiaryData() -> [DiaryData] {
