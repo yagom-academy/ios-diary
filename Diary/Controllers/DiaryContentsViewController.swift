@@ -93,8 +93,11 @@ final class DiaryContentsViewController: UIViewController {
     
     private func setupNavigationBarButtonItem() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "더보기", style: .plain, target: self, action: #selector(showActionSheet))
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: nil, style: .plain, target: self, action:
+            #selector(backButtonPressed))
     }
-    
+
     @objc private func showActionSheet() {
         let actionSheet = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         let shareAction = UIAlertAction(title: "Share...", style: .default) {_ in self.showActivityView() }
@@ -106,6 +109,13 @@ final class DiaryContentsViewController: UIViewController {
         actionSheet.addAction(cancelAction)
         
         present(actionSheet, animated: true)
+    }
+    
+    @objc private func backButtonPressed() {
+        guard let text = self.separateText() else { return }
+        coreDataManager.updateDiaryData(diary: diaryData, title: text.title, body: text.body)
+        
+        self.navigationController?.popViewController(animated: true)
     }
     
     private func showActivityView() {
@@ -131,4 +141,6 @@ final class DiaryContentsViewController: UIViewController {
         
         present(alert, animated: true)
     }
+    
+    
 }
