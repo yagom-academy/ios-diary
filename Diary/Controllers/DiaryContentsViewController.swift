@@ -16,12 +16,10 @@ final class DiaryContentsViewController: UIViewController {
         let textView = UITextView()
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.textContainerInset = UIEdgeInsets(top: 5, left: 10, bottom: 5, right: 10)
-        textView.isScrollEnabled = true
         textView.font = .boldSystemFont(ofSize: 15)
         textView.becomeFirstResponder()
         return textView
     }()
-
     
     //MARK: - Lifecycle
     override func viewDidLoad() {
@@ -36,8 +34,8 @@ final class DiaryContentsViewController: UIViewController {
     
     //MARK: - Helper
     private func setupData() {
-        contentTextView.text = diaryData?.title
-//        textBody.text = diaryData?.body
+        guard let title = diaryData?.title, let body = diaryData?.body else { return }
+        contentTextView.text = title + "\n" + body
         navigationItem.title = diaryData?.date
     }
     
@@ -52,6 +50,18 @@ final class DiaryContentsViewController: UIViewController {
             contentTextView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             contentTextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+    }
+    
+    private func separateText() -> (title: String, body: String)? {
+        guard let text = contentTextView.text else { return nil }
+        
+        let lines = text.components(separatedBy: "\n")
+        
+        guard let titleText = lines.first else { return nil }
+        
+        let bodyText = lines.dropFirst().joined()
+        
+        return (titleText, bodyText)
     }
     
     private func setupKeyboardNotification() {
@@ -70,8 +80,6 @@ final class DiaryContentsViewController: UIViewController {
     @objc private func keyboardWillHide(_ notification: Notification) {
         contentTextView.contentInset = UIEdgeInsets.zero
         contentTextView.scrollIndicatorInsets = contentTextView.contentInset
-        
-        coreDataManager.updateDiaryData(diary: diaryData, title: contentTextView.text, body: contentTextView.text)
     }
     
     private func setupBackGroundNotification() {
@@ -79,7 +87,8 @@ final class DiaryContentsViewController: UIViewController {
     }
     
     @objc private func saveDataInBankground() {
-        coreDataManager.updateDiaryData(diary: diaryData, title: contentTextView.text, body: contentTextView.text)
+        guard let text = self.separateText() else { return }
+        coreDataManager.updateDiaryData(diary: diaryData, title: text.title, body: text.body)
     }
     
     private func setupNavigationBarButtonItem() {

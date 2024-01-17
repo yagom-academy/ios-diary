@@ -109,11 +109,11 @@
 		C739AE23284DF28600741E8F /* Diary */ = {
 			isa = PBXGroup;
 			children = (
-				3CE07B8E2B4FDCB1001D4C9C /* Error */,
-				3C18EF682B47D0050029AA23 /* Extensions */,
 				3C7B0D1E2B4574AF001D010B /* Models */,
 				3C7B0D1F2B4574BE001D010B /* Views */,
 				3C7B0D1D2B4574A4001D010B /* Controllers */,
+				3C18EF682B47D0050029AA23 /* Extensions */,
+				3CE07B8E2B4FDCB1001D4C9C /* Error */,
 				C739AE30284DF28600741E8F /* Assets.xcassets */,
 				C739AE32284DF28600741E8F /* LaunchScreen.storyboard */,
 				C739AE35284DF28600741E8F /* Info.plist */,
