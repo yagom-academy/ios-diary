@@ -135,21 +135,21 @@ extension DiaryViewController: UITableViewDelegate, ActivityViewPresentable {
         let share = UIContextualAction(
             style: .normal,
             title: "share".localized
-        ) { (_, _, success: @escaping (Bool) -> Void) in
+        ) { [weak self] (_, _, success: @escaping (Bool) -> Void) in
             
             let diaryContentItem = diaryContent.title + diaryContent.body
             
-            self.presentActivityView(shareItem: diaryContentItem)
+            self?.presentActivityView(shareItem: diaryContentItem)
             success(true)
         }
         
         let delete = UIContextualAction(
             style: .destructive,
             title: "delete".localized
-        ) { (_, _, success: @escaping (Bool) -> Void) in
+        ) { [weak self] (_, _, success: @escaping (Bool) -> Void) in
             
-            self.presentCheckDeleteAlert { [self] _ in
-                deleteDiary(id: diaryContent.id)
+            self?.presentCheckDeleteAlert { [weak self] _ in
+                self?.deleteDiary(id: diaryContent.id)
                 tableView.deleteRows(at: [indexPath], with: .fade)
             }
             
