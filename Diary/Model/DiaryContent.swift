@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct DiaryContent: Decodable {
+struct DiaryContent {
+    let id: UUID
     var title: String
     var body: String
     let timeInterval: Double
@@ -18,8 +19,10 @@ struct DiaryContent: Decodable {
         return formattedDate
     }
     
-    private enum CodingKeys: String, CodingKey {
-        case title, body
-        case timeInterval = "created_at"
+    init(id: UUID = UUID(), title: String, body: String, timeInterval: Double) {
+        self.id = id
+        self.title = title
+        self.body = body
+        self.timeInterval = timeInterval
     }
 }

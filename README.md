@@ -41,7 +41,8 @@
 ## 👀 Diagram<a id="Diagram"></a>
 ### 📐 UML
 
-<img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/0e245e15-7749-487c-b48c-c104e1331b61" width = "800">
+<img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/33c91586-bbc1-41c8-a48c-501aa23373c9" width = "800">
+
 
 </br>
 
@@ -100,7 +101,7 @@
 
 <br>
 
-### 2️⃣ DiaryManager
+### 2️⃣ DiaryManager (STEP2 진행 후 수정 예정)
 `Asset`에 넣은 `"sample"` 데이터를 받아오는 메서드를 구현하는데, 이 작업은 `View`나 `Controller`의 역할이 아니라고 생각해서 `DiaryManager`라는 객체를 `Model`로 만들었습니다. `DiaryViewController`가 `DiaryManager`를 가지고 있고, `DiaryManager`가 데이터 `fetch` 작업을 할 수 있도록 메서드를 구현하였습니다.
 <details>
     <summary> 수정 전 </summary>
@@ -178,6 +179,7 @@ extension DiaryViewController: UITableViewDataSource {
 
 <br>
 
+
 ### 3️⃣ SwiftLint 활용
 더 깔끔하고 통일성있는 컨벤션을 위해 SwiftLint를 적용했습니다.
 
@@ -193,19 +195,23 @@ extension DiaryViewController: UITableViewDataSource {
         - trailing_whitespace
         - trailing_comma
     ```
-<br>
+
 
 ## 📚 참고 링크<a id="참고_링크"></a>
 
 - [🍎Apple Docs: os_log](https://developer.apple.com/documentation/os/os_log)
-- [🍎Apple Docs: UIScrollView.KeyboardDismissMode](https://developer.apple.com/documentation/uikit/uiscrollview/keyboarddismissmodee)
+- [🍎Apple Docs: UIScrollView.KeyboardDismissMode](https://developer.apple.com/documentation/uikit/uiscrollview/1619437-keyboarddismissmode)
 - [🍎Apple Docs: Adaptivity and Layout](https://developer.apple.com/design/human-interface-guidelines/layout)
 - [🍎Apple Docs: DateFormatter](https://developer.apple.com/documentation/foundation/dateformatter)
 - [🍎Apple Docs: UITextView](https://developer.apple.com/documentation/uikit/uitextview)
+- [🍎Apple Docs: Swipe-trailing](https://developer.apple.com/documentation/uikit/uitableviewdelegate/2902367-tableview)
+- [🍎Apple Docs: UIActivityViewController](https://developer.apple.com/documentation/uikit/uiactivityviewcontroller)
 - [🍏WWDC: Making Apps Adaptive, Part 1](https://asciiwwdc.com/2016/sessions/222)
 - [🍏WWDC: Making Apps Adaptive, Part 2](https://www.youtube.com/watch?v=s3utpBiRbB0)
 - [🍏WWDC note: UIKit: Apps for Every Size and Shape](https://www.wwdcnotes.com/notes/wwdc18/235/)
 - <Img src = "https://github.com/WhalesJin/ios-bank-manager/assets/124643545/d1df2d8a-6667-438d-9643-aab8a83a4754" width="20"/> [SwiftLint Rule Directory](https://realm.github.io/SwiftLint/rule-directory.html)
+- <Img src = "https://github.com/mint3382/ios-calculator-app/assets/124643545/56986ab4-dc23-4e29-bdda-f00ec1db809b" width="20"/> [야곰닷넷: Test Double](https://yagom.net/courses/unit-test-작성하기/lessons/테스트를-위한-객체-만들기/topic/테스트를-위한-객체를-이용해서-테스트-작성하기/)
+- <Img src = "https://hackmd.io/_uploads/ByTEsGUv3.png" width="20"/> [blog: URL 처리 방법](https://ios-development.tistory.com/1014)
 
 <br>
 
@@ -216,6 +222,5 @@ extension DiaryViewController: UITableViewDataSource {
 | <Img src = "https://github.com/WhalesJin/FireSaturdayStudyClassC/assets/124643545/e11077ba-328c-4ada-af5e-57e1b1ccfd77" width="100"> | 🐬Whales🐬  | https://github.com/WhalesJin |
 | :--------: | :--------: | :--------: |
 | <Img src = "https://hackmd.io/_uploads/r1rHg7JC3.jpg" width="100"> | **🐿️Mary🐿️** | **https://github.com/MaryJo-github** |
-
 
 - [타임라인 링크](https://github.com/WhalesJin/ios-diary/wiki/타임라인)

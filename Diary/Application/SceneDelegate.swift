@@ -13,8 +13,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                willConnectTo session: UISceneSession,
                options connectionOptions: UIScene.ConnectionOptions) {
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        guard let diaryManager = try? DiaryManager() else { return }
         
-        let rootViewController = DiaryViewController()
+        let rootViewController = DiaryViewController(diaryManager: diaryManager)
         let navigationController = UINavigationController(rootViewController: rootViewController)
         
         window = UIWindow(windowScene: windowScene)

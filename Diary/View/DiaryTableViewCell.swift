@@ -21,6 +21,7 @@ final class DiaryTableViewCell: UITableViewCell {
         label.font = .preferredFont(forTextStyle: .body)
         label.adjustsFontForContentSizeCategory = true
         label.setContentCompressionResistancePriority(.required, for: .horizontal)
+        label.setContentHuggingPriority(.defaultHigh, for: .horizontal)
         
         return label
     }()
@@ -45,6 +46,7 @@ final class DiaryTableViewCell: UITableViewCell {
     private let descriptionStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
+        stackView.alignment = .center
         stackView.spacing = 5
         
         return stackView
@@ -61,9 +63,9 @@ final class DiaryTableViewCell: UITableViewCell {
     }
     
     func configureCell(data: DiaryContent) {
-        titleLabel.text = data.title
+        titleLabel.text = data.title.isEmpty ? "noTitle".localized : data.title
         dateLabel.text = data.date
-        previewLabel.text = data.body
+        previewLabel.text = data.body.trimmingCharacters(in: .whitespacesAndNewlines)
     }
     
     private func configureUI() {
@@ -75,10 +77,10 @@ final class DiaryTableViewCell: UITableViewCell {
         
         contentView.addSubview(titleStackView)
         accessoryType = .disclosureIndicator
-        setUpConstraints()
+        setupConstraints()
     }
     
-    private func setUpConstraints() {
+    private func setupConstraints() {
         NSLayoutConstraint.activate([
             titleStackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             titleStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -5),

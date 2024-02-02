@@ -7,3 +7,25 @@
 */
 
 "title" = "일기장";
+"noTitle" = "제목없음";
+
+"failedFetchDataAlertTitle" = "데이터 불러오기 실패";
+"failedFetchDataAlertMessage" = "앱을 다시 실행해주십시오.";
+"failedFetchDataAlertAction" = "확인";
+
+"failedDeleteDataAlertTitle" = "데이터 삭제 실패";
+"failedDeleteDataAlertMessage" = "다시 시도해주십시오.";
+"failedDeleteDataAlertAction" = "확인";
+
+"failedSaveDataAlertTitle" = "데이터 저장 실패";
+"failedSaveDataAlertMessage" = "다시 시도해주십시오.";
+"failedSaveDataAlertAction" = "확인";
+
+"checkDeleteAlertTitle" = "진짜요?";
+"checkDeleteAlertMessage" = "정말로 삭제하시겠어요?";
+"checkDeleteAlertCancelAction" = "취소";
+"checkDeleteAlertAction" = "삭제";
+
+"share" = "공유...";
+"delete" = "삭제";
+"cancel" = "취소";
